@@ -206,18 +206,87 @@ sample_age_p50_days: number
 sample_age_oldest_days: number
 intent: [pitches, reactive-comments, social, newsletter]
 register: formal | professional | casual-professional | casual | irreverent
-cadence: { sentence_length: {}, paragraph_length: {}, rhythm_signature: string }
-mechanics: {}
-openers: { observed: [], banned_from_use: [] }
-closers: { observed: [], banned_from_use: [] }
-sentence_initial: {}
-idioms: { signature_phrases: [], signature_words: [], hedges_you_actually_use: [], hedges_you_never_use: [] }
+
+cadence:
+  sentence_length:
+    mean: number
+    median: number
+    p10: number
+    p90: number
+    stdev: number
+    one_word_sentence_frequency: number
+    long_sentence_frequency: number
+  paragraph_length:
+    mean_sentences: number
+    one_sentence_paragraph_frequency: number
+  rhythm_signature: short-burst | flowing | mixed | listy
+
+mechanics:
+  contractions: yes | no | mixed
+  contraction_rate: number
+  em_dash_usage: never | rare | habitual
+  em_dash_per_1k_words: number
+  oxford_comma: yes | no | inconsistent
+  ellipsis_usage: never | rare | habitual
+  exclamation_rate_per_1k_words: number
+  question_rate_per_1k_words: number
+  parenthetical_aside_frequency: low | medium | high
+  capitalization_quirks:
+    lowercase_i: boolean
+    sentence_case_headers: boolean
+    all_caps_for_emphasis: never | occasional | habitual
+  smart_quotes: yes | no | mixed
+
+openers:
+  observed: []
+  banned_from_use: []
+closers:
+  observed: []
+  banned_from_use: []
+
+sentence_initial:
+  conjunction_starts_allowed: boolean
+  conjunction_start_rate: number
+  uses_however_furthermore_moreover: boolean
+  uses_in_conclusion_in_summary: boolean
+  uses_imagine_if: boolean
+
+idioms:
+  signature_phrases: []
+  signature_words: []
+  hedges_you_actually_use: []
+  hedges_you_never_use: []
+
 banned_words_user_specific: []
 banned_words_global: []
-banned_structures: []
-topic_signatures: {}
-samples_index: []
-extraction: { extractor_version: "voice-extractor/0.1.0", model: "host-agent", warnings: [], confidence: high | medium | low }
+banned_structures:
+  - id: string
+    pattern: string
+    why: string
+    severity: block | warn
+    threshold: string | null
+
+topic_signatures:
+  recurring_themes: []
+  perspective_anchors:
+    first_person_singular_rate: number
+    first_person_plural_rate: number
+    second_person_rate: number
+    third_person_rate: number
+
+samples_index:
+  - id: string
+    source: tweet | email | substack | slack | blog | pitch | linkedin | other
+    date: ISO8601 | null
+    audience: journalist | internal | public | customer | founder-network | null
+    word_count: number
+    hash: "sha256:..."
+
+extraction:
+  extractor_version: "voice-extractor/0.1.0"
+  model: "host-agent"
+  warnings: []
+  confidence: high | medium | low
 ```
 
 ### Check Result
