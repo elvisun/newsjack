@@ -68,15 +68,17 @@ An angle is a structured object, not a paragraph. Every kept angle needs:
 
 4. **Scan calendar moments if provided.** Use `context.moments_from_story_calendar` only when the adjacency is honest. Do not turn Earth Day into a fintech peg.
 
-5. **Brainstorm broadly, cull hard.** Internally generate more candidates than you need. Apply distinctness, anti-slop, hallucination, decay, journalist-shape, and proof checks. Most candidates should die.
+5. **Check prior coverage if provided.** If `company.prior_coverage` exists, use `distinctness_check.compared_to_prior_coverage` to say what is new. If the links are unreachable in the runtime, say that in `uncomfortable_questions` instead of pretending you read them.
 
-6. **Write full objects for survivors.** Make `journalist_shape.beat_description` specific enough that a real outlet role could be filled in later.
+6. **Brainstorm broadly, cull hard.** Internally generate more candidates than you need. Apply distinctness, anti-slop, hallucination, decay, journalist-shape, and proof checks. Most candidates should die.
 
-7. **Write `distinctness_check` last.** Compare surviving angles side by side. If two collapse into the same story, drop the weaker one.
+7. **Write full objects for survivors.** Make `journalist_shape.beat_description` specific enough that a real outlet role could be filled in later.
 
-8. **Populate `uncomfortable_questions`.** Ask the questions that would materially change whether the user should pitch this.
+8. **Write `distinctness_check` last.** Compare surviving angles side by side. If two collapse into the same story, drop the weaker one.
 
-9. **Return only the output object.**
+9. **Populate `uncomfortable_questions`.** Ask the questions that would materially change whether the user should pitch this.
+
+10. **Return only the output object.**
 
 ## Anti-Slop Rules
 
