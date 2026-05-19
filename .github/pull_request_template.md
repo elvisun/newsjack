@@ -1,18 +1,18 @@
-## What
+## Summary
 
-<!-- One sentence: what does this PR change? -->
+<!-- One sentence describing what this PR changes. -->
 
-## Why
+## Motivation
 
-<!-- What user problem or internal need does this address? Link issues if any. -->
+<!-- The user problem or internal need this addresses. Link related issues. -->
 
-## How
+## Implementation notes
 
-<!-- Brief notes on approach, anything reviewers should pay attention to. -->
+<!-- Brief notes on the approach and anything reviewers should pay particular attention to. -->
 
 ## Checklist
 
-- [ ] Conventional commit message (`feat:`, `fix:`, `docs:`, etc.)
-- [ ] No secrets committed (gitleaks will check, but eyeball your diff)
-- [ ] If adding a skill: follows the `skills/meanest-editor/` template
-- [ ] If changing positioning copy: aligns with **agentic PR** as the category
+- [ ] Commit messages follow conventional commits (`feat:`, `fix:`, `docs:`, etc.)
+- [ ] No secrets or credentials committed (gitleaks runs in CI; please also review the diff)
+- [ ] New skills follow the structure established by `skills/meanest-editor/`
+- [ ] Positioning copy is consistent with **agentic PR** as the product category

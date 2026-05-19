@@ -4,7 +4,7 @@
 
 If you discover a security vulnerability in newsjack — in the CLI, the hosted substrate, the install flow, or any related code — **please report it privately** before public disclosure.
 
-**Email:** elvis@medialyst.com
+**Email:** elvis@medialyst.ai
 **Subject prefix:** `[newsjack security]`
 
 Please include:
@@ -28,7 +28,7 @@ In scope:
 
 Out of scope:
 - Issues in third-party agent runtimes (Claude, ChatGPT, Cursor, etc.) — report those to the respective vendors
-- Issues in Medialyst that are not exposed through the newsjack interface — report to security@medialyst.com
+- Issues in Medialyst that are not exposed through the newsjack interface — report to security@medialyst.ai
 
 ## Acknowledgements
 

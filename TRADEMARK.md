@@ -22,7 +22,7 @@ The license does **not** grant rights to the newsjack name, brand, or logo. Spec
 
 ## Reporting trademark concerns
 
-If you see someone misusing the newsjack name or brand, or you want to request permission to use the brand in a way this policy doesn't cover, email **elvis@medialyst.com**.
+To report misuse of the newsjack name or brand, or to request permission to use the brand in a way this policy does not cover, contact **elvis@medialyst.ai**.
 
 ---
 

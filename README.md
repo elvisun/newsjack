@@ -26,13 +26,13 @@ Optional cloud substrate via `newsjack login` unlocks Medialyst-backed media lis
 curl newsjack.sh | sh
 ```
 
-Don't trust pipe-to-shell? Inspect first:
+To review the install script before executing it:
 
 ```bash
 curl -fsSL https://newsjack.sh/install.sh
 ```
 
-Or install via npm:
+Alternatively, install via npm:
 
 ```bash
 npm install -g newsjack
@@ -48,9 +48,9 @@ skills/      # the OSS skill files
 install.sh   # what `curl newsjack.sh` serves to curl/wget clients
 ```
 
-## Why is `curl newsjack.sh | sh` even possible?
+## How `curl newsjack.sh | sh` works
 
-The marketing site at `newsjack.sh` and the install script live at the same URL. An edge function sniffs the `User-Agent` header: curl/wget gets the shell script, browsers get the marketing page. The trick (and the script) are both in this repo — see `apps/site/`.
+The marketing site at `newsjack.sh` and the install script are served from the same URL. An edge function inspects the `User-Agent` header: curl and wget receive the shell script, while browsers receive the marketing page. Both the routing logic and the install script live in this repository under `apps/site/`.
 
 ## License
 
