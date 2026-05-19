@@ -206,7 +206,7 @@ Substring-match case-insensitively across `incident_summary`, `known_facts`, `un
 death | fatal | killed | died | hospitaliz | serious injury | bodily harm
 harassment | assault | abuse | discriminat
 fraud | theft | embezzl | misappropriat
-SEC | FDA | OSHA | FTC | DOJ | EPA | CFPB | EU Commission | regulator
+SEC | FDA | OSHA | FTC | CPSC | DOJ | EPA | CFPB | EU Commission | regulator
 GDPR | CCPA | HIPAA | DPA | data subject | PII | personally identifiable
 CSAM | child | minor
 ransomware | breach | exfiltrat | leaked

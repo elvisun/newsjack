@@ -114,13 +114,13 @@ Unsafe draft the user considered:
 ````markdown
 # Holding draft - Loomwork - 2026-05-18T17:14:00Z - valid until 2026-05-18T19:14:00Z
 
-## Short (39 words)
+## Short (35 words)
 
 ```text
 Loomwork detected unauthorized access to a customer database table on May 17 affecting 47,200 accounts. We rotated internal API keys, forced password resets for affected accounts, engaged Mandiant, and notified the Irish Data Protection Commission.
 ```
 
-## Medium (121 words)
+## Medium (111 words)
 
 ```text
 On May 17 at 08:30 UTC, Loomwork detected unauthorized access to a customer database table containing email addresses and bcrypt-hashed passwords for 47,200 accounts. The affected table did not contain payment information, message content, or document content. We do not yet know whether data was exfiltrated.
@@ -130,7 +130,7 @@ We rotated all internal API keys by 11:00 UTC that day, forced password resets f
 We will publish a post-incident write-up within 14 days and notify any user whose data is confirmed exfiltrated within 72 hours of confirmation.
 ```
 
-## Cautious legal pass (116 words)
+## Cautious legal pass (96 words)
 
 ```text
 On May 17 at 08:30 UTC, Loomwork detected what appears to be unauthorized access to a customer database table containing email addresses and bcrypt-hashed passwords for 47,200 accounts. Based on what we currently know, the affected table did not contain payment information, message content, or document content. We do not yet know whether data was exfiltrated.
@@ -225,13 +225,13 @@ After the user confirms the post is down:
 ````markdown
 # Holding draft - Aster & Finch - 2026-05-18T13:49:00Z - valid until 2026-05-18T14:19:00Z
 
-## Short (26 words)
+## Short (29 words)
 
 ```text
 Earlier today, we posted content that referenced an active armed conflict in a way that was wrong. We took the post down and are reviewing how it went live.
 ```
 
-## Medium (82 words)
+## Medium (73 words)
 
 ```text
 Earlier today, at 13:15 UTC, Aster & Finch posted promotional content that referenced an active armed conflict. The post was inappropriate. We took it down.
@@ -241,7 +241,7 @@ We are reviewing how this content was approved and posted. The people most affec
 We are not making further statements about the conflict or our internal process until the review is complete.
 ```
 
-## Cautious legal pass (73 words)
+## Cautious legal pass (60 words)
 
 ```text
 Earlier today, at 13:15 UTC, Aster & Finch posted promotional content that referenced an active armed conflict. We understand the post caused offense. We have taken the post down.

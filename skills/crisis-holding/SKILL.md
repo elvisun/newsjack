@@ -59,12 +59,12 @@ Before drafting, set `legal_counsel_required: true` if any trigger fires and `le
 Auto-fire triggers:
 
 - `incident_type` is `product_safety`, `data_security`, `personnel_misconduct`, `financial_irregularity`, or `regulatory` and counsel is not engaged.
-- `regulatory_exposure` mentions SEC, FDA, OSHA, FTC, GDPR, DPA, HIPAA, CCPA, child-safety, CSAM, minor, criminal, indictment, subpoena, immigration, ICE, weapons, defense, export-control, antitrust, DOJ, EU Commission, or another named regulator.
+- `regulatory_exposure` mentions SEC, FDA, OSHA, FTC, CPSC, GDPR, DPA, HIPAA, CCPA, child-safety, CSAM, minor, criminal, indictment, subpoena, immigration, ICE, weapons, defense, export-control, antitrust, DOJ, EU Commission, or another named regulator.
 - `incident_summary`, `known_facts`, or `unknown_or_unverified` mentions death, fatality, serious injury, hospitalization, harassment, assault, discrimination, fraud, theft, PII exposure, ransomware, record breach, minors, public-safety implication, recall, lawsuit, class action, or subpoena.
 - A named individual in `people_involved` has not consented to being named and is not the company's current spokesperson.
 - The user says or implies the company may have broken the law.
 
-When the gate fires, return only:
+When the gate fires, return the legal-counsel-required artifact. The markdown rendering is:
 
 ```markdown
 ## STOP - Legal counsel required before any external statement
