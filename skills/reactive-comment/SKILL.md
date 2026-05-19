@@ -31,7 +31,7 @@ draft.
 
 Expect one query and one profile, inline or loaded by the host runtime.
 
-Required profile fields:
+Expected profile fields:
 
 - `name`
 - `title`
@@ -40,19 +40,19 @@ Required profile fields:
 - `proof_points`
 - `do_not_comment_on`
 - `contact_block`
-- `response_cap_per_week` (default: 5)
+- `response_cap_per_week` (default: 5 if absent)
 - `outlets_to_skip` (optional)
 
-Required query fields:
+Expected query fields:
 
 - `source`
 - `journalist_name`
 - `journalist_outlet`
 - `query_text`
 - `deadline_iso`
-- `requirements` (if present)
-- `query_url` (if present)
-- `received_at_iso` (if present)
+- `requirements` (optional)
+- `query_url` (optional)
+- `received_at_iso` (optional)
 
 Optional but preferred:
 
@@ -235,7 +235,7 @@ why_not_your_fight: |
   Plain-language argument against responding. Talk the user out of the
   tempting but wrong pitch.
 suggested_alternative: |
-  Optional better move: wait for a closer query, publish a owned-channel
+  Optional better move: wait for a closer query, publish an owned-channel
   post, update the profile, or watch this journalist for a future angle.
 decay_flags:
   hours_until_deadline: 0
