@@ -1,29 +1,63 @@
-# deps
+# ─── deps ─────────────────────────────────────────────
 node_modules/
 .pnpm-store/
+.yarn/
 
-# env / secrets
+# ─── env / secrets ────────────────────────────────────
+# Never commit anything resembling credentials. If you need an
+# example, use .env.example with placeholders only.
 .env
 .env.*
 !.env.example
 *.key
 *.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+*.token
+*.secret
+*.credential
+.netrc
+.npmrc
+.yarnrc
+secrets/
+private/
+credentials/
+.aws/
 
-# build outputs
+# ─── build outputs ────────────────────────────────────
 .next/
 .vercel/
+.turbo/
+.cache/
 dist/
 out/
 build/
+coverage/
 
-# editor / os
+# ─── editor / os ──────────────────────────────────────
 .DS_Store
+Thumbs.db
 .vscode/
 .idea/
+.cursor/
+.vs/
 *.swp
+*~
 
-# logs
+# ─── logs ─────────────────────────────────────────────
 *.log
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
+lerna-debug.log*
+
+# ─── runtime / pids ───────────────────────────────────
+*.pid
+*.seed
+*.pid.lock
+
+# ─── misc ─────────────────────────────────────────────
+.tmp/
+tmp/
