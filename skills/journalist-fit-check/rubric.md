@@ -29,7 +29,7 @@ Result: `unknown`, `refusal.reason = "missing_current_time"`.
 
 Fail when the journalist cannot be tied to a public current identity: no author page, profile, recent byline, newsletter, personal site, or fetchable social footprint.
 
-Beat strings can guide discovery, but they cannot produce `fit`.
+Beat strings alone fail resolution. Ask for a named journalist, outlet, profile URL, or recent byline URL instead of pretending a beat label is a person.
 
 Result: `unknown`, `refusal.reason = "unresolved"`.
 
