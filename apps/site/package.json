@@ -13,6 +13,12 @@
     "lint": "eslint . --max-warnings=0",
     "test": "node --test"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
   "dependencies": {
     "next": "16.2.6",
     "react": "19.2.6",
