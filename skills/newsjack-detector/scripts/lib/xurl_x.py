@@ -16,6 +16,8 @@ import re
 import subprocess
 import sys
 import urllib.parse
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
@@ -44,6 +46,8 @@ DEFAULT_MIN_VIEWS = 1000
 DEFAULT_TREND_MIN_24H = 25
 DEFAULT_TREND_MIN_6H = 8
 DEFAULT_TREND_MIN_VELOCITY = 2.0
+NEWS_FIELDS = "id,name,summary,hook,contexts,cluster_posts_results,updated_at,keywords,category"
+PERSONALIZED_TREND_FIELDS = "trend_name,post_count,category,trending_since"
 
 
 def is_available() -> bool:
@@ -108,7 +112,7 @@ def search_x(
     return fallback
 
 
-def recent_count_summary(query: str, *, hours: int = 24) -> Dict[str, Any] | None:
+def recent_count_summary(query: str, *, hours: int = 24, bearer_token: str | None = None) -> Dict[str, Any] | None:
     """Return query-volume summary from X recent counts.
 
     Counts are advisory. If the endpoint is unavailable, search still works and
@@ -122,12 +126,172 @@ def recent_count_summary(query: str, *, hours: int = 24) -> Dict[str, Any] | Non
         "start_time": _iso_z(start),
         "end_time": _iso_z(now),
     }
-    response = _xurl_get(f"/2/tweets/counts/recent?{urllib.parse.urlencode(params)}", timeout=30, auth="app")
+    path = f"/2/tweets/counts/recent?{urllib.parse.urlencode(params)}"
+    response = _api_get(path, bearer_token=bearer_token, timeout=30) if bearer_token else _xurl_get(path, timeout=30, auth="app")
     if "error" in response:
         if os.environ.get("NEWSJACK_DEBUG"):
             _log(f"Counts unavailable: {response['error']}")
         return None
     return _summarize_counts(response)
+
+
+def search_x_news(
+    query: str,
+    *,
+    depth: str = "default",
+    max_age_hours: int = 168,
+    bearer_token: str | None = None,
+) -> Dict[str, Any]:
+    """Search X News story clusters.
+
+    X News is a better discovery shape than raw recent posts: it returns
+    clustered stories with summaries, hooks, entities, and representative post
+    IDs. Treat summaries as discovery context, not final fact-checking.
+    """
+    max_results = {"quick": 5, "default": 10, "deep": 20}.get(depth, 10)
+    params = {
+        "query": query.strip(),
+        "max_results": str(max_results),
+        "max_age_hours": str(max_age_hours),
+        "news.fields": NEWS_FIELDS,
+    }
+    path = f"/2/news/search?{urllib.parse.urlencode(params)}"
+    if bearer_token:
+        return _api_get(path, bearer_token=bearer_token)
+    return _xurl_get(path, headers={"Accept-Language": "en-US,en;q=0.9"})
+
+
+def parse_x_news_response(response: Dict[str, Any], *, topic: str = "") -> List[Dict[str, Any]]:
+    items: List[Dict[str, Any]] = []
+    if "error" in response:
+        if os.environ.get("NEWSJACK_DEBUG"):
+            _log(f"X News unavailable: {response['error']}")
+        return items
+
+    for index, story in enumerate(response.get("data") or []):
+        name = str(story.get("name") or "").strip()
+        hook = str(story.get("hook") or "").strip()
+        summary = str(story.get("summary") or "").strip()
+        if not name and not hook and not summary:
+            continue
+
+        post_ids = _story_post_ids(story)
+        contexts = story.get("contexts") or {}
+        text = " ".join(part for part in [name, hook, summary] if part)
+        url = f"https://x.com/search?q={urllib.parse.quote(name or topic)}&f=live"
+        engagement = {"score": min(500, max(1, len(post_ids)) * 10)}
+        if post_ids:
+            engagement["comments"] = len(post_ids)
+        items.append({
+            "id": f"XNEWS{index + 1}",
+            "title": name or hook[:120],
+            "text": text[:1200],
+            "url": url,
+            "author_handle": "x-news",
+            "date": story.get("updated_at"),
+            "engagement": engagement,
+            "metadata": {
+                "x_signal_type": "story_cluster",
+                "x_news_id": story.get("id") or story.get("rest_id"),
+                "x_news_category": story.get("category"),
+                "x_news_keywords": story.get("keywords") or [],
+                "x_news_contexts": contexts,
+                "x_news_cluster_post_ids": post_ids,
+                "x_news_cluster_post_count": len(post_ids),
+                "x_news_disclaimer": story.get("disclaimer"),
+            },
+            "why_relevant": "X News story cluster",
+            "relevance": _compute_relevance(topic, text) if topic else 0.5,
+        })
+    return items
+
+
+def collect_x_trends(
+    trends_config: Dict[str, Any] | None,
+    *,
+    depth: str = "default",
+    bearer_token: str | None = None,
+) -> tuple[List[Dict[str, Any]], str | None]:
+    config = trends_config or {}
+    mode = str(config.get("mode") or "none").strip().lower()
+    if mode in {"", "none", "off", "false"}:
+        return [], None
+
+    try:
+        if mode == "personalized":
+            response = personalized_trends(depth=depth)
+            return parse_trends_response(response, mode=mode), _response_error(response)
+        if mode == "location":
+            if not bearer_token:
+                return [], "x_trends location mode requires TWITTER_BEARER_TOKEN or X_BEARER_TOKEN"
+            items: List[Dict[str, Any]] = []
+            errors = []
+            locations = [str(value) for value in config.get("locations") or []]
+            for index, woeid in enumerate(config.get("woeids") or []):
+                response = woeid_trends(str(woeid), depth=depth, bearer_token=bearer_token)
+                error = _response_error(response)
+                if error:
+                    errors.append(f"{woeid}: {error}")
+                    continue
+                location = locations[index] if index < len(locations) else str(woeid)
+                items.extend(parse_trends_response(response, mode=mode, woeid=str(woeid), location=location))
+            return items, "; ".join(errors) if errors else None
+        return [], f"Unsupported x_trends mode: {mode}"
+    except Exception as exc:
+        return [], f"{type(exc).__name__}: {exc}"
+
+
+def personalized_trends(*, depth: str = "default") -> Dict[str, Any]:
+    params = {
+        "personalized_trend.fields": PERSONALIZED_TREND_FIELDS,
+    }
+    return _xurl_get(f"/2/users/personalized_trends?{urllib.parse.urlencode(params)}")
+
+
+def woeid_trends(woeid: str, *, depth: str = "default", bearer_token: str) -> Dict[str, Any]:
+    max_results = {"quick": 10, "default": 20, "deep": 50}.get(depth, 20)
+    params = {"max_trends": str(max_results)}
+    return _api_get(f"/2/trends/by/woeid/{urllib.parse.quote(str(woeid))}?{urllib.parse.urlencode(params)}", bearer_token=bearer_token)
+
+
+def parse_trends_response(
+    response: Dict[str, Any],
+    *,
+    mode: str,
+    woeid: str | None = None,
+    location: str | None = None,
+) -> List[Dict[str, Any]]:
+    items: List[Dict[str, Any]] = []
+    if "error" in response:
+        return items
+    for index, trend in enumerate(response.get("data") or []):
+        name = str(trend.get("trend_name") or "").strip()
+        if not name:
+            continue
+        count_text = str(trend.get("post_count") or trend.get("tweet_count") or "").strip()
+        count = _parse_count_text(count_text)
+        context = ", ".join(part for part in [trend.get("category"), count_text, trend.get("trending_since"), location] if part)
+        items.append({
+            "id": f"XTREND{index + 1}",
+            "title": name,
+            "text": f"{name}. {context}".strip(),
+            "url": f"https://x.com/search?q={urllib.parse.quote(name)}&f=live",
+            "author_handle": "x-trends",
+            "date": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+            "engagement": {"score": min(500, count)} if count else {},
+            "metadata": {
+                "x_signal_type": "trend",
+                "x_trend_mode": mode,
+                "x_trend_woeid": woeid,
+                "x_trend_location": location,
+                "x_trend_category": trend.get("category"),
+                "x_trend_post_count": count_text,
+                "x_trend_since": trend.get("trending_since"),
+            },
+            "why_relevant": "X trend",
+            "relevance": 0.5,
+        })
+    return items
 
 
 def parse_x_response(
@@ -234,10 +398,17 @@ def keep_x_item(item: Dict[str, Any]) -> bool:
     return not metadata.get("x_low_reach")
 
 
-def _xurl_get(path: str, timeout: int = 30, auth: str | None = None) -> Dict[str, Any]:
+def _xurl_get(
+    path: str,
+    timeout: int = 30,
+    auth: str | None = None,
+    headers: Dict[str, str] | None = None,
+) -> Dict[str, Any]:
     command = ["xurl"]
     if auth:
         command.extend(["--auth", auth])
+    for key, value in (headers or {}).items():
+        command.extend(["-H", f"{key}: {value}"])
     command.append(path)
     try:
         result = subprocess.run(
@@ -258,6 +429,39 @@ def _xurl_get(path: str, timeout: int = 30, auth: str | None = None) -> Dict[str
         return {"error": f"Invalid JSON from xurl: {exc}"}
     except Exception as exc:
         return {"error": f"{type(exc).__name__}: {exc}"}
+
+
+def _api_get(path: str, *, bearer_token: str, timeout: int = 30) -> Dict[str, Any]:
+    request = urllib.request.Request(
+        f"https://api.x.com{path}",
+        headers={
+            "Authorization": f"Bearer {bearer_token}",
+            "Accept": "application/json",
+            "Accept-Language": "en-US,en;q=0.9",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        try:
+            payload = json.loads(body)
+            detail = payload.get("detail") or payload.get("title") or body[:300]
+            reason = payload.get("reason")
+            if reason:
+                detail = f"{detail} ({reason})"
+        except json.JSONDecodeError:
+            detail = body[:300]
+        return {"error": f"X API HTTP {exc.code}: {detail}"}
+    except json.JSONDecodeError as exc:
+        return {"error": f"Invalid JSON from X API: {exc}"}
+    except Exception as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
+def _response_error(response: Dict[str, Any]) -> str | None:
+    return response.get("error") if isinstance(response, dict) else "invalid response"
 
 
 def _search_x_shortcut(query: str, *, max_results: int) -> Dict[str, Any]:
@@ -297,6 +501,34 @@ def _normalize_query(query: str) -> str:
 
 def _clean_error(text: str) -> str:
     return re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text).strip()
+
+
+def _story_post_ids(story: Dict[str, Any]) -> List[str]:
+    seen = set()
+    output = []
+    for raw in story.get("cluster_posts_results") or []:
+        post_id = str(raw.get("post_id") or raw.get("id") or "").strip()
+        if not post_id or post_id in seen:
+            continue
+        seen.add(post_id)
+        output.append(post_id)
+    return output
+
+
+def _parse_count_text(value: str) -> int:
+    text = str(value or "").strip().lower().replace(",", "")
+    if not text:
+        return 0
+    match = re.search(r"(\d+(?:\.\d+)?)\s*([km]?)", text)
+    if not match:
+        return 0
+    number = float(match.group(1))
+    suffix = match.group(2)
+    if suffix == "k":
+        number *= 1_000
+    elif suffix == "m":
+        number *= 1_000_000
+    return int(number)
 
 
 def _social_proof(

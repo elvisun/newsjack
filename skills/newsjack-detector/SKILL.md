@@ -8,7 +8,7 @@ when_to_use: "User wants to monitor news for pitchable hooks, find newsjacking o
 
 You are **newsjack-detector**, a newsjack.sh skill. Your job is to find timely public signals and decide whether a client has a credible, non-spammy reason to use them.
 
-The monitoring engine ranks evidence. You make the PR judgment.
+The monitoring engine collects evidence, computes mechanical signals, and orders the queue. You make the PR judgment.
 
 ## Doctrine
 
@@ -26,6 +26,8 @@ Defaults:
 
 - `news_search` is the primary news-search layer.
 - `x` uses `xurl` and the official X API path. The X lane filters out low-reach single posts by default and may emit a query-volume signal when X recent counts show a topic is moving.
+- `x_news` should be enabled by default in profiles once the source is wired. It is the preferred X discovery shape because it returns story clusters rather than random individual posts.
+- `x_trends` is optional profile configuration: `personalized`, `location`, or `none`. Use location trends only when geography matters.
 - `major_feed` is an RSS/Atom input lane for curated major-news feeds. Profile `feed_urls` are included automatically.
 - Optional v0 sources: `reddit`, `hackernews`.
 - The engine reads `MEDIALYST_API_KEY`, `MEDIALYST_API_BASE`, and `MEDIALYST_NEWS_PATH` from the process environment or repo-root `.env`.
@@ -34,13 +36,23 @@ Defaults:
 Useful flags:
 
 - `--sources news_search,x,reddit,hackernews`
+- `--sources news_search,x_news,x,x_trends` to include X story clusters, raw posts, and profile-selected trends.
 - `--major-feeds` to include default curated major-news feeds when the profile has no `feed_urls`.
 - `--feed-url URL` to include an RSS/Atom feed URL or local XML file. Repeatable.
 - `--feed-file PATH` to include a text file of RSS/Atom feed URLs, one per line.
 - `--feed-only` to skip profile/topic searches and run only the major-news feed lane.
 - `--no-profile-feeds` to skip profile RSS feeds for a query-only run.
+- `--no-x-news` to disable profile-default X News story clusters.
+- `--no-x-trends` to disable profile-selected X trends.
+- `--no-hygiene-filter` to keep obvious docs/product/SEO retrieval junk for debugging.
 - `--lookback-days 7`
 - `--max-age-hours 48` to avoid backfilling stale RSS/feed items on recurring runs. Default: `168`.
+- `--x-news-min-profile-match 0.05` to demote X News clusters below the profile-overlap threshold.
+- `--x-posts-min-profile-match 0.08` to demote raw X posts below the profile-overlap threshold.
+- `--profile-relevance-min-profile-match 0.05` to demote profile-query results below the profile-overlap threshold.
+- `--major-news-min-profile-match 0.05` to demote broad RSS stories below the profile-overlap threshold.
+- `--x-trends-min-profile-match 0.05` to demote broad X trends below the profile-overlap threshold.
+- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4`
 - `--new-only` to suppress signals whose evidence URLs are already in the monitor store.
 - `--depth quick|default|deep`
 - `--mock` for local verification without credentials
@@ -65,6 +77,8 @@ This is a compromise for local/agent runtimes that can only run hourly. The RSS 
 
 Profiles may include `feed_urls`. Those feeds are used by default. The shipped catalog at `references/rss-feeds.json` is the starting point for setup and onboarding.
 
+Profiles may also include `search_terms`. When present, the engine uses them for retrieval instead of raw `topics + competitors`. Keep `topics`, `competitors`, and `standing` as canonical context for matching and downstream LLM judgment; use `search_terms` for qualified retrieval strings such as `Ada customer service`, `Aura identity theft`, or `Good Move cash house buyer`.
+
 If no profile file exists, accept the user's plain-text company/client context and create a temporary JSON profile outside the repo. Do not invent profile facts.
 
 ## Engine vs Skill Boundary
@@ -75,7 +89,9 @@ Python owns:
 - dedupe
 - clustering
 - novelty tracking
-- mechanical scores: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
+- mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
+- deterministic hygiene filtering for obvious docs/help/product/SEO pages
+- operational routing: lane, queue priority, and whether the lane was threshold-demoted
 - deterministic safety flags
 
 You own:
@@ -88,7 +104,7 @@ You own:
 - brand-safety judgment
 - handoff to the next skill
 
-Do not treat a high engine `rank` as permission to pitch. It is only a queue order.
+Do not treat `routing.queue_priority` as permission to pitch. It is only an operational queue order derived from mechanical scores.
 
 ## Process
 
@@ -96,7 +112,7 @@ Do not treat a high engine `rank` as permission to pitch. It is only a queue ord
 
 2. **Run the engine.** Use `newsjack_detector.py run` with the profile and relevant query/source flags. Profile `feed_urls` are included automatically. For hourly feed-only monitoring, use `--feed-only --save --new-only --max-age-hours 48`. For profiles without feeds, include `--major-feeds` or explicit `--feed-url` values. If credentials are missing, run `diagnose` and report what source is unavailable.
 
-3. **Read ranked signals.** For each signal, inspect title, sources, evidence URLs, age, lane, major-news score, novelty, profile matches, source agreement, and safety flags. For `major_news` lane items, a high rank means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
+3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
 4. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
 

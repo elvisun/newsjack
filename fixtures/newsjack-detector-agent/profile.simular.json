@@ -13,14 +13,35 @@
     "OpenAI Operator",
     "Anthropic computer use",
     "Manus",
-    "Adept",
+    "Adept AI",
     "UiPath"
+  ],
+  "search_terms": [
+    "computer-use agents",
+    "autonomous desktop agents",
+    "AI coworkers",
+    "agentic workflow automation",
+    "AI agent benchmarks",
+    "OpenAI Operator",
+    "Anthropic computer use",
+    "Manus AI agent",
+    "Adept AI",
+    "UiPath agentic automation",
+    "OSWorld benchmark"
   ],
   "feed_urls": [
     "https://www.techmeme.com/feed.xml",
     "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
     "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
   ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "personalized",
+    "woeids": [],
+    "locations": []
+  },
   "spokespeople": [
     "Founder or CEO with computer-use agent expertise",
     "Research lead for agent benchmarks",

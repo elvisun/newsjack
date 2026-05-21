@@ -16,10 +16,31 @@
     "Kanary",
     "Aura"
   ],
+  "search_terms": [
+    "data broker removal",
+    "personal data removal",
+    "people search sites",
+    "identity theft prevention",
+    "consumer privacy data brokers",
+    "DeleteMe data broker",
+    "Incogni data removal",
+    "Optery privacy",
+    "Kanary data broker",
+    "Aura identity theft",
+    "Aura privacy"
+  ],
   "feed_urls": [
     "https://www.ftc.gov/news-events/news/press-releases/rss.xml",
     "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
   ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "personalized",
+    "woeids": [],
+    "locations": []
+  },
   "spokespeople": [
     "Founder or CEO with consumer privacy expertise",
     "Privacy operations lead",

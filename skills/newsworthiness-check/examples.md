@@ -1,7 +1,6 @@
 # Newsworthiness Check Examples
 
 ## Event: Ride
-
 Input:
 
 ```json

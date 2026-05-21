@@ -1,0 +1,69 @@
+{
+  "company": "Local Falcon",
+  "website": "https://www.localfalcon.com",
+  "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
+  "topics": [
+    "local rank tracking",
+    "AI search visibility",
+    "Google Business Profile optimization",
+    "geo-grid rank tracking",
+    "local SEO analytics",
+    "generative engine optimization"
+  ],
+  "competitors": [
+    "BrightLocal",
+    "Whitespark",
+    "Semrush Local",
+    "Yext",
+    "Localo",
+    "Places Scout",
+    "Local Viking"
+  ],
+  "search_terms": [
+    "local rank tracking",
+    "local SEO rank tracker",
+    "geo-grid rank tracking",
+    "AI search visibility tracking",
+    "Google Business Profile rank tracking",
+    "Google AI Overviews local visibility",
+    "ChatGPT local visibility",
+    "BrightLocal local rank tracking",
+    "Whitespark local rank tracker",
+    "Semrush Local",
+    "Yext local SEO",
+    "Local Viking rank tracking"
+  ],
+  "feed_urls": [
+    "https://www.techmeme.com/feed.xml",
+    "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "personalized",
+    "woeids": [],
+    "locations": []
+  },
+  "spokespeople": [
+    "Founder or CEO with local SEO expertise",
+    "Product lead for AI search visibility",
+    "Local search data or customer success lead"
+  ],
+  "proof_assets": [
+    "LocalFalcon.com product pages",
+    "geo-grid rank tracking reports",
+    "SoLV and SAIV visibility metrics",
+    "Google Business Profile and Apple Maps rank tracking examples",
+    "AI search visibility reports across ChatGPT, Google AI Overviews, Gemini, Grok, and AI Mode"
+  ],
+  "standing": [
+    "local SEO rank tracking",
+    "Google Business Profile analytics",
+    "AI search visibility",
+    "geo-grid local search reporting",
+    "multi-location and agency SEO workflows",
+    "generative engine optimization for local businesses"
+  ]
+}

@@ -15,7 +15,10 @@ class MonitorProfile:
     description: str | None = None
     topics: list[str] = field(default_factory=list)
     competitors: list[str] = field(default_factory=list)
+    search_terms: list[str] = field(default_factory=list)
     feed_urls: list[str] = field(default_factory=list)
+    x_news: dict[str, Any] = field(default_factory=dict)
+    x_trends: dict[str, Any] = field(default_factory=dict)
     spokespeople: list[str] = field(default_factory=list)
     proof_assets: list[str] = field(default_factory=list)
     standing: list[str] = field(default_factory=list)
@@ -37,7 +40,10 @@ class MonitorProfile:
             description=_string_or_none(payload.get("description")),
             topics=_string_list(payload.get("topics") or payload.get("beats")),
             competitors=_string_list(payload.get("competitors")),
+            search_terms=_string_list(payload.get("search_terms") or payload.get("queries")),
             feed_urls=_string_list(payload.get("feed_urls") or payload.get("feeds") or payload.get("rss_feeds")),
+            x_news=_dict_value(payload.get("x_news"), default={"enabled": True}),
+            x_trends=_dict_value(payload.get("x_trends"), default={"mode": "none", "woeids": [], "locations": []}),
             spokespeople=_string_list(payload.get("spokespeople") or payload.get("experts")),
             proof_assets=_string_list(payload.get("proof_assets") or payload.get("proof")),
             standing=_string_list(payload.get("standing") or payload.get("expertise")),
@@ -46,7 +52,9 @@ class MonitorProfile:
         )
 
     def query_terms(self) -> list[str]:
-        return _dedupe([*self.topics, *self.competitors])
+        if self.search_terms:
+            return _dedupe(self.search_terms)
+        return _dedupe([*self.topics, *[_competitor_query(term) for term in self.competitors]])
 
     def match_text(self) -> str:
         parts = [
@@ -55,6 +63,7 @@ class MonitorProfile:
             *self.topics,
             *self.competitors,
             *self.feed_urls,
+            *(_string_list(self.x_trends.get("locations")) if self.x_trends else []),
             *self.spokespeople,
             *self.proof_assets,
             *self.standing,
@@ -66,7 +75,10 @@ class MonitorProfile:
             "company": self.company,
             "topics": self.topics,
             "competitors": self.competitors,
+            "search_terms": self.search_terms,
             "feed_urls": self.feed_urls,
+            "x_news": self.x_news,
+            "x_trends": self.x_trends,
             "spokespeople": self.spokespeople,
             "proof_assets": self.proof_assets,
             "standing": self.standing,
@@ -79,6 +91,12 @@ def _string_or_none(value: Any) -> str | None:
         return None
     text = str(value).strip()
     return text or None
+
+
+def _dict_value(value: Any, *, default: dict[str, Any]) -> dict[str, Any]:
+    if isinstance(value, dict):
+        return dict(value)
+    return dict(default)
 
 
 def _string_list(value: Any) -> list[str]:
@@ -107,3 +125,11 @@ def _dedupe(values: list[str]) -> list[str]:
         seen.add(key)
         output.append(value.strip())
     return output
+
+
+def _competitor_query(value: str) -> str:
+    term = value.strip()
+    if not term or term.startswith('"') or " " not in term:
+        return term
+    escaped = term.replace('"', r'\"')
+    return f'"{escaped}"'

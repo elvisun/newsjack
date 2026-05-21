@@ -16,8 +16,19 @@ Engine signal:
     "profile_matches": ["AI compliance", "enterprise governance"],
     "safety_flags": []
   },
-  "scores": {
-    "rank": 86.2
+  "routing": {
+    "lane": "profile_relevance",
+    "queue_priority": 86.2,
+    "demoted": false
+  },
+  "mechanical_scores": {
+    "freshness": 1.0,
+    "source_agreement": 0.78,
+    "novelty": 1.0,
+    "profile_match": 0.44,
+    "source_quality": 0.825,
+    "momentum": 0.21,
+    "major_news": 0.0
   }
 }
 ```

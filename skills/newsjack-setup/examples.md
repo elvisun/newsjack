@@ -1,68 +1,95 @@
 # Newsjack Setup Examples
 
-## Chatbase-Style Profile
+## Local Falcon-Style Profile
 
 ```json
 {
   "profile": {
-    "company": "Chatbase",
-    "website": "https://chatbase.com",
-    "description": "AI customer service platform for building and deploying AI support agents.",
+    "company": "Local Falcon",
+    "website": "https://www.localfalcon.com",
+    "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
     "topics": [
-      "AI customer support",
-      "AI support agents",
-      "customer service automation",
-      "AI chatbots for business"
+      "local rank tracking",
+      "AI search visibility",
+      "Google Business Profile optimization",
+      "geo-grid rank tracking",
+      "local SEO analytics"
     ],
     "competitors": [
-      "Intercom",
-      "Zendesk AI",
-      "Ada",
-      "Gorgias"
+      "BrightLocal",
+      "Whitespark",
+      "Semrush Local",
+      "Yext",
+      "Local Viking"
+    ],
+    "search_terms": [
+      "local rank tracking",
+      "local SEO rank tracker",
+      "geo-grid rank tracking",
+      "AI search visibility tracking",
+      "Google Business Profile rank tracking",
+      "Google AI Overviews local visibility",
+      "ChatGPT local visibility",
+      "BrightLocal local rank tracking",
+      "Whitespark local rank tracker",
+      "Semrush Local",
+      "Yext local SEO"
     ],
     "feed_urls": [
       "https://www.techmeme.com/feed.xml",
       "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
       "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
     ],
+    "x_news": {
+      "enabled": true
+    },
+    "x_trends": {
+      "mode": "personalized",
+      "woeids": [],
+      "locations": []
+    },
     "spokespeople": [
-      "Founder or CEO with AI customer support expertise",
-      "Product lead for AI support agents"
+      "Founder or CEO with local SEO expertise",
+      "Product lead for AI search visibility"
     ],
     "proof_assets": [
       "Product pages",
-      "customer support automation examples",
-      "customer case studies",
-      "AI agent analytics and escalation workflows"
+      "geo-grid rank tracking reports",
+      "SoLV and SAIV visibility metrics",
+      "Google Business Profile and Apple Maps rank tracking examples",
+      "AI search visibility reports"
     ],
     "standing": [
-      "AI customer support",
-      "AI agent deployment",
-      "support automation",
-      "customer experience workflows"
+      "local SEO rank tracking",
+      "Google Business Profile analytics",
+      "AI search visibility",
+      "geo-grid local search reporting",
+      "multi-location and agency SEO workflows"
     ],
     "exclusions": []
   },
   "feed_rationale": [
     {
       "feed": "https://www.techmeme.com/feed.xml",
-      "why": "High-signal tech and AI business stories where major platform/customer-support moves appear early."
+      "why": "High-signal technology and AI business stories where search-platform changes appear early."
     },
     {
       "feed": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
-      "why": "Broader technology backstop for AI product launches and platform changes not surfaced by Techmeme."
+      "why": "Broader technology backstop for AI search, Google Search, maps, and platform updates not surfaced by Techmeme."
     },
     {
       "feed": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
-      "why": "Catches enterprise software, M&A, funding, layoffs, and customer-experience business stories."
+      "why": "Catches agency, SaaS, search, local business, and enterprise software stories."
     }
   ],
+  "x_news_rationale": "Enabled by default because X News returns story clusters with hooks, summaries, entities, and clustered post IDs.",
+  "x_trends_rationale": "Personalized trends are a reasonable default for a founder-led SaaS workflow; switch to location trends only for geography-specific campaigns.",
   "run_commands": {
-    "hourly_major_news": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.json --feed-only --save --emit json",
-    "profile_relevance": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run \"AI customer support\" --profile profile.json --save --emit json"
+    "hourly_major_news": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
+    "profile_relevance": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run \"AI search visibility\" --profile profile.json --save --emit json"
   },
   "missing_inputs": [
-    "Which customer proof or metrics can be used publicly?"
+    "Which search visibility metrics, customer examples, or benchmark claims can be used publicly?"
   ]
 }
 ```

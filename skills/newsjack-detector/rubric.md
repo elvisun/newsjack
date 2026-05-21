@@ -1,6 +1,6 @@
 # Newsjack Detector Rubric
 
-Use this rubric after the engine returns ranked evidence. The engine score is only queue priority.
+Use this rubric after the engine returns queued evidence. The engine exposes mechanical scores and `routing.queue_priority`; neither is a PR judgment.
 
 The engine has two discovery lanes:
 

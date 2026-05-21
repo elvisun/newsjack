@@ -144,7 +144,7 @@ def record_run(
                     run_id,
                     signal.get("id"),
                     signal.get("title"),
-                    float((signal.get("scores") or {}).get("rank", 0.0)),
+                    float((signal.get("routing") or {}).get("queue_priority", 0.0)),
                     json.dumps(signal, sort_keys=True),
                 ),
             )

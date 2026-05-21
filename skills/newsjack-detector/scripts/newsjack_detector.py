@@ -25,6 +25,7 @@ SCRIPT_DIR = Path(__file__).parent.resolve()
 sys.path.insert(0, str(SCRIPT_DIR))
 
 import brand_safety_flags
+import content_hygiene
 import newsjack_store
 import source_registry
 from lib import dates, rss_feed
@@ -33,7 +34,10 @@ from monitor_profile import MonitorProfile
 
 STOP_WORDS = {
     "about", "after", "again", "against", "also", "and", "are", "because",
+    "am", "an", "as", "at",
     "been", "being", "but", "can", "could", "did", "does", "doing", "for",
+    "be", "by", "do", "go", "he", "if", "in", "is", "it", "me", "my",
+    "no", "of", "on", "or", "so", "to", "up", "us", "we",
     "from", "had", "has", "have", "her", "here", "him", "his", "how",
     "into", "its", "just", "more", "new", "not", "now", "our", "out",
     "over", "per", "said", "say", "says", "she", "should", "than", "that",
@@ -46,6 +50,8 @@ SOURCE_QUALITY = {
     "major_feed": 0.88,
     "news_search": 0.95,
     "x": 0.70,
+    "x_news": 0.86,
+    "x_trends": 0.68,
     "reddit": 0.62,
     "hackernews": 0.72,
 }
@@ -57,6 +63,32 @@ ENGAGEMENT_FIELDS = (
 
 DEFAULT_MAJOR_FEEDS = (
     "https://www.techmeme.com/feed.xml",
+)
+
+DEFAULT_LANE_CAPS = {
+    "x_news": 8,
+    "x_news_unmatched": 0,
+    "profile_relevance": 8,
+    "profile_relevance_weak": 0,
+    "major_news": 8,
+    "x_trends": 5,
+    "x_trends_unmatched": 0,
+    "x_posts": 4,
+    "x_posts_weak": 0,
+    "major_news_unmatched": 0,
+}
+
+LANE_ORDER = (
+    "x_news",
+    "x_news_unmatched",
+    "profile_relevance",
+    "profile_relevance_weak",
+    "major_news",
+    "x_trends",
+    "x_posts",
+    "x_posts_weak",
+    "x_trends_unmatched",
+    "major_news_unmatched",
 )
 
 MAJOR_NEWS_TERMS = {
@@ -146,7 +178,7 @@ class SignalCluster:
 def _tokens(text: str) -> set[str]:
     return {
         token
-        for token in re.findall(r"[a-z0-9][a-z0-9+._-]{2,}", text.lower())
+        for token in re.findall(r"[a-z0-9][a-z0-9+._-]{1,}", text.lower())
         if token not in STOP_WORDS
     }
 
@@ -258,6 +290,35 @@ def _filter_items_by_age(
     return output
 
 
+def _filter_items_by_hygiene(
+    items: list[EvidenceItem],
+    *,
+    enabled: bool,
+) -> tuple[list[EvidenceItem], dict[str, int]]:
+    if not enabled:
+        return items, {}
+    output = []
+    counts: dict[str, int] = {}
+    for item in items:
+        reason = content_hygiene.rejection_reason(
+            source=item.source,
+            title=item.title,
+            url=item.url,
+            container=item.container,
+            excerpt=item.excerpt,
+        )
+        if reason:
+            counts[reason] = counts.get(reason, 0) + 1
+            continue
+        output.append(item)
+    return output, counts
+
+
+def _merge_counts(left: dict[str, int], right: dict[str, int]) -> None:
+    for key, value in right.items():
+        left[key] = left.get(key, 0) + value
+
+
 def _source_agreement_score(sources: list[str]) -> float:
     if len(sources) >= 3:
         return 1.0
@@ -347,13 +408,56 @@ def _term_matches(term: str, text: str, tokens: set[str]) -> bool:
     return term in tokens
 
 
-def _rank_signal(
+def _signal_lane(
+    cluster: SignalCluster,
+    *,
+    major_news: float,
+    profile_match: float,
+    x_news_min_profile_match: float,
+    x_posts_min_profile_match: float,
+    profile_relevance_min_profile_match: float,
+    major_news_min_profile_match: float,
+    x_trends_min_profile_match: float,
+) -> str:
+    sources = set(cluster.sources())
+    if "x_news" in sources:
+        if profile_match < x_news_min_profile_match:
+            return "x_news_unmatched"
+        return "x_news"
+    if "x_trends" in sources:
+        if profile_match < x_trends_min_profile_match:
+            return "x_trends_unmatched"
+        return "x_trends"
+    if sources == {"x"}:
+        for item in cluster.evidence:
+            if item.metadata.get("x_signal_type") == "query_trend":
+                if profile_match < x_trends_min_profile_match:
+                    return "x_trends_unmatched"
+                return "x_trends"
+        if profile_match < x_posts_min_profile_match:
+            return "x_posts_weak"
+        return "x_posts"
+    if major_news > 0:
+        if profile_match < major_news_min_profile_match:
+            return "major_news_unmatched"
+        return "major_news"
+    if profile_match < profile_relevance_min_profile_match:
+        return "profile_relevance_weak"
+    return "profile_relevance"
+
+
+def _score_signal(
     cluster: SignalCluster,
     *,
     profile: MonitorProfile,
     seen: dict[str, dict[str, Any]],
     now: datetime,
     lookback_days: int,
+    x_news_min_profile_match: float,
+    x_posts_min_profile_match: float,
+    profile_relevance_min_profile_match: float,
+    major_news_min_profile_match: float,
+    x_trends_min_profile_match: float,
 ) -> dict[str, Any]:
     text = cluster.text()
     sources = cluster.sources()
@@ -366,9 +470,18 @@ def _rank_signal(
     engagement = _engagement_score(cluster)
     profile_match = _profile_match_score(profile, text)
     major_news = _major_news_score(cluster, age_hours)
-    lane = "major_news" if major_news > 0 else "profile_relevance"
+    lane = _signal_lane(
+        cluster,
+        major_news=major_news,
+        profile_match=profile_match,
+        x_news_min_profile_match=x_news_min_profile_match,
+        x_posts_min_profile_match=x_posts_min_profile_match,
+        profile_relevance_min_profile_match=profile_relevance_min_profile_match,
+        major_news_min_profile_match=major_news_min_profile_match,
+        x_trends_min_profile_match=x_trends_min_profile_match,
+    )
     if lane == "major_news":
-        rank = round(
+        queue_priority = round(
             100
             * (
                 0.30 * major_news
@@ -380,8 +493,81 @@ def _rank_signal(
             ),
             1,
         )
+    elif lane == "major_news_unmatched":
+        queue_priority = round(
+            min(
+                39.9,
+                100
+                * (
+                    0.18 * major_news
+                    + 0.16 * freshness
+                    + 0.12 * novelty
+                    + 0.10 * source_quality
+                    + 0.08 * source_agreement
+                ),
+            ),
+            1,
+        )
+    elif lane in {"x_news", "x_trends"}:
+        queue_priority = round(
+            100
+            * (
+                0.24 * freshness
+                + 0.20 * profile_match
+                + 0.18 * novelty
+                + 0.16 * source_quality
+                + 0.12 * source_agreement
+                + 0.10 * engagement
+            ),
+            1,
+        )
+    elif lane == "x_trends_unmatched":
+        queue_priority = round(
+            min(
+                39.9,
+                100
+                * (
+                    0.16 * freshness
+                    + 0.14 * novelty
+                    + 0.12 * source_quality
+                    + 0.10 * engagement
+                ),
+            ),
+            1,
+        )
+    elif lane in {"x_news_unmatched", "profile_relevance_weak", "x_posts_weak"}:
+        queue_priority = round(
+            min(
+                44.0,
+                100
+                * (
+                    0.18 * freshness
+                    + 0.16 * novelty
+                    + 0.12 * source_quality
+                    + 0.10 * source_agreement
+                    + 0.08 * engagement
+                ),
+            ),
+            1,
+        )
+    elif lane == "x_posts":
+        queue_priority = round(
+            min(
+                64.0,
+                100
+                * (
+                    0.22 * freshness
+                    + 0.20 * engagement
+                    + 0.18 * profile_match
+                    + 0.16 * novelty
+                    + 0.14 * source_quality
+                    + 0.10 * source_agreement
+                ),
+            ),
+            1,
+        )
     else:
-        rank = round(
+        queue_priority = round(
             100
             * (
                 0.24 * freshness
@@ -405,14 +591,17 @@ def _rank_signal(
             "decay_bucket": _decay_bucket(age_hours),
             "source_count": len(sources),
             "evidence_count": len(cluster.evidence),
-            "lane": lane,
             "seen_before": bool(urls and all(url in seen for url in urls)),
             "seen_urls": {url: seen[url] for url in urls if url in seen},
             "profile_matches": _profile_matches(profile, text),
             "safety_flags": brand_safety_flags.flag_text(text, exclusions=profile.exclusions),
         },
-        "scores": {
-            "rank": rank,
+        "routing": {
+            "lane": lane,
+            "queue_priority": queue_priority,
+            "demoted": lane.endswith("_unmatched") or lane.endswith("_weak"),
+        },
+        "mechanical_scores": {
             "freshness": round(freshness, 3),
             "source_agreement": round(source_agreement, 3),
             "novelty": round(novelty, 3),
@@ -467,6 +656,104 @@ def _build_queries(args: argparse.Namespace, profile: MonitorProfile) -> list[st
         queries.append(" ".join(args.query).strip())
     queries.extend(profile.query_terms())
     return _dedupe([query for query in queries if query])
+
+
+def _requested_sources(args: argparse.Namespace, profile: MonitorProfile) -> list[str]:
+    sources = source_registry.parse_sources(args.sources)
+    if profile.x_news.get("enabled", True) and not args.no_x_news and "x_news" not in sources:
+        sources.append("x_news")
+    trends_mode = str((profile.x_trends or {}).get("mode") or "none").lower()
+    if trends_mode not in {"", "none", "off", "false"} and not args.no_x_trends and "x_trends" not in sources:
+        sources.append("x_trends")
+    if args.no_x_news:
+        sources = [source for source in sources if source != "x_news"]
+    if args.no_x_trends:
+        sources = [source for source in sources if source != "x_trends"]
+    return sources
+
+
+def _query_sources(sources: list[str]) -> list[str]:
+    return [source for source in sources if source != "x_trends"]
+
+
+def _parse_lane_caps(raw: str | None) -> dict[str, int]:
+    caps = dict(DEFAULT_LANE_CAPS)
+    if not raw:
+        return caps
+    for part in raw.split(","):
+        key, sep, value = part.partition("=")
+        if not sep:
+            continue
+        try:
+            caps[key.strip()] = max(0, int(value.strip()))
+        except ValueError:
+            continue
+    return caps
+
+
+def _select_signals(all_signals: list[dict[str, Any]], *, limit: int, lane_caps: dict[str, int]) -> list[dict[str, Any]]:
+    sorted_signals = _dedupe_signals_by_url(
+        sorted(all_signals, key=_queue_priority, reverse=True)
+    )
+    selected: list[dict[str, Any]] = []
+    selected_ids: set[str] = set()
+
+    for lane in LANE_ORDER:
+        lane_items = [signal for signal in sorted_signals if _signal_lane_value(signal) == lane]
+        for signal in lane_items[: lane_caps.get(lane, limit)]:
+            if signal["id"] in selected_ids:
+                continue
+            selected.append(signal)
+            selected_ids.add(signal["id"])
+            if len(selected) >= limit:
+                return sorted(selected, key=_queue_priority, reverse=True)
+
+    for signal in sorted_signals:
+        if signal["id"] in selected_ids:
+            continue
+        if _signal_lane_value(signal) in lane_caps:
+            continue
+        selected.append(signal)
+        selected_ids.add(signal["id"])
+        if len(selected) >= limit:
+            break
+    return sorted(selected, key=_queue_priority, reverse=True)
+
+
+def _queue_priority(signal: dict[str, Any]) -> float:
+    try:
+        return float((signal.get("routing") or {}).get("queue_priority") or 0.0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _signal_lane_value(signal: dict[str, Any]) -> str:
+    return str((signal.get("routing") or {}).get("lane") or "unknown")
+
+
+def _dedupe_signals_by_url(signals: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen_ids: set[str] = set()
+    seen_urls: set[str] = set()
+    output = []
+    for signal in signals:
+        urls = {
+            evidence.get("url")
+            for evidence in signal.get("evidence") or []
+            if evidence.get("url")
+        }
+        if signal.get("id") in seen_ids or (urls and urls & seen_urls):
+            continue
+        seen_ids.add(signal.get("id"))
+        seen_urls.update(urls)
+        output.append(signal)
+    return output
+
+
+def _count_by(values: list[str]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for value in values:
+        counts[value] = counts.get(value, 0) + 1
+    return dict(sorted(counts.items()))
 
 
 def _feed_urls(args: argparse.Namespace, profile: MonitorProfile) -> list[str]:
@@ -551,6 +838,10 @@ def _config_from_env() -> dict[str, str | None]:
         "MEDIALYST_API_KEY": get("MEDIALYST_API_KEY"),
         "MEDIALYST_API_BASE": get("MEDIALYST_API_BASE"),
         "MEDIALYST_NEWS_PATH": get("MEDIALYST_NEWS_PATH"),
+        "TWITTER_BEARER_TOKEN": get("TWITTER_BEARER_TOKEN"),
+        "X_BEARER_TOKEN": get("X_BEARER_TOKEN"),
+        "X_API_BEARER_TOKEN": get("X_API_BEARER_TOKEN"),
+        "TWITTER_API_BEARER_TOKEN": get("TWITTER_API_BEARER_TOKEN"),
     }
 
 
@@ -651,7 +942,7 @@ def collect_query(
                 errors[source] = error
             for raw in raw_items:
                 item = EvidenceItem.from_dict(raw)
-                if item.source != "news_search" and _jaccard(query, item.text()) < 0.08:
+                if item.source not in {"news_search", "x_news"} and _jaccard(query, item.text()) < 0.08:
                     continue
                 if item.title or item.excerpt:
                     items.append(item)
@@ -688,17 +979,54 @@ def collect_feeds(
     return items, errors
 
 
+def collect_x_trends(
+    profile: MonitorProfile,
+    *,
+    config: dict[str, Any],
+    depth: str,
+    mock: bool,
+    now: datetime,
+) -> tuple[list[EvidenceItem], dict[str, str]]:
+    trends_config = profile.x_trends or {}
+    mode = str(trends_config.get("mode") or "none").lower()
+    if mode in {"", "none", "off", "false"}:
+        return [], {}
+    if mock:
+        return [
+            EvidenceItem(
+                source="x_trends",
+                title="Meta Cuts 8,000 Jobs to Focus on AI Future",
+                url="https://x.com/search?q=Meta%20Cuts%208000%20Jobs&f=live",
+                author="x-trends",
+                container="x.com/trends",
+                published_at=now.isoformat(),
+                excerpt="Personalized X trend, 8.7K posts, trending for 5 hours.",
+                engagement={"score": 500},
+                metadata={
+                    "x_signal_type": "trend",
+                    "x_trend_mode": mode,
+                    "x_trend_post_count": "8.7K posts",
+                },
+            )
+        ], {}
+    raw_items, error = source_registry.collect_x_trends(trends_config, depth=depth, config=config)
+    items = [EvidenceItem.from_dict(raw) for raw in raw_items if raw.get("title") or raw.get("excerpt")]
+    return items, {"x_trends": error} if error else {}
+
+
 def run(args: argparse.Namespace) -> int:
     profile = MonitorProfile.from_file(args.profile) if args.profile else MonitorProfile()
     queries = [] if args.feed_only else _build_queries(args, profile)
     feed_urls = _feed_urls(args, profile)
-    if not queries and not feed_urls:
+    config = _config_from_env()
+    requested_sources = [] if args.feed_only else _requested_sources(args, profile)
+    trend_requested = "x_trends" in requested_sources and not args.feed_only
+    if not queries and not feed_urls and not trend_requested:
         raise SystemExit("Provide a query, --topic, --major-feeds, --feed-url, or --profile with topics/competitors.")
 
-    config = _config_from_env()
-    requested_sources = source_registry.parse_sources(args.sources)
+    query_requested_sources = _query_sources(requested_sources)
     sources = (
-        (requested_sources if args.mock else source_registry.available_sources(config, requested_sources))
+        (query_requested_sources if args.mock else source_registry.available_sources(config, query_requested_sources))
         if queries
         else []
     )
@@ -713,6 +1041,12 @@ def run(args: argparse.Namespace) -> int:
     all_signals: list[dict[str, Any]] = []
     seen_urls_to_mark: list[str] = []
     source_errors: dict[str, dict[str, str]] = {}
+    evidence_source_counts: dict[str, int] = {}
+    hygiene_rejections: dict[str, int] = {}
+
+    def note_items(items: list[EvidenceItem]) -> None:
+        for item in items:
+            evidence_source_counts[item.source] = evidence_source_counts.get(item.source, 0) + 1
 
     for query in queries:
         items, errors = collect_query(
@@ -725,6 +1059,9 @@ def run(args: argparse.Namespace) -> int:
             now=now,
         )
         items = _filter_items_by_age(items, now=now, max_age_hours=args.max_age_hours)
+        items, rejected = _filter_items_by_hygiene(items, enabled=not args.no_hygiene_filter)
+        _merge_counts(hygiene_rejections, rejected)
+        note_items(items)
         if errors:
             source_errors[query] = errors
         clusters = _cluster_items(items)
@@ -732,12 +1069,17 @@ def run(args: argparse.Namespace) -> int:
         seen_urls_to_mark.extend(urls)
         seen = newsjack_store.seen_status(urls, db_path=db_path)
         for cluster in clusters:
-            signal = _rank_signal(
+            signal = _score_signal(
                 cluster,
                 profile=profile,
                 seen=seen,
                 now=now,
                 lookback_days=args.lookback_days,
+                x_news_min_profile_match=args.x_news_min_profile_match,
+                x_posts_min_profile_match=args.x_posts_min_profile_match,
+                profile_relevance_min_profile_match=args.profile_relevance_min_profile_match,
+                major_news_min_profile_match=args.major_news_min_profile_match,
+                x_trends_min_profile_match=args.x_trends_min_profile_match,
             )
             signal["query"] = query
             if not (args.new_only and _signal_is_seen(signal)):
@@ -751,6 +1093,9 @@ def run(args: argparse.Namespace) -> int:
             now=now,
         )
         items = _filter_items_by_age(items, now=now, max_age_hours=args.max_age_hours)
+        items, rejected = _filter_items_by_hygiene(items, enabled=not args.no_hygiene_filter)
+        _merge_counts(hygiene_rejections, rejected)
+        note_items(items)
         if errors:
             source_errors["major_feeds"] = errors
         clusters = _cluster_items(items)
@@ -758,19 +1103,59 @@ def run(args: argparse.Namespace) -> int:
         seen_urls_to_mark.extend(urls)
         seen = newsjack_store.seen_status(urls, db_path=db_path)
         for cluster in clusters:
-            signal = _rank_signal(
+            signal = _score_signal(
                 cluster,
                 profile=profile,
                 seen=seen,
                 now=now,
                 lookback_days=args.lookback_days,
+                x_news_min_profile_match=args.x_news_min_profile_match,
+                x_posts_min_profile_match=args.x_posts_min_profile_match,
+                profile_relevance_min_profile_match=args.profile_relevance_min_profile_match,
+                major_news_min_profile_match=args.major_news_min_profile_match,
+                x_trends_min_profile_match=args.x_trends_min_profile_match,
             )
             signal["query"] = "major_news_feed"
             if not (args.new_only and _signal_is_seen(signal)):
                 all_signals.append(signal)
 
-    all_signals.sort(key=lambda signal: signal["scores"]["rank"], reverse=True)
-    signals = all_signals[: args.limit]
+    if trend_requested:
+        items, errors = collect_x_trends(
+            profile,
+            config=config,
+            depth=args.depth,
+            mock=args.mock,
+            now=now,
+        )
+        items = _filter_items_by_age(items, now=now, max_age_hours=args.max_age_hours)
+        items, rejected = _filter_items_by_hygiene(items, enabled=not args.no_hygiene_filter)
+        _merge_counts(hygiene_rejections, rejected)
+        note_items(items)
+        if errors:
+            source_errors["x_trends"] = errors
+        clusters = _cluster_items(items)
+        urls = [url for cluster in clusters for url in cluster.urls()]
+        seen_urls_to_mark.extend(urls)
+        seen = newsjack_store.seen_status(urls, db_path=db_path)
+        for cluster in clusters:
+            signal = _score_signal(
+                cluster,
+                profile=profile,
+                seen=seen,
+                now=now,
+                lookback_days=args.lookback_days,
+                x_news_min_profile_match=args.x_news_min_profile_match,
+                x_posts_min_profile_match=args.x_posts_min_profile_match,
+                profile_relevance_min_profile_match=args.profile_relevance_min_profile_match,
+                major_news_min_profile_match=args.major_news_min_profile_match,
+                x_trends_min_profile_match=args.x_trends_min_profile_match,
+            )
+            signal["query"] = "x_trends"
+            if not (args.new_only and _signal_is_seen(signal)):
+                all_signals.append(signal)
+
+    lane_caps = _parse_lane_caps(args.lane_caps)
+    signals = _select_signals(all_signals, limit=args.limit, lane_caps=lane_caps)
     run_id = None
     if args.save:
         run_id = newsjack_store.record_run(
@@ -790,7 +1175,7 @@ def run(args: argparse.Namespace) -> int:
             "queries": queries,
             "feed_urls": feed_urls,
             "sources_requested": requested_sources,
-            "sources_used": [*sources, *(["major_feed"] if feed_urls else [])],
+            "sources_used": [*sources, *(["x_trends"] if trend_requested else []), *(["major_feed"] if feed_urls else [])],
             "lookback_days": args.lookback_days,
             "max_age_hours": args.max_age_hours,
             "new_only": args.new_only,
@@ -798,6 +1183,15 @@ def run(args: argparse.Namespace) -> int:
             "mock": args.mock,
         },
         "signals": signals,
+        "diagnostics": {
+            "evidence_by_source": evidence_source_counts,
+            "hygiene_rejections": hygiene_rejections,
+            "signals_by_lane": _count_by([_signal_lane_value(signal) for signal in all_signals]),
+            "emitted_by_lane": _count_by([_signal_lane_value(signal) for signal in signals]),
+            "lane_caps": lane_caps,
+            "total_scored_signals": len(all_signals),
+            "total_emitted_signals": len(signals),
+        },
         "source_errors": source_errors,
         "store": {
             "saved": args.save,
@@ -820,6 +1214,9 @@ def diagnose(args: argparse.Namespace) -> int:
         "sources_available": source_registry.available_sources(config, requested),
         "news_search_configured": bool(config.get("MEDIALYST_API_KEY")),
         "xurl_available": "x" in source_registry.available_sources(config, ["x"]),
+        "x_news_available": "x_news" in source_registry.available_sources(config, ["x_news"]),
+        "x_trends_available": "x_trends" in source_registry.available_sources(config, ["x_trends"]),
+        "twitter_bearer_configured": any(config.get(key) for key in ("TWITTER_BEARER_TOKEN", "X_BEARER_TOKEN", "X_API_BEARER_TOKEN", "TWITTER_API_BEARER_TOKEN")),
         "store_path": str(Path(args.store).expanduser()) if args.store else str(newsjack_store.db_path_from_env()),
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
@@ -853,12 +1250,34 @@ def _brief_evidence_links(signal: dict[str, Any], limit: int = 3) -> list[str]:
 
 def _brief(payload: dict[str, Any]) -> str:
     lines = ["newsjack monitor", ""]
+    diagnostics = payload.get("diagnostics") or {}
+    if diagnostics:
+        lines.append(f"scored={diagnostics.get('total_scored_signals', 0)} emitted={diagnostics.get('total_emitted_signals', 0)}")
+        if diagnostics.get("evidence_by_source"):
+            source_bits = [f"{source}:{count}" for source, count in diagnostics["evidence_by_source"].items()]
+            lines.append(f"evidence_by_source={', '.join(source_bits)}")
+        if diagnostics.get("hygiene_rejections"):
+            hygiene_bits = [f"{reason}:{count}" for reason, count in diagnostics["hygiene_rejections"].items()]
+            lines.append(f"hygiene_rejections={', '.join(hygiene_bits)}")
+        if diagnostics.get("emitted_by_lane"):
+            lane_bits = [f"{lane}:{count}" for lane, count in diagnostics["emitted_by_lane"].items()]
+            lines.append(f"emitted_by_lane={', '.join(lane_bits)}")
+        lines.append("")
     for index, signal in enumerate(payload.get("signals") or [], start=1):
         features = signal["features"]
+        routing = signal.get("routing") or {}
+        mechanical = signal.get("mechanical_scores") or {}
         lines.append(
             f"{index}. {signal['title']} "
-            f"({signal['scores']['rank']}, {features['lane']}, {features['decay_bucket']}, "
+            f"({routing.get('lane', 'unknown')}, {features['decay_bucket']}, "
             f"{', '.join(signal['sources'])})"
+        )
+        lines.append(
+            "   mechanical: "
+            f"queue_priority={routing.get('queue_priority', 0)}, "
+            f"profile_match={mechanical.get('profile_match', 0)}, "
+            f"major_news={mechanical.get('major_news', 0)}, "
+            f"momentum={mechanical.get('momentum', 0)}"
         )
         for link in _brief_evidence_links(signal):
             lines.append(f"   evidence: {link}")
@@ -870,7 +1289,7 @@ def _brief(payload: dict[str, Any]) -> str:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Collect and rank newsjack monitoring evidence.")
+    parser = argparse.ArgumentParser(description="Collect and mechanically score newsjack monitoring evidence.")
     sub = parser.add_subparsers(dest="command")
 
     run_parser = sub.add_parser("run", help="Run a monitor pass.")
@@ -883,9 +1302,18 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--feed-file", action="append", help="File containing RSS/Atom feed URLs, one per line. Repeatable.")
     run_parser.add_argument("--feed-only", action="store_true", help="Skip query/profile searches and only ingest RSS/Atom feeds.")
     run_parser.add_argument("--no-profile-feeds", action="store_true", help="Do not include feed_urls from the monitor profile.")
+    run_parser.add_argument("--no-x-news", action="store_true", help="Do not auto-include x_news even when enabled in the profile.")
+    run_parser.add_argument("--no-x-trends", action="store_true", help="Do not include x_trends from the monitor profile.")
+    run_parser.add_argument("--no-hygiene-filter", action="store_true", help="Do not filter obvious docs/product/SEO retrieval junk before scoring.")
     run_parser.add_argument("--depth", choices=["quick", "default", "deep"], default="quick")
     run_parser.add_argument("--lookback-days", type=int, default=7)
     run_parser.add_argument("--max-age-hours", type=float, default=168.0, help="Drop items older than this many hours when a published time is available. Use 0 to disable.")
+    run_parser.add_argument("--x-news-min-profile-match", type=float, default=0.05, help="Demote X News clusters below this profile-match score.")
+    run_parser.add_argument("--x-posts-min-profile-match", type=float, default=0.08, help="Demote raw X posts below this profile-match score.")
+    run_parser.add_argument("--profile-relevance-min-profile-match", type=float, default=0.05, help="Demote profile-query results below this profile-match score.")
+    run_parser.add_argument("--major-news-min-profile-match", type=float, default=0.05, help="Demote major-feed-only stories below this profile-match score.")
+    run_parser.add_argument("--x-trends-min-profile-match", type=float, default=0.05, help="Demote X trends below this profile-match score.")
+    run_parser.add_argument("--lane-caps", help="Comma-separated per-lane output caps, e.g. x_news=8,major_news=8,x_posts=4.")
     run_parser.add_argument("--new-only", action="store_true", help="Suppress signals whose evidence URLs were already seen in the monitor store.")
     run_parser.add_argument("--limit", type=int, default=20)
     run_parser.add_argument("--mock", action="store_true")

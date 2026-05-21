@@ -17,10 +17,34 @@
     "Open Property Group",
     "cash house buyers"
   ],
+  "search_terms": [
+    "UK property chain collapse",
+    "UK mortgage arrears repossession",
+    "probate property sale UK",
+    "quick house sale regulation UK",
+    "distressed property sales UK",
+    "cash house buyers UK regulation",
+    "We Buy Any House",
+    "House Buyer Bureau",
+    "Good Move cash house buyer",
+    "Open Property Group cash buyer"
+  ],
   "feed_urls": [
     "https://www.gov.uk/search/news-and-communications.atom",
     "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-GB&gl=GB&ceid=GB:en"
   ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "location",
+    "woeids": [
+      23424975
+    ],
+    "locations": [
+      "United Kingdom"
+    ]
+  },
   "spokespeople": [
     "Founder or director with UK property buying expertise",
     "Property valuation lead",
