@@ -114,6 +114,7 @@ def record_run(
     profile: dict[str, Any],
     queries: list[str],
     signals: list[dict[str, Any]],
+    seen_urls: list[str] | None = None,
     db_path: Path | None = None,
 ) -> int:
     init_db(db_path)
@@ -147,13 +148,15 @@ def record_run(
                     json.dumps(signal, sort_keys=True),
                 ),
             )
-        mark_urls = [
-            evidence.get("url")
-            for signal in signals
-            for evidence in signal.get("evidence", [])
-            if evidence.get("url")
-        ]
-        for url in mark_urls:
+        mark_urls = seen_urls
+        if mark_urls is None:
+            mark_urls = [
+                evidence.get("url")
+                for signal in signals
+                for evidence in signal.get("evidence", [])
+                if evidence.get("url")
+            ]
+        for url in dict.fromkeys(url for url in mark_urls if url):
             conn.execute(
                 """
                 INSERT INTO seen_urls (url, first_seen, last_seen, sighting_count)

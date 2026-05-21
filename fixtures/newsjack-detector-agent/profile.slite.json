@@ -1,0 +1,43 @@
+{
+  "company": "Slite",
+  "website": "https://slite.com",
+  "description": "AI-powered knowledge base and company wiki for documentation, verified internal knowledge, and enterprise search.",
+  "topics": [
+    "AI knowledge base",
+    "enterprise search",
+    "internal documentation",
+    "company wiki",
+    "knowledge management"
+  ],
+  "competitors": [
+    "Notion",
+    "Confluence",
+    "Guru",
+    "Slab",
+    "Document360"
+  ],
+  "feed_urls": [
+    "https://www.techmeme.com/feed.xml",
+    "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "spokespeople": [
+    "Founder or CEO with knowledge management expertise",
+    "Product lead for AI search",
+    "Customer success lead for documentation adoption"
+  ],
+  "proof_assets": [
+    "Slite.com product pages",
+    "Ask and Knowledge Suite product pages",
+    "customer proof on repeated-question reduction",
+    "3,000+ company adoption claim",
+    "SOC 2 and review-site proof points"
+  ],
+  "standing": [
+    "knowledge management",
+    "AI-powered internal search",
+    "company documentation",
+    "team onboarding",
+    "customer support knowledge workflows"
+  ]
+}

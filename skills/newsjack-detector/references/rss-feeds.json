@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "default_feeds": [
+    "techmeme",
+    "google-news-technology",
+    "google-news-business"
+  ],
+  "feeds": [
+    {
+      "id": "techmeme",
+      "name": "Techmeme",
+      "url": "https://www.techmeme.com/feed.xml",
+      "beats": ["technology", "ai", "startups", "venture", "platforms"],
+      "use_when": "Default for technology, AI, SaaS, startup, platform, and developer-tool profiles.",
+      "notes": "Curated tech/business front page. High precision for major tech stories."
+    },
+    {
+      "id": "google-news-technology",
+      "name": "Google News Technology",
+      "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["technology", "ai", "consumer tech", "platforms"],
+      "use_when": "Use as a broad technology backstop when Techmeme may be too narrow.",
+      "notes": "Broader and noisier than Techmeme."
+    },
+    {
+      "id": "google-news-business",
+      "name": "Google News Business",
+      "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["business", "markets", "finance", "startups", "economy"],
+      "use_when": "Use for business, funding, M&A, markets, commercial real estate, and executive-change profiles.",
+      "notes": "Broad business feed; requires stricter relevance filtering."
+    },
+    {
+      "id": "google-news-science",
+      "name": "Google News Science",
+      "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["science", "research", "space", "climate", "biotech"],
+      "use_when": "Use for research, biotech, climate, space, and science-led profiles.",
+      "notes": "Often useful for research-backed companies, less useful for generic SaaS."
+    },
+    {
+      "id": "google-news-health",
+      "name": "Google News Health",
+      "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["health", "healthcare", "biotech", "public health"],
+      "use_when": "Use for healthcare, digital health, biotech, pharma, and patient-safety profiles.",
+      "notes": "High brand-safety risk; tragedy/human-suffering blocks still apply."
+    },
+    {
+      "id": "google-news-us",
+      "name": "Google News U.S.",
+      "url": "https://news.google.com/rss/headlines/section/topic/NATION?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["us", "policy", "regulation", "courts"],
+      "use_when": "Use when U.S. policy, courts, or national regulation are central to the client.",
+      "notes": "Broad and noisy. Avoid unless the client has policy standing."
+    },
+    {
+      "id": "google-news-world",
+      "name": "Google News World",
+      "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en",
+      "beats": ["world", "geopolitics", "international business", "supply chain"],
+      "use_when": "Use for geopolitics, supply chain, global markets, and international policy profiles.",
+      "notes": "High tragedy/war exposure. Use only with direct public-interest standing."
+    },
+    {
+      "id": "memeorandum",
+      "name": "Memeorandum",
+      "url": "https://www.memeorandum.com/feed.xml",
+      "beats": ["politics", "policy", "media", "washington"],
+      "use_when": "Use for U.S. politics, public affairs, policy, and media-politics profiles.",
+      "notes": "Politically sensitive. Usually not appropriate for normal company newsjacking."
+    },
+    {
+      "id": "mediagazer",
+      "name": "Mediagazer",
+      "url": "https://www.mediagazer.com/feed.xml",
+      "beats": ["media", "publishing", "journalism", "creator economy"],
+      "use_when": "Use for media, journalism, publishing, creator, and ad-tech profiles.",
+      "notes": "Good companion to Techmeme for media-industry clients."
+    },
+    {
+      "id": "ftc-press",
+      "name": "FTC Press Releases",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/rss.xml",
+      "beats": ["consumer protection", "antitrust", "privacy", "ai regulation", "advertising"],
+      "use_when": "Use for privacy, consumer protection, advertising claims, antitrust, and AI compliance profiles.",
+      "notes": "Official source; slow but high authority."
+    },
+    {
+      "id": "sec-press",
+      "name": "SEC Press Releases",
+      "url": "https://www.sec.gov/news/pressreleases.rss",
+      "beats": ["finance", "public companies", "securities", "crypto", "compliance"],
+      "use_when": "Use for fintech, crypto, public-company compliance, and investor-market profiles.",
+      "notes": "Official source; useful for same-day expert commentary."
+    },
+    {
+      "id": "govuk-news",
+      "name": "GOV.UK News",
+      "url": "https://www.gov.uk/search/news-and-communications.atom",
+      "beats": ["uk", "policy", "regulation", "property", "business"],
+      "use_when": "Use for UK policy, regulated industries, property, and public-sector profiles.",
+      "notes": "Broad official UK feed; requires topic filtering by the skill."
+    }
+  ]
+}

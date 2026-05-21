@@ -11,9 +11,12 @@ This is the default X source for newsjack v0.
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
+import urllib.parse
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
 from .relevance import token_overlap_relevance as _compute_relevance
@@ -30,6 +33,17 @@ DEPTH_CONFIG = {
     "default": 30,
     "deep": 60,
 }
+
+TWEET_FIELDS = "created_at,public_metrics,author_id,conversation_id,referenced_tweets,lang,possibly_sensitive"
+USER_FIELDS = "username,name,verified,is_identity_verified,public_metrics"
+SEARCH_EXPANSIONS = "author_id"
+
+DEFAULT_MIN_ENGAGEMENT = 3
+DEFAULT_MIN_AUTHOR_FOLLOWERS = 2000
+DEFAULT_MIN_VIEWS = 1000
+DEFAULT_TREND_MIN_24H = 25
+DEFAULT_TREND_MIN_6H = 8
+DEFAULT_TREND_MIN_VELOCITY = 2.0
 
 
 def is_available() -> bool:
@@ -71,33 +85,55 @@ def search_x(
     # X API v2 search/recent requires max_results in 10–100 range
     max_results = max(10, min(100, max_results))
 
-    try:
-        result = subprocess.run(
-            ["xurl", "search", query, "-n", str(max_results)],
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
+    normalized_query = _normalize_query(query)
+    params = {
+        "query": normalized_query,
+        "max_results": str(max_results),
+        "sort_order": "relevancy",
+        "tweet.fields": TWEET_FIELDS,
+        "expansions": SEARCH_EXPANSIONS,
+        "user.fields": USER_FIELDS,
+    }
+    response = _xurl_get(f"/2/tweets/search/recent?{urllib.parse.urlencode(params)}")
+    if "error" not in response:
+        response["_newsjack_query"] = normalized_query
+        return response
 
-        if result.returncode != 0:
-            error_text = result.stderr.strip() or result.stdout.strip()
-            return {"error": f"xurl search failed: {error_text}"}
+    # Older xurl builds may not handle raw URL query strings the same way as
+    # shortcut commands. Fall back to the shortcut, then filter locally.
+    fallback = _search_x_shortcut(query, max_results=max_results)
+    if "error" in fallback:
+        return response
+    fallback["_newsjack_query"] = query
+    return fallback
 
-        return json.loads(result.stdout)
 
-    except FileNotFoundError:
-        return {"error": "xurl not found in PATH"}
-    except subprocess.TimeoutExpired:
-        return {"error": "xurl search timed out (30s)"}
-    except json.JSONDecodeError as exc:
-        return {"error": f"Invalid JSON from xurl: {exc}"}
-    except Exception as exc:
-        return {"error": f"{type(exc).__name__}: {exc}"}
+def recent_count_summary(query: str, *, hours: int = 24) -> Dict[str, Any] | None:
+    """Return query-volume summary from X recent counts.
+
+    Counts are advisory. If the endpoint is unavailable, search still works and
+    individual posts are filtered by reach/engagement.
+    """
+    now = datetime.now(timezone.utc).replace(microsecond=0)
+    start = now - timedelta(hours=hours)
+    params = {
+        "query": _normalize_query(query),
+        "granularity": "hour",
+        "start_time": _iso_z(start),
+        "end_time": _iso_z(now),
+    }
+    response = _xurl_get(f"/2/tweets/counts/recent?{urllib.parse.urlencode(params)}", timeout=30, auth="app")
+    if "error" in response:
+        if os.environ.get("NEWSJACK_DEBUG"):
+            _log(f"Counts unavailable: {response['error']}")
+        return None
+    return _summarize_counts(response)
 
 
 def parse_x_response(
     response: Dict[str, Any],
     topic: str = "",
+    counts_summary: Dict[str, Any] | None = None,
 ) -> List[Dict[str, Any]]:
     """Parse xurl search response into normalized item dicts.
 
@@ -118,6 +154,8 @@ def parse_x_response(
         return items
 
     data = response.get("data") or []
+    if counts_summary and counts_summary.get("is_trending"):
+        items.append(_trend_item(topic, counts_summary))
     if not data:
         return items
 
@@ -130,12 +168,13 @@ def parse_x_response(
         author_id = tweet.get("author_id", "")
         author = authors.get(author_id, {})
         username = author.get("username", "")
+        author_metrics = author.get("public_metrics") or {}
 
         tweet_id = tweet.get("id", "")
         url = f"https://x.com/{username}/status/{tweet_id}" if username else ""
 
         # Parse public_metrics
-        engagement: Optional[Dict[str, Any]] = None
+        engagement: Dict[str, Any] = {}
         metrics = tweet.get("public_metrics") or {}
         if metrics:
             engagement = {
@@ -143,15 +182,22 @@ def parse_x_response(
                 "reposts": metrics.get("retweet_count", 0),
                 "replies": metrics.get("reply_count", 0),
                 "quotes": metrics.get("quote_count", 0),
+                "bookmarks": metrics.get("bookmark_count", 0),
+                "views": metrics.get("impression_count", 0),
             }
 
-        # Parse ISO 8601 date → YYYY-MM-DD
+        verified = bool(author.get("verified") or author.get("is_identity_verified"))
+        social_proof = _social_proof(metrics, author_metrics, verified=verified)
+
+        # Preserve timestamp precision when X returns ISO 8601.
         date: Optional[str] = None
         created = tweet.get("created_at", "")
         if created:
-            m = re.match(r"(\d{4}-\d{2}-\d{2})", created)
-            if m:
-                date = m.group(1)
+            date = created
+            if not re.match(r"\d{4}-\d{2}-\d{2}T", created):
+                m = re.match(r"(\d{4}-\d{2}-\d{2})", created)
+                if m:
+                    date = m.group(1)
 
         text = tweet.get("text", "").strip()
 
@@ -165,8 +211,207 @@ def parse_x_response(
             "author_handle": username,
             "date": date,
             "engagement": engagement,
+            "metadata": {
+                "x_signal_type": "post",
+                "x_author_followers": _int_metric(author_metrics, "followers_count"),
+                "x_author_listed": _int_metric(author_metrics, "listed_count"),
+                "x_author_verified": verified,
+                "x_low_reach": not social_proof,
+                "x_social_proof": social_proof,
+                "x_query_counts": counts_summary,
+            },
             "why_relevant": "",
             "relevance": relevance,
         })
 
     return items
+
+
+def keep_x_item(item: Dict[str, Any]) -> bool:
+    metadata = item.get("metadata") or {}
+    if metadata.get("x_signal_type") == "query_trend":
+        return True
+    return not metadata.get("x_low_reach")
+
+
+def _xurl_get(path: str, timeout: int = 30, auth: str | None = None) -> Dict[str, Any]:
+    command = ["xurl"]
+    if auth:
+        command.extend(["--auth", auth])
+    command.append(path)
+    try:
+        result = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+        if result.returncode != 0:
+            error_text = _clean_error(result.stderr.strip() or result.stdout.strip())
+            return {"error": f"xurl request failed: {error_text}"}
+        return json.loads(result.stdout)
+    except FileNotFoundError:
+        return {"error": "xurl not found in PATH"}
+    except subprocess.TimeoutExpired:
+        return {"error": f"xurl request timed out ({timeout}s)"}
+    except json.JSONDecodeError as exc:
+        return {"error": f"Invalid JSON from xurl: {exc}"}
+    except Exception as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
+def _search_x_shortcut(query: str, *, max_results: int) -> Dict[str, Any]:
+    try:
+        result = subprocess.run(
+            ["xurl", "search", query, "-n", str(max_results)],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if result.returncode != 0:
+            error_text = _clean_error(result.stderr.strip() or result.stdout.strip())
+            return {"error": f"xurl search failed: {error_text}"}
+        return json.loads(result.stdout)
+    except FileNotFoundError:
+        return {"error": "xurl not found in PATH"}
+    except subprocess.TimeoutExpired:
+        return {"error": "xurl search timed out (30s)"}
+    except json.JSONDecodeError as exc:
+        return {"error": f"Invalid JSON from xurl: {exc}"}
+    except Exception as exc:
+        return {"error": f"{type(exc).__name__}: {exc}"}
+
+
+def _normalize_query(query: str) -> str:
+    output = query.strip()
+    additions = []
+    if "lang:" not in output:
+        additions.append("lang:en")
+    for operator in ("-is:retweet", "-is:reply", "-is:nullcast"):
+        if operator not in output and operator[1:] not in output:
+            additions.append(operator)
+    if additions:
+        output = f"{output} {' '.join(additions)}"
+    return output[:512]
+
+
+def _clean_error(text: str) -> str:
+    return re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text).strip()
+
+
+def _social_proof(
+    metrics: Dict[str, Any],
+    author_metrics: Dict[str, Any],
+    *,
+    verified: bool,
+) -> List[str]:
+    proof = []
+    likes = _int_metric(metrics, "like_count")
+    reposts = _int_metric(metrics, "retweet_count")
+    replies = _int_metric(metrics, "reply_count")
+    quotes = _int_metric(metrics, "quote_count")
+    views = _int_metric(metrics, "impression_count")
+    followers = _int_metric(author_metrics, "followers_count")
+    listed = _int_metric(author_metrics, "listed_count")
+    engagement_total = likes + reposts + replies + quotes
+    has_view_metric = "impression_count" in metrics
+
+    min_engagement = _env_int("NEWSJACK_X_MIN_ENGAGEMENT", DEFAULT_MIN_ENGAGEMENT)
+    min_followers = _env_int("NEWSJACK_X_MIN_AUTHOR_FOLLOWERS", DEFAULT_MIN_AUTHOR_FOLLOWERS)
+    min_views = _env_int("NEWSJACK_X_MIN_VIEWS", DEFAULT_MIN_VIEWS)
+
+    if engagement_total >= min_engagement:
+        proof.append("post_engagement")
+    if reposts or quotes:
+        proof.append("reshared")
+    if views >= min_views:
+        proof.append("views")
+    if followers >= min_followers and not has_view_metric:
+        proof.append("author_followers")
+    if listed >= 25 and not has_view_metric:
+        proof.append("author_listed")
+    if verified and followers >= min_followers and not has_view_metric:
+        proof.append("verified_author")
+    return proof
+
+
+def _summarize_counts(response: Dict[str, Any]) -> Dict[str, Any]:
+    buckets = response.get("data") or []
+    counts = [_int_value(bucket.get("tweet_count")) for bucket in buckets]
+    total_24h = sum(counts)
+    recent_6h = sum(counts[-6:])
+    previous = counts[:-6]
+    recent_per_hour = recent_6h / 6.0 if counts else 0.0
+    previous_per_hour = (sum(previous) / len(previous)) if previous else 0.0
+    velocity = (recent_per_hour + 1.0) / (previous_per_hour + 1.0)
+
+    min_24h = _env_int("NEWSJACK_X_TREND_MIN_24H", DEFAULT_TREND_MIN_24H)
+    min_6h = _env_int("NEWSJACK_X_TREND_MIN_6H", DEFAULT_TREND_MIN_6H)
+    min_velocity = _env_float("NEWSJACK_X_TREND_MIN_VELOCITY", DEFAULT_TREND_MIN_VELOCITY)
+    is_trending = total_24h >= min_24h and (recent_6h >= min_6h or velocity >= min_velocity)
+
+    return {
+        "total_24h": total_24h,
+        "recent_6h": recent_6h,
+        "previous_hourly_avg": round(previous_per_hour, 2),
+        "velocity": round(velocity, 2),
+        "is_trending": is_trending,
+        "bucket_count": len(counts),
+    }
+
+
+def _trend_item(topic: str, counts: Dict[str, Any]) -> Dict[str, Any]:
+    query = topic.strip()
+    text = (
+        f'X conversation volume for "{query}" is elevated: '
+        f'{counts.get("recent_6h", 0)} posts in the last 6h, '
+        f'{counts.get("total_24h", 0)} in the last 24h '
+        f'(velocity {counts.get("velocity", 0)}x).'
+    )
+    return {
+        "id": "X-TREND",
+        "text": text,
+        "url": f"https://x.com/search?q={urllib.parse.quote(query)}&f=live",
+        "author_handle": "x-search",
+        "date": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+        "engagement": {
+            "score": min(500, _int_value(counts.get("total_24h"))),
+            "comments": _int_value(counts.get("recent_6h")),
+        },
+        "metadata": {
+            "x_signal_type": "query_trend",
+            "x_social_proof": ["query_volume"],
+            "x_query_counts": counts,
+        },
+        "why_relevant": "X query-volume trend",
+        "relevance": 0.7,
+    }
+
+
+def _iso_z(value: datetime) -> str:
+    return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _int_metric(metrics: Dict[str, Any], key: str) -> int:
+    return _int_value(metrics.get(key))
+
+
+def _int_value(value: Any) -> int:
+    try:
+        return int(value or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _env_int(key: str, default: int) -> int:
+    try:
+        return int(os.environ.get(key, default))
+    except (TypeError, ValueError):
+        return default
+
+
+def _env_float(key: str, default: float) -> float:
+    try:
+        return float(os.environ.get(key, default))
+    except (TypeError, ValueError):
+        return default

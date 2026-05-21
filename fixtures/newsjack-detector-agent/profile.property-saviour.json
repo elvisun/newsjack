@@ -1,0 +1,43 @@
+{
+  "company": "Property Saviour",
+  "website": "https://propertysaviour.co.uk",
+  "description": "UK cash property buyer that buys homes and commercial property in any condition, with guaranteed cash offers and flexible completion timelines.",
+  "topics": [
+    "UK property market",
+    "cash house buyers",
+    "quick house sale",
+    "property chain collapse",
+    "probate property sales",
+    "distressed property sales"
+  ],
+  "competitors": [
+    "We Buy Any House",
+    "House Buyer Bureau",
+    "Good Move",
+    "Open Property Group",
+    "cash house buyers"
+  ],
+  "feed_urls": [
+    "https://www.gov.uk/search/news-and-communications.atom",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-GB&gl=GB&ceid=GB:en"
+  ],
+  "spokespeople": [
+    "Founder or director with UK property buying expertise",
+    "Property valuation lead",
+    "Probate or distressed-sale property specialist"
+  ],
+  "proof_assets": [
+    "PropertySaviour.co.uk sale process pages",
+    "cash-offer and completion timeline proof",
+    "success stories",
+    "legal-fee contribution policy",
+    "Property Ombudsman and ICO regulation references"
+  ],
+  "standing": [
+    "UK residential property sales",
+    "cash property buying",
+    "chain-free house sales",
+    "probate and inherited property",
+    "seller certainty and completion risk"
+  ]
+}

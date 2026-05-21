@@ -15,6 +15,7 @@ class MonitorProfile:
     description: str | None = None
     topics: list[str] = field(default_factory=list)
     competitors: list[str] = field(default_factory=list)
+    feed_urls: list[str] = field(default_factory=list)
     spokespeople: list[str] = field(default_factory=list)
     proof_assets: list[str] = field(default_factory=list)
     standing: list[str] = field(default_factory=list)
@@ -36,6 +37,7 @@ class MonitorProfile:
             description=_string_or_none(payload.get("description")),
             topics=_string_list(payload.get("topics") or payload.get("beats")),
             competitors=_string_list(payload.get("competitors")),
+            feed_urls=_string_list(payload.get("feed_urls") or payload.get("feeds") or payload.get("rss_feeds")),
             spokespeople=_string_list(payload.get("spokespeople") or payload.get("experts")),
             proof_assets=_string_list(payload.get("proof_assets") or payload.get("proof")),
             standing=_string_list(payload.get("standing") or payload.get("expertise")),
@@ -52,6 +54,7 @@ class MonitorProfile:
             self.description or "",
             *self.topics,
             *self.competitors,
+            *self.feed_urls,
             *self.spokespeople,
             *self.proof_assets,
             *self.standing,
@@ -63,6 +66,7 @@ class MonitorProfile:
             "company": self.company,
             "topics": self.topics,
             "competitors": self.competitors,
+            "feed_urls": self.feed_urls,
             "spokespeople": self.spokespeople,
             "proof_assets": self.proof_assets,
             "standing": self.standing,

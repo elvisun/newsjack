@@ -64,8 +64,10 @@ def collect_source(
             ), None
         if source == "x":
             response = xurl_x.search_x(query, depth=depth)
-            items = xurl_x.parse_x_response(response, topic=query)
-            return [_map_x(item) for item in items], None
+            counts = xurl_x.recent_count_summary(query)
+            items = xurl_x.parse_x_response(response, topic=query, counts_summary=counts)
+            mapped = [_map_x(item) for item in items if xurl_x.keep_x_item(item)]
+            return mapped, None
         if source == "reddit":
             items = reddit_public.search_reddit_public(query, from_date, to_date, depth=depth)
             return [_map_reddit(item) for item in items], None
@@ -93,7 +95,7 @@ def _map_x(item: dict[str, Any]) -> dict[str, Any]:
         "published_at": item.get("date"),
         "excerpt": item.get("text", ""),
         "engagement": item.get("engagement") or {},
-        "metadata": {},
+        "metadata": item.get("metadata") or {},
     }
 
 

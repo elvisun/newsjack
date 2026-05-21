@@ -1,0 +1,43 @@
+{
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+    "computer-use agents",
+    "autonomous desktop agents",
+    "AI coworkers",
+    "agentic workflow automation",
+    "AI agent benchmarks"
+  ],
+  "competitors": [
+    "OpenAI Operator",
+    "Anthropic computer use",
+    "Manus",
+    "Adept",
+    "UiPath"
+  ],
+  "feed_urls": [
+    "https://www.techmeme.com/feed.xml",
+    "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "spokespeople": [
+    "Founder or CEO with computer-use agent expertise",
+    "Research lead for agent benchmarks",
+    "Product lead for Sai"
+  ],
+  "proof_assets": [
+    "Simular.ai product and research pages",
+    "Sai product examples",
+    "Agent S research",
+    "OSWorld and WebVoyager benchmark claims",
+    "customer workflow automation examples"
+  ],
+  "standing": [
+    "computer-use AI agents",
+    "desktop automation",
+    "browser automation",
+    "agentic AI benchmarks",
+    "enterprise workflow automation"
+  ]
+}

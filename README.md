@@ -13,7 +13,9 @@ curl newsjack.sh | sh
 newsjack is the open-source operating system for **agentic PR** — a skill layer that installs into Claude, ChatGPT, Cursor, or any agent runtime that supports skills. Install it once and your agent becomes a PR operator: briefing, newsjacking, pitch critique, angle generation, media list workflow.
 
 Local skills:
+- **newsjack-setup** — create a company monitor profile and choose RSS feeds
 - **newsjack-detector** — find newsworthy moments before the wave breaks
+- **newsworthiness-check** — score whether an event or pitch is actually newsworthy
 - **meanest-editor** — roast your pitch against the rubric pros use
 - **angle-generator** — turn one update into ten pitchable hooks
 - _(more skills shipping in v1)_

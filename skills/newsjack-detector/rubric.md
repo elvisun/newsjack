@@ -2,6 +2,13 @@
 
 Use this rubric after the engine returns ranked evidence. The engine score is only queue priority.
 
+The engine has two discovery lanes:
+
+- `profile_relevance` - profile/topic/competitor queries. These catch highly relevant but sometimes minor stories.
+- `major_news` - curated RSS/Atom feed items. These catch broader major news first, then require a stricter client-relevance judgment.
+
+Do not treat a `major_news` item as pitchable because it is big. The client still needs standing, proof, and a journalist shape.
+
 ## Verdict Ladder
 
 ### pitch_now
@@ -23,6 +30,7 @@ Use when the signal is real but needs framing:
 - Client standing is plausible but not yet sharp.
 - Proof exists or can be requested.
 - A journalist shape exists, but the angle needs work.
+- Major-news lane items often belong here when they are important but the client angle is indirect.
 
 Handoff: `angle-generator`.
 
@@ -74,6 +82,16 @@ Weak standing:
 - The client merely sells into the broad category.
 - The client wants to comment because the topic is popular.
 - The proof is generic thought leadership.
+
+For `major_news` lane signals, standing must explain the bridge from the public story to the client:
+
+- same buyer being affected
+- same regulator or policy surface
+- named competitor or platform move
+- client has first-party data about the consequence
+- client can explain a non-obvious operational effect
+
+If the bridge is "this is about AI and the client uses AI," reject or monitor.
 
 ## Proof
 
