@@ -65,31 +65,8 @@ DEFAULT_MAJOR_FEEDS = (
     "https://www.techmeme.com/feed.xml",
 )
 
-DEFAULT_LANE_CAPS = {
-    "x_news": 8,
-    "x_news_unmatched": 0,
-    "profile_relevance": 8,
-    "profile_relevance_weak": 0,
-    "major_news": 8,
-    "x_trends": 5,
-    "x_trends_unmatched": 0,
-    "x_posts": 4,
-    "x_posts_weak": 0,
-    "major_news_unmatched": 0,
-}
-
-LANE_ORDER = (
-    "x_news",
-    "x_news_unmatched",
-    "profile_relevance",
-    "profile_relevance_weak",
-    "major_news",
-    "x_trends",
-    "x_posts",
-    "x_posts_weak",
-    "x_trends_unmatched",
-    "major_news_unmatched",
-)
+DEFAULT_MIN_QUEUE_PRIORITY = 40.0
+DEFAULT_MIN_MAJOR_NEWS = 0.55
 
 MAJOR_NEWS_TERMS = {
     "acquire", "acquired", "acquisition", "antitrust", "ban", "billion",
@@ -676,10 +653,10 @@ def _query_sources(sources: list[str]) -> list[str]:
     return [source for source in sources if source != "x_trends"]
 
 
-def _parse_lane_caps(raw: str | None) -> dict[str, int]:
-    caps = dict(DEFAULT_LANE_CAPS)
+def _parse_lane_caps(raw: str | None) -> dict[str, int] | None:
     if not raw:
-        return caps
+        return None
+    caps: dict[str, int] = {}
     for part in raw.split(","):
         key, sep, value = part.partition("=")
         if not sep:
@@ -691,14 +668,32 @@ def _parse_lane_caps(raw: str | None) -> dict[str, int]:
     return caps
 
 
-def _select_signals(all_signals: list[dict[str, Any]], *, limit: int, lane_caps: dict[str, int]) -> list[dict[str, Any]]:
+def _select_signals(
+    all_signals: list[dict[str, Any]],
+    *,
+    limit: int,
+    lane_caps: dict[str, int] | None,
+    min_queue_priority: float,
+    min_major_news: float,
+) -> list[dict[str, Any]]:
     sorted_signals = _dedupe_signals_by_url(
         sorted(all_signals, key=_queue_priority, reverse=True)
     )
+    if not lane_caps:
+        selected = [
+            signal for signal in sorted_signals
+            if _passes_selection_floor(
+                signal,
+                min_queue_priority=min_queue_priority,
+                min_major_news=min_major_news,
+            )
+        ]
+        return selected[:limit] if limit > 0 else selected
+
     selected: list[dict[str, Any]] = []
     selected_ids: set[str] = set()
 
-    for lane in LANE_ORDER:
+    for lane in lane_caps:
         lane_items = [signal for signal in sorted_signals if _signal_lane_value(signal) == lane]
         for signal in lane_items[: lane_caps.get(lane, limit)]:
             if signal["id"] in selected_ids:
@@ -718,6 +713,15 @@ def _select_signals(all_signals: list[dict[str, Any]], *, limit: int, lane_caps:
         if len(selected) >= limit:
             break
     return sorted(selected, key=_queue_priority, reverse=True)
+
+
+def _passes_selection_floor(signal: dict[str, Any], *, min_queue_priority: float, min_major_news: float) -> bool:
+    mechanical = signal.get("mechanical_scores") or {}
+    try:
+        major_news = float(mechanical.get("major_news") or 0.0)
+    except (TypeError, ValueError):
+        major_news = 0.0
+    return _queue_priority(signal) >= min_queue_priority or major_news >= min_major_news
 
 
 def _queue_priority(signal: dict[str, Any]) -> float:
@@ -1155,7 +1159,13 @@ def run(args: argparse.Namespace) -> int:
                 all_signals.append(signal)
 
     lane_caps = _parse_lane_caps(args.lane_caps)
-    signals = _select_signals(all_signals, limit=args.limit, lane_caps=lane_caps)
+    signals = _select_signals(
+        all_signals,
+        limit=args.limit,
+        lane_caps=lane_caps,
+        min_queue_priority=args.min_queue_priority,
+        min_major_news=args.min_major_news,
+    )
     run_id = None
     if args.save:
         run_id = newsjack_store.record_run(
@@ -1189,6 +1199,12 @@ def run(args: argparse.Namespace) -> int:
             "signals_by_lane": _count_by([_signal_lane_value(signal) for signal in all_signals]),
             "emitted_by_lane": _count_by([_signal_lane_value(signal) for signal in signals]),
             "lane_caps": lane_caps,
+            "selection": {
+                "mode": "lane_caps" if lane_caps else "mechanical_floor",
+                "limit": args.limit,
+                "min_queue_priority": args.min_queue_priority,
+                "min_major_news": args.min_major_news,
+            },
             "total_scored_signals": len(all_signals),
             "total_emitted_signals": len(signals),
         },
@@ -1199,6 +1215,17 @@ def run(args: argparse.Namespace) -> int:
             "path": str(db_path or newsjack_store.db_path_from_env()) if args.save else None,
         },
     }
+    if args.include_all_scored:
+        selected_ids = {signal.get("id") for signal in signals}
+        payload["debug"] = {
+            "all_scored_signals": all_signals,
+            "dropped_signal_ids": [
+                signal.get("id")
+                for signal in all_signals
+                if signal.get("id") not in selected_ids
+            ],
+            "include_all_scored": True,
+        }
     if args.emit == "brief":
         print(_brief(payload))
     else:
@@ -1306,20 +1333,23 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument("--no-x-trends", action="store_true", help="Do not include x_trends from the monitor profile.")
     run_parser.add_argument("--no-hygiene-filter", action="store_true", help="Do not filter obvious docs/product/SEO retrieval junk before scoring.")
     run_parser.add_argument("--depth", choices=["quick", "default", "deep"], default="quick")
-    run_parser.add_argument("--lookback-days", type=int, default=7)
-    run_parser.add_argument("--max-age-hours", type=float, default=168.0, help="Drop items older than this many hours when a published time is available. Use 0 to disable.")
+    run_parser.add_argument("--lookback-days", type=int, default=1)
+    run_parser.add_argument("--max-age-hours", type=float, default=24.0, help="Drop items older than this many hours when a published time is available. Use 0 to disable.")
     run_parser.add_argument("--x-news-min-profile-match", type=float, default=0.05, help="Demote X News clusters below this profile-match score.")
     run_parser.add_argument("--x-posts-min-profile-match", type=float, default=0.08, help="Demote raw X posts below this profile-match score.")
     run_parser.add_argument("--profile-relevance-min-profile-match", type=float, default=0.05, help="Demote profile-query results below this profile-match score.")
     run_parser.add_argument("--major-news-min-profile-match", type=float, default=0.05, help="Demote major-feed-only stories below this profile-match score.")
     run_parser.add_argument("--x-trends-min-profile-match", type=float, default=0.05, help="Demote X trends below this profile-match score.")
-    run_parser.add_argument("--lane-caps", help="Comma-separated per-lane output caps, e.g. x_news=8,major_news=8,x_posts=4.")
+    run_parser.add_argument("--min-queue-priority", type=float, default=DEFAULT_MIN_QUEUE_PRIORITY, help="Emit signals at or above this mechanical queue priority when --lane-caps is omitted.")
+    run_parser.add_argument("--min-major-news", type=float, default=DEFAULT_MIN_MAJOR_NEWS, help="Also emit broad major-news candidates at or above this major-news score when --lane-caps is omitted.")
+    run_parser.add_argument("--lane-caps", help="Optional comma-separated per-lane output caps, e.g. x_news=8,major_news=8,x_posts=4. Overrides floor-based selection.")
     run_parser.add_argument("--new-only", action="store_true", help="Suppress signals whose evidence URLs were already seen in the monitor store.")
     run_parser.add_argument("--limit", type=int, default=20)
     run_parser.add_argument("--mock", action="store_true")
     run_parser.add_argument("--save", action="store_true")
     run_parser.add_argument("--store", help="Override SQLite store path.")
     run_parser.add_argument("--monitor-name")
+    run_parser.add_argument("--include-all-scored", action="store_true", help="Include the full scored signal pool in debug output. Intended for fixture/debug observability, not routine runs.")
     run_parser.add_argument("--emit", choices=["json", "brief"], default="json")
     run_parser.set_defaults(func=run)
 

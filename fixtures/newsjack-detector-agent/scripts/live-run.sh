@@ -13,7 +13,7 @@ exec "$SCRIPT_DIR/agent-env.sh" \
   --profile "$PROFILE" \
   "$@" \
   --sources news_search,x \
-  --lookback-days 7 \
+  --lookback-days 1 \
   --depth quick \
   --save \
   --emit json
