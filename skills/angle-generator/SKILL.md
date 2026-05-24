@@ -143,6 +143,7 @@ Useful: `data reporter at a retail-ops trade outlet covering labor-cost stories`
 ## Hand-Offs
 
 - **Named journalist fit:** hand off to `journalist-fit-check`.
+- **Media list building:** hand off to `media-list-manager` after journalist shapes exist and the user has chosen an angle.
 - **Pitch drafting or critique:** hand off to `meanest-editor` after the user chooses an angle.
 - **Current signal discovery:** suggest `newsjack-detector` when a news hook would materially strengthen the angle set, but do not fabricate one.
 - **Calendar adjacency:** suggest `story-calendar` when an obvious honest moment within 30 days could help.

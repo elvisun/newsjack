@@ -74,7 +74,7 @@ The verdict must say which surface you used. If no surface can produce a named, 
 
 Confirm the journalist is real and current enough to assess. If you cannot find an outlet page, recent byline, profile, newsletter, or public footprint, refuse with `unresolved`.
 
-If the identifier is only a beat string, refuse with `unresolved`. Ask for a named journalist, outlet, profile URL, or recent byline URL. If the user wants discovery, point to `generate_media_list` or `newsjack-detector`.
+If the identifier is only a beat string, refuse with `unresolved`. Ask for a named journalist, outlet, profile URL, or recent byline URL. If the user wants discovery, point to `media-list-manager` or `newsjack-detector`.
 
 Do not guess from the name. A wrong confident fit is worse than an annoying unknown.
 

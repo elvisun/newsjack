@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "medialyst": {
+      "type": "http",
+      "url": "https://medialyst.ai/api/mcp",
+      "headersHelper": "python3 skills/media-list-manager/scripts/medialyst_auth.py headers"
+    }
+  }
+}
