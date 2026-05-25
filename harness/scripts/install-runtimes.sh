@@ -14,15 +14,10 @@ npm install -g \
   "@zed-industries/codex-acp@${CODEX_ACP_VERSION}" \
   "@zed-industries/claude-agent-acp@${CLAUDE_AGENT_ACP_VERSION}"
 
-log "installing Hermes Agent"
-pipx install "hermes-agent[acp]==${HERMES_AGENT_VERSION}"
-
 log "installed versions"
 codex --version || true
 claude --version || true
 openclaw --version || true
-hermes --version || true
 acpx --version || true
 codex-acp --version || true
 claude-agent-acp --version || true
-

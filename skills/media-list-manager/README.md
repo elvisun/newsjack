@@ -64,9 +64,10 @@ The bridge requires Node.js because it launches `npx -y mcp-remote`.
 | `SKILL.md` | Agent instructions and output format. |
 | `rubric.md` | Fit, evidence, anti-spam, and MCP management checks. |
 | `examples.md` | Worked examples for live and local modes. |
-| `scripts/medialyst_auth.py` | Local login and Claude Code MCP header helper. |
-| `scripts/medialyst_mcp_bridge.py` | Stdio MCP bridge for Codex, OpenClaw, and other clients without `headersHelper`. |
 | `README.md` | This file. |
+
+Medialyst login, header generation, and stdio bridging are handled by the Go CLI:
+`newsjack login`, `newsjack auth headers`, and `newsjack mcp-bridge`.
 
 ## License
 

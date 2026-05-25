@@ -492,7 +492,7 @@ Before porting detector:
 
 Before all-Go claim:
 
-- no command requires `python3`
+- no command depends on a second implementation runtime
 - `newsjack doctor` detects missing optional Node.js for MCP bridge if still needed
 - Linux and macOS installs pass from clean temp homes
 - update and uninstall paths are documented

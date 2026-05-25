@@ -14,6 +14,19 @@ func TestAuthStatusMissingAndLoginHeaders(t *testing.T) {
 		"NEWSJACK_HOME":     "",
 		"MEDIALYST_API_KEY": "",
 	}, func() {
+		cwd, chdirErr := os.Getwd()
+		if chdirErr != nil {
+			t.Fatal(chdirErr)
+		}
+		t.Cleanup(func() {
+			if err := os.Chdir(cwd); err != nil {
+				t.Fatal(err)
+			}
+		})
+		if err := os.Chdir(t.TempDir()); err != nil {
+			t.Fatal(err)
+		}
+
 		var out, err bytes.Buffer
 		code := runCLI([]string{"auth", "status"}, &out, &err)
 		if code != 1 {

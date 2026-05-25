@@ -227,7 +227,7 @@ func installOneSkill(opts installOptions, src, dest string) error {
 	return os.Rename(tmp, dest)
 }
 
-func copySkillTree(src, dest string, opts installOptions) error {
+func copySkillTree(src, dest string, _ installOptions) error {
 	return filepath.WalkDir(src, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -250,9 +250,6 @@ func copySkillTree(src, dest string, opts installOptions) error {
 		if err != nil {
 			return err
 		}
-		if strings.EqualFold(filepath.Ext(path), ".md") {
-			data = []byte(rewriteSkillText(string(data), opts.CLIPath))
-		}
 		info, err := d.Info()
 		if err != nil {
 			return err
@@ -263,27 +260,6 @@ func copySkillTree(src, dest string, opts installOptions) error {
 		}
 		return os.WriteFile(target, data, mode)
 	})
-}
-
-func rewriteSkillText(text, cliPath string) string {
-	cmd := cliPath
-	replacements := []struct{ old, new string }{
-		{"python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run", cmd + " detector run"},
-		{"python3 skills/newsjack-detector/scripts/newsjack_detector.py run", cmd + " detector run"},
-		{"../../skills/newsjack-detector/scripts/newsjack_detector.py run", cmd + " detector run"},
-		{"skills/newsjack-detector/scripts/newsjack_detector.py run", cmd + " detector run"},
-		{"python3 ../../skills/newsjack-detector/scripts/newsjack_filter_apply.py", cmd + " filter-apply"},
-		{"python3 skills/newsjack-detector/scripts/newsjack_filter_apply.py", cmd + " filter-apply"},
-		{"../../skills/newsjack-detector/scripts/newsjack_filter_apply.py", cmd + " filter-apply"},
-		{"skills/newsjack-detector/scripts/newsjack_filter_apply.py", cmd + " filter-apply"},
-		{"python3 \"$SCRIPT_DIR/summarize-run.py\"", cmd + " summarize-run"},
-		{"python3 scripts/summarize-run.py", cmd + " summarize-run"},
-		{"summarize-run.py", "newsjack summarize-run"},
-	}
-	for _, repl := range replacements {
-		text = strings.ReplaceAll(text, repl.old, repl.new)
-	}
-	return text
 }
 
 func installDoctrineFiles(opts installOptions, targetRoot string) error {
