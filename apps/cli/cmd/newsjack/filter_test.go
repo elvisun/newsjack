@@ -28,9 +28,9 @@ func TestFilterApplyFixture(t *testing.T) {
 	if len(signals) != 2 {
 		t.Fatalf("selected signals=%d, want 2", len(signals))
 	}
-	cheap := valueOrEmptyMap(payload["cheap_filter"])
-	if cheap["selected_count"].(float64) != 2 || cheap["rejected_count"].(float64) != 0 {
-		t.Fatalf("unexpected cheap summary: %#v", cheap)
+	coarse := valueOrEmptyMap(payload["coarse_filter"])
+	if coarse["selected_count"].(float64) != 2 || coarse["rejected_count"].(float64) != 0 {
+		t.Fatalf("unexpected coarse summary: %#v", coarse)
 	}
 }
 
@@ -82,12 +82,12 @@ func TestFilterApplyPreservesFirstPublicationJudgment(t *testing.T) {
 	if len(signals) != 1 {
 		t.Fatalf("selected signals=%d, want 1", len(signals))
 	}
-	cheap := valueOrEmptyMap(signals[0]["cheap_filter"])
-	firstPublication := valueOrEmptyMap(cheap["first_publication"])
+	coarse := valueOrEmptyMap(signals[0]["coarse_filter"])
+	firstPublication := valueOrEmptyMap(coarse["first_publication"])
 	if firstPublication["status"] != "fresh" || firstPublication["canonical_coverage_url"] != "https://example.com/major-coverage" {
 		t.Fatalf("first_publication not preserved: %#v", firstPublication)
 	}
-	rejected, _ := valueOrEmptyMap(payload["cheap_filter"])["rejected_signals"].([]map[string]any)
+	rejected, _ := valueOrEmptyMap(payload["coarse_filter"])["rejected_signals"].([]map[string]any)
 	if len(rejected) != 1 {
 		t.Fatalf("rejected=%d, want 1", len(rejected))
 	}

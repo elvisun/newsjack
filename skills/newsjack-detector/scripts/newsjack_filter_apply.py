@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply cheap-filter LLM decisions to detector candidate JSON.
+"""Apply coarse-filter LLM decisions to detector candidate JSON.
 
 This script intentionally does not call an LLM. It validates a harness-written
 decision file, attaches decisions to the original signals, and emits a smaller
@@ -37,9 +37,9 @@ ALLOWED_REASONS = {
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Apply cheap LLM filter decisions to newsjack detector candidates.")
+    parser = argparse.ArgumentParser(description="Apply coarse LLM filter decisions to newsjack detector candidates.")
     parser.add_argument("--candidates", required=True, help="Detector JSON output from newsjack_detector.py run --emit json.")
-    parser.add_argument("--decisions", required=True, help="Cheap-filter decision JSON written by a harness/LLM.")
+    parser.add_argument("--decisions", required=True, help="Coarse-filter decision JSON written by a harness/LLM.")
     parser.add_argument("--output", help="Output path. Defaults to stdout.")
     parser.add_argument(
         "--include",
@@ -134,7 +134,7 @@ def apply_decisions(
             missing.append(_summary_signal(signal))
             continue
         signal_with_decision = dict(signal)
-        signal_with_decision["cheap_filter"] = decision
+        signal_with_decision["coarse_filter"] = decision
         if decision["decision"] in include:
             selected.append(signal_with_decision)
         else:
@@ -155,7 +155,7 @@ def apply_decisions(
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "monitor": candidates.get("monitor") or {},
         "signals": selected,
-        "cheap_filter": {
+        "coarse_filter": {
             "input_signal_count": len(signals),
             "decision_count": len(decision_by_id),
             "selected_count": len(selected),

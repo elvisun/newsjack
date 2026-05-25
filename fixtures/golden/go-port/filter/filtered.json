@@ -1,5 +1,5 @@
 {
-  "cheap_filter": {
+  "coarse_filter": {
     "decision_count": 2,
     "decision_counts": {
       "keep": 2
@@ -55,7 +55,7 @@
   },
   "signals": [
     {
-      "cheap_filter": {
+      "coarse_filter": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -108,7 +108,7 @@
       "title": "Regulators open inquiry tied to AI customer support"
     },
     {
-      "cheap_filter": {
+      "coarse_filter": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [

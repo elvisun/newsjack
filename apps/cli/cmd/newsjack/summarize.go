@@ -113,8 +113,8 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 		"lanes":                    map[string]any{"scored": firstNonNil(diagnostics["signals_by_lane"], countByLanes(allScored)), "emitted": firstNonNil(diagnostics["emitted_by_lane"], countByLanes(signals)), "dropped_debug": countByLanes(dropped)},
 		"sources":                  map[string]any{"evidence_by_source": firstNonNil(diagnostics["evidence_by_source"], countEvidenceSources(signals)), "source_errors": sourceErrors},
 		"hygiene_rejections":       valueOrEmptyMap(diagnostics["hygiene_rejections"]),
-		"cheap_filter":             valueOrEmptyMap(payload["cheap_filter"]),
-		"cheap_filter_file":        summarizeDecisions(paths["filter_decisions"]),
+		"coarse_filter":            coarseFilterMap(payload),
+		"coarse_filter_file":       summarizeDecisions(paths["filter_decisions"]),
 		"targeted_candidates_file": summarizeTargeted(paths["targeted_candidates"]),
 		"final_report_file":        summarizeFinalReport(paths["final_report"]),
 		"top_signals":              summarizeSignals(firstNSignals(signals, top)),
@@ -179,7 +179,7 @@ func artifactStatus(paths map[string]string) map[string]any {
 }
 
 func pipelineStatus(paths map[string]string) []map[string]string {
-	return []map[string]string{stage("detector", paths["candidates"]), stage("cheap_filter", paths["filter_decisions"]), stage("filter_apply", paths["targeted_candidates"]), stage("final_report", paths["final_report"])}
+	return []map[string]string{stage("detector", paths["candidates"]), stage("coarse_filter", paths["filter_decisions"]), stage("filter_apply", paths["targeted_candidates"]), stage("final_report", paths["final_report"])}
 }
 
 func stage(name, path string) map[string]string {
@@ -216,8 +216,8 @@ func summarizeTargeted(path string) map[string]any {
 	if err != nil {
 		return map[string]any{"exists": true, "path": path, "error": err.Error()}
 	}
-	cheap := valueOrEmptyMap(payload["cheap_filter"])
-	return map[string]any{"exists": true, "path": path, "selected_signals": len(signalSlice(payload["signals"])), "input_signals": cheap["input_signal_count"], "rejected_signals": cheap["rejected_count"]}
+	coarse := coarseFilterMap(payload)
+	return map[string]any{"exists": true, "path": path, "selected_signals": len(signalSlice(payload["signals"])), "input_signals": coarse["input_signal_count"], "rejected_signals": coarse["rejected_count"]}
 }
 
 func summarizeFinalReport(path string) map[string]any {
@@ -256,9 +256,16 @@ func summarizeSignals(signals []map[string]any) []map[string]any {
 	for _, signal := range signals {
 		routing := valueOrEmptyMap(signal["routing"])
 		mech := valueOrEmptyMap(signal["mechanical_scores"])
-		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "cheap_filter": signal["cheap_filter"], "evidence": summarizeEvidence(signal)})
+		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "coarse_filter": firstNonNil(signal["coarse_filter"], signal["cheap_filter"]), "evidence": summarizeEvidence(signal)})
 	}
 	return out
+}
+
+func coarseFilterMap(payload map[string]any) map[string]any {
+	if coarse := valueOrEmptyMap(payload["coarse_filter"]); len(coarse) > 0 {
+		return coarse
+	}
+	return valueOrEmptyMap(payload["cheap_filter"])
 }
 
 func summarizeEvidence(signal map[string]any) []map[string]any {

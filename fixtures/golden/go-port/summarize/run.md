@@ -6,14 +6,14 @@
 | Generated | 2026-05-25 03:24 UTC |
 | Action queue | Needs editorial pass before sharing |
 | Detector candidates | 2 |
-| Cheap filter | pending |
+| Coarse filter | pending |
 | Targeted set | pending |
 
 ## Review Status
 
 **Not ready to forward as recommendations yet.** The detector run is complete, but the editorial judgment pass has not produced `final_report.md`.
 
-Next action: run the cheap filter, apply it, write `final_report.md`, then rerender this file.
+Next action: run the coarse filter, apply it, write `final_report.md`, then rerender this file.
 
 ## Candidate Preview
 
@@ -22,12 +22,12 @@ These are the highest-priority signals for review. They are not final pitch reco
 1. **Regulators open inquiry tied to AI customer support**
    - Why surfaced: profile relevance; queue 70.8, profile 0.4, major 0.
    - Query: AI customer support
-   - Cheap filter: confidence=high, decision=keep, evidence_urls=['https://example.com/news/60f5725c'], rationale=Golden fixture keep, reason=relevant_news, signal_id=e32ebc6ac34ee9d2
+   - Coarse filter: confidence=high, decision=keep, evidence_urls=['https://example.com/news/60f5725c'], rationale=Golden fixture keep, reason=relevant_news, signal_id=e32ebc6ac34ee9d2
    - news search: [Regulators open inquiry tied to AI customer support](https://example.com/news/60f5725c) (2026-05-25)
 2. **Experts are reacting to AI customer support**
    - Why surfaced: x posts; queue 64, profile 0.4, major 0.
    - Query: AI customer support
-   - Cheap filter: confidence=high, decision=keep, evidence_urls=['https://x.com/example/status/f7f584be'], rationale=Golden fixture keep, reason=relevant_news, signal_id=578832fabe7e6a64
+   - Coarse filter: confidence=high, decision=keep, evidence_urls=['https://x.com/example/status/f7f584be'], rationale=Golden fixture keep, reason=relevant_news, signal_id=578832fabe7e6a64
    - x: [Experts are reacting to AI customer support](https://x.com/example/status/f7f584be) (2026-05-25)
 
 ## What Was Scanned
@@ -48,7 +48,7 @@ These are the highest-priority signals for review. They are not final pitch reco
 | key | value |
 |---|---|
 | detector | pending - candidates.json |
-| cheap_filter | pending - filter_decisions.json |
+| coarse_filter | pending - filter_decisions.json |
 | filter_apply | pending - targeted_candidates.json |
 | final_report | pending - final_report.md |
 
@@ -102,11 +102,11 @@ These are the highest-priority signals for review. They are not final pitch reco
    - Why surfaced: profile relevance; queue 70.8, profile 0.4, major 0.
    - Signal ID: `e32ebc6ac34ee9d2`
    - Query: AI customer support
-   - Cheap filter: confidence=high, decision=keep, evidence_urls=['https://example.com/news/60f5725c'], rationale=Golden fixture keep, reason=relevant_news, signal_id=e32ebc6ac34ee9d2
+   - Coarse filter: confidence=high, decision=keep, evidence_urls=['https://example.com/news/60f5725c'], rationale=Golden fixture keep, reason=relevant_news, signal_id=e32ebc6ac34ee9d2
    - news search: [Regulators open inquiry tied to AI customer support](https://example.com/news/60f5725c) (2026-05-25)
 2. **Experts are reacting to AI customer support**
    - Why surfaced: x posts; queue 64, profile 0.4, major 0.
    - Signal ID: `578832fabe7e6a64`
    - Query: AI customer support
-   - Cheap filter: confidence=high, decision=keep, evidence_urls=['https://x.com/example/status/f7f584be'], rationale=Golden fixture keep, reason=relevant_news, signal_id=578832fabe7e6a64
+   - Coarse filter: confidence=high, decision=keep, evidence_urls=['https://x.com/example/status/f7f584be'], rationale=Golden fixture keep, reason=relevant_news, signal_id=578832fabe7e6a64
    - x: [Experts are reacting to AI customer support](https://x.com/example/status/f7f584be) (2026-05-25)

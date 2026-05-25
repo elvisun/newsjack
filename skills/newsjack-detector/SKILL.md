@@ -54,7 +54,7 @@ Useful flags:
 - `--x-trends-min-profile-match 0.05` to demote broad X trends below the profile-overlap threshold.
 - `--min-queue-priority 40` to emit candidates at or above this mechanical priority when no lane caps are set. Threshold-demoted lanes stay below `40` by default; lower this only for debugging the rejected pool.
 - `--min-major-news 0.55` to also emit matched `major_news` candidates above this major-news score. `major_news_unmatched` remains below the default floor unless explicitly debugged with a lower queue floor.
-- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the cheap-filter candidate pool unless you deliberately want a narrow list.
+- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the coarse-filter candidate pool unless you deliberately want a narrow list.
 - `--new-only` to suppress signals whose evidence URLs are already in the monitor store.
 - `--include-all-scored` to include the full scored signal pool under `debug.all_scored_signals`. Use only for fixture/debug observability; normal product runs should keep output compact.
 - `--depth quick|default|deep`
@@ -86,7 +86,7 @@ Use `../story-origin-check/SKILL.md` before calling any signal fresh in recurrin
 
 The engine may find a newly published article that is only a syndication, rewrite, or secondary pickup of an older story. It may also surface a small publisher when the actual canonical coverage is a major outlet or primary source. The CLI must not decide same-story status from title similarity alone. The LLM must use news search and page evidence to decide whether prior public evidence is the same story or a materially new development, and to recover the canonical same-story coverage link.
 
-The origin-checking LLM needs retrieval evidence. Use news search to collect exact-headline, entity, and distinctive-phrase matches with `published_at` values, then open likely original/canonical URLs when possible. If a cheap worker cannot open pages or search the web, either give it extracted page/search evidence from the orchestrator or run this gate in the current harness with retrieval tools. If the first public timestamp still cannot be verified, mark the signal `freshness_unverified`.
+The origin-checking LLM needs retrieval evidence. Use news search to collect exact-headline, entity, and distinctive-phrase matches with `published_at` values, then open likely original/canonical URLs when possible. If a low-cost worker cannot open pages or search the web, either give it extracted page/search evidence from the orchestrator or run this gate in the current harness with retrieval tools. If the first public timestamp still cannot be verified, mark the signal `freshness_unverified`.
 
 Recurring/beta rule:
 
@@ -97,7 +97,7 @@ Recurring/beta rule:
 - A newer article restarts the clock only if it adds a concrete new public fact: official action, filing, statement, data/report publication, material company update, new local impact, or another independently coverable development.
 - Prefer `first_publication.canonical_coverage_url` as the report's main story link when present. It should be the major or most authoritative same-story coverage, not the random pickup that triggered retrieval.
 
-Preserve the result as `cheap_filter.first_publication` by including a `first_publication` object in each cheap-filter decision. `newsjack filter-apply` keeps that object on selected and rejected signals.
+Preserve the result as `coarse_filter.first_publication` by including a `first_publication` object in each coarse-filter decision. `newsjack filter-apply` keeps that object on selected and rejected signals.
 
 For the beta fixture, `fixtures/newsjack-detector-agent/scripts/hourly-run-all.sh` runs every configured profile and writes `index.md` plus a beta-facing `run.md` in each profile folder.
 
@@ -121,7 +121,7 @@ Pipeline:
 
 For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the beta-facing Markdown brief; JSON/log files are supporting evidence.
 
-2. Cheap-filter every signal independently and write `filter_decisions.json`. This pass must include the Story-Origin Gate for each signal and must write `first_publication` on every decision. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the cheap pass.
+2. Coarse-filter every signal independently and write `filter_decisions.json`. This pass must include the Story-Origin Gate for each signal and must write `first_publication` on every decision. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the coarse pass.
 
 3. Apply decisions:
 
@@ -129,7 +129,7 @@ For fixture debugging, prefer the observable helper in `fixtures/newsjack-detect
 ~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --require-fresh-first-publication --output targeted_candidates.json
 ```
 
-4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks a `cheap_filter.first_publication.status` of `fresh` or `fresh_new_development` in recurring/beta output.
+4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks a `coarse_filter.first_publication.status` of `fresh` or `fresh_new_development` in recurring/beta output.
 
 5. Rerender the observable Markdown run report:
 
@@ -137,51 +137,51 @@ For fixture debugging, prefer the observable helper in `fixtures/newsjack-detect
 ~/.newsjack/bin/newsjack summarize-run candidates.json --output summary.json --markdown run.md
 ```
 
-When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/cheap-filter provenance in a compact appendix.
+When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/coarse-filter provenance in a compact appendix.
 
 ### Harness Execution Decision Path
 
-The cheap filter is a cheap task. It only becomes a cheap model pass when the active harness supports model selection or cheap-worker/subagent routing. Before running the cheap pass, identify the harness if possible and choose the first available path:
+The coarse filter is a low-cost task. It only becomes a low-cost model pass when the active harness supports model selection or low-cost worker/subagent routing. Before running the coarse pass, identify the harness if possible and choose the first available path:
 
-1. **Direct cheap-model path.** If the harness can choose a model for a single step, run the Cheap Filter Prompt with the cheapest/fastest reliable model available from the Preferred Models list below. Then continue the expensive pass with the normal/high-quality model from that same list.
+1. **Direct low-cost-model path.** If the harness can choose a model for a single step, run the Coarse Filter Prompt with the lowest-cost reliable model available from the Preferred Models list below. Then continue the expensive pass with the normal/high-quality model from that same list.
 
-2. **Cheap subagent/worker path.** If the harness cannot switch the current model but can spawn workers/subagents with a model hint, split candidates into chunks and assign the cheap-filter task to those workers. Tell each worker to return only a `decisions` array for its assigned signal IDs. Merge the arrays into one `filter_decisions.json`.
+2. **Low-cost subagent/worker path.** If the harness cannot switch the current model but can spawn workers/subagents with a model hint, split candidates into chunks and assign the coarse-filter task to those workers. Tell each worker to return only a `decisions` array for its assigned signal IDs. Merge the arrays into one `filter_decisions.json`.
 
-3. **Current-model fallback.** If the harness cannot select a cheaper model and cannot spawn cheap workers, run the Cheap Filter Prompt with the current model. In the final response, explicitly say: `cheap filter ran with current model; this was semantic two-pass, not cost-optimized two-pass`.
+3. **Current-model fallback.** If the harness cannot select a lower-cost model and cannot spawn low-cost workers, run the Coarse Filter Prompt with the current model. In the final response, explicitly say: `coarse filter ran with current model; this was semantic two-pass, not cost-optimized two-pass`.
 
 Harness hints:
 
-- **Claude Code / Claude-style coding harnesses:** if a `Task`/subagent tool or model override is available, use it for the cheap-filter chunks and request the latest Haiku/cheap alias. Use the latest Sonnet or Opus alias for the expensive pass. If no such control is exposed, use current-model fallback.
-- **Codex:** if `spawn_agent` is available and model override is allowed by the environment/user, spawn one or more workers for cheap-filter chunks with a low-reasoning small/fast model. Preferred: `gpt-5.4-mini`, `gpt-5-nano`, or the newest GPT-5.x model with low reasoning if that is the exposed model set. Use `gpt-5.5` or the strongest/default Codex model with medium/high reasoning for the expensive pass. If model override is not available or not allowed, either spawn default workers for parallelism or use current-model fallback; disclose which happened.
-- **OpenClaw:** prefer cheap worker fanout for the cheap filter. Preferred cheap models: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, or GPT-5.x low-reasoning depending on what OpenClaw exposes. Use Gemini 3 Pro Preview, Claude Sonnet/Opus latest, or GPT-5.5+ higher reasoning for the expensive pass.
-- **API harnesses:** call the configured cheap model for the cheap-filter prompt, then call the configured stronger model for the expensive rubric pass.
-- **Unknown harness:** use current-model fallback unless the harness exposes an explicit cheap-model or worker mechanism.
+- **Claude Code / Claude-style coding harnesses:** if a `Task`/subagent tool or model override is available, use it for the coarse-filter chunks and request the latest Haiku/low-cost alias. Use the latest Sonnet or Opus alias for the expensive pass. If no such control is exposed, use current-model fallback.
+- **Codex:** if `spawn_agent` is available and model override is allowed by the environment/user, spawn one or more workers for coarse-filter chunks with a low-reasoning small/fast model. Preferred: `gpt-5.4-mini`, `gpt-5-nano`, or the newest GPT-5.x model with low reasoning if that is the exposed model set. Use `gpt-5.5` or the strongest/default Codex model with medium/high reasoning for the expensive pass. If model override is not available or not allowed, either spawn default workers for parallelism or use current-model fallback; disclose which happened.
+- **OpenClaw:** prefer low-cost worker fanout for the coarse filter. Preferred low-cost models: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, or GPT-5.x low-reasoning depending on what OpenClaw exposes. Use Gemini 3 Pro Preview, Claude Sonnet/Opus latest, or GPT-5.5+ higher reasoning for the expensive pass.
+- **API harnesses:** call the configured low-cost model for the coarse-filter prompt, then call the configured stronger model for the expensive rubric pass.
+- **Unknown harness:** use current-model fallback unless the harness exposes an explicit low-cost-model or worker mechanism.
 
 Preferred models:
 
-- Cheap pass: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, GPT-5-nano, GPT-5.4-mini low reasoning, GPT-5.5 low reasoning, or the harness's cheapest/fastest equivalent.
+- Coarse pass: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, GPT-5-nano, GPT-5.4-mini low reasoning, GPT-5.5 low reasoning, or the harness's lowest-cost fast equivalent.
 - Expensive pass: Gemini 3 Pro Preview, Claude Sonnet/Opus latest aliases, GPT-5.5 medium/high reasoning, GPT-5.4 medium/high reasoning, or the harness's strongest/default reasoning model.
-- Treat Gemini 2.5 Pro as stale for this pipeline. Use it only as a fallback when Gemini 3 Pro is unavailable in the harness. Gemini 2.5 Flash or Flash-Lite can remain cheap-pass fallbacks when Gemini 3 Flash is unavailable.
-- If the exact named model is unavailable, choose the closest current cheap/fast model for pass 1 and the closest current strong reasoning model for pass 2.
+- Treat Gemini 2.5 Pro as stale for this pipeline. Use it only as a fallback when Gemini 3 Pro is unavailable in the harness. Gemini 2.5 Flash or Flash-Lite can remain coarse-pass fallbacks when Gemini 3 Flash is unavailable.
+- If the exact named model is unavailable, choose the closest current low-cost/fast model for pass 1 and the closest current strong reasoning model for pass 2.
 
 Chunking guidance:
 
-- 1-15 signals: one cheap-filter call is fine.
+- 1-15 signals: one coarse-filter call is fine.
 - 16-40 signals: split into chunks of 8-15 signals. Prefer at least 2 workers/subagents when the harness exposes them.
 - 41-80 signals: split into chunks of 8-12 signals. Use worker/subagent fanout if available.
-- More than 80 signals: do not ask one cheap model call or one subagent to process everything. First split into chunks of 8-12 signals; if the result would need more than 8 cheap workers, tighten detector `--limit`, lane caps, or rerun by profile/source lane before filtering.
+- More than 80 signals: do not ask one low-cost model call or one subagent to process everything. First split into chunks of 8-12 signals; if the result would need more than 8 low-cost workers, tighten detector `--limit`, lane caps, or rerun by profile/source lane before filtering.
 - Each chunk must include the profile context plus the assigned signals. Do not ask a worker to judge signals it was not assigned.
 - The merged `filter_decisions.json` must contain exactly one decision for each candidate signal unless intentionally running `newsjack filter-apply --allow-missing`.
 - Each worker/subagent must return only decisions for its assigned signal IDs. The orchestrating harness must merge results and validate that every candidate signal has exactly one decision.
-- Do not let the cheap worker perform the expensive rubric pass, compare across chunks, pick best bets, or write the final report.
-- If the harness has cheap workers but no model override, still split large candidate sets for reliability and disclose that model cost was not optimized.
+- Do not let the coarse-filter worker perform the expensive rubric pass, compare across chunks, pick best bets, or write the final report.
+- If the harness has low-cost workers but no model override, still split large candidate sets for reliability and disclose that model cost was not optimized.
 
-### Cheap Filter Prompt
+### Coarse Filter Prompt
 
-Use this exact instruction for the cheap pass. It is designed to be run by a small/cheap model, optionally split across chunks by the harness. If split, merge all decisions into one `decisions` array before running `newsjack filter-apply`.
+Use this exact instruction for the coarse pass. It is designed to be run by a small/low-cost model, optionally split across chunks by the harness. If split, merge all decisions into one `decisions` array before running `newsjack filter-apply`.
 
 ```text
-You are the cheap newsjack signal filter.
+You are the coarse newsjack signal filter.
 
 Input: detector JSON with a client profile and candidate signals.
 
@@ -269,9 +269,9 @@ Output shape:
 
 ### Expensive Pass Prompt
 
-After applying cheap-filter decisions, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
+After applying coarse-filter decisions, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
 
-For recurring/beta output, the expensive pass must treat `cheap_filter.first_publication` as a hard freshness gate:
+For recurring/beta output, the expensive pass must treat `coarse_filter.first_publication` as a hard freshness gate:
 
 - `fresh` or `fresh_new_development`: eligible for normal rubric judgment.
 - `stale`: reject as stale even if the source article was published today.
@@ -295,15 +295,15 @@ Use min_major_news: 0.55
 
 Steps:
 1. Run `fixtures/newsjack-detector-agent/scripts/observe-run.sh` when available. Otherwise run `newsjack detector run` and write candidates.json.
-2. Follow the Harness Execution Decision Path in skills/newsjack-detector/SKILL.md. Use a cheap model or cheap workers/subagents for the cheap filter if the harness exposes that; otherwise run current-model fallback and disclose it.
-3. Apply the Cheap Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently, including the Story-Origin Gate from skills/story-origin-check/SKILL.md. Write filter_decisions.json in the run folder with first_publication on every decision.
+2. Follow the Harness Execution Decision Path in skills/newsjack-detector/SKILL.md. Use a low-cost model or low-cost workers/subagents for the coarse filter if the harness exposes that; otherwise run current-model fallback and disclose it.
+3. Apply the Coarse Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently, including the Story-Origin Gate from skills/story-origin-check/SKILL.md. Write filter_decisions.json in the run folder with first_publication on every decision.
 4. Run `newsjack filter-apply` with `--include keep --include monitor_only --require-fresh-first-publication` and write targeted_candidates.json in the run folder.
 5. Apply the newsjack-detector rubric to targeted_candidates.json and write final_report.md in the run folder.
 6. Rerender run.md with `newsjack summarize-run` so the full run and final result are observable in Markdown.
-7. Summarize the run.md path, whether the cheap pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
+7. Summarize the run.md path, whether the coarse pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
 ```
 
-No step requires a subagent API. Harnesses that have cheap-model/subagent controls should use them; harnesses that do not should still produce the same `filter_decisions.json` contract and disclose fallback.
+No step requires a subagent API. Harnesses that have low-cost-model/subagent controls should use them; harnesses that do not should still produce the same `filter_decisions.json` contract and disclose fallback.
 
 ## Engine vs Skill Boundary
 
@@ -315,7 +315,7 @@ The Go CLI owns:
 - novelty tracking
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
 - deterministic hygiene filtering for obvious docs/help/product/SEO pages
-- cheap-filter decision application through `newsjack filter-apply`
+- coarse-filter decision application through `newsjack filter-apply`
 - operational routing: lane, queue priority, and whether the lane was threshold-demoted
 - deterministic safety flags
 
@@ -339,7 +339,7 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
-4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `cheap_filter.first_publication.status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `cheap_filter.first_publication.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
+4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `coarse_filter.first_publication.status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `coarse_filter.first_publication.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
 
 5. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
 

@@ -96,8 +96,8 @@ def summarize(payload: dict[str, Any], *, input_path: Path, top: int) -> dict[st
             "source_errors": source_errors,
         },
         "hygiene_rejections": diagnostics.get("hygiene_rejections") or {},
-        "cheap_filter": payload.get("cheap_filter") or {},
-        "cheap_filter_file": _summarize_decisions(artifact_paths["filter_decisions"]),
+        "coarse_filter": _coarse_filter(payload),
+        "coarse_filter_file": _summarize_decisions(artifact_paths["filter_decisions"]),
         "targeted_candidates_file": _summarize_targeted_candidates(artifact_paths["targeted_candidates"]),
         "final_report_file": _summarize_final_report(artifact_paths["final_report"]),
         "top_signals": [_summarize_signal(signal) for signal in signals[:top]],
@@ -115,7 +115,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
     lanes = summary.get("lanes") or {}
     sources = summary.get("sources") or {}
     selection = summary.get("selection") or {}
-    cheap_summary = summary.get("cheap_filter_file") or {}
+    coarse_summary = summary.get("coarse_filter_file") or {}
     targeted_summary = summary.get("targeted_candidates_file") or {}
     final_report = summary.get("final_report_file") or {}
     final_text = final_report.get("content")
@@ -138,7 +138,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
             "but the editorial judgment pass has not produced `final_report.md`."
         )
         lines.append("")
-        lines.append("Next action: run the cheap filter, apply it, write `final_report.md`, then rerender this file.")
+        lines.append("Next action: run the coarse filter, apply it, write `final_report.md`, then rerender this file.")
         lines.append("")
         lines.append("## Candidate Preview")
         lines.append("")
@@ -200,19 +200,19 @@ def render_markdown(summary: dict[str, Any]) -> str:
         ("source_errors", counts.get("source_errors")),
     ]))
 
-    if cheap_summary.get("exists"):
+    if coarse_summary.get("exists"):
         lines.append("")
-        lines.append("### Cheap Filter")
+        lines.append("### Coarse Filter")
         lines.append("")
         lines.extend(_render_table([
-            ("decisions", cheap_summary.get("decision_count")),
+            ("decisions", coarse_summary.get("decision_count")),
             *[
                 (f"decision.{key}", value)
-                for key, value in (cheap_summary.get("decisions_by_outcome") or {}).items()
+                for key, value in (coarse_summary.get("decisions_by_outcome") or {}).items()
             ],
             *[
                 (f"reason.{key}", value)
-                for key, value in (cheap_summary.get("decisions_by_reason") or {}).items()
+                for key, value in (coarse_summary.get("decisions_by_reason") or {}).items()
             ],
         ]))
 
@@ -287,7 +287,7 @@ def _render_brief_header(summary: dict[str, Any]) -> list[str]:
     monitor = summary.get("monitor") or {}
     counts = summary.get("counts") or {}
     final_report = summary.get("final_report_file") or {}
-    cheap_summary = summary.get("cheap_filter_file") or {}
+    coarse_summary = summary.get("coarse_filter_file") or {}
     targeted_summary = summary.get("targeted_candidates_file") or {}
     final_payload = _parse_report_json(final_report.get("content") or "")
     parsed_final = isinstance(final_payload, dict)
@@ -300,7 +300,7 @@ def _render_brief_header(summary: dict[str, Any]) -> list[str]:
     targeted = targeted_summary.get("selected_signals") if targeted_summary.get("exists") else None
 
     status = "Editorial review complete" if final_report.get("exists") else "Detector preview only"
-    cheap_status = "complete" if cheap_summary.get("exists") else "pending"
+    coarse_status = "complete" if coarse_summary.get("exists") else "pending"
     targeted_status = f"{targeted} targeted" if targeted is not None else "pending"
     action = _action_summary(
         pitch_now=pitch_now,
@@ -315,7 +315,7 @@ def _render_brief_header(summary: dict[str, Any]) -> list[str]:
         ("Generated", _format_datetime(generated)),
         ("Action queue", action),
         ("Detector candidates", selected),
-        ("Cheap filter", cheap_status),
+        ("Coarse filter", coarse_status),
         ("Targeted set", targeted_status),
     ]
     lines = _render_table(rows)
@@ -503,7 +503,7 @@ def _source_issue_rows(sources: dict[str, Any]) -> list[tuple[str, str]]:
 def _render_run_notes(summary: dict[str, Any]) -> list[str]:
     counts = summary.get("counts") or {}
     hygiene = summary.get("hygiene_rejections") or {}
-    cheap_summary = summary.get("cheap_filter_file") or {}
+    coarse_summary = summary.get("coarse_filter_file") or {}
     targeted_summary = summary.get("targeted_candidates_file") or {}
     final_report = summary.get("final_report_file") or {}
     notes = []
@@ -511,9 +511,9 @@ def _render_run_notes(summary: dict[str, Any]) -> list[str]:
         notes.append("This report is a detector preview. Do not treat candidates as approved outreach hooks.")
     if counts.get("selected_unique_signals") == 0:
         notes.append("No new candidate signals were emitted for this run.")
-    if cheap_summary.get("exists"):
-        decisions = cheap_summary.get("decisions_by_outcome") or {}
-        notes.append("Cheap filter decisions: " + ", ".join(f"{_label(key)} {value}" for key, value in sorted(decisions.items())) + ".")
+    if coarse_summary.get("exists"):
+        decisions = coarse_summary.get("decisions_by_outcome") or {}
+        notes.append("Coarse filter decisions: " + ", ".join(f"{_label(key)} {value}" for key, value in sorted(decisions.items())) + ".")
     if targeted_summary.get("exists"):
         notes.append(
             f"Targeted set: {targeted_summary.get('selected_signals')} selected from "
@@ -550,8 +550,8 @@ def _render_candidate_cards(
             lines.append(f"   - Signal ID: `{signal.get('id')}`")
         if signal.get("query"):
             lines.append(f"   - Query: {_md_inline(signal['query'])}")
-        if signal.get("cheap_filter"):
-            lines.append(f"   - Cheap filter: {_md_inline(_format_mapping(signal['cheap_filter']))}")
+        if signal.get("coarse_filter"):
+            lines.append(f"   - Coarse filter: {_md_inline(_format_mapping(signal['coarse_filter']))}")
         for evidence in (signal.get("evidence") or [])[:3]:
             lines.append(f"   - {_render_evidence_link(evidence)}")
     total = _int_or_none(total_count)
@@ -577,7 +577,7 @@ def _summarize_signal(signal: dict[str, Any]) -> dict[str, Any]:
         "major_news": mechanical.get("major_news"),
         "momentum": mechanical.get("momentum"),
         "source_agreement": mechanical.get("source_agreement"),
-        "cheap_filter": signal.get("cheap_filter"),
+        "coarse_filter": signal.get("coarse_filter") or signal.get("cheap_filter"),
         "evidence": [_summarize_evidence(item) for item in evidence],
     }
 
@@ -621,7 +621,7 @@ def _artifact_status(paths: dict[str, Path]) -> dict[str, dict[str, Any]]:
 def _pipeline_status(paths: dict[str, Path]) -> list[dict[str, str]]:
     return [
         _stage("detector", paths["candidates"]),
-        _stage("cheap_filter", paths["filter_decisions"]),
+        _stage("coarse_filter", paths["filter_decisions"]),
         _stage("filter_apply", paths["targeted_candidates"]),
         _stage("final_report", paths["final_report"]),
     ]
@@ -659,14 +659,18 @@ def _summarize_targeted_candidates(path: Path) -> dict[str, Any]:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         return {"exists": True, "path": str(path), "error": str(exc)}
-    cheap_filter = payload.get("cheap_filter") or {}
+    coarse_filter = _coarse_filter(payload)
     return {
         "exists": True,
         "path": str(path),
         "selected_signals": len(payload.get("signals") or []),
-        "input_signals": cheap_filter.get("input_signal_count"),
-        "rejected_signals": cheap_filter.get("rejected_count"),
+        "input_signals": coarse_filter.get("input_signal_count"),
+        "rejected_signals": coarse_filter.get("rejected_count"),
     }
+
+
+def _coarse_filter(payload: dict[str, Any]) -> dict[str, Any]:
+    return dict(payload.get("coarse_filter") or payload.get("cheap_filter") or {})
 
 
 def _summarize_final_report(path: Path) -> dict[str, Any]:

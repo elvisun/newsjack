@@ -19,7 +19,7 @@ func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("filter-apply", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	candidatesPath := fs.String("candidates", "", "Detector JSON output")
-	decisionsPath := fs.String("decisions", "", "Cheap-filter decision JSON")
+	decisionsPath := fs.String("decisions", "", "Coarse-filter decision JSON")
 	outputPath := fs.String("output", "", "Output path")
 	fs.Var(&includes, "include", "Decision to include. Repeatable.")
 	allowMissing := fs.Bool("allow-missing", false, "Do not fail when a candidate has no decision")
@@ -137,7 +137,7 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 			continue
 		}
 		withDecision := cloneMap(signal)
-		withDecision["cheap_filter"] = decision
+		withDecision["coarse_filter"] = decision
 		if include[stringValue(decision["decision"])] {
 			selected = append(selected, withDecision)
 		} else {
@@ -158,7 +158,7 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		"generated_at":         time.Now().UTC().Format(time.RFC3339Nano),
 		"monitor":              valueOrEmptyMap(candidates["monitor"]),
 		"signals":              selected,
-		"cheap_filter":         map[string]any{"input_signal_count": len(signals), "decision_count": len(decisionByID), "selected_count": len(selected), "rejected_count": len(rejected), "missing_count": len(missingSignals), "included_decisions": included, "decision_counts": sortedCountMap(decisionCounts), "reason_counts": sortedCountMap(reasonCounts), "rejected_signals": rejected, "missing_signals": missingSignals},
+		"coarse_filter":        map[string]any{"input_signal_count": len(signals), "decision_count": len(decisionByID), "selected_count": len(selected), "rejected_count": len(rejected), "missing_count": len(missingSignals), "included_decisions": included, "decision_counts": sortedCountMap(decisionCounts), "reason_counts": sortedCountMap(reasonCounts), "rejected_signals": rejected, "missing_signals": missingSignals},
 		"detector_diagnostics": valueOrEmptyMap(candidates["diagnostics"]),
 		"source_errors":        valueOrEmptyMap(candidates["source_errors"]),
 	}, nil

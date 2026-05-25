@@ -144,4 +144,4 @@ Return only JSON:
 
 ## Handoff
 
-Pass this object into `newsjack-detector` as `first_publication` on the cheap-filter decision for the same signal. Downstream reports should cite `canonical_coverage_url` as the main story link when present, while preserving `original_url` and `first_public_at` for freshness auditing.
+Pass this object into `newsjack-detector` as `first_publication` on the coarse-filter decision for the same signal. Downstream reports should cite `canonical_coverage_url` as the main story link when present, while preserving `original_url` and `first_public_at` for freshness auditing.

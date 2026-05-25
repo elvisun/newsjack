@@ -41,7 +41,7 @@
       "path": "/tmp/targeted_candidates.json"
     }
   },
-  "cheap_filter": {
+  "coarse_filter": {
     "decision_count": 2,
     "decision_counts": {
       "keep": 2
@@ -59,7 +59,7 @@
     "rejected_signals": [],
     "selected_count": 2
   },
-  "cheap_filter_file": {
+  "coarse_filter_file": {
     "exists": false,
     "path": "/tmp/filter_decisions.json"
   },
@@ -122,7 +122,7 @@
     },
     {
       "artifact": "filter_decisions.json",
-      "stage": "cheap_filter",
+      "stage": "coarse_filter",
       "status": "pending"
     },
     {
@@ -157,7 +157,7 @@
   "top_dropped_signals": [],
   "top_signals": [
     {
-      "cheap_filter": {
+      "coarse_filter": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -189,7 +189,7 @@
       "title": "Regulators open inquiry tied to AI customer support"
     },
     {
-      "cheap_filter": {
+      "coarse_filter": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
