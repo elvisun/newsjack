@@ -2,115 +2,28 @@
 set -eu
 
 NEWSJACK_HOME="${NEWSJACK_HOME:-$HOME/.newsjack}"
-NEWSJACK_ROOT="${NEWSJACK_ROOT:-$NEWSJACK_HOME/newsjack}"
 
 die() {
   printf '%s\n' "newsjack: error: $*" >&2
   exit 1
 }
 
-have() {
-  command -v "$1" >/dev/null 2>&1
-}
+if [ "${NEWSJACK_USE_INSTALLED:-0}" = "1" ] && [ -x "$NEWSJACK_HOME/bin/newsjack" ]; then
+  exec "$NEWSJACK_HOME/bin/newsjack" "$@"
+fi
 
-need_root() {
-  [ -d "$NEWSJACK_ROOT" ] || die "newsjack is not installed at $NEWSJACK_ROOT; run: curl newsjack.sh | sh"
-}
+if [ "${NEWSJACK_ROOT:-}" ]; then
+  root=$NEWSJACK_ROOT
+else
+  script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+  root=$(CDPATH= cd -- "$script_dir/.." && pwd)
+fi
 
-auth_script() {
-  printf '%s\n' "$NEWSJACK_ROOT/skills/media-list-manager/scripts/medialyst_auth.py"
-}
+[ -d "$root/apps/cli" ] || die "missing Go CLI source at $root/apps/cli"
+command -v go >/dev/null 2>&1 || die "Go is required to run the source checkout CLI"
 
-detector_script() {
-  printf '%s\n' "$NEWSJACK_ROOT/skills/newsjack-detector/scripts/newsjack_detector.py"
-}
+NEWSJACK_WORKDIR="${NEWSJACK_WORKDIR:-$(pwd)}"
+export NEWSJACK_WORKDIR
 
-usage() {
-  cat <<'EOF'
-newsjack
-
-Usage:
-  newsjack help
-  newsjack path
-  newsjack skills
-  newsjack login [--key KEY]
-  newsjack auth status|headers|logout
-  newsjack detector [args...]
-  newsjack filter-apply [args...]
-  newsjack summarize-run [args...]
-  newsjack mcp-bridge
-  newsjack update
-
-Commands:
-  path        Print the installed newsjack repo path.
-  skills      List installed Newsjack skill names.
-  login       Save a Medialyst API key in ~/.newsjack/credentials.json.
-  auth        Run the Medialyst auth helper directly.
-  detector    Run the local newsjack-detector engine.
-  filter-apply
-              Apply newsjack-detector cheap-filter decisions.
-  summarize-run
-              Render a newsjack-detector run summary.
-  mcp-bridge  Start the Medialyst MCP stdio bridge.
-  update      Fetch and run the latest installer from newsjack.sh.
-EOF
-}
-
-cmd=${1:-help}
-case "$cmd" in
-  help|--help|-h)
-    usage
-    ;;
-  path)
-    need_root
-    printf '%s\n' "$NEWSJACK_ROOT"
-    ;;
-  skills)
-    need_root
-    find "$NEWSJACK_ROOT/skills" -mindepth 2 -maxdepth 2 -name SKILL.md -print |
-      sed 's#/SKILL\.md$##; s#.*/##' |
-      sort
-    ;;
-  login)
-    need_root
-    shift
-    exec python3 "$(auth_script)" login "$@"
-    ;;
-  auth)
-    need_root
-    shift
-    exec python3 "$(auth_script)" "$@"
-    ;;
-  detector)
-    need_root
-    shift
-    exec python3 "$(detector_script)" "$@"
-    ;;
-  filter-apply)
-    need_root
-    shift
-    exec python3 "$NEWSJACK_ROOT/skills/newsjack-detector/scripts/newsjack_filter_apply.py" "$@"
-    ;;
-  summarize-run)
-    need_root
-    shift
-    exec python3 "$NEWSJACK_ROOT/fixtures/newsjack-detector-agent/scripts/summarize-run.py" "$@"
-    ;;
-  mcp-bridge)
-    need_root
-    exec python3 "$NEWSJACK_ROOT/skills/media-list-manager/scripts/medialyst_mcp_bridge.py"
-    ;;
-  update|install)
-    if have curl; then
-      curl -fsSL https://newsjack.sh/install.sh | sh
-    elif have wget; then
-      wget -qO- https://newsjack.sh/install.sh | sh
-    else
-      die "curl or wget is required"
-    fi
-    ;;
-  *)
-    usage >&2
-    die "unknown command: $cmd"
-    ;;
-esac
+cd "$root/apps/cli"
+exec go run ./cmd/newsjack "$@"

@@ -1,0 +1,452 @@
+{
+  "debug": {
+    "all_scored_signals": [
+      {
+        "evidence": [
+          {
+            "author": null,
+            "container": "Example News",
+            "engagement": {},
+            "excerpt": "Officials are examining claims and compliance practices around AI customer support.",
+            "published_at": "2026-05-25",
+            "source": "news_search",
+            "title": "Regulators open inquiry tied to AI customer support",
+            "url": "https://example.com/news/60f5725c"
+          }
+        ],
+        "features": {
+          "decay_bucket": "4hr",
+          "evidence_count": 1,
+          "profile_matches": [],
+          "safety_flags": [],
+          "seen_before": false,
+          "seen_urls": {},
+          "source_count": 1
+        },
+        "id": "e32ebc6ac34ee9d2",
+        "mechanical_scores": {
+          "freshness": 1.0,
+          "major_news": 0.0,
+          "momentum": 0.0,
+          "novelty": 1.0,
+          "profile_match": 0.4,
+          "source_agreement": 0.55,
+          "source_quality": 0.95
+        },
+        "query": "AI customer support",
+        "routing": {
+          "demoted": false,
+          "lane": "profile_relevance",
+          "queue_priority": 70.8
+        },
+        "sources": [
+          "news_search"
+        ],
+        "title": "Regulators open inquiry tied to AI customer support"
+      },
+      {
+        "evidence": [
+          {
+            "author": "example",
+            "container": "x.com",
+            "engagement": {
+              "likes": 120,
+              "replies": 9,
+              "reposts": 22
+            },
+            "excerpt": "Thread: the AI customer support inquiry is moving faster than vendors expected.",
+            "published_at": "2026-05-25",
+            "source": "x",
+            "title": "Experts are reacting to AI customer support",
+            "url": "https://x.com/example/status/f7f584be"
+          }
+        ],
+        "features": {
+          "decay_bucket": "4hr",
+          "evidence_count": 1,
+          "profile_matches": [],
+          "safety_flags": [],
+          "seen_before": false,
+          "seen_urls": {},
+          "source_count": 1
+        },
+        "id": "578832fabe7e6a64",
+        "mechanical_scores": {
+          "freshness": 1.0,
+          "major_news": 0.0,
+          "momentum": 0.426,
+          "novelty": 1.0,
+          "profile_match": 0.4,
+          "source_agreement": 0.32,
+          "source_quality": 0.7
+        },
+        "query": "AI customer support",
+        "routing": {
+          "demoted": false,
+          "lane": "x_posts",
+          "queue_priority": 64.0
+        },
+        "sources": [
+          "x"
+        ],
+        "title": "Experts are reacting to AI customer support"
+      },
+      {
+        "evidence": [
+          {
+            "author": null,
+            "container": "Example Major Feed",
+            "engagement": {},
+            "excerpt": "A major CRM vendor is targeting startup and SMB customer-support workflows with free AI agents.",
+            "metadata": {
+              "feed_position": 1,
+              "feed_title": "Example Major Feed",
+              "feed_url": "mock://major-feed"
+            },
+            "published_at": "2026-05-25T03:24:04.946793+00:00",
+            "source": "major_feed",
+            "title": "Salesforce launches free AI customer service agents for startups",
+            "url": "https://example.com/major/salesforce-ai-agents"
+          }
+        ],
+        "features": {
+          "decay_bucket": "30min",
+          "evidence_count": 1,
+          "profile_matches": [],
+          "safety_flags": [],
+          "seen_before": false,
+          "seen_urls": {},
+          "source_count": 1
+        },
+        "id": "456e05d1d96a922b",
+        "mechanical_scores": {
+          "freshness": 1.0,
+          "major_news": 0.702,
+          "momentum": 0.0,
+          "novelty": 1.0,
+          "profile_match": 0.4,
+          "source_agreement": 0.62,
+          "source_quality": 0.88
+        },
+        "query": "major_news_feed",
+        "routing": {
+          "demoted": false,
+          "lane": "major_news",
+          "queue_priority": 78.6
+        },
+        "sources": [
+          "major_feed"
+        ],
+        "title": "Salesforce launches free AI customer service agents for startups"
+      },
+      {
+        "evidence": [
+          {
+            "author": null,
+            "container": "Example Major Feed",
+            "engagement": {},
+            "excerpt": "The Pentagon is studying how to deploy leading AI tools across sensitive government workflows.",
+            "metadata": {
+              "feed_position": 2,
+              "feed_title": "Example Major Feed",
+              "feed_url": "mock://major-feed"
+            },
+            "published_at": "2026-05-25T03:24:04.946793+00:00",
+            "source": "major_feed",
+            "title": "Pentagon launches task force for safe deployment of AI tools",
+            "url": "https://example.com/major/pentagon-ai-task-force"
+          }
+        ],
+        "features": {
+          "decay_bucket": "30min",
+          "evidence_count": 1,
+          "profile_matches": [],
+          "safety_flags": [],
+          "seen_before": false,
+          "seen_urls": {},
+          "source_count": 1
+        },
+        "id": "7dfc487a05f6b586",
+        "mechanical_scores": {
+          "freshness": 1.0,
+          "major_news": 0.702,
+          "momentum": 0.0,
+          "novelty": 1.0,
+          "profile_match": 0.4,
+          "source_agreement": 0.62,
+          "source_quality": 0.88
+        },
+        "query": "major_news_feed",
+        "routing": {
+          "demoted": false,
+          "lane": "major_news",
+          "queue_priority": 78.6
+        },
+        "sources": [
+          "major_feed"
+        ],
+        "title": "Pentagon launches task force for safe deployment of AI tools"
+      }
+    ],
+    "dropped_signal_ids": [],
+    "include_all_scored": true
+  },
+  "diagnostics": {
+    "emitted_by_lane": {
+      "major_news": 2,
+      "profile_relevance": 1,
+      "x_posts": 1
+    },
+    "evidence_by_source": {
+      "major_feed": 2,
+      "news_search": 1,
+      "x": 1
+    },
+    "hygiene_rejections": {},
+    "lane_caps": null,
+    "selection": {
+      "limit": 20,
+      "min_major_news": 0.55,
+      "min_queue_priority": 40.0,
+      "mode": "mechanical_floor"
+    },
+    "signals_by_lane": {
+      "major_news": 2,
+      "profile_relevance": 1,
+      "x_posts": 1
+    },
+    "total_emitted_signals": 4,
+    "total_scored_signals": 4
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [
+      "https://www.techmeme.com/feed.xml"
+    ],
+    "lookback_days": 1,
+    "max_age_hours": 24.0,
+    "mock": true,
+    "name": null,
+    "new_only": false,
+    "profile": {
+      "company": null,
+      "competitors": [],
+      "exclusions": [],
+      "feed_urls": [],
+      "proof_assets": [],
+      "search_terms": [],
+      "spokespeople": [],
+      "standing": [],
+      "topics": [],
+      "x_news": {},
+      "x_trends": {}
+    },
+    "queries": [
+      "AI customer support"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x_news",
+      "x"
+    ],
+    "sources_used": [
+      "news_search",
+      "x_news",
+      "x",
+      "major_feed"
+    ]
+  },
+  "signals": [
+    {
+      "evidence": [
+        {
+          "author": null,
+          "container": "Example Major Feed",
+          "engagement": {},
+          "excerpt": "A major CRM vendor is targeting startup and SMB customer-support workflows with free AI agents.",
+          "metadata": {
+            "feed_position": 1,
+            "feed_title": "Example Major Feed",
+            "feed_url": "mock://major-feed"
+          },
+          "published_at": "2026-05-25T03:24:04.946793+00:00",
+          "source": "major_feed",
+          "title": "Salesforce launches free AI customer service agents for startups",
+          "url": "https://example.com/major/salesforce-ai-agents"
+        }
+      ],
+      "features": {
+        "decay_bucket": "30min",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "456e05d1d96a922b",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.702,
+        "momentum": 0.0,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.62,
+        "source_quality": 0.88
+      },
+      "query": "major_news_feed",
+      "routing": {
+        "demoted": false,
+        "lane": "major_news",
+        "queue_priority": 78.6
+      },
+      "sources": [
+        "major_feed"
+      ],
+      "title": "Salesforce launches free AI customer service agents for startups"
+    },
+    {
+      "evidence": [
+        {
+          "author": null,
+          "container": "Example Major Feed",
+          "engagement": {},
+          "excerpt": "The Pentagon is studying how to deploy leading AI tools across sensitive government workflows.",
+          "metadata": {
+            "feed_position": 2,
+            "feed_title": "Example Major Feed",
+            "feed_url": "mock://major-feed"
+          },
+          "published_at": "2026-05-25T03:24:04.946793+00:00",
+          "source": "major_feed",
+          "title": "Pentagon launches task force for safe deployment of AI tools",
+          "url": "https://example.com/major/pentagon-ai-task-force"
+        }
+      ],
+      "features": {
+        "decay_bucket": "30min",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "7dfc487a05f6b586",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.702,
+        "momentum": 0.0,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.62,
+        "source_quality": 0.88
+      },
+      "query": "major_news_feed",
+      "routing": {
+        "demoted": false,
+        "lane": "major_news",
+        "queue_priority": 78.6
+      },
+      "sources": [
+        "major_feed"
+      ],
+      "title": "Pentagon launches task force for safe deployment of AI tools"
+    },
+    {
+      "evidence": [
+        {
+          "author": null,
+          "container": "Example News",
+          "engagement": {},
+          "excerpt": "Officials are examining claims and compliance practices around AI customer support.",
+          "published_at": "2026-05-25",
+          "source": "news_search",
+          "title": "Regulators open inquiry tied to AI customer support",
+          "url": "https://example.com/news/60f5725c"
+        }
+      ],
+      "features": {
+        "decay_bucket": "4hr",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "e32ebc6ac34ee9d2",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.0,
+        "momentum": 0.0,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.55,
+        "source_quality": 0.95
+      },
+      "query": "AI customer support",
+      "routing": {
+        "demoted": false,
+        "lane": "profile_relevance",
+        "queue_priority": 70.8
+      },
+      "sources": [
+        "news_search"
+      ],
+      "title": "Regulators open inquiry tied to AI customer support"
+    },
+    {
+      "evidence": [
+        {
+          "author": "example",
+          "container": "x.com",
+          "engagement": {
+            "likes": 120,
+            "replies": 9,
+            "reposts": 22
+          },
+          "excerpt": "Thread: the AI customer support inquiry is moving faster than vendors expected.",
+          "published_at": "2026-05-25",
+          "source": "x",
+          "title": "Experts are reacting to AI customer support",
+          "url": "https://x.com/example/status/f7f584be"
+        }
+      ],
+      "features": {
+        "decay_bucket": "4hr",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "578832fabe7e6a64",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.0,
+        "momentum": 0.426,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.32,
+        "source_quality": 0.7
+      },
+      "query": "AI customer support",
+      "routing": {
+        "demoted": false,
+        "lane": "x_posts",
+        "queue_priority": 64.0
+      },
+      "sources": [
+        "x"
+      ],
+      "title": "Experts are reacting to AI customer support"
+    }
+  ],
+  "source_errors": {},
+  "store": {
+    "run_id": null,
+    "saved": false
+  }
+}

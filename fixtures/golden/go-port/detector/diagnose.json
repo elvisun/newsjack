@@ -1,0 +1,23 @@
+{
+  "news_search_configured": false,
+  "sources_available": [
+    "x",
+    "x_news",
+    "x_trends",
+    "reddit",
+    "hackernews"
+  ],
+  "sources_requested": [
+    "news_search",
+    "x",
+    "x_news",
+    "x_trends",
+    "reddit",
+    "hackernews"
+  ],
+  "store_path": "/Users/elvissun/.local/share/newsjack/monitor.db",
+  "twitter_bearer_configured": false,
+  "x_news_available": true,
+  "x_trends_available": true,
+  "xurl_available": true
+}

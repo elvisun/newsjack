@@ -2,13 +2,23 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
 QUERY="${NEWSJACK_QUERY:-${1:-AI search visibility}}"
 PROFILE="${NEWSJACK_PROFILE:-${2:-profile.localfalcon.json}}"
 if [[ "$#" -gt 0 ]]; then shift; fi
 if [[ "$#" -gt 0 ]]; then shift; fi
 
+if [[ "$PROFILE" != /* ]]; then
+  if [[ -f "$FIXTURE_DIR/$PROFILE" ]]; then
+    PROFILE="$FIXTURE_DIR/$PROFILE"
+  elif [[ -f "$PROFILE" ]]; then
+    PROFILE="$(cd "$(dirname "$PROFILE")" && pwd)/$(basename "$PROFILE")"
+  fi
+fi
+
 exec "$SCRIPT_DIR/agent-env.sh" \
-  python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run \
+  "$NEWSJACK_BIN" detector run \
   "$QUERY" \
   --profile "$PROFILE" \
   "$@" \

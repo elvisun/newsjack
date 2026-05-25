@@ -1,0 +1,170 @@
+{
+  "cheap_filter": {
+    "decision_count": 2,
+    "decision_counts": {
+      "keep": 2
+    },
+    "included_decisions": [
+      "keep"
+    ],
+    "input_signal_count": 2,
+    "missing_count": 0,
+    "missing_signals": [],
+    "reason_counts": {
+      "relevant_news": 2
+    },
+    "rejected_count": 0,
+    "rejected_signals": [],
+    "selected_count": 2
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-25T03:24:04.875042+00:00",
+    "lookback_days": 1,
+    "max_age_hours": 24.0,
+    "mock": true,
+    "name": null,
+    "new_only": false,
+    "profile": {
+      "company": null,
+      "competitors": [],
+      "exclusions": [],
+      "feed_urls": [],
+      "proof_assets": [],
+      "search_terms": [],
+      "spokespeople": [],
+      "standing": [],
+      "topics": [],
+      "x_news": {},
+      "x_trends": {}
+    },
+    "queries": [
+      "AI customer support"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x_news",
+      "x"
+    ],
+    "sources_used": [
+      "news_search",
+      "x_news",
+      "x"
+    ]
+  },
+  "signals": [
+    {
+      "cheap_filter": {
+        "confidence": "high",
+        "decision": "keep",
+        "evidence_urls": [
+          "https://example.com/news/60f5725c"
+        ],
+        "rationale": "Golden fixture keep",
+        "reason": "relevant_news",
+        "signal_id": "e32ebc6ac34ee9d2"
+      },
+      "evidence": [
+        {
+          "author": null,
+          "container": "Example News",
+          "engagement": {},
+          "excerpt": "Officials are examining claims and compliance practices around AI customer support.",
+          "published_at": "2026-05-25",
+          "source": "news_search",
+          "title": "Regulators open inquiry tied to AI customer support",
+          "url": "https://example.com/news/60f5725c"
+        }
+      ],
+      "features": {
+        "decay_bucket": "4hr",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "e32ebc6ac34ee9d2",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.0,
+        "momentum": 0.0,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.55,
+        "source_quality": 0.95
+      },
+      "query": "AI customer support",
+      "routing": {
+        "demoted": false,
+        "lane": "profile_relevance",
+        "queue_priority": 70.8
+      },
+      "sources": [
+        "news_search"
+      ],
+      "title": "Regulators open inquiry tied to AI customer support"
+    },
+    {
+      "cheap_filter": {
+        "confidence": "high",
+        "decision": "keep",
+        "evidence_urls": [
+          "https://x.com/example/status/f7f584be"
+        ],
+        "rationale": "Golden fixture keep",
+        "reason": "relevant_news",
+        "signal_id": "578832fabe7e6a64"
+      },
+      "evidence": [
+        {
+          "author": "example",
+          "container": "x.com",
+          "engagement": {
+            "likes": 120,
+            "replies": 9,
+            "reposts": 22
+          },
+          "excerpt": "Thread: the AI customer support inquiry is moving faster than vendors expected.",
+          "published_at": "2026-05-25",
+          "source": "x",
+          "title": "Experts are reacting to AI customer support",
+          "url": "https://x.com/example/status/f7f584be"
+        }
+      ],
+      "features": {
+        "decay_bucket": "4hr",
+        "evidence_count": 1,
+        "profile_matches": [],
+        "safety_flags": [],
+        "seen_before": false,
+        "seen_urls": {},
+        "source_count": 1
+      },
+      "id": "578832fabe7e6a64",
+      "mechanical_scores": {
+        "freshness": 1.0,
+        "major_news": 0.0,
+        "momentum": 0.426,
+        "novelty": 1.0,
+        "profile_match": 0.4,
+        "source_agreement": 0.32,
+        "source_quality": 0.7
+      },
+      "query": "AI customer support",
+      "routing": {
+        "demoted": false,
+        "lane": "x_posts",
+        "queue_priority": 64.0
+      },
+      "sources": [
+        "x"
+      ],
+      "title": "Experts are reacting to AI customer support"
+    }
+  ],
+  "source_errors": {},
+  "version": 1
+}

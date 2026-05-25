@@ -150,14 +150,14 @@ Chunking guidance:
 - 41-80 signals: split into chunks of 8-12 signals. Use worker/subagent fanout if available.
 - More than 80 signals: do not ask one cheap model call or one subagent to process everything. First split into chunks of 8-12 signals; if the result would need more than 8 cheap workers, tighten detector `--limit`, lane caps, or rerun by profile/source lane before filtering.
 - Each chunk must include the profile context plus the assigned signals. Do not ask a worker to judge signals it was not assigned.
-- The merged `filter_decisions.json` must contain exactly one decision for each candidate signal unless intentionally running `newsjack_filter_apply.py --allow-missing`.
+- The merged `filter_decisions.json` must contain exactly one decision for each candidate signal unless intentionally running `newsjack filter-apply --allow-missing`.
 - Each worker/subagent must return only decisions for its assigned signal IDs. The orchestrating harness must merge results and validate that every candidate signal has exactly one decision.
 - Do not let the cheap worker perform the expensive rubric pass, compare across chunks, pick best bets, or write the final report.
 - If the harness has cheap workers but no model override, still split large candidate sets for reliability and disclose that model cost was not optimized.
 
 ### Cheap Filter Prompt
 
-Use this exact instruction for the cheap pass. It is designed to be run by a small/cheap model, optionally split across chunks by the harness. If split, merge all decisions into one `decisions` array before running `newsjack_filter_apply.py`.
+Use this exact instruction for the cheap pass. It is designed to be run by a small/cheap model, optionally split across chunks by the harness. If split, merge all decisions into one `decisions` array before running `newsjack filter-apply`.
 
 ```text
 You are the cheap newsjack signal filter.
@@ -234,12 +234,12 @@ Use min_queue_priority: 40
 Use min_major_news: 0.55
 
 Steps:
-1. Run `fixtures/newsjack-detector-agent/scripts/observe-run.sh` when available. Otherwise run newsjack_detector.py and write candidates.json.
+1. Run `fixtures/newsjack-detector-agent/scripts/observe-run.sh` when available. Otherwise run `newsjack detector run` and write candidates.json.
 2. Follow the Harness Execution Decision Path in skills/newsjack-detector/SKILL.md. Use a cheap model or cheap workers/subagents for the cheap filter if the harness exposes that; otherwise run current-model fallback and disclose it.
 3. Apply the Cheap Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently. Write filter_decisions.json in the run folder.
-4. Run newsjack_filter_apply.py with --include keep --include monitor_only and write targeted_candidates.json in the run folder.
+4. Run `newsjack filter-apply` with --include keep --include monitor_only and write targeted_candidates.json in the run folder.
 5. Apply the newsjack-detector rubric to targeted_candidates.json and write final_report.md in the run folder.
-6. Rerender run.md with summarize-run.py so the full run and final result are observable in Markdown.
+6. Rerender run.md with `newsjack summarize-run` so the full run and final result are observable in Markdown.
 7. Summarize the run.md path, whether the cheap pass was cost-optimized or fallback, and top findings.
 ```
 
@@ -247,7 +247,7 @@ No step requires a subagent API. Harnesses that have cheap-model/subagent contro
 
 ## Engine vs Skill Boundary
 
-Python owns:
+The Go CLI owns:
 
 - ingestion
 - dedupe
@@ -255,7 +255,7 @@ Python owns:
 - novelty tracking
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
 - deterministic hygiene filtering for obvious docs/help/product/SEO pages
-- cheap-filter decision application through `newsjack_filter_apply.py`
+- cheap-filter decision application through `newsjack filter-apply`
 - operational routing: lane, queue priority, and whether the lane was threshold-demoted
 - deterministic safety flags
 
@@ -275,7 +275,7 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 1. **Anchor the client.** Identify company, topics, competitors, proof assets, spokespeople, standing, and any client-specific exclusions. General tragedy and human-suffering blocks live in this skill's doctrine, not in monitor profiles. If the client standing is missing, the detector can still monitor but must mark opportunities as proof-needed.
 
-2. **Run the engine.** Use `newsjack_detector.py run` with the profile and relevant query/source flags. Profile `feed_urls` are included automatically. For hourly feed-only monitoring, use `--feed-only --save --new-only --max-age-hours 24`. For profiles without feeds, include `--major-feeds` or explicit `--feed-url` values. If credentials are missing, run `diagnose` and report what source is unavailable.
+2. **Run the engine.** Use `newsjack detector run` with the profile and relevant query/source flags. Profile `feed_urls` are included automatically. For hourly feed-only monitoring, use `--feed-only --save --new-only --max-age-hours 24`. For profiles without feeds, include `--major-feeds` or explicit `--feed-url` values. If credentials are missing, run `newsjack detector diagnose` and report what source is unavailable.
 
 3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
