@@ -1,0 +1,21 @@
+name: Agent Harness CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  no-token-installer:
+    name: No-token installer harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build harness image
+        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
+
+      - name: Test all runtime install targets
+        run: python3 harness/run.py --mode ci-installer --runtime all --local-source

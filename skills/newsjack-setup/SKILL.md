@@ -132,8 +132,8 @@ Return a concise setup result:
   "x_news_rationale": "Enabled by default because X News returns story clusters rather than random individual posts.",
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
   "run_commands": {
-    "hourly_major_news": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
-    "profile_relevance": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run \"TOPIC\" --profile profile.json --save --emit json"
+    "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
+    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"TOPIC\" --profile profile.json --save --emit json"
   },
   "missing_inputs": [
     "Question or missing proof that would materially improve the profile"

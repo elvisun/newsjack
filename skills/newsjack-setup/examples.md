@@ -85,8 +85,8 @@
   "x_news_rationale": "Enabled by default because X News returns story clusters with hooks, summaries, entities, and clustered post IDs.",
   "x_trends_rationale": "Personalized trends are a reasonable default for a founder-led SaaS workflow; switch to location trends only for geography-specific campaigns.",
   "run_commands": {
-    "hourly_major_news": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
-    "profile_relevance": "python3 skills/newsjack-detector/scripts/newsjack_detector.py run \"AI search visibility\" --profile profile.json --save --emit json"
+    "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
+    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"AI search visibility\" --profile profile.json --save --emit json"
   },
   "missing_inputs": [
     "Which search visibility metrics, customer examples, or benchmark claims can be used publicly?"
