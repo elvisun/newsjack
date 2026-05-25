@@ -170,6 +170,7 @@ def _jaccard(left: str, right: str) -> float:
 
 def _profile_matches(profile: MonitorProfile, text: str) -> list[str]:
     lower = text.lower()
+    tokens = _tokens(text)
     terms = [
         *(profile.topics or []),
         *(profile.competitors or []),
@@ -179,7 +180,7 @@ def _profile_matches(profile: MonitorProfile, text: str) -> list[str]:
     matches = []
     for term in terms:
         term = term.strip()
-        if term and term.lower() in lower and term not in matches:
+        if term and _term_matches(term.lower(), lower, tokens) and term not in matches:
             matches.append(term)
     return matches[:12]
 
@@ -515,7 +516,7 @@ def _score_signal(
     elif lane in {"x_news_unmatched", "profile_relevance_weak", "x_posts_weak"}:
         queue_priority = round(
             min(
-                44.0,
+                39.9,
                 100
                 * (
                     0.18 * freshness
@@ -721,7 +722,9 @@ def _passes_selection_floor(signal: dict[str, Any], *, min_queue_priority: float
         major_news = float(mechanical.get("major_news") or 0.0)
     except (TypeError, ValueError):
         major_news = 0.0
-    return _queue_priority(signal) >= min_queue_priority or major_news >= min_major_news
+    if _queue_priority(signal) >= min_queue_priority:
+        return True
+    return _signal_lane_value(signal) == "major_news" and major_news >= min_major_news
 
 
 def _queue_priority(signal: dict[str, Any]) -> float:

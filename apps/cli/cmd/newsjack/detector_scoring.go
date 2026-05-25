@@ -54,6 +54,7 @@ func jaccard(left, right string) float64 {
 
 func profileMatches(profile monitorProfile, text string) []string {
 	lower := strings.ToLower(text)
+	toks := tokens(text)
 	var terms []string
 	terms = append(terms, profile.Topics...)
 	terms = append(terms, profile.Competitors...)
@@ -63,7 +64,7 @@ func profileMatches(profile monitorProfile, text string) []string {
 	seen := map[string]bool{}
 	for _, term := range terms {
 		term = strings.TrimSpace(term)
-		if term != "" && strings.Contains(lower, strings.ToLower(term)) && !seen[term] {
+		if term != "" && termMatches(strings.ToLower(term), lower, toks) && !seen[term] {
 			matches = append(matches, term)
 			seen[term] = true
 			if len(matches) >= 12 {
@@ -434,7 +435,7 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	case "x_trends_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.16*freshness+0.14*novelty+0.12*sourceQuality+0.10*engagement)))
 	case "x_news_unmatched", "profile_relevance_weak", "x_posts_weak":
-		queue = round1(math.Min(44.0, 100*(0.18*freshness+0.16*novelty+0.12*sourceQuality+0.10*sourceAgreement+0.08*engagement)))
+		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*novelty+0.12*sourceQuality+0.10*sourceAgreement+0.08*engagement)))
 	case "x_posts":
 		queue = round1(math.Min(64.0, 100*(0.22*freshness+0.20*engagement+0.18*profileMatch+0.16*novelty+0.14*sourceQuality+0.10*sourceAgreement)))
 	default:

@@ -52,8 +52,8 @@ Useful flags:
 - `--profile-relevance-min-profile-match 0.05` to demote profile-query results below the profile-overlap threshold.
 - `--major-news-min-profile-match 0.05` to demote broad RSS stories below the profile-overlap threshold.
 - `--x-trends-min-profile-match 0.05` to demote broad X trends below the profile-overlap threshold.
-- `--min-queue-priority 40` to emit candidates at or above this mechanical priority when no lane caps are set.
-- `--min-major-news 0.55` to also emit broad major-news candidates above this major-news score even if profile overlap is weak.
+- `--min-queue-priority 40` to emit candidates at or above this mechanical priority when no lane caps are set. Threshold-demoted lanes stay below `40` by default; lower this only for debugging the rejected pool.
+- `--min-major-news 0.55` to also emit matched `major_news` candidates above this major-news score. `major_news_unmatched` remains below the default floor unless explicitly debugged with a lower queue floor.
 - `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the cheap-filter candidate pool unless you deliberately want a narrow list.
 - `--new-only` to suppress signals whose evidence URLs are already in the monitor store.
 - `--include-all-scored` to include the full scored signal pool under `debug.all_scored_signals`. Use only for fixture/debug observability; normal product runs should keep output compact.

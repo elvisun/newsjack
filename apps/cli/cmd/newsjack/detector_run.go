@@ -643,7 +643,10 @@ func selectSignals(all []map[string]any, limit int, laneCaps map[string]int, min
 
 func passesSelectionFloor(signal map[string]any, minQueuePriority, minMajorNews float64) bool {
 	mech, _ := signal["mechanical_scores"].(map[string]any)
-	return queuePriority(signal) >= minQueuePriority || floatValue(mech["major_news"]) >= minMajorNews
+	if queuePriority(signal) >= minQueuePriority {
+		return true
+	}
+	return signalLaneValue(signal) == "major_news" && floatValue(mech["major_news"]) >= minMajorNews
 }
 
 func queuePriority(signal map[string]any) float64 {
