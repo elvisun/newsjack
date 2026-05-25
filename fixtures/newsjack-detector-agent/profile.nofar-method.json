@@ -1,0 +1,79 @@
+{
+  "company": "Nofar Method",
+  "website": "https://nofarmethod.com",
+  "description": "Boutique Pilates and wellness studio offering Nofar Method classes on Cadillac and Reformer equipment, private Pilates sessions, and instructor/community programming in New York and Miami.",
+  "topics": [
+    "reformer Pilates",
+    "boutique fitness studios",
+    "Pilates studios",
+    "group fitness classes",
+    "fitness instructor training",
+    "wellness studio trends",
+    "NYC fitness",
+    "Miami fitness"
+  ],
+  "competitors": [
+    "Club Pilates",
+    "Solidcore",
+    "SLT",
+    "New York Pilates",
+    "Bodyrok",
+    "Equinox Pilates",
+    "CorePower Yoga"
+  ],
+  "search_terms": [
+    "reformer Pilates",
+    "Cadillac Reformer Pilates",
+    "boutique fitness studios",
+    "Pilates studio trends",
+    "group fitness classes",
+    "fitness instructor training",
+    "NYC Pilates studio",
+    "Miami Pilates studio",
+    "Nofar Method",
+    "Club Pilates",
+    "Solidcore Pilates",
+    "SLT Pilates",
+    "New York Pilates",
+    "Bodyrok Pilates",
+    "Equinox Pilates"
+  ],
+  "feed_urls": [
+    "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "location",
+    "woeids": [
+      2459115,
+      2450022
+    ],
+    "locations": [
+      "New York",
+      "Miami"
+    ]
+  },
+  "spokespeople": [
+    "Founder or lead instructor",
+    "Studio operations lead",
+    "Instructor training lead",
+    "Wellness programming lead"
+  ],
+  "proof_assets": [
+    "NofarMethod.com class and services pages",
+    "Cadillac and Reformer class descriptions",
+    "Flatiron, Tribeca, and Miami studio pages",
+    "private Pilates session offering",
+    "instructor/team expertise"
+  ],
+  "standing": [
+    "reformer Pilates and Cadillac Pilates",
+    "boutique fitness studio operations",
+    "NYC and Miami wellness trends",
+    "group fitness and instructor-led classes",
+    "Pilates safety, strength, mobility, and body-awareness programming"
+  ]
+}

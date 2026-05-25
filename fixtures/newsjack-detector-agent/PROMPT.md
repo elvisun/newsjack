@@ -7,7 +7,9 @@ First read:
 
 Use one of these monitor profiles:
 
+- `profile.bluebottle.json`
 - `profile.localfalcon.json`
+- `profile.nofar-method.json`
 - `profile.simular.json`
 - `profile.slite.json`
 - `profile.property-saviour.json`
@@ -17,7 +19,9 @@ Suggested profile/query pairs:
 
 | Profile | Query |
 |---------|-------|
+| `profile.bluebottle.json` | `specialty coffee` |
 | `profile.localfalcon.json` | `AI search visibility` |
+| `profile.nofar-method.json` | `reformer Pilates` |
 | `profile.simular.json` | `computer-use agents` |
 | `profile.slite.json` | `AI knowledge base` |
 | `profile.property-saviour.json` | `UK property chain collapse` |

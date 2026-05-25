@@ -15,7 +15,9 @@ EXTRA_ARGS=("$@")
 mkdir -p "$RUN_DIR"
 
 profiles=(
+  "bluebottle|specialty coffee|profile.bluebottle.json"
   "localfalcon|AI search visibility|profile.localfalcon.json"
+  "nofar-method|reformer Pilates|profile.nofar-method.json"
   "simular|computer-use agents|profile.simular.json"
   "slite|AI knowledge base|profile.slite.json"
   "property-saviour|UK property chain collapse|profile.property-saviour.json"

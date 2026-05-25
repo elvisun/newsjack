@@ -1,0 +1,72 @@
+{
+  "company": "Blue Bottle Coffee",
+  "website": "https://bluebottlecoffee.com",
+  "description": "Specialty coffee roaster, cafe operator, and coffee subscription brand known for premium coffee, neighborhood cafes, and sustainability-oriented sourcing.",
+  "topics": [
+    "specialty coffee",
+    "coffee subscriptions",
+    "coffee shops",
+    "coffee roasting",
+    "coffee sustainability",
+    "coffee supply chain",
+    "premium cafe retail"
+  ],
+  "competitors": [
+    "Intelligentsia Coffee",
+    "Stumptown Coffee Roasters",
+    "La Colombe",
+    "Counter Culture Coffee",
+    "Starbucks Reserve",
+    "Peet's Coffee"
+  ],
+  "search_terms": [
+    "specialty coffee",
+    "coffee subscriptions",
+    "coffee roasters",
+    "coffee shop retail",
+    "coffee prices",
+    "coffee supply chain",
+    "coffee climate change",
+    "coffee sustainability",
+    "Blue Bottle Coffee",
+    "Nestle Blue Bottle Coffee",
+    "Intelligentsia Coffee",
+    "Stumptown Coffee Roasters",
+    "La Colombe coffee",
+    "Counter Culture Coffee",
+    "Starbucks Reserve"
+  ],
+  "feed_urls": [
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "personalized",
+    "woeids": [],
+    "locations": []
+  },
+  "spokespeople": [
+    "Coffee sourcing or roasting lead",
+    "Cafe operations lead",
+    "Sustainability lead",
+    "Subscription/e-commerce lead"
+  ],
+  "proof_assets": [
+    "BlueBottleCoffee.com product and cafe pages",
+    "coffee subscription pages",
+    "sourcing and sustainability claims",
+    "cafe location footprint",
+    "roasting and freshness standards"
+  ],
+  "standing": [
+    "specialty coffee",
+    "coffee roasting and sourcing",
+    "premium cafe retail",
+    "coffee subscriptions and e-commerce",
+    "coffee sustainability and climate exposure",
+    "consumer coffee trends"
+  ]
+}

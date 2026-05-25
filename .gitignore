@@ -53,6 +53,10 @@ yarn-debug.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# ─── python generated files ───────────────────────────
+__pycache__/
+*.py[cod]
+
 # ─── runtime / pids ───────────────────────────────────
 *.pid
 *.seed
@@ -61,3 +65,4 @@ lerna-debug.log*
 # ─── misc ─────────────────────────────────────────────
 .tmp/
 tmp/
+.claude/scheduled_tasks.lock
