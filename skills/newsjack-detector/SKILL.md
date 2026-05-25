@@ -46,7 +46,7 @@ Useful flags:
 - `--no-x-trends` to disable profile-selected X trends.
 - `--no-hygiene-filter` to keep obvious docs/product/SEO retrieval junk for debugging.
 - `--lookback-days 1`
-- `--max-age-hours 24` to avoid backfilling stale RSS/feed items on recurring runs. Default: `24`.
+- `--max-age-hours 24` to avoid backfilling obviously old source items on recurring runs. Default: `24`. This is only a mechanical source timestamp filter; it does not prove the story is new.
 - `--x-news-min-profile-match 0.05` to demote X News clusters below the profile-overlap threshold.
 - `--x-posts-min-profile-match 0.08` to demote raw X posts below the profile-overlap threshold.
 - `--profile-relevance-min-profile-match 0.05` to demote profile-query results below the profile-overlap threshold.
@@ -78,6 +78,27 @@ Hourly OSS workflow:
 
 This is a compromise for local/agent runtimes that can only run hourly. The RSS lane is meant to catch major stories first, then test client relevance. `--new-only` uses the local monitor store to avoid re-alerting the same feed URLs every hour; `--max-age-hours` keeps the first run from dumping a full historical backlog. It is not a promise to win the first 15 minutes of a breaking story.
 
+For beta cron output, a signal is not surfaceable until the LLM has verified the first public timestamp through the Story-Origin Gate below. News-search `published_at` values are useful article-publication evidence and should be used to recover candidate originals, but the LLM must still decide whether a candidate is the same story, a materially new development, or a syndicated pickup.
+
+## Story-Origin Gate
+
+Use `../story-origin-check/SKILL.md` before calling any signal fresh in recurring/beta output.
+
+The engine may find a newly published article that is only a syndication, rewrite, or secondary pickup of an older story. It may also surface a small publisher when the actual canonical coverage is a major outlet or primary source. The CLI must not decide same-story status from title similarity alone. The LLM must use news search and page evidence to decide whether prior public evidence is the same story or a materially new development, and to recover the canonical same-story coverage link.
+
+The origin-checking LLM needs retrieval evidence. Use news search to collect exact-headline, entity, and distinctive-phrase matches with `published_at` values, then open likely original/canonical URLs when possible. If a cheap worker cannot open pages or search the web, either give it extracted page/search evidence from the orchestrator or run this gate in the current harness with retrieval tools. If the first public timestamp still cannot be verified, mark the signal `freshness_unverified`.
+
+Recurring/beta rule:
+
+- Surface only signals whose `first_publication.status` is `fresh` or `fresh_new_development`.
+- Reject signals whose `first_publication.status` is `stale`.
+- Reject signals whose first public timestamp cannot be verified as inside the last 24 hours with reason `freshness_unverified`.
+- Do not reset the clock for AOL, Yahoo, MSN, Apple News, partner syndication, wire pickup, SEO rewrites, or "published today" pages whose canonical/source story is older.
+- A newer article restarts the clock only if it adds a concrete new public fact: official action, filing, statement, data/report publication, material company update, new local impact, or another independently coverable development.
+- Prefer `first_publication.canonical_coverage_url` as the report's main story link when present. It should be the major or most authoritative same-story coverage, not the random pickup that triggered retrieval.
+
+Preserve the result as `cheap_filter.first_publication` by including a `first_publication` object in each cheap-filter decision. `newsjack filter-apply` keeps that object on selected and rejected signals.
+
 For the beta fixture, `fixtures/newsjack-detector-agent/scripts/hourly-run-all.sh` runs every configured profile and writes `index.md` plus a beta-facing `run.md` in each profile folder.
 
 Profiles may include `feed_urls`. Those feeds are used by default. The shipped catalog at `references/rss-feeds.json` is the starting point for setup and onboarding.
@@ -100,15 +121,15 @@ Pipeline:
 
 For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the beta-facing Markdown brief; JSON/log files are supporting evidence.
 
-2. Cheap-filter every signal independently and write `filter_decisions.json`. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the cheap pass.
+2. Cheap-filter every signal independently and write `filter_decisions.json`. This pass must include the Story-Origin Gate for each signal and must write `first_publication` on every decision. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the cheap pass.
 
 3. Apply decisions:
 
 ```bash
-~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --output targeted_candidates.json
+~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --require-fresh-first-publication --output targeted_candidates.json
 ```
 
-4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`.
+4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks a `cheap_filter.first_publication.status` of `fresh` or `fresh_new_development` in recurring/beta output.
 
 5. Rerender the observable Markdown run report:
 
@@ -164,7 +185,7 @@ You are the cheap newsjack signal filter.
 
 Input: detector JSON with a client profile and candidate signals.
 
-Task: evaluate each signal independently. Your job is only to remove obvious junk before a more expensive LLM applies the real newsworthiness rubric.
+Task: evaluate each signal independently. Your job is only to remove obvious junk and verify the story clock before a more expensive LLM applies the real newsworthiness rubric.
 
 Allowed decisions:
 - keep
@@ -181,19 +202,28 @@ Allowed reasons:
 - seo_landing_page
 - low_reach_x_post
 - stale
+- freshness_unverified
 - safety_risk
 - duplicate
 - off_beat
 - no_profile_bridge
 
 Rules:
-- Be recall-biased. If uncertain, use monitor_only, not reject.
+- Be recall-biased on PR relevance, but strict on cron freshness.
 - Do not choose best bets.
 - Do not rank signals.
 - Do not write angles.
 - Do not decide whether to pitch.
-- Only reject clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, stale evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
-- For broad major-news, RSS, X News, or X Trends items with any plausible client bridge, use keep or monitor_only.
+- For every signal, run the Story-Origin Gate from skills/story-origin-check/SKILL.md.
+- Use news-search timestamps as evidence for article publication times and for candidate originals/canonical coverage.
+- Do not trust aggregator, syndication, partner-published, or small-pickup timestamps as the first-public story clock without same-story/original verification.
+- The LLM must decide whether older public evidence is the same story or a materially new development. Do not rely on title similarity alone.
+- The LLM must recover canonical coverage where possible: major outlet, wire, recognized trade, or primary source coverage of the same story.
+- Use keep or monitor_only only when first_publication.status is fresh or fresh_new_development.
+- If the same story first became public more than 24 hours before the run and there is no material new development, reject with reason stale.
+- If you cannot verify the first public timestamp as inside the last 24 hours, reject with reason freshness_unverified.
+- Only reject other clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, stale evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
+- For broad major-news, RSS, X News, or X Trends items with any plausible client bridge and verified first-public freshness, use keep or monitor_only.
 - Preserve evidence URLs. Each decision must cite the URLs it used.
 - Return only JSON. No prose before or after it.
 
@@ -207,7 +237,31 @@ Output shape:
       "reason": "allowed reason",
       "rationale": "One short sentence explaining the filter decision.",
       "confidence": "high | medium | low",
-      "evidence_urls": ["https://..."]
+      "evidence_urls": ["https://..."],
+      "first_publication": {
+        "status": "fresh | fresh_new_development | stale | freshness_unverified",
+        "surfaced_article_published_at": "ISO timestamp, YYYY-MM-DD, or null",
+        "first_public_at": "ISO timestamp, YYYY-MM-DD, or null",
+        "original_url": "https://... or null",
+        "original_source": "Outlet/source name or null",
+        "canonical_coverage_url": "https://... or null",
+        "canonical_coverage_source": "Outlet/source name or null",
+        "canonical_coverage_published_at": "ISO timestamp, YYYY-MM-DD, or null",
+        "canonical_coverage_basis": "Why this is the best main coverage link.",
+        "same_story_basis": "Why older evidence is or is not the same story.",
+        "new_development": "Concrete new public fact, or null",
+        "confidence": "high | medium | low",
+        "timestamp_evidence": [
+          {
+            "source": "news_search | page_meta | canonical | visible_date | primary_source",
+            "url": "https://...",
+            "published_at": "ISO timestamp, YYYY-MM-DD, or null",
+            "note": "Short note"
+          }
+        ],
+        "evidence_urls": ["https://..."],
+        "rationale": "One to three sentences naming the clock source."
+      }
     }
   ]
 }
@@ -216,6 +270,12 @@ Output shape:
 ### Expensive Pass Prompt
 
 After applying cheap-filter decisions, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
+
+For recurring/beta output, the expensive pass must treat `cheap_filter.first_publication` as a hard freshness gate:
+
+- `fresh` or `fresh_new_development`: eligible for normal rubric judgment.
+- `stale`: reject as stale even if the source article was published today.
+- `freshness_unverified` or missing: reject or omit from the beta-facing report; never call it `pitch_now`, `4hr`, or `24hr`.
 
 ### Claude Code One-Prompt Execution
 
@@ -236,11 +296,11 @@ Use min_major_news: 0.55
 Steps:
 1. Run `fixtures/newsjack-detector-agent/scripts/observe-run.sh` when available. Otherwise run `newsjack detector run` and write candidates.json.
 2. Follow the Harness Execution Decision Path in skills/newsjack-detector/SKILL.md. Use a cheap model or cheap workers/subagents for the cheap filter if the harness exposes that; otherwise run current-model fallback and disclose it.
-3. Apply the Cheap Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently. Write filter_decisions.json in the run folder.
-4. Run `newsjack filter-apply` with --include keep --include monitor_only and write targeted_candidates.json in the run folder.
+3. Apply the Cheap Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently, including the Story-Origin Gate from skills/story-origin-check/SKILL.md. Write filter_decisions.json in the run folder with first_publication on every decision.
+4. Run `newsjack filter-apply` with `--include keep --include monitor_only --require-fresh-first-publication` and write targeted_candidates.json in the run folder.
 5. Apply the newsjack-detector rubric to targeted_candidates.json and write final_report.md in the run folder.
 6. Rerender run.md with `newsjack summarize-run` so the full run and final result are observable in Markdown.
-7. Summarize the run.md path, whether the cheap pass was cost-optimized or fallback, and top findings.
+7. Summarize the run.md path, whether the cheap pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
 ```
 
 No step requires a subagent API. Harnesses that have cheap-model/subagent controls should use them; harnesses that do not should still produce the same `filter_decisions.json` contract and disclose fallback.
@@ -264,7 +324,7 @@ You own:
 - whether the signal is newsjacking-worthy
 - whether the client has standing
 - whether proof is sufficient
-- decay interpretation
+- first-publication verification and decay interpretation
 - journalist shape
 - brand-safety judgment
 - handoff to the next skill
@@ -277,13 +337,15 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 2. **Run the engine.** Use `newsjack detector run` with the profile and relevant query/source flags. Profile `feed_urls` are included automatically. For hourly feed-only monitoring, use `--feed-only --save --new-only --max-age-hours 24`. For profiles without feeds, include `--major-feeds` or explicit `--feed-url` values. If credentials are missing, run `newsjack detector diagnose` and report what source is unavailable.
 
-3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
+3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
-4. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
+4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `cheap_filter.first_publication.status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `cheap_filter.first_publication.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
 
-5. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, single-source, no-standing, no-proof, or no-journalist-shape signals.
+5. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
 
-6. **Choose the handoff.**
+6. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, freshness-unverified, single-source, no-standing, no-proof, or no-journalist-shape signals.
+
+7. **Choose the handoff.**
    - Breaking or same-day sourced comment: `reactive-comment`
    - Needs story framing: `angle-generator`
    - Named journalist check: `journalist-fit-check`
@@ -293,7 +355,7 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 Return exactly this JSON object. Do not add prose before or after it.
 
-Every opportunity must include source URLs in `evidence_used`. Include enough evidence for the user to validate the judgment, usually 1-3 links across news, RSS, and X when present.
+Every opportunity must include source URLs in `evidence_used`. Include `first_publication.canonical_coverage_url` first when present, then the original/source URL and other supporting evidence. Include enough evidence for the user to validate the judgment, usually 1-3 links across news, RSS, and X when present.
 
 ```json
 {
@@ -305,6 +367,14 @@ Every opportunity must include source URLs in `evidence_used`. Include enough ev
       "decay": {
         "stage": "4hr",
         "rationale": "Why this clock applies"
+      },
+      "first_publication": {
+        "status": "fresh | fresh_new_development",
+        "first_public_at": "ISO timestamp or YYYY-MM-DD",
+        "original_url": "https://...",
+        "canonical_coverage_url": "https://... or null",
+        "canonical_coverage_source": "Outlet/source name or null",
+        "rationale": "Why this first-public clock controls"
       },
       "why_newsjacking_worthy": "Specific reason this is timely and not generic trend-chasing.",
       "client_standing": {
@@ -334,7 +404,13 @@ Every opportunity must include source URLs in `evidence_used`. Include enough ev
     {
       "signal_id": "engine signal id",
       "signal_title": "Rejected public signal",
-      "reason": "no_client_standing"
+      "reason": "no_client_standing",
+      "first_publication": {
+        "status": "stale | freshness_unverified | null",
+        "first_public_at": "ISO timestamp, YYYY-MM-DD, or null",
+        "original_url": "https://... or null",
+        "canonical_coverage_url": "https://... or null"
+      }
     }
   ],
   "brand_safety_blocks": [
@@ -352,6 +428,6 @@ Every opportunity must include source URLs in `evidence_used`. Include enough ev
 
 Allowed verdicts: `pitch_now`, `develop_angle`, `monitor`, `reject`.
 
-Allowed rejection reasons: `stale`, `single_source`, `no_client_standing`, `missing_proof`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`.
+Allowed rejection reasons: `stale`, `freshness_unverified`, `single_source`, `no_client_standing`, `missing_proof`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`.
 
 Allowed brand-safety block reasons: `tragedy_or_human_suffering`, `client_exclusion`, `regulated_claim_risk`, `fabrication_risk`.

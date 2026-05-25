@@ -42,7 +42,16 @@ Skill output:
   "verdict": "pitch_now",
   "decay": {
     "stage": "4hr",
-    "rationale": "The signal is same-cycle and confirmed by news plus expert reaction."
+    "rationale": "The signal is same-cycle by verified first-public clock, not just the search-result timestamp."
+  },
+  "first_publication": {
+    "status": "fresh",
+    "surfaced_article_published_at": "2026-05-25T13:14:00Z",
+    "first_public_at": "2026-05-25T13:10:00Z",
+    "original_url": "https://www.ftc.gov/news-events/news/press-releases/example",
+    "canonical_coverage_url": "https://www.reuters.com/legal/government/ftc-opens-inquiry-ai-compliance-claims-2026-05-25/",
+    "canonical_coverage_source": "Reuters",
+    "rationale": "The official FTC press release is the earliest verified public source and is inside the 24-hour cron window."
   },
   "why_newsjacking_worthy": "Regulator action creates a live need for explainers on AI compliance claims.",
   "client_standing": {
@@ -58,7 +67,18 @@ Skill output:
     "why_they_care_now": "They need sourced reaction while the inquiry is fresh.",
     "do_not_target": "General startup roundups or consumer AI reviewers"
   },
-  "evidence_used": [],
+  "evidence_used": [
+    {
+      "source": "Reuters",
+      "title": "FTC opens inquiry into AI compliance claims",
+      "url": "https://www.reuters.com/legal/government/ftc-opens-inquiry-ai-compliance-claims-2026-05-25/"
+    },
+    {
+      "source": "FTC",
+      "title": "FTC opens inquiry into AI compliance claims",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/example"
+    }
+  ],
   "next_skill": "reactive-comment"
 }
 ```
@@ -78,6 +98,20 @@ Engine signal: "Influencers debate AI regulation again" with `month` decay and n
 Verdict: `reject`
 
 Reason: `stale`
+
+Engine signal: AOL article published today, canonical URL points to a BBC story from May 4 with no new development.
+
+Verdict: `reject`
+
+Reason: `stale`
+
+`first_publication.status`: `stale`
+
+Engine signal: secondary article published today, no canonical/source metadata, and searches do not verify the first public source.
+
+Verdict: `reject`
+
+Reason: `freshness_unverified`
 
 ## Brand-Safety Block
 

@@ -28,6 +28,7 @@ ALLOWED_REASONS = {
     "seo_landing_page",
     "low_reach_x_post",
     "stale",
+    "freshness_unverified",
     "safety_risk",
     "duplicate",
     "off_beat",
@@ -49,6 +50,11 @@ def main() -> int:
     )
     parser.add_argument("--allow-missing", action="store_true", help="Do not fail when a candidate signal has no decision.")
     parser.add_argument("--allow-unknown", action="store_true", help="Do not fail when decisions reference unknown signal IDs.")
+    parser.add_argument(
+        "--require-fresh-first-publication",
+        action="store_true",
+        help="Fail if an included decision lacks first_publication.status=fresh or fresh_new_development.",
+    )
     args = parser.parse_args()
 
     candidates = _read_json(Path(args.candidates))
@@ -59,6 +65,7 @@ def main() -> int:
         include=set(args.include or ["keep"]),
         allow_missing=args.allow_missing,
         allow_unknown=args.allow_unknown,
+        require_fresh_first_publication=args.require_fresh_first_publication,
     )
     rendered = json.dumps(output, indent=2, sort_keys=True)
     if args.output:
@@ -75,6 +82,7 @@ def apply_decisions(
     include: set[str],
     allow_missing: bool = False,
     allow_unknown: bool = False,
+    require_fresh_first_publication: bool = False,
 ) -> dict[str, Any]:
     signals = list(candidates.get("signals") or [])
     signal_by_id = {str(signal.get("id")): signal for signal in signals if signal.get("id")}
@@ -98,6 +106,14 @@ def apply_decisions(
             errors.append(f"{signal_id}: unsupported decision={normalized['decision']}")
         if normalized["reason"] not in ALLOWED_REASONS:
             errors.append(f"{signal_id}: unsupported reason={normalized['reason']}")
+        if (
+            require_fresh_first_publication
+            and normalized["decision"] in include
+            and not _fresh_first_publication_status(normalized.get("first_publication"))
+        ):
+            errors.append(
+                f"{signal_id}: included decision requires first_publication.status=fresh or fresh_new_development"
+            )
         decision_by_id[signal_id] = normalized
 
     missing_ids = [signal_id for signal_id in signal_by_id if signal_id not in decision_by_id]
@@ -122,12 +138,15 @@ def apply_decisions(
         if decision["decision"] in include:
             selected.append(signal_with_decision)
         else:
-            rejected.append({
+            rejected_signal = {
                 **_summary_signal(signal),
                 "decision": decision["decision"],
                 "reason": decision["reason"],
                 "rationale": decision["rationale"],
-            })
+            }
+            if "first_publication" in decision:
+                rejected_signal["first_publication"] = decision["first_publication"]
+            rejected.append(rejected_signal)
 
     decision_counts = Counter(decision["decision"] for decision in decision_by_id.values())
     reason_counts = Counter(decision["reason"] for decision in decision_by_id.values())
@@ -167,7 +186,7 @@ def _normalize_decision(decision: dict[str, Any]) -> dict[str, Any]:
     evidence_urls = decision.get("evidence_urls") or []
     if isinstance(evidence_urls, str):
         evidence_urls = [evidence_urls]
-    return {
+    normalized = {
         "signal_id": str(decision.get("signal_id") or "").strip(),
         "decision": str(decision.get("decision") or "").strip(),
         "reason": str(decision.get("reason") or "").strip(),
@@ -175,6 +194,15 @@ def _normalize_decision(decision: dict[str, Any]) -> dict[str, Any]:
         "confidence": str(decision.get("confidence") or "").strip() or "medium",
         "evidence_urls": [str(url) for url in evidence_urls if str(url).strip()],
     }
+    if isinstance(decision.get("first_publication"), dict):
+        normalized["first_publication"] = decision["first_publication"]
+    return normalized
+
+
+def _fresh_first_publication_status(value: Any) -> bool:
+    if not isinstance(value, dict):
+        return False
+    return str(value.get("status") or "").strip() in {"fresh", "fresh_new_development"}
 
 
 def _summary_signal(signal: dict[str, Any]) -> dict[str, Any]:

@@ -46,6 +46,7 @@ newsjack is the open-source operating system for **agentic PR** — a skill laye
 Local skills:
 - **newsjack-setup** — create a company monitor profile and choose RSS feeds
 - **newsjack-detector** — find newsworthy moments before the wave breaks
+- **story-origin-check** — verify first-public freshness and canonical major coverage for a signal
 - **newsworthiness-check** — score whether an event or pitch is actually newsworthy
 - **meanest-editor** — roast your pitch against the rubric pros use
 - **angle-generator** — turn one update into ten pitchable hooks

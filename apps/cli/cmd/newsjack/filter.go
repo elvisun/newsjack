@@ -12,7 +12,7 @@ import (
 )
 
 var allowedDecisions = stringSet([]string{"keep", "monitor_only", "reject"})
-var allowedReasons = stringSet([]string{"relevant_news", "plausible_client_bridge", "major_news_no_bridge", "keyword_collision", "not_news", "owned_docs_or_product_page", "seo_landing_page", "low_reach_x_post", "stale", "safety_risk", "duplicate", "off_beat", "no_profile_bridge"})
+var allowedReasons = stringSet([]string{"relevant_news", "plausible_client_bridge", "major_news_no_bridge", "keyword_collision", "not_news", "owned_docs_or_product_page", "seo_landing_page", "low_reach_x_post", "stale", "freshness_unverified", "safety_risk", "duplicate", "off_beat", "no_profile_bridge"})
 
 func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 	var includes stringList
@@ -24,6 +24,7 @@ func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 	fs.Var(&includes, "include", "Decision to include. Repeatable.")
 	allowMissing := fs.Bool("allow-missing", false, "Do not fail when a candidate has no decision")
 	allowUnknown := fs.Bool("allow-unknown", false, "Do not fail when decisions reference unknown IDs")
+	requireFreshFirstPublication := fs.Bool("require-fresh-first-publication", false, "Fail if an included decision lacks fresh first_publication status")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
@@ -46,7 +47,7 @@ func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 			includeSet[inc] = true
 		}
 	}
-	output, err := applyDecisions(candidates, decisionsPayload, includeSet, *allowMissing, *allowUnknown)
+	output, err := applyDecisions(candidates, decisionsPayload, includeSet, *allowMissing, *allowUnknown, *requireFreshFirstPublication)
 	if err != nil {
 		return fail(stderr, err)
 	}
@@ -61,7 +62,7 @@ func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 	return 0
 }
 
-func applyDecisions(candidates map[string]any, decisionsPayload any, include map[string]bool, allowMissing, allowUnknown bool) (map[string]any, error) {
+func applyDecisions(candidates map[string]any, decisionsPayload any, include map[string]bool, allowMissing, allowUnknown, requireFreshFirstPublication bool) (map[string]any, error) {
 	signals := signalSlice(candidates["signals"])
 	signalByID := map[string]map[string]any{}
 	for _, signal := range signals {
@@ -95,6 +96,9 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		}
 		if !allowedReasons[stringValue(normalized["reason"])] {
 			errs = append(errs, fmt.Sprintf("%s: unsupported reason=%s", id, normalized["reason"]))
+		}
+		if requireFreshFirstPublication && include[stringValue(normalized["decision"])] && !freshFirstPublicationStatus(normalized["first_publication"]) {
+			errs = append(errs, fmt.Sprintf("%s: included decision requires first_publication.status=fresh or fresh_new_development", id))
 		}
 		decisionByID[id] = normalized
 	}
@@ -141,6 +145,9 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 			s["decision"] = decision["decision"]
 			s["reason"] = decision["reason"]
 			s["rationale"] = decision["rationale"]
+			if fp, ok := decision["first_publication"]; ok {
+				s["first_publication"] = fp
+			}
 			rejected = append(rejected, s)
 		}
 	}
@@ -155,6 +162,15 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		"detector_diagnostics": valueOrEmptyMap(candidates["diagnostics"]),
 		"source_errors":        valueOrEmptyMap(candidates["source_errors"]),
 	}, nil
+}
+
+func freshFirstPublicationStatus(value any) bool {
+	fp, ok := value.(map[string]any)
+	if !ok {
+		return false
+	}
+	status := strings.TrimSpace(stringValue(fp["status"]))
+	return status == "fresh" || status == "fresh_new_development"
 }
 
 func normalizeDecisions(payload any) ([]map[string]any, error) {
@@ -182,7 +198,7 @@ func normalizeDecisions(payload any) ([]map[string]any, error) {
 }
 
 func normalizeDecision(decision map[string]any) map[string]any {
-	return map[string]any{
+	out := map[string]any{
 		"signal_id":     strings.TrimSpace(stringValue(decision["signal_id"])),
 		"decision":      strings.TrimSpace(stringValue(decision["decision"])),
 		"reason":        strings.TrimSpace(stringValue(decision["reason"])),
@@ -190,6 +206,10 @@ func normalizeDecision(decision map[string]any) map[string]any {
 		"confidence":    firstString(strings.TrimSpace(stringValue(decision["confidence"])), "medium"),
 		"evidence_urls": toStringSlice(decision["evidence_urls"]),
 	}
+	if fp, ok := decision["first_publication"].(map[string]any); ok {
+		out["first_publication"] = fp
+	}
+	return out
 }
 
 func summarySignal(signal map[string]any) map[string]any {

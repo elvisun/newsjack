@@ -9,6 +9,21 @@ The engine has two discovery lanes:
 
 Do not treat a `major_news` item as pitchable because it is big. The client still needs standing, proof, and a journalist shape.
 
+## Freshness Gate
+
+For recurring or beta cron output, freshness must come from the LLM `story-origin-check`. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
+
+Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `cheap_filter.first_publication`:
+
+- `fresh` - eligible for normal judgment.
+- `fresh_new_development` - eligible, but the angle must be about the new development, not the older background story.
+- `stale` - reject as stale.
+- `freshness_unverified` or missing - reject as `freshness_unverified` for cron/beta output.
+
+Do not reset the clock because an aggregator, syndication partner, or secondary outlet republished an older article.
+
+When citing the story, prefer `cheap_filter.first_publication.canonical_coverage_url` when present. It should be the major or most authoritative same-story coverage, such as a primary source, wire, major publisher, or recognized trade, instead of the small pickup that triggered retrieval.
+
 ## Verdict Ladder
 
 ### pitch_now
@@ -16,6 +31,7 @@ Do not treat a `major_news` item as pitchable because it is big. The client stil
 Use only when all are true:
 
 - Evidence is fresh: usually `30min`, `4hr`, or `24hr`.
+- The first public story clock is verified as inside the last 24 hours, or the new development is inside the last 24 hours.
 - At least one credible news source exists, preferably `news_search`.
 - The client has direct standing to comment.
 - The client can supply proof or a real spokesperson now.
@@ -48,6 +64,7 @@ Use when the signal is interesting but not pitch-ready:
 Use when any core gate fails:
 
 - stale
+- freshness unverified in cron/beta output
 - no client standing
 - missing proof that cannot be supplied quickly
 - no plausible journalist shape
@@ -56,6 +73,8 @@ Use when any core gate fails:
 - weak source quality
 
 ## Decay
+
+Decay uses the verified first-public timestamp from `story-origin-check`. Engine `features.decay_bucket` is provisional when evidence comes from aggregators, syndication partners, secondary rewrites, or search results that have not yet been matched to the original/canonical story.
 
 - `30min` - live/breaking. Only use for immediate comment if the client can respond now.
 - `4hr` - same-cycle. Good for reactive comment.

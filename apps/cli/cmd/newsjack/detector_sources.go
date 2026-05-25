@@ -194,7 +194,7 @@ func feedItemDict(m map[string]string, feedTitle, feedURL string, position int) 
 
 func cleanText(value string) string {
 	text := html.UnescapeString(value)
-	text = regexp.MustCompile(`(?is)<(script|style).*?</\1>`).ReplaceAllString(text, " ")
+	text = regexp.MustCompile(`(?is)<script[^>]*>.*?</script>|<style[^>]*>.*?</style>`).ReplaceAllString(text, " ")
 	text = regexp.MustCompile(`(?s)<[^>]+>`).ReplaceAllString(text, " ")
 	text = regexp.MustCompile(`\s+`).ReplaceAllString(text, " ")
 	return strings.TrimSpace(text)
