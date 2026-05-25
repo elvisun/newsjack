@@ -113,8 +113,10 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 		"lanes":                    map[string]any{"scored": firstNonNil(diagnostics["signals_by_lane"], countByLanes(allScored)), "emitted": firstNonNil(diagnostics["emitted_by_lane"], countByLanes(signals)), "dropped_debug": countByLanes(dropped)},
 		"sources":                  map[string]any{"evidence_by_source": firstNonNil(diagnostics["evidence_by_source"], countEvidenceSources(signals)), "source_errors": sourceErrors},
 		"hygiene_rejections":       valueOrEmptyMap(diagnostics["hygiene_rejections"]),
-		"coarse_filter":            coarseFilterMap(payload),
-		"coarse_filter_file":       summarizeDecisions(paths["filter_decisions"]),
+		"coarse_relevance":         coarseRelevanceMap(payload),
+		"coarse_relevance_file":    summarizeDecisions(paths["coarse_relevance_decisions"]),
+		"relevant_candidates_file": summarizeTargeted(paths["relevant_candidates"]),
+		"origin_findings_file":     summarizeOriginFindings(paths["origin_findings"]),
 		"targeted_candidates_file": summarizeTargeted(paths["targeted_candidates"]),
 		"final_report_file":        summarizeFinalReport(paths["final_report"]),
 		"top_signals":              summarizeSignals(firstNSignals(signals, top)),
@@ -161,7 +163,18 @@ func statusText(summary map[string]any) string {
 }
 
 func artifactPaths(runDir string) map[string]string {
-	return map[string]string{"candidates": filepath.Join(runDir, "candidates.json"), "detector_summary": filepath.Join(runDir, "summary.json"), "commands": filepath.Join(runDir, "commands.log"), "detector_stderr": filepath.Join(runDir, "detector.stderr.log"), "filter_decisions": filepath.Join(runDir, "filter_decisions.json"), "targeted_candidates": filepath.Join(runDir, "targeted_candidates.json"), "final_report": filepath.Join(runDir, "final_report.md"), "run_markdown": filepath.Join(runDir, "run.md")}
+	return map[string]string{
+		"candidates":                 filepath.Join(runDir, "candidates.json"),
+		"detector_summary":           filepath.Join(runDir, "summary.json"),
+		"commands":                   filepath.Join(runDir, "commands.log"),
+		"detector_stderr":            filepath.Join(runDir, "detector.stderr.log"),
+		"coarse_relevance_decisions": filepath.Join(runDir, "coarse_relevance_decisions.json"),
+		"relevant_candidates":        filepath.Join(runDir, "relevant_candidates.json"),
+		"origin_findings":            filepath.Join(runDir, "origin_findings.json"),
+		"targeted_candidates":        filepath.Join(runDir, "targeted_candidates.json"),
+		"final_report":               filepath.Join(runDir, "final_report.md"),
+		"run_markdown":               filepath.Join(runDir, "run.md"),
+	}
 }
 
 func artifactStatus(paths map[string]string) map[string]any {
@@ -178,16 +191,23 @@ func artifactStatus(paths map[string]string) map[string]any {
 	return out
 }
 
-func pipelineStatus(paths map[string]string) []map[string]string {
-	return []map[string]string{stage("detector", paths["candidates"]), stage("coarse_filter", paths["filter_decisions"]), stage("filter_apply", paths["targeted_candidates"]), stage("final_report", paths["final_report"])}
+func pipelineStatus(paths map[string]string) []map[string]any {
+	return []map[string]any{
+		stage("detector", paths["candidates"]),
+		stage("coarse_relevance", paths["coarse_relevance_decisions"]),
+		stage("relevance_apply", paths["relevant_candidates"]),
+		stage("story_origin", paths["origin_findings"]),
+		stage("freshness_gate", paths["targeted_candidates"]),
+		stage("final_report", paths["final_report"]),
+	}
 }
 
-func stage(name, path string) map[string]string {
+func stage(name, path string) map[string]any {
 	status := "pending"
 	if fileExists(path) {
 		status = "done"
 	}
-	return map[string]string{"stage": name, "status": status, "artifact": filepath.Base(path)}
+	return map[string]any{"stage": name, "status": status, "artifact": filepath.Base(path)}
 }
 
 func summarizeDecisions(path string) map[string]any {
@@ -216,8 +236,24 @@ func summarizeTargeted(path string) map[string]any {
 	if err != nil {
 		return map[string]any{"exists": true, "path": path, "error": err.Error()}
 	}
-	coarse := coarseFilterMap(payload)
-	return map[string]any{"exists": true, "path": path, "selected_signals": len(signalSlice(payload["signals"])), "input_signals": coarse["input_signal_count"], "rejected_signals": coarse["rejected_count"]}
+	gate := freshnessGateMap(payload)
+	coarse := coarseRelevanceMap(payload)
+	return map[string]any{"exists": true, "path": path, "selected_signals": len(signalSlice(payload["signals"])), "input_signals": firstNonNil(gate["input_signal_count"], coarse["input_signal_count"]), "rejected_signals": firstNonNil(gate["rejected_count"], coarse["rejected_count"])}
+}
+
+func summarizeOriginFindings(path string) map[string]any {
+	if !fileExists(path) {
+		return map[string]any{"exists": false, "path": path}
+	}
+	payload, err := readJSONAny(path)
+	if err != nil {
+		return map[string]any{"exists": true, "path": path, "error": err.Error()}
+	}
+	findings, err := normalizeOriginFindings(payload)
+	if err != nil {
+		return map[string]any{"exists": true, "path": path, "error": err.Error()}
+	}
+	return map[string]any{"exists": true, "path": path, "finding_count": len(findings)}
 }
 
 func summarizeFinalReport(path string) map[string]any {
@@ -256,16 +292,23 @@ func summarizeSignals(signals []map[string]any) []map[string]any {
 	for _, signal := range signals {
 		routing := valueOrEmptyMap(signal["routing"])
 		mech := valueOrEmptyMap(signal["mechanical_scores"])
-		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "coarse_filter": firstNonNil(signal["coarse_filter"], signal["cheap_filter"]), "evidence": summarizeEvidence(signal)})
+		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "coarse_relevance": firstNonNil(signal["coarse_relevance"], signal["coarse_filter"], signal["cheap_filter"]), "story_origin": signal["story_origin"], "freshness_gate": signal["freshness_gate"], "evidence": summarizeEvidence(signal)})
 	}
 	return out
 }
 
-func coarseFilterMap(payload map[string]any) map[string]any {
+func coarseRelevanceMap(payload map[string]any) map[string]any {
+	if coarse := valueOrEmptyMap(payload["coarse_relevance"]); len(coarse) > 0 {
+		return coarse
+	}
 	if coarse := valueOrEmptyMap(payload["coarse_filter"]); len(coarse) > 0 {
 		return coarse
 	}
 	return valueOrEmptyMap(payload["cheap_filter"])
+}
+
+func freshnessGateMap(payload map[string]any) map[string]any {
+	return valueOrEmptyMap(payload["freshness_gate"])
 }
 
 func summarizeEvidence(signal map[string]any) []map[string]any {

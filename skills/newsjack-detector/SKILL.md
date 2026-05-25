@@ -54,7 +54,7 @@ Useful flags:
 - `--x-trends-min-profile-match 0.05` to demote broad X trends below the profile-overlap threshold.
 - `--min-queue-priority 40` to emit candidates at or above this mechanical priority when no lane caps are set. Threshold-demoted lanes stay below `40` by default; lower this only for debugging the rejected pool.
 - `--min-major-news 0.55` to also emit matched `major_news` candidates above this major-news score. `major_news_unmatched` remains below the default floor unless explicitly debugged with a lower queue floor.
-- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the coarse-filter candidate pool unless you deliberately want a narrow list.
+- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the coarse-relevance candidate pool unless you deliberately want a narrow list.
 - `--new-only` to suppress signals whose evidence URLs are already in the monitor store.
 - `--include-all-scored` to include the full scored signal pool under `debug.all_scored_signals`. Use only for fixture/debug observability; normal product runs should keep output compact.
 - `--depth quick|default|deep`
@@ -86,18 +86,18 @@ Use `../story-origin-check/SKILL.md` before calling any signal fresh in recurrin
 
 The engine may find a newly published article that is only a syndication, rewrite, or secondary pickup of an older story. It may also surface a small publisher when the actual canonical coverage is a major outlet or primary source. The CLI must not decide same-story status from title similarity alone. The LLM must use news search and page evidence to decide whether prior public evidence is the same story or a materially new development, and to recover the canonical same-story coverage link.
 
-The origin-checking LLM needs retrieval evidence. Use news search to collect exact-headline, entity, and distinctive-phrase matches with `published_at` values, then open likely original/canonical URLs when possible. If a low-cost worker cannot open pages or search the web, either give it extracted page/search evidence from the orchestrator or run this gate in the current harness with retrieval tools. If the first public timestamp still cannot be verified, mark the signal `freshness_unverified`.
+The origin-checking LLM needs retrieval evidence. Use news search to collect exact-headline, entity, and distinctive-phrase matches with `published_at` values, then open likely original/canonical URLs when possible. If a low-cost worker cannot open pages or search the web, either give it extracted page/search evidence from the orchestrator or run this gate in the current harness with retrieval tools. If the first public timestamp still cannot be verified, write `first_public_at: null` and explain the gap; `origin-apply` will compute `freshness_unverified`.
 
 Recurring/beta rule:
 
-- Surface only signals whose `first_publication.status` is `fresh` or `fresh_new_development`.
-- Reject signals whose `first_publication.status` is `stale`.
+- Surface only signals whose Go-computed `freshness_gate.computed_status` is `fresh` or `fresh_new_development`.
+- Reject signals whose Go-computed `freshness_gate.computed_status` is `stale`.
 - Reject signals whose first public timestamp cannot be verified as inside the last 24 hours with reason `freshness_unverified`.
 - Do not reset the clock for AOL, Yahoo, MSN, Apple News, partner syndication, wire pickup, SEO rewrites, or "published today" pages whose canonical/source story is older.
 - A newer article restarts the clock only if it adds a concrete new public fact: official action, filing, statement, data/report publication, material company update, new local impact, or another independently coverable development.
-- Prefer `first_publication.canonical_coverage_url` as the report's main story link when present. It should be the major or most authoritative same-story coverage, not the random pickup that triggered retrieval.
+- Prefer `story_origin.canonical_coverage_url` as the report's main story link when present. It should be the major or most authoritative same-story coverage, not the random pickup that triggered retrieval.
 
-Preserve the result as `coarse_filter.first_publication` by including a `first_publication` object in each coarse-filter decision. `newsjack filter-apply` keeps that object on selected and rejected signals.
+Preserve story-origin research in `origin_findings.json`. `newsjack origin-apply` attaches `story_origin` and a deterministic `freshness_gate` to selected and rejected signals.
 
 For the beta fixture, `fixtures/newsjack-detector-agent/scripts/hourly-run-all.sh` runs every configured profile and writes `index.md` plus a beta-facing `run.md` in each profile folder.
 
@@ -107,9 +107,45 @@ Profiles may also include `search_terms`. When present, the engine uses them for
 
 If no profile file exists, accept the user's plain-text company/client context and create a temporary JSON profile outside the repo. Do not invent profile facts.
 
-## Two-Pass LLM Pipeline
+## Canonical Orchestration Path
 
-Use the two-pass path when a run includes broad RSS, X News, or X Trends and the user wants high-traffic stories filtered before expensive judgment. The two LLM passes are harness-neutral: the repo writes and validates JSON files, while Codex, Claude Code, OpenClaw, or another harness can execute the model calls however it wants.
+Use this path whenever an agent, fixture, cron harness, or user asks to run the NewsJack detector end to end. Fixture prompts should point here instead of duplicating the workflow. Agents may run local scripts, call the CLI, and spawn subagents/workers when the active harness exposes them, but the artifact contract below is the source of truth.
+
+Canonical trigger prompt:
+
+```text
+Run the multi-stage newsjack pipeline using the canonical orchestration path in skills/newsjack-detector/SKILL.md.
+
+Use profile: PATH_TO_PROFILE
+Use query: QUERY
+Use sources: news_search,x
+Use lookback: 1 day
+Use depth: quick
+Use limit: 80
+Use min_queue_priority: 40
+Use min_major_news: 0.55
+
+Write all artifacts to a timestamped run folder.
+Return the final run.md path, whether the coarse pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
+```
+
+The standard run folder contains:
+
+```text
+RUN_DIR/
+  candidates.json
+  detector.stderr.log
+  commands.log
+  summary.json
+  coarse_relevance_decisions.json
+  relevant_candidates.json
+  origin_findings.json
+  targeted_candidates.json
+  final_report.md
+  run.md
+```
+
+Only `run.md` is the human-facing report. The JSON/log files are support artifacts.
 
 Pipeline:
 
@@ -121,71 +157,81 @@ Pipeline:
 
 For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the beta-facing Markdown brief; JSON/log files are supporting evidence.
 
-2. Coarse-filter every signal independently and write `filter_decisions.json`. This pass must include the Story-Origin Gate for each signal and must write `first_publication` on every decision. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the coarse pass.
+2. Run a generous coarse relevance pass and write `coarse_relevance_decisions.json`. This pass rejects only obvious junk, keyword collisions, off-beat items, unsafe hooks, product/docs/SEO pages, and lone low-reach X posts. It must not rank, write angles, verify story dates, or decide whether to pitch.
 
-3. Apply decisions:
+3. Apply coarse relevance decisions:
 
 ```bash
-~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --require-fresh-first-publication --output targeted_candidates.json
+~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions coarse_relevance_decisions.json --include keep --include monitor_only --output relevant_candidates.json
 ```
 
-4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks a `coarse_filter.first_publication.status` of `fresh` or `fresh_new_development` in recurring/beta output.
+4. Run the story-origin pass only on `relevant_candidates.json` and write `origin_findings.json`. This pass decides same-story vs material-new-development and recovers `first_public_at`, `original_url`, and canonical major coverage. It must not compute `fresh`, `stale`, or any cutoff math.
 
-5. Rerender the observable Markdown run report:
+5. Apply the deterministic freshness gate:
+
+```bash
+~/.newsjack/bin/newsjack origin-apply --candidates relevant_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
+```
+
+The Go CLI is the freshness authority. It computes `freshness_gate.computed_status` from the detector run timestamp and cutoff. If an LLM labels May 8 as fresh for a May 25 run, `origin-apply` must mark it stale.
+
+6. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks `freshness_gate.computed_status` of `fresh` or `fresh_new_development` in recurring/beta output.
+
+7. Rerender the observable Markdown run report:
 
 ```bash
 ~/.newsjack/bin/newsjack summarize-run candidates.json --output summary.json --markdown run.md
 ```
 
-When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/coarse-filter provenance in a compact appendix.
+When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/coarse/origin provenance in a compact appendix.
 
 ### Harness Execution Decision Path
 
-The coarse filter is a low-cost task. It only becomes a low-cost model pass when the active harness supports model selection or low-cost worker/subagent routing. Before running the coarse pass, identify the harness if possible and choose the first available path:
+The coarse relevance and story-origin passes are low-cost tasks. They only become low-cost model passes when the active harness supports model selection or low-cost worker/subagent routing. Before running each pass, identify the harness if possible and choose the first available path:
 
-1. **Direct low-cost-model path.** If the harness can choose a model for a single step, run the Coarse Filter Prompt with the lowest-cost reliable model available from the Preferred Models list below. Then continue the expensive pass with the normal/high-quality model from that same list.
+1. **Direct low-cost-model path.** If the harness can choose a model for a single step, run the relevant prompt with the lowest-cost reliable model available from the Preferred Models list below. Then continue the expensive pass with the normal/high-quality model from that same list.
 
-2. **Low-cost subagent/worker path.** If the harness cannot switch the current model but can spawn workers/subagents with a model hint, split candidates into chunks and assign the coarse-filter task to those workers. Tell each worker to return only a `decisions` array for its assigned signal IDs. Merge the arrays into one `filter_decisions.json`.
+2. **Low-cost subagent/worker path.** If the harness cannot switch the current model but can spawn workers/subagents with a model hint, split candidates into chunks. Tell relevance workers to return only `decisions`; tell origin workers to return only `findings`. Merge each pass into its single JSON artifact.
 
-3. **Current-model fallback.** If the harness cannot select a lower-cost model and cannot spawn low-cost workers, run the Coarse Filter Prompt with the current model. In the final response, explicitly say: `coarse filter ran with current model; this was semantic two-pass, not cost-optimized two-pass`.
+3. **Current-model fallback.** If the harness cannot select a lower-cost model and cannot spawn low-cost workers, run the prompts with the current model. In the final response, explicitly say: `coarse passes ran with current model; this was semantic multi-stage, not cost-optimized multi-stage`.
 
 Harness hints:
 
-- **Claude Code / Claude-style coding harnesses:** if a `Task`/subagent tool or model override is available, use it for the coarse-filter chunks and request the latest Haiku/low-cost alias. Use the latest Sonnet or Opus alias for the expensive pass. If no such control is exposed, use current-model fallback.
-- **Codex:** if `spawn_agent` is available and model override is allowed by the environment/user, spawn one or more workers for coarse-filter chunks with a low-reasoning small/fast model. Preferred: `gpt-5.4-mini`, `gpt-5-nano`, or the newest GPT-5.x model with low reasoning if that is the exposed model set. Use `gpt-5.5` or the strongest/default Codex model with medium/high reasoning for the expensive pass. If model override is not available or not allowed, either spawn default workers for parallelism or use current-model fallback; disclose which happened.
-- **OpenClaw:** prefer low-cost worker fanout for the coarse filter. Preferred low-cost models: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, or GPT-5.x low-reasoning depending on what OpenClaw exposes. Use Gemini 3 Pro Preview, Claude Sonnet/Opus latest, or GPT-5.5+ higher reasoning for the expensive pass.
-- **API harnesses:** call the configured low-cost model for the coarse-filter prompt, then call the configured stronger model for the expensive rubric pass.
+- **Claude Code / Claude-style coding harnesses:** if a `Task`/subagent tool or model override is available, use it for chunks and request the latest Haiku/low-cost alias. Use the latest Sonnet or Opus alias for the expensive pass. If no such control is exposed, use current-model fallback.
+- **Codex:** if `spawn_agent` is available and model override is allowed by the environment/user, spawn one or more workers with a low-reasoning small/fast model. Preferred: `gpt-5.4-mini`, `gpt-5-nano`, or the newest GPT-5.x model with low reasoning if that is the exposed model set. Use `gpt-5.5` or the strongest/default Codex model with medium/high reasoning for the expensive pass. If model override is not available or not allowed, either spawn default workers for parallelism or use current-model fallback; disclose which happened.
+- **OpenClaw:** prefer low-cost worker fanout. Preferred low-cost models: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, or GPT-5.x low-reasoning depending on what OpenClaw exposes. Use Gemini 3 Pro Preview, Claude Sonnet/Opus latest, or GPT-5.5+ higher reasoning for the expensive pass.
+- **API harnesses:** call the configured low-cost model for the coarse prompts, then call the configured stronger model for the expensive rubric pass.
 - **Unknown harness:** use current-model fallback unless the harness exposes an explicit low-cost-model or worker mechanism.
 
 Preferred models:
 
-- Coarse pass: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, GPT-5-nano, GPT-5.4-mini low reasoning, GPT-5.5 low reasoning, or the harness's lowest-cost fast equivalent.
+- Coarse passes: Gemini 3 Flash Preview, Claude Haiku/latest Haiku alias, GPT-5-nano, GPT-5.4-mini low reasoning, GPT-5.5 low reasoning, or the harness's lowest-cost fast equivalent.
 - Expensive pass: Gemini 3 Pro Preview, Claude Sonnet/Opus latest aliases, GPT-5.5 medium/high reasoning, GPT-5.4 medium/high reasoning, or the harness's strongest/default reasoning model.
 - Treat Gemini 2.5 Pro as stale for this pipeline. Use it only as a fallback when Gemini 3 Pro is unavailable in the harness. Gemini 2.5 Flash or Flash-Lite can remain coarse-pass fallbacks when Gemini 3 Flash is unavailable.
 - If the exact named model is unavailable, choose the closest current low-cost/fast model for pass 1 and the closest current strong reasoning model for pass 2.
 
 Chunking guidance:
 
-- 1-15 signals: one coarse-filter call is fine.
+- 1-15 signals: one call per coarse pass is fine.
 - 16-40 signals: split into chunks of 8-15 signals. Prefer at least 2 workers/subagents when the harness exposes them.
 - 41-80 signals: split into chunks of 8-12 signals. Use worker/subagent fanout if available.
 - More than 80 signals: do not ask one low-cost model call or one subagent to process everything. First split into chunks of 8-12 signals; if the result would need more than 8 low-cost workers, tighten detector `--limit`, lane caps, or rerun by profile/source lane before filtering.
 - Each chunk must include the profile context plus the assigned signals. Do not ask a worker to judge signals it was not assigned.
-- The merged `filter_decisions.json` must contain exactly one decision for each candidate signal unless intentionally running `newsjack filter-apply --allow-missing`.
-- Each worker/subagent must return only decisions for its assigned signal IDs. The orchestrating harness must merge results and validate that every candidate signal has exactly one decision.
-- Do not let the coarse-filter worker perform the expensive rubric pass, compare across chunks, pick best bets, or write the final report.
+- The merged `coarse_relevance_decisions.json` and `origin_findings.json` must each contain exactly one item per input signal unless intentionally using an allow-missing flag.
+- Each worker/subagent must return only items for its assigned signal IDs. The orchestrating harness must merge results and validate that every input signal has exactly one item.
+- Do not let coarse workers perform the expensive rubric pass, compare across chunks, pick best bets, or write the final report.
 - If the harness has low-cost workers but no model override, still split large candidate sets for reliability and disclose that model cost was not optimized.
 
-### Coarse Filter Prompt
+### Coarse Relevance Prompt
 
-Use this exact instruction for the coarse pass. It is designed to be run by a small/low-cost model, optionally split across chunks by the harness. If split, merge all decisions into one `decisions` array before running `newsjack filter-apply`.
+Use this exact instruction for the first coarse pass. If split, merge all decisions into one `decisions` array before running `newsjack filter-apply`.
 
 ```text
-You are the coarse newsjack signal filter.
+You are the coarse newsjack relevance filter.
 
 Input: detector JSON with a client profile and candidate signals.
 
-Task: evaluate each signal independently. Your job is only to remove obvious junk and verify the story clock before a more expensive LLM applies the real newsworthiness rubric.
+Task: evaluate each signal independently. Your job is only to remove obvious junk before story-origin research and expensive newsworthiness judgment.
 
 Allowed decisions:
 - keep
@@ -201,29 +247,21 @@ Allowed reasons:
 - owned_docs_or_product_page
 - seo_landing_page
 - low_reach_x_post
-- stale
-- freshness_unverified
 - safety_risk
 - duplicate
 - off_beat
 - no_profile_bridge
 
 Rules:
-- Be recall-biased on PR relevance, but strict on cron freshness.
+- Be recall-biased on PR relevance.
 - Do not choose best bets.
 - Do not rank signals.
 - Do not write angles.
 - Do not decide whether to pitch.
-- For every signal, run the Story-Origin Gate from skills/story-origin-check/SKILL.md.
-- Use news-search timestamps as evidence for article publication times and for candidate originals/canonical coverage.
-- Do not trust aggregator, syndication, partner-published, or small-pickup timestamps as the first-public story clock without same-story/original verification.
-- The LLM must decide whether older public evidence is the same story or a materially new development. Do not rely on title similarity alone.
-- The LLM must recover canonical coverage where possible: major outlet, wire, recognized trade, or primary source coverage of the same story.
-- Use keep or monitor_only only when first_publication.status is fresh or fresh_new_development.
-- If the same story first became public more than 24 hours before the run and there is no material new development, reject with reason stale.
-- If you cannot verify the first public timestamp as inside the last 24 hours, reject with reason freshness_unverified.
-- Only reject other clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, stale evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
-- For broad major-news, RSS, X News, or X Trends items with any plausible client bridge and verified first-public freshness, use keep or monitor_only.
+- Do not run story-origin research.
+- Do not compute freshness or 24h cutoff status.
+- Only reject clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
+- For broad major-news, RSS, X News, or X Trends items with any plausible client bridge, use keep or monitor_only.
 - Preserve evidence URLs. Each decision must cite the URLs it used.
 - Return only JSON. No prose before or after it.
 
@@ -238,30 +276,49 @@ Output shape:
       "rationale": "One short sentence explaining the filter decision.",
       "confidence": "high | medium | low",
       "evidence_urls": ["https://..."],
-      "first_publication": {
-        "status": "fresh | fresh_new_development | stale | freshness_unverified",
-        "surfaced_article_published_at": "ISO timestamp, YYYY-MM-DD, or null",
-        "first_public_at": "ISO timestamp, YYYY-MM-DD, or null",
-        "original_url": "https://... or null",
-        "original_source": "Outlet/source name or null",
-        "canonical_coverage_url": "https://... or null",
-        "canonical_coverage_source": "Outlet/source name or null",
-        "canonical_coverage_published_at": "ISO timestamp, YYYY-MM-DD, or null",
-        "canonical_coverage_basis": "Why this is the best main coverage link.",
-        "same_story_basis": "Why older evidence is or is not the same story.",
-        "new_development": "Concrete new public fact, or null",
-        "confidence": "high | medium | low",
-        "timestamp_evidence": [
-          {
-            "source": "news_search | page_meta | canonical | visible_date | primary_source",
-            "url": "https://...",
-            "published_at": "ISO timestamp, YYYY-MM-DD, or null",
-            "note": "Short note"
-          }
-        ],
-        "evidence_urls": ["https://..."],
-        "rationale": "One to three sentences naming the clock source."
-      }
+      "relevance_basis": "Why this is plausibly relevant or why it is junk."
+    }
+  ]
+}
+```
+
+### Story Origin Prompt
+
+Run this only on `relevant_candidates.json`. Use news search to recover article-publication evidence, likely originals, and canonical same-story coverage. The LLM decides story identity; the Go CLI decides freshness math.
+
+```text
+You are the NewsJack story-origin researcher.
+
+For each signal, decide whether older public evidence is the same story, a materially new development, a different story, or unverifiable. Recover the best first-public timestamp and canonical major coverage. Do not compute fresh/stale. Return only JSON.
+
+Output shape:
+{
+  "version": 1,
+  "findings": [
+    {
+      "signal_id": "engine signal id",
+      "same_story_assessment": "same_story | fresh_new_development | different_story | unclear",
+      "first_public_at": "ISO timestamp, YYYY-MM-DD, or null",
+      "original_url": "https://... or null",
+      "original_source": "Outlet/source name or null",
+      "canonical_coverage_url": "https://... or null",
+      "canonical_coverage_source": "Outlet/source name or null",
+      "canonical_coverage_published_at": "ISO timestamp, YYYY-MM-DD, or null",
+      "canonical_coverage_basis": "Why this is the best main coverage link.",
+      "same_story_basis": "Why older evidence is or is not the same story.",
+      "new_development": "Concrete new public fact, or null",
+      "new_development_at": "ISO timestamp, YYYY-MM-DD, or null",
+      "confidence": "high | medium | low",
+      "timestamp_evidence": [
+        {
+          "source": "news_search | page_meta | canonical | visible_date | primary_source",
+          "url": "https://...",
+          "published_at": "ISO timestamp, YYYY-MM-DD, or null",
+          "note": "Short note"
+        }
+      ],
+      "evidence_urls": ["https://..."],
+      "rationale": "One to three sentences naming the clock source."
     }
   ]
 }
@@ -269,41 +326,26 @@ Output shape:
 
 ### Expensive Pass Prompt
 
-After applying coarse-filter decisions, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
+After applying `origin-apply`, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
 
-For recurring/beta output, the expensive pass must treat `coarse_filter.first_publication` as a hard freshness gate:
+For recurring/beta output, the expensive pass must treat `freshness_gate.computed_status` as the hard freshness gate:
 
 - `fresh` or `fresh_new_development`: eligible for normal rubric judgment.
 - `stale`: reject as stale even if the source article was published today.
 - `freshness_unverified` or missing: reject or omit from the beta-facing report; never call it `pitch_now`, `4hr`, or `24hr`.
 
-### Claude Code One-Prompt Execution
+### Completion Checklist
 
-A harness can run the whole pipeline from one user prompt by following the file contract:
+Before reporting the run as complete:
 
-```text
-Run the two-pass newsjack pipeline.
+- `coarse_relevance_decisions.json` contains exactly one relevance decision per emitted candidate unless the run intentionally used `--allow-missing`.
+- `origin_findings.json` contains exactly one story-origin finding per relevant candidate unless the run intentionally used `--allow-missing`.
+- `targeted_candidates.json` was produced by Go CLI `origin-apply`.
+- `final_report.md` was written from `targeted_candidates.json`, not raw `candidates.json`.
+- `run.md` was rerendered after `final_report.md` existed.
+- The final response names the `run.md` path, whether the coarse pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
 
-Use profile: PATH_TO_PROFILE
-Use query: QUERY
-Use sources: news_search,x
-Use lookback: 1 day
-Use depth: quick
-Use limit: 80
-Use min_queue_priority: 40
-Use min_major_news: 0.55
-
-Steps:
-1. Run `fixtures/newsjack-detector-agent/scripts/observe-run.sh` when available. Otherwise run `newsjack detector run` and write candidates.json.
-2. Follow the Harness Execution Decision Path in skills/newsjack-detector/SKILL.md. Use a low-cost model or low-cost workers/subagents for the coarse filter if the harness exposes that; otherwise run current-model fallback and disclose it.
-3. Apply the Coarse Filter Prompt from skills/newsjack-detector/SKILL.md to every signal independently, including the Story-Origin Gate from skills/story-origin-check/SKILL.md. Write filter_decisions.json in the run folder with first_publication on every decision.
-4. Run `newsjack filter-apply` with `--include keep --include monitor_only --require-fresh-first-publication` and write targeted_candidates.json in the run folder.
-5. Apply the newsjack-detector rubric to targeted_candidates.json and write final_report.md in the run folder.
-6. Rerender run.md with `newsjack summarize-run` so the full run and final result are observable in Markdown.
-7. Summarize the run.md path, whether the coarse pass was cost-optimized or fallback, whether every surfaced signal has verified <=24h first-public freshness, and top findings.
-```
-
-No step requires a subagent API. Harnesses that have low-cost-model/subagent controls should use them; harnesses that do not should still produce the same `filter_decisions.json` contract and disclose fallback.
+No step requires a subagent API. Harnesses that have low-cost-model/subagent controls should use them; harnesses that do not should still produce the same `coarse_relevance_decisions.json` and `origin_findings.json` contracts and disclose fallback.
 
 ## Engine vs Skill Boundary
 
@@ -315,7 +357,8 @@ The Go CLI owns:
 - novelty tracking
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
 - deterministic hygiene filtering for obvious docs/help/product/SEO pages
-- coarse-filter decision application through `newsjack filter-apply`
+- coarse-relevance decision application through `newsjack filter-apply`
+- deterministic story-origin freshness gating through `newsjack origin-apply`
 - operational routing: lane, queue priority, and whether the lane was threshold-demoted
 - deterministic safety flags
 
@@ -324,7 +367,8 @@ You own:
 - whether the signal is newsjacking-worthy
 - whether the client has standing
 - whether proof is sufficient
-- first-publication verification and decay interpretation
+- same-story/original-coverage judgment
+- final decay explanation from `freshness_gate`
 - journalist shape
 - brand-safety judgment
 - handoff to the next skill
@@ -339,7 +383,7 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
-4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `coarse_filter.first_publication.status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `coarse_filter.first_publication.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
+4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `freshness_gate.computed_status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `story_origin.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
 
 5. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
 
@@ -355,7 +399,7 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 Return exactly this JSON object. Do not add prose before or after it.
 
-Every opportunity must include source URLs in `evidence_used`. Include `first_publication.canonical_coverage_url` first when present, then the original/source URL and other supporting evidence. Include enough evidence for the user to validate the judgment, usually 1-3 links across news, RSS, and X when present.
+Every opportunity must include source URLs in `evidence_used`. Include `story_origin.canonical_coverage_url` first when present, then the original/source URL and other supporting evidence. Include enough evidence for the user to validate the judgment, usually 1-3 links across news, RSS, and X when present.
 
 ```json
 {

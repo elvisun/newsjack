@@ -228,7 +228,8 @@ Move these out of `install.sh`:
 Port low-risk operational paths into Go:
 
 - auth and credential management
-- coarse-filter decision application
+- coarse-relevance decision application
+- story-origin freshness gate
 - run summarization
 
 Keep output shape compatible.

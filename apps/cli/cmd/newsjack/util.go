@@ -153,6 +153,12 @@ func anySlice(v any) []any {
 	switch x := v.(type) {
 	case []any:
 		return x
+	case []map[string]any:
+		out := make([]any, len(x))
+		for i, v := range x {
+			out[i] = v
+		}
+		return out
 	case []string:
 		out := make([]any, len(x))
 		for i, v := range x {

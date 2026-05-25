@@ -3,45 +3,55 @@
     "candidates": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/candidates.json"
+      "path": "../../fixtures/golden/go-port/filter/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "../../fixtures/golden/go-port/filter/coarse_relevance_decisions.json"
     },
     "commands": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/commands.log"
+      "path": "../../fixtures/golden/go-port/filter/commands.log"
     },
     "detector_stderr": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/detector.stderr.log"
+      "path": "../../fixtures/golden/go-port/filter/detector.stderr.log"
     },
     "detector_summary": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/summary.json"
-    },
-    "filter_decisions": {
-      "bytes": 0,
-      "exists": false,
-      "path": "/tmp/filter_decisions.json"
+      "path": "../../fixtures/golden/go-port/filter/summary.json"
     },
     "final_report": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/final_report.md"
+      "path": "../../fixtures/golden/go-port/filter/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "../../fixtures/golden/go-port/filter/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "../../fixtures/golden/go-port/filter/relevant_candidates.json"
     },
     "run_markdown": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/run.md"
+      "path": "../../fixtures/golden/go-port/filter/run.md"
     },
     "targeted_candidates": {
       "bytes": 0,
       "exists": false,
-      "path": "/tmp/targeted_candidates.json"
+      "path": "../../fixtures/golden/go-port/filter/targeted_candidates.json"
     }
   },
-  "coarse_filter": {
+  "coarse_relevance": {
     "decision_count": 2,
     "decision_counts": {
       "keep": 2
@@ -51,17 +61,17 @@
     ],
     "input_signal_count": 2,
     "missing_count": 0,
-    "missing_signals": [],
+    "missing_signals": null,
     "reason_counts": {
       "relevant_news": 2
     },
     "rejected_count": 0,
-    "rejected_signals": [],
+    "rejected_signals": null,
     "selected_count": 2
   },
-  "coarse_filter_file": {
+  "coarse_relevance_file": {
     "exists": false,
-    "path": "/tmp/filter_decisions.json"
+    "path": "../../fixtures/golden/go-port/filter/coarse_relevance_decisions.json"
   },
   "counts": {
     "debug_all_scored_rows": 0,
@@ -76,10 +86,11 @@
   },
   "final_report_file": {
     "exists": false,
-    "path": "/tmp/final_report.md"
+    "path": "../../fixtures/golden/go-port/filter/final_report.md"
   },
+  "generated_at": "2026-05-25T20:17:25.721691Z",
   "hygiene_rejections": {},
-  "input_path": "/tmp/newsjack-filtered.json",
+  "input_path": "../../fixtures/golden/go-port/filter/filtered.json",
   "lanes": {
     "dropped_debug": {},
     "emitted": {
@@ -94,9 +105,9 @@
   "monitor": {
     "depth": "quick",
     "feed_urls": [],
-    "generated_at": "2026-05-25T03:24:04.875042+00:00",
+    "generated_at": null,
     "lookback_days": 1,
-    "max_age_hours": 24.0,
+    "max_age_hours": 24,
     "mock": true,
     "name": null,
     "profile_name": null,
@@ -114,6 +125,10 @@
       "x"
     ]
   },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "../../fixtures/golden/go-port/filter/origin_findings.json"
+  },
   "pipeline": [
     {
       "artifact": "candidates.json",
@@ -121,13 +136,23 @@
       "status": "pending"
     },
     {
-      "artifact": "filter_decisions.json",
-      "stage": "coarse_filter",
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
       "status": "pending"
     },
     {
       "artifact": "targeted_candidates.json",
-      "stage": "filter_apply",
+      "stage": "freshness_gate",
       "status": "pending"
     },
     {
@@ -136,11 +161,15 @@
       "status": "pending"
     }
   ],
-  "run_dir": "/tmp",
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "../../fixtures/golden/go-port/filter/relevant_candidates.json"
+  },
+  "run_dir": "../../fixtures/golden/go-port/filter",
   "selection": {
     "limit": 20,
     "min_major_news": 0.55,
-    "min_queue_priority": 40.0,
+    "min_queue_priority": 40,
     "mode": "mechanical_floor"
   },
   "sources": {
@@ -152,12 +181,12 @@
   },
   "targeted_candidates_file": {
     "exists": false,
-    "path": "/tmp/targeted_candidates.json"
+    "path": "../../fixtures/golden/go-port/filter/targeted_candidates.json"
   },
-  "top_dropped_signals": [],
+  "top_dropped_signals": null,
   "top_signals": [
     {
-      "coarse_filter": {
+      "coarse_relevance": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -178,18 +207,20 @@
           "url": "https://example.com/news/60f5725c"
         }
       ],
+      "freshness_gate": null,
       "id": "e32ebc6ac34ee9d2",
       "lane": "profile_relevance",
-      "major_news": 0.0,
-      "momentum": 0.0,
+      "major_news": 0,
+      "momentum": 0,
       "profile_match": 0.4,
       "query": "AI customer support",
       "queue_priority": 70.8,
       "source_agreement": 0.55,
+      "story_origin": null,
       "title": "Regulators open inquiry tied to AI customer support"
     },
     {
-      "coarse_filter": {
+      "coarse_relevance": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -214,14 +245,16 @@
           "url": "https://x.com/example/status/f7f584be"
         }
       ],
+      "freshness_gate": null,
       "id": "578832fabe7e6a64",
       "lane": "x_posts",
-      "major_news": 0.0,
+      "major_news": 0,
       "momentum": 0.426,
       "profile_match": 0.4,
       "query": "AI customer support",
-      "queue_priority": 64.0,
+      "queue_priority": 64,
       "source_agreement": 0.32,
+      "story_origin": null,
       "title": "Experts are reacting to AI customer support"
     }
   ]

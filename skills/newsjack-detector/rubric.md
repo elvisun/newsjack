@@ -11,9 +11,9 @@ Do not treat a `major_news` item as pitchable because it is big. The client stil
 
 ## Freshness Gate
 
-For recurring or beta cron output, freshness must come from the LLM `story-origin-check`. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
+For recurring or beta cron output, the LLM `story-origin-check` recovers the first-public timestamp and canonical coverage, then the Go CLI `origin-apply` computes the freshness gate. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
 
-Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `coarse_filter.first_publication`:
+Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `freshness_gate.computed_status`:
 
 - `fresh` - eligible for normal judgment.
 - `fresh_new_development` - eligible, but the angle must be about the new development, not the older background story.
@@ -22,7 +22,7 @@ Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `coarse_fil
 
 Do not reset the clock because an aggregator, syndication partner, or secondary outlet republished an older article.
 
-When citing the story, prefer `coarse_filter.first_publication.canonical_coverage_url` when present. It should be the major or most authoritative same-story coverage, such as a primary source, wire, major publisher, or recognized trade, instead of the small pickup that triggered retrieval.
+When citing the story, prefer `story_origin.canonical_coverage_url` when present. It should be the major or most authoritative same-story coverage, such as a primary source, wire, major publisher, or recognized trade, instead of the small pickup that triggered retrieval.
 
 ## Verdict Ladder
 

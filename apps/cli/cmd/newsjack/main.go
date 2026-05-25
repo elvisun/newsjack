@@ -76,6 +76,8 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 		return cmdDetector(args[1:], stdout, stderr)
 	case "filter-apply":
 		return cmdFilterApply(args[1:], stdout, stderr)
+	case "origin-apply":
+		return cmdOriginApply(args[1:], stdout, stderr)
 	case "summarize-run":
 		return cmdSummarizeRun(args[1:], stdout, stderr)
 	default:

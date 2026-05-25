@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"path/filepath"
-	"strings"
 	"testing"
+	"time"
 )
 
 func TestFilterApplyFixture(t *testing.T) {
@@ -28,18 +28,17 @@ func TestFilterApplyFixture(t *testing.T) {
 	if len(signals) != 2 {
 		t.Fatalf("selected signals=%d, want 2", len(signals))
 	}
-	coarse := valueOrEmptyMap(payload["coarse_filter"])
+	coarse := valueOrEmptyMap(payload["coarse_relevance"])
 	if coarse["selected_count"].(float64) != 2 || coarse["rejected_count"].(float64) != 0 {
 		t.Fatalf("unexpected coarse summary: %#v", coarse)
 	}
 }
 
-func TestFilterApplyPreservesFirstPublicationJudgment(t *testing.T) {
+func TestFilterApplyIgnoresOriginFields(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{},
 		"signals": []any{
 			map[string]any{"id": "fresh", "title": "Fresh story", "evidence": []any{map[string]any{"url": "https://example.com/fresh"}}},
-			map[string]any{"id": "unknown", "title": "Unverified story", "evidence": []any{map[string]any{"url": "https://example.com/unknown"}}},
 		},
 	}
 	decisions := map[string]any{
@@ -62,19 +61,9 @@ func TestFilterApplyPreservesFirstPublicationJudgment(t *testing.T) {
 					"same_story_basis":                "same official action and same named actors",
 				},
 			},
-			map[string]any{
-				"signal_id": "unknown",
-				"decision":  "reject",
-				"reason":    "freshness_unverified",
-				"first_publication": map[string]any{
-					"status":     "freshness_unverified",
-					"confidence": "low",
-					"rationale":  "No original source could be verified.",
-				},
-			},
 		},
 	}
-	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true}, false, false, true)
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true}, false, false)
 	if err != nil {
 		t.Fatalf("applyDecisions error=%v", err)
 	}
@@ -82,42 +71,93 @@ func TestFilterApplyPreservesFirstPublicationJudgment(t *testing.T) {
 	if len(signals) != 1 {
 		t.Fatalf("selected signals=%d, want 1", len(signals))
 	}
-	coarse := valueOrEmptyMap(signals[0]["coarse_filter"])
-	firstPublication := valueOrEmptyMap(coarse["first_publication"])
-	if firstPublication["status"] != "fresh" || firstPublication["canonical_coverage_url"] != "https://example.com/major-coverage" {
-		t.Fatalf("first_publication not preserved: %#v", firstPublication)
-	}
-	rejected, _ := valueOrEmptyMap(payload["coarse_filter"])["rejected_signals"].([]map[string]any)
-	if len(rejected) != 1 {
-		t.Fatalf("rejected=%d, want 1", len(rejected))
-	}
-	rejectedFP := valueOrEmptyMap(rejected[0]["first_publication"])
-	if rejectedFP["status"] != "freshness_unverified" {
-		t.Fatalf("rejected first_publication not preserved: %#v", rejectedFP)
+	coarse := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if _, ok := coarse["first_publication"]; ok {
+		t.Fatalf("coarse relevance preserved story-origin data: %#v", coarse)
 	}
 }
 
-func TestFilterApplyRequiresFreshFirstPublicationForIncludedSignals(t *testing.T) {
+func TestOriginApplyComputesStaleDespiteWorkerFreshStatus(t *testing.T) {
 	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-05-25T18:00:00Z"},
 		"signals": []any{
-			map[string]any{"id": "stale", "title": "Syndicated story"},
+			map[string]any{"id": "gm", "title": "General Motors settles lawsuit over selling customer driving data"},
 		},
 	}
-	decisions := map[string]any{
-		"decisions": []any{
+	origins := map[string]any{
+		"findings": []any{
 			map[string]any{
-				"signal_id": "stale",
-				"decision":  "keep",
-				"reason":    "relevant_news",
-				"first_publication": map[string]any{
-					"status":          "stale",
-					"first_public_at": "2026-05-04",
-				},
+				"signal_id":              "gm",
+				"status":                 "fresh",
+				"first_public_at":        "2026-05-08",
+				"original_url":           "https://example.com/gm-original",
+				"canonical_coverage_url": "https://example.com/gm-major",
+				"same_story_basis":       "Same GM settlement and same lawsuit.",
 			},
 		},
 	}
-	_, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true}, false, false, true)
-	if err == nil || !strings.Contains(err.Error(), "requires first_publication.status=fresh or fresh_new_development") {
-		t.Fatalf("expected freshness gate error, got %v", err)
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime:     mustParseTestTime(t, "2026-05-25T18:00:00Z"),
+		WindowHours: 24,
+	})
+	if err != nil {
+		t.Fatalf("applyOriginFindings error=%v", err)
 	}
+	if got := len(signalSlice(payload["signals"])); got != 0 {
+		t.Fatalf("selected signals=%d, want 0", got)
+	}
+	rejected, _ := valueOrEmptyMap(payload["freshness_gate"])["rejected_signals"].([]map[string]any)
+	if len(rejected) != 1 {
+		t.Fatalf("rejected=%d, want 1", len(rejected))
+	}
+	gate := valueOrEmptyMap(rejected[0]["freshness_gate"])
+	if gate["computed_status"] != "stale" {
+		t.Fatalf("computed_status=%v, want stale; gate=%#v", gate["computed_status"], gate)
+	}
+	if gate["worker_status"] != "fresh" {
+		t.Fatalf("worker_status=%v, want fresh", gate["worker_status"])
+	}
+}
+
+func TestOriginApplySelectsFreshNewDevelopment(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-05-25T18:00:00Z"},
+		"signals": []any{
+			map[string]any{"id": "case", "title": "Regulator files new complaint"},
+		},
+	}
+	origins := map[string]any{
+		"findings": []any{
+			map[string]any{
+				"signal_id":          "case",
+				"first_public_at":    "2026-05-08",
+				"new_development_at": "2026-05-25T12:30:00Z",
+				"new_development":    "New settlement was filed.",
+			},
+		},
+	}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime:     mustParseTestTime(t, "2026-05-25T18:00:00Z"),
+		WindowHours: 24,
+	})
+	if err != nil {
+		t.Fatalf("applyOriginFindings error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1; freshness_gate=%#v", len(signals), payload["freshness_gate"])
+	}
+	gate := valueOrEmptyMap(signals[0]["freshness_gate"])
+	if gate["computed_status"] != "fresh_new_development" {
+		t.Fatalf("computed_status=%v, want fresh_new_development; gate=%#v", gate["computed_status"], gate)
+	}
+}
+
+func mustParseTestTime(t *testing.T, raw string) time.Time {
+	t.Helper()
+	parsed, ok := parseTime(raw)
+	if !ok {
+		t.Fatalf("could not parse %s", raw)
+	}
+	return parsed
 }

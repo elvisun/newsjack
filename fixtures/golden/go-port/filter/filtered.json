@@ -1,5 +1,5 @@
 {
-  "coarse_filter": {
+  "coarse_relevance": {
     "decision_count": 2,
     "decision_counts": {
       "keep": 2
@@ -9,20 +9,44 @@
     ],
     "input_signal_count": 2,
     "missing_count": 0,
-    "missing_signals": [],
+    "missing_signals": null,
     "reason_counts": {
       "relevant_news": 2
     },
     "rejected_count": 0,
-    "rejected_signals": [],
+    "rejected_signals": null,
     "selected_count": 2
   },
+  "detector_diagnostics": {
+    "emitted_by_lane": {
+      "profile_relevance": 1,
+      "x_posts": 1
+    },
+    "evidence_by_source": {
+      "news_search": 1,
+      "x": 1
+    },
+    "hygiene_rejections": {},
+    "lane_caps": null,
+    "selection": {
+      "limit": 20,
+      "min_major_news": 0.55,
+      "min_queue_priority": 40,
+      "mode": "mechanical_floor"
+    },
+    "signals_by_lane": {
+      "profile_relevance": 1,
+      "x_posts": 1
+    },
+    "total_emitted_signals": 2,
+    "total_scored_signals": 2
+  },
+  "generated_at": "2026-05-25T20:15:22.519731Z",
   "monitor": {
     "depth": "quick",
     "feed_urls": [],
-    "generated_at": "2026-05-25T03:24:04.875042+00:00",
     "lookback_days": 1,
-    "max_age_hours": 24.0,
+    "max_age_hours": 24,
     "mock": true,
     "name": null,
     "new_only": false,
@@ -55,7 +79,7 @@
   },
   "signals": [
     {
-      "coarse_filter": {
+      "coarse_relevance": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -88,10 +112,10 @@
       },
       "id": "e32ebc6ac34ee9d2",
       "mechanical_scores": {
-        "freshness": 1.0,
-        "major_news": 0.0,
-        "momentum": 0.0,
-        "novelty": 1.0,
+        "freshness": 1,
+        "major_news": 0,
+        "momentum": 0,
+        "novelty": 1,
         "profile_match": 0.4,
         "source_agreement": 0.55,
         "source_quality": 0.95
@@ -108,7 +132,7 @@
       "title": "Regulators open inquiry tied to AI customer support"
     },
     {
-      "coarse_filter": {
+      "coarse_relevance": {
         "confidence": "high",
         "decision": "keep",
         "evidence_urls": [
@@ -145,10 +169,10 @@
       },
       "id": "578832fabe7e6a64",
       "mechanical_scores": {
-        "freshness": 1.0,
-        "major_news": 0.0,
+        "freshness": 1,
+        "major_news": 0,
         "momentum": 0.426,
-        "novelty": 1.0,
+        "novelty": 1,
         "profile_match": 0.4,
         "source_agreement": 0.32,
         "source_quality": 0.7
@@ -157,7 +181,7 @@
       "routing": {
         "demoted": false,
         "lane": "x_posts",
-        "queue_priority": 64.0
+        "queue_priority": 64
       },
       "sources": [
         "x"
