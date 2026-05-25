@@ -115,28 +115,72 @@ def render_markdown(summary: dict[str, Any]) -> str:
     lanes = summary.get("lanes") or {}
     sources = summary.get("sources") or {}
     selection = summary.get("selection") or {}
-    lines: list[str] = []
-
-    lines.append("# Newsjack Run")
-    lines.append("")
-    lines.append("## Result")
+    cheap_summary = summary.get("cheap_filter_file") or {}
+    targeted_summary = summary.get("targeted_candidates_file") or {}
     final_report = summary.get("final_report_file") or {}
     final_text = final_report.get("content")
+    profile_name = monitor.get("profile_name") or "Newsjack"
+    lines: list[str] = []
+
+    lines.append(f"# {profile_name} Newsjack Brief")
+    lines.append("")
+    lines.extend(_render_brief_header(summary))
+    lines.append("")
+
     if final_text:
-        lines.append(final_text.rstrip())
-        lines.append("")
+        lines.append("## Editorial Judgment")
+        lines.extend(_render_final_report(final_text))
     else:
-        lines.append("_No final LLM report yet. Run the cheap filter, apply it, then write `final_report.md` and rerender this file._")
+        lines.append("## Review Status")
+        lines.append("")
+        lines.append(
+            "**Not ready to forward as recommendations yet.** The detector run is complete, "
+            "but the editorial judgment pass has not produced `final_report.md`."
+        )
+        lines.append("")
+        lines.append("Next action: run the cheap filter, apply it, write `final_report.md`, then rerender this file.")
+        lines.append("")
+        lines.append("## Candidate Preview")
+        lines.append("")
+        lines.append("These are the highest-priority signals for review. They are not final pitch recommendations.")
+        lines.append("")
+        lines.extend(_render_candidate_cards(
+            summary.get("top_signals") or [],
+            limit=8,
+            include_ids=False,
+            total_count=counts.get("selected_unique_signals"),
+        ))
+    lines.append("")
+
+    lines.append("## What Was Scanned")
+    lines.append("")
+    lines.extend(_render_scan_summary(monitor, sources))
+    lines.append("")
+
+    if source_issues := _source_issue_rows(sources):
+        lines.append("### Source Issues")
+        lines.append("")
+        for label, detail in source_issues:
+            lines.append(f"- **{_md_inline(label)}:** {_md_inline(detail)}")
         lines.append("")
 
-    lines.append("## Pipeline")
+    lines.append("## Run Notes")
+    lines.append("")
+    lines.extend(_render_run_notes(summary))
+    lines.append("")
+
+    lines.append("## Appendix: Provenance")
+    lines.append("")
+    lines.append("### Pipeline")
+    lines.append("")
     lines.extend(_render_table([
         (stage.get("stage"), f"{stage.get('status')} - {stage.get('artifact')}")
         for stage in summary.get("pipeline") or []
     ]))
     lines.append("")
 
-    lines.append("## Run Context")
+    lines.append("### Run Context")
+    lines.append("")
     lines.append(f"- **Input:** `{summary.get('input_path')}`")
     lines.append(f"- **Profile:** {_md_inline(monitor.get('profile_name') or '(unknown)')}")
     queries = monitor.get("queries") or []
@@ -144,21 +188,22 @@ def render_markdown(summary: dict[str, Any]) -> str:
     lines.append(f"- **Sources used:** `{', '.join(monitor.get('sources_used') or [])}`")
 
     lines.append("")
-    lines.append("## Detector Counts")
+    lines.append("### Detector Counts")
+    lines.append("")
     lines.extend(_render_table([
         ("scored", counts.get("total_scored_signals")),
-        ("selected_unique", counts.get("selected_unique_signals")),
-        ("debug_rows", counts.get("debug_all_scored_rows")),
-        ("debug_selected_rows", counts.get("debug_selected_rows")),
-        ("debug_unselected_rows", counts.get("debug_unselected_rows")),
-        ("debug_duplicate_rows", counts.get("debug_duplicate_scored_rows")),
+        ("selected", counts.get("selected_unique_signals")),
+        ("debug rows", counts.get("debug_all_scored_rows")),
+        ("debug selected rows", counts.get("debug_selected_rows")),
+        ("debug unselected rows", counts.get("debug_unselected_rows")),
+        ("debug duplicate rows", counts.get("debug_duplicate_scored_rows")),
         ("source_errors", counts.get("source_errors")),
     ]))
 
-    cheap_summary = summary.get("cheap_filter_file") or {}
     if cheap_summary.get("exists"):
         lines.append("")
-        lines.append("## Cheap Filter")
+        lines.append("### Cheap Filter")
+        lines.append("")
         lines.extend(_render_table([
             ("decisions", cheap_summary.get("decision_count")),
             *[
@@ -171,23 +216,25 @@ def render_markdown(summary: dict[str, Any]) -> str:
             ],
         ]))
 
-    targeted_summary = summary.get("targeted_candidates_file") or {}
     if targeted_summary.get("exists"):
         lines.append("")
-        lines.append("## Targeted Candidates")
+        lines.append("### Targeted Candidates")
+        lines.append("")
         lines.extend(_render_table([
-            ("selected_signals", targeted_summary.get("selected_signals")),
-            ("input_signals", targeted_summary.get("input_signals")),
-            ("rejected_signals", targeted_summary.get("rejected_signals")),
+            ("selected signals", targeted_summary.get("selected_signals")),
+            ("input signals", targeted_summary.get("input_signals")),
+            ("rejected signals", targeted_summary.get("rejected_signals")),
         ]))
 
     if selection:
         lines.append("")
-        lines.append("## Selection")
+        lines.append("### Selection")
+        lines.append("")
         lines.extend(_render_table(selection.items()))
 
     lines.append("")
-    lines.append("## Lanes")
+    lines.append("### Lanes")
+    lines.append("")
     lane_rows: list[tuple[str, Any]] = []
     for group in ("scored", "emitted", "dropped_debug"):
         for lane, count in (lanes.get(group) or {}).items():
@@ -195,7 +242,8 @@ def render_markdown(summary: dict[str, Any]) -> str:
     lines.extend(_render_table(lane_rows))
 
     lines.append("")
-    lines.append("## Sources")
+    lines.append("### Evidence Sources")
+    lines.append("")
     source_rows: list[tuple[str, Any]] = []
     for source, count in (sources.get("evidence_by_source") or {}).items():
         source_rows.append((f"evidence.{source}", count))
@@ -206,47 +254,311 @@ def render_markdown(summary: dict[str, Any]) -> str:
     hygiene = summary.get("hygiene_rejections") or {}
     if hygiene:
         lines.append("")
-        lines.append("## Hygiene Rejections")
+        lines.append("### Hygiene Rejections")
+        lines.append("")
         lines.extend(_render_table(hygiene.items()))
 
     lines.append("")
-    lines.append("## Selected Signals Before LLM")
-    lines.extend(_render_signal_list(summary.get("top_signals") or []))
+    lines.append("### Candidate Queue")
+    lines.append("")
+    lines.extend(_render_candidate_cards(
+        summary.get("top_signals") or [],
+        limit=25,
+        include_ids=True,
+        total_count=counts.get("selected_unique_signals"),
+    ))
 
     dropped = summary.get("top_dropped_signals") or []
     if dropped:
         lines.append("")
-        lines.append("## Top Dropped Signals Before LLM")
-        lines.extend(_render_signal_list(dropped))
+        lines.append("### Top Dropped Candidates")
+        lines.append("")
+        lines.extend(_render_candidate_cards(
+            dropped,
+            limit=25,
+            include_ids=True,
+            total_count=counts.get("debug_unselected_rows"),
+        ))
 
     return "\n".join(lines).rstrip() + "\n"
 
 
-def _render_signal_list(signals: list[dict[str, Any]]) -> list[str]:
+def _render_brief_header(summary: dict[str, Any]) -> list[str]:
+    monitor = summary.get("monitor") or {}
+    counts = summary.get("counts") or {}
+    final_report = summary.get("final_report_file") or {}
+    cheap_summary = summary.get("cheap_filter_file") or {}
+    targeted_summary = summary.get("targeted_candidates_file") or {}
+    final_payload = _parse_report_json(final_report.get("content") or "")
+    parsed_final = isinstance(final_payload, dict)
+    opportunities = list(final_payload.get("opportunities") or []) if parsed_final else []
+    pitch_now = sum(1 for item in opportunities if item.get("verdict") == "pitch_now")
+    develop = sum(1 for item in opportunities if item.get("verdict") == "develop_angle")
+    monitor_count = sum(1 for item in opportunities if item.get("verdict") == "monitor")
+    generated = monitor.get("generated_at") or summary.get("generated_at")
+    selected = counts.get("selected_unique_signals")
+    targeted = targeted_summary.get("selected_signals") if targeted_summary.get("exists") else None
+
+    status = "Editorial review complete" if final_report.get("exists") else "Detector preview only"
+    cheap_status = "complete" if cheap_summary.get("exists") else "pending"
+    targeted_status = f"{targeted} targeted" if targeted is not None else "pending"
+    action = _action_summary(
+        pitch_now=pitch_now,
+        develop=develop,
+        monitor=monitor_count,
+        has_final=final_report.get("exists"),
+        parsed_final=parsed_final,
+    )
+
+    rows = [
+        ("Status", status),
+        ("Generated", _format_datetime(generated)),
+        ("Action queue", action),
+        ("Detector candidates", selected),
+        ("Cheap filter", cheap_status),
+        ("Targeted set", targeted_status),
+    ]
+    lines = _render_table(rows)
+    return lines
+
+
+def _action_summary(*, pitch_now: int, develop: int, monitor: int, has_final: bool, parsed_final: bool) -> str:
+    if not has_final:
+        return "Needs editorial pass before sharing"
+    if not parsed_final:
+        return "See editorial judgment"
+    parts = []
+    if pitch_now:
+        parts.append(f"{pitch_now} pitch now")
+    if develop:
+        parts.append(f"{develop} develop")
+    if monitor:
+        parts.append(f"{monitor} monitor")
+    return ", ".join(parts) if parts else "No recommended action"
+
+
+def _render_final_report(content: str) -> list[str]:
+    payload = _parse_report_json(content)
+    if not isinstance(payload, dict):
+        return ["", content.rstrip(), ""]
+
+    lines: list[str] = [""]
+    opportunities = list(payload.get("opportunities") or [])
+    blocks = list(payload.get("brand_safety_blocks") or [])
+    rejects = list(payload.get("rejected_signals") or [])
+    monitor_notes = list(payload.get("monitor_notes") or [])
+
+    action_items = [
+        item for item in opportunities
+        if item.get("verdict") in {"pitch_now", "develop_angle"}
+    ]
+    monitor_items = [
+        item for item in opportunities
+        if item.get("verdict") == "monitor"
+    ]
+
+    if action_items:
+        lines.append("### Recommended Actions")
+        lines.append("")
+        for item in action_items:
+            lines.extend(_render_opportunity(item))
+            lines.append("")
+    else:
+        lines.append("### Recommended Actions")
+        lines.append("")
+        lines.append("- No pitch-ready or angle-development opportunities in this run.")
+        lines.append("")
+
+    if monitor_items:
+        lines.append("### Watch List")
+        lines.append("")
+        for item in monitor_items:
+            lines.extend(_render_opportunity(item))
+            lines.append("")
+
+    if blocks:
+        lines.append("### Do Not Use")
+        lines.append("")
+        for item in blocks:
+            title = item.get("signal_title") or item.get("title") or "(untitled)"
+            reason = _label(item.get("reason") or "blocked")
+            lines.append(f"- **{_md_inline(title)}** - {reason}")
+        lines.append("")
+
+    if rejects:
+        lines.append("### Rejected")
+        lines.append("")
+        reason_counts = Counter(str(item.get("reason") or "unknown") for item in rejects)
+        lines.append(
+            "- "
+            + ", ".join(f"{_label(reason)}: {count}" for reason, count in sorted(reason_counts.items()))
+        )
+        notable = rejects[:8]
+        if notable:
+            lines.append("")
+            for item in notable:
+                title = item.get("signal_title") or item.get("title") or "(untitled)"
+                reason = _label(item.get("reason") or "rejected")
+                lines.append(f"- **{_md_inline(title)}** - {reason}")
+        lines.append("")
+
+    if monitor_notes:
+        lines.append("### Notes")
+        lines.append("")
+        for note in monitor_notes:
+            lines.append(f"- {_md_inline(note)}")
+        lines.append("")
+
+    return lines
+
+
+def _render_opportunity(item: dict[str, Any]) -> list[str]:
+    title = item.get("signal_title") or item.get("title") or "(untitled)"
+    verdict = _label(item.get("verdict") or "review")
+    decay = item.get("decay") if isinstance(item.get("decay"), dict) else {}
+    stage = decay.get("stage") if isinstance(decay, dict) else None
+    next_skill = item.get("next_skill") or item.get("next")
+    standing = item.get("client_standing") if isinstance(item.get("client_standing"), dict) else {}
+    journalist = item.get("journalist_shape") if isinstance(item.get("journalist_shape"), dict) else {}
+    proof = item.get("required_proof") or []
+    evidence = item.get("evidence_used") or item.get("evidence") or []
+
+    lines = [f"#### {_md_inline(title)}"]
+    meta = [verdict]
+    if stage:
+        meta.append(f"decay: {stage}")
+    if next_skill:
+        meta.append(f"next: {next_skill}")
+    lines.append("")
+    lines.append(f"**Call:** {'; '.join(_md_inline(part) for part in meta)}")
+    if item.get("why_newsjacking_worthy"):
+        lines.append(f"**Why it matters:** {_md_inline(item['why_newsjacking_worthy'])}")
+    if standing:
+        standing_bits = []
+        if standing.get("assessment"):
+            standing_bits.append(_label(standing.get("assessment")))
+        if standing.get("rationale"):
+            standing_bits.append(_md_inline(standing.get("rationale")))
+        if standing_bits:
+            lines.append(f"**Client standing:** {' - '.join(standing_bits)}")
+    if proof:
+        lines.append("**Proof needed:**")
+        for proof_item in proof:
+            lines.append(f"- {_md_inline(proof_item)}")
+    if journalist:
+        beat = journalist.get("beat_description")
+        why_now = journalist.get("why_they_care_now")
+        avoid = journalist.get("do_not_target")
+        if beat:
+            lines.append(f"**Reporter shape:** {_md_inline(beat)}")
+        if why_now:
+            lines.append(f"**Why now:** {_md_inline(why_now)}")
+        if avoid:
+            lines.append(f"**Do not target:** {_md_inline(avoid)}")
+    if evidence:
+        lines.append("**Evidence:**")
+        for evidence_item in evidence[:5]:
+            lines.append(f"- {_render_evidence_link(evidence_item)}")
+    return lines
+
+
+def _render_scan_summary(monitor: dict[str, Any], sources: dict[str, Any]) -> list[str]:
+    queries = monitor.get("queries") or []
+    feed_urls = monitor.get("feed_urls") or []
+    used = set(monitor.get("sources_used") or [])
+    evidence_counts = sources.get("evidence_by_source") or {}
+    source_bits = [
+        _coverage_label("News search", "news_search", used, evidence_counts),
+        _coverage_label("X News", "x_news", used, evidence_counts),
+        _coverage_label("X trends", "x_trends", used, evidence_counts),
+        _coverage_label("X posts", "x", used, evidence_counts),
+        f"RSS feeds: {'used' if feed_urls else 'not configured'} ({len(feed_urls)} feed{'s' if len(feed_urls) != 1 else ''})",
+    ]
+    return [
+        f"- **Profile:** {_md_inline(monitor.get('profile_name') or '(unknown)')}",
+        f"- **Queries:** {_md_inline(_format_list(queries, limit=8) if queries else '(feed-only run)')}",
+        f"- **Lookback:** {_fmt(monitor.get('lookback_days'))} day(s); max item age {_fmt(monitor.get('max_age_hours'))} hour(s); depth {_md_inline(monitor.get('depth') or '(unknown)')}",
+        f"- **Coverage:** {'; '.join(source_bits)}",
+    ]
+
+
+def _coverage_label(label: str, key: str, used: set[str], evidence_counts: dict[str, Any]) -> str:
+    if key in used:
+        count = evidence_counts.get(key, 0)
+        return f"{label}: used ({count} item{'s' if count != 1 else ''})"
+    return f"{label}: not used"
+
+
+def _source_issue_rows(sources: dict[str, Any]) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = []
+    for key, value in (sources.get("source_errors") or {}).items():
+        if isinstance(value, dict):
+            for nested_key, nested_value in value.items():
+                rows.append((f"{key}.{nested_key}", str(nested_value)))
+        else:
+            rows.append((str(key), str(value)))
+    return rows
+
+
+def _render_run_notes(summary: dict[str, Any]) -> list[str]:
+    counts = summary.get("counts") or {}
+    hygiene = summary.get("hygiene_rejections") or {}
+    cheap_summary = summary.get("cheap_filter_file") or {}
+    targeted_summary = summary.get("targeted_candidates_file") or {}
+    final_report = summary.get("final_report_file") or {}
+    notes = []
+    if not final_report.get("exists"):
+        notes.append("This report is a detector preview. Do not treat candidates as approved outreach hooks.")
+    if counts.get("selected_unique_signals") == 0:
+        notes.append("No new candidate signals were emitted for this run.")
+    if cheap_summary.get("exists"):
+        decisions = cheap_summary.get("decisions_by_outcome") or {}
+        notes.append("Cheap filter decisions: " + ", ".join(f"{_label(key)} {value}" for key, value in sorted(decisions.items())) + ".")
+    if targeted_summary.get("exists"):
+        notes.append(
+            f"Targeted set: {targeted_summary.get('selected_signals')} selected from "
+            f"{targeted_summary.get('input_signals')} detector candidates."
+        )
+    if hygiene:
+        notes.append("Hygiene filter removed " + ", ".join(f"{_label(key)} {value}" for key, value in sorted(hygiene.items())) + ".")
+    if not notes:
+        notes.append("No operational notes.")
+    return [f"- {note}" for note in notes]
+
+
+def _render_candidate_cards(
+    signals: list[dict[str, Any]],
+    *,
+    limit: int,
+    include_ids: bool,
+    total_count: Any = None,
+) -> list[str]:
     if not signals:
         return ["- (none)"]
     lines: list[str] = []
-    for index, signal in enumerate(signals, start=1):
+    for index, signal in enumerate(signals[:limit], start=1):
         title = _md_inline(signal.get("title") or "(untitled)")
-        lines.append(
-            f"{index}. **{title}**  \n"
-            f"   `id={signal.get('id')}` `lane={signal.get('lane')}` "
-            f"`queue={_fmt(signal.get('queue_priority'))}` "
-            f"`profile={_fmt(signal.get('profile_match'))}` "
-            f"`major={_fmt(signal.get('major_news'))}`"
-        )
+        lane = _label(signal.get("lane") or "unknown")
+        score_bits = [
+            f"queue {_fmt(signal.get('queue_priority'))}",
+            f"profile {_fmt(signal.get('profile_match'))}",
+            f"major {_fmt(signal.get('major_news'))}",
+        ]
+        lines.append(f"{index}. **{title}**")
+        lines.append(f"   - Why surfaced: {lane}; {', '.join(score_bits)}.")
+        if include_ids and signal.get("id"):
+            lines.append(f"   - Signal ID: `{signal.get('id')}`")
         if signal.get("query"):
-            lines.append(f"   - Query: `{_md_inline(signal['query'])}`")
+            lines.append(f"   - Query: {_md_inline(signal['query'])}")
         if signal.get("cheap_filter"):
             lines.append(f"   - Cheap filter: {_md_inline(_format_mapping(signal['cheap_filter']))}")
         for evidence in (signal.get("evidence") or [])[:3]:
-            source = _md_inline(evidence.get("source") or "source")
-            ev_title = _md_inline(evidence.get("title") or "(no title)")
-            url = evidence.get("url") or ""
-            if url:
-                lines.append(f"   - {source}: {ev_title} - <{url}>")
-            else:
-                lines.append(f"   - {source}: {ev_title}")
+            lines.append(f"   - {_render_evidence_link(evidence)}")
+    total = _int_or_none(total_count)
+    displayed = min(len(signals), limit)
+    remaining = (total - displayed) if total is not None else (len(signals) - displayed)
+    if remaining > 0:
+        lines.append(f"- Plus {remaining} more candidate(s) in the machine-readable summary.")
     return lines
 
 
@@ -408,6 +720,82 @@ def _queue_priority(signal: dict[str, Any]) -> float:
 
 def _format_mapping(mapping: dict[str, Any]) -> str:
     return ", ".join(f"{key}={value}" for key, value in mapping.items())
+
+
+def _parse_report_json(content: str) -> Any:
+    text = content.strip()
+    if not text:
+        return None
+    candidates = [text]
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines and lines[0].startswith("```"):
+            body = lines[1:]
+            if body and body[-1].startswith("```"):
+                body = body[:-1]
+            candidates.append("\n".join(body).strip())
+    first = text.find("{")
+    last = text.rfind("}")
+    if first >= 0 and last > first:
+        candidates.append(text[first:last + 1])
+    for candidate in candidates:
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            continue
+    return None
+
+
+def _render_evidence_link(item: dict[str, Any]) -> str:
+    source = _md_inline(_label(item.get("source") or "source"))
+    title = _md_inline(item.get("title") or "(no title)")
+    url = str(item.get("url") or "").strip()
+    published = item.get("published_at")
+    suffix = f" ({_md_inline(published)})" if published else ""
+    if url:
+        return f"{source}: [{_escape_link_text(title)}]({url}){suffix}"
+    return f"{source}: {title}{suffix}"
+
+
+def _format_datetime(value: Any) -> str:
+    if not value:
+        return "(unknown)"
+    text = str(value)
+    raw = text[:-1] + "+00:00" if text.endswith("Z") else text
+    try:
+        parsed = datetime.fromisoformat(raw)
+    except ValueError:
+        return text
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+
+def _format_list(values: list[Any], *, limit: int) -> str:
+    clean = [_md_inline(value) for value in values if _md_inline(value)]
+    if len(clean) <= limit:
+        return ", ".join(clean)
+    return ", ".join(clean[:limit]) + f", plus {len(clean) - limit} more"
+
+
+def _int_or_none(value: Any) -> int | None:
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _label(value: Any) -> str:
+    text = _md_inline(value)
+    if not text:
+        return ""
+    return text.replace("_", " ").replace("-", " ")
+
+
+def _escape_link_text(value: str) -> str:
+    return value.replace("[", "\\[").replace("]", "\\]")
 
 
 def _render_table(rows: Any) -> list[str]:

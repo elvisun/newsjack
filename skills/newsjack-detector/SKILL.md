@@ -78,6 +78,8 @@ python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile prof
 
 This is a compromise for local/agent runtimes that can only run hourly. The RSS lane is meant to catch major stories first, then test client relevance. `--new-only` uses the local monitor store to avoid re-alerting the same feed URLs every hour; `--max-age-hours` keeps the first run from dumping a full historical backlog. It is not a promise to win the first 15 minutes of a breaking story.
 
+For the beta fixture, `fixtures/newsjack-detector-agent/scripts/hourly-run-all.sh` runs every configured profile and writes `index.md` plus a beta-facing `run.md` in each profile folder.
+
 Profiles may include `feed_urls`. Those feeds are used by default. The shipped catalog at `references/rss-feeds.json` is the starting point for setup and onboarding.
 
 Profiles may also include `search_terms`. When present, the engine uses them for retrieval instead of raw `topics + competitors`. Keep `topics`, `competitors`, and `standing` as canonical context for matching and downstream LLM judgment; use `search_terms` for qualified retrieval strings such as `Ada customer service`, `Aura identity theft`, or `Good Move cash house buyer`.
@@ -96,7 +98,7 @@ Pipeline:
 python3 skills/newsjack-detector/scripts/newsjack_detector.py run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 --emit json > candidates.json
 ```
 
-For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the human-readable artifact; JSON/log files are supporting evidence.
+For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the beta-facing Markdown brief; JSON/log files are supporting evidence.
 
 2. Cheap-filter every signal independently and write `filter_decisions.json`. Do not rank, compare, or create angles in this pass. Use the Harness Execution Decision Path below before choosing how to run the cheap pass.
 
@@ -114,7 +116,7 @@ python3 skills/newsjack-detector/scripts/newsjack_filter_apply.py --candidates c
 python3 fixtures/newsjack-detector-agent/scripts/summarize-run.py candidates.json --output summary.json --markdown run.md
 ```
 
-When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which embeds `final_report.md` when it exists and also shows detector/cheap-filter provenance.
+When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/cheap-filter provenance in a compact appendix.
 
 ### Harness Execution Decision Path
 
