@@ -13,7 +13,7 @@ Load `SKILL.md` as a skill or project file, then provide the campaign angle, tar
 If your runtime supports project MCP config, the repo root `.mcp.json` points to the Medialyst MCP server. For Claude Code, run the local login helper once:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
+newsjack login
 claude --strict-mcp-config --mcp-config .mcp.json
 ```
 
@@ -24,8 +24,8 @@ The helper stores the API key under `~/.newsjack/credentials.json` and the `.mcp
 Codex does not use Claude Code's `headersHelper`. Use the stdio bridge:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
-codex mcp add medialyst -- python3 "$PWD/skills/media-list-manager/scripts/medialyst_mcp_bridge.py"
+newsjack login
+codex mcp add medialyst -- ~/.newsjack/bin/newsjack mcp-bridge
 ```
 
 ### OpenClaw
@@ -33,8 +33,8 @@ codex mcp add medialyst -- python3 "$PWD/skills/media-list-manager/scripts/media
 OpenClaw supports configured MCP stdio servers. Use the same bridge:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
-openclaw mcp set medialyst "{\"command\":\"python3\",\"args\":[\"$PWD/skills/media-list-manager/scripts/medialyst_mcp_bridge.py\"]}"
+newsjack login
+openclaw mcp set medialyst "{\"command\":\"$HOME/.newsjack/bin/newsjack\",\"args\":[\"mcp-bridge\"]}"
 ```
 
 The bridge requires Node.js because it launches `npx -y mcp-remote`.

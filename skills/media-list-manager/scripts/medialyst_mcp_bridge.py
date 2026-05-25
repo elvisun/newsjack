@@ -22,7 +22,7 @@ def main() -> int:
     api_key, source = load_api_key()
     if not api_key:
         print(
-            "Medialyst API key not found. Run: python3 skills/media-list-manager/scripts/medialyst_auth.py login",
+            "Medialyst API key not found. Run: ~/.newsjack/bin/newsjack login",
             file=sys.stderr,
         )
         return 1

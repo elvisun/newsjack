@@ -19,7 +19,7 @@ Before using this skill, check whether `skills/ETHICS.md` and `skills/WHY-NOT-SP
 Use the local engine when the user asks to monitor, discover, or scan current hooks:
 
 ```bash
-python3 skills/newsjack-detector/scripts/newsjack_detector.py run "QUERY" --profile profile.json --save
+~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --save
 ```
 
 Defaults:
@@ -73,7 +73,7 @@ X source tuning environment variables:
 Hourly OSS workflow:
 
 ```bash
-python3 skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.json --feed-only --save --new-only --max-age-hours 24 --emit json
+~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 24 --emit json
 ```
 
 This is a compromise for local/agent runtimes that can only run hourly. The RSS lane is meant to catch major stories first, then test client relevance. `--new-only` uses the local monitor store to avoid re-alerting the same feed URLs every hour; `--max-age-hours` keeps the first run from dumping a full historical backlog. It is not a promise to win the first 15 minutes of a breaking story.
@@ -95,7 +95,7 @@ Pipeline:
 1. Run the detector and save candidates:
 
 ```bash
-python3 skills/newsjack-detector/scripts/newsjack_detector.py run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 --emit json > candidates.json
+~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 --emit json > candidates.json
 ```
 
 For fixture debugging, prefer the observable helper in `fixtures/newsjack-detector-agent/scripts/observe-run.sh`. It writes `candidates.json`, `detector.stderr.log`, `commands.log`, `summary.json`, and `run.md` into one timestamped run folder and passes `--include-all-scored` by default. `run.md` is the beta-facing Markdown brief; JSON/log files are supporting evidence.
@@ -105,7 +105,7 @@ For fixture debugging, prefer the observable helper in `fixtures/newsjack-detect
 3. Apply decisions:
 
 ```bash
-python3 skills/newsjack-detector/scripts/newsjack_filter_apply.py --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --output targeted_candidates.json
+~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions filter_decisions.json --include keep --include monitor_only --output targeted_candidates.json
 ```
 
 4. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`.
@@ -113,7 +113,7 @@ python3 skills/newsjack-detector/scripts/newsjack_filter_apply.py --candidates c
 5. Rerender the observable Markdown run report:
 
 ```bash
-python3 fixtures/newsjack-detector-agent/scripts/summarize-run.py candidates.json --output summary.json --markdown run.md
+~/.newsjack/bin/newsjack summarize-run candidates.json --output summary.json --markdown run.md
 ```
 
 When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/cheap-filter provenance in a compact appendix.

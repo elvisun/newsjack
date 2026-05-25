@@ -42,7 +42,7 @@ export default function Home() {
                 <code>curl newsjack.sh | sh</code>
               </pre>
               <p className="mt-3 font-mono text-xs text-zinc-500">
-                Coming soon — May 2026
+                Installs latest from GitHub main
               </p>
             </div>
 
@@ -71,7 +71,8 @@ export default function Home() {
                 <span className="text-emerald-300">$</span> newsjack install
               </p>
               <p className="text-zinc-500">resolving agent runtime...</p>
-              <p className="text-zinc-500">loading pr operator skills...</p>
+              <p className="text-zinc-500">syncing pr operator skills...</p>
+              <p className="text-zinc-500">configuring optional mcp...</p>
               <p className="text-zinc-100">ready</p>
             </div>
           </div>

@@ -8,6 +8,34 @@
 curl newsjack.sh | sh
 ```
 
+The install path tracks `main`. No release artifact is required: pushing to this repo updates the root `install.sh`, and `newsjack.sh/install.sh` serves the current script from GitHub raw with a short cache.
+
+The installer:
+- fetches `elvisun/newsjack@main`
+- installs a managed copy at `~/.newsjack/newsjack`
+- installs `newsjack` at `~/.newsjack/bin/newsjack`
+- copies every `skills/*/SKILL.md` skill folder, including bundled scripts and references, into detected runtimes
+- configures the optional `medialyst` MCP server when the runtime exposes a noninteractive setup path
+
+Runtime detection is additive. If a user has multiple supported runtimes, the installer configures all of them.
+
+Supported targets:
+- **Codex:** skills to `~/.agents/skills`, MCP via `codex mcp add`
+- **Claude Code:** skills to `~/.claude/skills`, MCP via `claude mcp add-json --scope user`
+- **OpenClaw:** skills to `~/.openclaw/skills`, MCP via `openclaw mcp set`
+- **Hermes:** skills to `~/.hermes/skills`, MCP by adding `mcp_servers.medialyst` to `~/.hermes/config.yaml`
+
+Override auto-detection when needed:
+
+```bash
+NEWSJACK_RUNTIMES=codex,claude curl newsjack.sh | sh
+NEWSJACK_RUNTIMES=all curl newsjack.sh | sh
+NEWSJACK_INSTALL_MCP=0 curl newsjack.sh | sh
+NEWSJACK_REF=my-branch curl newsjack.sh | sh
+```
+
+See [Distribution Roadmap](./docs/distribution-roadmap.md) for the curl-v1 and npm-later plan.
+
 ## What is this?
 
 newsjack is the open-source operating system for **agentic PR** — a skill layer that installs into Claude, ChatGPT, Cursor, or any agent runtime that supports skills. Install it once and your agent becomes a PR operator: briefing, newsjacking, pitch critique, angle generation, media list workflow.
@@ -40,7 +68,7 @@ media_lists:write
 Save the key once:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
+newsjack login
 ```
 
 The helper stores credentials in `~/.newsjack/credentials.json` with user-only file permissions. Repo `.env` and `MEDIALYST_API_KEY` still work for CI and advanced local setups.
@@ -50,7 +78,7 @@ The helper stores credentials in `~/.newsjack/credentials.json` with user-only f
 Claude Code supports project MCP config and `headersHelper`, so it can use the repo `.mcp.json` directly:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
+newsjack login
 claude --strict-mcp-config --mcp-config .mcp.json
 ```
 
@@ -67,8 +95,8 @@ Expected result: `medialyst` is connected.
 Codex supports MCP servers, but not Claude Code's `headersHelper`. Use the stdio bridge, which reads the same saved Newsjack credential and runs `mcp-remote` under the hood:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
-codex mcp add medialyst -- python3 "$PWD/skills/media-list-manager/scripts/medialyst_mcp_bridge.py"
+newsjack login
+codex mcp add medialyst -- ~/.newsjack/bin/newsjack mcp-bridge
 codex mcp list
 ```
 
@@ -85,8 +113,8 @@ That native path requires `MEDIALYST_API_KEY` to be present in the Codex process
 OpenClaw supports configured MCP stdio servers. Use the same stdio bridge:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py login
-openclaw mcp set medialyst "{\"command\":\"python3\",\"args\":[\"$PWD/skills/media-list-manager/scripts/medialyst_mcp_bridge.py\"]}"
+newsjack login
+openclaw mcp set medialyst "{\"command\":\"$HOME/.newsjack/bin/newsjack\",\"args\":[\"mcp-bridge\"]}"
 openclaw mcp list
 ```
 
@@ -97,15 +125,15 @@ The bridge requires Node.js because it launches `npx -y mcp-remote`.
 If your client supports Claude-style `headersHelper`, point it at:
 
 ```bash
-python3 skills/media-list-manager/scripts/medialyst_auth.py headers
+~/.newsjack/bin/newsjack auth headers
 ```
 
 If your client supports only stdio MCP servers, configure:
 
 ```json
 {
-  "command": "python3",
-  "args": ["/absolute/path/to/newsjack/skills/media-list-manager/scripts/medialyst_mcp_bridge.py"]
+  "command": "/Users/alice/.newsjack/bin/newsjack",
+  "args": ["mcp-bridge"]
 }
 ```
 
@@ -156,7 +184,7 @@ install.sh   # what `curl newsjack.sh` serves to curl/wget clients
 
 ## How `curl newsjack.sh | sh` works
 
-The marketing site at `newsjack.sh` and the install script are served from the same URL. An edge function inspects the `User-Agent` header: curl and wget receive the shell script, while browsers receive the marketing page. Both the routing logic and the install script live in this repository under `apps/site/`.
+The marketing site at `newsjack.sh` and the install script are served from the same URL. The Next.js `proxy.ts` in `apps/site/` inspects the `User-Agent` header: curl and wget are rewritten to `/install.sh`, while browsers receive the marketing page. The `/install.sh` route serves the canonical root `install.sh` from GitHub `main`, with a bundled-file fallback for local development.
 
 ## License
 
