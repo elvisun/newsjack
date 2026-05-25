@@ -17,9 +17,9 @@ Status: v1 channel.
 Owns:
 
 - installing a managed checkout at `~/.newsjack/newsjack`
-- installing the `newsjack` shim at `~/.newsjack/bin/newsjack`
+- building or installing the Go `newsjack` binary at `~/.newsjack/bin/newsjack`
 - detecting Codex, Claude Code, OpenClaw, Hermes, or combinations of them
-- copying local skills, references, and scripts into runtime-specific skill directories
+- generating instruction-only skills into runtime-specific skill directories
 - configuring optional Medialyst MCP where a noninteractive setup path exists
 - updating from GitHub `main`
 
@@ -67,13 +67,7 @@ newsjack detector run ...
 newsjack mcp-bridge
 ```
 
-They should not rely on repo-relative paths like:
-
-```bash
-python3 skills/.../scripts/foo.py
-```
-
-Skill-local scripts can stay near the skills that need them, but they are implementation details. The CLI owns the public contract.
+They should not rely on repo-relative implementation paths. Skill-local helper files can stay near the skills that need them, but they are implementation details. The CLI owns the public contract.
 
 ## Runtime Targets
 
@@ -100,7 +94,7 @@ Before calling the curl channel live:
 
 Before npm:
 
-- move the CLI from a shell shim into a real `apps/cli` package or make the shim an intentional package entrypoint
+- keep the real `apps/cli` package as the npm entrypoint or ship platform binary artifacts
 - decide package name: `newsjack` vs scoped package
 - add `npm pack --dry-run` to CI
 - add a tag/release-based publish workflow

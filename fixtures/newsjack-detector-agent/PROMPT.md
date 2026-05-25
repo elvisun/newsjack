@@ -32,7 +32,7 @@ Each profile also includes `search_terms`, `feed_urls` selected from the shipped
 Run the monitoring engine from this fixture directory. Start with a mock pass:
 
 ```bash
-python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run "AI search visibility" --profile profile.localfalcon.json --mock --emit json
+../../bin/newsjack detector run "AI search visibility" --profile profile.localfalcon.json --mock --emit json
 ```
 
 Or use the helper script:
@@ -44,7 +44,7 @@ Or use the helper script:
 To test only the profile's RSS feeds:
 
 ```bash
-python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.localfalcon.json --feed-only --emit brief
+../../bin/newsjack detector run --profile profile.localfalcon.json --feed-only --emit brief
 ```
 
 To simulate the hourly product behavior with duplicate suppression:
@@ -58,7 +58,7 @@ The hourly helper writes `runs/<timestamp>/index.md` plus one beta-facing `run.m
 Then, if `MEDIALYST_API_KEY` is available and `xurl whoami` succeeds, run a live quick pass:
 
 ```bash
-python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run "AI search visibility" --profile profile.localfalcon.json --sources news_search,x --lookback-days 1 --depth quick --save --emit json
+../../bin/newsjack detector run "AI search visibility" --profile profile.localfalcon.json --sources news_search,x --lookback-days 1 --depth quick --save --emit json
 ```
 
 Or use the helper script:
@@ -78,7 +78,7 @@ The observed run defaults to `--limit 80 --min-queue-priority 40 --min-major-new
 To run feed-only broad monitoring without query/news-search credentials:
 
 ```bash
-python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run --profile profile.localfalcon.json --feed-only --save --new-only --max-age-hours 24 --emit brief
+../../bin/newsjack detector run --profile profile.localfalcon.json --feed-only --save --new-only --max-age-hours 24 --emit brief
 ```
 
 To test the harness-neutral two-pass flow, run the detector to `candidates.json`, have the harness write cheap-filter decisions, then apply them:
@@ -86,11 +86,11 @@ To test the harness-neutral two-pass flow, run the detector to `candidates.json`
 ```bash
 ./scripts/observe-run.sh localfalcon "AI search visibility" profile.localfalcon.json
 RUN_DIR="$(ls -td runs/*-localfalcon-observe | head -1)"
-python3 ../../skills/newsjack-detector/scripts/newsjack_filter_apply.py --candidates "$RUN_DIR/candidates.json" --decisions "$RUN_DIR/filter_decisions.json" --include keep --include monitor_only --output "$RUN_DIR/targeted_candidates.json"
-python3 scripts/summarize-run.py "$RUN_DIR/candidates.json" --output "$RUN_DIR/summary.json" --markdown "$RUN_DIR/run.md"
+../../bin/newsjack filter-apply --candidates "$RUN_DIR/candidates.json" --decisions "$RUN_DIR/filter_decisions.json" --include keep --include monitor_only --output "$RUN_DIR/targeted_candidates.json"
+../../bin/newsjack summarize-run "$RUN_DIR/candidates.json" --output "$RUN_DIR/summary.json" --markdown "$RUN_DIR/run.md"
 ```
 
-The harness decision path and cheap filter prompt live in `../../skills/newsjack-detector/SKILL.md`. Use a cheap model or cheap workers/subagents when the harness exposes them; otherwise disclose current-model fallback. The cheap filter should evaluate each signal independently and write `$RUN_DIR/filter_decisions.json`. The expensive rubric pass should write `$RUN_DIR/final_report.md`, then rerun `summarize-run.py` so `$RUN_DIR/run.md` is the shareable Markdown brief. For two-pass runs, prefer floor-based selection (`--min-queue-priority`, `--min-major-news`) over hard lane caps so the cheap filter sees the broader candidate pool.
+The harness decision path and cheap filter prompt live in `../../skills/newsjack-detector/SKILL.md`. Use a cheap model or cheap workers/subagents when the harness exposes them; otherwise disclose current-model fallback. The cheap filter should evaluate each signal independently and write `$RUN_DIR/filter_decisions.json`. The expensive rubric pass should write `$RUN_DIR/final_report.md`, then rerun `newsjack summarize-run` so `$RUN_DIR/run.md` is the shareable Markdown brief. For two-pass runs, prefer floor-based selection (`--min-queue-priority`, `--min-major-news`) over hard lane caps so the cheap filter sees the broader candidate pool.
 
 Apply the skill rubric to the returned `signals`, but do not dump the full JSON object in the final response. Return a human-readable skim report:
 

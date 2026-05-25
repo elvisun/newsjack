@@ -14,8 +14,11 @@ The installer:
 - fetches `elvisun/newsjack@main`
 - installs a managed copy at `~/.newsjack/newsjack`
 - installs `newsjack` at `~/.newsjack/bin/newsjack`
-- copies every `skills/*/SKILL.md` skill folder, including bundled scripts and references, into detected runtimes
-- configures the optional `medialyst` MCP server when the runtime exposes a noninteractive setup path
+- generates instruction-only skill folders into detected runtimes
+- keeps executable Newsjack code in `~/.newsjack/bin/newsjack` and the managed bundle under `~/.newsjack/newsjack`
+- configures the optional `medialyst` MCP server through the Go CLI when the runtime exposes a noninteractive setup path
+
+Until platform release binaries are published, the installer builds the Go CLI locally and requires `go` on PATH.
 
 Runtime detection is additive. If a user has multiple supported runtimes, the installer configures all of them.
 

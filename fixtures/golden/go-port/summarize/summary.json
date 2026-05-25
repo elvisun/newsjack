@@ -1,0 +1,228 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/candidates.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/summary.json"
+    },
+    "filter_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/filter_decisions.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/final_report.md"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/tmp/targeted_candidates.json"
+    }
+  },
+  "cheap_filter": {
+    "decision_count": 2,
+    "decision_counts": {
+      "keep": 2
+    },
+    "included_decisions": [
+      "keep"
+    ],
+    "input_signal_count": 2,
+    "missing_count": 0,
+    "missing_signals": [],
+    "reason_counts": {
+      "relevant_news": 2
+    },
+    "rejected_count": 0,
+    "rejected_signals": [],
+    "selected_count": 2
+  },
+  "cheap_filter_file": {
+    "exists": false,
+    "path": "/tmp/filter_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 0,
+    "debug_duplicate_scored_rows": 0,
+    "debug_selected_rows": 0,
+    "debug_unique_scored_signal_ids": 0,
+    "debug_unselected_rows": 0,
+    "selected_unique_signals": 2,
+    "source_errors": 0,
+    "total_emitted_signals": 2,
+    "total_scored_signals": 2
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/tmp/final_report.md"
+  },
+  "hygiene_rejections": {},
+  "input_path": "/tmp/newsjack-filtered.json",
+  "lanes": {
+    "dropped_debug": {},
+    "emitted": {
+      "profile_relevance": 1,
+      "x_posts": 1
+    },
+    "scored": {
+      "profile_relevance": 1,
+      "x_posts": 1
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-25T03:24:04.875042+00:00",
+    "lookback_days": 1,
+    "max_age_hours": 24.0,
+    "mock": true,
+    "name": null,
+    "profile_name": null,
+    "queries": [
+      "AI customer support"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x_news",
+      "x"
+    ],
+    "sources_used": [
+      "news_search",
+      "x_news",
+      "x"
+    ]
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "pending"
+    },
+    {
+      "artifact": "filter_decisions.json",
+      "stage": "cheap_filter",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "filter_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "run_dir": "/tmp",
+  "selection": {
+    "limit": 20,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40.0,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 1,
+      "x": 1
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/tmp/targeted_candidates.json"
+  },
+  "top_dropped_signals": [],
+  "top_signals": [
+    {
+      "cheap_filter": {
+        "confidence": "high",
+        "decision": "keep",
+        "evidence_urls": [
+          "https://example.com/news/60f5725c"
+        ],
+        "rationale": "Golden fixture keep",
+        "reason": "relevant_news",
+        "signal_id": "e32ebc6ac34ee9d2"
+      },
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "published_at": "2026-05-25",
+          "source": "news_search",
+          "title": "Regulators open inquiry tied to AI customer support",
+          "url": "https://example.com/news/60f5725c"
+        }
+      ],
+      "id": "e32ebc6ac34ee9d2",
+      "lane": "profile_relevance",
+      "major_news": 0.0,
+      "momentum": 0.0,
+      "profile_match": 0.4,
+      "query": "AI customer support",
+      "queue_priority": 70.8,
+      "source_agreement": 0.55,
+      "title": "Regulators open inquiry tied to AI customer support"
+    },
+    {
+      "cheap_filter": {
+        "confidence": "high",
+        "decision": "keep",
+        "evidence_urls": [
+          "https://x.com/example/status/f7f584be"
+        ],
+        "rationale": "Golden fixture keep",
+        "reason": "relevant_news",
+        "signal_id": "578832fabe7e6a64"
+      },
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "example",
+          "engagement": {
+            "likes": 120,
+            "replies": 9,
+            "reposts": 22
+          },
+          "published_at": "2026-05-25",
+          "source": "x",
+          "title": "Experts are reacting to AI customer support",
+          "url": "https://x.com/example/status/f7f584be"
+        }
+      ],
+      "id": "578832fabe7e6a64",
+      "lane": "x_posts",
+      "major_news": 0.0,
+      "momentum": 0.426,
+      "profile_match": 0.4,
+      "query": "AI customer support",
+      "queue_priority": 64.0,
+      "source_agreement": 0.32,
+      "title": "Experts are reacting to AI customer support"
+    }
+  ]
+}

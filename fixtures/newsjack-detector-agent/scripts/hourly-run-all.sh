@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
 
 STAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
 RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP}"
@@ -44,11 +45,12 @@ for row in "${profiles[@]}"; do
   echo "== $slug =="
   echo "query: $query"
   echo "profile: $profile"
+  profile_path="$FIXTURE_DIR/$profile"
 
   if "$SCRIPT_DIR/agent-env.sh" \
-    python3 ../../skills/newsjack-detector/scripts/newsjack_detector.py run \
+    "$NEWSJACK_BIN" detector run \
       "$query" \
-      --profile "$profile" \
+      --profile "$profile_path" \
       --sources "$SOURCES" \
       --lookback-days "$LOOKBACK_DAYS" \
       --depth "$DEPTH" \
@@ -58,7 +60,7 @@ for row in "${profiles[@]}"; do
       --max-age-hours "$MAX_AGE_HOURS" \
       --emit json \
       >"$output" 2>"$error_log"; then
-    if python3 "$SCRIPT_DIR/summarize-run.py" "$output" --output "$summary" --markdown "$markdown"; then
+    if "$NEWSJACK_BIN" summarize-run "$output" --output "$summary" --markdown "$markdown"; then
       echo "ok: $markdown"
       report_rows+=("| $slug | [$profile]($slug/run.md) | [$slug/candidates.json]($slug/candidates.json) | ok |")
     else

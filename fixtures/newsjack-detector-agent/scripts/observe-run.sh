@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
 
 SLUG="${NEWSJACK_OBSERVE_SLUG:-${1:-simular}}"
 QUERY="${NEWSJACK_OBSERVE_QUERY:-${2:-computer-use agents}}"
@@ -10,6 +11,14 @@ PROFILE="${NEWSJACK_OBSERVE_PROFILE:-${3:-profile.simular.json}}"
 if [[ "$#" -gt 0 ]]; then shift; fi
 if [[ "$#" -gt 0 ]]; then shift; fi
 if [[ "$#" -gt 0 ]]; then shift; fi
+
+if [[ "$PROFILE" != /* ]]; then
+  if [[ -f "$FIXTURE_DIR/$PROFILE" ]]; then
+    PROFILE="$FIXTURE_DIR/$PROFILE"
+  elif [[ -f "$PROFILE" ]]; then
+    PROFILE="$(cd "$(dirname "$PROFILE")" && pwd)/$(basename "$PROFILE")"
+  fi
+fi
 
 STAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
 RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP-$SLUG-observe}"
@@ -49,7 +58,7 @@ echo "observed run: $RUN_DIR"
 echo "running detector..."
 
 detector_args=(
-  ../../skills/newsjack-detector/scripts/newsjack_detector.py run
+  detector run
   "$QUERY"
   --profile "$PROFILE"
   --sources "$SOURCES"
@@ -69,12 +78,12 @@ detector_args+=("$@" --emit json)
 
 {
   printf 'detector_command='
-  printf '%q ' "$SCRIPT_DIR/agent-env.sh" python3 "${detector_args[@]}"
+  printf '%q ' "$SCRIPT_DIR/agent-env.sh" "$NEWSJACK_BIN" "${detector_args[@]}"
   echo
 } >> "$COMMAND_LOG"
 
 if "$SCRIPT_DIR/agent-env.sh" \
-  python3 "${detector_args[@]}" \
+  "$NEWSJACK_BIN" "${detector_args[@]}" \
     > "$CANDIDATES" 2> "$STDERR_LOG"; then
   echo "detector_status=ok" >> "$COMMAND_LOG"
 else
@@ -84,7 +93,7 @@ else
   exit "$status"
 fi
 
-python3 "$SCRIPT_DIR/summarize-run.py" "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
+"$NEWSJACK_BIN" summarize-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
 
 echo "wrote:"
 echo "- $CANDIDATES"
