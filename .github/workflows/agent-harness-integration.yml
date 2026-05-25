@@ -1,0 +1,68 @@
+name: Agent Harness Integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      runtime:
+        description: Runtime to test
+        required: true
+        default: codex
+        type: choice
+        options:
+          - codex
+          - claude
+          - hermes
+          - openclaw
+          - all
+      mode:
+        description: Token-burning test mode
+        required: true
+        default: native-smoke
+        type: choice
+        options:
+          - native-smoke
+          - acp-smoke
+          - setup-flow
+      production_path:
+        description: Use public newsjack.sh installer path
+        required: true
+        default: false
+        type: boolean
+
+jobs:
+  integration:
+    name: Token-burning integration harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write integration env file
+        shell: bash
+        run: |
+          umask 077
+          {
+            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}"
+            echo "ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}"
+            echo "OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}"
+            echo "MEDIALYST_API_KEY=${{ secrets.MEDIALYST_API_KEY }}"
+            echo "MEDIALYST_API_BASE=https://medialyst.ai/api"
+            echo "MEDIALYST_NEWS_PATH=/v1/news/search"
+            echo "NEWSJACK_HARNESS_ALLOW_MODEL_CALLS=1"
+          } > harness/.env.local
+
+      - name: Build harness image
+        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
+
+      - name: Run integration harness
+        shell: bash
+        run: |
+          source_flag="--local-source"
+          if [ "${{ inputs.production_path }}" = "true" ]; then
+            source_flag="--production-path"
+          fi
+          python3 harness/run.py \
+            --mode "${{ inputs.mode }}" \
+            --runtime "${{ inputs.runtime }}" \
+            --env-file harness/.env.local \
+            "$source_flag"
