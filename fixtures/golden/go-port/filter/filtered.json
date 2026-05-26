@@ -4,6 +4,7 @@
     "decision_counts": {
       "keep": 2
     },
+    "guardrail_override_count": 0,
     "included_decisions": [
       "keep"
     ],
@@ -41,7 +42,7 @@
     "total_emitted_signals": 2,
     "total_scored_signals": 2
   },
-  "generated_at": "2026-05-25T20:15:22.519731Z",
+  "generated_at": "2026-05-25T21:25:09.070858Z",
   "monitor": {
     "depth": "quick",
     "feed_urls": [],

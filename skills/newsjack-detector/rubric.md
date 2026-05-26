@@ -9,6 +9,16 @@ The engine has two discovery lanes:
 
 Do not treat a `major_news` item as pitchable because it is big. The client still needs standing, proof, and a journalist shape.
 
+## Story Size
+
+Use `story_size` to calibrate effort, not to approve a pitch. It is a deterministic media-attention proxy based on news-search publication metadata:
+
+- log-scaled estimated monthly traffic
+- domain authority
+- coverage spread across independently surfaced domains
+
+`major` or `high` story size means the opportunity may justify faster review and sharper proof asks. It does not compensate for stale timing, weak standing, missing proof, or a bad journalist shape.
+
 ## Freshness Gate
 
 For recurring or beta cron output, the LLM `story-origin-check` recovers the first-public timestamp and canonical coverage, then the Go CLI `origin-apply` computes the freshness gate. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.

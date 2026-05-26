@@ -73,6 +73,7 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 	if err != nil {
 		return nil, err
 	}
+	profile := profileFromMap(valueOrEmptyMap(valueOrEmptyMap(candidates["monitor"])["profile"]))
 	decisionByID := map[string]map[string]any{}
 	var errs []string
 	for _, decision := range decisions {
@@ -95,6 +96,9 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		}
 		if !allowedReasons[stringValue(normalized["reason"])] {
 			errs = append(errs, fmt.Sprintf("%s: unsupported reason=%s", id, normalized["reason"]))
+		}
+		if signal := signalByID[id]; signal != nil {
+			normalized = applyCoarseRecallGuard(normalized, signal, profile)
 		}
 		decisionByID[id] = normalized
 	}
@@ -121,9 +125,13 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 	var missingSignals []map[string]any
 	decisionCounts := map[string]int{}
 	reasonCounts := map[string]int{}
+	guardrailOverrides := 0
 	for _, d := range decisionByID {
 		decisionCounts[stringValue(d["decision"])]++
 		reasonCounts[stringValue(d["reason"])]++
+		if stringValue(d["guardrail"]) != "" {
+			guardrailOverrides++
+		}
 	}
 	for _, signal := range signals {
 		id := stringValue(signal["id"])
@@ -151,10 +159,73 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		"generated_at":         time.Now().UTC().Format(time.RFC3339Nano),
 		"monitor":              valueOrEmptyMap(candidates["monitor"]),
 		"signals":              selected,
-		"coarse_relevance":     map[string]any{"input_signal_count": len(signals), "decision_count": len(decisionByID), "selected_count": len(selected), "rejected_count": len(rejected), "missing_count": len(missingSignals), "included_decisions": included, "decision_counts": sortedCountMap(decisionCounts), "reason_counts": sortedCountMap(reasonCounts), "rejected_signals": rejected, "missing_signals": missingSignals},
+		"coarse_relevance":     map[string]any{"input_signal_count": len(signals), "decision_count": len(decisionByID), "selected_count": len(selected), "rejected_count": len(rejected), "missing_count": len(missingSignals), "included_decisions": included, "decision_counts": sortedCountMap(decisionCounts), "reason_counts": sortedCountMap(reasonCounts), "guardrail_override_count": guardrailOverrides, "rejected_signals": rejected, "missing_signals": missingSignals},
 		"detector_diagnostics": valueOrEmptyMap(candidates["diagnostics"]),
 		"source_errors":        valueOrEmptyMap(candidates["source_errors"]),
 	}, nil
+}
+
+func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProfile) map[string]any {
+	if stringValue(decision["decision"]) != "reject" || stringValue(decision["reason"]) != "no_profile_bridge" {
+		return decision
+	}
+	matches := coarseRecallMatches(signal, profile)
+	if len(matches) == 0 {
+		return decision
+	}
+	guarded := cloneMap(decision)
+	guarded["original_decision"] = decision["decision"]
+	guarded["original_reason"] = decision["reason"]
+	guarded["decision"] = "monitor_only"
+	guarded["reason"] = "plausible_client_bridge"
+	guarded["confidence"] = "low"
+	guarded["guardrail"] = "profile_match_recall_guard"
+	guarded["guardrail_matches"] = matches
+	guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker rejected as no profile bridge.") + " Kept for review because detector/profile evidence matched: " + strings.Join(firstN(matches, 5), ", ") + ".")
+	return guarded
+}
+
+func coarseRecallMatches(signal map[string]any, profile monitorProfile) []string {
+	var matches []string
+	seen := map[string]bool{}
+	add := func(value string) {
+		value = strings.TrimSpace(value)
+		if value != "" && !seen[strings.ToLower(value)] {
+			matches = append(matches, value)
+			seen[strings.ToLower(value)] = true
+		}
+	}
+	for _, raw := range valueOrEmptyArray(signal["profile_matches"]) {
+		add(stringValue(raw))
+	}
+	for _, match := range profileMatches(profile, coarseRecallText(signal)) {
+		add(match)
+	}
+	mech := valueOrEmptyMap(signal["mechanical_scores"])
+	if score, ok := numberValue(mech["profile_match"]); ok && profile.matchText() != "" && score >= 0.05 {
+		add(fmt.Sprintf("profile_match=%.3g", score))
+	}
+	return matches
+}
+
+func coarseRecallText(signal map[string]any) string {
+	var parts []string
+	parts = append(parts, stringValue(signal["title"]), stringValue(signal["query"]))
+	for _, raw := range anySlice(signal["sources"]) {
+		parts = append(parts, stringValue(raw))
+	}
+	for _, raw := range anySlice(signal["evidence"]) {
+		if ev, ok := raw.(map[string]any); ok {
+			parts = append(parts,
+				stringValue(ev["title"]),
+				stringValue(ev["container"]),
+				stringValue(ev["source"]),
+				stringValue(ev["excerpt"]),
+				stringValue(ev["url"]),
+			)
+		}
+	}
+	return strings.Join(parts, " ")
 }
 
 func normalizeDecisions(payload any) ([]map[string]any, error) {

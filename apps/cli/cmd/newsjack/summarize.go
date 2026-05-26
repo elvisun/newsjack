@@ -131,10 +131,13 @@ func renderSummaryMarkdown(summary map[string]any) string {
 	var lines []string
 	lines = append(lines, "# "+mdInline(profile)+" Newsjack Brief", "")
 	lines = append(lines, renderTable([][2]any{{"Status", statusText(summary)}, {"Generated", formatDatetime(firstString(monitor["generated_at"], summary["generated_at"]))}, {"Detector candidates", counts["selected_unique_signals"]}})...)
+	if finalReport := finalReportContent(summary); finalReport != "" {
+		lines = append(lines, "", "## Editorial Verdict", "", finalReport)
+	}
 	lines = append(lines, "", "## Candidate Preview", "")
 	for i, signal := range mapSlice(summary["top_signals"]) {
 		lines = append(lines, fmt.Sprintf("%d. **%s**", i+1, mdInline(firstString(signal["title"], "(untitled)"))))
-		lines = append(lines, fmt.Sprintf("   - Why surfaced: %s; queue %s, profile %s, major %s.", label(signal["lane"]), fmtValue(signal["queue_priority"]), fmtValue(signal["profile_match"]), fmtValue(signal["major_news"])))
+		lines = append(lines, fmt.Sprintf("   - Why surfaced: %s; queue %s, profile %s, major %s, story size %s.", label(signal["lane"]), fmtValue(signal["queue_priority"]), fmtValue(signal["profile_match"]), fmtValue(signal["major_news"]), formatStorySize(signal["story_size"])))
 		for _, raw := range anySlice(signal["evidence"]) {
 			if ev, ok := raw.(map[string]any); ok {
 				lines = append(lines, "   - "+renderEvidenceLink(ev))
@@ -160,6 +163,14 @@ func statusText(summary map[string]any) string {
 		return "Editorial review complete"
 	}
 	return "Detector preview only"
+}
+
+func finalReportContent(summary map[string]any) string {
+	finalReport := valueOrEmptyMap(summary["final_report_file"])
+	if !truthy(finalReport["exists"], false) {
+		return ""
+	}
+	return strings.TrimSpace(stringValue(finalReport["content"]))
 }
 
 func artifactPaths(runDir string) map[string]string {
@@ -292,7 +303,7 @@ func summarizeSignals(signals []map[string]any) []map[string]any {
 	for _, signal := range signals {
 		routing := valueOrEmptyMap(signal["routing"])
 		mech := valueOrEmptyMap(signal["mechanical_scores"])
-		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "coarse_relevance": firstNonNil(signal["coarse_relevance"], signal["coarse_filter"], signal["cheap_filter"]), "story_origin": signal["story_origin"], "freshness_gate": signal["freshness_gate"], "evidence": summarizeEvidence(signal)})
+		out = append(out, map[string]any{"id": signal["id"], "title": firstString(signal["title"], firstEvidenceValue(signal, "title")), "query": signal["query"], "lane": routing["lane"], "queue_priority": routing["queue_priority"], "decay_bucket": firstNonNil(signal["decay_bucket"], mech["decay_bucket"]), "profile_match": mech["profile_match"], "major_news": mech["major_news"], "momentum": mech["momentum"], "source_agreement": mech["source_agreement"], "story_size": signal["story_size"], "coarse_relevance": firstNonNil(signal["coarse_relevance"], signal["coarse_filter"], signal["cheap_filter"]), "story_origin": signal["story_origin"], "freshness_gate": signal["freshness_gate"], "evidence": summarizeEvidence(signal)})
 	}
 	return out
 }
@@ -315,10 +326,21 @@ func summarizeEvidence(signal map[string]any) []map[string]any {
 	var out []map[string]any
 	for _, raw := range anySlice(signal["evidence"]) {
 		if ev, ok := raw.(map[string]any); ok {
-			out = append(out, map[string]any{"source": ev["source"], "title": ev["title"], "url": ev["url"], "published_at": ev["published_at"], "author": ev["author"], "engagement": valueOrEmptyMap(ev["engagement"])})
+			out = append(out, map[string]any{"source": ev["source"], "title": ev["title"], "url": ev["url"], "published_at": ev["published_at"], "author": ev["author"], "engagement": valueOrEmptyMap(ev["engagement"]), "metadata": valueOrEmptyMap(ev["metadata"])})
 		}
 	}
 	return out
+}
+
+func formatStorySize(value any) string {
+	storySize := valueOrEmptyMap(value)
+	if len(storySize) == 0 {
+		return "-"
+	}
+	band := firstString(storySize["band"], "unknown")
+	score := fmtValue(storySize["score"])
+	confidence := firstString(storySize["confidence"], "unknown")
+	return fmt.Sprintf("%s/%s (%s)", band, score, confidence)
 }
 
 func firstEvidenceValue(signal map[string]any, key string) any {

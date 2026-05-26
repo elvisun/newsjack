@@ -3,7 +3,7 @@
 | key | value |
 |---|---|
 | Status | Detector preview only |
-| Generated | 2026-05-25 20:17 UTC |
+| Generated | 2026-05-25 21:25 UTC |
 | Detector candidates | 2 |
 
 ## Candidate Preview

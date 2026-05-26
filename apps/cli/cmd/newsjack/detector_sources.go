@@ -60,6 +60,10 @@ func parseNewsResponse(payload map[string]any) []map[string]any {
 			continue
 		}
 		id := firstString(firstAny(item, "id", "uuid"), fmt.Sprintf("ML%d", i+1))
+		metadata := cloneMap(valueOrEmptyMap(item["metadata"]))
+		if metadata["raw_source"] == nil {
+			metadata["raw_source"] = source
+		}
 		items = append(items, map[string]any{
 			"id":           id,
 			"source":       "news_search",
@@ -70,7 +74,7 @@ func parseNewsResponse(payload map[string]any) []map[string]any {
 			"published_at": nullableString(normalizeLooseDate(stringValue(published))),
 			"excerpt":      strings.TrimSpace(stringValue(snippet)),
 			"engagement":   map[string]any{},
-			"metadata":     map[string]any{"raw_source": source},
+			"metadata":     metadata,
 		})
 	}
 	return items

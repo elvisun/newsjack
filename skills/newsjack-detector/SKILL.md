@@ -253,7 +253,7 @@ Allowed reasons:
 - no_profile_bridge
 
 Rules:
-- Be recall-biased on PR relevance.
+- Be extremely recall-biased on PR relevance. False positives are acceptable here; false negatives are expensive.
 - Do not choose best bets.
 - Do not rank signals.
 - Do not write angles.
@@ -261,6 +261,9 @@ Rules:
 - Do not run story-origin research.
 - Do not compute freshness or 24h cutoff status.
 - Only reject clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
+- If the client, a named competitor, a profile topic, a profile standing term, a regulator/customer/category named in the profile, or a direct synonym appears anywhere in the title, excerpt, evidence, or detector `profile_matches`, do not reject as `no_profile_bridge`; use `keep` or `monitor_only`.
+- A named competitor counts even when it is not the headline subject. If a story is framed around Meta, China, a regulator, an acquirer, a partner, or a blocked deal but the target/company affected is a profile competitor such as Manus, keep it for the next stage.
+- Use `no_profile_bridge` only when you can explain that no profile entity, competitor, topic, standing term, or plausible buyer/regulator/category bridge appears in the candidate.
 - For broad major-news, RSS, X News, or X Trends items with any plausible client bridge, use keep or monitor_only.
 - Preserve evidence URLs. Each decision must cite the URLs it used.
 - Return only JSON. No prose before or after it.
@@ -356,8 +359,10 @@ The Go CLI owns:
 - clustering
 - novelty tracking
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
+- deterministic story-size scoring from generic news-search publication metadata: log-scaled estimated monthly traffic plus domain authority, with coverage spread across independently surfaced domains
 - deterministic hygiene filtering for obvious docs/help/product/SEO pages
 - coarse-relevance decision application through `newsjack filter-apply`
+- a coarse-relevance recall guard that upgrades `reject/no_profile_bridge` to `monitor_only` when detector/profile evidence already matched the client, a competitor, or another profile term
 - deterministic story-origin freshness gating through `newsjack origin-apply`
 - operational routing: lane, queue priority, and whether the lane was threshold-demoted
 - deterministic safety flags
@@ -383,13 +388,15 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
-4. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `freshness_gate.computed_status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `story_origin.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
+4. **Use story size as effort priority, not pitch permission.** `story_size` measures media attention using publication traffic and domain authority when news-search metadata provides them. It distinguishes one large outlet from broad pickup across several large domains. A large story still needs freshness, client standing, proof, and journalist shape; a small story can still be useful when standing is strong.
 
-5. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
+5. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `freshness_gate.computed_status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `story_origin.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
 
-6. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, freshness-unverified, single-source, no-standing, no-proof, or no-journalist-shape signals.
+6. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
 
-7. **Choose the handoff.**
+7. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, freshness-unverified, single-source, no-standing, no-proof, or no-journalist-shape signals.
+
+8. **Choose the handoff.**
    - Breaking or same-day sourced comment: `reactive-comment`
    - Needs story framing: `angle-generator`
    - Named journalist check: `journalist-fit-check`
@@ -411,6 +418,11 @@ Every opportunity must include source URLs in `evidence_used`. Include `story_or
       "decay": {
         "stage": "4hr",
         "rationale": "Why this clock applies"
+      },
+      "story_size": {
+        "band": "low | moderate | high | major",
+        "score": 0,
+        "rationale": "How publication traffic/domain authority and coverage spread should affect effort priority"
       },
       "first_publication": {
         "status": "fresh | fresh_new_development",

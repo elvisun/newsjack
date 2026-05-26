@@ -284,6 +284,191 @@ func sourceQualityScore(cluster signalCluster) float64 {
 	return sum / float64(len(cluster.Evidence))
 }
 
+func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement float64) map[string]any {
+	type outlet struct {
+		domain         string
+		score          float64
+		trafficScore   *float64
+		authorityScore *float64
+		traffic        any
+		authority      any
+	}
+	outletsByDomain := map[string]outlet{}
+	for _, item := range cluster.Evidence {
+		trafficScore, trafficRaw := publicationTrafficScore(item.Metadata)
+		authorityScore, authorityRaw := publicationAuthorityScore(item.Metadata)
+		if trafficScore == nil && authorityScore == nil {
+			continue
+		}
+		score := publicationOutletScore(trafficScore, authorityScore)
+		domain := publicationDomainKey(item)
+		current, ok := outletsByDomain[domain]
+		if !ok || score > current.score {
+			outletsByDomain[domain] = outlet{
+				domain:         domain,
+				score:          score,
+				trafficScore:   trafficScore,
+				authorityScore: authorityScore,
+				traffic:        trafficRaw,
+				authority:      authorityRaw,
+			}
+		}
+	}
+
+	strongest := 0.0
+	spreadWeight := 0.0
+	knownTraffic := 0
+	knownAuthority := 0
+	var topOutlets []map[string]any
+	for _, o := range outletsByDomain {
+		if o.score > strongest {
+			strongest = o.score
+		}
+		spreadWeight += math.Pow(o.score, 1.5)
+		if o.trafficScore != nil {
+			knownTraffic++
+		}
+		if o.authorityScore != nil {
+			knownAuthority++
+		}
+		topOutlets = append(topOutlets, map[string]any{
+			"domain":                            o.domain,
+			"outlet_score":                      roundN(o.score, 3),
+			"traffic_score":                     nullableRounded(o.trafficScore),
+			"domain_authority_score":            nullableRounded(o.authorityScore),
+			"estimated_monthly_organic_traffic": nullableNumberAny(o.traffic),
+			"domain_authority":                  nullableNumberAny(o.authority),
+		})
+	}
+	sort.SliceStable(topOutlets, func(i, j int) bool {
+		return floatValue(topOutlets[i]["outlet_score"]) > floatValue(topOutlets[j]["outlet_score"])
+	})
+
+	basis := "publication_metadata"
+	confidence := "medium"
+	coverageSpread := 0.0
+	score := 0.0
+	if len(outletsByDomain) > 0 {
+		coverageSpread = 1 - math.Exp(-spreadWeight/3.0)
+		score = 0.60*strongest + 0.40*coverageSpread
+		if knownTraffic == 0 || knownAuthority == 0 {
+			confidence = "low"
+		}
+	} else {
+		return map[string]any{
+			"score":                 nil,
+			"band":                  "unknown",
+			"confidence":            "low",
+			"basis":                 "publication_metadata_missing",
+			"known_outlet_count":    0,
+			"known_traffic_count":   0,
+			"known_authority_count": 0,
+			"top_outlets":           []map[string]any{},
+			"components": map[string]any{
+				"source_quality":  roundN(sourceQuality, 3),
+				"major_news":      roundN(majorNews, 3),
+				"social_momentum": roundN(engagement, 3),
+			},
+		}
+	}
+	score = clamp01(score)
+	return map[string]any{
+		"score":                 round1(100 * score),
+		"band":                  storySizeBand(score),
+		"confidence":            confidence,
+		"basis":                 basis,
+		"known_outlet_count":    len(outletsByDomain),
+		"known_traffic_count":   knownTraffic,
+		"known_authority_count": knownAuthority,
+		"top_outlets":           firstN(topOutlets, 5),
+		"components": map[string]any{
+			"strongest_outlet": roundN(strongest, 3),
+			"coverage_spread":  roundN(coverageSpread, 3),
+			"source_quality":   roundN(sourceQuality, 3),
+			"major_news":       roundN(majorNews, 3),
+			"social_momentum":  roundN(engagement, 3),
+		},
+	}
+}
+
+func publicationOutletScore(trafficScore, authorityScore *float64) float64 {
+	switch {
+	case trafficScore != nil && authorityScore != nil:
+		return clamp01(0.70*(*trafficScore) + 0.30*(*authorityScore))
+	case trafficScore != nil:
+		return clamp01(*trafficScore)
+	case authorityScore != nil:
+		return clamp01(*authorityScore)
+	default:
+		return 0
+	}
+}
+
+func publicationTrafficScore(metadata map[string]any) (*float64, any) {
+	raw := firstNonNil(metadata["estimated_monthly_organic_traffic"], metadata["monthly_organic_traffic"], metadata["traffic"])
+	traffic, ok := numberValue(raw)
+	if !ok || traffic <= 0 {
+		return nil, raw
+	}
+	score := clamp01(math.Log10(math.Max(1, traffic)) / 8.0)
+	return &score, raw
+}
+
+func publicationAuthorityScore(metadata map[string]any) (*float64, any) {
+	raw := firstNonNil(metadata["domain_authority"], metadata["domainAuthority"], metadata["domain_rating"], metadata["domainRating"])
+	authority, ok := numberValue(raw)
+	if !ok || authority < 0 {
+		return nil, raw
+	}
+	score := authority
+	if score > 1 {
+		score = score / 100.0
+	}
+	score = clamp01(score)
+	return &score, raw
+}
+
+func publicationDomainKey(item evidenceItem) string {
+	if u, err := url.Parse(item.URL); err == nil && u.Hostname() != "" {
+		return strings.ToLower(u.Hostname())
+	}
+	if item.Container != "" {
+		return strings.ToLower(item.Container)
+	}
+	return strings.ToLower(item.Source)
+}
+
+func nullableRounded(value *float64) any {
+	if value == nil {
+		return nil
+	}
+	return roundN(*value, 3)
+}
+
+func nullableNumberAny(value any) any {
+	if f, ok := numberValue(value); ok {
+		return f
+	}
+	return nil
+}
+
+func storySizeBand(score float64) string {
+	switch {
+	case score >= 0.75:
+		return "major"
+	case score >= 0.50:
+		return "high"
+	case score >= 0.25:
+		return "moderate"
+	default:
+		return "low"
+	}
+}
+
+func clamp01(value float64) float64 {
+	return math.Max(0, math.Min(1, value))
+}
+
 var engagementFields = []string{"score", "num_comments", "comments", "likes", "reposts", "replies", "quotes", "bookmarks", "views", "points"}
 
 func engagementScore(cluster signalCluster) float64 {
@@ -423,6 +608,7 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	engagement := engagementScore(cluster)
 	profileMatch := profileMatchScore(profile, text)
 	majorNews := majorNewsScore(cluster, age)
+	storySize := storySizeScore(cluster, sourceQuality, majorNews, engagement)
 	lane := signalLane(cluster, majorNews, profileMatch, opts)
 	queue := 0.0
 	switch lane {
@@ -460,26 +646,31 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	if age != nil {
 		features["age_hours"] = roundN(*age, 2)
 	}
+	mechanicalScores := map[string]any{
+		"freshness":        roundN(freshness, 3),
+		"source_agreement": roundN(sourceAgreement, 3),
+		"novelty":          roundN(novelty, 3),
+		"profile_match":    roundN(profileMatch, 3),
+		"source_quality":   roundN(sourceQuality, 3),
+		"momentum":         roundN(engagement, 3),
+		"major_news":       roundN(majorNews, 3),
+	}
+	if score, ok := numberValue(storySize["score"]); ok {
+		mechanicalScores["story_size"] = roundN(score/100.0, 3)
+	}
 	return map[string]any{
-		"id":       signalID(cluster.title(), urls, text),
-		"title":    cluster.title(),
-		"sources":  sources,
-		"evidence": evidence,
-		"features": features,
+		"id":         signalID(cluster.title(), urls, text),
+		"title":      cluster.title(),
+		"sources":    sources,
+		"evidence":   evidence,
+		"features":   features,
+		"story_size": storySize,
 		"routing": map[string]any{
 			"lane":           lane,
 			"queue_priority": queue,
 			"demoted":        strings.HasSuffix(lane, "_unmatched") || strings.HasSuffix(lane, "_weak"),
 		},
-		"mechanical_scores": map[string]any{
-			"freshness":        roundN(freshness, 3),
-			"source_agreement": roundN(sourceAgreement, 3),
-			"novelty":          roundN(novelty, 3),
-			"profile_match":    roundN(profileMatch, 3),
-			"source_quality":   roundN(sourceQuality, 3),
-			"momentum":         roundN(engagement, 3),
-			"major_news":       roundN(majorNews, 3),
-		},
+		"mechanical_scores": mechanicalScores,
 	}
 }
 

@@ -77,6 +77,97 @@ func TestFilterApplyIgnoresOriginFields(t *testing.T) {
 	}
 }
 
+func TestFilterApplyGuardKeepsProfileMatchedNoBridgeReject(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{
+			"profile": map[string]any{
+				"company":     "Simular",
+				"competitors": []any{"Manus"},
+			},
+		},
+		"signals": []any{
+			map[string]any{
+				"id":              "manus",
+				"title":           "China blocks Meta AI deal",
+				"profile_matches": []any{"Manus"},
+				"mechanical_scores": map[string]any{
+					"profile_match": 0.12,
+				},
+				"evidence": []any{
+					map[string]any{
+						"title":   "China blocks Meta AI deal targeting Manus",
+						"excerpt": "Regulators blocked Meta from acquiring Manus.",
+						"url":     "https://example.com/manus",
+					},
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{
+				"signal_id": "manus",
+				"decision":  "reject",
+				"reason":    "no_profile_bridge",
+				"rationale": "Meta AI does not match the profile.",
+			},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1; payload=%#v", len(signals), payload)
+	}
+	decision := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if decision["decision"] != "monitor_only" || decision["reason"] != "plausible_client_bridge" {
+		t.Fatalf("guarded decision mismatch: %#v", decision)
+	}
+	if decision["guardrail"] != "profile_match_recall_guard" {
+		t.Fatalf("missing guardrail marker: %#v", decision)
+	}
+	coarse := valueOrEmptyMap(payload["coarse_relevance"])
+	if coarse["guardrail_override_count"] != 1 {
+		t.Fatalf("guardrail count=%v, want 1", coarse["guardrail_override_count"])
+	}
+}
+
+func TestFilterApplyGuardIgnoresDefaultProfileMatchWithoutProfileContext(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"profile": map[string]any{}},
+		"signals": []any{
+			map[string]any{
+				"id": "generic",
+				"mechanical_scores": map[string]any{
+					"profile_match": 0.4,
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{
+				"signal_id": "generic",
+				"decision":  "reject",
+				"reason":    "no_profile_bridge",
+			},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	if got := len(signalSlice(payload["signals"])); got != 0 {
+		t.Fatalf("selected signals=%d, want 0", got)
+	}
+	coarse := valueOrEmptyMap(payload["coarse_relevance"])
+	if coarse["guardrail_override_count"] != 0 {
+		t.Fatalf("guardrail count=%v, want 0", coarse["guardrail_override_count"])
+	}
+}
+
 func TestOriginApplyComputesStaleDespiteWorkerFreshStatus(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{"generated_at": "2026-05-25T18:00:00Z"},

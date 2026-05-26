@@ -120,3 +120,97 @@ func TestProfileMatchesRequireTokenBoundaryForSingleTerms(t *testing.T) {
 		t.Fatalf("matches=%v, want exact Aura token match", matches)
 	}
 }
+
+func TestStorySizeUsesTrafficAuthorityAndCoverageSpread(t *testing.T) {
+	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC)
+	opts := detectorOptions{LookbackDays: 1}
+	single := scoreSignal(signalCluster{Evidence: []evidenceItem{{
+		Source:      "news_search",
+		Title:       "Major outlet covers AI story",
+		URL:         "https://wsj.com/articles/ai-story",
+		Container:   "WSJ",
+		PublishedAt: now.Format(time.RFC3339),
+		Metadata: map[string]any{
+			"domain_authority":                  95,
+			"estimated_monthly_organic_traffic": 100000000,
+		},
+	}}}, monitorProfile{}, map[string]map[string]any{}, now, opts)
+	spread := scoreSignal(signalCluster{Evidence: []evidenceItem{
+		{
+			Source:      "news_search",
+			Title:       "Major outlet covers AI story",
+			URL:         "https://wsj.com/articles/ai-story",
+			Container:   "WSJ",
+			PublishedAt: now.Format(time.RFC3339),
+			Metadata: map[string]any{
+				"domain_authority":                  95,
+				"estimated_monthly_organic_traffic": 100000000,
+			},
+		},
+		{
+			Source:      "news_search",
+			Title:       "Forbes covers AI story",
+			URL:         "https://forbes.com/sites/example/ai-story",
+			Container:   "Forbes",
+			PublishedAt: now.Format(time.RFC3339),
+			Metadata: map[string]any{
+				"domain_authority":                  90,
+				"estimated_monthly_organic_traffic": 70000000,
+			},
+		},
+		{
+			Source:      "news_search",
+			Title:       "USA Today covers AI story",
+			URL:         "https://usatoday.com/story/news/ai-story",
+			Container:   "USA Today",
+			PublishedAt: now.Format(time.RFC3339),
+			Metadata: map[string]any{
+				"domain_authority":                  88,
+				"estimated_monthly_organic_traffic": 60000000,
+			},
+		},
+	}}, monitorProfile{}, map[string]map[string]any{}, now, opts)
+
+	singleSize := valueOrEmptyMap(single["story_size"])
+	spreadSize := valueOrEmptyMap(spread["story_size"])
+	if singleSize["band"] != "high" {
+		t.Fatalf("single band=%v, want high; story_size=%#v", singleSize["band"], singleSize)
+	}
+	if spreadSize["band"] != "major" {
+		t.Fatalf("spread band=%v, want major; story_size=%#v", spreadSize["band"], spreadSize)
+	}
+	if floatValue(spreadSize["score"]) <= floatValue(singleSize["score"]) {
+		t.Fatalf("spread score=%v, want above single=%v", spreadSize["score"], singleSize["score"])
+	}
+	if valueOrEmptyMap(spread["mechanical_scores"])["story_size"] == nil {
+		t.Fatalf("mechanical story_size missing: %#v", spread["mechanical_scores"])
+	}
+}
+
+func TestParseNewsResponsePreservesPublicationMetadata(t *testing.T) {
+	items := parseNewsResponse(map[string]any{
+		"results": []any{
+			map[string]any{
+				"title":  "Example story",
+				"url":    "https://example.com/story",
+				"source": "Example",
+				"date":   "2026-05-26",
+				"metadata": map[string]any{
+					"publication_type":                  "editorial",
+					"domain_authority":                  73,
+					"estimated_monthly_organic_traffic": 460000,
+				},
+			},
+		},
+	})
+	if len(items) != 1 {
+		t.Fatalf("items=%d, want 1", len(items))
+	}
+	metadata := valueOrEmptyMap(items[0]["metadata"])
+	if metadata["domain_authority"] != 73 || metadata["estimated_monthly_organic_traffic"] != 460000 {
+		t.Fatalf("publication metadata not preserved: %#v", metadata)
+	}
+	if metadata["raw_source"] != "Example" {
+		t.Fatalf("raw_source=%v, want Example", metadata["raw_source"])
+	}
+}
