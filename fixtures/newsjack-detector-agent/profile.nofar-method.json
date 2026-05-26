@@ -56,6 +56,10 @@
       "Miami"
     ]
   },
+  "google_trends": {
+    "geo": "US",
+    "hours": 24
+  },
   "spokespeople": [
     "Founder or lead instructor",
     "Studio operations lead",

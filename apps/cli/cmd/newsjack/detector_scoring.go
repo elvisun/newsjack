@@ -244,13 +244,14 @@ func filterItemsByHygiene(items []evidenceItem, enabled bool) ([]evidenceItem, m
 }
 
 var sourceQuality = map[string]float64{
-	"major_feed":  0.88,
-	"news_search": 0.95,
-	"x":           0.70,
-	"x_news":      0.86,
-	"x_trends":    0.68,
-	"reddit":      0.62,
-	"hackernews":  0.72,
+	"major_feed":    0.88,
+	"news_search":   0.95,
+	"google_trends": 0.74,
+	"x":             0.70,
+	"x_news":        0.86,
+	"x_trends":      0.68,
+	"reddit":        0.62,
+	"hackernews":    0.72,
 }
 
 func sourceAgreementScore(sources []string) float64 {
@@ -570,6 +571,12 @@ func signalLane(cluster signalCluster, majorNews, profileMatch float64, opts det
 		}
 		return "x_trends"
 	}
+	if sources["google_trends"] {
+		if profileMatch < opts.GoogleTrendsMinProfileMatch {
+			return "google_trends_unmatched"
+		}
+		return "google_trends"
+	}
 	if len(sources) == 1 && sources["x"] {
 		for _, item := range cluster.Evidence {
 			if item.Metadata["x_signal_type"] == "query_trend" {
@@ -616,9 +623,9 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		queue = round1(100 * (0.30*majorNews + 0.22*freshness + 0.14*novelty + 0.12*profileMatch + 0.12*sourceQuality + 0.10*sourceAgreement))
 	case "major_news_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.18*majorNews+0.16*freshness+0.12*novelty+0.10*sourceQuality+0.08*sourceAgreement)))
-	case "x_news", "x_trends":
+	case "x_news", "x_trends", "google_trends":
 		queue = round1(100 * (0.24*freshness + 0.20*profileMatch + 0.18*novelty + 0.16*sourceQuality + 0.12*sourceAgreement + 0.10*engagement))
-	case "x_trends_unmatched":
+	case "x_trends_unmatched", "google_trends_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.16*freshness+0.14*novelty+0.12*sourceQuality+0.10*engagement)))
 	case "x_news_unmatched", "profile_relevance_weak", "x_posts_weak":
 		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*novelty+0.12*sourceQuality+0.10*sourceAgreement+0.08*engagement)))

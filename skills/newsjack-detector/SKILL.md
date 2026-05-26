@@ -28,6 +28,7 @@ Defaults:
 - `x` uses `xurl` and the official X API path. The X lane filters out low-reach single posts by default and may emit a query-volume signal when X recent counts show a topic is moving.
 - `x_news` should be enabled by default in profiles once the source is wired. It is the preferred X discovery shape because it returns story clusters rather than random individual posts.
 - `x_trends` is optional profile configuration: `personalized`, `location`, or `none`. Use location trends only when geography matters.
+- `google_trends` is optional profile configuration by country code. Google Trends RSS surfaces hourly-refreshed trending search topics for a given country. Each trend carries linked news items used as evidence.
 - `major_feed` is an RSS/Atom input lane for curated major-news feeds. Profile `feed_urls` are included automatically.
 - Optional v0 sources: `reddit`, `hackernews`.
 - The engine reads `MEDIALYST_API_KEY`, `MEDIALYST_API_BASE`, and `MEDIALYST_NEWS_PATH` from the process environment or repo-root `.env`.
@@ -36,7 +37,7 @@ Defaults:
 Useful flags:
 
 - `--sources news_search,x,reddit,hackernews`
-- `--sources news_search,x_news,x,x_trends` to include X story clusters, raw posts, and profile-selected trends.
+- `--sources news_search,x_news,x,x_trends,google_trends` to include X story clusters, raw posts, and profile-selected trends.
 - `--major-feeds` to include default curated major-news feeds when the profile has no `feed_urls`.
 - `--feed-url URL` to include an RSS/Atom feed URL or local XML file. Repeatable.
 - `--feed-file PATH` to include a text file of RSS/Atom feed URLs, one per line.
@@ -44,6 +45,7 @@ Useful flags:
 - `--no-profile-feeds` to skip profile RSS feeds for a query-only run.
 - `--no-x-news` to disable profile-default X News story clusters.
 - `--no-x-trends` to disable profile-selected X trends.
+- `--no-google-trends` to disable profile-selected Google Trends RSS.
 - `--no-hygiene-filter` to keep obvious docs/product/SEO retrieval junk for debugging.
 - `--lookback-days 1`
 - `--max-age-hours 24` to avoid backfilling obviously old source items on recurring runs. Default: `24`. This is only a mechanical source timestamp filter; it does not prove the story is new.
@@ -52,9 +54,10 @@ Useful flags:
 - `--profile-relevance-min-profile-match 0.05` to demote profile-query results below the profile-overlap threshold.
 - `--major-news-min-profile-match 0.05` to demote broad RSS stories below the profile-overlap threshold.
 - `--x-trends-min-profile-match 0.05` to demote broad X trends below the profile-overlap threshold.
+- `--google-trends-min-profile-match 0.05` to demote broad Google Trends topics below the profile-overlap threshold.
 - `--min-queue-priority 40` to emit candidates at or above this mechanical priority when no lane caps are set. Threshold-demoted lanes stay below `40` by default; lower this only for debugging the rejected pool.
 - `--min-major-news 0.55` to also emit matched `major_news` candidates above this major-news score. `major_news_unmatched` remains below the default floor unless explicitly debugged with a lower queue floor.
-- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the coarse-relevance candidate pool unless you deliberately want a narrow list.
+- `--lane-caps x_news=8,profile_relevance=8,major_news=8,x_trends=5,google_trends=5,x_posts=4` as an optional override for skim-only runs. Do not use lane caps for the coarse-relevance candidate pool unless you deliberately want a narrow list.
 - `--new-only` to suppress signals whose evidence URLs are already in the monitor store.
 - `--include-all-scored` to include the full scored signal pool under `debug.all_scored_signals`. Use only for fixture/debug observability; normal product runs should keep output compact.
 - `--depth quick|default|deep`

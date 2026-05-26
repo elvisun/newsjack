@@ -48,6 +48,10 @@
     "woeids": [],
     "locations": []
   },
+  "google_trends": {
+    "geo": "US",
+    "hours": 24
+  },
   "spokespeople": [
     "Coffee sourcing or roasting lead",
     "Cafe operations lead",

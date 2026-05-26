@@ -18,6 +18,7 @@ type monitorProfile struct {
 	FeedURLs     []string
 	XNews        map[string]any
 	XTrends      map[string]any
+	GoogleTrends map[string]any
 	Spokespeople []string
 	ProofAssets  []string
 	Standing     []string
@@ -37,6 +38,7 @@ func defaultProfile() monitorProfile {
 		Exclusions:   []string{},
 		XNews:        map[string]any{"enabled": true},
 		XTrends:      map[string]any{"mode": "none", "woeids": []any{}, "locations": []any{}},
+		GoogleTrends: defaultGoogleTrendsConfig(),
 	}
 }
 
@@ -63,6 +65,7 @@ func profileFromMap(payload map[string]any) monitorProfile {
 	p.FeedURLs = stringListValue(firstValue(payload, "feed_urls", "feeds", "rss_feeds"))
 	p.XNews = dictValue(payload["x_news"], map[string]any{"enabled": true})
 	p.XTrends = dictValue(payload["x_trends"], map[string]any{"mode": "none", "woeids": []any{}, "locations": []any{}})
+	p.GoogleTrends = googleTrendsConfig(payload["google_trends"])
 	p.Spokespeople = stringListValue(firstValue(payload, "spokespeople", "experts"))
 	p.ProofAssets = stringListValue(firstValue(payload, "proof_assets", "proof"))
 	p.Standing = stringListValue(firstValue(payload, "standing", "expertise"))
@@ -89,6 +92,9 @@ func (p monitorProfile) matchText() string {
 	parts = append(parts, p.Competitors...)
 	parts = append(parts, p.FeedURLs...)
 	parts = append(parts, stringListValue(p.XTrends["locations"])...)
+	if geo := googleTrendsGeo(p.GoogleTrends); geo != "" {
+		parts = append(parts, "Google Trends "+geo)
+	}
 	parts = append(parts, p.Spokespeople...)
 	parts = append(parts, p.ProofAssets...)
 	parts = append(parts, p.Standing...)
@@ -97,17 +103,48 @@ func (p monitorProfile) matchText() string {
 
 func (p monitorProfile) publicDict() map[string]any {
 	return map[string]any{
-		"company":      nullableString(p.Company),
-		"topics":       p.Topics,
-		"competitors":  p.Competitors,
-		"search_terms": p.SearchTerms,
-		"feed_urls":    p.FeedURLs,
-		"x_news":       p.XNews,
-		"x_trends":     p.XTrends,
-		"spokespeople": p.Spokespeople,
-		"proof_assets": p.ProofAssets,
-		"standing":     p.Standing,
-		"exclusions":   p.Exclusions,
+		"company":       nullableString(p.Company),
+		"topics":        p.Topics,
+		"competitors":   p.Competitors,
+		"search_terms":  p.SearchTerms,
+		"feed_urls":     p.FeedURLs,
+		"x_news":        p.XNews,
+		"x_trends":      p.XTrends,
+		"google_trends": p.GoogleTrends,
+		"spokespeople":  p.Spokespeople,
+		"proof_assets":  p.ProofAssets,
+		"standing":      p.Standing,
+		"exclusions":    p.Exclusions,
+	}
+}
+
+func defaultGoogleTrendsConfig() map[string]any {
+	return map[string]any{"geo": "", "hours": 24}
+}
+
+func googleTrendsConfig(v any) map[string]any {
+	out := defaultGoogleTrendsConfig()
+	if m, ok := v.(map[string]any); ok {
+		for k, v := range m {
+			out[k] = v
+		}
+	}
+	out["geo"] = googleTrendsGeo(out)
+	out["hours"] = googleTrendsHours(out)
+	return out
+}
+
+func googleTrendsGeo(config map[string]any) string {
+	return strings.ToUpper(strings.TrimSpace(stringValue(config["geo"])))
+}
+
+func googleTrendsHours(config map[string]any) int {
+	hours := intValue(config["hours"], 24)
+	switch hours {
+	case 4, 24, 48, 168:
+		return hours
+	default:
+		return 24
 	}
 }
 

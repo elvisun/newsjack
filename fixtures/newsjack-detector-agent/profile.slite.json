@@ -45,6 +45,10 @@
     "woeids": [],
     "locations": []
   },
+  "google_trends": {
+    "geo": "US",
+    "hours": 24
+  },
   "spokespeople": [
     "Founder or CEO with knowledge management expertise",
     "Product lead for AI search",

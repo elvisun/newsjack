@@ -46,6 +46,10 @@
     "woeids": [],
     "locations": []
   },
+  "google_trends": {
+    "geo": "CA",
+    "hours": 24
+  },
   "spokespeople": [
     "Founder or CEO with local SEO expertise",
     "Product lead for AI search visibility",

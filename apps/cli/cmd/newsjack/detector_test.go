@@ -55,6 +55,7 @@ func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
 		ProfileRelevanceMinProfileMatch: 0.05,
 		MajorNewsMinProfileMatch:        0.05,
 		XTrendsMinProfileMatch:          0.05,
+		GoogleTrendsMinProfileMatch:     0.05,
 	}
 
 	tests := []struct {
@@ -65,6 +66,7 @@ func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
 	}{
 		{name: "profile query", source: "news_search", wantLane: "profile_relevance_weak", sourceName: "Reuters"},
 		{name: "x news", source: "x_news", wantLane: "x_news_unmatched", sourceName: "X News"},
+		{name: "google trends", source: "google_trends", wantLane: "google_trends_unmatched", sourceName: "Google Trends"},
 		{name: "x posts", source: "x", wantLane: "x_posts_weak", sourceName: "X"},
 	}
 

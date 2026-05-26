@@ -196,6 +196,147 @@ func feedItemDict(m map[string]string, feedTitle, feedURL string, position int) 
 	}
 }
 
+const googleTrendsRSSBase = "https://trends.google.com/trending/rss"
+
+type googleTrendsRSS struct {
+	Channel struct {
+		Items []googleTrendsRSSItem `xml:"item"`
+	} `xml:"channel"`
+}
+
+type googleTrendsRSSItem struct {
+	Title         string                    `xml:"title"`
+	Link          string                    `xml:"link"`
+	PubDate       string                    `xml:"pubDate"`
+	ApproxTraffic string                    `xml:"approx_traffic"`
+	NewsItems     []googleTrendsRSSNewsItem `xml:"news_item"`
+}
+
+type googleTrendsRSSNewsItem struct {
+	Title   string `xml:"news_item_title"`
+	URL     string `xml:"news_item_url"`
+	Source  string `xml:"news_item_source"`
+	Snippet string `xml:"news_item_snippet"`
+}
+
+func collectGoogleTrendsRSS(geo string, hours int, now time.Time) ([]map[string]any, string) {
+	feedURL := googleTrendsRSSURL(geo, hours)
+	resp, err := httpGetRaw(feedURL, map[string]string{
+		"Accept":     "application/rss+xml, application/xml, text/xml, */*",
+		"User-Agent": "newsjack/0.1 (+https://github.com/elvisun/newsjack)",
+	}, 10*time.Second)
+	if err != nil {
+		return nil, fmt.Sprintf("%T: %v", err, err)
+	}
+	trends, err := parseGoogleTrendsRSS(resp)
+	if err != nil {
+		return nil, fmt.Sprintf("%T: %v", err, err)
+	}
+	return googleTrendsEvidenceMaps(trends, geo, hours, feedURL, now), ""
+}
+
+func googleTrendsRSSURL(geo string, hours int) string {
+	values := url.Values{}
+	values.Set("geo", strings.ToUpper(strings.TrimSpace(geo)))
+	values.Set("hours", strconv.Itoa(hours))
+	return googleTrendsRSSBase + "?" + values.Encode()
+}
+
+func parseGoogleTrendsRSS(xmlText string) ([]googleTrendsRSSItem, error) {
+	var feed googleTrendsRSS
+	decoder := xml.NewDecoder(strings.NewReader(xmlText))
+	if err := decoder.Decode(&feed); err != nil {
+		return nil, err
+	}
+	var trends []googleTrendsRSSItem
+	for _, item := range feed.Channel.Items {
+		item.Title = cleanText(item.Title)
+		item.Link = strings.TrimSpace(item.Link)
+		item.PubDate = strings.TrimSpace(item.PubDate)
+		item.ApproxTraffic = cleanText(item.ApproxTraffic)
+		if item.Title == "" {
+			continue
+		}
+		var newsItems []googleTrendsRSSNewsItem
+		for _, news := range item.NewsItems {
+			news.Title = cleanText(news.Title)
+			news.URL = strings.TrimSpace(news.URL)
+			news.Source = cleanText(news.Source)
+			news.Snippet = cleanText(news.Snippet)
+			if news.Title == "" && news.URL == "" && news.Snippet == "" {
+				continue
+			}
+			newsItems = append(newsItems, news)
+		}
+		item.NewsItems = newsItems
+		trends = append(trends, item)
+	}
+	return trends, nil
+}
+
+func googleTrendsEvidenceMaps(trends []googleTrendsRSSItem, geo string, hours int, feedURL string, now time.Time) []map[string]any {
+	var out []map[string]any
+	for i, trend := range trends {
+		published := normalizeLooseDate(trend.PubDate)
+		if published == "" {
+			published = now.Format(time.RFC3339Nano)
+		}
+		approxTraffic := cleanText(trend.ApproxTraffic)
+		trafficCount := parseCountText(approxTraffic)
+		engagement := map[string]any{}
+		if trafficCount > 0 {
+			engagement["score"] = minInt(500, trafficCount)
+		}
+		if len(trend.NewsItems) == 0 {
+			out = append(out, googleTrendsEvidenceMap(trend, googleTrendsRSSNewsItem{}, geo, hours, feedURL, published, engagement, i+1, 0))
+			continue
+		}
+		for j, news := range trend.NewsItems {
+			out = append(out, googleTrendsEvidenceMap(trend, news, geo, hours, feedURL, published, engagement, i+1, j+1))
+		}
+	}
+	return out
+}
+
+func googleTrendsEvidenceMap(trend googleTrendsRSSItem, news googleTrendsRSSNewsItem, geo string, hours int, feedURL, published string, engagement map[string]any, trendPosition, newsPosition int) map[string]any {
+	newsTitle := cleanText(news.Title)
+	snippet := cleanText(news.Snippet)
+	trafficText := cleanText(trend.ApproxTraffic)
+	excerptParts := nonEmpty(newsTitle, snippet)
+	if trafficText != "" {
+		excerptParts = append(excerptParts, "Google Trends approximate traffic: "+trafficText)
+	}
+	excerpt := strings.Join(excerptParts, ". ")
+	link := strings.TrimSpace(news.URL)
+	if link == "" {
+		link = strings.TrimSpace(trend.Link)
+	}
+	metadata := map[string]any{
+		"google_trends_title":              trend.Title,
+		"google_trends_approx_traffic":     trafficText,
+		"google_trends_geo":                strings.ToUpper(strings.TrimSpace(geo)),
+		"google_trends_hours":              hours,
+		"google_trends_feed_url":           feedURL,
+		"google_trends_position":           trendPosition,
+		"google_trends_news_item_position": newsPosition,
+		"google_trends_news_item_title":    nullableString(newsTitle),
+		"google_trends_news_item_source":   nullableString(news.Source),
+		"google_trends_news_item_snippet":  nullableString(snippet),
+	}
+	return map[string]any{
+		"id":           fmt.Sprintf("GTREND%d-%d", trendPosition, newsPosition),
+		"source":       "google_trends",
+		"title":        trend.Title,
+		"url":          link,
+		"author":       nil,
+		"container":    firstString(news.Source, "Google Trends"),
+		"published_at": nullableString(published),
+		"excerpt":      excerpt,
+		"engagement":   engagement,
+		"metadata":     metadata,
+	}
+}
+
 func cleanText(value string) string {
 	text := html.UnescapeString(value)
 	text = regexp.MustCompile(`(?is)<script[^>]*>.*?</script>|<style[^>]*>.*?</style>`).ReplaceAllString(text, " ")

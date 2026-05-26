@@ -41,6 +41,10 @@
     "woeids": [],
     "locations": []
   },
+  "google_trends": {
+    "geo": "US",
+    "hours": 24
+  },
   "spokespeople": [
     "Founder or CEO with consumer privacy expertise",
     "Privacy operations lead",

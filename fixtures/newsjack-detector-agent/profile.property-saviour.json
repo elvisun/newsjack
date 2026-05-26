@@ -45,6 +45,10 @@
       "United Kingdom"
     ]
   },
+  "google_trends": {
+    "geo": "GB",
+    "hours": 24
+  },
   "spokespeople": [
     "Founder or director with UK property buying expertise",
     "Property valuation lead",

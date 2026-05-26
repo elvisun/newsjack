@@ -20,6 +20,7 @@ type detectorOptions struct {
 	NoProfileFeeds                  bool
 	NoXNews                         bool
 	NoXTrends                       bool
+	NoGoogleTrends                  bool
 	NoHygieneFilter                 bool
 	Depth                           string
 	LookbackDays                    int
@@ -29,6 +30,7 @@ type detectorOptions struct {
 	ProfileRelevanceMinProfileMatch float64
 	MajorNewsMinProfileMatch        float64
 	XTrendsMinProfileMatch          float64
+	GoogleTrendsMinProfileMatch     float64
 	MinQueuePriority                float64
 	MinMajorNews                    float64
 	LaneCaps                        string
@@ -102,6 +104,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 		ProfileRelevanceMinProfileMatch: 0.05,
 		MajorNewsMinProfileMatch:        0.05,
 		XTrendsMinProfileMatch:          0.05,
+		GoogleTrendsMinProfileMatch:     0.05,
 		MinQueuePriority:                defaultMinQueuePriority,
 		MinMajorNews:                    defaultMinMajorNews,
 		Limit:                           20,
@@ -117,6 +120,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	fs.BoolVar(&opts.NoProfileFeeds, "no-profile-feeds", false, "Do not include feed_urls from profile")
 	fs.BoolVar(&opts.NoXNews, "no-x-news", false, "Do not auto-include x_news")
 	fs.BoolVar(&opts.NoXTrends, "no-x-trends", false, "Do not include x_trends")
+	fs.BoolVar(&opts.NoGoogleTrends, "no-google-trends", false, "Do not include google_trends")
 	fs.BoolVar(&opts.NoHygieneFilter, "no-hygiene-filter", false, "Disable deterministic hygiene filter")
 	fs.StringVar(&opts.Depth, "depth", "quick", "quick, default, or deep")
 	fs.IntVar(&opts.LookbackDays, "lookback-days", 1, "Lookback window in days")
@@ -126,6 +130,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	fs.Float64Var(&opts.ProfileRelevanceMinProfileMatch, "profile-relevance-min-profile-match", 0.05, "Demote profile query results below this score")
 	fs.Float64Var(&opts.MajorNewsMinProfileMatch, "major-news-min-profile-match", 0.05, "Demote major-feed-only stories below this score")
 	fs.Float64Var(&opts.XTrendsMinProfileMatch, "x-trends-min-profile-match", 0.05, "Demote X trends below this score")
+	fs.Float64Var(&opts.GoogleTrendsMinProfileMatch, "google-trends-min-profile-match", 0.05, "Demote Google Trends below this score")
 	fs.Float64Var(&opts.MinQueuePriority, "min-queue-priority", defaultMinQueuePriority, "Mechanical queue priority floor")
 	fs.Float64Var(&opts.MinMajorNews, "min-major-news", defaultMinMajorNews, "Major-news fallback floor")
 	fs.StringVar(&opts.LaneCaps, "lane-caps", "", "Comma-separated per-lane output caps")
@@ -140,7 +145,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	valueFlags := stringSet([]string{
 		"topic", "profile", "sources", "feed-url", "feed-file", "depth", "lookback-days", "max-age-hours",
 		"x-news-min-profile-match", "x-posts-min-profile-match", "profile-relevance-min-profile-match",
-		"major-news-min-profile-match", "x-trends-min-profile-match", "min-queue-priority", "min-major-news",
+		"major-news-min-profile-match", "x-trends-min-profile-match", "google-trends-min-profile-match", "min-queue-priority", "min-major-news",
 		"lane-caps", "limit", "store", "monitor-name", "emit",
 	})
 	if err := fs.Parse(reorderIntermixedFlags(args, valueFlags)); err != nil {

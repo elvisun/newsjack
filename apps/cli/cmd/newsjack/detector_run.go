@@ -38,10 +38,13 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		if err != nil {
 			return err
 		}
+	} else if googleTrendsEnabled(profile, opts) {
+		requestedSources = append(requestedSources, "google_trends")
 	}
 	trendRequested := contains(requestedSources, "x_trends") && !opts.FeedOnly
-	if len(queries) == 0 && len(feedURLs) == 0 && !trendRequested {
-		return errors.New("Provide a query, --topic, --major-feeds, --feed-url, or --profile with topics/competitors.")
+	googleTrendsRequested := googleTrendsEnabled(profile, opts) && contains(requestedSources, "google_trends")
+	if len(queries) == 0 && len(feedURLs) == 0 && !trendRequested && !googleTrendsRequested {
+		return errors.New("Provide a query, --topic, --major-feeds, --feed-url, google_trends geo, or --profile with topics/competitors.")
 	}
 	querySources := querySources(requestedSources)
 	sources := []string{}
@@ -51,7 +54,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		} else {
 			sources = availableSources(config, querySources)
 		}
-		if len(sources) == 0 {
+		if len(sources) == 0 && len(feedURLs) == 0 && !trendRequested && !googleTrendsRequested {
 			return errors.New("No requested sources are available. Configure MEDIALYST_API_KEY and xurl auth, or rerun with --mock.")
 		}
 	}
@@ -112,6 +115,12 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			return err
 		}
 	}
+	if googleTrendsRequested {
+		items, errors := collectGoogleTrends(profile, opts, now)
+		if err := processItems("google_trends", items, errors); err != nil {
+			return err
+		}
+	}
 	laneCaps := parseLaneCaps(opts.LaneCaps)
 	signals := selectSignals(allSignals, opts.Limit, laneCaps, opts.MinQueuePriority, opts.MinMajorNews)
 	var runID any
@@ -123,6 +132,10 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		}
 		runID = id
 	}
+	sourcesUsed := append([]string{}, sources...)
+	sourcesUsed = append(sourcesUsed, boolSlice(trendRequested, "x_trends")...)
+	sourcesUsed = append(sourcesUsed, boolSlice(googleTrendsRequested, "google_trends")...)
+	sourcesUsed = append(sourcesUsed, boolSlice(len(feedURLs) > 0, "major_feed")...)
 	payload := map[string]any{
 		"monitor": map[string]any{
 			"name":              nullableString(opts.MonitorName),
@@ -131,7 +144,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			"queries":           nonNilStrings(queries),
 			"feed_urls":         nonNilStrings(feedURLs),
 			"sources_requested": requestedSources,
-			"sources_used":      append(append([]string{}, sources...), append(boolSlice(trendRequested, "x_trends"), boolSlice(len(feedURLs) > 0, "major_feed")...)...),
+			"sources_used":      sourcesUsed,
 			"lookback_days":     opts.LookbackDays,
 			"max_age_hours":     opts.MaxAgeHours,
 			"new_only":          opts.NewOnly,
@@ -251,11 +264,17 @@ func requestedSourcesFor(opts detectorOptions, profile monitorProfile) ([]string
 	if trendsMode != "" && trendsMode != "none" && trendsMode != "off" && trendsMode != "false" && !opts.NoXTrends && !contains(sources, "x_trends") {
 		sources = append(sources, "x_trends")
 	}
+	if googleTrendsEnabled(profile, opts) && !contains(sources, "google_trends") {
+		sources = append(sources, "google_trends")
+	}
 	if opts.NoXNews {
 		sources = removeString(sources, "x_news")
 	}
 	if opts.NoXTrends {
 		sources = removeString(sources, "x_trends")
+	}
+	if opts.NoGoogleTrends {
+		sources = removeString(sources, "google_trends")
 	}
 	return sources, nil
 }
@@ -263,7 +282,7 @@ func requestedSourcesFor(opts detectorOptions, profile monitorProfile) ([]string
 func querySources(sources []string) []string {
 	var out []string
 	for _, s := range sources {
-		if s != "x_trends" {
+		if s != "x_trends" && s != "google_trends" {
 			out = append(out, s)
 		}
 	}
@@ -271,7 +290,7 @@ func querySources(sources []string) []string {
 }
 
 var defaultSources = []string{"news_search", "x_news", "x"}
-var allSources = stringSet([]string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
+var allSources = stringSet([]string{"news_search", "x_news", "x", "x_trends", "google_trends", "reddit", "hackernews"})
 
 func parseSources(raw string) ([]string, error) {
 	if strings.TrimSpace(raw) == "" {
@@ -289,6 +308,8 @@ func parseSources(raw string) ([]string, error) {
 			key = "news_search"
 		case "twitter", "x_posts":
 			key = "x"
+		case "gtrends", "google-trends", "googletrends":
+			key = "google_trends"
 		}
 		if !allSources[key] {
 			return nil, fmt.Errorf("unsupported source for v0: %s", part)
@@ -363,6 +384,8 @@ func availableSources(config map[string]string, requested []string) []string {
 			out = append(out, source)
 		case source == "x_trends" && (xurl || bearer):
 			out = append(out, source)
+		case source == "google_trends":
+			out = append(out, source)
 		case source == "reddit" || source == "hackernews":
 			out = append(out, source)
 		}
@@ -395,6 +418,21 @@ func mockFeedItems(now time.Time) []evidenceItem {
 		{Source: "major_feed", Title: "Salesforce launches free AI customer service agents for startups", URL: "https://example.com/major/salesforce-ai-agents", Container: "Example Major Feed", PublishedAt: published, Excerpt: "A major CRM vendor is targeting startup and SMB customer-support workflows with free AI agents.", Engagement: map[string]any{}, Metadata: map[string]any{"feed_title": "Example Major Feed", "feed_url": "mock://major-feed", "feed_position": 1}},
 		{Source: "major_feed", Title: "Pentagon launches task force for safe deployment of AI tools", URL: "https://example.com/major/pentagon-ai-task-force", Container: "Example Major Feed", PublishedAt: published, Excerpt: "The Pentagon is studying how to deploy leading AI tools across sensitive government workflows.", Engagement: map[string]any{}, Metadata: map[string]any{"feed_title": "Example Major Feed", "feed_url": "mock://major-feed", "feed_position": 2}},
 	}
+}
+
+func mockGoogleTrendsItems(profile monitorProfile, now time.Time) []evidenceItem {
+	geo := googleTrendsGeo(profile.GoogleTrends)
+	hours := googleTrendsHours(profile.GoogleTrends)
+	return []evidenceItem{{
+		Source:      "google_trends",
+		Title:       "AI agents",
+		URL:         "https://example.com/google-trends/ai-agents",
+		Container:   "Example News",
+		PublishedAt: now.Format(time.RFC3339Nano),
+		Excerpt:     "Example News: AI agent adoption is accelerating. Google Trends approximate traffic: 100K+.",
+		Engagement:  map[string]any{"score": 500},
+		Metadata:    map[string]any{"google_trends_title": "AI agents", "google_trends_approx_traffic": "100K+", "google_trends_geo": geo, "google_trends_hours": hours, "google_trends_news_item_title": "AI agent adoption is accelerating"},
+	}}
 }
 
 func collectQuery(query string, sources []string, config map[string]string, opts detectorOptions, now time.Time) ([]evidenceItem, map[string]string) {
@@ -474,6 +512,33 @@ func collectXTrends(profile monitorProfile, config map[string]string, opts detec
 		return items, map[string]string{"x_trends": errText}
 	}
 	return items, nil
+}
+
+func collectGoogleTrends(profile monitorProfile, opts detectorOptions, now time.Time) ([]evidenceItem, map[string]string) {
+	if !googleTrendsEnabled(profile, opts) {
+		return nil, nil
+	}
+	if opts.Mock {
+		return mockGoogleTrendsItems(profile, now), nil
+	}
+	geo := googleTrendsGeo(profile.GoogleTrends)
+	hours := googleTrendsHours(profile.GoogleTrends)
+	raw, errText := collectGoogleTrendsRSS(geo, hours, now)
+	var items []evidenceItem
+	for _, r := range raw {
+		item := evidenceFromMap(r)
+		if item.Title != "" || item.Excerpt != "" {
+			items = append(items, item)
+		}
+	}
+	if errText != "" {
+		return items, map[string]string{"google_trends": errText}
+	}
+	return items, nil
+}
+
+func googleTrendsEnabled(profile monitorProfile, opts detectorOptions) bool {
+	return !opts.NoGoogleTrends && googleTrendsGeo(profile.GoogleTrends) != ""
 }
 
 func collectSource(source, query, fromDate, toDate, depth string, config map[string]string) (items []map[string]any, errText string) {
@@ -556,6 +621,7 @@ func detectorDiagnose(sourcesRaw, store string, stdout, stderr io.Writer) int {
 		"xurl_available":            contains(availableSources(config, []string{"x"}), "x"),
 		"x_news_available":          contains(availableSources(config, []string{"x_news"}), "x_news"),
 		"x_trends_available":        contains(availableSources(config, []string{"x_trends"}), "x_trends"),
+		"google_trends_available":   contains(availableSources(config, []string{"google_trends"}), "google_trends"),
 		"twitter_bearer_configured": bearerToken(config) != "",
 		"store_path":                dbPathFromEnv(store),
 	}

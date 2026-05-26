@@ -1,6 +1,6 @@
 ---
 name: newsjack-setup
-description: "Set up a newsjack monitor profile for a company. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, and optional X trend monitoring."
+description: "Set up a newsjack monitor profile for a company. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, Google Trends geo, and optional X trend monitoring."
 when_to_use: "User wants to configure newsjack, create a monitor profile, onboard a client/company, choose RSS/news feeds, or prepare a profile for newsjack-detector."
 ---
 
@@ -8,7 +8,7 @@ when_to_use: "User wants to configure newsjack, create a monitor profile, onboar
 
 You are **newsjack-setup**, the onboarding skill for newsjack.sh. Your job is to create a monitor profile that `newsjack-detector` can run hourly without guessing the company, beat, or news sources.
 
-For now, setup has one deliverable: a monitor profile JSON object with relevant RSS feeds, `x_news` enabled by default, and optional X trend preferences.
+For now, setup has one deliverable: a monitor profile JSON object with relevant RSS feeds, `x_news` enabled by default, optional X trend preferences, and Google Trends geo monitoring.
 
 ## Inputs
 
@@ -26,6 +26,7 @@ Required:
 - 2-5 proof assets
 - 1-3 likely spokespeople
 - 2-5 RSS feed URLs
+- Google Trends primary country code
 - X trend preference: `personalized`, `location`, or `none`
 
 Optional:
@@ -33,6 +34,7 @@ Optional:
 - client-specific exclusions
 - geography
 - target beats
+- Google Trends hours window
 - location WOEIDs for X trends if the user chooses `location`
 
 General tragedy and human-suffering exclusions are not profile fields. Those live in detector doctrine.
@@ -76,6 +78,12 @@ If the user chooses `location`, ask for target geography and save both labels an
 
 Do not make `location` the default for a generic SaaS company. Prefer `personalized` or `none` unless geography is important. If the user is unsure, choose `personalized` for founder-led/tech/media workflows and `none` for low-noise company monitoring.
 
+## Google Trends Geo
+
+Ask for the primary country code for Google Trends monitoring using ISO-3166 alpha-2, such as `US`, `GB`, or `CA`. Ask for `hours` only if the user has a specific monitoring window; allowed values are `4`, `24`, `48`, and `168`, and the default is `24`.
+
+Default recommendations: US-focused brands use `US`; UK property, UK regulation, or UK public affairs use `GB`; Canadian local-search or Canada-focused businesses use `CA`. If the user is unsure or the brand has no geography-specific monitoring need, default to `US`.
+
 ## Process
 
 1. **Understand the company.** Identify what it sells, who buys it, and what public stories it can credibly comment on.
@@ -92,9 +100,11 @@ Do not make `location` the default for a generic SaaS company. Prefer `personali
 
 7. **Select feeds.** Choose 2-5 feed URLs from the catalog unless the user gives a better source. Explain why each feed belongs.
 
-8. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use personalized trends, location trends, or no X trends. Explain the tradeoff briefly. Location trends should include WOEIDs.
+8. **Choose Google Trends geo.** Add `google_trends` with the primary country code and `hours: 24` unless the user selects another allowed window.
 
-9. **Return the profile JSON and run command.** Do not write files unless the user asks you to. The user or caller can save the JSON.
+9. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use personalized trends, location trends, or no X trends. Explain the tradeoff briefly. Location trends should include WOEIDs.
+
+10. **Return the profile JSON and run command.** Do not write files unless the user asks you to. The user or caller can save the JSON.
 
 ## Output Format
 
@@ -118,6 +128,10 @@ Return a concise setup result:
       "woeids": [],
       "locations": []
     },
+    "google_trends": {
+      "geo": "US",
+      "hours": 24
+    },
     "spokespeople": ["Founder or CEO"],
     "proof_assets": ["Specific proof"],
     "standing": ["Specific standing area"],
@@ -131,6 +145,7 @@ Return a concise setup result:
   ],
   "x_news_rationale": "Enabled by default because X News returns story clusters rather than random individual posts.",
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
+  "google_trends_rationale": "Why this Google Trends country code was selected.",
   "run_commands": {
     "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
     "profile_relevance": "~/.newsjack/bin/newsjack detector run \"TOPIC\" --profile profile.json --save --emit json"
