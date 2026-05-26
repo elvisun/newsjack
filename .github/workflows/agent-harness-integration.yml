@@ -37,6 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # TODO: Reintroduce this workflow as Go or shell orchestration around the
+      # newsjack binary. See docs/agent-runtime-harness-plan.md and
+      # docs/go-cli-port-plan.md.
       - name: Write integration env file
         shell: bash
         run: |
@@ -51,18 +54,11 @@ jobs:
             echo "NEWSJACK_HARNESS_ALLOW_MODEL_CALLS=1"
           } > harness/.env.local
 
-      - name: Build harness image
-        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
-
-      - name: Run integration harness
+      - name: Skip legacy runtime harness
         shell: bash
         run: |
-          source_flag="--local-source"
-          if [ "${{ inputs.production_path }}" = "true" ]; then
-            source_flag="--production-path"
-          fi
-          python3 harness/run.py \
-            --mode "${{ inputs.mode }}" \
-            --runtime "${{ inputs.runtime }}" \
-            --env-file harness/.env.local \
-            "$source_flag"
+          echo "::notice title=Agent runtime integration skipped::The Python harness runner was removed in the Go-only CLI cleanup. Token-burning runtime coverage will stay disabled until it is rebuilt as Go or shell orchestration around newsjack."
+          echo "Requested runtime: ${{ inputs.runtime }}"
+          echo "Requested mode: ${{ inputs.mode }}"
+          echo "Requested production path: ${{ inputs.production_path }}"
+          echo "Secret wiring preserved in harness/.env.local for the future Go/shell harness."

@@ -14,8 +14,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build harness image
-        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: apps/cli/go.mod
+          cache-dependency-path: apps/cli/go.sum
 
-      - name: Test all runtime install targets
-        run: python3 harness/run.py --mode ci-installer --runtime all --local-source
+      - name: Test Go CLI
+        working-directory: apps/cli
+        run: go test ./...
+
+      - name: Build Go CLI
+        working-directory: apps/cli
+        run: go build -buildvcs=false -o "$RUNNER_TEMP/newsjack" ./cmd/newsjack
+
+      - name: Run mock detector smoke
+        run: |
+          "$RUNNER_TEMP/newsjack" detector run "AI search visibility" --mock --limit 1 --emit json
+
+      - name: Smoke local installer without tokens
+        shell: bash
+        run: |
+          tmp_home="$(mktemp -d)"
+          HOME="$tmp_home" \
+            NEWSJACK_SOURCE_DIR="$PWD" \
+            NEWSJACK_RUNTIMES=all \
+            NEWSJACK_INSTALL_MCP=0 \
+            sh ./install.sh
+          test -x "$tmp_home/.newsjack/bin/newsjack"
+          test -d "$tmp_home/.agents/skills/newsjack-detector"
+          HOME="$tmp_home" "$tmp_home/.newsjack/bin/newsjack" skills list
+
+      - name: Build harness runtime image
+        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
