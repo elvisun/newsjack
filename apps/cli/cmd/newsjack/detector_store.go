@@ -36,6 +36,7 @@ func initDB(override string) error {
 PRAGMA journal_mode=WAL;
 PRAGMA synchronous=NORMAL;
 CREATE TABLE IF NOT EXISTS seen_urls (url TEXT PRIMARY KEY, first_seen TEXT NOT NULL, last_seen TEXT NOT NULL, sighting_count INTEGER NOT NULL DEFAULT 1);
+CREATE TABLE IF NOT EXISTS feed_http_cache (url TEXT PRIMARY KEY, etag TEXT, last_modified TEXT, updated_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS monitor_runs (id INTEGER PRIMARY KEY, monitor_name TEXT, profile_json TEXT, query_json TEXT NOT NULL, generated_at TEXT NOT NULL, signal_count INTEGER NOT NULL DEFAULT 0, created_at TEXT DEFAULT (datetime('now')));
 CREATE TABLE IF NOT EXISTS signal_snapshots (id INTEGER PRIMARY KEY, run_id INTEGER REFERENCES monitor_runs(id) ON DELETE CASCADE, signal_id TEXT NOT NULL, title TEXT NOT NULL, rank_score REAL NOT NULL, payload_json TEXT NOT NULL, created_at TEXT DEFAULT (datetime('now')));
 CREATE INDEX IF NOT EXISTS idx_signal_snapshots_run ON signal_snapshots(run_id);
@@ -89,6 +90,60 @@ func seenStatus(urls []string, override string) (map[string]map[string]any, erro
 		out[u] = map[string]any{"first_seen": first, "last_seen": last, "sighting_count": count}
 	}
 	return out, rows.Err()
+}
+
+type feedHTTPState struct {
+	ETag         string
+	LastModified string
+}
+
+func feedHTTPStateFor(feedURL, override string) (feedHTTPState, error) {
+	db, err := openDB(override)
+	if err != nil {
+		return feedHTTPState{}, err
+	}
+	defer db.Close()
+	var etag, lastModified sql.NullString
+	err = db.QueryRow("SELECT etag, last_modified FROM feed_http_cache WHERE url = ?", feedURL).Scan(&etag, &lastModified)
+	if err == sql.ErrNoRows {
+		return feedHTTPState{}, nil
+	}
+	if err != nil {
+		return feedHTTPState{}, err
+	}
+	state := feedHTTPState{}
+	if etag.Valid {
+		state.ETag = etag.String
+	}
+	if lastModified.Valid {
+		state.LastModified = lastModified.String
+	}
+	return state, nil
+}
+
+func saveFeedHTTPState(feedURL string, state feedHTTPState, override string) error {
+	if state.ETag == "" && state.LastModified == "" {
+		return clearFeedHTTPState(feedURL, override)
+	}
+	db, err := openDB(override)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	now := time.Now().UTC().Format(time.RFC3339Nano)
+	_, err = db.Exec(`INSERT INTO feed_http_cache (url, etag, last_modified, updated_at) VALUES (?, ?, ?, ?)
+ON CONFLICT(url) DO UPDATE SET etag = excluded.etag, last_modified = excluded.last_modified, updated_at = excluded.updated_at`, feedURL, nullSQLString(state.ETag), nullSQLString(state.LastModified), now)
+	return err
+}
+
+func clearFeedHTTPState(feedURL, override string) error {
+	db, err := openDB(override)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+	_, err = db.Exec("DELETE FROM feed_http_cache WHERE url = ?", feedURL)
+	return err
 }
 
 func recordRun(monitorName string, profile map[string]any, queries []string, signals []map[string]any, seenURLs []string, override string) (int64, error) {

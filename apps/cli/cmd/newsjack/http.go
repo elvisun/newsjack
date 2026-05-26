@@ -43,22 +43,43 @@ func httpJSON(method, rawURL string, headers map[string]string, body any, timeou
 }
 
 func httpGetRaw(rawURL string, headers map[string]string, timeout time.Duration) (string, error) {
-	req, err := http.NewRequest("GET", rawURL, nil)
+	resp, err := httpGetRawResponse(rawURL, headers, timeout)
 	if err != nil {
 		return "", err
+	}
+	if resp.StatusCode >= 400 {
+		return "", fmt.Errorf("HTTP %d: %s", resp.StatusCode, truncate(resp.Body, 300))
+	}
+	return resp.Body, nil
+}
+
+type httpRawResponse struct {
+	StatusCode int
+	Header     http.Header
+	Body       string
+}
+
+func httpGetRawResponse(rawURL string, headers map[string]string, timeout time.Duration) (httpRawResponse, error) {
+	req, err := http.NewRequest("GET", rawURL, nil)
+	if err != nil {
+		return httpRawResponse{}, err
 	}
 	for k, v := range headers {
 		req.Header.Set(k, v)
 	}
+	setDefaultUserAgent(req)
 	client := &http.Client{Timeout: timeout}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return httpRawResponse{}, err
 	}
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
-	if resp.StatusCode >= 400 {
-		return "", fmt.Errorf("HTTP %d: %s", resp.StatusCode, truncate(string(data), 300))
+	return httpRawResponse{StatusCode: resp.StatusCode, Header: resp.Header.Clone(), Body: string(data)}, nil
+}
+
+func setDefaultUserAgent(req *http.Request) {
+	if req.Header.Get("User-Agent") == "" {
+		req.Header.Set("User-Agent", fmt.Sprintf("Mozilla/5.0 (compatible; newsjack.sh/%s; +https://newsjack.sh)", version))
 	}
-	return string(data), nil
 }

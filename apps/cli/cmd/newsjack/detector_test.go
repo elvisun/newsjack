@@ -3,6 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"testing"
 	"time"
 )
@@ -212,5 +216,157 @@ func TestParseNewsResponsePreservesPublicationMetadata(t *testing.T) {
 	}
 	if metadata["raw_source"] != "Example" {
 		t.Fatalf("raw_source=%v, want Example", metadata["raw_source"])
+	}
+}
+
+func TestRSSFeedCatalogAuditMetadata(t *testing.T) {
+	data, err := os.ReadFile(filepath.Join(repoRootForTest(t), "skills", "newsjack-detector", "references", "rss-feeds.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	type catalogGate struct {
+		RequiredBeats []string `json:"required_beats"`
+	}
+	type catalogFeed struct {
+		ID      string       `json:"id"`
+		Name    string       `json:"name"`
+		URL     string       `json:"url"`
+		Tier    string       `json:"tier"`
+		Beats   []string     `json:"beats"`
+		UseWhen string       `json:"use_when"`
+		Notes   string       `json:"notes"`
+		Gate    *catalogGate `json:"gate"`
+	}
+	var catalog struct {
+		Version   int `json:"version"`
+		Changelog []struct {
+			Version int    `json:"version"`
+			Date    string `json:"date"`
+			Summary string `json:"summary"`
+		} `json:"changelog"`
+		DefaultFeeds []string      `json:"default_feeds"`
+		Feeds        []catalogFeed `json:"feeds"`
+	}
+	if err := json.Unmarshal(data, &catalog); err != nil {
+		t.Fatal(err)
+	}
+	if catalog.Version != 2 {
+		t.Fatalf("version=%d, want 2", catalog.Version)
+	}
+	if len(catalog.Changelog) == 0 || catalog.Changelog[0].Version != 2 || catalog.Changelog[0].Date != "2026-05-26" {
+		t.Fatalf("missing v2 changelog: %#v", catalog.Changelog)
+	}
+	if len(catalog.DefaultFeeds) != 2 || catalog.DefaultFeeds[0] != "techmeme" || catalog.DefaultFeeds[1] != "google-news-technology" {
+		t.Fatalf("default_feeds=%v, want techmeme/google-news-technology", catalog.DefaultFeeds)
+	}
+
+	feeds := map[string]catalogFeed{}
+	allowedTiers := stringSet([]string{"primary", "demoted", "gated"})
+	for _, feed := range catalog.Feeds {
+		if !allowedTiers[feed.Tier] {
+			t.Fatalf("feed %s has invalid tier %q", feed.ID, feed.Tier)
+		}
+		if feed.ID == "" || feed.Name == "" || feed.URL == "" || len(feed.Beats) == 0 || feed.UseWhen == "" || feed.Notes == "" {
+			t.Fatalf("feed %s missing required catalog fields: %#v", feed.ID, feed)
+		}
+		if feed.Tier == "gated" && (feed.Gate == nil || len(feed.Gate.RequiredBeats) == 0) {
+			t.Fatalf("gated feed %s missing gate.required_beats", feed.ID)
+		}
+		feeds[feed.ID] = feed
+	}
+	for _, dropped := range []string{"google-news-science", "google-news-health"} {
+		if _, ok := feeds[dropped]; ok {
+			t.Fatalf("%s should have been removed", dropped)
+		}
+	}
+	for _, id := range []string{"google-news-world", "google-news-us", "google-news-business"} {
+		if feeds[id].Tier != "demoted" {
+			t.Fatalf("%s tier=%q, want demoted", id, feeds[id].Tier)
+		}
+	}
+	for _, id := range []string{"memeorandum", "mediagazer"} {
+		if feeds[id].Tier != "gated" || feeds[id].Gate == nil || len(feeds[id].Gate.RequiredBeats) == 0 {
+			t.Fatalf("%s gate missing: %#v", id, feeds[id])
+		}
+	}
+	wantPrimary := map[string]string{
+		"stat-news":      "https://www.statnews.com/feed/",
+		"fda-press":      "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+		"cms-press":      "https://www.cms.gov/newsroom/rss-feeds",
+		"endpoints-news": "https://endpts.com/feed/",
+		"sec-edgar-8k":   "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&output=atom",
+	}
+	for id, url := range wantPrimary {
+		feed, ok := feeds[id]
+		if !ok {
+			t.Fatalf("missing feed %s", id)
+		}
+		if feed.Tier != "primary" {
+			t.Fatalf("%s tier=%q, want primary", id, feed.Tier)
+		}
+		if feed.URL != url {
+			t.Fatalf("%s url=%q, want %q", id, feed.URL, url)
+		}
+	}
+}
+
+func TestCollectFeedConditionalGETPersistsETag(t *testing.T) {
+	requests := 0
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests++
+		if r.Header.Get("User-Agent") == "" {
+			t.Fatal("missing User-Agent")
+		}
+		switch requests {
+		case 1:
+			if got := r.Header.Get("If-None-Match"); got != "" {
+				t.Fatalf("first request If-None-Match=%q, want empty", got)
+			}
+			w.Header().Set("Content-Type", "application/rss+xml")
+			w.Header().Set("ETag", "abc")
+			_, _ = w.Write([]byte(`<?xml version="1.0"?><rss><channel><title>Test Feed</title><item><title>First item</title><link>https://example.com/first</link><description>Body</description><pubDate>Tue, 26 May 2026 13:00:00 GMT</pubDate></item></channel></rss>`))
+		case 2:
+			if got := r.Header.Get("If-None-Match"); got != "abc" {
+				t.Fatalf("second request If-None-Match=%q, want abc", got)
+			}
+			w.WriteHeader(http.StatusNotModified)
+			_, _ = w.Write([]byte(`<not-rss>`))
+		default:
+			t.Fatalf("unexpected request %d", requests)
+		}
+	}))
+	defer server.Close()
+
+	store := filepath.Join(t.TempDir(), "monitor.db")
+	items, debug, errText := collectFeedWithStore(server.URL, 10, store, true)
+	if errText != "" {
+		t.Fatalf("first fetch error=%s", errText)
+	}
+	if len(items) != 1 {
+		t.Fatalf("first fetch items=%d, want 1", len(items))
+	}
+	if debug["status"] != "parsed" {
+		t.Fatalf("first fetch debug=%#v, want parsed", debug)
+	}
+	state, err := feedHTTPStateFor(server.URL, store)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if state.ETag != "abc" {
+		t.Fatalf("stored etag=%q, want abc", state.ETag)
+	}
+
+	items, debug, errText = collectFeedWithStore(server.URL, 10, store, true)
+	if errText != "" {
+		t.Fatalf("second fetch error=%s", errText)
+	}
+	if len(items) != 0 {
+		t.Fatalf("second fetch items=%d, want 0", len(items))
+	}
+	if debug["status"] != "not_modified" || debug["not_modified"] != true {
+		t.Fatalf("second fetch debug=%#v, want not_modified", debug)
+	}
+	if requests != 2 {
+		t.Fatalf("requests=%d, want 2", requests)
 	}
 }

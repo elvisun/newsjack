@@ -12,6 +12,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
@@ -81,25 +82,124 @@ func parseNewsResponse(payload map[string]any) []map[string]any {
 }
 
 func collectFeed(urlOrPath string, limit int) ([]map[string]any, string) {
+	items, _, errText := collectFeedWithStore(urlOrPath, limit, "", false)
+	return items, errText
+}
+
+func collectFeedWithStore(urlOrPath string, limit int, store string, useStore bool) ([]map[string]any, map[string]any, string) {
 	var text string
+	debug := map[string]any{"url": urlOrPath}
+	if tier := catalogTierForFeedURL(urlOrPath); tier != "" {
+		debug["tier"] = tier
+	}
 	if regexp.MustCompile(`(?i)^https?://`).MatchString(urlOrPath) {
-		resp, err := httpGetRaw(urlOrPath, map[string]string{"Accept": "application/rss+xml, application/atom+xml, text/xml, */*"}, 20*time.Second)
-		if err != nil {
-			return nil, fmt.Sprintf("%T: %v", err, err)
+		headers := map[string]string{"Accept": "application/rss+xml, application/atom+xml, text/xml, */*"}
+		if useStore {
+			state, err := feedHTTPStateFor(urlOrPath, store)
+			if err != nil {
+				debug["status"] = "cache_read_error"
+				debug["error"] = err.Error()
+				return nil, debug, fmt.Sprintf("%T: %v", err, err)
+			}
+			if state.ETag != "" {
+				headers["If-None-Match"] = state.ETag
+				debug["sent_if_none_match"] = true
+			}
+			if state.LastModified != "" {
+				headers["If-Modified-Since"] = state.LastModified
+				debug["sent_if_modified_since"] = true
+			}
 		}
-		text = resp
+		resp, err := httpGetRawResponse(urlOrPath, headers, 20*time.Second)
+		if err != nil {
+			debug["status"] = "fetch_error"
+			debug["error"] = err.Error()
+			return nil, debug, fmt.Sprintf("%T: %v", err, err)
+		}
+		debug["status_code"] = resp.StatusCode
+		if resp.StatusCode == http.StatusNotModified {
+			debug["status"] = "not_modified"
+			debug["not_modified"] = true
+			return nil, debug, ""
+		}
+		if resp.StatusCode >= 400 {
+			errText := fmt.Sprintf("HTTP %d: %s", resp.StatusCode, truncate(resp.Body, 300))
+			debug["status"] = "http_error"
+			debug["error"] = errText
+			return nil, debug, errText
+		}
+		if useStore && resp.StatusCode == http.StatusOK {
+			state := feedHTTPState{
+				ETag:         strings.TrimSpace(resp.Header.Get("ETag")),
+				LastModified: strings.TrimSpace(resp.Header.Get("Last-Modified")),
+			}
+			if state.ETag != "" {
+				debug["etag"] = true
+			}
+			if state.LastModified != "" {
+				debug["last_modified"] = true
+			}
+			if err := saveFeedHTTPState(urlOrPath, state, store); err != nil {
+				debug["cache_write_error"] = err.Error()
+			}
+		}
+		text = resp.Body
 	} else {
 		data, err := os.ReadFile(expandPath(urlOrPath))
 		if err != nil {
-			return nil, fmt.Sprintf("%T: %v", err, err)
+			debug["status"] = "read_error"
+			debug["error"] = err.Error()
+			return nil, debug, fmt.Sprintf("%T: %v", err, err)
 		}
 		text = string(data)
 	}
 	items, err := parseFeed(text, urlOrPath, limit)
 	if err != nil {
-		return nil, fmt.Sprintf("%T: %v", err, err)
+		debug["status"] = "parse_error"
+		debug["error"] = err.Error()
+		return nil, debug, fmt.Sprintf("%T: %v", err, err)
 	}
-	return items, ""
+	debug["status"] = "parsed"
+	debug["item_count"] = len(items)
+	return items, debug, ""
+}
+
+type feedCatalogForTier struct {
+	Feeds []struct {
+		URL  string `json:"url"`
+		Tier string `json:"tier"`
+	} `json:"feeds"`
+}
+
+var feedCatalogTierByURL map[string]string
+
+func catalogTierForFeedURL(feedURL string) string {
+	if feedCatalogTierByURL == nil {
+		feedCatalogTierByURL = loadFeedCatalogTiers()
+	}
+	return feedCatalogTierByURL[feedURL]
+}
+
+func loadFeedCatalogTiers() map[string]string {
+	root, err := newsjackRoot()
+	if err != nil {
+		return map[string]string{}
+	}
+	data, err := os.ReadFile(filepath.Join(root, "skills", "newsjack-detector", "references", "rss-feeds.json"))
+	if err != nil {
+		return map[string]string{}
+	}
+	var catalog feedCatalogForTier
+	if err := json.Unmarshal(data, &catalog); err != nil {
+		return map[string]string{}
+	}
+	out := map[string]string{}
+	for _, feed := range catalog.Feeds {
+		if feed.URL != "" && feed.Tier != "" {
+			out[feed.URL] = feed.Tier
+		}
+	}
+	return out
 }
 
 func parseFeed(xmlText, feedURL string, limit int) ([]map[string]any, error) {

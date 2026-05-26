@@ -102,6 +102,7 @@ Preserve story-origin research in `origin_findings.json`. `newsjack origin-apply
 For the beta fixture, `fixtures/newsjack-detector-agent/scripts/hourly-run-all.sh` runs every configured profile and writes `index.md` plus a beta-facing `run.md` in each profile folder.
 
 Profiles may include `feed_urls`. Those feeds are used by default. The shipped catalog at `references/rss-feeds.json` is the starting point for setup and onboarding.
+Catalog entries now carry a `tier` (`primary`, `demoted`, or `gated`); the engine logs the matched tier for each fetched catalog feed in debug output.
 
 Profiles may also include `search_terms`. When present, the engine uses them for retrieval instead of raw `topics + competitors`. Keep `topics`, `competitors`, and `standing` as canonical context for matching and downstream LLM judgment; use `search_terms` for qualified retrieval strings such as `Ada customer service`, `Aura identity theft`, or `Good Move cash house buyer`.
 

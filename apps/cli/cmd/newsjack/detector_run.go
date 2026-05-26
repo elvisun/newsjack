@@ -61,6 +61,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 	sourceErrors := map[string]any{}
 	evidenceSourceCounts := map[string]int{}
 	hygieneRejections := map[string]int{}
+	var feedFetchDebug []map[string]any
 	noteItems := func(items []evidenceItem) {
 		for _, item := range items {
 			evidenceSourceCounts[item.Source]++
@@ -101,7 +102,9 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		}
 	}
 	if len(feedURLs) > 0 {
-		items, errors := collectFeeds(feedURLs, opts.Depth, opts.Mock, now)
+		var items []evidenceItem
+		var errors map[string]string
+		items, errors, feedFetchDebug = collectFeedsWithStore(feedURLs, opts.Depth, opts.Mock, now, opts.Store, true)
 		if err := processItems("major_news_feed", items, errors); err != nil {
 			return err
 		}
@@ -123,6 +126,19 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		}
 		runID = id
 	}
+	diagnostics := map[string]any{
+		"evidence_by_source":    evidenceSourceCounts,
+		"hygiene_rejections":    hygieneRejections,
+		"signals_by_lane":       countByLanes(allSignals),
+		"emitted_by_lane":       countByLanes(signals),
+		"lane_caps":             laneCaps,
+		"selection":             map[string]any{"mode": map[bool]string{true: "lane_caps", false: "mechanical_floor"}[laneCaps != nil], "limit": opts.Limit, "min_queue_priority": opts.MinQueuePriority, "min_major_news": opts.MinMajorNews},
+		"total_scored_signals":  len(allSignals),
+		"total_emitted_signals": len(signals),
+	}
+	if len(feedFetchDebug) > 0 {
+		diagnostics["feed_fetches"] = feedFetchDebug
+	}
 	payload := map[string]any{
 		"monitor": map[string]any{
 			"name":              nullableString(opts.MonitorName),
@@ -138,17 +154,8 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			"depth":             opts.Depth,
 			"mock":              opts.Mock,
 		},
-		"signals": signals,
-		"diagnostics": map[string]any{
-			"evidence_by_source":    evidenceSourceCounts,
-			"hygiene_rejections":    hygieneRejections,
-			"signals_by_lane":       countByLanes(allSignals),
-			"emitted_by_lane":       countByLanes(signals),
-			"lane_caps":             laneCaps,
-			"selection":             map[string]any{"mode": map[bool]string{true: "lane_caps", false: "mechanical_floor"}[laneCaps != nil], "limit": opts.Limit, "min_queue_priority": opts.MinQueuePriority, "min_major_news": opts.MinMajorNews},
-			"total_scored_signals":  len(allSignals),
-			"total_emitted_signals": len(signals),
-		},
+		"signals":       signals,
+		"diagnostics":   diagnostics,
 		"source_errors": sourceErrors,
 		"store": map[string]any{
 			"saved":  opts.Save,
@@ -170,7 +177,11 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 				dropped = append(dropped, id)
 			}
 		}
-		payload["debug"] = map[string]any{"all_scored_signals": allSignals, "dropped_signal_ids": nonNilStrings(dropped), "include_all_scored": true}
+		debug := map[string]any{"all_scored_signals": allSignals, "dropped_signal_ids": nonNilStrings(dropped), "include_all_scored": true}
+		if len(feedFetchDebug) > 0 {
+			debug["feed_fetches"] = feedFetchDebug
+		}
+		payload["debug"] = debug
 	}
 	if opts.Emit == "brief" {
 		fmt.Fprint(stdout, detectorBrief(payload))
@@ -423,14 +434,23 @@ func collectQuery(query string, sources []string, config map[string]string, opts
 }
 
 func collectFeeds(feedURLs []string, depth string, mock bool, now time.Time) ([]evidenceItem, map[string]string) {
+	items, errors, _ := collectFeedsWithStore(feedURLs, depth, mock, now, "", false)
+	return items, errors
+}
+
+func collectFeedsWithStore(feedURLs []string, depth string, mock bool, now time.Time, store string, useStore bool) ([]evidenceItem, map[string]string, []map[string]any) {
 	if mock {
-		return mockFeedItems(now), map[string]string{}
+		return mockFeedItems(now), map[string]string{}, nil
 	}
 	limit := map[string]int{"quick": 15, "default": 30, "deep": 60}[depth]
 	var items []evidenceItem
 	errors := map[string]string{}
+	var fetches []map[string]any
 	for _, feed := range feedURLs {
-		raw, errText := collectFeed(feed, limit)
+		raw, fetchDebug, errText := collectFeedWithStore(feed, limit, store, useStore)
+		if len(fetchDebug) > 0 {
+			fetches = append(fetches, fetchDebug)
+		}
 		if errText != "" {
 			errors[feed] = errText
 		}
@@ -441,7 +461,7 @@ func collectFeeds(feedURLs []string, depth string, mock bool, now time.Time) ([]
 			}
 		}
 	}
-	return items, errors
+	return items, errors, fetches
 }
 
 func collectXTrends(profile monitorProfile, config map[string]string, opts detectorOptions, now time.Time) ([]evidenceItem, map[string]string) {

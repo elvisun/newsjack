@@ -41,13 +41,19 @@ General tragedy and human-suffering exclusions are not profile fields. Those liv
 
 Read `../newsjack-detector/references/rss-feeds.json` before selecting feeds.
 
-Use the catalog as the default source of feed choices. Pick feeds by beat:
+Use the catalog as the default source of feed choices. Pick feeds by beat and tier:
+
+- Prefer `primary` feeds that match the profile's beat.
+- Pick `demoted` feeds only when nothing better matches the client's beat, and warn the user: "Broad feed, expect noise".
+- Pick `gated` feeds only if the client's beat overlaps the feed's `gate.required_beats` array.
+
+Beat cheat sheet:
 
 - Tech/AI/SaaS/startups: `techmeme`, `google-news-technology`, `google-news-business`
 - Consumer privacy/data brokers: `ftc-press`, `google-news-technology`, `google-news-us`
 - UK property/regulation: `govuk-news`, UK Google News Business if supplied or manually selected
-- Healthcare/biotech: `google-news-health`, `google-news-science`
-- Finance/crypto/public-company compliance: `sec-press`, `google-news-business`
+- Healthcare/biotech/pharma: `stat-news`, `fda-press`, `cms-press`, `endpoints-news`
+- Public-company compliance / finance: `sec-press`, `sec-edgar-8k`
 - Media/publishing: `mediagazer`, `techmeme`
 - U.S. policy/public affairs: `memeorandum`, `google-news-us`
 

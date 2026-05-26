@@ -1,16 +1,29 @@
 {
-  "version": 1,
+  "version": 2,
+  "changelog": [
+    {
+      "version": 2,
+      "date": "2026-05-26",
+      "summary": "Adds feed tiers and gates, replaces broad Google health/science feeds with vertical-authority health sources, adds EDGAR 8-K Atom, and shortens default feeds."
+    }
+  ],
   "default_feeds": [
     "techmeme",
-    "google-news-technology",
-    "google-news-business"
+    "google-news-technology"
   ],
   "feeds": [
     {
       "id": "techmeme",
       "name": "Techmeme",
       "url": "https://www.techmeme.com/feed.xml",
-      "beats": ["technology", "ai", "startups", "venture", "platforms"],
+      "tier": "primary",
+      "beats": [
+        "technology",
+        "ai",
+        "startups",
+        "venture",
+        "platforms"
+      ],
       "use_when": "Default for technology, AI, SaaS, startup, platform, and developer-tool profiles.",
       "notes": "Curated tech/business front page. High precision for major tech stories."
     },
@@ -18,7 +31,13 @@
       "id": "google-news-technology",
       "name": "Google News Technology",
       "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["technology", "ai", "consumer tech", "platforms"],
+      "tier": "primary",
+      "beats": [
+        "technology",
+        "ai",
+        "consumer tech",
+        "platforms"
+      ],
       "use_when": "Use as a broad technology backstop when Techmeme may be too narrow.",
       "notes": "Broader and noisier than Techmeme."
     },
@@ -26,63 +45,101 @@
       "id": "google-news-business",
       "name": "Google News Business",
       "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["business", "markets", "finance", "startups", "economy"],
-      "use_when": "Use for business, funding, M&A, markets, commercial real estate, and executive-change profiles.",
-      "notes": "Broad business feed; requires stricter relevance filtering."
-    },
-    {
-      "id": "google-news-science",
-      "name": "Google News Science",
-      "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["science", "research", "space", "climate", "biotech"],
-      "use_when": "Use for research, biotech, climate, space, and science-led profiles.",
-      "notes": "Often useful for research-backed companies, less useful for generic SaaS."
-    },
-    {
-      "id": "google-news-health",
-      "name": "Google News Health",
-      "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["health", "healthcare", "biotech", "public health"],
-      "use_when": "Use for healthcare, digital health, biotech, pharma, and patient-safety profiles.",
-      "notes": "High brand-safety risk; tragedy/human-suffering blocks still apply."
+      "tier": "demoted",
+      "beats": [
+        "business",
+        "markets",
+        "finance",
+        "startups",
+        "economy"
+      ],
+      "use_when": "Use for business, funding, M&A, markets, commercial real estate, and executive-change profiles only when a better vertical source does not fit.",
+      "notes": "Broad business feed; requires stricter relevance filtering. Broad feed, expect noise."
     },
     {
       "id": "google-news-us",
       "name": "Google News U.S.",
       "url": "https://news.google.com/rss/headlines/section/topic/NATION?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["us", "policy", "regulation", "courts"],
-      "use_when": "Use when U.S. policy, courts, or national regulation are central to the client.",
-      "notes": "Broad and noisy. Avoid unless the client has policy standing."
+      "tier": "demoted",
+      "beats": [
+        "us",
+        "policy",
+        "regulation",
+        "courts"
+      ],
+      "use_when": "Use when U.S. policy, courts, or national regulation are central to the client and a better vertical source does not fit.",
+      "notes": "Broad and noisy. Avoid unless the client has policy standing. Broad feed, expect noise."
     },
     {
       "id": "google-news-world",
       "name": "Google News World",
       "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en",
-      "beats": ["world", "geopolitics", "international business", "supply chain"],
-      "use_when": "Use for geopolitics, supply chain, global markets, and international policy profiles.",
-      "notes": "High tragedy/war exposure. Use only with direct public-interest standing."
+      "tier": "demoted",
+      "beats": [
+        "world",
+        "geopolitics",
+        "international business",
+        "supply chain"
+      ],
+      "use_when": "Use for geopolitics, supply chain, global markets, and international policy profiles only when the client has direct standing.",
+      "notes": "High tragedy/war exposure. Use only with direct public-interest standing. Broad feed, expect noise."
     },
     {
       "id": "memeorandum",
       "name": "Memeorandum",
       "url": "https://www.memeorandum.com/feed.xml",
-      "beats": ["politics", "policy", "media", "washington"],
-      "use_when": "Use for U.S. politics, public affairs, policy, and media-politics profiles.",
+      "tier": "gated",
+      "beats": [
+        "politics",
+        "policy",
+        "media",
+        "washington"
+      ],
+      "gate": {
+        "required_beats": [
+          "regtech",
+          "policy",
+          "public affairs"
+        ]
+      },
+      "use_when": "Use for U.S. politics, public affairs, policy, and media-politics profiles when the client's beat overlaps the gate.",
       "notes": "Politically sensitive. Usually not appropriate for normal company newsjacking."
     },
     {
       "id": "mediagazer",
       "name": "Mediagazer",
       "url": "https://www.mediagazer.com/feed.xml",
-      "beats": ["media", "publishing", "journalism", "creator economy"],
-      "use_when": "Use for media, journalism, publishing, creator, and ad-tech profiles.",
+      "tier": "gated",
+      "beats": [
+        "media",
+        "publishing",
+        "journalism",
+        "creator economy"
+      ],
+      "gate": {
+        "required_beats": [
+          "media",
+          "journalism",
+          "publishing",
+          "agency",
+          "creator economy"
+        ]
+      },
+      "use_when": "Use for media, journalism, publishing, creator, and agency profiles when the client's beat overlaps the gate.",
       "notes": "Good companion to Techmeme for media-industry clients."
     },
     {
       "id": "ftc-press",
       "name": "FTC Press Releases",
       "url": "https://www.ftc.gov/news-events/news/press-releases/rss.xml",
-      "beats": ["consumer protection", "antitrust", "privacy", "ai regulation", "advertising"],
+      "tier": "primary",
+      "beats": [
+        "consumer protection",
+        "antitrust",
+        "privacy",
+        "ai regulation",
+        "advertising"
+      ],
       "use_when": "Use for privacy, consumer protection, advertising claims, antitrust, and AI compliance profiles.",
       "notes": "Official source; slow but high authority."
     },
@@ -90,17 +147,107 @@
       "id": "sec-press",
       "name": "SEC Press Releases",
       "url": "https://www.sec.gov/news/pressreleases.rss",
-      "beats": ["finance", "public companies", "securities", "crypto", "compliance"],
+      "tier": "primary",
+      "beats": [
+        "finance",
+        "public companies",
+        "securities",
+        "crypto",
+        "compliance"
+      ],
       "use_when": "Use for fintech, crypto, public-company compliance, and investor-market profiles.",
       "notes": "Official source; useful for same-day expert commentary."
+    },
+    {
+      "id": "sec-edgar-8k",
+      "name": "SEC EDGAR Current 8-K Filings",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=8-K&output=atom",
+      "tier": "primary",
+      "beats": [
+        "finance",
+        "public companies",
+        "securities",
+        "8-k",
+        "material events"
+      ],
+      "use_when": "Use for fintech, crypto, public-company compliance, and any profile that benefits from being early on material-events disclosures.",
+      "notes": "Real-time 8-K filings stream. High volume, requires keyword/ticker filtering by the skill. Pair with `sec-press` for press-release context."
     },
     {
       "id": "govuk-news",
       "name": "GOV.UK News",
       "url": "https://www.gov.uk/search/news-and-communications.atom",
-      "beats": ["uk", "policy", "regulation", "property", "business"],
+      "tier": "primary",
+      "beats": [
+        "uk",
+        "policy",
+        "regulation",
+        "property",
+        "business"
+      ],
       "use_when": "Use for UK policy, regulated industries, property, and public-sector profiles.",
       "notes": "Broad official UK feed; requires topic filtering by the skill."
+    },
+    {
+      "id": "stat-news",
+      "name": "STAT News",
+      "url": "https://www.statnews.com/feed/",
+      "tier": "primary",
+      "beats": [
+        "healthcare",
+        "biotech",
+        "pharma",
+        "life sciences",
+        "public health"
+      ],
+      "use_when": "Use for healthcare, biotech, pharma, life-sciences, public-health, and medical-research profiles.",
+      "notes": "Vertical healthcare newsroom with stronger editorial authority than broad Google News health feeds."
+    },
+    {
+      "id": "fda-press",
+      "name": "FDA Press Releases",
+      "url": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/press-releases/rss.xml",
+      "tier": "primary",
+      "beats": [
+        "healthcare",
+        "pharma",
+        "biotech",
+        "medical devices",
+        "drug approvals",
+        "public health"
+      ],
+      "use_when": "Use for pharma, biotech, medtech, patient-safety, drug-approval, food-safety, and FDA-regulated profiles.",
+      "notes": "Official FDA press-release feed. High authority; pair with STAT or Endpoints for industry reaction."
+    },
+    {
+      "id": "cms-press",
+      "name": "CMS Newsroom Press Releases",
+      "url": "https://www.cms.gov/newsroom/rss-feeds",
+      "tier": "primary",
+      "beats": [
+        "healthcare",
+        "medicare",
+        "medicaid",
+        "health policy",
+        "health insurance"
+      ],
+      "use_when": "Use for Medicare, Medicaid, health-policy, payer, provider, and health-insurance profiles.",
+      "notes": "Official CMS newsroom RSS feed. Includes press releases and related newsroom items; filter by client beat and CMS context."
+    },
+    {
+      "id": "endpoints-news",
+      "name": "Endpoints News",
+      "url": "https://endpts.com/feed/",
+      "tier": "primary",
+      "beats": [
+        "biotech",
+        "pharma",
+        "drug development",
+        "life sciences",
+        "healthcare business"
+      ],
+      "use_when": "Use for biotech, pharma, drug-development, life-sciences funding, and healthcare-business profiles.",
+      "notes": "Biopharma industry feed with deal, trial, executive, and regulatory context. Requires relevance filtering for company-specific profiles."
     }
   ]
 }
