@@ -324,6 +324,9 @@ func configFromEnv() map[string]string {
 }
 
 func envFileValues() map[string]string {
+	if os.Getenv("NEWSJACK_IGNORE_DOTENV") == "1" {
+		return map[string]string{}
+	}
 	paths := []string{}
 	if root, err := newsjackRoot(); err == nil {
 		paths = append(paths, filepath.Join(root, ".env"))
@@ -331,6 +334,7 @@ func envFileValues() map[string]string {
 	if cwd, err := os.Getwd(); err == nil {
 		paths = append(paths, filepath.Join(cwd, ".env"))
 	}
+	paths = append(paths, filepath.Join(newsjackHome(), ".env"))
 	out := map[string]string{}
 	for _, path := range paths {
 		data, err := os.ReadFile(path)

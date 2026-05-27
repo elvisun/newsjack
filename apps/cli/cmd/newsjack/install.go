@@ -21,17 +21,36 @@ type runtimeTarget struct {
 }
 
 var runtimeTargets = []runtimeTarget{
-	{"codex", "Codex", "NEWSJACK_CODEX_SKILLS_DIR", filepath.Join(homeDir(), ".agents", "skills"), "codex", filepath.Join(homeDir(), ".agents")},
-	{"claude", "Claude Code", "NEWSJACK_CLAUDE_SKILLS_DIR", filepath.Join(homeDir(), ".claude", "skills"), "claude", filepath.Join(homeDir(), ".claude")},
-	{"openclaw", "OpenClaw", "NEWSJACK_OPENCLAW_SKILLS_DIR", filepath.Join(homeDir(), ".openclaw", "skills"), "openclaw", filepath.Join(homeDir(), ".openclaw")},
-	{"hermes", "Hermes", "NEWSJACK_HERMES_SKILLS_DIR", filepath.Join(homeDir(), ".hermes", "skills"), "hermes", filepath.Join(homeDir(), ".hermes")},
+	{"codex", "Codex", "NEWSJACK_CODEX_SKILLS_DIR", "", "codex", ""},
+	{"claude", "Claude Code", "NEWSJACK_CLAUDE_SKILLS_DIR", "", "claude", ""},
+	{"openclaw", "OpenClaw", "NEWSJACK_OPENCLAW_SKILLS_DIR", "", "openclaw", ""},
+	{"hermes", "Hermes", "NEWSJACK_HERMES_SKILLS_DIR", "", "hermes", ""},
 }
 
 func targetDir(rt runtimeTarget) string {
 	if v := os.Getenv(rt.DirEnv); v != "" {
 		return expandPath(v)
 	}
-	return rt.Default
+	return defaultRuntimeSkillsDir(rt.Key)
+}
+
+func defaultRuntimeSkillsDir(key string) string {
+	switch key {
+	case "codex":
+		return filepath.Join(homeDir(), ".agents", "skills")
+	case "claude":
+		return filepath.Join(homeDir(), ".claude", "skills")
+	case "openclaw":
+		return filepath.Join(homeDir(), ".openclaw", "skills")
+	case "hermes":
+		return filepath.Join(homeDir(), ".hermes", "skills")
+	default:
+		return filepath.Join(homeDir(), ".agents", "skills")
+	}
+}
+
+func runtimeHomeHint(key string) string {
+	return filepath.Dir(defaultRuntimeSkillsDir(key))
 }
 
 func normalizeRuntimeList(raw string) []string {
@@ -64,7 +83,7 @@ func runtimeDetected(rt runtimeTarget) bool {
 	if _, err := exec.LookPath(rt.Binary); err == nil {
 		return true
 	}
-	return dirExists(rt.HomeHint) || dirExists(filepath.Dir(rt.Default))
+	return dirExists(runtimeHomeHint(rt.Key))
 }
 
 func selectedRuntimes(raw string) []runtimeTarget {
@@ -175,7 +194,7 @@ func installRuntimeSkills(opts installOptions, stdout, stderr io.Writer) error {
 	targets := selectedRuntimes(opts.Runtimes)
 	if len(targets) == 0 && !strings.Contains(","+strings.Join(normalizeRuntimeList(opts.Runtimes), ",")+",", ",none,") {
 		warn(stderr, "no supported runtime detected; installing portable skills into %s", filepath.Join(homeDir(), ".agents", "skills"))
-		targets = []runtimeTarget{{Key: "portable", Label: "portable Agent Skills", Default: filepath.Join(homeDir(), ".agents", "skills")}}
+		targets = []runtimeTarget{{Key: "portable", Label: "portable Agent Skills"}}
 	}
 	for _, rt := range targets {
 		if err := installSkillsTo(opts, rt.Label, targetDir(rt)); err != nil {

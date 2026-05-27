@@ -90,20 +90,24 @@ be usable from a normal terminal and from inside an agent harness.
 
 Required behavior:
 
-- recommend Claude Code as the default harness for v1
+- present supported skill runtimes and let the user choose where skills should
+  be copied: Codex, Claude Code, OpenClaw, Hermes, all, or other/manual
+- for other/manual runtimes, print a copyable instruction telling the agent to
+  copy every `skills/*/SKILL.md` directory into its own skill path and then use
+  `newsjack setup --json` for local paths
+- ask separately which agent harness should own scheduled runs, with default
+  recommendation order: Hermes, OpenClaw, Claude Code, Codex, other/manual
+- install schedules inside the selected agent harness, not system cron
 - if Claude Code is missing, ask for explicit permission and then run the
   official Claude Code native installer:
   `curl -fsSL https://claude.ai/install.sh | bash`
-- if multiple harnesses are detected, still keep Claude Code as the default
-  recommendation unless the user explicitly passes `--runtime`
 - verify `newsjack` is on PATH for that harness; if not, pass an absolute path
 - verify skills are visible to the chosen harness
 - run `newsjack doctor` and show only actionable problems
 - guide the user through a monitor profile using the `newsjack-setup` skill
 - write the profile to `~/.newsjack/monitors/<slug>/profile.json`
-- ask for optional credentials only after the user chooses sources that need
-  them
-- install a schedule inside the selected agent harness, not system cron
+- ask for optional X and Medialyst credentials with clear explanations, links,
+  and skip options
 - run `newsjack monitor test <slug> --mock`
 - if any live no-key or credentialed source is available, run
   `newsjack monitor test <slug> --live`
@@ -135,7 +139,9 @@ Prompt timing:
   tools, install the CLI and skills, configure best-effort MCP, and end with
   `newsjack setup`.
 - During `newsjack setup`: ask for credentials only after the user opts into a
-  source or workflow that needs them. Always offer a skip path.
+  source or workflow that needs them. Always offer a skip path. X bearer tokens
+  are saved to `~/.newsjack/.env` with user-only permissions; Medialyst keys are
+  saved to `~/.newsjack/credentials.json`.
 - During `newsjack monitor test <slug> --mock`: ask for no secrets. This is the
   guaranteed first success path.
 - During `newsjack monitor test <slug> --live`: if no live source is available,
@@ -146,14 +152,17 @@ Prompt timing:
 
 Credential rules:
 
-- Medialyst is optional. Ask for `MEDIALYST_API_KEY` only when the user chooses
-  Medialyst news search, media-list generation, or MCP-backed media-list
-  workflows. Save it with `newsjack login` in `~/.newsjack/credentials.json`
-  using user-only permissions. `MEDIALYST_API_BASE` and `MEDIALYST_NEWS_PATH`
-  are advanced overrides, not onboarding prompts.
-- X is optional. Ask about X only when the user chooses `x`, `x_news`, or
-  `x_trends` lanes. Newsjack should call the X API directly rather than
-  depending on an external X CLI.
+- Medialyst is optional. Ask for `MEDIALYST_API_KEY` during setup, explain that
+  it powers live news search and MCP-backed media-list workflows, link to
+  `https://medialyst.ai/docs`, and allow skip. Save it with `newsjack login`
+  semantics in `~/.newsjack/credentials.json` using user-only permissions.
+  `MEDIALYST_API_BASE` and `MEDIALYST_NEWS_PATH` are advanced overrides, not
+  onboarding prompts.
+- X is optional. Ask for an X bearer token during setup, explain that it powers
+  X News, X trends, and X post search, link to
+  `https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens`, and
+  allow skip. Newsjack should call the X API directly rather than depending on
+  an external X CLI.
 - X bearer tokens are optional source configuration. Accept `X_BEARER_TOKEN`,
   `TWITTER_BEARER_TOKEN`, `X_API_BEARER_TOKEN`, or
   `TWITTER_API_BEARER_TOKEN` from the environment or dotenv. Do not ask for or
@@ -246,11 +255,11 @@ Every agent-scheduled run must:
 - produce an inspectable `run.md`, even when no opportunities are found
 
 If multiple harness schedulers are available, `newsjack setup` should recommend
-Claude Code first and print an exact `claude "..."` command. Users can still
-override the target harness with `newsjack setup --runtime openclaw`, `hermes`,
-or `codex`. If no supported agent scheduler is available, setup should still
-create the profile and pass the mock test, then print one exact manual command
-for the user to run inside their agent harness.
+Hermes first, then OpenClaw, then Claude Code, then Codex. Users can override
+with `newsjack setup --schedule-runtime openclaw`, `hermes`, `claude`, or
+`codex`. If no supported agent scheduler is available, setup should still copy
+skills, save optional credentials, then print one exact manual prompt for the
+user to run inside their agent harness.
 
 ## Research Inputs
 

@@ -17,15 +17,20 @@ import (
 )
 
 const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
+const xAPIKeyURL = "https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens"
+const medialystAPIKeyURL = "https://medialyst.ai/docs"
 
 func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("setup", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	jsonOut := fs.Bool("json", false, "Emit setup status as JSON")
-	runtimeRaw := fs.String("runtime", "auto", "Preferred agent runtime")
+	runtimeRaw := fs.String("runtime", "auto", "Skill runtime target: auto, all, other, codex,claude,openclaw,hermes")
+	scheduleRuntimeRaw := fs.String("schedule-runtime", "auto", "Agent harness for scheduled runs")
 	installClaude := fs.Bool("install-claude", false, "Install Claude Code if it is missing")
 	yes := fs.Bool("yes", false, "Answer yes to setup prompts")
 	skipClaudeInstall := fs.Bool("skip-claude-install", false, "Do not offer to install Claude Code")
+	noLaunch := fs.Bool("no-launch", false, "Do not launch an agent harness after setup")
+	skipCredentials := fs.Bool("skip-credentials", false, "Do not prompt for optional API keys")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
@@ -34,45 +39,231 @@ func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		writeJSON(stdout, status)
 		return 0
 	}
-	fmt.Fprintln(stdout, "newsjack setup")
-	fmt.Fprintln(stdout)
-	if stringValue(status["recommended_runtime"]) == "claude" && !truthy(status["claude_installed"], false) && !*skipClaudeInstall {
-		if err := maybeInstallClaudeCode(stdin, stdout, stderr, *installClaude || *yes); err != nil {
-			return fail(stderr, err)
-		}
-		status = setupPayload(*runtimeRaw)
-		fmt.Fprintln(stdout)
+
+	wizard := setupWizard{
+		reader:              bufio.NewReader(stdin),
+		stdin:               stdin,
+		stdout:              stdout,
+		stderr:              stderr,
+		assumeYes:           *yes,
+		installClaude:       *installClaude,
+		skipClaudeInstall:   *skipClaudeInstall,
+		noLaunch:            *noLaunch,
+		skipCredentials:     *skipCredentials,
+		defaultSkillRuntime: *runtimeRaw,
+		defaultScheduler:    *scheduleRuntimeRaw,
 	}
-	fmt.Fprintf(stdout, "Home: %s\n", status["newsjack_home"])
-	fmt.Fprintf(stdout, "Recommended runtime: %s\n", status["recommended_runtime_label"])
-	if stringValue(status["recommended_runtime"]) == "claude" {
-		fmt.Fprintf(stdout, "Claude Code command: %s\n", status["agent_command"])
-	} else if command := stringValue(status["agent_command"]); command != "" {
-		fmt.Fprintf(stdout, "Agent command: %s\n", command)
+	if err := wizard.run(); err != nil {
+		return fail(stderr, err)
 	}
-	fmt.Fprintln(stdout)
-	fmt.Fprintln(stdout, "Next, run this inside your agent harness:")
-	fmt.Fprintln(stdout)
-	fmt.Fprintln(stdout, stringValue(status["agent_prompt"]))
 	return 0
+}
+
+type setupWizard struct {
+	reader              *bufio.Reader
+	stdin               io.Reader
+	stdout              io.Writer
+	stderr              io.Writer
+	assumeYes           bool
+	installClaude       bool
+	skipClaudeInstall   bool
+	noLaunch            bool
+	skipCredentials     bool
+	defaultSkillRuntime string
+	defaultScheduler    string
+	interactive         bool
+}
+
+func (w *setupWizard) run() error {
+	fmt.Fprintln(w.stdout, "newsjack setup")
+	fmt.Fprintln(w.stdout)
+	fmt.Fprintf(w.stdout, "Home: %s\n", newsjackHome())
+	fmt.Fprintln(w.stdout)
+
+	skillRuntime := w.chooseSkillRuntime()
+	if isManualRuntime(skillRuntime) {
+		fmt.Fprintln(w.stdout, "Manual runtime selected. Use this instruction in your agent runtime:")
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
+		fmt.Fprintln(w.stdout)
+	} else if err := installSetupSkills(skillRuntime, w.stdout, w.stderr); err != nil {
+		return err
+	}
+
+	schedulerRuntime := w.chooseSchedulerRuntime()
+	if !isManualRuntime(schedulerRuntime) && !runtimeSelectionIncludes(skillRuntime, schedulerRuntime) {
+		if err := installSetupSkills(schedulerRuntime, w.stdout, w.stderr); err != nil {
+			return err
+		}
+	}
+
+	if !w.skipCredentials {
+		if err := w.promptForXAPIKey(); err != nil {
+			return err
+		}
+		if err := w.promptForMedialystAPIKey(); err != nil {
+			return err
+		}
+	}
+
+	agentPrompt := setupAgentPrompt(schedulerRuntime)
+	command := setupAgentCommand(schedulerRuntime, agentPrompt)
+	fmt.Fprintln(w.stdout)
+	if isManualRuntime(schedulerRuntime) || command == "" {
+		fmt.Fprintln(w.stdout, "Manual scheduler selected. Copy this into your agent runtime:")
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, agentPrompt)
+		return nil
+	}
+
+	fmt.Fprintf(w.stdout, "Ready to open %s with the setup prompt.\n", runtimeLabel(schedulerRuntime))
+	fmt.Fprintf(w.stdout, "Command: %s\n", command)
+	if w.noLaunch || !w.confirm("Open it now?", true) {
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, "Run this command when ready:")
+		fmt.Fprintln(w.stdout, command)
+		return nil
+	}
+	if schedulerRuntime == "claude" && !claudeCodeInstalled() && !w.skipClaudeInstall {
+		if err := maybeInstallClaudeCode(w.reader, w.stdin, w.stdout, w.stderr, w.installClaude || w.assumeYes); err != nil {
+			return err
+		}
+	}
+	return launchSetupAgent(schedulerRuntime, agentPrompt, w.stdin, w.stdout, w.stderr)
+}
+
+func (w *setupWizard) chooseSkillRuntime() string {
+	defaultRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, "claude")
+	if w.defaultSkillRuntime == "" || w.defaultSkillRuntime == "auto" {
+		defaultRuntime = "claude"
+	}
+	fmt.Fprintln(w.stdout, "Supported agent runtimes for skills:")
+	printRuntimeList(w.stdout)
+	fmt.Fprintln(w.stdout)
+	answer := w.prompt("Install Newsjack skills into which runtime(s)? [claude,codex,openclaw,hermes,all,other]", defaultRuntime)
+	return normalizeSetupRuntimeSelection(answer, defaultRuntime)
+}
+
+func (w *setupWizard) chooseSchedulerRuntime() string {
+	defaultRuntime := normalizeScheduleRuntime(w.defaultScheduler)
+	if defaultRuntime == "auto" {
+		defaultRuntime = recommendedScheduleRuntime()
+	}
+	fmt.Fprintln(w.stdout)
+	fmt.Fprintln(w.stdout, "Scheduled runs must live inside an agent harness, not system cron.")
+	fmt.Fprintln(w.stdout, "Recommended scheduler order: Hermes > OpenClaw > Claude Code > Codex > Other.")
+	printRuntimeList(w.stdout)
+	answer := w.prompt("Which harness should own scheduled runs? [hermes,openclaw,claude,codex,other]", defaultRuntime)
+	return normalizeScheduleRuntime(answer)
+}
+
+func (w *setupWizard) promptForXAPIKey() error {
+	if bearerToken(configFromEnv()) != "" {
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, "X API bearer token already configured.")
+		return nil
+	}
+	fmt.Fprintln(w.stdout)
+	fmt.Fprintln(w.stdout, "Optional X API bearer token")
+	fmt.Fprintln(w.stdout, "Used for X News, X trends, and X post search. Stored locally in ~/.newsjack/.env with user-only permissions.")
+	fmt.Fprintf(w.stdout, "Get one here: %s\n", xAPIKeyURL)
+	value := strings.TrimSpace(w.prompt("X bearer token (press Enter to skip)", ""))
+	if isSkipValue(value) {
+		fmt.Fprintln(w.stdout, "Skipped X API key.")
+		return nil
+	}
+	if err := writeNewsjackEnv(map[string]string{"X_BEARER_TOKEN": value}); err != nil {
+		return err
+	}
+	fmt.Fprintln(w.stdout, "Saved X API bearer token to ~/.newsjack/.env.")
+	return nil
+}
+
+func (w *setupWizard) promptForMedialystAPIKey() error {
+	if medialystConfigured() {
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, "Medialyst API key already configured.")
+		return nil
+	}
+	fmt.Fprintln(w.stdout)
+	fmt.Fprintln(w.stdout, "Optional Medialyst API key")
+	fmt.Fprintln(w.stdout, "Used for live news search and MCP-backed media-list workflows. Stored locally in ~/.newsjack/credentials.json.")
+	fmt.Fprintf(w.stdout, "Get one here: %s\n", medialystAPIKeyURL)
+	value := strings.TrimSpace(w.prompt("Medialyst API key (press Enter to skip)", ""))
+	if isSkipValue(value) {
+		fmt.Fprintln(w.stdout, "Skipped Medialyst API key.")
+		return nil
+	}
+	if err := validateAPIKey(value); err != nil {
+		return fmt.Errorf("invalid Medialyst API key: %w", err)
+	}
+	path, err := writeCredentials(value)
+	if err != nil {
+		return err
+	}
+	fmt.Fprintf(w.stdout, "Saved Medialyst credentials to %s.\n", path)
+	return nil
+}
+
+func (w *setupWizard) prompt(message, defaultValue string) string {
+	if w.assumeYes && defaultValue != "" {
+		fmt.Fprintf(w.stdout, "%s [%s]: %s\n", message, defaultValue, defaultValue)
+		return defaultValue
+	}
+	if defaultValue != "" {
+		fmt.Fprintf(w.stdout, "%s [%s]: ", message, defaultValue)
+	} else {
+		fmt.Fprintf(w.stdout, "%s: ", message)
+	}
+	line, err := w.reader.ReadString('\n')
+	if err != nil && !errors.Is(err, io.EOF) {
+		return defaultValue
+	}
+	if err == nil {
+		w.interactive = true
+	}
+	value := strings.TrimSpace(line)
+	if value == "" {
+		return defaultValue
+	}
+	return value
+}
+
+func (w *setupWizard) confirm(message string, defaultYes bool) bool {
+	if w.assumeYes {
+		fmt.Fprintf(w.stdout, "%s yes\n", message)
+		return true
+	}
+	defaultLabel := "y/N"
+	if defaultYes {
+		defaultLabel = "Y/n"
+	}
+	answer := strings.ToLower(strings.TrimSpace(w.prompt(message+" ["+defaultLabel+"]", "")))
+	if answer == "" {
+		return defaultYes && w.interactive
+	}
+	return answer == "y" || answer == "yes"
 }
 
 func setupPayload(runtimeRaw string) map[string]any {
 	recommended := selectSetupRuntime(runtimeRaw)
-	agentPrompt := "Use Newsjack to set up an hourly monitor for my company, install the schedule in this agent harness, and run a mock test. Ask only for facts you cannot infer safely."
+	scheduleRuntime := recommendedScheduleRuntime()
+	agentPrompt := setupAgentPrompt(scheduleRuntime)
 	return map[string]any{
 		"newsjack_home":             newsjackHome(),
 		"monitors_dir":              monitorsDir(),
 		"runtimes":                  runtimeStatus(),
 		"recommended_runtime":       recommended,
 		"recommended_runtime_label": runtimeLabel(recommended),
+		"recommended_scheduler":     scheduleRuntime,
+		"scheduler_label":           runtimeLabel(scheduleRuntime),
 		"claude_installed":          claudeCodeInstalled(),
 		"claude_install_command":    claudeInstallCommand(),
 		"auth": map[string]any{
 			"medialyst_configured": medialystConfigured(),
 			"x_api_configured":     bearerToken(configFromEnv()) != "",
 		},
-		"agent_command": setupAgentCommand(recommended, agentPrompt),
+		"agent_command": setupAgentCommand(scheduleRuntime, agentPrompt),
 		"agent_prompt":  agentPrompt,
 	}
 }
@@ -84,12 +275,226 @@ func setupAgentCommand(runtime, prompt string) string {
 	case "codex":
 		return fmt.Sprintf("codex %s", shellQuote(prompt))
 	case "openclaw":
-		return fmt.Sprintf("openclaw %s", shellQuote(prompt))
+		return fmt.Sprintf("openclaw chat --message %s", shellQuote(prompt))
 	case "hermes":
-		return fmt.Sprintf("hermes %s", shellQuote(prompt))
+		return fmt.Sprintf("hermes chat --query %s", shellQuote(prompt))
 	default:
 		return ""
 	}
+}
+
+func setupAgentArgs(runtime, prompt string) []string {
+	switch runtime {
+	case "claude":
+		return []string{"claude", prompt}
+	case "codex":
+		return []string{"codex", prompt}
+	case "openclaw":
+		return []string{"openclaw", "chat", "--message", prompt}
+	case "hermes":
+		return []string{"hermes", "chat", "--query", prompt}
+	default:
+		return nil
+	}
+}
+
+func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io.Writer) error {
+	args := setupAgentArgs(runtime, prompt)
+	if len(args) == 0 {
+		return nil
+	}
+	if _, err := exec.LookPath(args[0]); err != nil {
+		fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", args[0], setupAgentCommand(runtime, prompt))
+		return nil
+	}
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdin = stdin
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
+	return cmd.Run()
+}
+
+func setupAgentPrompt(scheduleRuntime string) string {
+	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Install the schedule in %s, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, and print the final run.md and schedule paths.", runtimeLabel(scheduleRuntime))
+}
+
+func printRuntimeList(stdout io.Writer) {
+	for _, rt := range runtimeTargets {
+		state := "not detected"
+		if runtimeDetected(rt) {
+			state = "detected"
+		}
+		fmt.Fprintf(stdout, "  - %s (%s): %s\n", rt.Key, rt.Label, state)
+	}
+	fmt.Fprintln(stdout, "  - other: print manual instructions for another agent runtime")
+}
+
+func normalizeSetupRuntimeSelection(raw, fallback string) string {
+	raw = strings.ToLower(strings.TrimSpace(raw))
+	if raw == "" || raw == "auto" {
+		return fallback
+	}
+	raw = strings.ReplaceAll(raw, "claude-code", "claude")
+	raw = strings.ReplaceAll(raw, "claude_code", "claude")
+	raw = strings.ReplaceAll(raw, "cladue", "claude")
+	switch raw {
+	case "other", "manual":
+		return "manual"
+	case "detected":
+		var detected []string
+		for _, rt := range runtimeTargets {
+			if runtimeDetected(rt) {
+				detected = append(detected, rt.Key)
+			}
+		}
+		if len(detected) == 0 {
+			return fallback
+		}
+		return strings.Join(detected, ",")
+	case "all", "none":
+		return raw
+	}
+	var out []string
+	for _, part := range normalizeRuntimeList(raw) {
+		if isSupportedRuntime(part) {
+			out = append(out, part)
+		}
+	}
+	if len(out) == 0 {
+		return fallback
+	}
+	return strings.Join(out, ",")
+}
+
+func normalizeScheduleRuntime(raw string) string {
+	raw = strings.ToLower(strings.TrimSpace(raw))
+	raw = strings.ReplaceAll(raw, "claude-code", "claude")
+	raw = strings.ReplaceAll(raw, "claude_code", "claude")
+	raw = strings.ReplaceAll(raw, "cladue", "claude")
+	switch raw {
+	case "", "auto":
+		return "auto"
+	case "other", "manual":
+		return "manual"
+	case "hermes", "openclaw", "claude", "codex":
+		return raw
+	default:
+		return "manual"
+	}
+}
+
+func recommendedScheduleRuntime() string {
+	for _, key := range []string{"hermes", "openclaw", "claude", "codex"} {
+		for _, target := range runtimeTargets {
+			if target.Key == key && commandAvailable(target.Binary) {
+				return key
+			}
+		}
+	}
+	return "claude"
+}
+
+func isSupportedRuntime(key string) bool {
+	for _, rt := range runtimeTargets {
+		if rt.Key == key {
+			return true
+		}
+	}
+	return false
+}
+
+func isManualRuntime(key string) bool {
+	return key == "manual" || key == "other"
+}
+
+func runtimeSelectionIncludes(selection, key string) bool {
+	if selection == "all" {
+		return true
+	}
+	for _, item := range normalizeRuntimeList(selection) {
+		if item == key {
+			return true
+		}
+	}
+	return false
+}
+
+func installSetupSkills(runtimeRaw string, stdout, stderr io.Writer) error {
+	root, err := newsjackRoot()
+	if err != nil {
+		return err
+	}
+	opts := installOptions{
+		Source:     root,
+		Runtimes:   runtimeRaw,
+		InstallMCP: false,
+		Force:      true,
+		CLIPath:    filepath.Join(newsjackHome(), "bin", "newsjack"),
+		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
+		Ref:        getenv("NEWSJACK_REF", defaultRef),
+	}
+	return installRuntimeSkills(opts, stdout, stderr)
+}
+
+func manualSkillInstallInstruction() string {
+	root, err := newsjackRoot()
+	if err != nil || root == "" {
+		root = filepath.Join(newsjackHome(), "newsjack")
+	}
+	return fmt.Sprintf("Copy every directory under `%s` into your agent runtime's skills directory, preserving each `SKILL.md`. Then run `newsjack setup --json` to inspect local paths and use the `newsjack-setup` skill to create the monitor profile and agent schedule.", filepath.Join(root, "skills"))
+}
+
+func isSkipValue(value string) bool {
+	value = strings.ToLower(strings.TrimSpace(value))
+	return value == "" || value == "skip" || value == "s"
+}
+
+func writeNewsjackEnv(updates map[string]string) error {
+	path := filepath.Join(newsjackHome(), ".env")
+	values := map[string]string{}
+	if data, err := os.ReadFile(path); err == nil {
+		for _, raw := range strings.Split(string(data), "\n") {
+			line := strings.TrimSpace(raw)
+			if line == "" || strings.HasPrefix(line, "#") || !strings.Contains(line, "=") {
+				continue
+			}
+			k, v, _ := strings.Cut(line, "=")
+			k = strings.TrimSpace(k)
+			v = strings.Trim(strings.TrimSpace(v), `"'`)
+			if k != "" {
+				values[k] = v
+			}
+		}
+	}
+	for k, v := range updates {
+		if strings.TrimSpace(v) != "" {
+			values[k] = strings.TrimSpace(v)
+		}
+	}
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+		return err
+	}
+	var keys []string
+	for k := range values {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	var b strings.Builder
+	b.WriteString("# Newsjack local credentials. Do not commit this file.\n")
+	for _, k := range keys {
+		b.WriteString(k)
+		b.WriteString("=")
+		b.WriteString(dotenvQuote(values[k]))
+		b.WriteByte('\n')
+	}
+	return os.WriteFile(path, []byte(b.String()), 0o600)
+}
+
+func dotenvQuote(value string) string {
+	value = strings.ReplaceAll(value, `\`, `\\`)
+	value = strings.ReplaceAll(value, `"`, `\"`)
+	value = strings.ReplaceAll(value, "\n", `\n`)
+	return `"` + value + `"`
 }
 
 func selectSetupRuntime(raw string) string {
@@ -128,14 +533,13 @@ func claudeInstallCommand() string {
 	return defaultClaudeInstallCommand
 }
 
-func maybeInstallClaudeCode(stdin io.Reader, stdout, stderr io.Writer, assumeYes bool) error {
+func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stderr io.Writer, assumeYes bool) error {
 	command := claudeInstallCommand()
 	fmt.Fprintln(stdout, "Claude Code is the recommended Newsjack agent harness and is not installed.")
 	fmt.Fprintln(stdout, "Install Claude Code now? This runs:")
 	fmt.Fprintf(stdout, "  %s\n", command)
 	if !assumeYes {
 		fmt.Fprint(stdout, "Continue? [y/N] ")
-		reader := bufio.NewReader(stdin)
 		line, err := reader.ReadString('\n')
 		if err != nil && !errors.Is(err, io.EOF) {
 			return err

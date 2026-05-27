@@ -111,6 +111,9 @@ func loadAPIKey() (string, string) {
 }
 
 func candidateEnvPaths() []string {
+	if os.Getenv("NEWSJACK_IGNORE_DOTENV") == "1" {
+		return nil
+	}
 	var out []string
 	if cwd, err := os.Getwd(); err == nil {
 		dir := cwd
