@@ -63,3 +63,58 @@ func TestAuthStatusMissingAndLoginHeaders(t *testing.T) {
 		}
 	})
 }
+
+func TestDetectorDiagnoseUsesSavedMedialystLogin(t *testing.T) {
+	repo := repoRootForTest(t)
+	withTempEnv(t, map[string]string{
+		"HOME":              t.TempDir(),
+		"NEWSJACK_HOME":     "",
+		"NEWSJACK_ROOT":     repo,
+		"MEDIALYST_API_KEY": "",
+	}, func() {
+		cwd, chdirErr := os.Getwd()
+		if chdirErr != nil {
+			t.Fatal(chdirErr)
+		}
+		t.Cleanup(func() {
+			if err := os.Chdir(cwd); err != nil {
+				t.Fatal(err)
+			}
+		})
+		if err := os.Chdir(t.TempDir()); err != nil {
+			t.Fatal(err)
+		}
+
+		testKey := "mlst_" + strings.Repeat("x", 12)
+		var out, err bytes.Buffer
+		if code := runCLI([]string{"login", "--key", testKey}, &out, &err); code != 0 {
+			t.Fatalf("login code=%d stderr=%s", code, err.String())
+		}
+
+		out.Reset()
+		err.Reset()
+		code := runCLI([]string{"detector", "diagnose", "--sources", "news_search"}, &out, &err)
+		if code != 0 {
+			t.Fatalf("diagnose code=%d stderr=%s", code, err.String())
+		}
+		var payload map[string]any
+		if json.Unmarshal(out.Bytes(), &payload) != nil {
+			t.Fatalf("invalid diagnose JSON: %s", out.String())
+		}
+		if payload["news_search_configured"] != true {
+			t.Fatalf("news_search_configured=%v, want true; payload=%s", payload["news_search_configured"], out.String())
+		}
+		if !containsAnyString(anySlice(payload["sources_available"]), "news_search") {
+			t.Fatalf("sources_available=%v, want news_search", payload["sources_available"])
+		}
+	})
+}
+
+func containsAnyString(items []any, want string) bool {
+	for _, item := range items {
+		if item == want {
+			return true
+		}
+	}
+	return false
+}

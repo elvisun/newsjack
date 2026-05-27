@@ -308,8 +308,12 @@ func configFromEnv() map[string]string {
 		}
 		return fileEnv[key]
 	}
+	medialystKey, _ := loadAPIKey()
+	if medialystKey == "" {
+		medialystKey = get("MEDIALYST_API_KEY")
+	}
 	return map[string]string{
-		"MEDIALYST_API_KEY":        get("MEDIALYST_API_KEY"),
+		"MEDIALYST_API_KEY":        medialystKey,
 		"MEDIALYST_API_BASE":       get("MEDIALYST_API_BASE"),
 		"MEDIALYST_NEWS_PATH":      get("MEDIALYST_NEWS_PATH"),
 		"TWITTER_BEARER_TOKEN":     get("TWITTER_BEARER_TOKEN"),
