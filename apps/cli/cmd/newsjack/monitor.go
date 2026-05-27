@@ -82,14 +82,23 @@ func (w *setupWizard) run() error {
 	fmt.Fprintln(w.stdout)
 
 	skillRuntime := w.chooseSkillRuntime()
-	if isManualRuntime(skillRuntime) {
+	manualSkillRuntime := runtimeSelectionIncludes(skillRuntime, "manual")
+	installSkillRuntime := nonManualRuntimeSelection(skillRuntime)
+	if manualSkillRuntime {
 		uiSection(w.stdout, "manual skill install")
 		uiNote(w.stdout, "copy this instruction into your agent runtime.")
 		fmt.Fprintln(w.stdout)
 		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
 		fmt.Fprintln(w.stdout)
-	} else if err := installSetupSkills(skillRuntime, w.stdout, w.stderr); err != nil {
-		return err
+	}
+	if installSkillRuntime != "" {
+		if err := installSetupSkills(installSkillRuntime, w.stdout, w.stderr); err != nil {
+			return err
+		}
+	} else if !manualSkillRuntime {
+		if err := installSetupSkills(skillRuntime, w.stdout, w.stderr); err != nil {
+			return err
+		}
 	}
 
 	schedulerRuntime := w.chooseSchedulerRuntime()
@@ -121,11 +130,11 @@ func (w *setupWizard) run() error {
 
 	uiSection(w.stdout, "launch")
 	uiSuccess(w.stdout, "Ready to open %s with the setup prompt.", runtimeLabel(schedulerRuntime))
-	fmt.Fprintf(w.stdout, "Command: %s\n", command)
+	fmt.Fprintf(w.stdout, "Command: %s\n\n", command)
 	if w.noLaunch || !w.confirm("Open it now?", true) {
-		fmt.Fprintln(w.stdout)
 		uiNote(w.stdout, "run this command when ready:")
 		fmt.Fprintln(w.stdout, command)
+		fmt.Fprintln(w.stdout)
 		return nil
 	}
 	if schedulerRuntime == "claude" && !claudeCodeInstalled() && !w.skipClaudeInstall {
@@ -137,14 +146,26 @@ func (w *setupWizard) run() error {
 }
 
 func (w *setupWizard) chooseSkillRuntime() string {
-	defaultRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, "claude")
+	defaultRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, recommendedSetupRuntime())
 	if w.defaultSkillRuntime == "" || w.defaultSkillRuntime == "auto" {
-		defaultRuntime = "claude"
+		defaultRuntime = recommendedSetupRuntime()
 	}
 	uiSection(w.stdout, "runtimes")
 	fmt.Fprintln(w.stdout, "Supported agent runtimes for skills:")
 	printRuntimeList(w.stdout)
 	fmt.Fprintln(w.stdout)
+
+	choices := []setupChoice{
+		{Value: "hermes", Label: "Hermes", Hint: runtimeChoiceHint("hermes"), Selected: runtimeSelectionIncludes(defaultRuntime, "hermes")},
+		{Value: "openclaw", Label: "OpenClaw", Hint: runtimeChoiceHint("openclaw"), Selected: runtimeSelectionIncludes(defaultRuntime, "openclaw")},
+		{Value: "claude", Label: "Claude Code", Hint: runtimeChoiceHint("claude"), Selected: runtimeSelectionIncludes(defaultRuntime, "claude")},
+		{Value: "codex", Label: "Codex", Hint: runtimeChoiceHint("codex"), Selected: runtimeSelectionIncludes(defaultRuntime, "codex")},
+		{Value: "manual", Label: "Other/manual", Hint: "copy instructions", Selected: runtimeSelectionIncludes(defaultRuntime, "manual")},
+	}
+	if values, ok := w.selectMulti("Install Newsjack skills into which runtime(s)?", choices); ok {
+		return normalizeSetupRuntimeSelection(strings.Join(values, ","), defaultRuntime)
+	}
+
 	answer := w.prompt("Install Newsjack skills into which runtime(s)? [claude,codex,openclaw,hermes,all,other]", defaultRuntime)
 	return normalizeSetupRuntimeSelection(answer, defaultRuntime)
 }
@@ -159,6 +180,19 @@ func (w *setupWizard) chooseSchedulerRuntime() string {
 	uiNote(w.stdout, "scheduled runs live inside an agent harness, not system cron.")
 	uiKV(w.stdout, "recommended order", "Hermes > OpenClaw > Claude Code > Codex > Other")
 	printRuntimeList(w.stdout)
+	fmt.Fprintln(w.stdout)
+
+	choices := []setupChoice{
+		{Value: "hermes", Label: "Hermes", Hint: runtimeChoiceHint("hermes")},
+		{Value: "openclaw", Label: "OpenClaw", Hint: runtimeChoiceHint("openclaw")},
+		{Value: "claude", Label: "Claude Code", Hint: runtimeChoiceHint("claude")},
+		{Value: "codex", Label: "Codex", Hint: runtimeChoiceHint("codex")},
+		{Value: "manual", Label: "Other/manual", Hint: "copy prompt"},
+	}
+	if value, ok := w.selectSingle("Which harness should own scheduled runs?", choices, defaultRuntime); ok {
+		return normalizeScheduleRuntime(value)
+	}
+
 	answer := w.prompt("Which harness should own scheduled runs? [hermes,openclaw,claude,codex,other]", defaultRuntime)
 	return normalizeScheduleRuntime(answer)
 }
@@ -215,13 +249,13 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 
 func (w *setupWizard) prompt(message, defaultValue string) string {
 	if w.assumeYes && defaultValue != "" {
-		fmt.Fprintf(w.stdout, "? %s [%s]: %s\n", message, defaultValue, defaultValue)
+		fmt.Fprintf(w.stdout, "%s %s [%s]: %s\n", uiQuestion(w.stdout), message, defaultValue, defaultValue)
 		return defaultValue
 	}
 	if defaultValue != "" {
-		fmt.Fprintf(w.stdout, "? %s [%s]: ", message, defaultValue)
+		fmt.Fprintf(w.stdout, "%s %s [%s]: ", uiQuestion(w.stdout), message, defaultValue)
 	} else {
-		fmt.Fprintf(w.stdout, "? %s: ", message)
+		fmt.Fprintf(w.stdout, "%s %s: ", uiQuestion(w.stdout), message)
 	}
 	line, err := w.reader.ReadString('\n')
 	if err != nil && !errors.Is(err, io.EOF) {
@@ -367,12 +401,28 @@ func normalizeSetupRuntimeSelection(raw, fallback string) string {
 	}
 	var out []string
 	for _, part := range normalizeRuntimeList(raw) {
-		if isSupportedRuntime(part) {
+		if isSupportedRuntime(part) || isManualRuntime(part) {
+			if part == "other" {
+				part = "manual"
+			}
 			out = append(out, part)
 		}
 	}
 	if len(out) == 0 {
 		return fallback
+	}
+	return strings.Join(out, ",")
+}
+
+func nonManualRuntimeSelection(selection string) string {
+	if selection == "all" || selection == "none" {
+		return selection
+	}
+	var out []string
+	for _, item := range normalizeRuntimeList(selection) {
+		if isSupportedRuntime(item) {
+			out = append(out, item)
+		}
 	}
 	return strings.Join(out, ",")
 }
@@ -405,6 +455,25 @@ func recommendedScheduleRuntime() string {
 	return "claude"
 }
 
+func recommendedSetupRuntime() string {
+	return recommendedScheduleRuntime()
+}
+
+func runtimeChoiceHint(key string) string {
+	for _, target := range runtimeTargets {
+		if target.Key == key {
+			if commandAvailable(target.Binary) {
+				if key == recommendedScheduleRuntime() {
+					return "recommended"
+				}
+				return "detected"
+			}
+			return "not detected"
+		}
+	}
+	return ""
+}
+
 func isSupportedRuntime(key string) bool {
 	for _, rt := range runtimeTargets {
 		if rt.Key == key {
@@ -420,7 +489,7 @@ func isManualRuntime(key string) bool {
 
 func runtimeSelectionIncludes(selection, key string) bool {
 	if selection == "all" {
-		return true
+		return isSupportedRuntime(key)
 	}
 	for _, item := range normalizeRuntimeList(selection) {
 		if item == key {
@@ -509,6 +578,9 @@ func dotenvQuote(value string) string {
 }
 
 func selectSetupRuntime(raw string) string {
+	if strings.TrimSpace(raw) == "" || strings.TrimSpace(raw) == "auto" {
+		return recommendedSetupRuntime()
+	}
 	list := normalizeRuntimeList(raw)
 	for _, item := range list {
 		switch item {
@@ -550,7 +622,7 @@ func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stder
 	uiNote(stdout, "install Claude Code now? This runs:")
 	fmt.Fprintf(stdout, "  %s\n", command)
 	if !assumeYes {
-		fmt.Fprint(stdout, "? Continue? [y/N] ")
+		fmt.Fprintf(stdout, "%s Continue? [y/N] ", uiQuestion(stdout))
 		line, err := reader.ReadString('\n')
 		if err != nil && !errors.Is(err, io.EOF) {
 			return err

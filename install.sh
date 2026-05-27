@@ -11,28 +11,75 @@ NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
 NEWSJACK_DIST_BASE="${NEWSJACK_DIST_BASE:-https://newsjack.sh/dist}"
 NEWSJACK_CHANNEL="${NEWSJACK_CHANNEL:-main}"
 
-banner() {
-  cat >&2 <<'EOF'
-newsjack
-the operating system for agentic PR
+esc=$(printf '\033')
+c_reset=
+c_bold=
+c_dim=
+c_red=
+c_green=
+c_blue=
+o_reset=
+o_bold=
+o_dim=
+o_green=
 
-EOF
+case "${NEWSJACK_COLOR:-auto}" in
+  always|1|true|yes|on)
+    color_stderr=1
+    color_stdout=1
+    ;;
+  never|0|false|no|off)
+    color_stderr=0
+    color_stdout=0
+    ;;
+  *)
+    if [ "${NO_COLOR:-}" ]; then
+      color_stderr=0
+      color_stdout=0
+    else
+      color_stderr=0
+      color_stdout=0
+      [ "${TERM:-}" != "dumb" ] && [ -t 2 ] && color_stderr=1
+      [ "${TERM:-}" != "dumb" ] && [ -t 1 ] && color_stdout=1
+    fi
+    ;;
+esac
+
+if [ "$color_stderr" = "1" ]; then
+  c_reset="${esc}[0m"
+  c_bold="${esc}[1m"
+  c_dim="${esc}[2m"
+  c_red="${esc}[31m"
+  c_green="${esc}[32m"
+  c_blue="${esc}[34m"
+fi
+
+if [ "$color_stdout" = "1" ]; then
+  o_reset="${esc}[0m"
+  o_bold="${esc}[1m"
+  o_dim="${esc}[2m"
+  o_green="${esc}[32m"
+fi
+
+banner() {
+  printf '%snewsjack%s\n' "$c_bold" "$c_reset" >&2
+  printf '%sthe operating system for agentic PR%s\n\n' "$c_dim" "$c_reset" >&2
 }
 
 log() {
-  printf '%s\n' "[info] $*" >&2
+  printf '%s[info]%s %s\n' "$c_blue" "$c_reset" "$*" >&2
 }
 
 success() {
-  printf '%s\n' "[success] $*" >&2
+  printf '%s[success]%s %s\n' "$c_green" "$c_reset" "$*" >&2
 }
 
 note() {
-  printf '%s\n' "- $*" >&2
+  printf '%s-%s %s%s%s\n' "$c_dim" "$c_reset" "$c_dim" "$*" "$c_reset" >&2
 }
 
 die() {
-  printf '%s\n' "[error] $*" >&2
+  printf '%s[error]%s %s\n' "$c_red" "$c_reset" "$*" >&2
   exit 1
 }
 
@@ -223,16 +270,12 @@ print_next_steps() {
     setup_cmd="$NEWSJACK_HOME/bin/newsjack setup"
   fi
 
-  cat <<EOF
-
-NEWSJACK INSTALLED
-
-  bundle                 $NEWSJACK_INSTALL_DIR
-  cli                    $NEWSJACK_HOME/bin/newsjack
-
-NEXT
-  $setup_cmd
-EOF
+  printf '\n%sNEWSJACK INSTALLED%s\n\n' "$o_bold" "$o_reset"
+  printf '  %s%-22s%s %s\n' "$o_dim" "bundle" "$o_reset" "$NEWSJACK_INSTALL_DIR"
+  printf '  %s%-22s%s %s\n' "$o_dim" "cli" "$o_reset" "$NEWSJACK_HOME/bin/newsjack"
+  printf '\n%sNEXT%s\n' "$o_bold" "$o_reset"
+  printf '  %s%s%s\n' "$o_green" "$setup_cmd" "$o_reset"
+  printf '\n\n'
 }
 
 main() {

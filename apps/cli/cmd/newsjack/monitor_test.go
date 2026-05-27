@@ -165,6 +165,45 @@ func TestSetupDefaultsToClaudeCode(t *testing.T) {
 	})
 }
 
+func TestSetupRecommendsHighestPriorityDetectedHarness(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	fakeBin := t.TempDir()
+	for _, name := range []string{"codex", "claude", "openclaw", "hermes"} {
+		path := filepath.Join(fakeBin, name)
+		if err := os.WriteFile(path, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
+			t.Fatal(err)
+		}
+	}
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+		"PATH":                    fakeBin,
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"setup", "--json"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup --json code=%d stderr=%s", code, errBuf.String())
+		}
+		var payload map[string]any
+		if json.Unmarshal(out.Bytes(), &payload) != nil {
+			t.Fatalf("invalid setup JSON: %s", out.String())
+		}
+		if payload["recommended_runtime"] != "hermes" {
+			t.Fatalf("recommended_runtime=%v, want hermes", payload["recommended_runtime"])
+		}
+		if payload["recommended_scheduler"] != "hermes" {
+			t.Fatalf("recommended_scheduler=%v, want hermes", payload["recommended_scheduler"])
+		}
+		if !strings.HasPrefix(stringValue(payload["agent_command"]), "hermes chat --query ") {
+			t.Fatalf("agent_command=%q, want hermes command", stringValue(payload["agent_command"]))
+		}
+	})
+}
+
 func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()

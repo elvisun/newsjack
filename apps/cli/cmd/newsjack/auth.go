@@ -21,7 +21,7 @@ func cmdLogin(args []string, stdout, stderr io.Writer) int {
 	}
 	apiKey := strings.TrimSpace(*key)
 	if apiKey == "" {
-		fmt.Fprint(stderr, "? Medialyst API key: ")
+		fmt.Fprintf(stderr, "%s Medialyst API key: ", uiQuestion(stderr))
 		var line string
 		if _, err := fmt.Fscanln(os.Stdin, &line); err != nil {
 			return fail(stderr, err)
