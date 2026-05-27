@@ -13,12 +13,14 @@ Usage:
   newsjack version
   newsjack path
   newsjack doctor
+  newsjack setup [--json]
   newsjack install [--source DIR]
   newsjack skills [list]
   newsjack skills install [--source DIR]
   newsjack runtimes detect
   newsjack login [--key KEY]
   newsjack auth status|headers|logout
+  newsjack monitor init|test|run|schedule|status|open ...
   newsjack detector run|diagnose|recent ...
   newsjack filter-apply ...
   newsjack origin-apply ...

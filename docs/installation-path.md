@@ -10,7 +10,7 @@ newsjack setup
 
 The installer owns deterministic machine setup. The agent harness owns the
 judgment-heavy onboarding conversation. The user should never have to manually
-copy skill files, edit MCP JSON, invent a cron command, or figure out which
+copy skill files, edit MCP JSON, invent an agent routine, or figure out which
 runtime path was detected.
 
 Target end state:
@@ -21,8 +21,7 @@ Target end state:
 - optional Medialyst MCP is configured when a runtime exposes a reliable
   noninteractive setup path
 - a monitor profile exists at `~/.newsjack/monitors/<slug>/profile.json`
-- an hourly monitor is installed through the best local scheduler for the
-  platform
+- an hourly monitor is installed through the selected agent harness scheduler
 - a mock test run has passed
 - when any live source is available, a live test run has produced a
   human-facing `run.md`
@@ -100,7 +99,7 @@ Required behavior:
 - write the profile to `~/.newsjack/monitors/<slug>/profile.json`
 - ask for optional credentials only after the user chooses sources that need
   them
-- install a schedule using the platform's best local scheduler
+- install a schedule inside the selected agent harness, not system cron
 - run `newsjack monitor test <slug> --mock`
 - if any live no-key or credentialed source is available, run
   `newsjack monitor test <slug> --live`
@@ -138,7 +137,7 @@ Prompt timing:
 - During `newsjack monitor test <slug> --live`: if no live source is available,
   offer clear choices: run RSS/public sources only, add Medialyst, set up X, or
   skip the live test.
-- During scheduled runs: never prompt. Use configured sources, degrade
+- During agent-scheduled runs: never prompt. Use configured sources, degrade
   gracefully, and write dependency status into the run artifacts.
 
 Credential rules:
@@ -149,13 +148,12 @@ Credential rules:
   using user-only permissions. `MEDIALYST_API_BASE` and `MEDIALYST_NEWS_PATH`
   are advanced overrides, not onboarding prompts.
 - X is optional. Ask about X only when the user chooses `x`, `x_news`, or
-  `x_trends` lanes. Prefer `xurl auth oauth2 login` for normal X setup because
-  Newsjack can reuse xurl's OAuth state without storing an X secret.
-- X bearer tokens are optional advanced configuration. Accept
-  `X_BEARER_TOKEN`, `TWITTER_BEARER_TOKEN`, `X_API_BEARER_TOKEN`, or
-  `TWITTER_API_BEARER_TOKEN` from the environment or dotenv when app-auth
-  endpoints are needed, especially location trends. Do not ask for or save
-  bearer tokens in the pipe installer.
+  `x_trends` lanes. Newsjack should call the X API directly rather than
+  depending on an external X CLI.
+- X bearer tokens are optional source configuration. Accept `X_BEARER_TOKEN`,
+  `TWITTER_BEARER_TOKEN`, `X_API_BEARER_TOKEN`, or
+  `TWITTER_API_BEARER_TOKEN` from the environment or dotenv. Do not ask for or
+  save bearer tokens in the pipe installer.
 
 Dependency classes:
 
@@ -168,17 +166,18 @@ Dependency classes:
   search, and Hacker News search.
 - Optional Medialyst support: `MEDIALYST_API_KEY` for `news_search` and
   Medialyst MCP/media-list workflows.
-- Optional X support: `xurl` plus its OAuth login for X post search,
-  X News, and personalized trends; bearer-token env vars for direct app-auth
-  calls and location trends.
+- Optional X support: X bearer-token env vars read by Newsjack, used for X post
+  search, X News, and trends through direct API calls.
 - Optional MCP bridge: Node.js with `npx` because `newsjack mcp-bridge`
   launches `npx -y mcp-remote`. Missing `npx` should disable only the bridge,
-  not the detector or scheduler.
+  not the detector or agent scheduler.
 - Optional agent harnesses: Codex, Claude Code, Cursor Agent, OpenCode,
   OpenClaw, Hermes, or other runtimes. If none are detected, install portable
   skills and keep the CLI usable.
-- Optional scheduler tools: `launchctl`, user `systemd`, or `crontab`, needed
-  only when installing the monitor schedule.
+- Optional agent scheduler: OpenClaw cron, Hermes cron, Claude Code Routine, or
+  a similar supported harness scheduler. System `launchd`, user `systemd`, and
+  `crontab` are not v1 scheduler targets because they cannot reliably trigger
+  the agent harness to perform LLM analysis after data collection.
 - Development-only dependencies: Docker for the harness, Go for local CLI
   builds, and Node/pnpm for the website and distribution build.
 
@@ -194,7 +193,7 @@ The public CLI should make the recurring workflow explicit:
 newsjack monitor init
 newsjack monitor test <slug> --mock
 newsjack monitor test <slug> --live
-newsjack monitor schedule <slug> --every 1h
+newsjack monitor schedule <slug> --runtime <agent-runtime> --every 1h
 newsjack monitor run <slug>
 newsjack monitor status <slug>
 newsjack monitor open <slug>
@@ -213,28 +212,39 @@ newsjack monitor open <slug>
 
 `run.md` is the human-facing artifact. JSON and log files are support artifacts.
 
-## Scheduler Contract
+## Agent Scheduler Contract
 
-The default scheduler should be local and boring:
+The v1 scheduler should run inside an agent harness, not through system cron.
+The recurring job must be able to trigger both deterministic data collection and
+agent-side LLM analysis over the collected evidence.
 
-- macOS: `launchd`
-- Linux with user systemd: user `systemd` timer
-- Linux without user systemd, WSL, and generic Unix: cron fallback
+Preferred scheduler targets:
 
-Every scheduled run must:
+- OpenClaw cron
+- Hermes cron
+- Claude Code Routine
+- similar agent-native scheduling in a supported harness
 
+System `launchd`, user `systemd`, and `crontab` are out of scope for v1
+recurring monitors. They can run the detector, but they cannot reliably trigger
+the user's chosen agent harness to do the LLM analysis step and produce the
+final opportunity report. A system scheduler can be revisited later for a
+detector-only or fully headless mode.
+
+Every agent-scheduled run must:
+
+- run the deterministic detector and save raw candidates
+- invoke the installed Newsjack skill in the selected harness for analysis
 - use a lock file so hourly jobs cannot overlap
 - write stdout/stderr to monitor-local logs
 - preserve the environment needed by the detector
 - avoid auto-sending or auto-scheduling journalist outreach
 - produce an inspectable `run.md`, even when no opportunities are found
 
-Native agent scheduling is an optional enhancement, not the default v1 path.
-Claude Routines, Claude `/loop`, Codex Automations, Cursor Cloud Agents, and
-similar features are still moving quickly and vary by plan, cloud/local file
-access, and whether the local machine must be awake. Newsjack can print
-runtime-specific instructions later, but the reliable base path should remain a
-local scheduler plus a deterministic CLI run.
+If multiple harness schedulers are available, `newsjack setup` should recommend
+the harness the user is actively using. If no supported agent scheduler is
+available, setup should still create the profile and pass the mock test, then
+print one exact manual command for the user to run inside their agent harness.
 
 ## Research Inputs
 
@@ -259,5 +269,5 @@ Agent onboarding patterns to honor:
 - MCP is the tool/data-access layer.
 - `AGENTS.md`, `CLAUDE.md`, and runtime rules orient the agent, but should stay
   short and point to deeper skill docs.
-- Scheduled agent features are useful for advanced users, but local scheduling
-  remains the lowest-friction cross-runtime base.
+- Scheduled agent features are the v1 recurring path because Newsjack needs the
+  harness to run LLM analysis, not only the local detector.

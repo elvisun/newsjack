@@ -32,7 +32,7 @@ Use only these signal classes:
 - LLM judgment for prominence, story type, historical comparison, novelty, standing, and decay heuristics.
 - News search for mainstream pickup, article count, earliest timestamp, and current framing.
 - Reddit when available for human traction: upvote velocity and subreddit spread.
-- X via `xurl --app zoe-hermes` when available for real-time velocity and journalist attention.
+- X via Newsjack's direct X API source when available for real-time velocity and journalist attention.
 
 Do not add flaky partial sources to make the answer look more measured. If a signal is unavailable, say so in `evidence_gaps` and lower confidence.
 

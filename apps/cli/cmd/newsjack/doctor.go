@@ -23,8 +23,7 @@ func cmdDoctor(_ []string, stdout, _ io.Writer) int {
 			"source":               nullableString(source),
 		},
 		"dependencies": map[string]any{
-			"npx":  commandAvailable("npx"),
-			"xurl": commandAvailable("xurl"),
+			"npx": commandAvailable("npx"),
 		},
 	}
 	payload["runtimes"] = runtimeStatus()

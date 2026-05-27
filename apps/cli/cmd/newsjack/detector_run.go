@@ -52,7 +52,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			sources = availableSources(config, querySources)
 		}
 		if len(sources) == 0 {
-			return errors.New("No requested sources are available. Configure MEDIALYST_API_KEY and xurl auth, or rerun with --mock.")
+			return errors.New("No requested sources are available. Configure MEDIALYST_API_KEY or X_BEARER_TOKEN, choose RSS/public sources, or rerun with --mock.")
 		}
 	}
 	now := time.Now().UTC()
@@ -355,17 +355,16 @@ func envFileValues() map[string]string {
 
 func availableSources(config map[string]string, requested []string) []string {
 	var out []string
-	xurl := xurlAvailable()
 	bearer := bearerToken(config) != ""
 	for _, source := range requested {
 		switch {
 		case source == "news_search" && config["MEDIALYST_API_KEY"] != "":
 			out = append(out, source)
-		case source == "x" && xurl:
+		case source == "x" && bearer:
 			out = append(out, source)
-		case source == "x_news" && (xurl || bearer):
+		case source == "x_news" && bearer:
 			out = append(out, source)
-		case source == "x_trends" && (xurl || bearer):
+		case source == "x_trends" && bearer:
 			out = append(out, source)
 		case source == "reddit" || source == "hackernews":
 			out = append(out, source)
@@ -492,7 +491,7 @@ func collectSource(source, query, fromDate, toDate, depth string, config map[str
 		items, err := searchNews(query, fromDate, toDate, limitForDepth(depth), config)
 		return items, err
 	case "x":
-		response := searchX(query, depth)
+		response := searchX(query, depth, bearerToken(config))
 		if err := stringValue(response["error"]); err != "" {
 			return nil, err
 		}
@@ -554,14 +553,13 @@ func detectorDiagnose(sourcesRaw, store string, stdout, stderr io.Writer) int {
 	}
 	available := availableSources(config, requested)
 	payload := map[string]any{
-		"sources_requested":         requested,
-		"sources_available":         available,
-		"news_search_configured":    config["MEDIALYST_API_KEY"] != "",
-		"xurl_available":            contains(availableSources(config, []string{"x"}), "x"),
-		"x_news_available":          contains(availableSources(config, []string{"x_news"}), "x_news"),
-		"x_trends_available":        contains(availableSources(config, []string{"x_trends"}), "x_trends"),
-		"twitter_bearer_configured": bearerToken(config) != "",
-		"store_path":                dbPathFromEnv(store),
+		"sources_requested":      requested,
+		"sources_available":      available,
+		"news_search_configured": config["MEDIALYST_API_KEY"] != "",
+		"x_news_available":       contains(availableSources(config, []string{"x_news"}), "x_news"),
+		"x_trends_available":     contains(availableSources(config, []string{"x_trends"}), "x_trends"),
+		"x_api_configured":       bearerToken(config) != "",
+		"store_path":             dbPathFromEnv(store),
 	}
 	writeJSON(stdout, payload)
 	return 0

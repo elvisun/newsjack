@@ -54,6 +54,8 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 		return cmdUpdate(args[1:], stdout, stderr)
 	case "doctor":
 		return cmdDoctor(args[1:], stdout, stderr)
+	case "setup":
+		return cmdSetup(args[1:], stdout, stderr)
 	case "runtimes":
 		if len(args) > 1 && args[1] == "detect" {
 			return cmdRuntimesDetect(args[2:], stdout, stderr)
@@ -77,6 +79,8 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 		return cmdMCPBridge(args[1:], stdout, stderr)
 	case "detector":
 		return cmdDetector(args[1:], stdout, stderr)
+	case "monitor":
+		return cmdMonitor(args[1:], stdout, stderr)
 	case "filter-apply":
 		return cmdFilterApply(args[1:], stdout, stderr)
 	case "origin-apply":

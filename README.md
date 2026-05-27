@@ -6,6 +6,7 @@
 
 ```bash
 curl -fsSL newsjack.sh | sh
+newsjack setup
 ```
 
 The install path tracks the latest production deployment from `main`. The site build bundles prebuilt CLI artifacts and skills into Vercel, and `newsjack.sh` serves the bundled installer to curl/wget clients.

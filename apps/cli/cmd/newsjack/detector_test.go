@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 )
@@ -36,6 +38,52 @@ func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 		debug := valueOrEmptyMap(payload["debug"])
 		if dropped := anySlice(debug["dropped_signal_ids"]); len(dropped) != 0 {
 			t.Fatalf("dropped=%v, want empty", dropped)
+		}
+	})
+}
+
+func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
+	withoutBearer := configFromEnv()
+	withoutBearer["X_BEARER_TOKEN"] = ""
+	withoutBearer["TWITTER_BEARER_TOKEN"] = ""
+	withoutBearer["X_API_BEARER_TOKEN"] = ""
+	withoutBearer["TWITTER_API_BEARER_TOKEN"] = ""
+	if got := availableSources(withoutBearer, []string{"x", "x_news", "x_trends"}); len(got) != 0 {
+		t.Fatalf("x sources without bearer=%v, want none", got)
+	}
+
+	withBearer := configFromEnv()
+	withBearer["X_BEARER_TOKEN"] = "token"
+	got := availableSources(withBearer, []string{"x", "x_news", "x_trends"})
+	if len(got) != 3 || got[0] != "x" || got[1] != "x_news" || got[2] != "x_trends" {
+		t.Fatalf("x sources with bearer=%v, want all x sources", got)
+	}
+}
+
+func TestSearchXNewsCallsXAPIDirectly(t *testing.T) {
+	var gotPath, gotAuth string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotPath = r.URL.Path
+		gotAuth = r.Header.Get("Authorization")
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"data":[{"id":"story-1","name":"Example X Story","summary":"A timely X story cluster.","updated_at":"2026-05-27T12:00:00Z"}]}`))
+	}))
+	defer server.Close()
+
+	withTempEnv(t, map[string]string{"NEWSJACK_X_API_BASE": server.URL}, func() {
+		response := searchXNews("Example", "quick", 24, "x-token")
+		if response["error"] != nil {
+			t.Fatalf("searchXNews error=%v", response["error"])
+		}
+		if gotPath != "/2/news/search" {
+			t.Fatalf("path=%s, want /2/news/search", gotPath)
+		}
+		if gotAuth != "Bearer x-token" {
+			t.Fatalf("authorization=%q, want bearer token", gotAuth)
+		}
+		items := parseXNewsResponse(response, "Example")
+		if len(items) != 1 || items[0]["title"] != "Example X Story" {
+			t.Fatalf("items=%#v, want parsed X story", items)
 		}
 	})
 }

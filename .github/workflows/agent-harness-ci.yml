@@ -7,8 +7,25 @@ on:
       - main
 
 jobs:
+  cli-unit:
+    name: CLI unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: apps/cli/go.sum
+
+      - name: Run Go tests
+        working-directory: apps/cli
+        run: go test ./...
+
   no-token-installer:
     name: No-token installer harness
+    needs: cli-unit
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:

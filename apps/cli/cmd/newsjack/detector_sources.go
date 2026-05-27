@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
 	"regexp"
 	"sort"
 	"strconv"
@@ -219,15 +218,10 @@ func cleanText(value string) string {
 	return strings.TrimSpace(text)
 }
 
-func xurlAvailable() bool {
-	ctx, cancel := contextWithTimeout(10 * time.Second)
-	defer cancel()
-	cmd := exec.CommandContext(ctx, "xurl", "whoami")
-	out, err := cmd.Output()
-	return err == nil && strings.Contains(string(out), `"username"`)
-}
-
-func searchX(query, depth string) map[string]any {
+func searchX(query, depth, bearer string) map[string]any {
+	if bearer == "" {
+		return map[string]any{"error": "X API bearer token not configured"}
+	}
 	maxResults := maxInt(10, minInt(100, map[string]int{"quick": 10, "default": 30, "deep": 60}[depth]))
 	normalized := normalizeXQuery(query)
 	params := url.Values{}
@@ -237,20 +231,17 @@ func searchX(query, depth string) map[string]any {
 	params.Set("tweet.fields", "created_at,public_metrics,author_id,conversation_id,referenced_tweets,lang,possibly_sensitive")
 	params.Set("expansions", "author_id")
 	params.Set("user.fields", "username,name,verified,is_identity_verified,public_metrics")
-	response := xurlGet("/2/tweets/search/recent?" + params.Encode())
+	response := apiGet("/2/tweets/search/recent?"+params.Encode(), bearer)
 	if response["error"] == nil {
 		response["_newsjack_query"] = normalized
-		return response
 	}
-	fallback := xurlSearchShortcut(query, maxResults)
-	if fallback["error"] != nil {
-		return response
-	}
-	fallback["_newsjack_query"] = query
-	return fallback
+	return response
 }
 
 func recentCountSummary(query, bearer string) map[string]any {
+	if bearer == "" {
+		return nil
+	}
 	now := time.Now().UTC().Truncate(time.Second)
 	start := now.Add(-24 * time.Hour)
 	params := url.Values{}
@@ -259,12 +250,7 @@ func recentCountSummary(query, bearer string) map[string]any {
 	params.Set("start_time", isoZ(start))
 	params.Set("end_time", isoZ(now))
 	path := "/2/tweets/counts/recent?" + params.Encode()
-	var response map[string]any
-	if bearer != "" {
-		response = apiGet(path, bearer)
-	} else {
-		response = xurlGetAuth(path, "app")
-	}
+	response := apiGet(path, bearer)
 	if response["error"] != nil {
 		return nil
 	}
@@ -272,17 +258,16 @@ func recentCountSummary(query, bearer string) map[string]any {
 }
 
 func searchXNews(query, depth string, maxAgeHours int, bearer string) map[string]any {
+	if bearer == "" {
+		return map[string]any{"error": "X API bearer token not configured"}
+	}
 	maxResults := map[string]int{"quick": 5, "default": 10, "deep": 20}[depth]
 	params := url.Values{}
 	params.Set("query", strings.TrimSpace(query))
 	params.Set("max_results", strconv.Itoa(maxResults))
 	params.Set("max_age_hours", strconv.Itoa(maxAgeHours))
 	params.Set("news.fields", "id,name,summary,hook,contexts,cluster_posts_results,updated_at,keywords,category")
-	path := "/2/news/search?" + params.Encode()
-	if bearer != "" {
-		return apiGet(path, bearer)
-	}
-	return xurlGet(path)
+	return apiGet("/2/news/search?"+params.Encode(), bearer)
 }
 
 func parseXNewsResponse(response map[string]any, topic string) []map[string]any {
@@ -331,14 +316,14 @@ func parseXNewsResponse(response map[string]any, topic string) []map[string]any 
 
 func collectXTrendsRaw(config map[string]any, depth, bearer string) ([]map[string]any, string) {
 	mode := strings.ToLower(stringValue(config["mode"]))
+	if bearer == "" {
+		return nil, "x_trends requires X_BEARER_TOKEN or TWITTER_BEARER_TOKEN"
+	}
 	if mode == "personalized" {
-		resp := xurlGet("/2/users/personalized_trends?personalized_trend.fields=trend_name%2Cpost_count%2Ccategory%2Ctrending_since")
+		resp := apiGet("/2/users/personalized_trends?personalized_trend.fields=trend_name%2Cpost_count%2Ccategory%2Ctrending_since", bearer)
 		return parseTrendsResponse(resp, mode, "", ""), stringValue(resp["error"])
 	}
 	if mode == "location" {
-		if bearer == "" {
-			return nil, "x_trends location mode requires TWITTER_BEARER_TOKEN or X_BEARER_TOKEN"
-		}
 		maxResults := map[string]int{"quick": 10, "default": 20, "deep": 50}[depth]
 		locations := stringListValue(config["locations"])
 		var items []map[string]any
@@ -452,7 +437,7 @@ func parseXResponse(response map[string]any, topic string, counts map[string]any
 			u = "https://x.com/" + username + "/status/" + stringValue(tweet["id"])
 		}
 		items = append(items, map[string]any{
-			"id":            fmt.Sprintf("XURL%d", i+1),
+			"id":            fmt.Sprintf("XAPI%d", i+1),
 			"text":          truncate(text, 500),
 			"url":           u,
 			"author_handle": username,
@@ -502,36 +487,9 @@ func mapHackerNews(item map[string]any) map[string]any {
 	return map[string]any{"id": item["id"], "source": "hackernews", "title": item["title"], "url": item["url"], "author": item["author"], "container": "news.ycombinator.com", "published_at": item["date"], "excerpt": firstString(item["text"], item["snippet"]), "engagement": valueOrEmptyMap(item["engagement"]), "metadata": map[string]any{}}
 }
 
-func xurlGet(path string) map[string]any { return xurlGetAuth(path, "") }
-
-func xurlGetAuth(path, auth string) map[string]any {
-	args := []string{}
-	if auth != "" {
-		args = append(args, "--auth", auth)
-	}
-	args = append(args, path)
-	ctx, cancel := contextWithTimeout(30 * time.Second)
-	defer cancel()
-	cmd := exec.CommandContext(ctx, "xurl", args...)
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		if errors.Is(ctx.Err(), contextDeadlineExceeded()) {
-			return map[string]any{"error": "xurl request timed out (30s)"}
-		}
-		if errors.Is(err, exec.ErrNotFound) {
-			return map[string]any{"error": "xurl not found in PATH"}
-		}
-		return map[string]any{"error": "xurl request failed: " + cleanError(string(out))}
-	}
-	var payload map[string]any
-	if err := json.Unmarshal(out, &payload); err != nil {
-		return map[string]any{"error": "Invalid JSON from xurl: " + err.Error()}
-	}
-	return payload
-}
-
 func apiGet(path, bearer string) map[string]any {
-	req, _ := http.NewRequest("GET", "https://api.x.com"+path, nil)
+	base := strings.TrimRight(getenv("NEWSJACK_X_API_BASE", "https://api.x.com"), "/")
+	req, _ := http.NewRequest("GET", base+path, nil)
 	req.Header.Set("Authorization", "Bearer "+bearer)
 	req.Header.Set("Accept", "application/json")
 	client := &http.Client{Timeout: 30 * time.Second}
@@ -551,21 +509,6 @@ func apiGet(path, bearer string) map[string]any {
 			detail += " (" + reason + ")"
 		}
 		return map[string]any{"error": fmt.Sprintf("X API HTTP %d: %s", resp.StatusCode, detail)}
-	}
-	return payload
-}
-
-func xurlSearchShortcut(query string, maxResults int) map[string]any {
-	ctx, cancel := contextWithTimeout(30 * time.Second)
-	defer cancel()
-	cmd := exec.CommandContext(ctx, "xurl", "search", query, "-n", strconv.Itoa(maxResults))
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		return map[string]any{"error": "xurl search failed: " + cleanError(string(out))}
-	}
-	var payload map[string]any
-	if err := json.Unmarshal(out, &payload); err != nil {
-		return map[string]any{"error": "Invalid JSON from xurl: " + err.Error()}
 	}
 	return payload
 }

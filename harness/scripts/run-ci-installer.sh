@@ -76,6 +76,11 @@ docker run --rm --interactive \
   --env "XDG_DATA_HOME=/tmp/newsjack-home/.local/share" \
   --env "NEWSJACK_RUNTIMES=${RUNTIMES}" \
   --env "NEWSJACK_NO_AUTO_UPDATE=1" \
+  --env "MEDIALYST_API_KEY=" \
+  --env "X_BEARER_TOKEN=" \
+  --env "TWITTER_BEARER_TOKEN=" \
+  --env "X_API_BEARER_TOKEN=" \
+  --env "TWITTER_API_BEARER_TOKEN=" \
   --env "NEWSJACK_HARNESS_SOURCE_MODE=${SOURCE_MODE}" \
   --env "NEWSJACK_INSTALLER_URL=${INSTALLER_URL}" \
   "${IMAGE}" \
@@ -165,6 +170,8 @@ cd /tmp
 
 log "checking installed CLI"
 newsjack version
+newsjack setup --json | tee /tmp/newsjack-setup.json
+jq -e '.monitors_dir and .agent_prompt' /tmp/newsjack-setup.json >/dev/null
 newsjack doctor | tee /tmp/newsjack-doctor.json
 jq -e '.root_ok == true and .dependencies.npx == true' /tmp/newsjack-doctor.json >/dev/null
 
@@ -180,6 +187,38 @@ log "running mock detector smoke"
 newsjack detector run "AI search visibility" --mock --limit 1 --emit json \
   | tee /tmp/newsjack-detector.json \
   | jq -e '.monitor.mock == true and (.monitor.queries | index("AI search visibility")) and (.signals | length) >= 1' >/dev/null
+
+log "running monitor lifecycle smoke"
+cat >/tmp/newsjack-profile.json <<'JSON'
+{
+  "company": "Harness Coffee",
+  "description": "Specialty coffee company used for installer verification.",
+  "topics": ["coffee supply chain"],
+  "search_terms": ["coffee supply chain"],
+  "feed_urls": ["https://example.com/feed.xml"],
+  "x_news": {"enabled": true},
+  "x_trends": {"mode": "none", "woeids": [], "locations": []},
+  "standing": ["coffee sourcing"],
+  "proof_assets": ["sourcing data"]
+}
+JSON
+
+newsjack monitor init harness-coffee --profile /tmp/newsjack-profile.json | tee /tmp/newsjack-monitor-init.json
+jq -e '.slug == "harness-coffee" and .profile_path' /tmp/newsjack-monitor-init.json >/dev/null
+
+newsjack monitor test harness-coffee --mock --limit 2 | tee /tmp/newsjack-monitor-test.json
+run_md="$(jq -r '.run_markdown' /tmp/newsjack-monitor-test.json)"
+test -f "$run_md"
+grep -q "Harness Coffee Newsjack Brief" "$run_md"
+
+newsjack monitor schedule harness-coffee --runtime openclaw --every 1h | tee /tmp/newsjack-monitor-schedule.json
+jq -e '.system_cron == false and .runtime == "openclaw" and .schedule_path' /tmp/newsjack-monitor-schedule.json >/dev/null
+schedule_md="$(jq -r '.schedule_path' /tmp/newsjack-monitor-schedule.json)"
+test -f "$schedule_md"
+! grep -Eq 'crontab|launchd|systemd' "$schedule_md"
+
+newsjack monitor status harness-coffee | tee /tmp/newsjack-monitor-status.json
+jq -e '.exists == true and .run_count == 1 and .latest_run_markdown' /tmp/newsjack-monitor-status.json >/dev/null
 
 log "installer smoke complete"
 EOF

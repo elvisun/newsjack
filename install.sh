@@ -80,6 +80,7 @@ copy_tree() {
   rm -rf "$ct_dest"
   mkdir -p "$ct_dest"
   (cd "$ct_src" && tar -cf - .) | (cd "$ct_dest" && tar -xf -)
+  find "$ct_dest" -type f \( -name ".env" -o -name ".env.*" \) ! -name ".env.example" -exec rm -f {} \;
 }
 
 fetch_dist() {
@@ -207,9 +208,9 @@ Installed bundle: $NEWSJACK_INSTALL_DIR
 CLI:              $NEWSJACK_HOME/bin/newsjack
 
 Next:
-  newsjack skills list
+  newsjack setup
   newsjack doctor
-  newsjack login   # optional Medialyst API key for MCP-backed media lists
+  newsjack login   # optional Medialyst API key for MCP-backed media lists/live news search
 
 If 'newsjack' is not on PATH, add this to your shell profile:
   export PATH="\$HOME/.newsjack/bin:\$PATH"

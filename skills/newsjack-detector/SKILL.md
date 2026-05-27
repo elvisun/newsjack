@@ -25,12 +25,12 @@ Use the local engine when the user asks to monitor, discover, or scan current ho
 Defaults:
 
 - `news_search` is the primary news-search layer.
-- `x` uses `xurl` and the official X API path. The X lane filters out low-reach single posts by default and may emit a query-volume signal when X recent counts show a topic is moving.
+- `x` uses Newsjack's direct X API integration. The X lane filters out low-reach single posts by default and may emit a query-volume signal when X recent counts show a topic is moving.
 - `x_news` should be enabled by default in profiles once the source is wired. It is the preferred X discovery shape because it returns story clusters rather than random individual posts.
 - `x_trends` is optional profile configuration: `personalized`, `location`, or `none`. Use location trends only when geography matters.
 - `major_feed` is an RSS/Atom input lane for curated major-news feeds. Profile `feed_urls` are included automatically.
 - Optional v0 sources: `reddit`, `hackernews`.
-- The engine reads `MEDIALYST_API_KEY`, `MEDIALYST_API_BASE`, and `MEDIALYST_NEWS_PATH` from the process environment or repo-root `.env`.
+- The engine reads `MEDIALYST_API_KEY`, `MEDIALYST_API_BASE`, `MEDIALYST_NEWS_PATH`, and optional X bearer-token aliases from the process environment or repo-root `.env`.
 - Default news search endpoint: `POST https://medialyst.ai/api/v1/news/search`. The request and response follow Serper News shape.
 
 Useful flags:
