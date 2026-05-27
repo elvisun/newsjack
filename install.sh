@@ -11,12 +11,28 @@ NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
 NEWSJACK_DIST_BASE="${NEWSJACK_DIST_BASE:-https://newsjack.sh/dist}"
 NEWSJACK_CHANNEL="${NEWSJACK_CHANNEL:-main}"
 
+banner() {
+  cat >&2 <<'EOF'
+newsjack
+the operating system for agentic PR
+
+EOF
+}
+
 log() {
-  printf '%s\n' "newsjack: $*" >&2
+  printf '%s\n' "[info] $*" >&2
+}
+
+success() {
+  printf '%s\n' "[success] $*" >&2
+}
+
+note() {
+  printf '%s\n' "- $*" >&2
 }
 
 die() {
-  printf '%s\n' "newsjack: error: $*" >&2
+  printf '%s\n' "[error] $*" >&2
   exit 1
 }
 
@@ -102,6 +118,7 @@ fetch_dist() {
   expected=$(download "$url.sha256" | awk '{print $1}')
   actual=$(sha256_file "$archive")
   [ "$expected" = "$actual" ] || die "checksum mismatch for $artifact"
+  success "verified checksum for $artifact"
 
   mkdir -p "$tmp/source"
   tar -xzf "$archive" -C "$tmp/source"
@@ -159,7 +176,7 @@ install_source() {
     mv "$NEWSJACK_INSTALL_DIR" "$old_dir"
   fi
   mv "$new_dir" "$NEWSJACK_INSTALL_DIR"
-  log "installed source to $NEWSJACK_INSTALL_DIR"
+  success "installed bundle to $NEWSJACK_INSTALL_DIR"
 }
 
 install_cli() {
@@ -180,7 +197,7 @@ install_cli() {
   chmod 755 "$cli_tmp"
   ensure_compiled_binary "$cli_tmp"
   mv "$cli_tmp" "$cli_dest"
-  log "installed newsjack CLI to $cli_dest"
+  success "installed CLI to $cli_dest"
 }
 
 run_go_install() {
@@ -200,24 +217,27 @@ run_go_install() {
 }
 
 print_next_steps() {
+  if command -v newsjack >/dev/null 2>&1; then
+    setup_cmd="newsjack setup"
+  else
+    setup_cmd="$NEWSJACK_HOME/bin/newsjack setup"
+  fi
+
   cat <<EOF
 
-newsjack installed.
+NEWSJACK INSTALLED
 
-Installed bundle: $NEWSJACK_INSTALL_DIR
-CLI:              $NEWSJACK_HOME/bin/newsjack
+  bundle                 $NEWSJACK_INSTALL_DIR
+  cli                    $NEWSJACK_HOME/bin/newsjack
 
-Next:
-  newsjack setup
-  newsjack doctor
-  newsjack login   # optional Medialyst API key for MCP-backed media lists/live news search
-
-If 'newsjack' is not on PATH, add this to your shell profile:
-  export PATH="\$HOME/.newsjack/bin:\$PATH"
+NEXT
+  $setup_cmd
 EOF
 }
 
 main() {
+  banner
+  note "curl path installs the CLI, copies skills, then hands off to newsjack setup."
   tmp=$(mktemp -d "${TMPDIR:-/tmp}/newsjack.XXXXXX")
   trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 

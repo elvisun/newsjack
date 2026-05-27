@@ -75,14 +75,16 @@ type setupWizard struct {
 }
 
 func (w *setupWizard) run() error {
-	fmt.Fprintln(w.stdout, "newsjack setup")
+	uiProduct(w.stdout, "guided setup", "choose skills, scheduler, optional auth, then launch your agent.")
 	fmt.Fprintln(w.stdout)
-	fmt.Fprintf(w.stdout, "Home: %s\n", newsjackHome())
+	uiKV(w.stdout, "home", newsjackHome())
+	uiKV(w.stdout, "mock test", "newsjack monitor test <slug> --mock")
 	fmt.Fprintln(w.stdout)
 
 	skillRuntime := w.chooseSkillRuntime()
 	if isManualRuntime(skillRuntime) {
-		fmt.Fprintln(w.stdout, "Manual runtime selected. Use this instruction in your agent runtime:")
+		uiSection(w.stdout, "manual skill install")
+		uiNote(w.stdout, "copy this instruction into your agent runtime.")
 		fmt.Fprintln(w.stdout)
 		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
 		fmt.Fprintln(w.stdout)
@@ -110,17 +112,19 @@ func (w *setupWizard) run() error {
 	command := setupAgentCommand(schedulerRuntime, agentPrompt)
 	fmt.Fprintln(w.stdout)
 	if isManualRuntime(schedulerRuntime) || command == "" {
-		fmt.Fprintln(w.stdout, "Manual scheduler selected. Copy this into your agent runtime:")
+		uiSection(w.stdout, "manual scheduler")
+		uiNote(w.stdout, "copy this prompt into the agent runtime that owns scheduled runs.")
 		fmt.Fprintln(w.stdout)
 		fmt.Fprintln(w.stdout, agentPrompt)
 		return nil
 	}
 
-	fmt.Fprintf(w.stdout, "Ready to open %s with the setup prompt.\n", runtimeLabel(schedulerRuntime))
+	uiSection(w.stdout, "launch")
+	uiSuccess(w.stdout, "Ready to open %s with the setup prompt.", runtimeLabel(schedulerRuntime))
 	fmt.Fprintf(w.stdout, "Command: %s\n", command)
 	if w.noLaunch || !w.confirm("Open it now?", true) {
 		fmt.Fprintln(w.stdout)
-		fmt.Fprintln(w.stdout, "Run this command when ready:")
+		uiNote(w.stdout, "run this command when ready:")
 		fmt.Fprintln(w.stdout, command)
 		return nil
 	}
@@ -137,6 +141,7 @@ func (w *setupWizard) chooseSkillRuntime() string {
 	if w.defaultSkillRuntime == "" || w.defaultSkillRuntime == "auto" {
 		defaultRuntime = "claude"
 	}
+	uiSection(w.stdout, "runtimes")
 	fmt.Fprintln(w.stdout, "Supported agent runtimes for skills:")
 	printRuntimeList(w.stdout)
 	fmt.Fprintln(w.stdout)
@@ -150,8 +155,9 @@ func (w *setupWizard) chooseSchedulerRuntime() string {
 		defaultRuntime = recommendedScheduleRuntime()
 	}
 	fmt.Fprintln(w.stdout)
-	fmt.Fprintln(w.stdout, "Scheduled runs must live inside an agent harness, not system cron.")
-	fmt.Fprintln(w.stdout, "Recommended scheduler order: Hermes > OpenClaw > Claude Code > Codex > Other.")
+	uiSection(w.stdout, "scheduler")
+	uiNote(w.stdout, "scheduled runs live inside an agent harness, not system cron.")
+	uiKV(w.stdout, "recommended order", "Hermes > OpenClaw > Claude Code > Codex > Other")
 	printRuntimeList(w.stdout)
 	answer := w.prompt("Which harness should own scheduled runs? [hermes,openclaw,claude,codex,other]", defaultRuntime)
 	return normalizeScheduleRuntime(answer)
@@ -160,38 +166,40 @@ func (w *setupWizard) chooseSchedulerRuntime() string {
 func (w *setupWizard) promptForXAPIKey() error {
 	if bearerToken(configFromEnv()) != "" {
 		fmt.Fprintln(w.stdout)
-		fmt.Fprintln(w.stdout, "X API bearer token already configured.")
+		uiSuccess(w.stdout, "X API bearer token already configured.")
 		return nil
 	}
 	fmt.Fprintln(w.stdout)
-	fmt.Fprintln(w.stdout, "Optional X API bearer token")
-	fmt.Fprintln(w.stdout, "Used for X News, X trends, and X post search. Stored locally in ~/.newsjack/.env with user-only permissions.")
-	fmt.Fprintf(w.stdout, "Get one here: %s\n", xAPIKeyURL)
+	uiSection(w.stdout, "optional x api")
+	uiKV(w.stdout, "used for", "X News, X trends, and X post search")
+	uiKV(w.stdout, "stored in", "~/.newsjack/.env with user-only permissions")
+	uiKV(w.stdout, "get one", xAPIKeyURL)
 	value := strings.TrimSpace(w.prompt("X bearer token (press Enter to skip)", ""))
 	if isSkipValue(value) {
-		fmt.Fprintln(w.stdout, "Skipped X API key.")
+		uiNote(w.stdout, "skipped X API key.")
 		return nil
 	}
 	if err := writeNewsjackEnv(map[string]string{"X_BEARER_TOKEN": value}); err != nil {
 		return err
 	}
-	fmt.Fprintln(w.stdout, "Saved X API bearer token to ~/.newsjack/.env.")
+	uiSuccess(w.stdout, "saved X API bearer token to ~/.newsjack/.env.")
 	return nil
 }
 
 func (w *setupWizard) promptForMedialystAPIKey() error {
 	if medialystConfigured() {
 		fmt.Fprintln(w.stdout)
-		fmt.Fprintln(w.stdout, "Medialyst API key already configured.")
+		uiSuccess(w.stdout, "Medialyst API key already configured.")
 		return nil
 	}
 	fmt.Fprintln(w.stdout)
-	fmt.Fprintln(w.stdout, "Optional Medialyst API key")
-	fmt.Fprintln(w.stdout, "Used for live news search and MCP-backed media-list workflows. Stored locally in ~/.newsjack/credentials.json.")
-	fmt.Fprintf(w.stdout, "Get one here: %s\n", medialystAPIKeyURL)
+	uiSection(w.stdout, "optional medialyst api")
+	uiKV(w.stdout, "used for", "live news search and MCP-backed media-list workflows")
+	uiKV(w.stdout, "stored in", "~/.newsjack/credentials.json")
+	uiKV(w.stdout, "get one", medialystAPIKeyURL)
 	value := strings.TrimSpace(w.prompt("Medialyst API key (press Enter to skip)", ""))
 	if isSkipValue(value) {
-		fmt.Fprintln(w.stdout, "Skipped Medialyst API key.")
+		uiNote(w.stdout, "skipped Medialyst API key.")
 		return nil
 	}
 	if err := validateAPIKey(value); err != nil {
@@ -201,23 +209,26 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprintf(w.stdout, "Saved Medialyst credentials to %s.\n", path)
+	uiSuccess(w.stdout, "saved Medialyst credentials to %s.", path)
 	return nil
 }
 
 func (w *setupWizard) prompt(message, defaultValue string) string {
 	if w.assumeYes && defaultValue != "" {
-		fmt.Fprintf(w.stdout, "%s [%s]: %s\n", message, defaultValue, defaultValue)
+		fmt.Fprintf(w.stdout, "? %s [%s]: %s\n", message, defaultValue, defaultValue)
 		return defaultValue
 	}
 	if defaultValue != "" {
-		fmt.Fprintf(w.stdout, "%s [%s]: ", message, defaultValue)
+		fmt.Fprintf(w.stdout, "? %s [%s]: ", message, defaultValue)
 	} else {
-		fmt.Fprintf(w.stdout, "%s: ", message)
+		fmt.Fprintf(w.stdout, "? %s: ", message)
 	}
 	line, err := w.reader.ReadString('\n')
 	if err != nil && !errors.Is(err, io.EOF) {
 		return defaultValue
+	}
+	if errors.Is(err, io.EOF) {
+		fmt.Fprintln(w.stdout)
 	}
 	if err == nil {
 		w.interactive = true
@@ -324,9 +335,9 @@ func printRuntimeList(stdout io.Writer) {
 		if runtimeDetected(rt) {
 			state = "detected"
 		}
-		fmt.Fprintf(stdout, "  - %s (%s): %s\n", rt.Key, rt.Label, state)
+		fmt.Fprintf(stdout, "  %-10s %-14s %s\n", rt.Key, rt.Label, state)
 	}
-	fmt.Fprintln(stdout, "  - other: print manual instructions for another agent runtime")
+	fmt.Fprintf(stdout, "  %-10s %-14s %s\n", "other", "Manual", "copy instructions")
 }
 
 func normalizeSetupRuntimeSelection(raw, fallback string) string {
@@ -535,11 +546,11 @@ func claudeInstallCommand() string {
 
 func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stderr io.Writer, assumeYes bool) error {
 	command := claudeInstallCommand()
-	fmt.Fprintln(stdout, "Claude Code is the recommended Newsjack agent harness and is not installed.")
-	fmt.Fprintln(stdout, "Install Claude Code now? This runs:")
+	uiWarn(stdout, "Claude Code is selected for scheduled runs but is not installed.")
+	uiNote(stdout, "install Claude Code now? This runs:")
 	fmt.Fprintf(stdout, "  %s\n", command)
 	if !assumeYes {
-		fmt.Fprint(stdout, "Continue? [y/N] ")
+		fmt.Fprint(stdout, "? Continue? [y/N] ")
 		line, err := reader.ReadString('\n')
 		if err != nil && !errors.Is(err, io.EOF) {
 			return err
@@ -547,13 +558,13 @@ func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stder
 		answer := strings.ToLower(strings.TrimSpace(line))
 		if answer != "y" && answer != "yes" {
 			fmt.Fprintln(stdout)
-			fmt.Fprintln(stdout, "Skipped Claude Code install.")
+			uiNote(stdout, "skipped Claude Code install.")
 			fmt.Fprintf(stdout, "To install later, run: %s\n", command)
 			return nil
 		}
 	}
 	fmt.Fprintln(stdout)
-	fmt.Fprintln(stdout, "Installing Claude Code...")
+	uiInfo(stdout, "Installing Claude Code...")
 	cmd := exec.Command("bash", "-c", command)
 	cmd.Stdin = stdin
 	cmd.Stdout = stdout
@@ -562,7 +573,7 @@ func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stder
 		return fmt.Errorf("Claude Code install failed: %w", err)
 	}
 	if !claudeCodeInstalled() {
-		fmt.Fprintln(stdout, "Claude Code installer finished. If `claude` is not on PATH yet, open a new terminal before running the command below.")
+		uiNote(stdout, "Claude Code installer finished. If `claude` is not on PATH yet, open a new terminal before running the command below.")
 	}
 	return nil
 }

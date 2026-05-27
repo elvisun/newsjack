@@ -144,7 +144,7 @@ func runInstalledBinary(args []string) int {
 		if exitErr, ok := err.(*exec.ExitError); ok {
 			return exitErr.ExitCode()
 		}
-		fmt.Fprintf(os.Stderr, "newsjack: error: could not run updated binary: %v\n", err)
+		uiError(os.Stderr, "could not run updated binary: %v", err)
 		return 1
 	}
 	return 0

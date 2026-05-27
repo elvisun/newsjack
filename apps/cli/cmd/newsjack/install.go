@@ -200,7 +200,7 @@ func installRuntimeSkills(opts installOptions, stdout, stderr io.Writer) error {
 		if err := installSkillsTo(opts, rt.Label, targetDir(rt)); err != nil {
 			return err
 		}
-		logf(stdout, "installed skills for %s into %s", rt.Label, targetDir(rt))
+		successf(stdout, "installed skills for %s into %s", rt.Label, targetDir(rt))
 	}
 	return nil
 }

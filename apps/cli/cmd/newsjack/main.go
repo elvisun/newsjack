@@ -28,6 +28,9 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 	case "help", "--help", "-h":
 		printUsage(stdout)
 		return 0
+	case "banner":
+		printBanner(stdout)
+		return 0
 	case "version", "--version":
 		fmt.Fprintln(stdout, version)
 		return 0

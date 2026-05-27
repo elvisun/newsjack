@@ -21,7 +21,7 @@ func cmdLogin(args []string, stdout, stderr io.Writer) int {
 	}
 	apiKey := strings.TrimSpace(*key)
 	if apiKey == "" {
-		fmt.Fprint(stderr, "Medialyst API key: ")
+		fmt.Fprint(stderr, "? Medialyst API key: ")
 		var line string
 		if _, err := fmt.Fscanln(os.Stdin, &line); err != nil {
 			return fail(stderr, err)
@@ -35,8 +35,8 @@ func cmdLogin(args []string, stdout, stderr io.Writer) int {
 	if err != nil {
 		return fail(stderr, err)
 	}
-	fmt.Fprintf(stdout, "Saved Medialyst credentials to %s\n", path)
-	fmt.Fprintln(stdout, "MCP-compatible runtimes can now use newsjack mcp-bridge without MEDIALYST_API_KEY exports.")
+	uiSuccess(stdout, "saved Medialyst credentials to %s", path)
+	uiNote(stdout, "MCP-compatible runtimes can now use newsjack mcp-bridge without MEDIALYST_API_KEY exports.")
 	return 0
 }
 

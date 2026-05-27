@@ -218,7 +218,7 @@ cat "$HOME/.newsjack/newsjack/VERSION"
 
 Expected:
 
-- stderr shows `newsjack: auto-updating ...`.
+- stderr shows `[info] auto-updating ...`.
 - stdout remains valid JSON for `doctor`.
 - `VERSION` is rewritten to the live channel commit.
 
