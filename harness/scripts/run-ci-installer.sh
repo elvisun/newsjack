@@ -138,7 +138,7 @@ export NEWSJACK_NO_AUTO_UPDATE=1
 case "${NEWSJACK_HARNESS_SOURCE_MODE:-local}" in
   local)
     log "building and testing local CLI"
-    (cd /repo/apps/cli && go test ./... && go build -o /tmp/newsjack ./cmd/newsjack)
+    (cd /repo/apps/cli && go test ./... && go build -buildvcs=false -o /tmp/newsjack ./cmd/newsjack)
 
     log "running local-source installer"
     NEWSJACK_SOURCE_DIR=/repo \
