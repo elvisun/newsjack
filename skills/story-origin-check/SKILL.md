@@ -37,13 +37,15 @@ Accept one detector signal at a time:
    - byline/date text visible on the page
    - source, partner, syndicated-from, wire, or "originally published" language
    - outbound links to primary sources, source reports, filings, press releases, studies, or original outlet coverage
-4. Use news search to recover likely originals and major coverage:
+4. You MUST run at least one `news_search` (and at least one `WebFetch` of the surfaced URL when retrieval is available) before returning any verdict other than `unclear`. Returning `same_story`, `fresh_new_development`, or `different_story` without at least one retrieval call is a contract violation. Search for:
    - exact headline in quotes
    - core named entities plus the strongest noun phrase
    - source report / regulator / company / study title if one appears
    - distinctive numbers, named products, lawsuits, studies, locations, or quotes from the surfaced article
    - one query restricted to the last 30 days when the tool supports it
    - if the 30-day search finds older-looking coverage, widen enough to find the earliest public instance
+   - If the surfaced URL is an advocacy page, press release, or wire-distribution post (paths or domains containing `/press_release`, `/press-release`, `/applauds`, `/statement`, `advocacy.`, `prnewswire`, `globenewswire`, `businesswire`, `accesswire`, `einpresswire`, `markets.businessinsider`, `stocktitan`), you MUST also search for the underlying official action, filing, or report by name before you may return anything other than `same_story` or `unclear`. The wire/advocacy article does not start the clock — the underlying event does.
+   - If your own `rationale`, `canonical_coverage_basis`, or `same_story_basis` would say "date not confirmed", "underlying report not located", "exact publication date unclear", "could not verify", or anything equivalent, you MUST set `same_story_assessment: "unclear"` and `first_public_at: null`. Do not contradict your own evidence.
 5. Collect two sets of candidates:
    - **timestamp candidates**: earliest public items that may start the clock, including official releases, filings, reports, source studies, wires, or first outlet stories.
    - **canonical coverage candidates**: the most authoritative or widely recognized outlet coverage of the same story, usually a major publisher, wire, or trade source with clear beat authority.

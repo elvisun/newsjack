@@ -129,6 +129,7 @@ func applyOriginFindings(candidates map[string]any, originsPayload any, opts ori
 			continue
 		}
 		gate := computeFreshnessGate(finding, opts.RunTime, cutoff, opts.WindowHours)
+		gate = enforceSupportingEvidence(gate, finding, signal)
 		status := stringValue(gate["computed_status"])
 		statusCounts[status]++
 		withOrigin := cloneMap(signal)
@@ -260,6 +261,60 @@ func freshnessGate(status string, runTime, cutoff time.Time, windowHours float64
 		"rationale":               rationale,
 		"deterministic_authority": true,
 	}
+}
+
+// enforceSupportingEvidence downgrades a fresh/fresh_new_development gate to
+// freshness_unverified when the origin worker has not cited independent
+// retrieval evidence. We require at least one timestamp_evidence URL that is
+// distinct from the surfaced signal's own URLs and from the worker's reported
+// original_url. This catches the failure mode where a worker returns a fresh
+// verdict while only citing the surfaced press-release/advocacy URL back to
+// itself.
+func enforceSupportingEvidence(gate, finding, signal map[string]any) map[string]any {
+	status := stringValue(gate["computed_status"])
+	if status != "fresh" && status != "fresh_new_development" {
+		return gate
+	}
+	selfURLs := map[string]bool{}
+	addURL := func(raw any) {
+		s := strings.ToLower(strings.TrimSpace(stringValue(raw)))
+		if s != "" {
+			selfURLs[s] = true
+		}
+	}
+	addURL(finding["original_url"])
+	addURL(finding["canonical_coverage_url"])
+	if evidence, ok := signal["evidence"].([]any); ok {
+		for _, item := range evidence {
+			if m, ok := item.(map[string]any); ok {
+				addURL(m["url"])
+			}
+		}
+	}
+	independentEvidence := 0
+	if entries, ok := finding["timestamp_evidence"].([]any); ok {
+		for _, raw := range entries {
+			m, ok := raw.(map[string]any)
+			if !ok {
+				continue
+			}
+			u := strings.ToLower(strings.TrimSpace(stringValue(m["url"])))
+			if u == "" {
+				continue
+			}
+			if !selfURLs[u] {
+				independentEvidence++
+			}
+		}
+	}
+	if independentEvidence > 0 {
+		return gate
+	}
+	downgraded := cloneMap(gate)
+	downgraded["computed_status"] = "freshness_unverified"
+	downgraded["rationale"] = "no independent timestamp_evidence: worker cited only the surfaced URL"
+	downgraded["worker_status"] = nullableString(status)
+	return downgraded
 }
 
 func parseOriginTimestamp(value string) (time.Time, string, bool) {

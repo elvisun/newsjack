@@ -224,6 +224,14 @@ func TestOriginApplySelectsFreshNewDevelopment(t *testing.T) {
 				"first_public_at":    "2026-05-08",
 				"new_development_at": "2026-05-25T12:30:00Z",
 				"new_development":    "New settlement was filed.",
+				"timestamp_evidence": []any{
+					map[string]any{
+						"source":       "news_search",
+						"url":          "https://reuters.com/legal/regulator-new-settlement",
+						"published_at": "2026-05-25T12:30:00Z",
+						"note":         "Reuters coverage of new settlement filing",
+					},
+				},
 			},
 		},
 	}
@@ -241,6 +249,64 @@ func TestOriginApplySelectsFreshNewDevelopment(t *testing.T) {
 	gate := valueOrEmptyMap(signals[0]["freshness_gate"])
 	if gate["computed_status"] != "fresh_new_development" {
 		t.Fatalf("computed_status=%v, want fresh_new_development; gate=%#v", gate["computed_status"], gate)
+	}
+}
+
+func TestOriginApplyDowngradesWhenWorkerCitesOnlySurfacedURL(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-05-27T19:00:00Z"},
+		"signals": []any{
+			map[string]any{
+				"id":    "advocacy",
+				"title": "Group applauds governor for signing privacy bill",
+				"evidence": []any{
+					map[string]any{
+						"source": "news_search",
+						"url":    "https://advocacy.example.org/press_release/applauds-signing",
+					},
+				},
+			},
+		},
+	}
+	origins := map[string]any{
+		"findings": []any{
+			map[string]any{
+				"signal_id":              "advocacy",
+				"first_public_at":        "2026-05-27T18:00:00Z",
+				"original_url":           "https://advocacy.example.org/press_release/applauds-signing",
+				"canonical_coverage_url": "https://advocacy.example.org/press_release/applauds-signing",
+				"timestamp_evidence": []any{
+					map[string]any{
+						"source":       "page_meta",
+						"url":          "https://advocacy.example.org/press_release/applauds-signing",
+						"published_at": "2026-05-27T18:00:00Z",
+						"note":         "self-citing press release page",
+					},
+				},
+			},
+		},
+	}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime:     mustParseTestTime(t, "2026-05-27T19:00:00Z"),
+		WindowHours: 24,
+	})
+	if err != nil {
+		t.Fatalf("applyOriginFindings error=%v", err)
+	}
+	if got := len(signalSlice(payload["signals"])); got != 0 {
+		t.Fatalf("selected signals=%d, want 0 (worker cited only surfaced URL)", got)
+	}
+	gate := valueOrEmptyMap(payload["freshness_gate"])
+	rejected, _ := gate["rejected_signals"].([]map[string]any)
+	if len(rejected) != 1 {
+		t.Fatalf("rejected=%d, want 1; gate=%#v", len(rejected), gate)
+	}
+	rg := valueOrEmptyMap(rejected[0]["freshness_gate"])
+	if rg["computed_status"] != "freshness_unverified" {
+		t.Fatalf("computed_status=%v, want freshness_unverified; gate=%#v", rg["computed_status"], rg)
+	}
+	if rg["worker_status"] != "fresh" {
+		t.Fatalf("worker_status=%v, want fresh (preserved); gate=%#v", rg["worker_status"], rg)
 	}
 }
 

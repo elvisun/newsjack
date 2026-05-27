@@ -258,15 +258,15 @@ func sourceAgreementScore(sources []string) float64 {
 		return 1.0
 	}
 	if len(sources) == 2 {
-		return 0.78
+		return 0.88
 	}
 	if len(sources) == 1 && sources[0] == "major_feed" {
-		return 0.62
+		return 0.50
 	}
 	if len(sources) == 1 && sources[0] == "news_search" {
-		return 0.55
+		return 0.42
 	}
-	return 0.32
+	return 0.25
 }
 
 func sourceQualityScore(cluster signalCluster) float64 {
@@ -350,8 +350,8 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 	score := 0.0
 	if len(outletsByDomain) > 0 {
 		coverageSpread = 1 - math.Exp(-spreadWeight/3.0)
-		score = 0.60*strongest + 0.40*coverageSpread
-		if knownTraffic == 0 || knownAuthority == 0 {
+		score = 0.45*strongest + 0.55*coverageSpread
+		if knownTraffic == 0 {
 			confidence = "low"
 		}
 	} else {
@@ -394,7 +394,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 func publicationOutletScore(trafficScore, authorityScore *float64) float64 {
 	switch {
 	case trafficScore != nil && authorityScore != nil:
-		return clamp01(0.70*(*trafficScore) + 0.30*(*authorityScore))
+		return clamp01(0.85*(*trafficScore) + 0.15*(*authorityScore))
 	case trafficScore != nil:
 		return clamp01(*trafficScore)
 	case authorityScore != nil:
@@ -410,7 +410,7 @@ func publicationTrafficScore(metadata map[string]any) (*float64, any) {
 	if !ok || traffic <= 0 {
 		return nil, raw
 	}
-	score := clamp01(math.Log10(math.Max(1, traffic)) / 8.0)
+	score := clamp01(math.Log10(math.Max(1, traffic)) / 9.0)
 	return &score, raw
 }
 
@@ -454,11 +454,11 @@ func nullableNumberAny(value any) any {
 
 func storySizeBand(score float64) string {
 	switch {
-	case score >= 0.75:
+	case score >= 0.70:
 		return "major"
-	case score >= 0.50:
+	case score >= 0.45:
 		return "high"
-	case score >= 0.25:
+	case score >= 0.22:
 		return "moderate"
 	default:
 		return "low"
@@ -613,19 +613,19 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	queue := 0.0
 	switch lane {
 	case "major_news":
-		queue = round1(100 * (0.30*majorNews + 0.22*freshness + 0.14*novelty + 0.12*profileMatch + 0.12*sourceQuality + 0.10*sourceAgreement))
+		queue = round1(100 * (0.28*majorNews + 0.20*freshness + 0.16*sourceAgreement + 0.14*novelty + 0.12*profileMatch + 0.10*sourceQuality))
 	case "major_news_unmatched":
-		queue = round1(math.Min(39.9, 100*(0.18*majorNews+0.16*freshness+0.12*novelty+0.10*sourceQuality+0.08*sourceAgreement)))
+		queue = round1(math.Min(39.9, 100*(0.18*majorNews+0.16*freshness+0.14*sourceAgreement+0.12*novelty+0.08*sourceQuality)))
 	case "x_news", "x_trends":
-		queue = round1(100 * (0.24*freshness + 0.20*profileMatch + 0.18*novelty + 0.16*sourceQuality + 0.12*sourceAgreement + 0.10*engagement))
+		queue = round1(100 * (0.22*freshness + 0.20*profileMatch + 0.18*sourceAgreement + 0.16*novelty + 0.14*sourceQuality + 0.10*engagement))
 	case "x_trends_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.16*freshness+0.14*novelty+0.12*sourceQuality+0.10*engagement)))
 	case "x_news_unmatched", "profile_relevance_weak", "x_posts_weak":
-		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*novelty+0.12*sourceQuality+0.10*sourceAgreement+0.08*engagement)))
+		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
 	case "x_posts":
-		queue = round1(math.Min(64.0, 100*(0.22*freshness+0.20*engagement+0.18*profileMatch+0.16*novelty+0.14*sourceQuality+0.10*sourceAgreement)))
+		queue = round1(math.Min(64.0, 100*(0.22*freshness+0.20*engagement+0.18*profileMatch+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality)))
 	default:
-		queue = round1(100 * (0.24*freshness + 0.20*sourceAgreement + 0.18*novelty + 0.16*profileMatch + 0.12*sourceQuality + 0.10*engagement))
+		queue = round1(100 * (0.22*sourceAgreement + 0.20*freshness + 0.18*novelty + 0.16*profileMatch + 0.14*sourceQuality + 0.10*engagement))
 	}
 	var evidence []map[string]any
 	for i, item := range cluster.Evidence {
