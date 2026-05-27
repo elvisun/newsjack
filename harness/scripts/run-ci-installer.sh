@@ -6,6 +6,7 @@ IMAGE="${NEWSJACK_HARNESS_IMAGE:-newsjack-agent-harness:local}"
 RUNTIMES="${NEWSJACK_RUNTIMES:-all}"
 SOURCE_MODE="local"
 INSTALLER_URL="${NEWSJACK_INSTALLER_URL:-https://newsjack.sh}"
+ENV_FILE="${NEWSJACK_HARNESS_ENV_FILE:-}"
 
 usage() {
   cat <<'USAGE'
@@ -17,11 +18,37 @@ Options:
   --local-source           Build and install from the checked-out source tree (default)
   --production-path        Install through the hosted newsjack.sh path
   --installer-url <url>    Hosted installer URL for --production-path
+  --with-local-env         Load harness/.env.local into the container
+  --env-file <path>        Load an explicit Docker env file into the container
 USAGE
 }
 
 log() {
   printf '%s\n' "ci-installer: $*" >&2
+}
+
+abs_path() {
+  local path="$1"
+  local dir
+  dir="$(cd "$(dirname "$path")" && pwd)"
+  printf '%s/%s\n' "$dir" "$(basename "$path")"
+}
+
+validate_env_file() {
+  local file="$1"
+  [ -f "$file" ] || { log "env file not found: $file"; exit 1; }
+
+  local abs
+  abs="$(abs_path "$file")"
+  case "$abs" in
+    "$REPO_DIR"/*)
+      local rel="${abs#"$REPO_DIR"/}"
+      if ! git -C "$REPO_DIR" check-ignore -q "$rel"; then
+        log "refusing to pass repo env file that is not git-ignored: $rel"
+        exit 1
+      fi
+      ;;
+  esac
 }
 
 while [ "$#" -gt 0 ]; do
@@ -49,6 +76,15 @@ while [ "$#" -gt 0 ]; do
       INSTALLER_URL="$2"
       shift 2
       ;;
+    --with-local-env)
+      ENV_FILE="$REPO_DIR/harness/.env.local"
+      shift
+      ;;
+    --env-file)
+      [ "$#" -ge 2 ] || { usage >&2; exit 2; }
+      ENV_FILE="$2"
+      shift 2
+      ;;
     --help|-h)
       usage
       exit 0
@@ -67,24 +103,39 @@ fi
 
 log "running ${SOURCE_MODE} installer smoke in ${IMAGE} for runtimes: ${RUNTIMES}"
 
-docker run --rm --interactive \
-  --mount "type=bind,src=${REPO_DIR},dst=/repo,readonly" \
-  --workdir /repo \
-  --env "HOME=/tmp/newsjack-home" \
-  --env "XDG_CONFIG_HOME=/tmp/newsjack-home/.config" \
-  --env "XDG_CACHE_HOME=/tmp/newsjack-home/.cache" \
-  --env "XDG_DATA_HOME=/tmp/newsjack-home/.local/share" \
-  --env "NEWSJACK_RUNTIMES=${RUNTIMES}" \
-  --env "NEWSJACK_NO_AUTO_UPDATE=1" \
-  --env "MEDIALYST_API_KEY=" \
-  --env "X_BEARER_TOKEN=" \
-  --env "TWITTER_BEARER_TOKEN=" \
-  --env "X_API_BEARER_TOKEN=" \
-  --env "TWITTER_API_BEARER_TOKEN=" \
-  --env "NEWSJACK_HARNESS_SOURCE_MODE=${SOURCE_MODE}" \
-  --env "NEWSJACK_INSTALLER_URL=${INSTALLER_URL}" \
-  "${IMAGE}" \
-  bash -s <<'EOF'
+docker_args=(
+  --rm
+  --interactive
+  --mount "type=bind,src=${REPO_DIR},dst=/repo,readonly"
+  --workdir /repo
+)
+
+if [ -n "$ENV_FILE" ]; then
+  validate_env_file "$ENV_FILE"
+  docker_args+=(--env-file "$ENV_FILE")
+  log "loading env file into container: ${ENV_FILE#$REPO_DIR/}"
+else
+  docker_args+=(
+    --env "MEDIALYST_API_KEY="
+    --env "X_BEARER_TOKEN="
+    --env "TWITTER_BEARER_TOKEN="
+    --env "X_API_BEARER_TOKEN="
+    --env "TWITTER_API_BEARER_TOKEN="
+  )
+fi
+
+docker_args+=(
+  --env "HOME=/tmp/newsjack-home"
+  --env "XDG_CONFIG_HOME=/tmp/newsjack-home/.config"
+  --env "XDG_CACHE_HOME=/tmp/newsjack-home/.cache"
+  --env "XDG_DATA_HOME=/tmp/newsjack-home/.local/share"
+  --env "NEWSJACK_RUNTIMES=${RUNTIMES}"
+  --env "NEWSJACK_NO_AUTO_UPDATE=1"
+  --env "NEWSJACK_HARNESS_SOURCE_MODE=${SOURCE_MODE}"
+  --env "NEWSJACK_INSTALLER_URL=${INSTALLER_URL}"
+)
+
+docker run "${docker_args[@]}" "${IMAGE}" bash -s <<'EOF'
 set -euo pipefail
 
 log() {

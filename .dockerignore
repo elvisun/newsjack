@@ -1,0 +1,41 @@
+# Keep local credentials out of Docker build contexts. Runtime tests can pass
+# harness/.env.local explicitly with --env-file; it should never be copied into
+# an image layer or sent unnecessarily in the build context.
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+*.key
+*.pem
+*.p12
+*.pfx
+*.cer
+*.crt
+*.token
+*.secret
+*.credential
+.netrc
+.npmrc
+.yarnrc
+secrets/
+private/
+credentials/
+.aws/
+
+.git/
+node_modules/
+.pnpm-store/
+.yarn/
+.next/
+.vercel/
+.turbo/
+.cache/
+dist/
+out/
+build/
+coverage/
+*.log
+__pycache__/
+*.py[cod]

@@ -125,3 +125,9 @@ Do not print secrets. Redact values for variables matching:
 - `*_TOKEN`
 - `*_SECRET`
 - `*_PASSWORD`
+
+Local token-burning tests may load `harness/.env.local` with
+`harness/scripts/docker-shell.sh --with-local-env` or
+`harness/scripts/run-ci-installer.sh --with-local-env`. Env files are passed at
+`docker run` time only, validated as git-ignored when they live in the repo, and
+excluded from Docker build context by `.dockerignore`.

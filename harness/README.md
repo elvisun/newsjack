@@ -34,11 +34,15 @@ docker build \
 Open a shell with the repo mounted:
 
 ```bash
-docker run --rm -it \
-  -v "$PWD:/repo" \
-  -w /repo \
-  newsjack-agent-harness:local \
-  bash
+harness/scripts/docker-shell.sh --image newsjack-agent-harness:local
+```
+
+To load provider/API keys from the ignored local harness env file:
+
+```bash
+harness/scripts/docker-shell.sh \
+  --image newsjack-agent-harness:local \
+  --with-local-env
 ```
 
 Inside the container, isolate runtime state:
@@ -183,6 +187,20 @@ To inspect the deployed channel:
 curl -fsSL https://newsjack.sh/dist/channels/main.txt
 curl -fsSL https://newsjack.sh/dist/manifest.json | jq .
 ```
+
+Scripted production smoke with local credentials:
+
+```bash
+harness/scripts/run-ci-installer.sh \
+  --image newsjack-agent-harness:all \
+  --runtime all \
+  --production-path \
+  --with-local-env
+```
+
+`--with-local-env` loads `harness/.env.local` into the container with Docker's
+`--env-file`. The script validates that repo-local env files are ignored by git
+and never prints secret values. CI should keep using the default no-token path.
 
 ## Auto-Update Observation
 
