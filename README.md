@@ -5,20 +5,23 @@
 > The skill layer that turns Claude, ChatGPT, and Cursor into PR operators.
 
 ```bash
-curl newsjack.sh | sh
+curl -fsSL newsjack.sh | sh
 ```
 
-The install path tracks `main`. No release artifact is required: pushing to this repo updates the root `install.sh`, and `newsjack.sh/install.sh` serves the current script from GitHub raw with a short cache.
+The install path tracks the latest production deployment from `main`. The site build bundles prebuilt CLI artifacts and skills into Vercel, and `newsjack.sh` serves the bundled installer to curl/wget clients.
 
 The installer:
-- fetches `elvisun/newsjack@main`
+- downloads the latest Vercel-bundled artifact for the current OS/arch
+- verifies the artifact checksum
 - installs a managed copy at `~/.newsjack/newsjack`
 - installs `newsjack` at `~/.newsjack/bin/newsjack`
 - generates instruction-only skill folders into detected runtimes
 - keeps executable Newsjack code in `~/.newsjack/bin/newsjack` and the managed bundle under `~/.newsjack/newsjack`
 - configures the optional `medialyst` MCP server through the Go CLI when the runtime exposes a noninteractive setup path
 
-Until platform release binaries are published, the installer builds the Go CLI locally and requires `go` on PATH.
+The curl installer uses prebuilt binaries for macOS and Linux on arm64/amd64. Users do not need Go installed.
+
+Installed binaries auto-update from the `main` channel before normal user-facing commands. If the hosted channel commit differs from `~/.newsjack/newsjack/VERSION`, Newsjack re-runs the installer and then re-runs the original command on the new binary. Set `NEWSJACK_AUTO_UPDATE=0` to disable this for CI or debugging.
 
 Runtime detection is additive. If a user has multiple supported runtimes, the installer configures all of them.
 
@@ -31,10 +34,11 @@ Supported targets:
 Override auto-detection when needed:
 
 ```bash
-NEWSJACK_RUNTIMES=codex,claude curl newsjack.sh | sh
-NEWSJACK_RUNTIMES=all curl newsjack.sh | sh
-NEWSJACK_INSTALL_MCP=0 curl newsjack.sh | sh
-NEWSJACK_REF=my-branch curl newsjack.sh | sh
+curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex,claude sh
+curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=all sh
+curl -fsSL newsjack.sh | NEWSJACK_INSTALL_MCP=0 sh
+curl -fsSL newsjack.sh | NEWSJACK_VERSION=<commit-sha> sh
+NEWSJACK_AUTO_UPDATE=0 newsjack doctor
 ```
 
 See [Distribution Roadmap](./docs/distribution-roadmap.md) for the curl-v1 and npm-later plan.
@@ -160,13 +164,13 @@ For ChatGPT, Claude web, Cursor without MCP enabled, or any runtime that only su
 ## Install
 
 ```bash
-curl newsjack.sh | sh
+curl -fsSL newsjack.sh | sh
 ```
 
 To review the install script before executing it:
 
 ```bash
-curl -fsSL https://newsjack.sh/install.sh
+curl -fsSL https://newsjack.sh
 ```
 
 Alternatively, install via npm:
@@ -183,12 +187,12 @@ apps/
   cli/       # the newsjack CLI (install target, skill loader, login)
 skills/      # the OSS skill files
 .mcp.json    # optional Medialyst MCP project config
-install.sh   # what `curl newsjack.sh` serves to curl/wget clients
+install.sh   # what `curl -fsSL newsjack.sh` serves to curl/wget clients
 ```
 
-## How `curl newsjack.sh | sh` works
+## How `curl -fsSL newsjack.sh | sh` works
 
-The marketing site at `newsjack.sh` and the install script are served from the same URL. The Next.js `proxy.ts` in `apps/site/` inspects the `User-Agent` header: curl and wget are rewritten to `/install.sh`, while browsers receive the marketing page. The `/install.sh` route serves the canonical root `install.sh` from GitHub `main`, with a bundled-file fallback for local development.
+The marketing site at `newsjack.sh` and the install script are served from the same URL. The Next.js `proxy.ts` in `apps/site/` inspects the `User-Agent` header: curl and wget are rewritten to `/install.sh`, while browsers receive the marketing page. The site `prebuild` script cross-compiles the CLI, packages the skills, writes the artifacts to `apps/site/public/dist`, and copies the root `install.sh` into `apps/site/public/install.sh` for Vercel to serve.
 
 ## License
 

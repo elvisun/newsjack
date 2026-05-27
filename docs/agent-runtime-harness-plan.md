@@ -72,15 +72,15 @@ For local installer iteration:
 
 ```bash
 NEWSJACK_SOURCE_DIR=/repo \
+NEWSJACK_CLI_BINARY=/repo/.tmp/newsjack \
 NEWSJACK_RUNTIMES=codex \
-curl -fsSL https://newsjack.sh/install.sh | sh
+sh ./install.sh
 ```
 
 For production-path validation:
 
 ```bash
-NEWSJACK_RUNTIMES=codex \
-curl -fsSL https://newsjack.sh/install.sh | sh
+curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex sh
 ```
 
 ## Runtime Installation

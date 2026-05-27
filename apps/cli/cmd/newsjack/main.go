@@ -16,6 +16,9 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 	if len(args) > 0 {
 		cmd = args[0]
 	}
+	if code, handled := maybeAutoUpdate(args, stderr); handled {
+		return code
+	}
 	switch cmd {
 	case "help", "--help", "-h":
 		printUsage(stdout)

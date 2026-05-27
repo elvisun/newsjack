@@ -3,25 +3,26 @@
 Newsjack v1 ships with the curl installer as the primary distribution path:
 
 ```bash
-curl newsjack.sh | sh
+curl -fsSL newsjack.sh | sh
 ```
 
-The installer tracks GitHub `main`, installs the local skill layer, and configures supported agent runtimes. This keeps the beta loop fast: push to this repo, deploy the site, and new installs pick up the current installer and skills without a manual package release.
+The installer tracks the latest production deployment from `main`, installs the local skill layer, and configures supported agent runtimes. This keeps the beta loop fast: push to this repo, deploy the site, and new installs pick up the Vercel-bundled installer, binaries, and skills without a manual package release.
 
 ## Current Channel
 
-### `curl newsjack.sh | sh`
+### `curl -fsSL newsjack.sh | sh`
 
 Status: v1 channel.
 
 Owns:
 
 - installing a managed checkout at `~/.newsjack/newsjack`
-- building or installing the Go `newsjack` binary at `~/.newsjack/bin/newsjack`
+- installing the prebuilt Go `newsjack` binary at `~/.newsjack/bin/newsjack`
 - detecting Codex, Claude Code, OpenClaw, Hermes, or combinations of them
 - generating instruction-only skills into runtime-specific skill directories
 - configuring optional Medialyst MCP where a noninteractive setup path exists
-- updating from GitHub `main`
+- updating from the latest Vercel production deployment
+- auto-updating installed binaries before normal user-facing commands
 
 Use this channel for:
 
@@ -30,7 +31,11 @@ Use this channel for:
 - latest skill updates
 - dogfooding runtime detection and MCP setup
 
-Do not promise immutable installs on this channel. It follows `main` by design.
+Do not promise immutable installs on this channel. It follows the latest main deployment by design.
+
+Auto-update is default-on for installed binaries. The CLI checks the hosted channel commit against `~/.newsjack/newsjack/VERSION`; when it differs, the CLI runs the hosted installer and then re-runs the original command on the new binary. It skips installer/update internals and machine-facing auth/MCP bridge commands, and `NEWSJACK_AUTO_UPDATE=0` disables the behavior.
+
+The public curl path must never require Go on the user's machine. It installs a compiled binary from the hosted artifact. Local source installs may still pass `NEWSJACK_SOURCE_DIR` and `NEWSJACK_CLI_BINARY` while iterating on the installer.
 
 ## Later Channel
 
@@ -47,7 +52,7 @@ Purpose:
 
 Open decision:
 
-- whether npm ships the full CLI and bundled skills, or acts as a bootstrapper for the GitHub-backed installer.
+- whether npm ships the full CLI and bundled skills, or acts as a bootstrapper for the hosted installer.
 
 Default recommendation:
 

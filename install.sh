@@ -8,6 +8,8 @@ NEWSJACK_INSTALL_DIR="${NEWSJACK_INSTALL_DIR:-$NEWSJACK_HOME/newsjack}"
 NEWSJACK_RUNTIMES="${NEWSJACK_RUNTIMES:-auto}"
 NEWSJACK_INSTALL_MCP="${NEWSJACK_INSTALL_MCP:-1}"
 NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
+NEWSJACK_DIST_BASE="${NEWSJACK_DIST_BASE:-https://newsjack.sh/dist}"
+NEWSJACK_CHANNEL="${NEWSJACK_CHANNEL:-main}"
 
 log() {
   printf '%s\n' "newsjack: $*" >&2
@@ -33,12 +35,93 @@ download() {
   fi
 }
 
+detect_platform() {
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  arch=$(uname -m | tr '[:upper:]' '[:lower:]')
+
+  case "$os" in
+    darwin) os=darwin ;;
+    linux) os=linux ;;
+    *) die "unsupported operating system: $os" ;;
+  esac
+
+  case "$arch" in
+    x86_64|amd64) arch=amd64 ;;
+    arm64|aarch64) arch=arm64 ;;
+    *) die "unsupported architecture: $arch" ;;
+  esac
+
+  printf '%s_%s\n' "$os" "$arch"
+}
+
+sha256_file() {
+  file=$1
+  if have sha256sum; then
+    sha256sum "$file" | awk '{print $1}'
+  elif have shasum; then
+    shasum -a 256 "$file" | awk '{print $1}'
+  else
+    die "sha256sum or shasum is required"
+  fi
+}
+
+ensure_compiled_binary() {
+  bin=$1
+  [ -f "$bin" ] || die "missing CLI binary: $bin"
+  if [ "$(dd if="$bin" bs=2 count=1 2>/dev/null)" = "#!" ]; then
+    die "CLI at $bin is a script; expected a compiled binary"
+  fi
+  "$bin" version >/dev/null 2>&1 || die "CLI at $bin is not executable on this platform"
+}
+
 copy_tree() {
   ct_src=$1
   ct_dest=$2
   rm -rf "$ct_dest"
   mkdir -p "$ct_dest"
   (cd "$ct_src" && tar -cf - .) | (cd "$ct_dest" && tar -xf -)
+}
+
+fetch_dist() {
+  tmp=$1
+  platform=$(detect_platform)
+  version="${NEWSJACK_VERSION:-}"
+
+  if [ -z "$version" ]; then
+    version=$(download "$NEWSJACK_DIST_BASE/channels/$NEWSJACK_CHANNEL.txt" | tr -d '[:space:]')
+  fi
+  [ -n "$version" ] || die "could not resolve newsjack version from channel: $NEWSJACK_CHANNEL"
+
+  archive="$tmp/newsjack_$platform.tar.gz"
+  artifact="newsjack_$platform.tar.gz"
+  url="$NEWSJACK_DIST_BASE/commits/$version/$artifact"
+  log "fetching newsjack $version for $platform"
+  download "$url" >"$archive"
+
+  expected=$(download "$url.sha256" | awk '{print $1}')
+  actual=$(sha256_file "$archive")
+  [ "$expected" = "$actual" ] || die "checksum mismatch for $artifact"
+
+  mkdir -p "$tmp/source"
+  tar -xzf "$archive" -C "$tmp/source"
+  [ -d "$tmp/source/skills" ] || die "artifact does not contain a skills directory"
+  [ -f "$tmp/source/.newsjack-prebuilt" ] || die "artifact is missing the prebuilt marker"
+  [ -f "$tmp/source/bin/newsjack" ] || die "artifact does not contain bin/newsjack"
+  ensure_compiled_binary "$tmp/source/bin/newsjack"
+  printf '%s\n' "$tmp/source"
+}
+
+fetch_source_archive() {
+  tmp=$1
+  archive="$tmp/newsjack.tar.gz"
+  url="${NEWSJACK_TARBALL_URL:-https://codeload.github.com/$NEWSJACK_REPO/tar.gz/$NEWSJACK_REF}"
+  log "fetching $NEWSJACK_REPO@$NEWSJACK_REF"
+  download "$url" >"$archive"
+  tar -xzf "$archive" -C "$tmp"
+  src=$(find "$tmp" -mindepth 1 -maxdepth 1 -type d ! -name source | head -n 1)
+  [ -n "$src" ] || die "could not unpack newsjack archive"
+  [ -d "$src/skills" ] || die "archive does not contain a skills directory"
+  printf '%s\n' "$src"
 }
 
 fetch_source() {
@@ -52,15 +135,12 @@ fetch_source() {
     return
   fi
 
-  archive="$tmp/newsjack.tar.gz"
-  url="${NEWSJACK_TARBALL_URL:-https://codeload.github.com/$NEWSJACK_REPO/tar.gz/$NEWSJACK_REF}"
-  log "fetching $NEWSJACK_REPO@$NEWSJACK_REF"
-  download "$url" >"$archive"
-  tar -xzf "$archive" -C "$tmp"
-  src=$(find "$tmp" -mindepth 1 -maxdepth 1 -type d ! -name source | head -n 1)
-  [ -n "$src" ] || die "could not unpack newsjack archive"
-  [ -d "$src/skills" ] || die "archive does not contain a skills directory"
-  printf '%s\n' "$src"
+  if [ "${NEWSJACK_TARBALL_URL:-}" ]; then
+    fetch_source_archive "$tmp"
+    return
+  fi
+
+  fetch_dist "$tmp"
 }
 
 install_source() {
@@ -83,18 +163,23 @@ install_source() {
 
 install_cli() {
   mkdir -p "$NEWSJACK_HOME/bin"
+  cli_dest="$NEWSJACK_HOME/bin/newsjack"
+  cli_tmp="$NEWSJACK_HOME/bin/newsjack.new"
+  rm -f "$cli_tmp"
 
   if [ "${NEWSJACK_CLI_BINARY:-}" ]; then
     [ -f "$NEWSJACK_CLI_BINARY" ] || die "NEWSJACK_CLI_BINARY not found: $NEWSJACK_CLI_BINARY"
-    cp "$NEWSJACK_CLI_BINARY" "$NEWSJACK_HOME/bin/newsjack"
+    cp "$NEWSJACK_CLI_BINARY" "$cli_tmp"
+  elif [ -f "$NEWSJACK_INSTALL_DIR/.newsjack-prebuilt" ] && [ -f "$NEWSJACK_INSTALL_DIR/bin/newsjack" ]; then
+    cp "$NEWSJACK_INSTALL_DIR/bin/newsjack" "$cli_tmp"
   else
-    [ -d "$NEWSJACK_INSTALL_DIR/apps/cli" ] || die "missing Go CLI source at $NEWSJACK_INSTALL_DIR/apps/cli"
-    have go || die "Go is required to build newsjack until release binaries are published"
-    (cd "$NEWSJACK_INSTALL_DIR/apps/cli" && go build -buildvcs=false -o "$NEWSJACK_HOME/bin/newsjack" ./cmd/newsjack)
+    die "missing prebuilt CLI binary in $NEWSJACK_INSTALL_DIR; set NEWSJACK_CLI_BINARY for source installs"
   fi
 
-  chmod 755 "$NEWSJACK_HOME/bin/newsjack"
-  log "installed newsjack CLI to $NEWSJACK_HOME/bin/newsjack"
+  chmod 755 "$cli_tmp"
+  ensure_compiled_binary "$cli_tmp"
+  mv "$cli_tmp" "$cli_dest"
+  log "installed newsjack CLI to $cli_dest"
 }
 
 run_go_install() {
