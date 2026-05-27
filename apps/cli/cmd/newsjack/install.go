@@ -80,10 +80,15 @@ func normalizeRuntimeList(raw string) []string {
 }
 
 func runtimeDetected(rt runtimeTarget) bool {
-	if _, err := exec.LookPath(rt.Binary); err == nil {
-		return true
+	return runtimeCLIInstalled(rt)
+}
+
+func runtimeCLIInstalled(rt runtimeTarget) bool {
+	if rt.Binary == "" {
+		return false
 	}
-	return dirExists(runtimeHomeHint(rt.Key))
+	_, err := exec.LookPath(rt.Binary)
+	return err == nil
 }
 
 func selectedRuntimes(raw string) []runtimeTarget {

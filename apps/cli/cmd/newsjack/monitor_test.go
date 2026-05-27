@@ -136,8 +136,14 @@ func TestSetupDefaultsToClaudeCode(t *testing.T) {
 		if !strings.Contains(text, "installed skills for Claude Code") {
 			t.Fatalf("setup should install Claude Code skills by default:\n%s", text)
 		}
-		if !strings.Contains(text, "Command: claude ") {
-			t.Fatalf("setup should print a Claude Code command:\n%s", text)
+		if !strings.Contains(text, "Claude Code is selected for skill installation but is not installed.") {
+			t.Fatalf("setup should warn that Claude Code is missing:\n%s", text)
+		}
+		if !strings.Contains(text, "SCHEDULER RUNTIME MISSING") {
+			t.Fatalf("setup should stop before launch when scheduler runtime is missing:\n%s", text)
+		}
+		if strings.Contains(text, "Command: claude ") {
+			t.Fatalf("setup should not print a runnable Claude command when Claude Code is missing:\n%s", text)
 		}
 		if strings.Contains(text, "Open it now? [Y/n]:") && strings.Contains(text, "Installing Claude Code") {
 			t.Fatalf("noninteractive setup should not launch or install Claude Code:\n%s", text)
@@ -233,7 +239,13 @@ func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
 		"PATH":                            fakeBin + ":/bin:/usr/bin",
 	}, func() {
 		var out, errBuf bytes.Buffer
-		code := runCLIWithIO([]string{"setup"}, strings.NewReader("\nclaude\n\n\n\nyes\n"), &out, &errBuf)
+		input := strings.Join([]string{
+			"claude",
+			"yes",
+			"",
+			"",
+		}, "\n")
+		code := runCLIWithIO([]string{"setup", "--skip-credentials", "--no-launch"}, strings.NewReader(input), &out, &errBuf)
 		if code != 0 {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
@@ -246,6 +258,43 @@ func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
 		}
 		if !strings.Contains(text, "Ready to open Claude Code") {
 			t.Fatalf("setup should proceed to Claude Code launch after install:\n%s", text)
+		}
+	})
+}
+
+func TestSetupDoesNotTreatSkillDirectoryAsInstalledRuntime(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+		"PATH":                    t.TempDir(),
+	}, func() {
+		var out, errBuf bytes.Buffer
+		input := strings.Join([]string{
+			"claude",
+			"n",
+			"claude",
+		}, "\n")
+		code := runCLIWithIO([]string{"setup", "--skip-credentials", "--no-launch"}, strings.NewReader(input), &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		text := out.String()
+		if !fileExists(filepath.Join(home, ".claude", "skills", "newsjack-setup", "SKILL.md")) {
+			t.Fatalf("setup should still copy skills for a selected missing runtime")
+		}
+		if !strings.Contains(text, "claude     Claude Code    not detected") {
+			t.Fatalf("skills directory should not make Claude Code look detected:\n%s", text)
+		}
+		if !strings.Contains(text, "to install Claude Code, run:") {
+			t.Fatalf("setup should print install help for the missing runtime:\n%s", text)
+		}
+		if !strings.Contains(text, "SCHEDULER RUNTIME MISSING") {
+			t.Fatalf("setup should not continue to launch a missing scheduler runtime:\n%s", text)
 		}
 	})
 }
@@ -266,12 +315,10 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 	}, func() {
 		var out, errBuf bytes.Buffer
 		input := strings.Join([]string{
-			"claude",
-			"claude",
+			"manual",
+			"manual",
 			"value",
 			"mlst_test_key_12345",
-			"n",
-			"",
 		}, "\n")
 		code := runCLIWithIO([]string{"setup"}, strings.NewReader(input), &out, &errBuf)
 		if code != 0 {

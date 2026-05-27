@@ -72,6 +72,7 @@ type setupWizard struct {
 	defaultSkillRuntime string
 	defaultScheduler    string
 	interactive         bool
+	runtimeInstallSeen  map[string]bool
 }
 
 func (w *setupWizard) run() error {
@@ -84,6 +85,9 @@ func (w *setupWizard) run() error {
 	skillRuntime := w.chooseSkillRuntime()
 	manualSkillRuntime := runtimeSelectionIncludes(skillRuntime, "manual")
 	installSkillRuntime := nonManualRuntimeSelection(skillRuntime)
+	if err := w.offerRuntimeInstalls(installSkillRuntime, "skill installation"); err != nil {
+		return err
+	}
 	if manualSkillRuntime {
 		uiSection(w.stdout, "manual skill install")
 		uiNote(w.stdout, "copy this instruction into your agent runtime.")
@@ -102,10 +106,27 @@ func (w *setupWizard) run() error {
 	}
 
 	schedulerRuntime := w.chooseSchedulerRuntime()
+	schedulerReady := true
+	if !isManualRuntime(schedulerRuntime) {
+		var err error
+		schedulerReady, err = w.ensureRuntimeInstalled(schedulerRuntime, "scheduled runs")
+		if err != nil {
+			return err
+		}
+	}
 	if !isManualRuntime(schedulerRuntime) && !runtimeSelectionIncludes(skillRuntime, schedulerRuntime) {
 		if err := installSetupSkills(schedulerRuntime, w.stdout, w.stderr); err != nil {
 			return err
 		}
+	}
+
+	if !schedulerReady {
+		fmt.Fprintln(w.stdout)
+		uiSection(w.stdout, "scheduler runtime missing")
+		uiNote(w.stdout, "%s must be installed and on PATH before Newsjack can launch it for scheduled runs.", runtimeLabel(schedulerRuntime))
+		w.printRuntimeInstallCommand(schedulerRuntime)
+		uiNote(w.stdout, "then rerun: newsjack setup --schedule-runtime %s", schedulerRuntime)
+		return nil
 	}
 
 	if !w.skipCredentials {
@@ -136,11 +157,6 @@ func (w *setupWizard) run() error {
 		fmt.Fprintln(w.stdout, command)
 		fmt.Fprintln(w.stdout)
 		return nil
-	}
-	if schedulerRuntime == "claude" && !claudeCodeInstalled() && !w.skipClaudeInstall {
-		if err := maybeInstallClaudeCode(w.reader, w.stdin, w.stdout, w.stderr, w.installClaude || w.assumeYes); err != nil {
-			return err
-		}
 	}
 	return launchSetupAgent(schedulerRuntime, agentPrompt, w.stdin, w.stdout, w.stderr)
 }
@@ -610,44 +626,123 @@ func claudeCodeInstalled() bool {
 }
 
 func claudeInstallCommand() string {
-	if cmd := strings.TrimSpace(os.Getenv("NEWSJACK_CLAUDE_INSTALL_COMMAND")); cmd != "" {
-		return cmd
-	}
-	return defaultClaudeInstallCommand
+	return runtimeInstallCommand("claude")
 }
 
-func maybeInstallClaudeCode(reader *bufio.Reader, stdin io.Reader, stdout, stderr io.Writer, assumeYes bool) error {
-	command := claudeInstallCommand()
-	uiWarn(stdout, "Claude Code is selected for scheduled runs but is not installed.")
-	uiNote(stdout, "install Claude Code now? This runs:")
-	fmt.Fprintf(stdout, "  %s\n", command)
-	if !assumeYes {
-		fmt.Fprintf(stdout, "%s Continue? [y/N] ", uiQuestion(stdout))
-		line, err := reader.ReadString('\n')
-		if err != nil && !errors.Is(err, io.EOF) {
+func (w *setupWizard) offerRuntimeInstalls(selection, purpose string) error {
+	if selection == "" || selection == "none" {
+		return nil
+	}
+	for _, rt := range selectedRuntimes(selection) {
+		if _, err := w.ensureRuntimeInstalled(rt.Key, purpose); err != nil {
 			return err
 		}
-		answer := strings.ToLower(strings.TrimSpace(line))
-		if answer != "y" && answer != "yes" {
-			fmt.Fprintln(stdout)
-			uiNote(stdout, "skipped Claude Code install.")
-			fmt.Fprintf(stdout, "To install later, run: %s\n", command)
-			return nil
-		}
-	}
-	fmt.Fprintln(stdout)
-	uiInfo(stdout, "Installing Claude Code...")
-	cmd := exec.Command("bash", "-c", command)
-	cmd.Stdin = stdin
-	cmd.Stdout = stdout
-	cmd.Stderr = stderr
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("Claude Code install failed: %w", err)
-	}
-	if !claudeCodeInstalled() {
-		uiNote(stdout, "Claude Code installer finished. If `claude` is not on PATH yet, open a new terminal before running the command below.")
 	}
 	return nil
+}
+
+func (w *setupWizard) ensureRuntimeInstalled(key, purpose string) (bool, error) {
+	if isManualRuntime(key) {
+		return true, nil
+	}
+	rt, ok := runtimeTargetForKey(key)
+	if !ok {
+		return false, nil
+	}
+	if runtimeCLIInstalled(rt) {
+		return true, nil
+	}
+	if w.runtimeInstallSeen == nil {
+		w.runtimeInstallSeen = map[string]bool{}
+	}
+	if w.runtimeInstallSeen[key] {
+		return false, nil
+	}
+	w.runtimeInstallSeen[key] = true
+
+	label := runtimeLabel(key)
+	uiWarn(w.stdout, "%s is selected for %s but is not installed.", label, purpose)
+	w.printRuntimeInstallCommand(key)
+	if key == "claude" && w.skipClaudeInstall {
+		uiNote(w.stdout, "skipped Claude Code install prompt.")
+		return false, nil
+	}
+	autoInstall := w.assumeYes || (key == "claude" && w.installClaude)
+	if !autoInstall && !w.confirm(fmt.Sprintf("Install %s now?", label), false) {
+		uiNote(w.stdout, "skipped %s install.", label)
+		return false, nil
+	}
+
+	command := runtimeInstallCommand(key)
+	if command == "" {
+		return false, nil
+	}
+	fmt.Fprintln(w.stdout)
+	uiInfo(w.stdout, "Installing %s...", label)
+	cmd := exec.Command("bash", "-c", command)
+	cmd.Stdin = w.stdin
+	cmd.Stdout = w.stdout
+	cmd.Stderr = w.stderr
+	if err := cmd.Run(); err != nil {
+		return false, fmt.Errorf("%s install failed: %w", label, err)
+	}
+	if !runtimeCLIInstalled(rt) {
+		uiNote(w.stdout, "%s installer finished, but `%s` is not on PATH yet. Open a new terminal or update PATH before launching it.", label, rt.Binary)
+		return false, nil
+	}
+	return true, nil
+}
+
+func (w *setupWizard) printRuntimeInstallCommand(key string) {
+	command := runtimeInstallCommand(key)
+	if command == "" {
+		uiNote(w.stdout, "install %s, then rerun newsjack setup.", runtimeLabel(key))
+		return
+	}
+	uiNote(w.stdout, "to install %s, run:", runtimeLabel(key))
+	fmt.Fprintf(w.stdout, "  %s\n", command)
+}
+
+func runtimeTargetForKey(key string) (runtimeTarget, bool) {
+	for _, target := range runtimeTargets {
+		if target.Key == key {
+			return target, true
+		}
+	}
+	return runtimeTarget{}, false
+}
+
+func runtimeInstallCommand(key string) string {
+	if cmd := strings.TrimSpace(os.Getenv(runtimeInstallCommandEnv(key))); cmd != "" {
+		return cmd
+	}
+	switch key {
+	case "codex":
+		return "npm install -g @openai/codex"
+	case "claude":
+		return defaultClaudeInstallCommand
+	case "openclaw":
+		return "npm install -g openclaw"
+	case "hermes":
+		return "npm install -g hermes-agent"
+	default:
+		return ""
+	}
+}
+
+func runtimeInstallCommandEnv(key string) string {
+	switch key {
+	case "codex":
+		return "NEWSJACK_CODEX_INSTALL_COMMAND"
+	case "claude":
+		return "NEWSJACK_CLAUDE_INSTALL_COMMAND"
+	case "openclaw":
+		return "NEWSJACK_OPENCLAW_INSTALL_COMMAND"
+	case "hermes":
+		return "NEWSJACK_HERMES_INSTALL_COMMAND"
+	default:
+		return ""
+	}
 }
 
 func medialystConfigured() bool {
