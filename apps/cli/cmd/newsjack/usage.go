@@ -5,6 +5,13 @@ import (
 	"io"
 )
 
+const bannerArt = `███╗   ██╗███████╗██╗    ██╗███████╗     ██╗ █████╗  ██████╗██╗  ██╗
+████╗  ██║██╔════╝██║    ██║██╔════╝     ██║██╔══██╗██╔════╝██║ ██╔╝
+██╔██╗ ██║█████╗  ██║ █╗ ██║███████╗     ██║███████║██║     █████╔╝.SH
+██║╚██╗██║██╔══╝  ██║███╗██║╚════██║██   ██║██╔══██║██║     ██╔═██╗
+██║ ╚████║███████╗╚███╔███╔╝███████║╚█████╔╝██║  ██║╚██████╗██║  ██╗
+╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚══════╝ ╚════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝`
+
 func printUsage(w io.Writer) {
 	uiProduct(w, "", "")
 	fmt.Fprintln(w)
@@ -36,8 +43,7 @@ func printUsage(w io.Writer) {
 }
 
 func printBanner(w io.Writer) {
-	fmt.Fprintln(w, "NEWSJACK.SH")
-	fmt.Fprintln(w, productTagline)
+	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, bannerArt))
 }
 
 func fail(w io.Writer, err error) int {

@@ -17,7 +17,7 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 }
 
 func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
-	cmd := "help"
+	cmd := "banner"
 	if len(args) > 0 {
 		cmd = args[0]
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"io"
 	"strings"
 	"testing"
 )
@@ -30,4 +31,25 @@ func TestUIColorHonorsForcedAndBufferedModes(t *testing.T) {
 			t.Fatalf("NO_COLOR should suppress ANSI color: %q", out.String())
 		}
 	})
+}
+
+func TestBannerUsesProductRenderer(t *testing.T) {
+	var out bytes.Buffer
+	if code := runCLI([]string{"banner"}, &out, io.Discard); code != 0 {
+		t.Fatalf("banner exit code=%d", code)
+	}
+	want := bannerArt + "\n"
+	if out.String() != want {
+		t.Fatalf("banner output=%q, want %q", out.String(), want)
+	}
+}
+
+func TestBareCommandPrintsBanner(t *testing.T) {
+	var out bytes.Buffer
+	if code := runCLI(nil, &out, io.Discard); code != 0 {
+		t.Fatalf("bare command exit code=%d", code)
+	}
+	if out.String() != bannerArt+"\n" {
+		t.Fatalf("bare command output=%q", out.String())
+	}
 }

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"strings"
 
+	"github.com/AlecAivazis/survey/v2"
 	"golang.org/x/term"
 )
 
@@ -19,61 +19,24 @@ type setupChoice struct {
 func (w *setupWizard) selectMulti(question string, choices []setupChoice) ([]string, bool) {
 	stdinFile, stdoutFile, ok := interactiveFiles(w.stdin, w.stdout)
 	if !ok || w.assumeYes {
-		var defaults []string
-		for _, choice := range choices {
-			if choice.Selected {
-				defaults = append(defaults, choice.Value)
-			}
-		}
-		return defaults, false
+		return selectedChoiceValues(choices), false
 	}
-	state, err := term.MakeRaw(int(stdinFile.Fd()))
-	if err != nil {
+
+	var selected []string
+	prompt := &survey.MultiSelect{
+		Message:     question,
+		Options:     choiceLabels(choices),
+		Default:     selectedChoiceLabels(choices),
+		Description: choiceDescription(choices),
+		PageSize:    len(choices),
+		VimMode:     true,
+	}
+	if err := survey.AskOne(prompt, &selected, survey.WithStdio(stdinFile, stdoutFile, w.stderr), survey.WithValidator(survey.Required)); err != nil {
 		return nil, false
 	}
-	defer func() { _ = term.Restore(int(stdinFile.Fd()), state) }()
-
-	cursor := firstSelectedChoice(choices)
-	lines := 0
-	for {
-		if lines > 0 {
-			clearMenu(stdoutFile, lines)
-		}
-		lines = renderChoiceMenu(stdoutFile, question, choices, cursor, true)
-		key, err := readTerminalKey(stdinFile)
-		if err != nil {
-			return nil, false
-		}
-		switch key {
-		case "up":
-			cursor = (cursor - 1 + len(choices)) % len(choices)
-		case "down":
-			cursor = (cursor + 1) % len(choices)
-		case "space":
-			choices[cursor].Selected = !choices[cursor].Selected
-		case "enter":
-			var values []string
-			var labels []string
-			for _, choice := range choices {
-				if choice.Selected {
-					values = append(values, choice.Value)
-					labels = append(labels, choice.Label)
-				}
-			}
-			if len(values) == 0 {
-				fmt.Fprint(stdoutFile, "\a")
-				continue
-			}
-			clearMenu(stdoutFile, lines)
-			fmt.Fprintf(stdoutFile, "%s %s\n", uiQuestion(stdoutFile), question)
-			uiKV(stdoutFile, "selected", strings.Join(labels, ", "))
-			w.interactive = true
-			return values, true
-		case "ctrl-c":
-			clearMenu(stdoutFile, lines)
-			return nil, false
-		}
-	}
+	w.interactive = true
+	uiKV(stdoutFile, "selected", strings.Join(selected, ", "))
+	return choiceValuesForLabels(choices, selected), true
 }
 
 func (w *setupWizard) selectSingle(question string, choices []setupChoice, defaultValue string) (string, bool) {
@@ -81,39 +44,23 @@ func (w *setupWizard) selectSingle(question string, choices []setupChoice, defau
 	if !ok || w.assumeYes {
 		return defaultValue, false
 	}
-	state, err := term.MakeRaw(int(stdinFile.Fd()))
-	if err != nil {
+
+	defaultLabel := choiceLabelForValue(choices, defaultValue)
+	selected := defaultLabel
+	prompt := &survey.Select{
+		Message:     question,
+		Options:     choiceLabels(choices),
+		Default:     defaultLabel,
+		Description: choiceDescription(choices),
+		PageSize:    len(choices),
+		VimMode:     true,
+	}
+	if err := survey.AskOne(prompt, &selected, survey.WithStdio(stdinFile, stdoutFile, w.stderr)); err != nil {
 		return "", false
 	}
-	defer func() { _ = term.Restore(int(stdinFile.Fd()), state) }()
-
-	cursor := choiceIndex(choices, defaultValue)
-	lines := 0
-	for {
-		if lines > 0 {
-			clearMenu(stdoutFile, lines)
-		}
-		lines = renderChoiceMenu(stdoutFile, question, choices, cursor, false)
-		key, err := readTerminalKey(stdinFile)
-		if err != nil {
-			return "", false
-		}
-		switch key {
-		case "up":
-			cursor = (cursor - 1 + len(choices)) % len(choices)
-		case "down":
-			cursor = (cursor + 1) % len(choices)
-		case "space", "enter":
-			clearMenu(stdoutFile, lines)
-			fmt.Fprintf(stdoutFile, "%s %s\n", uiQuestion(stdoutFile), question)
-			uiKV(stdoutFile, "selected", choices[cursor].Label)
-			w.interactive = true
-			return choices[cursor].Value, true
-		case "ctrl-c":
-			clearMenu(stdoutFile, lines)
-			return "", false
-		}
-	}
+	w.interactive = true
+	uiKV(stdoutFile, "selected", selected)
+	return choiceValueForLabel(choices, selected), true
 }
 
 func interactiveFiles(stdin io.Reader, stdout io.Writer) (*os.File, *os.File, bool) {
@@ -131,94 +78,73 @@ func interactiveFiles(stdin io.Reader, stdout io.Writer) (*os.File, *os.File, bo
 	return stdinFile, stdoutFile, true
 }
 
-func firstSelectedChoice(choices []setupChoice) int {
-	for i, choice := range choices {
+func choiceLabels(choices []setupChoice) []string {
+	labels := make([]string, 0, len(choices))
+	for _, choice := range choices {
+		labels = append(labels, choice.Label)
+	}
+	return labels
+}
+
+func selectedChoiceLabels(choices []setupChoice) []string {
+	var labels []string
+	for _, choice := range choices {
 		if choice.Selected {
-			return i
+			labels = append(labels, choice.Label)
 		}
 	}
-	return 0
+	return labels
 }
 
-func choiceIndex(choices []setupChoice, value string) int {
-	for i, choice := range choices {
+func selectedChoiceValues(choices []setupChoice) []string {
+	var values []string
+	for _, choice := range choices {
+		if choice.Selected {
+			values = append(values, choice.Value)
+		}
+	}
+	return values
+}
+
+func choiceDescription(choices []setupChoice) func(string, int) string {
+	return func(_ string, index int) string {
+		if index < 0 || index >= len(choices) {
+			return ""
+		}
+		return choices[index].Hint
+	}
+}
+
+func choiceLabelForValue(choices []setupChoice, value string) string {
+	for _, choice := range choices {
 		if choice.Value == value {
-			return i
+			return choice.Label
 		}
 	}
-	return 0
+	if len(choices) == 0 {
+		return ""
+	}
+	return choices[0].Label
 }
 
-func renderChoiceMenu(stdout io.Writer, question string, choices []setupChoice, cursor int, multi bool) int {
-	fmt.Fprintf(stdout, "%s %s\n", uiQuestion(stdout), question)
-	if multi {
-		uiNote(stdout, "use up/down to move, space to toggle, enter to continue.")
-	} else {
-		uiNote(stdout, "use up/down to move, enter to continue.")
+func choiceValueForLabel(choices []setupChoice, label string) string {
+	values := choiceValuesForLabels(choices, []string{label})
+	if len(values) == 0 {
+		return ""
 	}
-	for i, choice := range choices {
-		pointer := " "
-		if i == cursor {
-			pointer = ">"
-		}
-		marker := "( )"
-		if multi {
-			marker = "[ ]"
-			if choice.Selected {
-				marker = "[x]"
-			}
-		} else if i == cursor {
-			marker = "(*)"
-		}
-		label := fmt.Sprintf("%-14s", choice.Label)
-		if i == cursor {
-			label = uiPaint(stdout, ansiBold, label)
-		}
-		hint := ""
-		if choice.Hint != "" {
-			hint = "  " + uiPaint(stdout, ansiDim, choice.Hint)
-		}
-		fmt.Fprintf(stdout, "  %s %s %s%s\n", pointer, marker, label, hint)
-	}
-	return len(choices) + 2
+	return values[0]
 }
 
-func clearMenu(stdout io.Writer, lines int) {
-	fmt.Fprintf(stdout, "\x1b[%dA\x1b[J", lines)
-}
-
-func readTerminalKey(stdin *os.File) (string, error) {
-	var b [3]byte
-	if _, err := stdin.Read(b[:1]); err != nil {
-		return "", err
+func choiceValuesForLabels(choices []setupChoice, labels []string) []string {
+	selected := make(map[string]bool, len(labels))
+	for _, label := range labels {
+		selected[label] = true
 	}
-	switch b[0] {
-	case 0x03:
-		return "ctrl-c", nil
-	case '\r', '\n':
-		return "enter", nil
-	case ' ', 'x':
-		return "space", nil
-	case 'k':
-		return "up", nil
-	case 'j':
-		return "down", nil
-	case 0x1b:
-		if _, err := stdin.Read(b[1:2]); err != nil {
-			return "", err
-		}
-		if b[1] != '[' {
-			return "", nil
-		}
-		if _, err := stdin.Read(b[2:3]); err != nil {
-			return "", err
-		}
-		switch b[2] {
-		case 'A':
-			return "up", nil
-		case 'B':
-			return "down", nil
+	values := make([]string, 0, len(labels))
+	for _, choice := range choices {
+		if selected[choice.Label] {
+			values = append(values, choice.Value)
 		}
 	}
-	return "", nil
+	return values
 }
