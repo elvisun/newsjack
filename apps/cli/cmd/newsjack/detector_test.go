@@ -214,3 +214,42 @@ func TestParseNewsResponsePreservesPublicationMetadata(t *testing.T) {
 		t.Fatalf("raw_source=%v, want Example", metadata["raw_source"])
 	}
 }
+
+func TestParseNewsResponseFiltersSyndicationPublications(t *testing.T) {
+	items := parseNewsResponse(map[string]any{
+		"news": []any{
+			map[string]any{
+				"title":  "Republished privacy explainer",
+				"link":   "https://www.aol.com/articles/republished-privacy-explainer",
+				"source": "AOL",
+				"date":   "2 hours ago",
+				"metadata": map[string]any{
+					"publication_type":                  "syndication_platform",
+					"domain_authority":                  92,
+					"estimated_monthly_organic_traffic": 12000000,
+				},
+			},
+			map[string]any{
+				"title":  "Original privacy enforcement story",
+				"link":   "https://example.com/original-privacy-enforcement",
+				"source": "Example",
+				"date":   "1 hour ago",
+				"metadata": map[string]any{
+					"publication_type":                  "editorial",
+					"domain_authority":                  73,
+					"estimated_monthly_organic_traffic": 460000,
+				},
+			},
+		},
+	})
+	if len(items) != 1 {
+		t.Fatalf("items=%d, want only non-syndication item: %#v", len(items), items)
+	}
+	if items[0]["title"] != "Original privacy enforcement story" {
+		t.Fatalf("kept title=%v, want original editorial item", items[0]["title"])
+	}
+	metadata := valueOrEmptyMap(items[0]["metadata"])
+	if metadata["publication_type"] != "editorial" {
+		t.Fatalf("metadata=%#v, want editorial item preserved", metadata)
+	}
+}

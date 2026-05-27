@@ -18,4 +18,4 @@ jobs:
         run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
 
       - name: Test all runtime install targets
-        run: python3 harness/run.py --mode ci-installer --runtime all --local-source
+        run: harness/scripts/run-ci-installer.sh

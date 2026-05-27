@@ -61,6 +61,9 @@ func parseNewsResponse(payload map[string]any) []map[string]any {
 		}
 		id := firstString(firstAny(item, "id", "uuid"), fmt.Sprintf("ML%d", i+1))
 		metadata := cloneMap(valueOrEmptyMap(item["metadata"]))
+		if isNewsSearchSyndicationPublication(metadata, item) {
+			continue
+		}
 		if metadata["raw_source"] == nil {
 			metadata["raw_source"] = source
 		}
@@ -78,6 +81,18 @@ func parseNewsResponse(payload map[string]any) []map[string]any {
 		})
 	}
 	return items
+}
+
+func isNewsSearchSyndicationPublication(metadata, item map[string]any) bool {
+	publicationType := firstString(metadata["publication_type"], metadata["publicationType"], item["publication_type"], item["publicationType"])
+	publicationType = strings.ToLower(strings.TrimSpace(publicationType))
+	publicationType = strings.ReplaceAll(publicationType, "-", "_")
+	switch publicationType {
+	case "syndication", "syndicated", "syndication_platform", "syndication_partner":
+		return true
+	default:
+		return strings.HasPrefix(publicationType, "syndication_") || strings.HasSuffix(publicationType, "_syndication")
+	}
 }
 
 func collectFeed(urlOrPath string, limit int) ([]map[string]any, string) {
