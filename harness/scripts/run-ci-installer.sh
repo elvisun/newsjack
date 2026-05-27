@@ -171,7 +171,7 @@ cd /tmp
 log "checking installed CLI"
 newsjack version
 newsjack setup --json | tee /tmp/newsjack-setup.json
-jq -e '.monitors_dir and .agent_prompt' /tmp/newsjack-setup.json >/dev/null
+jq -e '.monitors_dir and .agent_prompt and .recommended_runtime == "claude" and (.agent_command | startswith("claude "))' /tmp/newsjack-setup.json >/dev/null
 newsjack doctor | tee /tmp/newsjack-doctor.json
 jq -e '.root_ok == true and .dependencies.npx == true' /tmp/newsjack-doctor.json >/dev/null
 
@@ -211,8 +211,8 @@ run_md="$(jq -r '.run_markdown' /tmp/newsjack-monitor-test.json)"
 test -f "$run_md"
 grep -q "Harness Coffee Newsjack Brief" "$run_md"
 
-newsjack monitor schedule harness-coffee --runtime openclaw --every 1h | tee /tmp/newsjack-monitor-schedule.json
-jq -e '.system_cron == false and .runtime == "openclaw" and .schedule_path' /tmp/newsjack-monitor-schedule.json >/dev/null
+newsjack monitor schedule harness-coffee --runtime claude --every 1h | tee /tmp/newsjack-monitor-schedule.json
+jq -e '.system_cron == false and .runtime == "claude" and .schedule_path' /tmp/newsjack-monitor-schedule.json >/dev/null
 schedule_md="$(jq -r '.schedule_path' /tmp/newsjack-monitor-schedule.json)"
 test -f "$schedule_md"
 ! grep -Eq 'crontab|launchd|systemd' "$schedule_md"

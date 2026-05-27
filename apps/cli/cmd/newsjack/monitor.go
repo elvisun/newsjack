@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -14,11 +16,16 @@ import (
 	"time"
 )
 
-func cmdSetup(args []string, stdout, stderr io.Writer) int {
+const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
+
+func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("setup", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	jsonOut := fs.Bool("json", false, "Emit setup status as JSON")
 	runtimeRaw := fs.String("runtime", "auto", "Preferred agent runtime")
+	installClaude := fs.Bool("install-claude", false, "Install Claude Code if it is missing")
+	yes := fs.Bool("yes", false, "Answer yes to setup prompts")
+	skipClaudeInstall := fs.Bool("skip-claude-install", false, "Do not offer to install Claude Code")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
@@ -29,8 +36,20 @@ func cmdSetup(args []string, stdout, stderr io.Writer) int {
 	}
 	fmt.Fprintln(stdout, "newsjack setup")
 	fmt.Fprintln(stdout)
+	if stringValue(status["recommended_runtime"]) == "claude" && !truthy(status["claude_installed"], false) && !*skipClaudeInstall {
+		if err := maybeInstallClaudeCode(stdin, stdout, stderr, *installClaude || *yes); err != nil {
+			return fail(stderr, err)
+		}
+		status = setupPayload(*runtimeRaw)
+		fmt.Fprintln(stdout)
+	}
 	fmt.Fprintf(stdout, "Home: %s\n", status["newsjack_home"])
-	fmt.Fprintf(stdout, "Recommended runtime: %s\n", status["recommended_runtime"])
+	fmt.Fprintf(stdout, "Recommended runtime: %s\n", status["recommended_runtime_label"])
+	if stringValue(status["recommended_runtime"]) == "claude" {
+		fmt.Fprintf(stdout, "Claude Code command: %s\n", status["agent_command"])
+	} else if command := stringValue(status["agent_command"]); command != "" {
+		fmt.Fprintf(stdout, "Agent command: %s\n", command)
+	}
 	fmt.Fprintln(stdout)
 	fmt.Fprintln(stdout, "Next, run this inside your agent harness:")
 	fmt.Fprintln(stdout)
@@ -40,34 +59,108 @@ func cmdSetup(args []string, stdout, stderr io.Writer) int {
 
 func setupPayload(runtimeRaw string) map[string]any {
 	recommended := selectSetupRuntime(runtimeRaw)
+	agentPrompt := "Use Newsjack to set up an hourly monitor for my company, install the schedule in this agent harness, and run a mock test. Ask only for facts you cannot infer safely."
 	return map[string]any{
-		"newsjack_home":       newsjackHome(),
-		"monitors_dir":        monitorsDir(),
-		"runtimes":            runtimeStatus(),
-		"recommended_runtime": recommended,
+		"newsjack_home":             newsjackHome(),
+		"monitors_dir":              monitorsDir(),
+		"runtimes":                  runtimeStatus(),
+		"recommended_runtime":       recommended,
+		"recommended_runtime_label": runtimeLabel(recommended),
+		"claude_installed":          claudeCodeInstalled(),
+		"claude_install_command":    claudeInstallCommand(),
 		"auth": map[string]any{
 			"medialyst_configured": medialystConfigured(),
 			"x_api_configured":     bearerToken(configFromEnv()) != "",
 		},
-		"agent_prompt": "Use Newsjack to set up an hourly monitor for my company, install the schedule in this agent harness, and run a mock test. Ask only for facts you cannot infer safely.",
+		"agent_command": setupAgentCommand(recommended, agentPrompt),
+		"agent_prompt":  agentPrompt,
+	}
+}
+
+func setupAgentCommand(runtime, prompt string) string {
+	switch runtime {
+	case "claude":
+		return fmt.Sprintf("claude %s", shellQuote(prompt))
+	case "codex":
+		return fmt.Sprintf("codex %s", shellQuote(prompt))
+	case "openclaw":
+		return fmt.Sprintf("openclaw %s", shellQuote(prompt))
+	case "hermes":
+		return fmt.Sprintf("hermes %s", shellQuote(prompt))
+	default:
+		return ""
 	}
 }
 
 func selectSetupRuntime(raw string) string {
 	list := normalizeRuntimeList(raw)
 	for _, item := range list {
-		if item != "auto" {
+		switch item {
+		case "claude", "codex", "openclaw", "hermes", "manual":
 			return item
+		case "none":
+			return "manual"
 		}
 	}
-	for _, rt := range []string{"openclaw", "hermes", "claude", "codex"} {
-		for _, target := range runtimeTargets {
-			if target.Key == rt && runtimeDetected(target) {
-				return rt
-			}
+	return "claude"
+}
+
+func runtimeLabel(key string) string {
+	for _, target := range runtimeTargets {
+		if target.Key == key {
+			return target.Label
 		}
 	}
-	return "manual"
+	if key == "manual" {
+		return "Manual agent harness"
+	}
+	return key
+}
+
+func claudeCodeInstalled() bool {
+	return commandAvailable("claude")
+}
+
+func claudeInstallCommand() string {
+	if cmd := strings.TrimSpace(os.Getenv("NEWSJACK_CLAUDE_INSTALL_COMMAND")); cmd != "" {
+		return cmd
+	}
+	return defaultClaudeInstallCommand
+}
+
+func maybeInstallClaudeCode(stdin io.Reader, stdout, stderr io.Writer, assumeYes bool) error {
+	command := claudeInstallCommand()
+	fmt.Fprintln(stdout, "Claude Code is the recommended Newsjack agent harness and is not installed.")
+	fmt.Fprintln(stdout, "Install Claude Code now? This runs:")
+	fmt.Fprintf(stdout, "  %s\n", command)
+	if !assumeYes {
+		fmt.Fprint(stdout, "Continue? [y/N] ")
+		reader := bufio.NewReader(stdin)
+		line, err := reader.ReadString('\n')
+		if err != nil && !errors.Is(err, io.EOF) {
+			return err
+		}
+		answer := strings.ToLower(strings.TrimSpace(line))
+		if answer != "y" && answer != "yes" {
+			fmt.Fprintln(stdout)
+			fmt.Fprintln(stdout, "Skipped Claude Code install.")
+			fmt.Fprintf(stdout, "To install later, run: %s\n", command)
+			return nil
+		}
+	}
+	fmt.Fprintln(stdout)
+	fmt.Fprintln(stdout, "Installing Claude Code...")
+	cmd := exec.Command("bash", "-c", command)
+	cmd.Stdin = stdin
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("Claude Code install failed: %w", err)
+	}
+	if !claudeCodeInstalled() {
+		fmt.Fprintln(stdout, "Claude Code installer finished. If `claude` is not on PATH yet, open a new terminal before running the command below.")
+	}
+	return nil
 }
 
 func medialystConfigured() bool {

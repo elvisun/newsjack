@@ -13,7 +13,7 @@ Usage:
   newsjack version
   newsjack path
   newsjack doctor
-  newsjack setup [--json]
+  newsjack setup [--json] [--install-claude] [--yes]
   newsjack install [--source DIR]
   newsjack skills [list]
   newsjack skills install [--source DIR]

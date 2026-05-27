@@ -109,3 +109,89 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		}
 	})
 }
+
+func TestSetupDefaultsToClaudeCode(t *testing.T) {
+	home := t.TempDir()
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"PATH":                    t.TempDir(),
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"setup"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup code=%d stderr=%s", code, errBuf.String())
+		}
+		text := out.String()
+		if !strings.Contains(text, "Recommended runtime: Claude Code") {
+			t.Fatalf("setup should recommend Claude Code:\n%s", text)
+		}
+		if !strings.Contains(text, "Claude Code command: claude ") {
+			t.Fatalf("setup should print a Claude Code command:\n%s", text)
+		}
+		if strings.Contains(text, "Recommended runtime: OpenClaw") {
+			t.Fatalf("setup should not prefer OpenClaw by default:\n%s", text)
+		}
+
+		out.Reset()
+		errBuf.Reset()
+		code = runCLI([]string{"setup", "--json"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup --json code=%d stderr=%s", code, errBuf.String())
+		}
+		var payload map[string]any
+		if json.Unmarshal(out.Bytes(), &payload) != nil {
+			t.Fatalf("invalid setup JSON: %s", out.String())
+		}
+		if payload["recommended_runtime"] != "claude" {
+			t.Fatalf("recommended_runtime=%v, want claude", payload["recommended_runtime"])
+		}
+		if payload["claude_installed"] != false {
+			t.Fatalf("claude_installed=%v, want false", payload["claude_installed"])
+		}
+		if !strings.HasPrefix(stringValue(payload["agent_command"]), "claude ") {
+			t.Fatalf("agent_command=%q, want claude command", stringValue(payload["agent_command"]))
+		}
+	})
+}
+
+func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
+	home := t.TempDir()
+	fakeBin := t.TempDir()
+	installer := filepath.Join(t.TempDir(), "install-claude.sh")
+	claudePath := filepath.Join(fakeBin, "claude")
+	script := "#!/bin/sh\n" +
+		"cat > " + shellQuote(claudePath) + " <<'SCRIPT'\n" +
+		"#!/bin/sh\n" +
+		"echo claude-test\n" +
+		"SCRIPT\n" +
+		"chmod +x " + shellQuote(claudePath) + "\n"
+	if err := os.WriteFile(installer, []byte(script), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	withTempEnv(t, map[string]string{
+		"HOME":                            home,
+		"NEWSJACK_HOME":                   "",
+		"NEWSJACK_NO_AUTO_UPDATE":         "1",
+		"NEWSJACK_CLAUDE_INSTALL_COMMAND": shellQuote(installer),
+		"PATH":                            fakeBin + ":/bin:/usr/bin",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLIWithIO([]string{"setup"}, strings.NewReader("yes\n"), &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		if !fileExists(claudePath) {
+			t.Fatalf("Claude installer did not create fake claude at %s", claudePath)
+		}
+		text := out.String()
+		if !strings.Contains(text, "Installing Claude Code") {
+			t.Fatalf("setup did not run the approved Claude installer:\n%s", text)
+		}
+		if !strings.Contains(text, "Recommended runtime: Claude Code") {
+			t.Fatalf("setup should still recommend Claude Code after install:\n%s", text)
+		}
+	})
+}

@@ -99,12 +99,8 @@ The image should install common tools:
 Install real runtimes inside the image:
 
 ```bash
-npm install -g @openai/codex
-npm install -g @anthropic-ai/claude-code
-npm install -g openclaw@latest
-npm install -g acpx@latest
-npm install -g @zed-industries/codex-acp
-npm install -g @zed-industries/claude-agent-acp
+harness/scripts/build-image.sh --harness all
+harness/scripts/build-image.sh --harness claude --harness openclaw --image newsjack-agent-harness:claude-openclaw
 ```
 
 Pin versions once the first green run establishes a baseline.

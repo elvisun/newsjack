@@ -90,8 +90,12 @@ be usable from a normal terminal and from inside an agent harness.
 
 Required behavior:
 
-- detect supported harnesses and pick the only detected harness automatically
-- if multiple harnesses are detected, ask the user to choose one
+- recommend Claude Code as the default harness for v1
+- if Claude Code is missing, ask for explicit permission and then run the
+  official Claude Code native installer:
+  `curl -fsSL https://claude.ai/install.sh | bash`
+- if multiple harnesses are detected, still keep Claude Code as the default
+  recommendation unless the user explicitly passes `--runtime`
 - verify `newsjack` is on PATH for that harness; if not, pass an absolute path
 - verify skills are visible to the chosen harness
 - run `newsjack doctor` and show only actionable problems
@@ -242,9 +246,11 @@ Every agent-scheduled run must:
 - produce an inspectable `run.md`, even when no opportunities are found
 
 If multiple harness schedulers are available, `newsjack setup` should recommend
-the harness the user is actively using. If no supported agent scheduler is
-available, setup should still create the profile and pass the mock test, then
-print one exact manual command for the user to run inside their agent harness.
+Claude Code first and print an exact `claude "..."` command. Users can still
+override the target harness with `newsjack setup --runtime openclaw`, `hermes`,
+or `codex`. If no supported agent scheduler is available, setup should still
+create the profile and pass the mock test, then print one exact manual command
+for the user to run inside their agent harness.
 
 ## Research Inputs
 

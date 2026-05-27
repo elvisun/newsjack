@@ -9,6 +9,10 @@ curl -fsSL newsjack.sh | sh
 newsjack setup
 ```
 
+`newsjack setup` recommends Claude Code by default. If Claude Code is missing,
+it asks before running Anthropic's native installer, then prints a ready-to-run
+`claude "..."` command for monitor setup.
+
 The install path tracks the latest production deployment from `main`. The site build bundles prebuilt CLI artifacts and skills into Vercel, and `newsjack.sh` serves the bundled installer to curl/wget clients.
 
 The installer:

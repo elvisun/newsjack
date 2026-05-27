@@ -5,13 +5,18 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
-	os.Exit(runCLI(os.Args[1:], os.Stdout, os.Stderr))
+	os.Exit(runCLIWithIO(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))
 }
 
 func runCLI(args []string, stdout, stderr io.Writer) int {
+	return runCLIWithIO(args, strings.NewReader(""), stdout, stderr)
+}
+
+func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	cmd := "help"
 	if len(args) > 0 {
 		cmd = args[0]
@@ -55,7 +60,7 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 	case "doctor":
 		return cmdDoctor(args[1:], stdout, stderr)
 	case "setup":
-		return cmdSetup(args[1:], stdout, stderr)
+		return cmdSetup(args[1:], stdin, stdout, stderr)
 	case "runtimes":
 		if len(args) > 1 && args[1] == "detect" {
 			return cmdRuntimesDetect(args[2:], stdout, stderr)

@@ -14,6 +14,11 @@ on:
           - claude
           - hermes
           - openclaw
+      harnesses:
+        description: Comma-separated agent CLIs to preinstall in Docker image
+        required: true
+        default: all
+        type: string
       production_path:
         description: Use public newsjack.sh installer path
         required: true
@@ -29,7 +34,17 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build harness image
-        run: docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
+        shell: bash
+        run: |
+          build_args=()
+          IFS=',' read -ra harnesses <<< "${{ inputs.harnesses }}"
+          for harness in "${harnesses[@]}"; do
+            harness="$(echo "$harness" | xargs)"
+            if [ -n "$harness" ]; then
+              build_args+=(--harness "$harness")
+            fi
+          done
+          harness/scripts/build-image.sh "${build_args[@]}" --image newsjack-agent-harness:local
 
       - name: Run installer harness
         shell: bash

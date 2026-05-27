@@ -10,7 +10,25 @@ real runtime skill install paths.
 From the repo root:
 
 ```bash
-docker build -f harness/Dockerfile -t newsjack-agent-harness:local .
+harness/scripts/build-image.sh --harness all
+```
+
+Preinstall only the harness CLIs needed for a scenario:
+
+```bash
+harness/scripts/build-image.sh --harness claude --image newsjack-agent-harness:claude
+harness/scripts/build-image.sh --harness claude --harness openclaw --image newsjack-agent-harness:claude-openclaw
+harness/scripts/build-image.sh --harness none --image newsjack-agent-harness:none
+```
+
+The equivalent raw Docker build arg is:
+
+```bash
+docker build \
+  -f harness/Dockerfile \
+  --build-arg NEWSJACK_HARNESS_RUNTIMES=claude,openclaw \
+  -t newsjack-agent-harness:claude-openclaw \
+  .
 ```
 
 Open a shell with the repo mounted:
@@ -64,6 +82,7 @@ hash -r
 command -v newsjack
 file "$(command -v newsjack)"
 newsjack version
+newsjack setup
 newsjack skills list
 newsjack doctor | jq .
 ```
@@ -117,6 +136,7 @@ curl -fsSL http://host.docker.internal:3010 | \
 hash -r
 file "$(command -v newsjack)"
 newsjack version
+newsjack setup
 newsjack doctor | jq .
 ```
 
@@ -152,6 +172,7 @@ hash -r
 command -v newsjack
 file "$(command -v newsjack)"
 newsjack version
+newsjack setup
 newsjack skills list
 newsjack doctor | jq .
 ```
