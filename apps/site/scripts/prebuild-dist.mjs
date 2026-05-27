@@ -16,6 +16,7 @@ const publicRoot = join(siteRoot, "public");
 const distRoot = join(publicRoot, "dist");
 const cliRoot = join(repoRoot, "apps/cli");
 const skillsRoot = join(repoRoot, "skills");
+const goVersion = process.env.NEWSJACK_GO_VERSION || "1.26.3";
 
 const targets = [
   ["darwin", "amd64"],
@@ -40,6 +41,61 @@ function output(command, args, options = {}) {
   }).trim();
 }
 
+function commandOutput(command, args, options = {}) {
+  try {
+    return output(command, args, options);
+  } catch {
+    return "";
+  }
+}
+
+function platformName() {
+  switch (process.platform) {
+    case "darwin":
+      return "darwin";
+    case "linux":
+      return "linux";
+    default:
+      throw new Error(`unsupported build platform: ${process.platform}`);
+  }
+}
+
+function archName() {
+  switch (process.arch) {
+    case "x64":
+      return "amd64";
+    case "arm64":
+      return "arm64";
+    default:
+      throw new Error(`unsupported build architecture: ${process.arch}`);
+  }
+}
+
+function findGo() {
+  if (process.env.NEWSJACK_GO) {
+    return process.env.NEWSJACK_GO;
+  }
+  const existing = commandOutput("sh", ["-c", "command -v go"]);
+  if (existing) {
+    return existing;
+  }
+
+  const os = platformName();
+  const arch = archName();
+  const goRoot = join(repoRoot, ".tmp", `go${goVersion}`);
+  const goBin = join(goRoot, "go", "bin", "go");
+  const archive = join(repoRoot, ".tmp", `go${goVersion}.${os}-${arch}.tar.gz`);
+  const url = `https://go.dev/dl/go${goVersion}.${os}-${arch}.tar.gz`;
+
+  mkdirSync(join(repoRoot, ".tmp"), { recursive: true });
+  rmSync(goRoot, { recursive: true, force: true });
+  console.log(`Installing Go ${goVersion} for Newsjack dist build`);
+  run("curl", ["-fsSL", url, "-o", archive]);
+  mkdirSync(goRoot, { recursive: true });
+  run("tar", ["-xzf", archive, "-C", goRoot]);
+  return goBin;
+}
+
 function fileSha256(path) {
   const hash = createHash("sha256");
   hash.update(readFileSync(path));
@@ -55,6 +111,8 @@ function copyIfExists(name, destRoot) {
   }
   cpSync(source, join(destRoot, basename(name)), { recursive: true });
 }
+
+const goBinary = findGo();
 
 function packageTarget({ os, arch, commit, version, commitDir }) {
   const workRoot = join(
@@ -72,7 +130,7 @@ function packageTarget({ os, arch, commit, version, commitDir }) {
   rmSync(workRoot, { recursive: true, force: true });
   mkdirSync(binRoot, { recursive: true });
 
-  run("go", ["build", "-trimpath", "-buildvcs=false", "-ldflags", `-s -w -X main.version=${version}`, "-o", binary, "./cmd/newsjack"], {
+  run(goBinary, ["build", "-trimpath", "-buildvcs=false", "-ldflags", `-s -w -X main.version=${version}`, "-o", binary, "./cmd/newsjack"], {
     cwd: cliRoot,
     env: { CGO_ENABLED: "0", GOOS: os, GOARCH: arch },
   });
