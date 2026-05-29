@@ -1,0 +1,2268 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 255825,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 80,
+    "debug_duplicate_scored_rows": 17,
+    "debug_selected_rows": 28,
+    "debug_unique_scored_signal_ids": 63,
+    "debug_unselected_rows": 52,
+    "selected_unique_signals": 21,
+    "source_errors": 0,
+    "total_emitted_signals": 21,
+    "total_scored_signals": 80
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:14.696048Z",
+  "hygiene_rejections": {
+    "product_or_ecommerce_page": 1,
+    "seo_landing_page": 2
+  },
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 52
+    },
+    "emitted": {
+      "profile_relevance": 11,
+      "profile_relevance_weak": 10
+    },
+    "scored": {
+      "profile_relevance": 12,
+      "profile_relevance_weak": 68
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:04.539108Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Z2Data",
+    "queries": [
+      "component costs handheld gaming supply chain",
+      "component costs electronics",
+      "memory prices hardware",
+      "Steam Deck component costs",
+      "gaming handheld supply chain",
+      "electronics component price increase",
+      "RAM shortage AI demand",
+      "hardware supply chain risk",
+      "semiconductor cost pressure"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 82
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-009-z2data/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 460000,
+            "publication_type": "editorial",
+            "raw_source": "Tech Times"
+          },
+          "published_at": "2026-05-28T02:36:08.970968Z",
+          "source": "news_search",
+          "title": "Steam Deck Prices Surge by Over $200 Due to Ongoing RAMageddon Hardware Crisis",
+          "url": "https://www.techtimes.com/articles/317297/20260527/steam-deck-prices-surge-over-200-due-ongoing-ramageddon-hardware-crisis.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "23e44f2e19784db6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.163,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.658
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.6,
+        "top_outlets": [
+          {
+            "domain": "www.techtimes.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 460000,
+            "outlet_score": 0.658,
+            "traffic_score": 0.629
+          }
+        ]
+      },
+      "title": "Steam Deck Prices Surge by Over $200 Due to Ongoing RAMageddon Hardware Crisis"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "GameDev.net"
+          },
+          "published_at": "2026-05-28T07:36:08.970826Z",
+          "source": "news_search",
+          "title": "Valve raises Steam Deck OLED prices by over 40%",
+          "url": "https://gamedev.net/news/valve-raises-steam-deck-oled-prices-by-over-40-r3597/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "02f163c394f99134",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve raises Steam Deck OLED prices by over 40%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "SAYS"
+          },
+          "published_at": "2026-05-28T07:36:08.971028Z",
+          "source": "news_search",
+          "title": "Valve Hikes Steam Deck OLED Prices Globally As Component Costs Soar",
+          "url": "https://says.com/my/tech/steam-deck-oled-price"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6b6d75a4b8b0a1f3",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve Hikes Steam Deck OLED Prices Globally As Component Costs Soar"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "Ubergizmo"
+          },
+          "published_at": "2026-05-28T10:36:08.970731Z",
+          "source": "news_search",
+          "title": "Valve Raises Steam Deck Prices by Up To $300 Due To AI Component Demand",
+          "url": "https://www.ubergizmo.com/2026/05/valve-raises-steam-deck-prices/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8e61f646f17e79d1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.138,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.584
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.9,
+        "top_outlets": [
+          {
+            "domain": "www.ubergizmo.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.584,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "Valve Raises Steam Deck Prices by Up To $300 Due To AI Component Demand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "GamesRadar+"
+          },
+          "published_at": "2026-05-28T21:36:08.970679Z",
+          "source": "news_search",
+          "title": "Tim Sweeney goes after Gabe Newell following Valve's Steam Deck price hike: \"Severe disruptions in the component parts supply chain for megayachts\"",
+          "url": "https://www.gamesradar.com/platforms/pc-gaming/tim-sweeney-goes-after-gabe-newell-following-valves-steam-deck-price-hike-severe-disruptions-in-the-component-parts-supply-chain-for-megayachts/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8a5b8c15fc44bca9",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tim Sweeney goes after Gabe Newell following Valve's Steam Deck price hike: \"Severe disruptions in the component parts supply chain for megayachts\""
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "brand_content",
+            "raw_source": "IndexBox"
+          },
+          "published_at": "2026-05-28T22:36:08.970616Z",
+          "source": "news_search",
+          "title": "Rugged Display Market Growth Outlook to 2035: Industrial Iot and Defense Drive Demand - News and Statistics",
+          "url": "https://www.indexbox.io/blog/rugged-display-market-forecast-points-higher-toward-2035-driven-by-industrial-iot-expansion-and-defense-modernization/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9a62f85ac10b11aa",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.137,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.581
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.7,
+        "top_outlets": [
+          {
+            "domain": "www.indexbox.io",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.581,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "Rugged Display Market Growth Outlook to 2035: Industrial Iot and Defense Drive Demand - News and Statistics"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "Ubergizmo"
+          },
+          "published_at": "2026-05-28T10:36:09.624062Z",
+          "source": "news_search",
+          "title": "Valve Raises Steam Deck Prices by Up To $300 Due To AI Component Demand",
+          "url": "https://www.ubergizmo.com/2026/05/valve-raises-steam-deck-prices/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8e61f646f17e79d1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "component costs electronics",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.138,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.584
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.9,
+        "top_outlets": [
+          {
+            "domain": "www.ubergizmo.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.584,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "Valve Raises Steam Deck Prices by Up To $300 Due To AI Component Demand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 510000,
+            "publication_type": "newswire",
+            "raw_source": "FinancialContent"
+          },
+          "published_at": "2026-05-28T13:36:09.624191Z",
+          "source": "news_search",
+          "title": "How Is Apple's Stock Performance Compared to Other Technology Stocks?",
+          "url": "https://markets.financialcontent.com/stocks/article/barchart-2026-5-28-how-is-apples-stock-performance-compared-to-other-technology-stocks"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bd5716e6db94cb0d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "component costs electronics",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.164,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.661
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.7,
+        "top_outlets": [
+          {
+            "domain": "markets.financialcontent.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 510000,
+            "outlet_score": 0.661,
+            "traffic_score": 0.634
+          }
+        ]
+      },
+      "title": "How Is Apple's Stock Performance Compared to Other Technology Stocks?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Road to VR"
+          },
+          "published_at": "2026-05-28T14:36:09.624086Z",
+          "source": "news_search",
+          "title": "Steam Deck’s Massive Price Hike May Not Bode Well for Steam Frame",
+          "url": "https://roadtovr.com/steam-decks-price-hike-steam-frame-speculation/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1f96590da61eff28",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "component costs electronics",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Steam Deck’s Massive Price Hike May Not Bode Well for Steam Frame"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "citybiz"
+          },
+          "published_at": "2026-05-28T15:36:09.624021Z",
+          "source": "news_search",
+          "title": "American Securities Sells MW Components for $950 Million as Aerospace and Industrial Supply Chains Reward Scaled Precision Manufacturing Platforms",
+          "url": "https://www.citybiz.co/article/852454/american-securities-sells-mw-components-for-950-million-as-aerospace-and-industrial-supply-chains-reward-scaled-precision-manufacturing-platforms/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e4007f4d7e212d4f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "component costs electronics",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "www.citybiz.co",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "American Securities Sells MW Components for $950 Million as Aerospace and Industrial Supply Chains Reward Scaled Precision Manufacturing Platforms"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "CBT News"
+          },
+          "published_at": "2026-05-28T18:36:09.62396Z",
+          "source": "news_search",
+          "title": "U.S. eases some taiwan tariffs, caps duty at 15%",
+          "url": "https://www.cbtnews.com/u-s-eases-some-taiwan-tariffs/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9e80b02060237100",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "component costs electronics",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.181,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.71
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 41.9,
+        "top_outlets": [
+          {
+            "domain": "www.cbtnews.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.71,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "U.S. eases some taiwan tariffs, caps duty at 15%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Pocket Gamer.biz"
+          },
+          "published_at": "2026-05-28T10:36:10.380172Z",
+          "source": "news_search",
+          "title": "The Steam Deck OLED returns with up to $300 price increase",
+          "url": "https://www.pocketgamer.biz/the-steam-deck-oled-returns-with-up-to-300-price-increase/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "dcfc97ee357de62a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "memory prices hardware",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The Steam Deck OLED returns with up to $300 price increase"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "PC Guide"
+          },
+          "published_at": "2026-05-28T11:36:10.380119Z",
+          "source": "news_search",
+          "title": "RAM and SSD will continue to rise, says Team Group",
+          "url": "https://www.pcguide.com/news/ram-and-ssd-will-continue-to-rise-says-team-group/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d04b8f76319a0a6d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "memory prices hardware",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "RAM and SSD will continue to rise, says Team Group"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T12:36:10.380224Z",
+          "source": "news_search",
+          "title": "Qualcomm Launches Snapdragon C Platform for Budget Laptops",
+          "url": "https://letsdatascience.com/news/qualcomm-launches-snapdragon-c-platform-for-budget-laptops-f2953df7"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b1f1f28208f6e796",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "memory prices hardware",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Qualcomm Launches Snapdragon C Platform for Budget Laptops"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "GamesIndustry.biz"
+          },
+          "published_at": "2026-05-28T07:36:10.972059Z",
+          "source": "news_search",
+          "title": "Valve raises Steam Deck OLED prices by over 40%",
+          "url": "https://www.gamesindustry.biz/valve-raises-steam-deck-oled-prices-by-over-40"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "409ac4fe02012756",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve raises Steam Deck OLED prices by over 40%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The Shortcut | Matt Swider"
+          },
+          "published_at": "2026-05-28T09:36:10.972139Z",
+          "source": "news_search",
+          "title": "Steam Deck price increase makes Valve’s handheld almost impossible to recommend",
+          "url": "https://www.theshortcut.com/p/steam-deck-price-increase-makes-valves-handheld-almost-impossible-to-recommend"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9794f0e78335217d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Steam Deck price increase makes Valve’s handheld almost impossible to recommend"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "HotHardware"
+          },
+          "published_at": "2026-05-28T13:36:10.972168Z",
+          "source": "news_search",
+          "title": "Valve's Massive Steam Deck OLED Price Hike Hits Ghost Inventory Online",
+          "url": "https://hothardware.com/news/valve-hikes-steam-deck-pricing"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a9c1982136a0f125",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve's Massive Steam Deck OLED Price Hike Hits Ghost Inventory Online"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Road to VR"
+          },
+          "published_at": "2026-05-28T14:36:10.972188Z",
+          "source": "news_search",
+          "title": "Steam Deck’s Massive Price Hike May Not Bode Well for Steam Frame",
+          "url": "https://roadtovr.com/steam-decks-price-hike-steam-frame-speculation/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1f96590da61eff28",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Steam Deck’s Massive Price Hike May Not Bode Well for Steam Frame"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "GameLuster"
+          },
+          "published_at": "2026-05-28T15:36:10.972001Z",
+          "source": "news_search",
+          "title": "Valve Has Reportedly Massively Increased Steam Deck Pricing",
+          "url": "https://gameluster.com/valve-steam-deck-price-increase-2026/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fde16f10b31e2b45",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve Has Reportedly Massively Increased Steam Deck Pricing"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Mix93.3"
+          },
+          "published_at": "2026-05-28T15:36:10.972083Z",
+          "source": "news_search",
+          "title": "Want a New Steam Deck? It’s Going to Cost You",
+          "url": "https://mix93.com/vip-content/vip-inside-story/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "532874b7d3366065",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "Steam Deck component costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Want a New Steam Deck? It’s Going to Cost You"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "DLCompare.com"
+          },
+          "published_at": "2026-05-28T06:36:10.379838Z",
+          "source": "news_search",
+          "title": "Valve hikes Steam Deck prices following global hardware component crises",
+          "url": "https://www.dlcompare.com/gaming-news/valve-hikes-steam-deck-prices-following-global-hardware-component-crises-77648"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "22aac390e9b03581",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.118,
+      "query": "memory prices hardware",
+      "queue_priority": 59.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Valve hikes Steam Deck prices following global hardware component crises"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Oherald"
+          },
+          "published_at": "2026-05-28T17:36:11.537401Z",
+          "source": "news_search",
+          "title": "AI Demand Pressures Memory Supply, Driving Up Steam Deck OLED Pricing – 28 May 2026",
+          "url": "https://www.heraldgoa.in/goa/ai-demand-pressures-memory-supply-driving-up-steam-deck-oled-pricing/476379/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e9bab03e9d8277da",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.107,
+      "query": "gaming handheld supply chain",
+      "queue_priority": 59.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Demand Pressures Memory Supply, Driving Up Steam Deck OLED Pricing – 28 May 2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Startup Fortune"
+          },
+          "published_at": "2026-05-28T11:36:10.379958Z",
+          "source": "news_search",
+          "title": "Wiwynn warns AI hardware shortages are spreading beyond memory",
+          "url": "https://startupfortune.com/wiwynn-warns-ai-hardware-shortages-are-spreading-beyond-memory/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5ec2a10e982f1212",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "memory prices hardware",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Wiwynn warns AI hardware shortages are spreading beyond memory"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Data Centre Magazine"
+          },
+          "published_at": "2026-05-28T16:36:13.04458Z",
+          "source": "news_search",
+          "title": "Q&A: How Global RAM Shortages are Affecting Data Centres",
+          "url": "https://datacentremagazine.com/news/how-ram-shortages-are-affecting-data-centres"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a958cd6b39598dce",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.077,
+      "query": "RAM shortage AI demand",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.134,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.572
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.1,
+        "top_outlets": [
+          {
+            "domain": "datacentremagazine.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.572,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "Q&A: How Global RAM Shortages are Affecting Data Centres"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 510000,
+            "publication_type": "newswire",
+            "raw_source": "FinancialContent"
+          },
+          "published_at": "2026-05-28T08:36:13.739724Z",
+          "source": "news_search",
+          "title": "FinancialContent - Global B2B Power Electronics Sourcing Strategy: How TPS Minimizes Supply Chain Risks in Modern Power Conversion System Infrastructures",
+          "url": "https://markets.financialcontent.com/stocks/article/abnewswire-2026-5-28-global-b2b-power-electronics-sourcing-strategy-how-tps-minimizes-supply-chain-risks-in-modern-power-conversion-system-infrastructures"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "10efb7c511943589",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.068,
+      "query": "hardware supply chain risk",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.164,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.661
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.7,
+        "top_outlets": [
+          {
+            "domain": "markets.financialcontent.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 510000,
+            "outlet_score": 0.661,
+            "traffic_score": 0.634
+          }
+        ]
+      },
+      "title": "FinancialContent - Global B2B Power Electronics Sourcing Strategy: How TPS Minimizes Supply Chain Risks in Modern Power Conversion System Infrastructures"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "publication_type": "editorial",
+            "raw_source": "Seeking Alpha"
+          },
+          "published_at": "2026-05-28T14:36:13.739591Z",
+          "source": "news_search",
+          "title": "Fabrinet: The Silent Enabler Of The AI Infrastructure Boom And Why I'm Bullish (NYSE:FN)",
+          "url": "https://seekingalpha.com/article/4909646-fabrinet-the-silent-enabler-of-the-ai-infrastructure-boom-and-why-im-bullish"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a5e70f6f29dbcc23",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.069,
+      "query": "hardware supply chain risk",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.821
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "seekingalpha.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "outlet_score": 0.821,
+            "traffic_score": 0.814
+          }
+        ]
+      },
+      "title": "Fabrinet: The Silent Enabler Of The AI Infrastructure Boom And Why I'm Bullish (NYSE:FN)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "OLED-Info"
+          },
+          "published_at": "2026-05-28T12:36:08.970896Z",
+          "source": "news_search",
+          "title": "The Valve Steam Deck OLED is back in stock, but with a sharp price increase",
+          "url": "https://www.oled-info.com/valve-steam-deck-oled-back-stock-sharp-price-increase"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "585ac2dae22242ed",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The Valve Steam Deck OLED is back in stock, but with a sharp price increase"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "publication_type": "editorial",
+            "raw_source": "The Manila Times"
+          },
+          "published_at": "2026-05-28T13:36:11.537348Z",
+          "source": "news_search",
+          "title": "Unikeyic Electronics Ranked No. 19 on Supply Chain Connect's 2026 Top 50 Global Electronics Distributors List",
+          "url": "https://www.manilatimes.net/2026/05/28/tmt-newswire/pr-newswire/unikeyic-electronics-ranked-no-19-on-supply-chain-connects-2026-top-50-global-electronics-distributors-list/2353829/amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4192d897386d2881",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.055,
+      "query": "gaming handheld supply chain",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.174,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.689
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.6,
+        "top_outlets": [
+          {
+            "domain": "www.manilatimes.net",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "outlet_score": 0.689,
+            "traffic_score": 0.671
+          }
+        ]
+      },
+      "title": "Unikeyic Electronics Ranked No. 19 on Supply Chain Connect's 2026 Top 50 Global Electronics Distributors List"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Dataweek"
+          },
+          "published_at": "2026-05-28T15:36:12.316257Z",
+          "source": "news_search",
+          "title": "From the editor's desk: Pricing surge reshapes engineering reality - 29 May 2026 - Technews Publishing",
+          "url": "https://www.dataweek.co.za/27289r"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "47026b31523c020d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.054,
+      "query": "electronics component price increase",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "From the editor's desk: Pricing surge reshapes engineering reality - 29 May 2026 - Technews Publishing"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T14:36:13.739518Z",
+          "source": "news_search",
+          "title": "Fabrinet Captures AI Hardware Supply Chain Growth",
+          "url": "https://letsdatascience.com/news/fabrinet-captures-ai-hardware-supply-chain-growth-1f4fa642"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bb56f5988835c1f8",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "hardware supply chain risk",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Fabrinet Captures AI Hardware Supply Chain Growth"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "publication_type": "newswire",
+            "raw_source": "PR Newswire"
+          },
+          "published_at": "2026-05-28T13:36:13.739549Z",
+          "source": "news_search",
+          "title": "Dataknox Solutions' \"Navigating a Seller's Market as an Enterprise Buyer\" Provides Guidance on Managing Today's IT Hardware Supply Constraints",
+          "url": "https://www.prnewswire.com/news-releases/dataknox-solutions-navigating-a-sellers-market-as-an-enterprise-buyer-provides-guidance-on-managing-todays-it-hardware-supply-constraints-302784253.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b86ae68b6177dad4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.05,
+      "query": "hardware supply chain risk",
+      "queue_priority": 58.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.736
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.6,
+        "top_outlets": [
+          {
+            "domain": "www.prnewswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.736
+          }
+        ]
+      },
+      "title": "Dataknox Solutions' \"Navigating a Seller's Market as an Enterprise Buyer\" Provides Guidance on Managing Today's IT Hardware Supply Constraints"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 460000000,
+            "publication_type": "editorial",
+            "raw_source": "BBC"
+          },
+          "published_at": "2026-05-28T10:36:08.970468Z",
+          "source": "news_search",
+          "title": "Valve cites component costs as Steam Deck prices up more than 40%",
+          "url": "https://www.bbc.com/news/articles/cz725d5d1x7o"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5b9d343320474f43",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.268,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.958
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 57.9,
+        "top_outlets": [
+          {
+            "domain": "www.bbc.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 460000000,
+            "outlet_score": 0.958,
+            "traffic_score": 0.963
+          }
+        ]
+      },
+      "title": "Valve cites component costs as Steam Deck prices up more than 40%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 41000000,
+            "publication_type": "editorial",
+            "raw_source": "Bloomberg.com"
+          },
+          "published_at": "2026-05-28T08:36:10.380009Z",
+          "source": "news_search",
+          "title": "Nvidia Server Maker Wiwynn Sees AI Bottlenecks Beyond Memory",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-28/nvidia-server-maker-wiwynn-expects-ai-bottlenecks-beyond-memory"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Taipei Times"
+          },
+          "published_at": "2026-05-28T15:36:10.379904Z",
+          "source": "news_search",
+          "title": "Wiwynn sees AI bottlenecks beyond memory chips",
+          "url": "https://www.taipeitimes.com/News/biz/archives/2026/05/29/2003858150"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d76908fe513f7824",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "memory prices hardware",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.232,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.857
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 51.3,
+        "top_outlets": [
+          {
+            "domain": "www.bloomberg.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 41000000,
+            "outlet_score": 0.857,
+            "traffic_score": 0.846
+          }
+        ]
+      },
+      "title": "Nvidia Server Maker Wiwynn Sees AI Bottlenecks Beyond Memory"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "Tom's Hardware"
+          },
+          "published_at": "2026-05-28T12:36:10.38007Z",
+          "source": "news_search",
+          "title": "Acer and Qualcomm take on MacBook Neo with first Snapdragon C laptop – Aspire Go 15 delivers 512GB SSD and 8GB of RAM at ‘entry-tier price’",
+          "url": "https://www.tomshardware.com/laptops/acer-and-qualcomm-take-on-the-macbook-neo-with-first-snapdragon-c-laptop-aspire-go-15-delivers-512gb-ssd-and-8gb-of-ram-at-entry-tier-price"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "52fd71baba4e7536",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "memory prices hardware",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.213,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.801
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 47.7,
+        "top_outlets": [
+          {
+            "domain": "www.tomshardware.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.801,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Acer and Qualcomm take on MacBook Neo with first Snapdragon C laptop – Aspire Go 15 delivers 512GB SSD and 8GB of RAM at ‘entry-tier price’"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "Mashable"
+          },
+          "published_at": "2026-05-28T16:36:10.379676Z",
+          "source": "news_search",
+          "title": "Valve Steam Machine falls victim to global memory shorage",
+          "url": "https://mashable.com/article/valve-steam-machine-delayed-memory-shortage"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ac8a57a6a3e27c4a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "memory prices hardware",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.808
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "mashable.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.808,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Valve Steam Machine falls victim to global memory shorage"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Indy100"
+          },
+          "published_at": "2026-05-28T10:36:10.972209Z",
+          "source": "news_search",
+          "title": "Valve raises Steam Deck price by eye-watering amount: 'Gaming hardware is beyond cooked'",
+          "url": "https://www.indy100.com/gaming/steam-deck-price-rise-valve"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "43d54c97eb211d95",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "Steam Deck component costs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.198,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.76
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 45.1,
+        "top_outlets": [
+          {
+            "domain": "www.indy100.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.76,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Valve raises Steam Deck price by eye-watering amount: 'Gaming hardware is beyond cooked'"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "Mashable"
+          },
+          "published_at": "2026-05-28T16:36:13.04461Z",
+          "source": "news_search",
+          "title": "Out of stock: Valve Steam Deck is the latest casualty of global memory shortage",
+          "url": "https://mashable.com/article/valve-steam-deck-latest-casualty-of-global-memory-shortage"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ba3a297e6236f7c4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "RAM shortage AI demand",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.808
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "mashable.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.808,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Out of stock: Valve Steam Deck is the latest casualty of global memory shortage"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "publication_type": "editorial",
+            "raw_source": "The Register"
+          },
+          "published_at": "2026-05-28T12:36:08.970778Z",
+          "source": "news_search",
+          "title": "Steam Deck prices go through the roof as Valve blames component shortages",
+          "url": "https://www.theregister.com/personal-tech/2026/05/28/steam-deck-prices-go-through-the-roof-as-valve-blames-component-shortages/5247830"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ec29cfd8f59e2b6e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "component costs handheld gaming supply chain",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.194,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.748
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.3,
+        "top_outlets": [
+          {
+            "domain": "www.theregister.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "outlet_score": 0.748,
+            "traffic_score": 0.723
+          }
+        ]
+      },
+      "title": "Steam Deck prices go through the roof as Valve blames component shortages"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "brand_content",
+            "raw_source": "IndexBox"
+          },
+          "published_at": "2026-05-28T17:36:09.62429Z",
+          "source": "news_search",
+          "title": "World Air Pressure Sensor - Market Analysis, Forecast, Size, Trends and Insights",
+          "url": "https://www.indexbox.io/blog/air-pressure-sensor-market-demand-to-accelerate-by-2035-on-industrial-iot-and-automotive-safety-mandates/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ab6d6ee3144efbc1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "component costs electronics",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.137,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.581
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.7,
+        "top_outlets": [
+          {
+            "domain": "www.indexbox.io",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.581,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "World Air Pressure Sensor - Market Analysis, Forecast, Size, Trends and Insights"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "brand_content",
+            "raw_source": "IndexBox"
+          },
+          "published_at": "2026-05-28T21:36:09.623929Z",
+          "source": "news_search",
+          "title": "World Electronics And Control Instrumentation - Market Analysis, Forecast, Size, Trends and Insights",
+          "url": "https://www.indexbox.io/blog/electronics-and-control-instrumentation-market-forecast-points-higher-toward-2035-on-industrial-automation-and-vehicle-electrification/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5e34df5d4f26da0f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "component costs electronics",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.137,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.581
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.7,
+        "top_outlets": [
+          {
+            "domain": "www.indexbox.io",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.581,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "World Electronics And Control Instrumentation - Market Analysis, Forecast, Size, Trends and Insights"
+    }
+  ]
+}

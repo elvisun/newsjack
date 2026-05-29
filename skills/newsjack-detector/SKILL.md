@@ -1,6 +1,6 @@
 ---
 name: newsjack-detector
-description: "Monitor current news and reaction signals, then decide which are credible newsjacking opportunities for a client. Uses the local monitoring engine for evidence, but the skill owns PR judgment, brand safety, standing, proof, decay, and handoff."
+description: "Monitor current news and reaction signals, then decide which are credible newsjacking opportunities for a client. Uses the local monitoring engine for evidence, but the skill owns PR judgment, brand safety, standing, decay, angle fit, and handoff."
 when_to_use: "User wants to monitor news for pitchable hooks, find newsjacking opportunities, react to breaking industry news, watch competitors/topics, or decide whether a current signal is worth turning into an angle or reactive comment."
 ---
 
@@ -12,7 +12,7 @@ The monitoring engine collects evidence, computes mechanical signals, and orders
 
 ## Doctrine
 
-Before using this skill, check whether `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` exist. If present, follow them. This skill refuses tragedy hooks, fabricated standing, fake urgency, weak proof, and spray-and-pray output.
+Before using this skill, check whether `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` exist. If present, follow them. This skill refuses tragedy hooks, fabricated standing, fake urgency, and spray-and-pray output.
 
 ## Source Engine
 
@@ -175,15 +175,21 @@ For fixture debugging, prefer the observable helper in `fixtures/newsjack-detect
 
 The Go CLI is the freshness authority. It computes `freshness_gate.computed_status` from the detector run timestamp and cutoff. If an LLM labels May 8 as fresh for a May 25 run, `origin-apply` must mark it stale.
 
-6. Run the expensive rubric pass only on `targeted_candidates.json` and write the result as Markdown to `final_report.md`. The expensive pass must reject or omit any signal that lacks `freshness_gate.computed_status` of `fresh` or `fresh_new_development` in recurring/beta output.
+6. Run angle generation on the high-priority fresh candidates from `targeted_candidates.json`. Use `angle-generator` as the atomic fit step: a candidate is useful only if the angle generator can produce at least one honest, journalist-shaped angle from the detector signal and profile facts. Reject or downgrade candidates where angle generation returns zero viable angles, duplicate/slop angles only, or no specific journalist shape.
 
-7. Rerender the observable Markdown run report:
+7. Compile the angle-generation results into `final_report.md`. The report should be story-first and easy to skim:
+   - `## Top News Today`: the current stories in priority order, with story size, link, fit status, and three suggested angles from `angle-generator` for each story that is not rejected.
+   - `## Top Positioning Angles`: the strongest ways the client can enter the conversation, each anchored to the specific news item(s) and story size.
+   - `## Watch / Not A Fit`: relevant-but-not-ready and rejected items with a plain reason.
+   Links must be clickable Markdown links, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict, and do not mix story headlines and angle headlines without labeling which is which.
+
+8. Rerender the observable Markdown run report:
 
 ```bash
 ~/.newsjack/bin/newsjack summarize-run candidates.json --output summary.json --markdown run.md
 ```
 
-When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders structured `final_report.md` into readable recommendations when it exists and keeps detector/coarse/origin provenance in a compact appendix.
+When working inside the fixture timestamped run folder, pass the full paths for `candidates.json`, `summary.json`, and `run.md`. The final user-facing artifact is `run.md`, which renders `final_report.md` plus a compact candidate scan. JSON/log files keep provenance; `run.md` should be easy to skim.
 
 ### Harness Execution Decision Path
 
@@ -263,6 +269,8 @@ Rules:
 - Only reject clear junk: keyword collisions, obvious non-news, docs/product/SEO pages, evergreen content, low-reach single X posts, safety-risk hooks, or plainly off-beat items.
 - If the client, a named competitor, a profile topic, a profile standing term, a regulator/customer/category named in the profile, or a direct synonym appears anywhere in the title, excerpt, evidence, or detector `profile_matches`, do not reject as `no_profile_bridge`; use `keep` or `monitor_only`.
 - A named competitor counts even when it is not the headline subject. If a story is framed around Meta, China, a regulator, an acquirer, a partner, or a blocked deal but the target/company affected is a profile competitor such as Manus, keep it for the next stage.
+- If `story_size.band` is `high` or `major` and there is any plausible client/category/regulator/topic bridge, do not reject. Use `keep` when the bridge is concrete and `monitor_only` when the bridge is weak but plausible.
+- For moderate-to-large stories, err toward breadth: a remote but coherent connection should survive this pass so downstream angle generation and newsworthiness judgment can decide whether there is a real way in.
 - Use `no_profile_bridge` only when you can explain that no profile entity, competitor, topic, standing term, or plausible buyer/regulator/category bridge appears in the candidate.
 - For broad major-news, RSS, X News, or X Trends items with any plausible client bridge, use keep or monitor_only.
 - Preserve evidence URLs. Each decision must cite the URLs it used.
@@ -335,7 +343,7 @@ Output shape:
 
 ### Expensive Pass Prompt
 
-After applying `origin-apply`, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, request proof, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
+After applying `origin-apply`, run the normal rubric only on `targeted_candidates.json`. The expensive pass may compare candidates, identify Best Bets, assess standing, describe journalist shape, and hand off to another skill. It must still use the Output Format below.
 
 For recurring/beta output, the expensive pass must treat `freshness_gate.computed_status` as the hard freshness gate:
 
@@ -377,7 +385,6 @@ You own:
 
 - whether the signal is newsjacking-worthy
 - whether the client has standing
-- whether proof is sufficient
 - same-story/original-coverage judgment
 - final decay explanation from `freshness_gate`
 - journalist shape
@@ -388,19 +395,19 @@ Do not treat `routing.queue_priority` as permission to pitch. It is only an oper
 
 ## Process
 
-1. **Anchor the client.** Identify company, topics, competitors, proof assets, spokespeople, standing, and any client-specific exclusions. General tragedy and human-suffering blocks live in this skill's doctrine, not in monitor profiles. If the client standing is missing, the detector can still monitor but must mark opportunities as proof-needed.
+1. **Anchor the client.** Identify company, topics, competitors, spokespeople, standing, and any client-specific exclusions. General tragedy and human-suffering blocks live in this skill's doctrine, not in monitor profiles. If the client standing is missing, the detector can still monitor but must mark opportunities as weak-standing or no-standing.
 
 2. **Run the engine.** Use `newsjack detector run` with the profile and relevant query/source flags. Profile `feed_urls` are included automatically. For hourly feed-only monitoring, use `--feed-only --save --new-only --max-age-hours 24`. For profiles without feeds, include `--major-feeds` or explicit `--feed-url` values. If credentials are missing, run `newsjack detector diagnose` and report what source is unavailable.
 
-3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_proof`, `x_author_followers`, and `x_query_counts`; single-post X evidence without social proof should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
+3. **Read queued signals.** For each signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores.major_news`, `mechanical_scores.novelty`, profile matches, `mechanical_scores.source_agreement`, and safety flags. Treat engine age and decay as provisional until `story-origin-check` verifies the first public clock. For `major_news` lane items, a high `mechanical_scores.major_news` means the story is broadly important, not that the client automatically has standing. For `x` evidence, inspect metadata such as `x_signal_type`, `x_social_signals`, `x_author_followers`, and `x_query_counts`; single-post X evidence without reach or engagement signals should be treated as noise if it appears through another path. If `--new-only` returns no signals, say no new signals since the last saved pass instead of treating that as source failure.
 
-4. **Use story size as effort priority, not pitch permission.** `story_size` measures media attention using publication traffic and domain authority when news-search metadata provides them. It distinguishes one large outlet from broad pickup across several large domains. A large story still needs freshness, client standing, proof, and journalist shape; a small story can still be useful when standing is strong.
+4. **Use story size as recall pressure, not pitch permission.** `story_size` measures media attention using publication traffic and domain authority when news-search metadata provides them. It distinguishes one large outlet from broad pickup across several large domains. Large stories with even a remote but coherent client bridge should survive coarse filtering so downstream angle generation can look for a way in. A large story still needs freshness, client standing, and journalist shape before it becomes pitchable; a small story can still be useful when standing is strong.
 
 5. **Verify first publication and canonical coverage.** In recurring/beta output, each surfaced signal must have `freshness_gate.computed_status` of `fresh` or `fresh_new_development`. If the story clock is stale or unverified, reject before applying pitch judgment. Prefer `story_origin.canonical_coverage_url` over the retrieved pickup URL when citing the main story.
 
-6. **Apply the rubric.** Read `rubric.md` when judging signals. Use `examples.md` if the output shape is unclear.
+6. **Generate angles before final fit.** For candidates that survive freshness, use `angle-generator` to brainstorm and cull possible ways to newsjack the story. Treat angle generation as the atomic fit check: `recommended_angle` or `develop_angle` requires at least one honest journalist-shaped angle; `monitor` means the signal is relevant but the angle is not ready; `no_viable_angle` means the candidate looked relevant mechanically but cannot honestly be used.
 
-7. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, freshness-unverified, single-source, no-standing, no-proof, or no-journalist-shape signals.
+7. **Reject hard.** Block tragedy, death, violence, abuse, war, disaster, or human suffering as promotional hooks. Also reject stale, freshness-unverified, single-source, no-standing, off-beat, no viable angle, or no journalist-shape signals.
 
 8. **Choose the handoff.**
    - Breaking or same-day sourced comment: `reactive-comment`
@@ -443,9 +450,6 @@ Every opportunity must include source URLs in `evidence_used`. Include `story_or
         "assessment": "strong | partial | weak",
         "rationale": "What gives the client standing, or what is missing"
       },
-      "required_proof": [
-        "Specific proof needed before outreach"
-      ],
       "journalist_shape": {
         "beat_description": "Specific reporter shape, not a name",
         "why_they_care_now": "Why this beat plausibly cares now",
@@ -490,6 +494,6 @@ Every opportunity must include source URLs in `evidence_used`. Include `story_or
 
 Allowed verdicts: `pitch_now`, `develop_angle`, `monitor`, `reject`.
 
-Allowed rejection reasons: `stale`, `freshness_unverified`, `single_source`, `no_client_standing`, `missing_proof`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`.
+Allowed rejection reasons: `stale`, `freshness_unverified`, `single_source`, `no_client_standing`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`, `no_viable_angle`.
 
 Allowed brand-safety block reasons: `tragedy_or_human_suffering`, `client_exclusion`, `regulated_claim_risk`, `fabrication_risk`.

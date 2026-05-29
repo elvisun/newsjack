@@ -1,0 +1,2578 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 221541,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 57,
+    "debug_duplicate_scored_rows": 17,
+    "debug_selected_rows": 33,
+    "debug_unique_scored_signal_ids": 40,
+    "debug_unselected_rows": 24,
+    "selected_unique_signals": 23,
+    "source_errors": 0,
+    "total_emitted_signals": 23,
+    "total_scored_signals": 57
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:51.43215Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 5,
+      "profile_relevance_weak": 19
+    },
+    "emitted": {
+      "profile_relevance": 15,
+      "profile_relevance_weak": 8
+    },
+    "scored": {
+      "profile_relevance": 25,
+      "profile_relevance_weak": 32
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:44.763274Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "TollBit",
+    "queries": [
+      "AI copyright publisher licensing Perplexity CNN",
+      "CNN Perplexity copyright",
+      "AI copyright lawsuit publishers",
+      "publisher licensing AI search",
+      "AI crawler content access",
+      "Perplexity publisher lawsuit",
+      "AI search copyright infringement",
+      "news publisher AI licensing",
+      "content monetization AI crawlers"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 70
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-014-tollbit/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T17:36:50.064843Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content",
+          "url": "https://www.aljazeera.com/amp/economy/2026/5/28/cnn-sues-perplexity-alleging-unlawful-distribution-of-copyrighted-content"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "t2ONLINE"
+          },
+          "published_at": "2026-05-28T17:36:50.064901Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity for copyright infringement and trademark violations",
+          "url": "https://t2online.in/tech/tech-news/cnn-sues-perplexity-for-copyright-infringement-and-trademark-violations/2005330"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ffc0bbd7cbb2d2d6",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI search copyright infringement",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.249,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.904
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.4,
+        "top_outlets": [
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 66,
+            "estimated_monthly_organic_traffic": 450000,
+            "publication_type": "editorial",
+            "raw_source": "Latest news from Azerbaijan"
+          },
+          "published_at": "2026-05-28T14:36:47.633974Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://news.az/news/cnn-sues-perplexity-over-alleged-ai-copyright-theft"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T18:36:47.633877Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping",
+          "url": "https://www.storyboard18.com/amp/how-it-works/cnn-sues-perplexity-ai-over-alleged-copyright-infringement-and-content-scraping-99542.htm"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T18:36:47.633925Z",
+          "source": "news_search",
+          "title": "CPI | CNN Sues Perplexity Over Alleged Copyright Infringement",
+          "url": "https://www.pymnts.com/cpi-posts/cnn-sues-perplexity-over-alleged-copyright-infringement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "41cc67d5b39a2a5c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "publisher licensing AI search",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.413,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 53.5,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          },
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          },
+          {
+            "domain": "news.az",
+            "domain_authority": 66,
+            "domain_authority_score": 0.66,
+            "estimated_monthly_organic_traffic": 450000,
+            "outlet_score": 0.633,
+            "traffic_score": 0.628
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 430000000,
+            "publication_type": "editorial",
+            "raw_source": "CNN"
+          },
+          "published_at": "2026-05-28T12:36:50.064662Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://www.cnn.com/2026/05/28/media/cnn-sues-perplexity-ai-copyright"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T18:36:50.064703Z",
+          "source": "news_search",
+          "title": "CPI | CNN Sues Perplexity Over Alleged Copyright Infringement",
+          "url": "https://www.pymnts.com/cpi-posts/cnn-sues-perplexity-over-alleged-copyright-infringement/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T18:36:50.064815Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping",
+          "url": "https://www.storyboard18.com/how-it-works/cnn-sues-perplexity-ai-over-alleged-copyright-infringement-and-content-scraping-99542.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b102eb4bc6a94d53",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI search copyright infringement",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.491,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.955
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 70,
+        "top_outlets": [
+          {
+            "domain": "www.cnn.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 430000000,
+            "outlet_score": 0.955,
+            "traffic_score": 0.959
+          },
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          },
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T18:36:45.796413Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping",
+          "url": "https://www.storyboard18.com/how-it-works/cnn-sues-perplexity-ai-over-alleged-copyright-infringement-and-content-scraping-99542.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "dfa8adaacd612acb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.651
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.1,
+        "top_outlets": [
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "KTEN"
+          },
+          "published_at": "2026-05-28T12:36:50.646399Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://www.kten.com/news/business/cnn-sues-perplexity-over-alleged-ai-copyright-theft/article_98b238d3-fc06-506c-b8b7-9e911aed8569.html"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T18:36:50.646335Z",
+          "source": "news_search",
+          "title": "CPI | CNN Sues Perplexity Over Alleged Copyright Infringement",
+          "url": "https://www.pymnts.com/cpi-posts/cnn-sues-perplexity-over-alleged-copyright-infringement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c420348fcc9e71df",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "news publisher AI licensing",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "104.1 WIKY"
+          },
+          "published_at": "2026-05-28T14:36:47.633951Z",
+          "source": "news_search",
+          "title": "CNN files suit against Perplexity alleging unlawful content distribution",
+          "url": "https://wiky.com/2026/05/28/cnn-files-suit-against-perplexity-alleging-unlawful-content-distribution/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T17:36:47.633903Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content",
+          "url": "https://www.aljazeera.com/amp/economy/2026/5/28/cnn-sues-perplexity-alleging-unlawful-distribution-of-copyrighted-content"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "56df188be8ec1a00",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.046,
+      "query": "publisher licensing AI search",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.249,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.904
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.4,
+        "top_outlets": [
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "CNN files suit against Perplexity alleging unlawful content distribution"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T17:36:49.481455Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content",
+          "url": "https://www.aljazeera.com/amp/economy/2026/5/28/cnn-sues-perplexity-alleging-unlawful-distribution-of-copyrighted-content"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ca8445cb7ffbe1cb",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "Perplexity publisher lawsuit",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.249,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.904
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.4,
+        "top_outlets": [
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 22000000,
+            "publication_type": "editorial",
+            "raw_source": "Deadline"
+          },
+          "published_at": "2026-05-28T14:36:50.06476Z",
+          "source": "news_search",
+          "title": "CNN Sues AI Firm Perplexity For Copyright Infringement",
+          "url": "https://deadline.com/2026/05/cnn-sues-perplexity-ai-copyright-infringement-1236929005/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4a86d750c352413b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.041,
+      "query": "AI search copyright infringement",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.222,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.828
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.5,
+        "top_outlets": [
+          {
+            "domain": "deadline.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 22000000,
+            "outlet_score": 0.828,
+            "traffic_score": 0.816
+          }
+        ]
+      },
+      "title": "CNN Sues AI Firm Perplexity For Copyright Infringement"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "104.1 WIKY"
+          },
+          "published_at": "2026-05-28T14:36:50.646378Z",
+          "source": "news_search",
+          "title": "CNN files suit against Perplexity alleging unlawful content distribution",
+          "url": "https://wiky.com/2026/05/28/cnn-files-suit-against-perplexity-alleging-unlawful-content-distribution/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T17:36:50.646449Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content",
+          "url": "https://www.aljazeera.com/amp/economy/2026/5/28/cnn-sues-perplexity-alleging-unlawful-distribution-of-copyrighted-content"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "56df188be8ec1a00",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.046,
+      "query": "news publisher AI licensing",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.249,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.904
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.4,
+        "top_outlets": [
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "CNN files suit against Perplexity alleging unlawful content distribution"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 66,
+            "estimated_monthly_organic_traffic": 450000,
+            "publication_type": "editorial",
+            "raw_source": "Latest news from Azerbaijan"
+          },
+          "published_at": "2026-05-28T14:36:45.796623Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://news.az/news/cnn-sues-perplexity-over-alleged-ai-copyright-theft"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Hiru News"
+          },
+          "published_at": "2026-05-28T17:36:45.796778Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://hirunews.lk/goldfmnews/468998/cnn-sues-perplexity-over-alleged-ai-copyright-theft"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bae5c861ed3e1dfe",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.155,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.633
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37,
+        "top_outlets": [
+          {
+            "domain": "news.az",
+            "domain_authority": 66,
+            "domain_authority_score": 0.66,
+            "estimated_monthly_organic_traffic": 450000,
+            "outlet_score": 0.633,
+            "traffic_score": 0.628
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T17:36:45.796503Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity Over Copyrighted News Content",
+          "url": "https://letsdatascience.com/news/cnn-sues-perplexity-over-copyrighted-news-content-a935987a"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "aec1d16fb48c5d38",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN Sues Perplexity Over Copyrighted News Content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Mediaite"
+          },
+          "published_at": "2026-05-28T18:36:45.796731Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content",
+          "url": "https://www.mediaite.com/lawcrime/cnn-sues-perplexity-accusing-ai-company-of-stealing-its-copyrighted-content/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "57a40885bbec2a3e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T17:36:46.962026Z",
+          "source": "news_search",
+          "title": "CNN Lawsuit Accuses Perplexity of Illegally Copying Content",
+          "url": "https://www.pymnts.com/legal/2026/cnn-lawsuit-accuses-perplexity-of-illegally-copying-content/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b65c4ad0a701fe20",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI copyright lawsuit publishers",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "CNN Lawsuit Accuses Perplexity of Illegally Copying Content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Digital Music News"
+          },
+          "published_at": "2026-05-28T20:36:46.962164Z",
+          "source": "news_search",
+          "title": "Anthropic Beats Vicarious Liability Claim in Music Publishers Suit",
+          "url": "https://www.digitalmusicnews.com/2026/05/28/anthropic-music-publishers-lawsuit-vicarious-claim/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6bc7c9cb6c6842f5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "AI copyright lawsuit publishers",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Anthropic Beats Vicarious Liability Claim in Music Publishers Suit"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 210000,
+            "publication_type": "editorial",
+            "raw_source": "MediaPost"
+          },
+          "published_at": "2026-05-28T00:36:48.756465Z",
+          "source": "news_search",
+          "title": "Brand-Safe -- And Not-So-Safe -- News 05/27/2026",
+          "url": "https://www.mediapost.com/publications/article/415260/brand-safe-and-not-so-safe-news.html?edition=142730"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ac8aa08efa6186f0",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI crawler content access",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.154,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.632
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.9,
+        "top_outlets": [
+          {
+            "domain": "www.mediapost.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 210000,
+            "outlet_score": 0.632,
+            "traffic_score": 0.591
+          }
+        ]
+      },
+      "title": "Brand-Safe -- And Not-So-Safe -- News 05/27/2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "PC Tech Magazine"
+          },
+          "published_at": "2026-05-28T03:36:48.756417Z",
+          "source": "news_search",
+          "title": "Demystifying Content Authenticity: The Creator and Student Guide to Humanize AI Text",
+          "url": "https://pctechmag.com/2026/05/demystifying-content-authenticity-the-creator-and-student-guide-to-humanize-ai-text/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a312fd9083bec800",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "AI crawler content access",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Demystifying Content Authenticity: The Creator and Student Guide to Humanize AI Text"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 210000,
+            "publication_type": "editorial",
+            "raw_source": "MediaPost"
+          },
+          "published_at": "2026-05-28T09:36:48.75633Z",
+          "source": "news_search",
+          "title": "Conde Nast Settles With Staffers Fired After Confrontation 05/28/2026",
+          "url": "https://www.mediapost.com/publications/article/415369/conde-nast-settles-with-staffers-fired-after-confr.html?edition=142730"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1985194225860fd6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI crawler content access",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.154,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.632
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.9,
+        "top_outlets": [
+          {
+            "domain": "www.mediapost.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 210000,
+            "outlet_score": 0.632,
+            "traffic_score": 0.591
+          }
+        ]
+      },
+      "title": "Conde Nast Settles With Staffers Fired After Confrontation 05/28/2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Mediaite"
+          },
+          "published_at": "2026-05-28T18:36:48.756501Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content",
+          "url": "https://www.mediaite.com/lawcrime/cnn-sues-perplexity-accusing-ai-company-of-stealing-its-copyrighted-content/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "57a40885bbec2a3e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "AI crawler content access",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T17:36:49.481568Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity Over Copyrighted News Content",
+          "url": "https://letsdatascience.com/news/cnn-sues-perplexity-over-copyrighted-news-content-a935987a"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "aec1d16fb48c5d38",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "Perplexity publisher lawsuit",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN Sues Perplexity Over Copyrighted News Content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Mediaite"
+          },
+          "published_at": "2026-05-28T18:36:49.481592Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content",
+          "url": "https://www.mediaite.com/lawcrime/cnn-sues-perplexity-accusing-ai-company-of-stealing-its-copyrighted-content/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "57a40885bbec2a3e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "Perplexity publisher lawsuit",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN Sues Perplexity, Accusing AI Company of Stealing Its Copyrighted Content"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-28T14:36:45.796556Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity for copyright infringement over AI-generated content",
+          "url": "https://cryptobriefing.com/cnn-sues-perplexity-copyright-infringement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a35f8c044a02e238",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.093,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity for copyright infringement over AI-generated content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Startup Fortune"
+          },
+          "published_at": "2026-05-28T14:36:47.633817Z",
+          "source": "news_search",
+          "title": "CNN's Perplexity suit could push AI search toward licensing",
+          "url": "https://startupfortune.com/cnns-perplexity-suit-could-push-ai-search-toward-licensing/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1b3b88ecc33e647e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "publisher licensing AI search",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN's Perplexity suit could push AI search toward licensing"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 190000,
+            "publication_type": "editorial",
+            "raw_source": "Cryptonews.net"
+          },
+          "published_at": "2026-05-28T16:36:47.634463Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity for copyright infringement over AI-generated content",
+          "url": "https://cryptonews.net/news/legal/32933758/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "160b3e736dbfb387",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "publisher licensing AI search",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.139,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.587
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34,
+        "top_outlets": [
+          {
+            "domain": "cryptonews.net",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 190000,
+            "outlet_score": 0.587,
+            "traffic_score": 0.587
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity for copyright infringement over AI-generated content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 3900000,
+            "publication_type": "editorial",
+            "raw_source": "Fast Company"
+          },
+          "published_at": "2026-05-28T19:36:46.374032Z",
+          "source": "news_search",
+          "title": "Perplexity AI sued by CNN for allegedly copying over 17,000 pieces of content without permission",
+          "url": "https://www.fastcompany.com/91549991/perplexity-ai-sued-by-cnn-for-allegedly-copying-over-17000-piece-of-content-without-permission"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "37537d5bd52f71cb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.198,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.759
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45,
+        "top_outlets": [
+          {
+            "domain": "www.fastcompany.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 3900000,
+            "outlet_score": 0.759,
+            "traffic_score": 0.732
+          }
+        ]
+      },
+      "title": "Perplexity AI sued by CNN for allegedly copying over 17,000 pieces of content without permission"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 430000000,
+            "publication_type": "editorial",
+            "raw_source": "CNN"
+          },
+          "published_at": "2026-05-28T12:36:46.373769Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://www.cnn.com/2026/05/28/media/cnn-sues-perplexity-ai-copyright"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 22000000,
+            "publication_type": "editorial",
+            "raw_source": "Deadline"
+          },
+          "published_at": "2026-05-28T14:36:46.3738Z",
+          "source": "news_search",
+          "title": "CNN Sues AI Firm Perplexity For Copyright Infringement",
+          "url": "https://deadline.com/2026/05/cnn-sues-perplexity-ai-copyright-infringement-1236929005/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T18:36:46.374318Z",
+          "source": "news_search",
+          "title": "CPI | CNN Sues Perplexity Over Alleged Copyright Infringement",
+          "url": "https://www.pymnts.com/cpi-posts/cnn-sues-perplexity-over-alleged-copyright-infringement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "280be304edf51267",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "major",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.528,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.955
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 72,
+        "top_outlets": [
+          {
+            "domain": "www.cnn.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 430000000,
+            "outlet_score": 0.955,
+            "traffic_score": 0.959
+          },
+          {
+            "domain": "deadline.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 22000000,
+            "outlet_score": 0.828,
+            "traffic_score": 0.816
+          },
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T17:36:46.961961Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content",
+          "url": "https://www.aljazeera.com/amp/economy/2026/5/28/cnn-sues-perplexity-alleging-unlawful-distribution-of-copyrighted-content"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T17:36:46.96219Z",
+          "source": "news_search",
+          "title": "CNN Sues Perplexity Over Copyrighted News Content",
+          "url": "https://letsdatascience.com/news/cnn-sues-perplexity-over-copyrighted-news-content-a935987a"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bc471d7d5442e6a9",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.066,
+      "query": "AI copyright lawsuit publishers",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.249,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.904
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.4,
+        "top_outlets": [
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity, alleging unlawful distribution of copyrighted content"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-28T14:36:46.373826Z",
+          "source": "news_search",
+          "title": "CNN files lawsuit against Perplexity alleging unlawful content distribution",
+          "url": "https://www.reuters.com/legal/litigation/cnn-files-suit-against-perplexity-alleging-unlawful-content-distribution-2026-05-28/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cbeb302d3c2ac437",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.881
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "CNN files lawsuit against Perplexity alleging unlawful content distribution"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 66,
+            "estimated_monthly_organic_traffic": 450000,
+            "publication_type": "editorial",
+            "raw_source": "Latest news from Azerbaijan"
+          },
+          "published_at": "2026-05-28T14:36:46.962213Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://news.az/news/cnn-sues-perplexity-over-alleged-ai-copyright-theft"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T18:36:46.962107Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping",
+          "url": "https://www.storyboard18.com/how-it-works/cnn-sues-perplexity-ai-over-alleged-copyright-infringement-and-content-scraping-99542.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3c20dd75cbc01e21",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI copyright lawsuit publishers",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.29,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.651
+        },
+        "confidence": "medium",
+        "known_authority_count": 2,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 45.3,
+        "top_outlets": [
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          },
+          {
+            "domain": "news.az",
+            "domain_authority": 66,
+            "domain_authority_score": 0.66,
+            "estimated_monthly_organic_traffic": 450000,
+            "outlet_score": 0.633,
+            "traffic_score": 0.628
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "PPC Land"
+          },
+          "published_at": "2026-05-28T05:36:48.756243Z",
+          "source": "news_search",
+          "title": "IAB Tech Lab opens bot management guidance for public comment",
+          "url": "https://ppc.land/iab-tech-lab-opens-bot-management-guidance-for-public-comment/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e0325dfcd51ed761",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "AI crawler content access",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.606
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.3,
+        "top_outlets": [
+          {
+            "domain": "ppc.land",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.606,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "IAB Tech Lab opens bot management guidance for public comment"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The420.in"
+          },
+          "published_at": "2026-05-28T16:36:48.756368Z",
+          "source": "news_search",
+          "title": "​CNN Files Lawsuit Against Perplexity AI Over Alleged News Copyright Infringement",
+          "url": "https://the420.in/cnn-perplexity-ai-copyright-lawsuit/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6b50ff6f8e4dbdb5",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "AI crawler content access",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "​CNN Files Lawsuit Against Perplexity AI Over Alleged News Copyright Infringement"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 84000000,
+            "publication_type": "editorial",
+            "raw_source": "Moneycontrol.com"
+          },
+          "published_at": "2026-05-28T14:36:45.796672Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity, accuses AI startup of illegally reproducing articles through AI-powered search tools",
+          "url": "https://www.moneycontrol.com/world/cnn-sues-perplexity-accuses-ai-startup-of-illegally-reproducing-articles-through-ai-powered-search-tools-article-13934835.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b893645279582cb4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "AI copyright publisher licensing Perplexity CNN",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.24,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.877
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.7,
+        "top_outlets": [
+          {
+            "domain": "www.moneycontrol.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 84000000,
+            "outlet_score": 0.877,
+            "traffic_score": 0.88
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity, accuses AI startup of illegally reproducing articles through AI-powered search tools"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Editor and Publisher"
+          },
+          "published_at": "2026-05-28T14:36:46.962002Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over alleged AI copyright theft",
+          "url": "https://www.editorandpublisher.com/stories/cnn-sues-perplexity-over-alleged-ai-copyright-theft,261852"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8d0ede6435d6b61e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "AI copyright lawsuit publishers",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN sues Perplexity over alleged AI copyright theft"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T13:36:47.633853Z",
+          "source": "news_search",
+          "title": "The price of AI training data, from $5M to $250M",
+          "url": "https://qz.com/ai-training-data-pricing-licensing-deals-market-052126"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "76dfa668461e13e7",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "publisher licensing AI search",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "The price of AI training data, from $5M to $250M"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T18:36:48.756203Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping",
+          "url": "https://www.storyboard18.com/amp/how-it-works/cnn-sues-perplexity-ai-over-alleged-copyright-infringement-and-content-scraping-99542.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a99a53e07e87d6ae",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "AI crawler content access",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.651
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.1,
+        "top_outlets": [
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity AI over alleged copyright infringement and content scraping"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "104.1 WIKY"
+          },
+          "published_at": "2026-05-28T14:36:49.48154Z",
+          "source": "news_search",
+          "title": "CNN files suit against Perplexity alleging unlawful content distribution",
+          "url": "https://wiky.com/2026/05/28/cnn-files-suit-against-perplexity-alleging-unlawful-content-distribution/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7df1bec43cfe7d51",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "Perplexity publisher lawsuit",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CNN files suit against Perplexity alleging unlawful content distribution"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 27000000,
+            "publication_type": "editorial",
+            "raw_source": "Variety"
+          },
+          "published_at": "2026-05-28T13:36:46.374182Z",
+          "source": "news_search",
+          "title": "CNN Sues AI Firm Perplexity, Alleging It Engaged in ‘Massive Copyright Infringement’",
+          "url": "https://variety.com/2026/biz/news/cnn-sues-perplexity-alleging-copyright-infringement-1236760987/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8934266438d1f927",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.226,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.838
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.1,
+        "top_outlets": [
+          {
+            "domain": "variety.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 27000000,
+            "outlet_score": 0.838,
+            "traffic_score": 0.826
+          }
+        ]
+      },
+      "title": "CNN Sues AI Firm Perplexity, Alleging It Engaged in ‘Massive Copyright Infringement’"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "publication_type": "editorial",
+            "raw_source": "Seeking Alpha"
+          },
+          "published_at": "2026-05-28T14:36:46.374222Z",
+          "source": "news_search",
+          "title": "Perplexity fires back at CNN: \"You can't copyright facts\" — update (WBD:NASDAQ)",
+          "url": "https://seekingalpha.com/news/4597890-cnn-sues-perplexity-over-ai-copyright-theft"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "785c0dce0eaf7cf4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.04,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.821
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "seekingalpha.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "outlet_score": 0.821,
+            "traffic_score": 0.814
+          }
+        ]
+      },
+      "title": "Perplexity fires back at CNN: \"You can't copyright facts\" — update (WBD:NASDAQ)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "The Verge"
+          },
+          "published_at": "2026-05-28T14:36:46.374378Z",
+          "source": "news_search",
+          "title": "CNN sues Perplexity over ‘verbatim’ copycat articles",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/938893/cnn-perplexity-ai-copyright-lawsuit"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3baedfe316839a37",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.021,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.81
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.3,
+        "top_outlets": [
+          {
+            "domain": "www.theverge.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.81,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "CNN sues Perplexity over ‘verbatim’ copycat articles"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 280000,
+            "publication_type": "brand_content",
+            "raw_source": "Bloomberg Tax"
+          },
+          "published_at": "2026-05-28T13:36:46.374088Z",
+          "source": "news_search",
+          "title": "CNN Files Latest News Copyright Suit Against Perplexity AI (1)",
+          "url": "https://news.bloombergtax.com/financial-accounting/cnn-latest-news-outlet-to-sue-perplexity-ai-over-data-scraping"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ebda3c6f9f6322de",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.155,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.633
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37,
+        "top_outlets": [
+          {
+            "domain": "news.bloombergtax.com",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 280000,
+            "outlet_score": 0.633,
+            "traffic_score": 0.605
+          }
+        ]
+      },
+      "title": "CNN Files Latest News Copyright Suit Against Perplexity AI (1)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Law.com"
+          },
+          "published_at": "2026-05-28T20:36:46.37413Z",
+          "source": "news_search",
+          "title": "CNN Slaps Perplexity AI With New Copyright Lawsuit",
+          "url": "https://www.law.com/newyorklawjournal/2026/05/28/cnn-slaps-perplexity-ai-with-new-copyright-lawsuit-/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4c72ab7e262a772c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "CNN Perplexity copyright",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.178,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.703
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.5,
+        "top_outlets": [
+          {
+            "domain": "www.law.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.703,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "CNN Slaps Perplexity AI With New Copyright Lawsuit"
+    }
+  ]
+}

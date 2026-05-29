@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "decisions": [
+    {
+      "signal_id": "ffe96acdd3fb30ed",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Wix layoffs tied to AI and currency pressure are directly relevant to workforce planning and organization design.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai"
+      ],
+      "relevance_basis": "Named software company layoffs, AI workforce change, and cost pressure map to Orgvue standing."
+    },
+    {
+      "signal_id": "5ce0140ef5c933f4",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Cloudflare's public AI-layoff framing is a plausible workforce planning hook for Orgvue.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585"
+      ],
+      "relevance_basis": "AI-driven restructuring at a major tech company creates a buyer-facing workforce planning bridge."
+    },
+    {
+      "signal_id": "2361d3765ee3701e",
+      "decision": "monitor_only",
+      "reason": "plausible_client_bridge",
+      "rationale": "A Visier executive appointment is relevant as competitor context, but not an obvious newsjack hook.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/"
+      ],
+      "relevance_basis": "Visier is a named competitor; leadership/customer-operations changes may be worth monitoring."
+    },
+    {
+      "signal_id": "617910070310ed22",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "The story directly frames AI layoffs as workforce strategy, which is central to Orgvue's positioning.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248"
+      ],
+      "relevance_basis": "Workforce strategy, AI adoption, and restructuring are direct profile topics."
+    },
+    {
+      "signal_id": "283704ecb796f182",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "California's AI job-disruption order is a policy hook for workforce planning commentary.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive"
+      ],
+      "relevance_basis": "AI labor policy and job disruption connect to workforce modeling and planning."
+    },
+    {
+      "signal_id": "a29f8bf529cbab54",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Lakers layoffs are sports-organization news without a credible Orgvue-specific bridge in this evidence.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://www.nytimes.com/athletic/7313581/2026/05/27/lakers-rocked-by-brutal-day-amid-sweeping-organizational-changes/"
+      ],
+      "relevance_basis": "The only overlap is layoffs; there is no AI, workforce planning, software, or client-category bridge."
+    },
+    {
+      "signal_id": "e412125e4770432c",
+      "decision": "monitor_only",
+      "reason": "plausible_client_bridge",
+      "rationale": "AI in HR is relevant to Orgvue, but this looks like broader analysis rather than a hard news hook.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957"
+      ],
+      "relevance_basis": "HR AI adoption is adjacent to Orgvue's planning and organization-design context."
+    },
+    {
+      "signal_id": "e58faf9eac136bde",
+      "decision": "monitor_only",
+      "reason": "plausible_client_bridge",
+      "rationale": "Alibaba's agentic AI workforce framing is adjacent to AI workforce transformation but indirect for Orgvue.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption"
+      ],
+      "relevance_basis": "Always-on AI workforce language connects to future-of-work monitoring, but the client bridge is not yet sharp."
+    }
+  ]
+}

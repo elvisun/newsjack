@@ -19,7 +19,6 @@ type monitorProfile struct {
 	XNews        map[string]any
 	XTrends      map[string]any
 	Spokespeople []string
-	ProofAssets  []string
 	Standing     []string
 	Exclusions   []string
 	Raw          map[string]any
@@ -32,7 +31,6 @@ func defaultProfile() monitorProfile {
 		SearchTerms:  []string{},
 		FeedURLs:     []string{},
 		Spokespeople: []string{},
-		ProofAssets:  []string{},
 		Standing:     []string{},
 		Exclusions:   []string{},
 		XNews:        map[string]any{"enabled": true},
@@ -64,7 +62,6 @@ func profileFromMap(payload map[string]any) monitorProfile {
 	p.XNews = dictValue(payload["x_news"], map[string]any{"enabled": true})
 	p.XTrends = dictValue(payload["x_trends"], map[string]any{"mode": "none", "woeids": []any{}, "locations": []any{}})
 	p.Spokespeople = stringListValue(firstValue(payload, "spokespeople", "experts"))
-	p.ProofAssets = stringListValue(firstValue(payload, "proof_assets", "proof"))
 	p.Standing = stringListValue(firstValue(payload, "standing", "expertise"))
 	p.Exclusions = stringListValue(firstValue(payload, "exclusions", "do_not_newsjack"))
 	return p
@@ -90,7 +87,6 @@ func (p monitorProfile) matchText() string {
 	parts = append(parts, p.FeedURLs...)
 	parts = append(parts, stringListValue(p.XTrends["locations"])...)
 	parts = append(parts, p.Spokespeople...)
-	parts = append(parts, p.ProofAssets...)
 	parts = append(parts, p.Standing...)
 	return strings.TrimSpace(strings.Join(parts, " "))
 }
@@ -105,7 +101,6 @@ func (p monitorProfile) publicDict() map[string]any {
 		"x_news":       p.XNews,
 		"x_trends":     p.XTrends,
 		"spokespeople": p.Spokespeople,
-		"proof_assets": p.ProofAssets,
 		"standing":     p.Standing,
 		"exclusions":   p.Exclusions,
 	}

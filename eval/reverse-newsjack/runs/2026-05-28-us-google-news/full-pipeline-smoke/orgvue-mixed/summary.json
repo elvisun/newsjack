@@ -1,0 +1,642 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 44193,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 4347,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 337,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 27434,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/summary.json"
+    },
+    "final_report": {
+      "bytes": 6294,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 10428,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 24834,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 10965,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 40486,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "decision_count": 8,
+    "decisions_by_outcome": {
+      "keep": 4,
+      "monitor_only": 3,
+      "reject": 1
+    },
+    "decisions_by_reason": {
+      "off_beat": 1,
+      "plausible_client_bridge": 5,
+      "relevant_news": 2
+    },
+    "exists": true,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 8,
+    "debug_duplicate_scored_rows": 0,
+    "debug_selected_rows": 8,
+    "debug_unique_scored_signal_ids": 8,
+    "debug_unselected_rows": 0,
+    "selected_unique_signals": 8,
+    "source_errors": 0,
+    "total_emitted_signals": 8,
+    "total_scored_signals": 59
+  },
+  "final_report_file": {
+    "bytes": 6294,
+    "content": "## Top News Today\n\nThese are the surfaced stories. The angle is listed separately below so the report does not confuse a news headline with a positioning idea.\n\n1. **Wix confirms layoffs, citing AI and currency pressure**\n   - **Story size:** high (49, medium confidence)\n   - **Fit:** strong angle candidate\n   - **Suggested angles:**\n     - Before AI cuts, companies need a workforce model.\n     - Currency pressure plus AI turns layoffs into an operating-model problem, not just a finance problem.\n     - The next AI layoff story is about which roles change, not just how many jobs go.\n   - **Link:** [Seeking Alpha](https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai)\n\n2. **Cloudflare CEO explains 20% layoffs despite record revenue growth**\n   - **Story size:** moderate (43.4, medium confidence)\n   - **Fit:** strong angle candidate when paired with the Wix story\n   - **Suggested angles:**\n     - AI productivity claims need scenario planning before they become headcount decisions.\n     - Revenue growth no longer guarantees workforce growth when AI changes the operating model.\n     - Boards need a role-by-role AI impact map before approving restructuring plans.\n   - **Link:** [NDTV Profit](https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585)\n\n3. **AI-driven layoffs are becoming a workforce strategy**\n   - **Story size:** unknown (-, low confidence)\n   - **Fit:** strong angle candidate\n   - **Suggested angles:**\n     - AI workforce strategy should start with work redesign, not headcount targets.\n     - Companies need to model redeployment before they treat AI as a layoff lever.\n     - The HR story is shifting from AI adoption to AI operating-model design.\n   - **Link:** [ET HRWorld Middle East](https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248)\n\n4. **California targets AI job disruption with a new executive order**\n   - **Story size:** moderate (41.1, medium confidence)\n   - **Fit:** strong angle candidate when framed around employer response\n   - **Suggested angles:**\n     - AI job-disruption policy will force employers to show how work actually changes.\n     - Workforce planning becomes a governance issue when states start tracking AI labor impact.\n     - Employers need auditable AI workforce scenarios before regulators ask harder questions.\n   - **Link:** [SHRM](https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive)\n\n5. **AI is making HR faster, but is it making HR better?**\n   - **Story size:** high (56.4, medium confidence)\n   - **Fit:** develop\n   - **Suggested angles:**\n     - Faster HR is not enough if AI does not improve workforce decisions.\n     - HR teams need AI that models organizational tradeoffs, not just automates tasks.\n     - The real HR AI benchmark is decision quality, not speed.\n   - **Link:** [ET HRWorld](https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957)\n\n6. **Visier appoints Jen Glass to lead customer solutions and success operations**\n   - **Story size:** moderate (35.1, medium confidence)\n   - **Fit:** monitor\n   - **Suggested angles:**\n     - Workforce analytics vendors are competing on adoption, not just dashboards.\n     - HR tech value is moving from insight generation to customer-success-led change management.\n     - The workforce planning market is shifting toward implementation outcomes.\n   - **Link:** [citybiz](https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/)\n\n7. **Alibaba bets on an always-on AI workforce with MuleRun**\n   - **Story size:** high (48.4, medium confidence)\n   - **Fit:** monitor\n   - **Suggested angles:**\n     - An always-on AI workforce still needs human organization design.\n     - AI agents turn workforce planning into a human-plus-machine operating-model problem.\n     - Enterprises need to decide which work belongs to agents before they redesign teams.\n   - **Link:** [SCMP](https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption)\n\n## Top Positioning Angles\n\n### 1. Before AI cuts, companies need a workforce model\n\n- **Anchored news:** Wix layoffs (high) and Cloudflare layoffs (moderate)\n- **Position:** Orgvue can argue that AI-linked restructuring should start with scenario modeling: which work changes, which roles move, which skills become scarce, and what the operating model looks like after the cut.\n- **Journalist shape:** enterprise software, future-of-work, CFO, or HR-tech reporter covering AI-driven restructuring.\n- **Use now:** yes, as a developed trend angle. Avoid making Orgvue the judge of whether Wix or Cloudflare made the right call.\n\n### 2. AI workforce strategy is moving from headcount math to operating-model design\n\n- **Anchored news:** AI-driven layoffs as workforce strategy (unknown size) and California AI job-disruption action (moderate)\n- **Position:** Orgvue can frame the news around the shift from isolated layoffs to systematic planning: roles, skills, redeployment, governance, and labor-market exposure.\n- **Journalist shape:** HR technology, workplace policy, workforce strategy, or labor-market reporter covering employer response to AI disruption.\n- **Use now:** yes, especially for HR/workplace trade press and practical policy-response coverage.\n\n## Watch / Not A Fit\n\n- **Develop:** AI making HR faster. Relevant, but needs a sharper contrarian point than \"AI should improve quality, not just speed.\"\n- **Monitor:** Visier appointment. Competitor context, not a newsjack unless the follow-on story becomes workforce-transformation or customer-success consolidation.\n- **Monitor:** Alibaba MuleRun. Big story, weak Orgvue bridge unless coverage turns toward AI agents changing enterprise workforce design.\n- **Reject:** Lakers layoffs. High story size, but off-beat for Orgvue.\n\n## Readout\n\nThe top news is the layoff and AI-workforce cluster. The usable angles are not \"comment on layoffs\"; they are workforce-planning positions anchored to those stories.\n",
+    "exists": true,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:34:36.184061Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/candidates.json",
+  "lanes": {
+    "dropped_debug": {},
+    "emitted": {
+      "profile_relevance": 17,
+      "profile_relevance_weak": 19
+    },
+    "scored": {
+      "profile_relevance": 19,
+      "profile_relevance_weak": 40
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:32:21.31692Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Orgvue",
+    "queries": [
+      "AI workforce planning software layoffs",
+      "AI layoffs",
+      "software company layoffs AI",
+      "workforce planning AI adoption",
+      "organization design restructuring",
+      "talent redeployment after layoffs",
+      "SaaS workforce reductions",
+      "currency headwinds tech layoffs",
+      "AI productivity workforce planning"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": true,
+    "finding_count": 7,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "done"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "done"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "done"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "done"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "done"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": true,
+    "input_signals": 8,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/relevant_candidates.json",
+    "rejected_signals": 1,
+    "selected_signals": 7
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 59
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": true,
+    "input_signals": 7,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/full-pipeline-smoke/orgvue-mixed/targeted_candidates.json",
+    "rejected_signals": 0,
+    "selected_signals": 7
+  },
+  "top_dropped_signals": null,
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "publication_type": "editorial",
+            "raw_source": "Seeking Alpha"
+          },
+          "published_at": "2026-05-28T14:32:29.092656Z",
+          "source": "news_search",
+          "title": "Wix CEO confirms layoffs, blames currency fluctuations, AI (WIX:NASDAQ)",
+          "url": "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ffe96acdd3fb30ed",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.105,
+      "query": "SaaS workforce reductions",
+      "queue_priority": 62.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.821
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "seekingalpha.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "outlet_score": 0.821,
+            "traffic_score": 0.814
+          }
+        ]
+      },
+      "title": "Wix CEO confirms layoffs, blames currency fluctuations, AI (WIX:NASDAQ)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4000000,
+            "publication_type": "editorial",
+            "raw_source": "NDTV Profit"
+          },
+          "published_at": "2026-05-28T14:59:22.343391Z",
+          "source": "news_search",
+          "title": "AI Replacing Jobs At Cloudflare? CEO Matthew Prince Explains 20% Layoffs Despite Record Revenue Growth",
+          "url": "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5ce0140ef5c933f4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.189,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.734
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.4,
+        "top_outlets": [
+          {
+            "domain": "www.ndtvprofit.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4000000,
+            "outlet_score": 0.734,
+            "traffic_score": 0.734
+          }
+        ]
+      },
+      "title": "AI Replacing Jobs At Cloudflare? CEO Matthew Prince Explains 20% Layoffs Despite Record Revenue Growth"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "citybiz"
+          },
+          "published_at": "2026-05-27T16:32:30.582288Z",
+          "source": "news_search",
+          "title": "Visier Appoints Jen Glass to Lead Customer Solutions and Success Operations",
+          "url": "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2361d3765ee3701e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.13,
+      "query": "AI productivity workforce planning",
+      "queue_priority": 59.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "www.citybiz.co",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Visier Appoints Jen Glass to Lead Customer Solutions and Success Operations"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Indiatimes"
+          },
+          "published_at": "2026-05-28T03:32:22.343531Z",
+          "source": "news_search",
+          "title": "AI-driven layoffs are becoming a workforce strategy, not just a cost-cutting exercise",
+          "url": "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "617910070310ed22",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.055,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI-driven layoffs are becoming a workforce strategy, not just a cost-cutting exercise"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 900000,
+            "publication_type": "brand_content",
+            "raw_source": "SHRM"
+          },
+          "published_at": "2026-05-27T16:32:25.242387Z",
+          "source": "news_search",
+          "title": "California Targets AI Job Disruption With New Executive Order",
+          "url": "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "283704ecb796f182",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.176,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.697
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.1,
+        "top_outlets": [
+          {
+            "domain": "www.shrm.org",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 900000,
+            "outlet_score": 0.697,
+            "traffic_score": 0.662
+          }
+        ]
+      },
+      "title": "California Targets AI Job Disruption With New Executive Order"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "publication_type": "editorial",
+            "raw_source": "The New York Times"
+          },
+          "published_at": "2026-05-28T01:32:26.491028Z",
+          "source": "news_search",
+          "title": "Lakers rocked by layoffs on ‘brutal’ day amid sweeping organizational changes - The Athletic",
+          "url": "https://www.nytimes.com/athletic/7313581/2026/05/27/lakers-rocked-by-brutal-day-amid-sweeping-organizational-changes/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a29f8bf529cbab54",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "organization design restructuring",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.273,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.971
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 58.7,
+        "top_outlets": [
+          {
+            "domain": "www.nytimes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "outlet_score": 0.971,
+            "traffic_score": 0.977
+          }
+        ]
+      },
+      "title": "Lakers rocked by layoffs on ‘brutal’ day amid sweeping organizational changes - The Athletic"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ETHRWorld.com"
+          },
+          "published_at": "2026-05-28T04:32:25.242409Z",
+          "source": "news_search",
+          "title": "AI is making HR faster. But is AI making HR better?",
+          "url": "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e412125e4770432c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "hr.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "AI is making HR faster. But is AI making HR better?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "editorial",
+            "raw_source": "South China Morning Post"
+          },
+          "published_at": "2026-05-28T12:32:25.24236Z",
+          "source": "news_search",
+          "title": "How MuleRun plans to outpace OpenClaw: Alibaba bets on ‘always-on AI workforce’",
+          "url": "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e58faf9eac136bde",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.031,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.811
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.4,
+        "top_outlets": [
+          {
+            "domain": "www.scmp.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.811,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "How MuleRun plans to outpace OpenClaw: Alibaba bets on ‘always-on AI workforce’"
+    }
+  ]
+}

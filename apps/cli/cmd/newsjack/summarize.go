@@ -5,13 +5,17 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 )
+
+var backtickedURLRe = regexp.MustCompile("`(https?://[^`\\s]+)`")
 
 func cmdSummarizeRun(args []string, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("summarize-run", flag.ContinueOnError)
@@ -130,30 +134,45 @@ func renderSummaryMarkdown(summary map[string]any) string {
 	profile := firstString(monitor["profile_name"], "Newsjack")
 	var lines []string
 	lines = append(lines, "# "+mdInline(profile)+" Newsjack Brief", "")
-	lines = append(lines, renderTable([][2]any{{"Status", statusText(summary)}, {"Generated", formatDatetime(firstString(monitor["generated_at"], summary["generated_at"]))}, {"Detector candidates", counts["selected_unique_signals"]}})...)
-	if finalReport := finalReportContent(summary); finalReport != "" {
-		lines = append(lines, "", "## Editorial Verdict", "", finalReport)
+	lines = append(lines, fmt.Sprintf("**%s** · generated %s · %s candidates from %s scored.",
+		mdInline(statusText(summary)),
+		mdInline(formatDatetime(firstString(monitor["generated_at"], summary["generated_at"]))),
+		fmtValue(counts["selected_unique_signals"]),
+		fmtValue(counts["total_scored_signals"]),
+	))
+	if sourceErrors := intValue(counts["source_errors"], 0); sourceErrors > 0 {
+		lines = append(lines, fmt.Sprintf("**Source warnings:** %d source error(s) recorded.", sourceErrors))
 	}
-	lines = append(lines, "", "## Candidate Preview", "")
+	finalReport := finalReportContent(summary)
+	if finalReport != "" {
+		if strings.HasPrefix(strings.TrimSpace(finalReport), "#") {
+			lines = append(lines, "", finalReport)
+		} else {
+			lines = append(lines, "", "## Editorial Verdict", "", finalReport)
+		}
+	}
+	scanHeading := "Top News Today"
+	if finalReport != "" {
+		scanHeading = "News Scan Detail"
+	}
+	lines = append(lines, "", "## "+scanHeading, "")
 	for i, signal := range mapSlice(summary["top_signals"]) {
-		lines = append(lines, fmt.Sprintf("%d. **%s**", i+1, mdInline(firstString(signal["title"], "(untitled)"))))
-		lines = append(lines, fmt.Sprintf("   - Why surfaced: %s; queue %s, profile %s, major %s, story size %s.", label(signal["lane"]), fmtValue(signal["queue_priority"]), fmtValue(signal["profile_match"]), fmtValue(signal["major_news"]), formatStorySize(signal["story_size"])))
-		for _, raw := range anySlice(signal["evidence"]) {
-			if ev, ok := raw.(map[string]any); ok {
-				lines = append(lines, "   - "+renderEvidenceLink(ev))
-			}
+		title := firstString(signal["title"], "(untitled)")
+		lines = append(lines, fmt.Sprintf("%d. **%s**", i+1, mdInline(title)))
+		lines = append(lines, fmt.Sprintf("   - Size: %s · surfaced by %s · queue %s.", formatStorySize(signal["story_size"]), label(signal["lane"]), fmtValue(signal["queue_priority"])))
+		if ev := firstEvidence(signal); ev != nil {
+			lines = append(lines, "   - Links: "+renderEvidenceLink(ev)+" · "+renderGoogleNewsLink(title))
+		} else {
+			lines = append(lines, "   - Links: "+renderGoogleNewsLink(title))
 		}
 	}
 	if len(mapSlice(summary["top_signals"])) == 0 {
 		lines = append(lines, "- (none)")
 	}
-	lines = append(lines, "", "## What Was Scanned", "")
-	lines = append(lines, fmt.Sprintf("- **Profile:** %s", mdInline(firstString(monitor["profile_name"], "(unknown)"))))
-	lines = append(lines, fmt.Sprintf("- **Queries:** %s", mdInline(formatList(valueOrEmptyArray(monitor["queries"]), 8))))
-	lines = append(lines, "", "## Appendix: Provenance", "", "### Pipeline", "")
-	lines = append(lines, renderPipeline(valueOrEmptyArray(summary["pipeline"]))...)
-	lines = append(lines, "", "### Detector Counts", "")
-	lines = append(lines, renderTable([][2]any{{"scored", counts["total_scored_signals"]}, {"selected", counts["selected_unique_signals"]}, {"source_errors", counts["source_errors"]}})...)
+	lines = append(lines, "", "## Scan Context", "")
+	lines = append(lines, fmt.Sprintf("- Profile: %s", mdInline(firstString(monitor["profile_name"], "(unknown)"))))
+	lines = append(lines, fmt.Sprintf("- Queries: %s", mdInline(formatList(valueOrEmptyArray(monitor["queries"]), 8))))
+	lines = append(lines, fmt.Sprintf("- Sources: %s", mdInline(formatList(valueOrEmptyArray(monitor["sources_used"]), 8))))
 	return strings.TrimRight(strings.Join(lines, "\n"), "\n") + "\n"
 }
 
@@ -170,7 +189,7 @@ func finalReportContent(summary map[string]any) string {
 	if !truthy(finalReport["exists"], false) {
 		return ""
 	}
-	return strings.TrimSpace(stringValue(finalReport["content"]))
+	return linkifyBacktickedURLs(strings.TrimSpace(stringValue(finalReport["content"])))
 }
 
 func artifactPaths(runDir string) map[string]string {
@@ -332,15 +351,24 @@ func summarizeEvidence(signal map[string]any) []map[string]any {
 	return out
 }
 
+func firstEvidence(signal map[string]any) map[string]any {
+	for _, raw := range anySlice(signal["evidence"]) {
+		if ev, ok := raw.(map[string]any); ok {
+			return ev
+		}
+	}
+	return nil
+}
+
 func formatStorySize(value any) string {
 	storySize := valueOrEmptyMap(value)
 	if len(storySize) == 0 {
-		return "-"
+		return "unknown"
 	}
 	band := firstString(storySize["band"], "unknown")
 	score := fmtValue(storySize["score"])
 	confidence := firstString(storySize["confidence"], "unknown")
-	return fmt.Sprintf("%s/%s (%s)", band, score, confidence)
+	return fmt.Sprintf("%s (%s, %s confidence)", band, score, confidence)
 }
 
 func firstEvidenceValue(signal map[string]any, key string) any {
@@ -374,6 +402,26 @@ func renderEvidenceLink(ev map[string]any) string {
 		return fmt.Sprintf("%s: [%s](%s)%s", source, escapeLinkText(title), u, suffix)
 	}
 	return source + ": " + title + suffix
+}
+
+func renderGoogleNewsLink(title string) string {
+	query := strings.TrimSpace(title)
+	if query == "" {
+		query = "news"
+	}
+	u := "https://news.google.com/search?q=" + url.QueryEscape(query) + "&hl=en-US&gl=US&ceid=US:en"
+	return "[Google News](" + u + ")"
+}
+
+func linkifyBacktickedURLs(markdown string) string {
+	return backtickedURLRe.ReplaceAllStringFunc(markdown, func(match string) string {
+		rawURL := strings.Trim(match, "`")
+		label := "link"
+		if parsed, err := url.Parse(rawURL); err == nil && parsed.Host != "" {
+			label = strings.TrimPrefix(parsed.Host, "www.")
+		}
+		return fmt.Sprintf("[%s](%s)", escapeLinkText(label), rawURL)
+	})
 }
 
 func renderPipeline(stages []any) []string {

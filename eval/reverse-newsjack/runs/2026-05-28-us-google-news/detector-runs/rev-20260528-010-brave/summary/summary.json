@@ -1,0 +1,1894 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 203912,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 67,
+    "debug_duplicate_scored_rows": 31,
+    "debug_selected_rows": 36,
+    "debug_unique_scored_signal_ids": 36,
+    "debug_unselected_rows": 31,
+    "selected_unique_signals": 12,
+    "source_errors": 0,
+    "total_emitted_signals": 12,
+    "total_scored_signals": 67
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:15.215835Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 31
+    },
+    "emitted": {
+      "profile_relevance": 4,
+      "profile_relevance_weak": 8
+    },
+    "scored": {
+      "profile_relevance": 18,
+      "profile_relevance_weak": 49
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:04.566238Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Brave",
+    "queries": [
+      "browser privacy side channel web tracking SSD activity",
+      "browser side channel attack",
+      "SSD activity web tracking",
+      "website tracking browser API",
+      "privacy browser web tracking",
+      "browser fingerprinting side channel",
+      "web privacy attack",
+      "storage API tracking",
+      "malicious website tracking"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 67
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-010-brave/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "GBHackers News"
+          },
+          "published_at": "2026-05-28T13:36:08.994619Z",
+          "source": "news_search",
+          "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity",
+          "url": "https://gbhackers.com/malicious-websites-exploit-ssd-timing-signals/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "988f12555570e0f1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.606
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.3,
+        "top_outlets": [
+          {
+            "domain": "gbhackers.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.606,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "TechSpot"
+          },
+          "published_at": "2026-05-28T18:36:08.994533Z",
+          "source": "news_search",
+          "title": "Researchers found a way to spy on your browsing by watching your SSD's activity",
+          "url": "https://www.techspot.com/news/112562-researchers-found-way-spy-browsing-watching-ssd-activity.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a58aea04a1835a2d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.82
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "www.techspot.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.82,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Researchers found a way to spy on your browsing by watching your SSD's activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 67,
+            "estimated_monthly_organic_traffic": 220000,
+            "publication_type": "editorial",
+            "raw_source": "Cyber Press"
+          },
+          "published_at": "2026-05-28T06:36:10.237579Z",
+          "source": "news_search",
+          "title": "InvisibleFerret Malware Steals Browser Credentials and Crypto Wallets",
+          "url": "https://cyberpress.org/invisibleferret-steals-crypto-credentials/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6bcb26661cf08698",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "browser side channel attack",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.605
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.2,
+        "top_outlets": [
+          {
+            "domain": "cyberpress.org",
+            "domain_authority": 67,
+            "domain_authority_score": 0.67,
+            "estimated_monthly_organic_traffic": 220000,
+            "outlet_score": 0.605,
+            "traffic_score": 0.594
+          }
+        ]
+      },
+      "title": "InvisibleFerret Malware Steals Browser Credentials and Crypto Wallets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "TechSpot"
+          },
+          "published_at": "2026-05-28T18:36:10.237439Z",
+          "source": "news_search",
+          "title": "Researchers found a way to spy on your browsing by watching your SSD's activity",
+          "url": "https://www.techspot.com/news/112562-researchers-found-way-spy-browsing-watching-ssd-activity.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a58aea04a1835a2d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "browser side channel attack",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.82
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "www.techspot.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.82,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Researchers found a way to spy on your browsing by watching your SSD's activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "GBHackers News"
+          },
+          "published_at": "2026-05-28T13:36:10.779391Z",
+          "source": "news_search",
+          "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity",
+          "url": "https://gbhackers.com/malicious-websites-exploit-ssd-timing-signals/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "988f12555570e0f1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "SSD activity web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.606
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.3,
+        "top_outlets": [
+          {
+            "domain": "gbhackers.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.606,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 730000,
+            "publication_type": "editorial",
+            "raw_source": "CyberSecurityNews"
+          },
+          "published_at": "2026-05-28T15:36:10.779343Z",
+          "source": "news_search",
+          "title": "ClearFake Uses BSC Testnet Smart Contracts for Takedown-Resistant Command and Control",
+          "url": "https://cybersecuritynews.com/clearfake-uses-bsc-testnet-smart-contracts/amp/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "00f461e9ab8a9bb0",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "SSD activity web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.167,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.671
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.4,
+        "top_outlets": [
+          {
+            "domain": "cybersecuritynews.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 730000,
+            "outlet_score": 0.671,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "ClearFake Uses BSC Testnet Smart Contracts for Takedown-Resistant Command and Control"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 730000,
+            "publication_type": "editorial",
+            "raw_source": "CyberSecurityNews"
+          },
+          "published_at": "2026-05-28T15:36:10.7793Z",
+          "source": "news_search",
+          "title": "Critical OpenVPN Connect for macOS Vulnerability Let Attackers Execute Arbitrary Commands",
+          "url": "https://cybersecuritynews.com/openvpn-connect-for-macos-vulnerability/amp/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2af3f442e86e6f01",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "SSD activity web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.167,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.671
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.4,
+        "top_outlets": [
+          {
+            "domain": "cybersecuritynews.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 730000,
+            "outlet_score": 0.671,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Critical OpenVPN Connect for macOS Vulnerability Let Attackers Execute Arbitrary Commands"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "TechSpot"
+          },
+          "published_at": "2026-05-28T18:36:10.779251Z",
+          "source": "news_search",
+          "title": "Researchers found a way to spy on your browsing by watching your SSD's activity",
+          "url": "https://www.techspot.com/news/112562-researchers-found-way-spy-browsing-watching-ssd-activity.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a58aea04a1835a2d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "SSD activity web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.82
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "www.techspot.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.82,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Researchers found a way to spy on your browsing by watching your SSD's activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Citizen app"
+          },
+          "published_at": "2026-05-28T17:36:11.513017Z",
+          "source": "news_search",
+          "title": "Citizen: Keeping you safe & informed",
+          "url": "https://www.citizen.com/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "99c7f60214e9034a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "website tracking browser API",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Citizen: Keeping you safe & informed"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 740000,
+            "publication_type": "editorial",
+            "raw_source": "Law360"
+          },
+          "published_at": "2026-05-28T02:36:12.368695Z",
+          "source": "news_search",
+          "title": "3rd Circ. Affirms Toss Of Spirit Airlines Site Tracking Suit",
+          "url": "https://www.law360.com/cybersecurity-privacy/articles/2481990/3rd-circ-affirms-toss-of-spirit-airlines-site-tracking-suit"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "eafd4539d3031835",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "privacy browser web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.17,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.679
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.9,
+        "top_outlets": [
+          {
+            "domain": "www.law360.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 740000,
+            "outlet_score": 0.679,
+            "traffic_score": 0.652
+          }
+        ]
+      },
+      "title": "3rd Circ. Affirms Toss Of Spirit Airlines Site Tracking Suit"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 7300000,
+            "publication_type": "editorial",
+            "raw_source": "PennLive.com"
+          },
+          "published_at": "2026-05-28T09:36:12.368734Z",
+          "source": "news_search",
+          "title": "Juniata’s Jasper Shepps, State College’s Luke Bradbury swipe PIAA track medals",
+          "url": "https://www.pennlive.com/highschoolsports/2026/05/juniatas-jasper-shepps-state-colleges-luke-bradbury-swipe-piaa-track-medals.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3867822adf631ccf",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "privacy browser web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.202,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.77
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.7,
+        "top_outlets": [
+          {
+            "domain": "www.pennlive.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 7300000,
+            "outlet_score": 0.77,
+            "traffic_score": 0.763
+          }
+        ]
+      },
+      "title": "Juniata’s Jasper Shepps, State College’s Luke Bradbury swipe PIAA track medals"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "SILive.com"
+          },
+          "published_at": "2026-05-28T13:36:12.368721Z",
+          "source": "news_search",
+          "title": "Susan Wagner track star, the owner of numerous Staten Island records, commits to junior college powerhouse",
+          "url": "https://www.silive.com/highschoolsports/2026/05/susan-wagner-track-star-the-owner-of-numerous-staten-island-records-commits-to-junior-college-powerhouse.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d006bb931358209f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "privacy browser web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Susan Wagner track star, the owner of numerous Staten Island records, commits to junior college powerhouse"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "104.7 KISS FM Phoenix"
+          },
+          "published_at": "2026-05-28T14:36:12.368708Z",
+          "source": "news_search",
+          "title": "Gracie Abrams Announces 'The Look At My Life Tour': See The Dates",
+          "url": "https://1047kissfm.iheart.com/content/2026-05-27-gracie-abrams-announces-the-look-at-my-life-tour-see-the-dates/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c189b5bc191305dd",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "privacy browser web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Gracie Abrams Announces 'The Look At My Life Tour': See The Dates"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "ConsumerAffairs"
+          },
+          "published_at": "2026-05-28T18:36:12.368681Z",
+          "source": "news_search",
+          "title": "Home Depot and Lowe’s parking lot cameras are raising new privacy concerns",
+          "url": "https://www.consumeraffairs.com/news/home-depot-and-lowes-parking-lot-cameras-are-raising-new-privacy-concerns-052826.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "37c5196435688a30",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "privacy browser web tracking",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Home Depot and Lowe’s parking lot cameras are raising new privacy concerns"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Windows Report"
+          },
+          "published_at": "2026-05-28T02:36:13.066175Z",
+          "source": "news_search",
+          "title": "Chrome is outsmarting websites that try to detect Incognito mode",
+          "url": "https://windowsreport.com/chrome-is-outsmarting-websites-that-try-to-detect-incognito-mode/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7a92287e83873e08",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "browser fingerprinting side channel",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Chrome is outsmarting websites that try to detect Incognito mode"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "GBHackers News"
+          },
+          "published_at": "2026-05-28T13:36:13.066157Z",
+          "source": "news_search",
+          "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity",
+          "url": "https://gbhackers.com/malicious-websites-exploit-ssd-timing-signals/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "988f12555570e0f1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "browser fingerprinting side channel",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.606
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.3,
+        "top_outlets": [
+          {
+            "domain": "gbhackers.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.606,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "Malicious Websites Exploit SSD Timing Signals to Monitor Visitor Activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "TechSpot"
+          },
+          "published_at": "2026-05-28T18:36:13.066075Z",
+          "source": "news_search",
+          "title": "Researchers found a way to spy on your browsing by watching your SSD's activity",
+          "url": "https://www.techspot.com/news/112562-researchers-found-way-spy-browsing-watching-ssd-activity.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a58aea04a1835a2d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "browser fingerprinting side channel",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.82
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "www.techspot.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.82,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Researchers found a way to spy on your browsing by watching your SSD's activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Zee News"
+          },
+          "published_at": "2026-05-28T02:36:13.631834Z",
+          "source": "news_search",
+          "title": "Get out of my country: Indian couple in US faces racist attack on camera | Video",
+          "url": "https://zeenews.india.com/world/get-out-of-my-country-indian-couple-in-us-faces-racist-attack-on-camera-video-3050983.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1c835c7eecb4720b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "web privacy attack",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Get out of my country: Indian couple in US faces racist attack on camera | Video"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "New York Daily News"
+          },
+          "published_at": "2026-05-28T06:36:13.631767Z",
+          "source": "news_search",
+          "title": "Readers sound off on escalating with Iran, opinions in sports and online privacy",
+          "url": "https://www.nydailynews.com/2026/05/28/readers-sound-off-on-escalating-with-iran-opinions-in-sports-and-online-privacy/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9e58487aa070e4e3",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.015,
+      "query": "web privacy attack",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Readers sound off on escalating with Iran, opinions in sports and online privacy"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 7300000,
+            "publication_type": "editorial",
+            "raw_source": "PennLive.com"
+          },
+          "published_at": "2026-05-28T14:36:13.631697Z",
+          "source": "news_search",
+          "title": "They call it a budget. I call it an attack on my kids | Opinion",
+          "url": "https://www.pennlive.com/opinion/2026/05/they-call-it-a-budget-i-call-it-an-attack-on-my-kids-opinion.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0521af35892e8b73",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "web privacy attack",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.202,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.77
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.7,
+        "top_outlets": [
+          {
+            "domain": "www.pennlive.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 7300000,
+            "outlet_score": 0.77,
+            "traffic_score": 0.763
+          }
+        ]
+      },
+      "title": "They call it a budget. I call it an attack on my kids | Opinion"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "디지털투데이"
+          },
+          "published_at": "2026-05-28T01:36:08.994459Z",
+          "source": "news_search",
+          "title": "New SSD-based web tracking technique can infer activity after single site visit",
+          "url": "https://www.digitaltoday.co.kr/en/view/58943/new-frost-web-tracking-technique-can-infer-activity-from-ssd-latency-after-single-site-visit"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c63dd8b73c57e159",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.148,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 60.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "New SSD-based web tracking technique can infer activity after single site visit"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "HotHardware"
+          },
+          "published_at": "2026-05-28T14:36:08.994491Z",
+          "source": "news_search",
+          "title": "FROST Side-Channel Attack Turns SSD Activity Into A New Browser Privacy Nightmare",
+          "url": "https://hothardware.com/news/frost-side-channel-attack-turns-ssd-activity-into-a-new-browser-privacy-nightmare"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7ecd8b35982e6e0b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.131,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 59.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "FROST Side-Channel Attack Turns SSD Activity Into A New Browser Privacy Nightmare"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "The Eastern Herald"
+          },
+          "published_at": "2026-05-28T17:36:08.994596Z",
+          "source": "news_search",
+          "title": "New SSD Side-Channel Attack Lets Websites Spy on Your Browser Activity Without Permissions",
+          "url": "https://easternherald.com/2026/05/28/ssd-attack-websites-spy-browser-ssd-timing-frost/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1c5461b9394ea2b4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.132,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 59.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "New SSD Side-Channel Attack Lets Websites Spy on Your Browser Activity Without Permissions"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 67,
+            "estimated_monthly_organic_traffic": 220000,
+            "publication_type": "editorial",
+            "raw_source": "Cyber Press"
+          },
+          "published_at": "2026-05-28T10:36:08.994644Z",
+          "source": "news_search",
+          "title": "Malicious Sites Track Users Through SSD Timing Side-Channel Attacks",
+          "url": "https://cyberpress.org/sites-ssd-timing-side-channel-attacks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "40ea02ff8ada42d2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.113,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 59.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.605
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.2,
+        "top_outlets": [
+          {
+            "domain": "cyberpress.org",
+            "domain_authority": 67,
+            "domain_authority_score": 0.67,
+            "estimated_monthly_organic_traffic": 220000,
+            "outlet_score": 0.605,
+            "traffic_score": 0.594
+          }
+        ]
+      },
+      "title": "Malicious Sites Track Users Through SSD Timing Side-Channel Attacks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 19000000,
+            "publication_type": "editorial",
+            "raw_source": "TechRadar"
+          },
+          "published_at": "2026-05-28T19:36:08.994511Z",
+          "source": "news_search",
+          "title": "Websites are using this FROST-y new technique to spy on users by snooping on their SSD activity",
+          "url": "https://www.techradar.com/pro/security/websites-are-using-this-frost-y-new-technique-to-spy-on-users-by-snooping-on-their-ssd-activity"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cab2f9d2950e8ad1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.031,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.221,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.824
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.2,
+        "top_outlets": [
+          {
+            "domain": "www.techradar.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 19000000,
+            "outlet_score": 0.824,
+            "traffic_score": 0.809
+          }
+        ]
+      },
+      "title": "Websites are using this FROST-y new technique to spy on users by snooping on their SSD activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "Tom's Hardware"
+          },
+          "published_at": "2026-05-28T13:36:10.237415Z",
+          "source": "news_search",
+          "title": "Researchers say they can spy on your browsing by measuring SSD activity through a browser API — claim FROST attack requires no permissions or user interaction to identify which apps and websites you're using",
+          "url": "https://www.tomshardware.com/tech-industry/cyber-security/researchers-say-they-can-spy-on-your-browsing-by-measuring-ssd-activity-through-a-browser-api"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a59a6d38fd8eb4e2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "browser side channel attack",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.213,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.801
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 47.7,
+        "top_outlets": [
+          {
+            "domain": "www.tomshardware.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.801,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Researchers say they can spy on your browsing by measuring SSD activity through a browser API — claim FROST attack requires no permissions or user interaction to identify which apps and websites you're using"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 16000000,
+            "publication_type": "editorial",
+            "raw_source": "WIRED"
+          },
+          "published_at": "2026-05-28T23:49:13.631663Z",
+          "source": "news_search",
+          "title": "The GOP’s Attacks on James Talarico Are Straight Out of the Incel Handbook",
+          "url": "https://www.wired.com/story/gop-attacks-on-james-talarico-incel-handbook/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "604ed3dcf7a870f6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "web privacy attack",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.818
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.9,
+        "top_outlets": [
+          {
+            "domain": "www.wired.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 16000000,
+            "outlet_score": 0.818,
+            "traffic_score": 0.8
+          }
+        ]
+      },
+      "title": "The GOP’s Attacks on James Talarico Are Straight Out of the Incel Handbook"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 8400000,
+            "publication_type": "editorial",
+            "raw_source": "BGR"
+          },
+          "published_at": "2026-05-28T17:36:15.08184Z",
+          "source": "news_search",
+          "title": "Motorola Was Caught Injecting Shady Tracking Code Within The Amazon App",
+          "url": "https://www.bgr.com/2183064/motorola-caught-shady-tracking-code-amazon-app/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8ad3c8d47c52fab4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "malicious website tracking",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.204,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.775
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.1,
+        "top_outlets": [
+          {
+            "domain": "www.bgr.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 8400000,
+            "outlet_score": 0.775,
+            "traffic_score": 0.769
+          }
+        ]
+      },
+      "title": "Motorola Was Caught Injecting Shady Tracking Code Within The Amazon App"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 65,
+            "estimated_monthly_organic_traffic": 380000,
+            "publication_type": "other",
+            "raw_source": "dev.ua"
+          },
+          "published_at": "2026-05-28T14:36:08.994571Z",
+          "source": "news_search",
+          "title": "New way of tracking: sites can spy on users by analyzing SSD activity",
+          "url": "https://dev.ua/en/news/novyi-sposib-stezhennia-saity-mozhut-shpyhuvaty-za-korystuvachamy-cherez-analiz-aktyvnosti-ssd-1779976334"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e90b3bec1786154e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "browser privacy side channel web tracking SSD activity",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.152,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.624
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.4,
+        "top_outlets": [
+          {
+            "domain": "dev.ua",
+            "domain_authority": 65,
+            "domain_authority_score": 0.65,
+            "estimated_monthly_organic_traffic": 380000,
+            "outlet_score": 0.624,
+            "traffic_score": 0.62
+          }
+        ]
+      },
+      "title": "New way of tracking: sites can spy on users by analyzing SSD activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 730000,
+            "publication_type": "editorial",
+            "raw_source": "CyberSecurityNews"
+          },
+          "published_at": "2026-05-28T15:36:10.779065Z",
+          "source": "news_search",
+          "title": "Malicious Websites Track Visitors by Analyzing their SSD Timing Activity",
+          "url": "https://cybersecuritynews.com/malicious-websites-track-ssd-timing/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "aa1a790bf671d2be",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "SSD activity web tracking",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.167,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.671
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.4,
+        "top_outlets": [
+          {
+            "domain": "cybersecuritynews.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 730000,
+            "outlet_score": 0.671,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Malicious Websites Track Visitors by Analyzing their SSD Timing Activity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 5300000,
+            "publication_type": "editorial",
+            "raw_source": "Firstpost"
+          },
+          "published_at": "2026-05-28T10:36:12.368771Z",
+          "source": "news_search",
+          "title": "Tired of Google AI Overviews? Here are search engines worth trying instead",
+          "url": "https://www.firstpost.com/tech/tired-of-google-ai-overviews-here-are-search-engines-worth-trying-instead-ws-e-14016261.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "14993165fd77aa20",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "privacy browser web tracking",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.194,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.747
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.3,
+        "top_outlets": [
+          {
+            "domain": "www.firstpost.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 5300000,
+            "outlet_score": 0.747,
+            "traffic_score": 0.747
+          }
+        ]
+      },
+      "title": "Tired of Google AI Overviews? Here are search engines worth trying instead"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 730000,
+            "publication_type": "editorial",
+            "raw_source": "CyberSecurityNews"
+          },
+          "published_at": "2026-05-28T15:36:13.63179Z",
+          "source": "news_search",
+          "title": "Malicious Websites Track Visitors by Analyzing their SSD Timing Activity",
+          "url": "https://cybersecuritynews.com/malicious-websites-track-ssd-timing/amp/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "94f722f271f9b598",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "web privacy attack",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.167,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.671
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.4,
+        "top_outlets": [
+          {
+            "domain": "cybersecuritynews.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 730000,
+            "outlet_score": 0.671,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Malicious Websites Track Visitors by Analyzing their SSD Timing Activity"
+    }
+  ]
+}

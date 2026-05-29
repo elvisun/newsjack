@@ -1,0 +1,42 @@
+{
+  "company": "Chainguard",
+  "website": "https://www.chainguard.dev",
+  "description": "Software supply chain security company focused on secure open-source artifacts, hardened container images, vulnerability reduction, and build integrity.",
+  "topics": [
+    "open source security",
+    "software supply chain security",
+    "secure container images",
+    "AI infrastructure security",
+    "vulnerability management",
+    "SBOM and build provenance"
+  ],
+  "competitors": [
+    "Snyk",
+    "Socket",
+    "Sonatype",
+    "GitLab",
+    "Aqua Security",
+    "Wiz"
+  ],
+  "search_terms": [
+    "IBM Red Hat open source security",
+    "open source AI security initiative",
+    "software supply chain security AI",
+    "open source vulnerability management",
+    "secure software artifacts",
+    "AI open source security",
+    "Red Hat security initiative",
+    "open source supply chain risk"
+  ],
+  "spokespeople": [
+    "CEO or founder on software supply chain security",
+    "Open source security researcher",
+    "Product security executive"
+  ],
+  "standing": [
+    "open-source software supply chain security",
+    "secure-by-default software artifacts",
+    "vulnerability reduction in containerized environments",
+    "build provenance and SBOM practices"
+  ]
+}

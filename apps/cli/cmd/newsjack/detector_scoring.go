@@ -59,7 +59,6 @@ func profileMatches(profile monitorProfile, text string) []string {
 	terms = append(terms, profile.Topics...)
 	terms = append(terms, profile.Competitors...)
 	terms = append(terms, profile.Standing...)
-	terms = append(terms, profile.ProofAssets...)
 	var matches []string
 	seen := map[string]bool{}
 	for _, term := range terms {
@@ -609,6 +608,12 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	profileMatch := profileMatchScore(profile, text)
 	majorNews := majorNewsScore(cluster, age)
 	storySize := storySizeScore(cluster, sourceQuality, majorNews, engagement)
+	storySizeValue := 0.0
+	storySizeKnown := false
+	if score, ok := numberValue(storySize["score"]); ok {
+		storySizeValue = score / 100.0
+		storySizeKnown = true
+	}
 	lane := signalLane(cluster, majorNews, profileMatch, opts)
 	queue := 0.0
 	switch lane {
@@ -626,6 +631,13 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		queue = round1(math.Min(64.0, 100*(0.22*freshness+0.20*engagement+0.18*profileMatch+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality)))
 	default:
 		queue = round1(100 * (0.22*sourceAgreement + 0.20*freshness + 0.18*novelty + 0.16*profileMatch + 0.14*sourceQuality + 0.10*engagement))
+	}
+	recallGuard := ""
+	if strings.HasSuffix(lane, "_unmatched") || strings.HasSuffix(lane, "_weak") {
+		if floor, ok := storyRecallQueueFloor(storySizeValue, storySizeKnown, profileMatch); ok {
+			queue = round1(math.Max(queue, floor))
+			recallGuard = "large_story_remote_relevance"
+		}
 	}
 	var evidence []map[string]any
 	for i, item := range cluster.Evidence {
@@ -655,21 +667,25 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		"momentum":         roundN(engagement, 3),
 		"major_news":       roundN(majorNews, 3),
 	}
-	if score, ok := numberValue(storySize["score"]); ok {
-		mechanicalScores["story_size"] = roundN(score/100.0, 3)
+	if storySizeKnown {
+		mechanicalScores["story_size"] = roundN(storySizeValue, 3)
+	}
+	routing := map[string]any{
+		"lane":           lane,
+		"queue_priority": queue,
+		"demoted":        strings.HasSuffix(lane, "_unmatched") || strings.HasSuffix(lane, "_weak"),
+	}
+	if recallGuard != "" {
+		routing["recall_guard"] = recallGuard
 	}
 	return map[string]any{
-		"id":         signalID(cluster.title(), urls, text),
-		"title":      cluster.title(),
-		"sources":    sources,
-		"evidence":   evidence,
-		"features":   features,
-		"story_size": storySize,
-		"routing": map[string]any{
-			"lane":           lane,
-			"queue_priority": queue,
-			"demoted":        strings.HasSuffix(lane, "_unmatched") || strings.HasSuffix(lane, "_weak"),
-		},
+		"id":                signalID(cluster.title(), urls, text),
+		"title":             cluster.title(),
+		"sources":           sources,
+		"evidence":          evidence,
+		"features":          features,
+		"story_size":        storySize,
+		"routing":           routing,
 		"mechanical_scores": mechanicalScores,
 	}
 }

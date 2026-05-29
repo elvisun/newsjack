@@ -1,0 +1,2280 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 293052,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 77,
+    "debug_duplicate_scored_rows": 12,
+    "debug_selected_rows": 48,
+    "debug_unique_scored_signal_ids": 65,
+    "debug_unselected_rows": 29,
+    "selected_unique_signals": 41,
+    "source_errors": 0,
+    "total_emitted_signals": 41,
+    "total_scored_signals": 77
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:14.260126Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 1,
+      "profile_relevance_weak": 28
+    },
+    "emitted": {
+      "profile_relevance": 30,
+      "profile_relevance_weak": 11
+    },
+    "scored": {
+      "profile_relevance": 37,
+      "profile_relevance_weak": 40
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:04.56623Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Sardine",
+    "queries": [
+      "AI agents trading payments identity risk",
+      "AI agents trading",
+      "AI agents credit card purchases",
+      "Robinhood AI agents",
+      "agentic payments risk",
+      "AI trading authorization",
+      "fintech AI agent fraud",
+      "autonomous agent payments",
+      "AI financial automation risk"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 79
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-012-sardine/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "editorial",
+            "raw_source": "eWeek"
+          },
+          "published_at": "2026-05-28T13:36:09.484084Z",
+          "source": "news_search",
+          "title": "Robinhood Now Lets AI Agents Trade Stocks, Spend Money",
+          "url": "https://www.eweek.com/news/robinhood-ai-agents-trading-stock/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Android Headlines"
+          },
+          "published_at": "2026-05-28T22:36:09.483899Z",
+          "source": "news_search",
+          "title": "Robinhood Is About to Let AI Agents Trade Stocks and Spend Money on Your Behalf",
+          "url": "https://www.androidheadlines.com/2026/05/robinhood-launches-ai-agentic-trading-credit-card.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ea3089ad88a2270e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "AI agents trading",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.16,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.648
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.9,
+        "top_outlets": [
+          {
+            "domain": "www.eweek.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.648,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Robinhood Now Lets AI Agents Trade Stocks, Spend Money"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T07:36:13.492408Z",
+          "source": "news_search",
+          "title": "Card Networks Use Trust and Identity to Build Agentic Commerce",
+          "url": "https://www.pymnts.com/news/artificial-intelligence/2026/card-networks-use-trust-identity-build-agentic-commerce/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T07:36:13.492887Z",
+          "source": "news_search",
+          "title": "Card Networks Build Trust Frameworks for Agentic Commerce",
+          "url": "https://letsdatascience.com/news/card-networks-build-trust-frameworks-for-agentic-commerce-2c410006"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "db6d91ce093264e1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "autonomous agent payments",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Card Networks Use Trust and Identity to Build Agentic Commerce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "StreetInsider"
+          },
+          "published_at": "2026-05-28T02:36:08.544051Z",
+          "source": "news_search",
+          "title": "LBank Exchange Listed AIBTC (AI-BTC)",
+          "url": "https://www.streetinsider.com/Newsfile/LBank+Exchange+Listed+AIBTC+%28AI-BTC%29/26559855.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fffec50acc91989c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI agents trading payments identity risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "LBank Exchange Listed AIBTC (AI-BTC)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Finance Magnates"
+          },
+          "published_at": "2026-05-28T07:36:08.543977Z",
+          "source": "news_search",
+          "title": "IG Australia Launches MCP Server, Opens Its Trading Platform to ChatGPT",
+          "url": "https://www.financemagnates.com/forex/ig-australia-launches-mcp-server-opens-its-trading-platform-to-chatgpt/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0b42bf7143b28a11",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI agents trading payments identity risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "IG Australia Launches MCP Server, Opens Its Trading Platform to ChatGPT"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 14000,
+            "publication_type": "other",
+            "raw_source": "Malaysia Sun"
+          },
+          "published_at": "2026-05-28T12:36:08.544073Z",
+          "source": "news_search",
+          "title": "Visa Launches 'Agentic Ready' Program in Asia Pacific with Over 50 Partners - Advancing Agentic Commerce",
+          "url": "http://www.malaysiasun.com/news/279086776/visa-launches-agentic-ready-program-in-asia-pacific-with-over-50-partners-advancing-agentic-commerce"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "15f1c9fb12913e72",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "AI agents trading payments identity risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.099,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.461
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 26.2,
+        "top_outlets": [
+          {
+            "domain": "www.malaysiasun.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 14000,
+            "outlet_score": 0.461,
+            "traffic_score": 0.461
+          }
+        ]
+      },
+      "title": "Visa Launches 'Agentic Ready' Program in Asia Pacific with Over 50 Partners - Advancing Agentic Commerce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "HarianBasis.co"
+          },
+          "published_at": "2026-05-28T15:36:08.544115Z",
+          "source": "news_search",
+          "title": "ChatGPT Offers Personal Finance Tracking Tools with Risks",
+          "url": "https://www.harianbasis.co/en/chatgpt-offers-personal-finance-tracking"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f0f1532dfd8f23ab",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI agents trading payments identity risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "ChatGPT Offers Personal Finance Tracking Tools with Risks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:09.483984Z",
+          "source": "news_search",
+          "title": "Robinhood will let customers use AI agents to make trades",
+          "url": "https://www.emarketer.com/content/robinhood-customers-ai-agents-make-trades-credit-cards"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cd0e0a8c4f6ebc72",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI agents trading",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Robinhood will let customers use AI agents to make trades"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Yogonet"
+          },
+          "published_at": "2026-05-28T14:36:09.484009Z",
+          "source": "news_search",
+          "title": "Robinhood launches AI trading agents, expands push into prediction markets",
+          "url": "https://www.yogonet.com/international/news/2026/05/28/122048-robinhood-launches-ai-trading-agents-expands-push-into-prediction-markets"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a8d50e4b89769564",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI agents trading",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood launches AI trading agents, expands push into prediction markets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T23:53:09.48411Z",
+          "source": "news_search",
+          "title": "Investors Can Now Trade Directly Inside AI Chatbots",
+          "url": "https://www.pymnts.com/artificial-intelligence-2/2026/investors-can-now-trade-directly-inside-ai-chatbots/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "839449375164623a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "AI agents trading",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Investors Can Now Trade Directly Inside AI Chatbots"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:10.741351Z",
+          "source": "news_search",
+          "title": "Robinhood will let customers use AI agents to make trades",
+          "url": "https://www.emarketer.com/content/robinhood-customers-ai-agents-make-trades-credit-cards"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cd0e0a8c4f6ebc72",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "Robinhood AI agents",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Robinhood will let customers use AI agents to make trades"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Yogonet"
+          },
+          "published_at": "2026-05-28T14:36:10.742076Z",
+          "source": "news_search",
+          "title": "Robinhood launches AI trading agents, expands push into prediction markets",
+          "url": "https://www.yogonet.com/international/news/2026/05/28/122048-robinhood-launches-ai-trading-agents-expands-push-into-prediction-markets"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a8d50e4b89769564",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "Robinhood AI agents",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood launches AI trading agents, expands push into prediction markets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 160000,
+            "publication_type": "editorial",
+            "raw_source": "ABC Columbia"
+          },
+          "published_at": "2026-05-28T21:36:10.741163Z",
+          "source": "news_search",
+          "title": "Robinhood lets Ai agents pick stocks",
+          "url": "https://www.abccolumbia.com/2026/05/28/robinhood-lets-ai-agents-pick-stocks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "84e730409a97e529",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "Robinhood AI agents",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.136,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.578
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.5,
+        "top_outlets": [
+          {
+            "domain": "www.abccolumbia.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 160000,
+            "outlet_score": 0.578,
+            "traffic_score": 0.578
+          }
+        ]
+      },
+      "title": "Robinhood lets Ai agents pick stocks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "BriefGlance"
+          },
+          "published_at": "2026-05-28T11:36:11.321831Z",
+          "source": "news_search",
+          "title": "The AI Shopping Trap: New Report Reveals a Major Trust Gap in Commerce",
+          "url": "https://briefglance.com/articles/the-ai-shopping-trap-new-report-reveals-a-major-trust-gap-in-commerce"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0d92837de7197c7b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "agentic payments risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The AI Shopping Trap: New Report Reveals a Major Trust Gap in Commerce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T12:36:11.321922Z",
+          "source": "news_search",
+          "title": "String Metaverse Ltd appoints former Capital One tech leader Sai Kotha Venkata as Technical Advisor; launches global AI agent infrastructure",
+          "url": "https://www.bignewsnetwork.com/news/279084178/string-metaverse-ltd-appoints-former-capital-one-tech-leader-sai-kotha-venkata-as-technical-advisor-launches-global-ai-agent-infrastructure"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "55036fa64e1c07ba",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.027,
+      "query": "agentic payments risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "String Metaverse Ltd appoints former Capital One tech leader Sai Kotha Venkata as Technical Advisor; launches global AI agent infrastructure"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Digital Transactions"
+          },
+          "published_at": "2026-05-28T13:36:11.321746Z",
+          "source": "news_search",
+          "title": "Many Not Ready for Agentic Commerce and other Digital Transactions News briefs from 5/28/26",
+          "url": "https://www.digitaltransactions.net/many-not-ready-for-agentic-commerce-and-other-digital-transactions-news-briefs-from-5-28-26/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e980c04665f2ec21",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "agentic payments risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Many Not Ready for Agentic Commerce and other Digital Transactions News briefs from 5/28/26"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T16:36:11.321875Z",
+          "source": "news_search",
+          "title": "Visa Launches 'Agentic Ready' Program in Asia Pacific with Over 50 Partners - Advancing Agentic Commerce",
+          "url": "https://www.bignewsnetwork.com/news/279086776/visa-launches-agentic-ready-program-in-asia-pacific-with-over-50-partners-advancing-agentic-commerce"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9e26d80f5aba3f57",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "agentic payments risk",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Visa Launches 'Agentic Ready' Program in Asia Pacific with Over 50 Partners - Advancing Agentic Commerce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:12.109618Z",
+          "source": "news_search",
+          "title": "Robinhood will let customers use AI agents to make trades",
+          "url": "https://www.emarketer.com/content/robinhood-customers-ai-agents-make-trades-credit-cards"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cd0e0a8c4f6ebc72",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI trading authorization",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Robinhood will let customers use AI agents to make trades"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "FinanceFeeds"
+          },
+          "published_at": "2026-05-28T06:36:12.109794Z",
+          "source": "news_search",
+          "title": "Robinhood Launches \"Agentic Trading\" Infrastructure to Let AI Bots Manage Portfolios",
+          "url": "https://financefeeds.com/robinhood-launches-agentic-trading-infrastructure-to-let-ai-bots-manage-portfolios/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2247344cdb0fb75f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "AI trading authorization",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood Launches \"Agentic Trading\" Infrastructure to Let AI Bots Manage Portfolios"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "publication_type": "brand_content",
+            "raw_source": "TradingView"
+          },
+          "published_at": "2026-05-28T09:36:12.109747Z",
+          "source": "news_search",
+          "title": "NOTICE OF ANNUAL GENERAL MEETING IN ORTELIUS INTERNATIONAL AB (PUBL)",
+          "url": "https://www.tradingview.com/news/modular_finance:15f4f136f5ce7:0-notice-of-annual-general-meeting-in-ortelius-international-ab-publ/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a14dc073d0e94fee",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI trading authorization",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.257,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.926
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 55.8,
+        "top_outlets": [
+          {
+            "domain": "www.tradingview.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "outlet_score": 0.926,
+            "traffic_score": 0.929
+          }
+        ]
+      },
+      "title": "NOTICE OF ANNUAL GENERAL MEETING IN ORTELIUS INTERNATIONAL AB (PUBL)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "CoinCodex"
+          },
+          "published_at": "2026-05-28T12:36:12.109771Z",
+          "source": "news_search",
+          "title": "How Orbs Enables AI Agents to Execute Advanced DeFi Trades",
+          "url": "https://coincodex.com/article/85142/how-orbs-enables-ai-agents-to-execute-advanced-defi-trades/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4e1f95ab8bf17377",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "AI trading authorization",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "How Orbs Enables AI Agents to Execute Advanced DeFi Trades"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Android Headlines"
+          },
+          "published_at": "2026-05-28T22:36:10.74127Z",
+          "source": "news_search",
+          "title": "Robinhood Is About to Let AI Agents Trade Stocks and Spend Money on Your Behalf",
+          "url": "https://www.androidheadlines.com/2026/05/robinhood-launches-ai-agentic-trading-credit-card.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8a6205ead9de7ae3",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "Robinhood AI agents",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood Is About to Let AI Agents Trade Stocks and Spend Money on Your Behalf"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "FinAi News"
+          },
+          "published_at": "2026-05-28T20:36:11.321806Z",
+          "source": "news_search",
+          "title": "Mastercard looks beyond payments amid agentic era",
+          "url": "https://finainews.com/banking/mastercard-looks-beyond-payments-amid-agentic-era/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7ffc5531ffc16eeb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "agentic payments risk",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Mastercard looks beyond payments amid agentic era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-28T23:36:12.616857Z",
+          "source": "news_search",
+          "title": "Agentic AI and Banks: Who Signs Off on the Machine?",
+          "url": "https://www.pymnts.com/news/banking/2026/agentic-ai-and-banks-who-signs-off-on-the-machine/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "993202eab7215657",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "fintech AI agent fraud",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Agentic AI and Banks: Who Signs Off on the Machine?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Coinfomania"
+          },
+          "published_at": "2026-05-28T10:36:13.492729Z",
+          "source": "news_search",
+          "title": "Why Stablecoins Will Become the Default Currency for AI Agents",
+          "url": "https://coinfomania.com/why-stablecoins-will-become-the-default-currency-for-ai-agents/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7d9b2b093ecfd59a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.134,
+      "query": "autonomous agent payments",
+      "queue_priority": 59.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Why Stablecoins Will Become the Default Currency for AI Agents"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "FintechNews CH"
+          },
+          "published_at": "2026-05-28T09:36:12.616983Z",
+          "source": "news_search",
+          "title": "Robinhood Launches AI Agent Trading and Credit Card Tools with User Controls",
+          "url": "https://fintechnews.ch/fintechusa/robinhood-ai-agent-trading-credit-card/83755/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "aeb2226360acd95c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.105,
+      "query": "fintech AI agent fraud",
+      "queue_priority": 59.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood Launches AI Agent Trading and Credit Card Tools with User Controls"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 27000000,
+            "publication_type": "editorial",
+            "raw_source": "TheStreet"
+          },
+          "published_at": "2026-05-28T13:36:11.321854Z",
+          "source": "news_search",
+          "title": "Regulators are quietly reshaping global payments",
+          "url": "https://www.thestreet.com/markets/regulators-reshape-global-payments-financial-security-fraud-compliance"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "28da41990dd44855",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.094,
+      "query": "agentic payments risk",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.223,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.831
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.7,
+        "top_outlets": [
+          {
+            "domain": "www.thestreet.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 27000000,
+            "outlet_score": 0.831,
+            "traffic_score": 0.826
+          }
+        ]
+      },
+      "title": "Regulators are quietly reshaping global payments"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "editorial",
+            "raw_source": "FinTech Global"
+          },
+          "published_at": "2026-05-28T09:36:14.126597Z",
+          "source": "news_search",
+          "title": "NatWest turns to Cleareye.ai as fraud risk mounts",
+          "url": "https://fintech.global/2026/05/28/natwest-turns-to-cleareye-ai-as-fraud-risk-mounts/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "39661083fb7c1b93",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.089,
+      "query": "AI financial automation risk",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.147,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.609
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.5,
+        "top_outlets": [
+          {
+            "domain": "fintech.global",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.609,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "NatWest turns to Cleareye.ai as fraud risk mounts"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Proactive Investors"
+          },
+          "published_at": "2026-05-28T07:36:10.162921Z",
+          "source": "news_search",
+          "title": "Robinhood hands AI agents the keys to its trading platform and credit card",
+          "url": "https://www.proactiveinvestors.co.uk/companies/news/1093025/robinhood-hands-ai-agents-the-keys-to-its-trading-platform-and-credit-card-1093025.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5a6ccf858b678d9f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "AI agents credit card purchases",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood hands AI agents the keys to its trading platform and credit card"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 61000000,
+            "publication_type": "editorial",
+            "raw_source": "India Today"
+          },
+          "published_at": "2026-05-28T10:36:10.162996Z",
+          "source": "news_search",
+          "title": "AI agents can now do trading for you, they can also buy stuff using your credit card",
+          "url": "https://www.indiatoday.in/technology/news/story/ai-agents-can-now-do-trading-for-you-they-can-also-buy-stuff-using-your-credit-card-2918497-2026-05-28"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2301fe64400a1cd4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.088,
+      "query": "AI agents credit card purchases",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.235,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.864
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 51.8,
+        "top_outlets": [
+          {
+            "domain": "www.indiatoday.in",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 61000000,
+            "outlet_score": 0.864,
+            "traffic_score": 0.865
+          }
+        ]
+      },
+      "title": "AI agents can now do trading for you, they can also buy stuff using your credit card"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "Indiatimes"
+          },
+          "published_at": "2026-05-28T15:36:10.162853Z",
+          "source": "news_search",
+          "title": "Robinhood opens platform to AI agents for trading, credit card purchases",
+          "url": "https://enterpriseai.economictimes.indiatimes.com/amp/news/industry/robinhood-launches-ai-trading-and-purchases-for-users/131373371"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "656a15ab62846780",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.086,
+      "query": "AI agents credit card purchases",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "enterpriseai.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "Robinhood opens platform to AI agents for trading, credit card purchases"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "publication_type": "editorial",
+            "raw_source": "TechCrunch"
+          },
+          "published_at": "2026-05-28T13:36:11.321716Z",
+          "source": "news_search",
+          "title": "Visa invests in Replit to power agentic payments for developers",
+          "url": "https://techcrunch.com/2026/05/28/visa-invests-in-replit-to-power-agentic-payments-for-developers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f61254b08650702c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.088,
+      "query": "agentic payments risk",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.208,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.788
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.9,
+        "top_outlets": [
+          {
+            "domain": "techcrunch.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "outlet_score": 0.788,
+            "traffic_score": 0.765
+          }
+        ]
+      },
+      "title": "Visa invests in Replit to power agentic payments for developers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "editorial",
+            "raw_source": "FinTech Global"
+          },
+          "published_at": "2026-05-28T16:36:12.616898Z",
+          "source": "news_search",
+          "title": "Tieto Banktech uses AI to fight financial crime",
+          "url": "https://fintech.global/2026/05/28/tieto-banktech-uses-ai-to-fight-financial-crime/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f40d6a3afb901143",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.088,
+      "query": "fintech AI agent fraud",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.147,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.609
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.5,
+        "top_outlets": [
+          {
+            "domain": "fintech.global",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.609,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "Tieto Banktech uses AI to fight financial crime"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 36000,
+            "publication_type": "editorial",
+            "raw_source": "LeapRate"
+          },
+          "published_at": "2026-05-28T12:36:12.617139Z",
+          "source": "news_search",
+          "title": "Robinhood Launches AI-Powered Agentic Trading and Credit Card Features",
+          "url": "https://www.leaprate.com/financial-services/fintech/robinhood-launches-ai-powered-agentic-trading-credit-card/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "071e9499ddb689ea",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "fintech AI agent fraud",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.113,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.506
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 29,
+        "top_outlets": [
+          {
+            "domain": "www.leaprate.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 36000,
+            "outlet_score": 0.506,
+            "traffic_score": 0.506
+          }
+        ]
+      },
+      "title": "Robinhood Launches AI-Powered Agentic Trading and Credit Card Features"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4700000,
+            "publication_type": "other",
+            "raw_source": "Zacks Investment Research"
+          },
+          "published_at": "2026-05-28T12:36:09.484033Z",
+          "source": "news_search",
+          "title": "HOOD Brings AI Agents to Trading and Spending: Opportunity or Risk?",
+          "url": "https://www.zacks.com/stock/news/2928290/hood-brings-ai-agents-to-trading-and-spending-opportunity-or-risk"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fcc90c7bc35830e9",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI agents trading",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.192,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.741
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.9,
+        "top_outlets": [
+          {
+            "domain": "www.zacks.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4700000,
+            "outlet_score": 0.741,
+            "traffic_score": 0.741
+          }
+        ]
+      },
+      "title": "HOOD Brings AI Agents to Trading and Spending: Opportunity or Risk?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 2400000,
+            "publication_type": "editorial",
+            "raw_source": "Entrepreneur"
+          },
+          "published_at": "2026-05-28T13:36:09.483962Z",
+          "source": "news_search",
+          "title": "Robinhood Will Now Let AI Trade Your Stocks and Swipe Your Credit Card — Here's How It Works",
+          "url": "https://www.entrepreneur.com/business-news/robinhood-will-now-let-ai-trade-your-stocks"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fae52f987e63952e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.068,
+      "query": "AI agents trading",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.191,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.739
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.8,
+        "top_outlets": [
+          {
+            "domain": "www.entrepreneur.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 2400000,
+            "outlet_score": 0.739,
+            "traffic_score": 0.709
+          }
+        ]
+      },
+      "title": "Robinhood Will Now Let AI Trade Your Stocks and Swipe Your Credit Card — Here's How It Works"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "CoinMarketCap"
+          },
+          "published_at": "2026-05-28T08:36:10.163024Z",
+          "source": "news_search",
+          "title": "Robinhood Lets AI Agents Trade Stocks, Crypto Access Planned",
+          "url": "https://coinmarketcap.com/academy/article/robinhood-ai-agent-trading"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "72bef22b0efbee95",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI agents credit card purchases",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Robinhood Lets AI Agents Trade Stocks, Crypto Access Planned"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "editorial",
+            "raw_source": "eWeek"
+          },
+          "published_at": "2026-05-28T13:36:12.617074Z",
+          "source": "news_search",
+          "title": "Robinhood Now Lets AI Agents Trade Stocks, Spend Money",
+          "url": "https://www.eweek.com/news/robinhood-ai-agents-trading-stock/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "681f42b8510e63ab",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.069,
+      "query": "fintech AI agent fraud",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.16,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.648
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.9,
+        "top_outlets": [
+          {
+            "domain": "www.eweek.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.648,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Robinhood Now Lets AI Agents Trade Stocks, Spend Money"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Manila Bulletin"
+          },
+          "published_at": "2026-05-28T16:36:14.126731Z",
+          "source": "news_search",
+          "title": "Are we ready for AI-driven identity systems in finance?",
+          "url": "https://mb.com.ph/2026/05/29/are-we-ready-for-ai-driven-identity-systems-in-finance"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a7b15b82ba7653a2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.069,
+      "query": "AI financial automation risk",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Are we ready for AI-driven identity systems in finance?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T13:36:11.321901Z",
+          "source": "news_search",
+          "title": "MetaComp unveils Web2.5 VisionX Engine and AgentX, Advancing the StableX Network as the Compliance Layer for Agentic Payment and Wealth (1)",
+          "url": "https://www.bignewsnetwork.com/news/279085349/metacomp-unveils-web25-visionx-engine-and-agentx-advancing-the-stablex-network-as-the-compliance-layer-for-agentic-payment-and-wealth-1"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "082a779abc9fca11",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "agentic payments risk",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "MetaComp unveils Web2.5 VisionX Engine and AgentX, Advancing the StableX Network as the Compliance Layer for Agentic Payment and Wealth (1)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-28T15:36:13.492626Z",
+          "source": "news_search",
+          "title": "Virtuals Protocol co-hosts first ERC-8183 builder session with Ethereum Foundation to standardize AI agent commerce",
+          "url": "https://cryptobriefing.com/erc-8183-virtuals-protocol-ethereum-ai-agent-commerce/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9ff108dd55041c76",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "autonomous agent payments",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Virtuals Protocol co-hosts first ERC-8183 builder session with Ethereum Foundation to standardize AI agent commerce"
+    }
+  ]
+}

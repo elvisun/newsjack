@@ -1,0 +1,42 @@
+{
+  "company": "Validic",
+  "website": "https://validic.com",
+  "description": "Healthcare data connectivity company for remote patient monitoring, wearable data integration, and clinical device data workflows.",
+  "topics": [
+    "remote patient monitoring",
+    "wearable health data",
+    "digital health data integration",
+    "blood pressure monitoring",
+    "sleep health data",
+    "clinical device connectivity"
+  ],
+  "competitors": [
+    "Evidation",
+    "Human API",
+    "Terra",
+    "Particle Health",
+    "Health Gorilla",
+    "WHOOP"
+  ],
+  "search_terms": [
+    "wearable health data",
+    "remote patient monitoring wearable",
+    "blood pressure wearable data",
+    "sleep disturbance wearable",
+    "smart ring health data",
+    "Oura Ring health signals",
+    "clinical wearable integration",
+    "digital biomarkers wearable"
+  ],
+  "spokespeople": [
+    "Digital health data executive",
+    "Remote patient monitoring product lead",
+    "Clinical partnerships lead"
+  ],
+  "standing": [
+    "wearable and device health data integration",
+    "remote patient monitoring workflows",
+    "clinical use of patient-generated health data",
+    "digital health interoperability"
+  ]
+}

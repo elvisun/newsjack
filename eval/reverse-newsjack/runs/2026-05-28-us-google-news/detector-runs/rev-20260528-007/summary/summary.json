@@ -1,0 +1,2568 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 219994,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 54,
+    "debug_duplicate_scored_rows": 20,
+    "debug_selected_rows": 38,
+    "debug_unique_scored_signal_ids": 34,
+    "debug_unselected_rows": 16,
+    "selected_unique_signals": 22,
+    "source_errors": 0,
+    "total_emitted_signals": 22,
+    "total_scored_signals": 54
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/final_report.md"
+  },
+  "generated_at": "2026-05-28T15:33:47.604587Z",
+  "hygiene_rejections": {
+    "seo_landing_page": 2
+  },
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 13,
+      "profile_relevance_weak": 3
+    },
+    "emitted": {
+      "profile_relevance": 13,
+      "profile_relevance_weak": 9
+    },
+    "scored": {
+      "profile_relevance": 39,
+      "profile_relevance_weak": 15
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:32:26.633674Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Chainguard",
+    "queries": [
+      "open source software supply chain security AI",
+      "IBM Red Hat open source security",
+      "open source AI security initiative",
+      "software supply chain security AI",
+      "open source vulnerability management",
+      "secure software artifacts",
+      "AI open source security",
+      "Red Hat security initiative",
+      "open source supply chain risk"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 71
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Linuxiac"
+          },
+          "published_at": "2026-05-28T12:32:28.186549Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Launch $5B Open Source Security Project",
+          "url": "https://linuxiac.com/ibm-and-red-hat-launch-5b-open-source-security-project/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "DevOps.com"
+          },
+          "published_at": "2026-05-28T15:15:28.186485Z",
+          "source": "news_search",
+          "title": "IBM, Red Hat Launch Project Lightwell to Secure Open Source Software from Frontier Models",
+          "url": "https://devops.com/ibm-red-hat-launch-project-lightwell-to-secure-open-source-software-from-frontier-models/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8d5ffb2ee2148f54",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.194,
+      "query": "IBM Red Hat open source security",
+      "queue_priority": 63.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.135,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.575
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.3,
+        "top_outlets": [
+          {
+            "domain": "devops.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.575,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Launch $5B Open Source Security Project"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Techzine Global"
+          },
+          "published_at": "2026-05-28T12:32:27.516432Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat invest $5 billion in the future of open source",
+          "url": "https://www.techzine.eu/news/security/141662/ibm-and-red-hat-invest-5-billion-in-the-future-of-open-source/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Linuxiac"
+          },
+          "published_at": "2026-05-28T12:32:27.517276Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Launch $5B Open Source Security Project",
+          "url": "https://linuxiac.com/ibm-and-red-hat-launch-5b-open-source-security-project/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0f9f03ca18f37bff",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.183,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 63.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.142,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.596
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34.6,
+        "top_outlets": [
+          {
+            "domain": "www.techzine.eu",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "IBM and Red Hat invest $5 billion in the future of open source"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 340000,
+            "publication_type": "editorial",
+            "raw_source": "SecurityWeek"
+          },
+          "published_at": "2026-05-28T12:32:30.462829Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Secure Open Source Supply Chains Under “Project Lightwell”",
+          "url": "https://www.securityweek.com/ibm-and-red-hat-commit-5-billion-to-secure-open-source-supply-chains-under-project-lightwell/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Linuxiac"
+          },
+          "published_at": "2026-05-28T12:32:30.462918Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Launch $5B Open Source Security Project",
+          "url": "https://linuxiac.com/ibm-and-red-hat-launch-5b-open-source-security-project/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f04eb6f732c23eb4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.188,
+      "query": "open source vulnerability management",
+      "queue_priority": 63.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.159,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.647
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.9,
+        "top_outlets": [
+          {
+            "domain": "www.securityweek.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 340000,
+            "outlet_score": 0.647,
+            "traffic_score": 0.615
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Secure Open Source Supply Chains Under “Project Lightwell”"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "publication_type": "other",
+            "raw_source": "GuruFocus"
+          },
+          "published_at": "2026-05-28T11:32:32.972171Z",
+          "source": "news_search",
+          "title": "Project Lightwell: IBM and Red Hat's $5B Open-Source Initiative for Enterprises",
+          "url": "https://www.gurufocus.com/news/8888164/project-lightwell-ibm-and-red-hats-5b-opensource-initiative-for-enterprises"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Linuxiac"
+          },
+          "published_at": "2026-05-28T12:32:32.972191Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Launch $5B Open Source Security Project",
+          "url": "https://linuxiac.com/ibm-and-red-hat-launch-5b-open-source-security-project/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6991d0ba86c5dcf5",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.184,
+      "query": "Red Hat security initiative",
+      "queue_priority": 63.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.178,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.702
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.4,
+        "top_outlets": [
+          {
+            "domain": "www.gurufocus.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "outlet_score": 0.702,
+            "traffic_score": 0.692
+          }
+        ]
+      },
+      "title": "Project Lightwell: IBM and Red Hat's $5B Open-Source Initiative for Enterprises"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "brand_content",
+            "raw_source": "IBM Newsroom"
+          },
+          "published_at": "2026-05-28T10:32:30.462774Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era",
+          "url": "https://newsroom.ibm.com/2026-05-28-ibm-and-red-hat-commit-5-billion-to-redefine-the-future-of-open-source-in-the-ai-era"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Techzine Global"
+          },
+          "published_at": "2026-05-28T12:32:30.462801Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat invest $5 billion in the future of open source",
+          "url": "https://www.techzine.eu/news/security/141662/ibm-and-red-hat-invest-5-billion-in-the-future-of-open-source/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "602bb8504ecf4f53",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "open source vulnerability management",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.329,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.816
+        },
+        "confidence": "medium",
+        "known_authority_count": 2,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 54.8,
+        "top_outlets": [
+          {
+            "domain": "newsroom.ibm.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.816,
+            "traffic_score": 0.797
+          },
+          {
+            "domain": "www.techzine.eu",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:32.31548Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "DevOps.com"
+          },
+          "published_at": "2026-05-28T15:15:32.315627Z",
+          "source": "news_search",
+          "title": "IBM, Red Hat Launch Project Lightwell to Secure Open Source Software from Frontier Models",
+          "url": "https://devops.com/ibm-red-hat-launch-project-lightwell-to-secure-open-source-software-from-frontier-models/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1cef6c4c9c94822e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.083,
+      "query": "AI open source security",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.275,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 44.5,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          },
+          {
+            "domain": "devops.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.575,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:32.972085Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "DevOps.com"
+          },
+          "published_at": "2026-05-28T15:15:32.972148Z",
+          "source": "news_search",
+          "title": "IBM, Red Hat Launch Project Lightwell to Secure Open Source Software from Frontier Models",
+          "url": "https://devops.com/ibm-red-hat-launch-project-lightwell-to-secure-open-source-software-from-frontier-models/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1cef6c4c9c94822e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.083,
+      "query": "Red Hat security initiative",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.275,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 44.5,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          },
+          {
+            "domain": "devops.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.575,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "brand_content",
+            "raw_source": "IBM Newsroom"
+          },
+          "published_at": "2026-05-28T10:32:28.186363Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era",
+          "url": "https://newsroom.ibm.com/2026-05-28-ibm-and-red-hat-commit-5-billion-to-redefine-the-future-of-open-source-in-the-ai-era"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 340000,
+            "publication_type": "editorial",
+            "raw_source": "SecurityWeek"
+          },
+          "published_at": "2026-05-28T12:32:28.186466Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Secure Open Source Supply Chains Under “Project Lightwell”",
+          "url": "https://www.securityweek.com/ibm-and-red-hat-commit-5-billion-to-secure-open-source-supply-chains-under-project-lightwell/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Techzine Global"
+          },
+          "published_at": "2026-05-28T12:32:28.186504Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat invest $5 billion in the future of open source",
+          "url": "https://www.techzine.eu/news/security/141662/ibm-and-red-hat-invest-5-billion-in-the-future-of-open-source/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "16eaa7e8e89ff3fb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "IBM Red Hat open source security",
+      "queue_priority": 61.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.436,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.816
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 60.7,
+        "top_outlets": [
+          {
+            "domain": "newsroom.ibm.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.816,
+            "traffic_score": 0.797
+          },
+          {
+            "domain": "www.securityweek.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 340000,
+            "outlet_score": 0.647,
+            "traffic_score": 0.615
+          },
+          {
+            "domain": "www.techzine.eu",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "brand_content",
+            "raw_source": "IBM Newsroom"
+          },
+          "published_at": "2026-05-28T10:32:32.972037Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era",
+          "url": "https://newsroom.ibm.com/2026-05-28-ibm-and-red-hat-commit-5-billion-to-redefine-the-future-of-open-source-in-the-ai-era"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 340000,
+            "publication_type": "editorial",
+            "raw_source": "SecurityWeek"
+          },
+          "published_at": "2026-05-28T12:32:32.972106Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Secure Open Source Supply Chains Under “Project Lightwell”",
+          "url": "https://www.securityweek.com/ibm-and-red-hat-commit-5-billion-to-secure-open-source-supply-chains-under-project-lightwell/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Techzine Global"
+          },
+          "published_at": "2026-05-28T12:32:32.972128Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat invest $5 billion in the future of open source",
+          "url": "https://www.techzine.eu/news/security/141662/ibm-and-red-hat-invest-5-billion-in-the-future-of-open-source/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "16eaa7e8e89ff3fb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "Red Hat security initiative",
+      "queue_priority": 61.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.436,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.816
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 60.7,
+        "top_outlets": [
+          {
+            "domain": "newsroom.ibm.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.816,
+            "traffic_score": 0.797
+          },
+          {
+            "domain": "www.securityweek.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 340000,
+            "outlet_score": 0.647,
+            "traffic_score": 0.615
+          },
+          {
+            "domain": "www.techzine.eu",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:28.186427Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "17100bae6d5a18ea",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.066,
+      "query": "IBM Red Hat open source security",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.2,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:29.23723Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "17100bae6d5a18ea",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.066,
+      "query": "software supply chain security AI",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.2,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:30.462701Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "17100bae6d5a18ea",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.066,
+      "query": "open source vulnerability management",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.2,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "brand_content",
+            "raw_source": "IBM Newsroom"
+          },
+          "published_at": "2026-05-28T10:32:29.237172Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era",
+          "url": "https://newsroom.ibm.com/2026-05-28-ibm-and-red-hat-commit-5-billion-to-redefine-the-future-of-open-source-in-the-ai-era"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a31de49c680a4a60",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "software supply chain security AI",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.218,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.816
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.7,
+        "top_outlets": [
+          {
+            "domain": "newsroom.ibm.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.816,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "N2K CyberWire"
+          },
+          "published_at": "2026-05-27T19:32:29.237585Z",
+          "source": "news_search",
+          "title": "Zscaler intends to acquire identity mapping company Symmetry Systems.",
+          "url": "https://thecyberwire.com/newsletters/business-briefing/8/21"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8f625240b4738244",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "software supply chain security AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Zscaler intends to acquire identity mapping company Symmetry Systems."
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 730000,
+            "publication_type": "editorial",
+            "raw_source": "CyberSecurityNews"
+          },
+          "published_at": "2026-05-27T19:32:31.299742Z",
+          "source": "news_search",
+          "title": "Hackers Use Grandoreiro Malware to Target Portuguese Banks and Latin American Companies",
+          "url": "https://cybersecuritynews.com/hackers-use-grandoreiro-malware-to-target-portuguese-banks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f04ac22f7891607",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "secure software artifacts",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.167,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.671
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.4,
+        "top_outlets": [
+          {
+            "domain": "cybersecuritynews.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 730000,
+            "outlet_score": 0.671,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Hackers Use Grandoreiro Malware to Target Portuguese Banks and Latin American Companies"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "publication_type": "editorial",
+            "raw_source": "The Manila Times"
+          },
+          "published_at": "2026-05-28T12:32:31.299657Z",
+          "source": "news_search",
+          "title": "DJI Releases Findings of the Most Comprehensive Independent Security Assessment of Its Drone Systems to Date",
+          "url": "https://www.manilatimes.net/2026/05/28/tmt-newswire/pr-newswire/dji-releases-findings-of-the-most-comprehensive-independent-security-assessment-of-its-drone-systems-to-date/2353660/amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3bd8764ab2549e4a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.014,
+      "query": "secure software artifacts",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.174,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.689
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.6,
+        "top_outlets": [
+          {
+            "domain": "www.manilatimes.net",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "outlet_score": 0.689,
+            "traffic_score": 0.671
+          }
+        ]
+      },
+      "title": "DJI Releases Findings of the Most Comprehensive Independent Security Assessment of Its Drone Systems to Date"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Techzine Global"
+          },
+          "published_at": "2026-05-28T12:32:29.237322Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat invest $5 billion in the future of open source",
+          "url": "https://www.techzine.eu/news/security/141662/ibm-and-red-hat-invest-5-billion-in-the-future-of-open-source/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Linuxiac"
+          },
+          "published_at": "2026-05-28T12:32:29.237524Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Launch $5B Open Source Security Project",
+          "url": "https://linuxiac.com/ibm-and-red-hat-launch-5b-open-source-security-project/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "디지털투데이"
+          },
+          "published_at": "2026-05-28T13:32:29.237381Z",
+          "source": "news_search",
+          "title": "IBM, Red Hat to invest $5 billion in open-source supply chain security, launch Project Lightwell",
+          "url": "https://www.digitaltoday.co.kr/en/view/59182/ibm-red-hat-to-invest-5-billion-in-open-source-supply-chain-security-launch-project-lightwell"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fd7427f1a6cd83c3",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.354,
+      "query": "software supply chain security AI",
+      "queue_priority": 66.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.142,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.596
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34.6,
+        "top_outlets": [
+          {
+            "domain": "www.techzine.eu",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "IBM and Red Hat invest $5 billion in the future of open source"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 110000000,
+            "publication_type": "editorial",
+            "raw_source": "The Economic Times"
+          },
+          "published_at": "2026-05-28T11:32:30.463214Z",
+          "source": "news_search",
+          "title": "IBM commits $5 billion to secure open-source software",
+          "url": "https://m.economictimes.com/tech/technology/ibm-commits-5-billion-to-secure-open-source-software/amp_articleshow/131368905.cms"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "014d7f62f97b7c3e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.175,
+      "query": "open source vulnerability management",
+      "queue_priority": 63.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.882
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53,
+        "top_outlets": [
+          {
+            "domain": "m.economictimes.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 110000000,
+            "outlet_score": 0.882,
+            "traffic_score": 0.893
+          }
+        ]
+      },
+      "title": "IBM commits $5 billion to secure open-source software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Intellectia AI"
+          },
+          "published_at": "2026-05-28T11:32:27.517406Z",
+          "source": "news_search",
+          "title": "IBM Commits $5 Billion to Enhance Open Source Security",
+          "url": "https://intellectia.ai/news/stock/ibm-commits-5-billion-to-enhance-open-source-security"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T14:45:27.51622Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are betting $5 billion that open source needs a security guard",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/ibm-red-hat-project-lightwell/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "243853d73ac85c13",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.136,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 62.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.2,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          }
+        ]
+      },
+      "title": "IBM Commits $5 Billion to Enhance Open Source Security"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "brand_content",
+            "raw_source": "IBM Newsroom"
+          },
+          "published_at": "2026-05-28T10:32:27.516059Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era",
+          "url": "https://newsroom.ibm.com/2026-05-28-ibm-and-red-hat-commit-5-billion-to-redefine-the-future-of-open-source-in-the-ai-era"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 340000,
+            "publication_type": "editorial",
+            "raw_source": "SecurityWeek"
+          },
+          "published_at": "2026-05-28T12:32:27.516267Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat Commit $5 Billion to Secure Open Source Supply Chains Under “Project Lightwell”",
+          "url": "https://www.securityweek.com/ibm-and-red-hat-commit-5-billion-to-secure-open-source-supply-chains-under-project-lightwell/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b82d36173eae479e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.086,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.342,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.816
+        },
+        "confidence": "medium",
+        "known_authority_count": 2,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 55.5,
+        "top_outlets": [
+          {
+            "domain": "newsroom.ibm.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.816,
+            "traffic_score": 0.797
+          },
+          {
+            "domain": "www.securityweek.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 340000,
+            "outlet_score": 0.647,
+            "traffic_score": 0.615
+          }
+        ]
+      },
+      "title": "IBM and Red Hat Commit $5 Billion to Redefine the Future of Open Source in the AI Era"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Rescana"
+          },
+          "published_at": "2026-05-28T11:32:33.661706Z",
+          "source": "news_search",
+          "title": "CVE-2026-27771: Critical Gitea Container Registry Vulnerability Exposes Private Images to Unauthenticated Attackers",
+          "url": "https://www.rescana.com/post/cve-2026-27771-critical-gitea-container-registry-vulnerability-exposes-private-images-to-unauthenticated-attackers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "dfc8b9c327a994c7",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.083,
+      "query": "open source supply chain risk",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CVE-2026-27771: Critical Gitea Container Registry Vulnerability Exposes Private Images to Unauthenticated Attackers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T14:32:27.516117Z",
+          "source": "news_search",
+          "title": "IBM and Red Hat are committing $5 billion to secure open-source software",
+          "url": "https://qz.com/ibm-red-hat-project-lightwell-open-source-security-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2da3e50916271e16",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.079,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 61.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "IBM and Red Hat are committing $5 billion to secure open-source software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 120000,
+            "publication_type": "brand_content",
+            "raw_source": "Security Boulevard"
+          },
+          "published_at": "2026-05-28T12:32:33.661442Z",
+          "source": "news_search",
+          "title": "Download pumping: New npm deception technique for supply chain attacks",
+          "url": "https://securityboulevard.com/2026/05/download-pumping-new-npm-deception-technique-for-supply-chain-attacks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2d14b685d7c2812e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "open source supply chain risk",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "securityboulevard.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 120000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.564
+          }
+        ]
+      },
+      "title": "Download pumping: New npm deception technique for supply chain attacks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 75000000,
+            "publication_type": "brand_content",
+            "raw_source": "WSJ"
+          },
+          "published_at": "2026-05-28T10:32:27.516172Z",
+          "source": "news_search",
+          "title": "IBM, Red Hat Pledge $5 Billion for AI-Driven Open Source Security Initiative",
+          "url": "https://www.wsj.com/tech/ai/ibm-red-hat-pledge-5-billion-for-ai-driven-open-source-security-initiative-4f1e03a4"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "822fc868f325b5a0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.127,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 59.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.882
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.wsj.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 75000000,
+            "outlet_score": 0.882,
+            "traffic_score": 0.875
+          }
+        ]
+      },
+      "title": "IBM, Red Hat Pledge $5 Billion for AI-Driven Open Source Security Initiative"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-28T10:32:27.516366Z",
+          "source": "news_search",
+          "title": "IBM commits $5 billion to secure open-source software",
+          "url": "https://www.reuters.com/legal/transactional/ibm-commits-5-billion-secure-open-source-software-2026-05-28/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "32550f2722545bca",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.881
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "IBM commits $5 billion to secure open-source software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 3600000,
+            "publication_type": "editorial",
+            "raw_source": "BusinessLine"
+          },
+          "published_at": "2026-05-28T10:32:33.661802Z",
+          "source": "news_search",
+          "title": "IBM commits $5 billion to secure open-source software",
+          "url": "https://www.thehindubusinessline.com/info-tech/ibm-commits-5-billion-to-secure-open-source-software/article71032923.ece"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7e43838f78caf952",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "open source supply chain risk",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.187,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.728
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.1,
+        "top_outlets": [
+          {
+            "domain": "www.thehindubusinessline.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 3600000,
+            "outlet_score": 0.728,
+            "traffic_score": 0.728
+          }
+        ]
+      },
+      "title": "IBM commits $5 billion to secure open-source software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "IT Business Net"
+          },
+          "published_at": "2026-05-28T04:32:31.299764Z",
+          "source": "news_search",
+          "title": "RevEng.AI raises $15 million to verify the security and integrity of AI-generated software",
+          "url": "https://itbusinessnet.com/2026/05/reveng-ai-raises-15-million-to-verify-the-security-and-integrity-of-ai-generated-software/amp/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d93a6ad6108c2885",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "secure software artifacts",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "RevEng.AI raises $15 million to verify the security and integrity of AI-generated software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "AI CERTs"
+          },
+          "published_at": "2026-05-27T18:32:29.237647Z",
+          "source": "news_search",
+          "title": "Vercel Breach Exposes AI Supply Chain Gaps",
+          "url": "https://www.aicerts.ai/news/vercel-breach-exposes-ai-supply-chain-gaps/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4b00fdf474ca67bf",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.068,
+      "query": "software supply chain security AI",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Vercel Breach Exposes AI Supply Chain Gaps"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Startup Fortune"
+          },
+          "published_at": "2026-05-28T02:32:33.661624Z",
+          "source": "news_search",
+          "title": "MCP security flaws are turning AI infrastructure into a supply-chain risk",
+          "url": "https://startupfortune.com/mcp-security-flaws-are-turning-ai-infrastructure-into-a-supply-chain-risk/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a85bf29d85b4eb3d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "open source supply chain risk",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "MCP security flaws are turning AI infrastructure into a supply-chain risk"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 7600000,
+            "publication_type": "brand_content",
+            "raw_source": "www.trendmicro.com"
+          },
+          "published_at": "2026-05-28T09:32:30.462887Z",
+          "source": "news_search",
+          "title": "Hunt Them All: An AI-Powered Vulnerability Sweep of 19,000 MCP Servers - Notícias sobre segurança",
+          "url": "https://www.trendmicro.com/vinfo/br/security/news/vulnerabilities-and-exploits/hunt-them-all-an-ai-powered-vulnerability-sweep-of-19-000-mcp-servers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0698384f4540894d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.044,
+      "query": "open source vulnerability management",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.2,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.765
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.4,
+        "top_outlets": [
+          {
+            "domain": "www.trendmicro.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 7600000,
+            "outlet_score": 0.765,
+            "traffic_score": 0.765
+          }
+        ]
+      },
+      "title": "Hunt Them All: An AI-Powered Vulnerability Sweep of 19,000 MCP Servers - Notícias sobre segurança"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "The Times of India"
+          },
+          "published_at": "2026-05-28T02:32:31.299691Z",
+          "source": "news_search",
+          "title": "Google, CrowdStrike take down ‘Glassworm’ Botnet hacking attack targeting software developers",
+          "url": "https://timesofindia.indiatimes.com/technology/tech-news/google-crowdstrike-take-down-glassworm-botnet-hacking-attack-targeting-software-developers/articleshow/131358864.cms"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6a5e9f99739994ab",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.029,
+      "query": "secure software artifacts",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "timesofindia.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "Google, CrowdStrike take down ‘Glassworm’ Botnet hacking attack targeting software developers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "citybiz"
+          },
+          "published_at": "2026-05-28T13:32:27.516496Z",
+          "source": "news_search",
+          "title": "IBM Jumps on $15B Quantum and AI Push as Company Targets Fault-tolerant Computing by 2029",
+          "url": "https://www.citybiz.co/article/852203/ibm-jumps-on-15b-quantum-and-ai-push-as-company-targets-fault-tolerant-computing-by-2029/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "def38af48f27dfcd",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.029,
+      "query": "open source software supply chain security AI",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "www.citybiz.co",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "IBM Jumps on $15B Quantum and AI Push as Company Targets Fault-tolerant Computing by 2029"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 690000,
+            "publication_type": "editorial",
+            "raw_source": "Tech Xplore"
+          },
+          "published_at": "2026-05-28T14:40:28.186529Z",
+          "source": "news_search",
+          "title": "IBM says to boost open-source security with $5 bn project",
+          "url": "https://techxplore.com/news/2026-05-ibm-boost-source-bn.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "61204216cc789515",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.031,
+      "query": "IBM Red Hat open source security",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.16,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.649
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38,
+        "top_outlets": [
+          {
+            "domain": "techxplore.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 690000,
+            "outlet_score": 0.649,
+            "traffic_score": 0.649
+          }
+        ]
+      },
+      "title": "IBM says to boost open-source security with $5 bn project"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 390000,
+            "publication_type": "editorial",
+            "raw_source": "Help Net Security"
+          },
+          "published_at": "2026-05-28T04:32:30.462857Z",
+          "source": "news_search",
+          "title": "Hottest cybersecurity open-source tools of the month: May 2026",
+          "url": "https://www.helpnetsecurity.com/2026/05/28/hottest-cybersecurity-open-source-tools-of-the-month-may-2026/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "316a02d77586ef89",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "open source vulnerability management",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.653
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.2,
+        "top_outlets": [
+          {
+            "domain": "www.helpnetsecurity.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 390000,
+            "outlet_score": 0.653,
+            "traffic_score": 0.621
+          }
+        ]
+      },
+      "title": "Hottest cybersecurity open-source tools of the month: May 2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 120000,
+            "publication_type": "editorial",
+            "raw_source": "Cybersecurity Dive"
+          },
+          "published_at": "2026-05-28T15:20:30.462743Z",
+          "source": "news_search",
+          "title": "IBM’s new $5B initiative will help enterprises rapidly patch open-source vulnerabilities",
+          "url": "https://www.cybersecuritydive.com/news/ibm-open-source-security-ai-project-lightwell/821348/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "761e0d44a8996a5a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.045,
+      "query": "open source vulnerability management",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.132,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.564
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 32.6,
+        "top_outlets": [
+          {
+            "domain": "www.cybersecuritydive.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 120000,
+            "outlet_score": 0.564,
+            "traffic_score": 0.564
+          }
+        ]
+      },
+      "title": "IBM’s new $5B initiative will help enterprises rapidly patch open-source vulnerabilities"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 430000,
+            "publication_type": "editorial",
+            "raw_source": "Unite.AI"
+          },
+          "published_at": "2026-05-27T16:32:31.299714Z",
+          "source": "news_search",
+          "title": "RevEng.AI Raises $15 Million Series A to Verify the Security and Integrity of AI-Generated Software",
+          "url": "https://www.unite.ai/reveng-ai-raises-15-million-series-a-to-verify-the-security-and-integrity-of-ai-generated-software/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c1c76916a7788580",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.029,
+      "query": "secure software artifacts",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.16,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.649
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38,
+        "top_outlets": [
+          {
+            "domain": "www.unite.ai",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 430000,
+            "outlet_score": 0.649,
+            "traffic_score": 0.626
+          }
+        ]
+      },
+      "title": "RevEng.AI Raises $15 Million Series A to Verify the Security and Integrity of AI-Generated Software"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "BankInfoSecurity"
+          },
+          "published_at": "2026-05-27T17:32:33.661756Z",
+          "source": "news_search",
+          "title": "Glassworm Group: Software Supply-Chain Attackers Disrupted",
+          "url": "https://www.bankinfosecurity.com/glassworm-group-software-supply-chain-attackers-disrupted-a-31792"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f7cbfe2ffa0682d4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "open source supply chain risk",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.605
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.2,
+        "top_outlets": [
+          {
+            "domain": "www.bankinfosecurity.com",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.605,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "Glassworm Group: Software Supply-Chain Attackers Disrupted"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "publication_type": "other",
+            "raw_source": "GuruFocus"
+          },
+          "published_at": "2026-05-28T11:32:33.661489Z",
+          "source": "news_search",
+          "title": "IBM Launches Project Lightwell to Enhance Open Source Software S",
+          "url": "https://www.gurufocus.com/news/8888172/ibm-launches-project-lightwell-to-enhance-open-source-software-security"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "178209714db909da",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "open source supply chain risk",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.178,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.702
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.4,
+        "top_outlets": [
+          {
+            "domain": "www.gurufocus.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "outlet_score": 0.702,
+            "traffic_score": 0.692
+          }
+        ]
+      },
+      "title": "IBM Launches Project Lightwell to Enhance Open Source Software S"
+    }
+  ]
+}

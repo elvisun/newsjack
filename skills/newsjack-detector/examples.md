@@ -56,12 +56,8 @@ Skill output:
   "why_newsjacking_worthy": "Regulator action creates a live need for explainers on AI compliance claims.",
   "client_standing": {
     "assessment": "strong",
-    "rationale": "The client has enterprise AI governance proof and can explain claim substantiation."
+    "rationale": "The client works directly in enterprise AI governance and can explain claim substantiation."
   },
-  "required_proof": [
-    "Named compliance lead quote",
-    "Specific customer-safe example or first-party governance data"
-  ],
   "journalist_shape": {
     "beat_description": "Enterprise AI reporter covering compliance and regulator scrutiny",
     "why_they_care_now": "They need sourced reaction while the inquiry is fresh.",

@@ -1,0 +1,1 @@
+go run ./cmd/newsjack detector run wearable\ health\ data\ blood\ pressure\ sleep\ signals --profile /Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 0 --include-all-scored --no-x-trends --emit json

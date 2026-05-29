@@ -429,7 +429,7 @@ func parseXResponse(response map[string]any, topic string, counts map[string]any
 			}
 		}
 		verified := truthy(author["verified"], false) || truthy(author["is_identity_verified"], false)
-		proof := socialProof(metrics, authorMetrics, verified)
+		signals := socialSignals(metrics, authorMetrics, verified)
 		date := stringValue(tweet["created_at"])
 		text := strings.TrimSpace(stringValue(tweet["text"]))
 		u := ""
@@ -448,8 +448,8 @@ func parseXResponse(response map[string]any, topic string, counts map[string]any
 				"x_author_followers": intValue(authorMetrics["followers_count"], 0),
 				"x_author_listed":    intValue(authorMetrics["listed_count"], 0),
 				"x_author_verified":  verified,
-				"x_low_reach":        len(proof) == 0,
-				"x_social_proof":     proof,
+				"x_low_reach":        len(signals) == 0,
+				"x_social_signals":   signals,
 				"x_query_counts":     counts,
 			},
 			"why_relevant": "",
@@ -530,7 +530,7 @@ func normalizeXQuery(query string) string {
 	return truncate(out, 512)
 }
 
-func socialProof(metrics, authorMetrics map[string]any, verified bool) []string {
+func socialSignals(metrics, authorMetrics map[string]any, verified bool) []string {
 	likes := intValue(metrics["like_count"], 0)
 	reposts := intValue(metrics["retweet_count"], 0)
 	replies := intValue(metrics["reply_count"], 0)
@@ -543,26 +543,26 @@ func socialProof(metrics, authorMetrics map[string]any, verified bool) []string 
 	minEngagement := envInt("NEWSJACK_X_MIN_ENGAGEMENT", 3)
 	minFollowers := envInt("NEWSJACK_X_MIN_AUTHOR_FOLLOWERS", 2000)
 	minViews := envInt("NEWSJACK_X_MIN_VIEWS", 1000)
-	var proof []string
+	var signals []string
 	if total >= minEngagement {
-		proof = append(proof, "post_engagement")
+		signals = append(signals, "post_engagement")
 	}
 	if reposts > 0 || quotes > 0 {
-		proof = append(proof, "reshared")
+		signals = append(signals, "reshared")
 	}
 	if views >= minViews {
-		proof = append(proof, "views")
+		signals = append(signals, "views")
 	}
 	if followers >= minFollowers && !hasView {
-		proof = append(proof, "author_followers")
+		signals = append(signals, "author_followers")
 	}
 	if listed >= 25 && !hasView {
-		proof = append(proof, "author_listed")
+		signals = append(signals, "author_listed")
 	}
 	if verified && followers >= minFollowers && !hasView {
-		proof = append(proof, "verified_author")
+		signals = append(signals, "verified_author")
 	}
-	return proof
+	return signals
 }
 
 func summarizeCounts(response map[string]any) map[string]any {
@@ -605,7 +605,7 @@ func trendItem(topic string, counts map[string]any) map[string]any {
 		"author_handle": "x-search",
 		"date":          time.Now().UTC().Truncate(time.Second).Format(time.RFC3339),
 		"engagement":    map[string]any{"score": minInt(500, intValue(counts["total_24h"], 0)), "comments": intValue(counts["recent_6h"], 0)},
-		"metadata":      map[string]any{"x_signal_type": "query_trend", "x_social_proof": []string{"query_volume"}, "x_query_counts": counts},
+		"metadata":      map[string]any{"x_signal_type": "query_trend", "x_social_signals": []string{"query_volume"}, "x_query_counts": counts},
 		"why_relevant":  "X query-volume trend",
 		"relevance":     0.7,
 	}

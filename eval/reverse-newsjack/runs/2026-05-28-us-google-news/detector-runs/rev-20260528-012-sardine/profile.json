@@ -1,0 +1,42 @@
+{
+  "company": "Sardine",
+  "website": "https://www.sardine.ai",
+  "description": "Fraud prevention, risk, and compliance platform for fintechs, crypto companies, banks, and payment products.",
+  "topics": [
+    "fintech fraud prevention",
+    "AI agent payments",
+    "authorized trading risk",
+    "credit card fraud",
+    "identity verification",
+    "transaction monitoring"
+  ],
+  "competitors": [
+    "Alloy",
+    "Unit21",
+    "Sift",
+    "Socure",
+    "Persona",
+    "Feedzai"
+  ],
+  "search_terms": [
+    "AI agents trading",
+    "AI agents credit card purchases",
+    "Robinhood AI agents",
+    "agentic payments risk",
+    "AI trading authorization",
+    "fintech AI agent fraud",
+    "autonomous agent payments",
+    "AI financial automation risk"
+  ],
+  "spokespeople": [
+    "Fraud risk executive",
+    "Fintech compliance lead",
+    "Identity and payments risk expert"
+  ],
+  "standing": [
+    "fraud and risk controls for fintech transactions",
+    "identity verification and transaction monitoring",
+    "risk management for automated financial activity",
+    "compliance workflows for fintech platforms"
+  ]
+}

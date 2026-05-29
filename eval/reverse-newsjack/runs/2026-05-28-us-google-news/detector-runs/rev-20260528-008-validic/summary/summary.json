@@ -1,0 +1,2328 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 217412,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 65,
+    "debug_duplicate_scored_rows": 22,
+    "debug_selected_rows": 31,
+    "debug_unique_scored_signal_ids": 43,
+    "debug_unselected_rows": 34,
+    "selected_unique_signals": 21,
+    "source_errors": 0,
+    "total_emitted_signals": 21,
+    "total_scored_signals": 65
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:12.233584Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 34
+    },
+    "emitted": {
+      "profile_relevance": 10,
+      "profile_relevance_weak": 11
+    },
+    "scored": {
+      "profile_relevance": 13,
+      "profile_relevance_weak": 52
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:04.539115Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Validic",
+    "queries": [
+      "wearable health data blood pressure sleep signals",
+      "wearable health data",
+      "remote patient monitoring wearable",
+      "blood pressure wearable data",
+      "sleep disturbance wearable",
+      "smart ring health data",
+      "Oura Ring health signals",
+      "clinical wearable integration",
+      "digital biomarkers wearable"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 65
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-008-validic/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "newswire",
+            "raw_source": "Business Wire"
+          },
+          "published_at": "2026-05-28T11:36:05.329036Z",
+          "source": "news_search",
+          "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5",
+          "url": "https://www.businesswire.com/news/home/20260528686853/en/URA-Introduces-The-Worlds-Smallest-Smart-Ring-Oura-Ring-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1a8a7548bf41f793",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.businesswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 290000,
+            "publication_type": "editorial",
+            "raw_source": "Athletech News"
+          },
+          "published_at": "2026-05-28T11:36:05.329108Z",
+          "source": "news_search",
+          "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health",
+          "url": "https://athletechnews.com/oura-ring-5-all-in-on-preventive-health/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d5c32039fdc8ee1d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.152,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.625
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.5,
+        "top_outlets": [
+          {
+            "domain": "athletechnews.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 290000,
+            "outlet_score": 0.625,
+            "traffic_score": 0.607
+          }
+        ]
+      },
+      "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "editorial",
+            "raw_source": "Gizmodo"
+          },
+          "published_at": "2026-05-28T11:36:05.329137Z",
+          "source": "news_search",
+          "title": "Oura’s Ring 5 Is Its Slimmest and Most Accurate Smart Ring Yet",
+          "url": "https://gizmodo.com/oura-ring-5-is-its-slimmest-and-most-accurate-smart-ring-yet-2000764256"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "16898dabb410ff4d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.217,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.813
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.5,
+        "top_outlets": [
+          {
+            "domain": "gizmodo.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.813,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "Oura’s Ring 5 Is Its Slimmest and Most Accurate Smart Ring Yet"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "publication_type": "editorial",
+            "raw_source": "TechCrunch"
+          },
+          "published_at": "2026-05-28T11:36:05.329216Z",
+          "source": "news_search",
+          "title": "Oura unveils its Ring 5 with a thinner, lighter design starting at $399",
+          "url": "https://techcrunch.com/2026/05/28/oura-unveils-its-ring-5-with-a-thinner-lighter-design-starting-at-399/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b2641219fb24c49a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.208,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.788
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.9,
+        "top_outlets": [
+          {
+            "domain": "techcrunch.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "outlet_score": 0.788,
+            "traffic_score": 0.765
+          }
+        ]
+      },
+      "title": "Oura unveils its Ring 5 with a thinner, lighter design starting at $399"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 66,
+            "estimated_monthly_organic_traffic": 450000,
+            "publication_type": "editorial",
+            "raw_source": "Latest news from Azerbaijan"
+          },
+          "published_at": "2026-05-28T13:36:05.329236Z",
+          "source": "news_search",
+          "title": "Oura unveils Ring 5 smart ring with massive upgrades",
+          "url": "https://news.az/news/oura-unveils-ring-5-smart-ring-with-massive-upgrades"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "887f6b90a1a4df0c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.155,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.633
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37,
+        "top_outlets": [
+          {
+            "domain": "news.az",
+            "domain_authority": 66,
+            "domain_authority_score": 0.66,
+            "estimated_monthly_organic_traffic": 450000,
+            "outlet_score": 0.633,
+            "traffic_score": 0.628
+          }
+        ]
+      },
+      "title": "Oura unveils Ring 5 smart ring with massive upgrades"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "brand_content",
+            "raw_source": "Longevity.Technology"
+          },
+          "published_at": "2026-05-28T10:36:06.083833Z",
+          "source": "news_search",
+          "title": "The wearables tightrope",
+          "url": "https://longevity.technology/news/the-wearables-tightrope/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "94024118486ba0a6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "wearable health data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.137,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.581
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.7,
+        "top_outlets": [
+          {
+            "domain": "longevity.technology",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.581,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "The wearables tightrope"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "newswire",
+            "raw_source": "Business Wire"
+          },
+          "published_at": "2026-05-28T11:36:06.083725Z",
+          "source": "news_search",
+          "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5",
+          "url": "https://www.businesswire.com/news/home/20260528686853/en/URA-Introduces-The-Worlds-Smallest-Smart-Ring-Oura-Ring-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1a8a7548bf41f793",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "wearable health data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.businesswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 290000,
+            "publication_type": "editorial",
+            "raw_source": "Athletech News"
+          },
+          "published_at": "2026-05-28T11:36:06.083805Z",
+          "source": "news_search",
+          "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health",
+          "url": "https://athletechnews.com/oura-ring-5-all-in-on-preventive-health/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d5c32039fdc8ee1d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "wearable health data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.152,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.625
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.5,
+        "top_outlets": [
+          {
+            "domain": "athletechnews.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 290000,
+            "outlet_score": 0.625,
+            "traffic_score": 0.607
+          }
+        ]
+      },
+      "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T18:36:06.083859Z",
+          "source": "news_search",
+          "title": "AI Wearables Shift Toward Body-Centric Helpers",
+          "url": "https://letsdatascience.com/news/ai-wearables-shift-toward-body-centric-helpers-f19e507d"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fe264bd31a8178ba",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "wearable health data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Wearables Shift Toward Body-Centric Helpers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "newswire",
+            "raw_source": "openPR.com"
+          },
+          "published_at": "2026-05-28T09:36:07.477864Z",
+          "source": "news_search",
+          "title": "Respiratory Monitoring Market to Reach USD 6.02 Billion by 2033 |",
+          "url": "https://www.openpr.com/news/4530129/respiratory-monitoring-market-to-reach-usd-6-02-billion-by-2033"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6748159fec817a09",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "remote patient monitoring wearable",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Respiratory Monitoring Market to Reach USD 6.02 Billion by 2033 |"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 3900000,
+            "publication_type": "other",
+            "raw_source": "vocal.media"
+          },
+          "published_at": "2026-05-28T11:36:07.477788Z",
+          "source": "news_search",
+          "title": "The Tiny Tech Saving Lives? Inside the Medical Connector Boom",
+          "url": "https://vocal.media/journal/the-tiny-tech-saving-lives-inside-the-medical-connector-boom"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "475eb73b8a51065f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "remote patient monitoring wearable",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.193,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.745
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.2,
+        "top_outlets": [
+          {
+            "domain": "vocal.media",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 3900000,
+            "outlet_score": 0.745,
+            "traffic_score": 0.732
+          }
+        ]
+      },
+      "title": "The Tiny Tech Saving Lives? Inside the Medical Connector Boom"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 290000,
+            "publication_type": "editorial",
+            "raw_source": "Athletech News"
+          },
+          "published_at": "2026-05-28T11:36:08.085806Z",
+          "source": "news_search",
+          "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health",
+          "url": "https://athletechnews.com/oura-ring-5-all-in-on-preventive-health/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d5c32039fdc8ee1d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "blood pressure wearable data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.152,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.625
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.5,
+        "top_outlets": [
+          {
+            "domain": "athletechnews.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 290000,
+            "outlet_score": 0.625,
+            "traffic_score": 0.607
+          }
+        ]
+      },
+      "title": "Oura Launches 5th Gen Ring, Going All-In on Preventive Health"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "newswire",
+            "raw_source": "Business Wire"
+          },
+          "published_at": "2026-05-28T11:36:08.085882Z",
+          "source": "news_search",
+          "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5",
+          "url": "https://www.businesswire.com/news/home/20260528686853/en/URA-Introduces-The-Worlds-Smallest-Smart-Ring-Oura-Ring-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1a8a7548bf41f793",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "blood pressure wearable data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.businesswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "editorial",
+            "raw_source": "Gizmodo"
+          },
+          "published_at": "2026-05-28T11:36:08.086441Z",
+          "source": "news_search",
+          "title": "Oura’s Ring 5 Is Its Slimmest and Most Accurate Smart Ring Yet",
+          "url": "https://gizmodo.com/oura-ring-5-is-its-slimmest-and-most-accurate-smart-ring-yet-2000764256"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "16898dabb410ff4d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "blood pressure wearable data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.217,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.813
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.5,
+        "top_outlets": [
+          {
+            "domain": "gizmodo.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.813,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "Oura’s Ring 5 Is Its Slimmest and Most Accurate Smart Ring Yet"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "9to5Google"
+          },
+          "published_at": "2026-05-28T14:36:08.085768Z",
+          "source": "news_search",
+          "title": "Thinner Oura Ring 5 finally tracks live activity, $50 price increase",
+          "url": "https://9to5google.com/2026/05/28/oura-ring-5-price-increases-gets-thinner/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "24a0eb5e70f20aa6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "blood pressure wearable data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Thinner Oura Ring 5 finally tracks live activity, $50 price increase"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "MarketWatch"
+          },
+          "published_at": "2026-05-28T17:36:08.085687Z",
+          "source": "news_search",
+          "title": "The latest Oura and Fitbit wearables are smarter and sleeker than ever — but do they keep you healthy?",
+          "url": "https://www.marketwatch.com/story/the-latest-oura-and-fitbit-wearables-are-smarter-and-sleeker-than-ever-but-do-they-keep-you-healthy-f6d059ea"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "81f1abee9d2994c5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "blood pressure wearable data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The latest Oura and Fitbit wearables are smarter and sleeker than ever — but do they keep you healthy?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "9to5Google"
+          },
+          "published_at": "2026-05-28T14:36:09.145336Z",
+          "source": "news_search",
+          "title": "Thinner Oura Ring 5 finally tracks live activity, $50 price increase",
+          "url": "https://9to5google.com/2026/05/28/oura-ring-5-price-increases-gets-thinner/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "24a0eb5e70f20aa6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "sleep disturbance wearable",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Thinner Oura Ring 5 finally tracks live activity, $50 price increase"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Garmin Rumors"
+          },
+          "published_at": "2026-05-28T16:36:09.145317Z",
+          "source": "news_search",
+          "title": "Oura Ring 5 Gets Thinner and Lighter as Screenless Wearables Heat Up",
+          "url": "https://garminrumors.com/oura-ring-5-gets-thinner-and-lighter-as-screenless-wearables-heat-up/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b20c89085022953c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.039,
+      "query": "sleep disturbance wearable",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Oura Ring 5 Gets Thinner and Lighter as Screenless Wearables Heat Up"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "PhoneArena"
+          },
+          "published_at": "2026-05-28T20:36:09.145297Z",
+          "source": "news_search",
+          "title": "Oura Ring 5 is official: 40% smaller, this wearable keeps you aware of your health metrics",
+          "url": "https://www.phonearena.com/news/oura-ring-5-is-smaller-watches-your-blood-pressure-and-heart_id180715"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d0dd3a164976d540",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "sleep disturbance wearable",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Oura Ring 5 is official: 40% smaller, this wearable keeps you aware of your health metrics"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "newswire",
+            "raw_source": "Business Wire"
+          },
+          "published_at": "2026-05-28T11:36:09.833217Z",
+          "source": "news_search",
+          "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5",
+          "url": "https://www.businesswire.com/news/home/20260528686853/en/URA-Introduces-The-Worlds-Smallest-Smart-Ring-Oura-Ring-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1a8a7548bf41f793",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "smart ring health data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.businesswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "ŌURA Introduces The World’s Smallest Smart Ring: Oura Ring 5"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "publication_type": "newswire",
+            "raw_source": "PR Newswire"
+          },
+          "published_at": "2026-05-28T14:36:11.224687Z",
+          "source": "news_search",
+          "title": "Remote Patient Monitoring Market to Reach US$ 117.9 Bn by 2033 Expands Amid Digital Healthcare Transformation - Persistence Market Research",
+          "url": "https://www.prnewswire.com/news-releases/remote-patient-monitoring-market-to-reach-us-117-9-bn-by-2033-expands-amid-digital-healthcare-transformation---persistence-market-research-302784568.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "dd2dd1eb3cdf566a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.168,
+      "query": "clinical wearable integration",
+      "queue_priority": 60.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.736
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.6,
+        "top_outlets": [
+          {
+            "domain": "www.prnewswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.736
+          }
+        ]
+      },
+      "title": "Remote Patient Monitoring Market to Reach US$ 117.9 Bn by 2033 Expands Amid Digital Healthcare Transformation - Persistence Market Research"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "富途牛牛"
+          },
+          "published_at": "2026-05-28T14:36:07.477737Z",
+          "source": "news_search",
+          "title": "Remote Patient Monitoring (RPM) Market Worth $66.33 Billion by 2031 | MarketsandMarkets",
+          "url": "https://news.futunn.com/en/post/73790225/remote-patient-monitoring-rpm-market-worth-66-33-billion-by"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2979112fa9c5d0a1",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.14,
+      "query": "remote patient monitoring wearable",
+      "queue_priority": 60,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Remote Patient Monitoring (RPM) Market Worth $66.33 Billion by 2031 | MarketsandMarkets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Cambridge Network"
+          },
+          "published_at": "2026-05-28T13:36:11.224844Z",
+          "source": "news_search",
+          "title": "Cambridge Cognition and Oura launch large-scale brain health study integrating cognition with wearable sleep and physiological data",
+          "url": "https://www.cambridgenetwork.co.uk/news/cambridge-cognition-and-oura-launch-large-scale-brain-health-study-integrating-cognition"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a3f81d5a4bcfa098",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.109,
+      "query": "clinical wearable integration",
+      "queue_priority": 59.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Cambridge Cognition and Oura launch large-scale brain health study integrating cognition with wearable sleep and physiological data"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Lewis Silkin LLP"
+          },
+          "published_at": "2026-05-28T09:36:06.083779Z",
+          "source": "news_search",
+          "title": "Wearable technology in elite sport: legal considerations",
+          "url": "https://www.lewissilkin.com/insights/2026/05/28/wearable-technology-in-elite-sport-legal-considerations"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "59996a3ddd980113",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.077,
+      "query": "wearable health data",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Wearable technology in elite sport: legal considerations"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 1600000,
+            "publication_type": "editorial",
+            "raw_source": "AppleInsider"
+          },
+          "published_at": "2026-05-28T13:36:09.83338Z",
+          "source": "news_search",
+          "title": "Blood pressure tracking & GLP-1 tools central to new Oura Ring 5",
+          "url": "https://appleinsider.com/articles/26/05/28/blood-pressure-tracking-glp-1-tools-central-to-new-oura-ring-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4f11d92d05e63178",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "smart ring health data",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.174,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.689
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.6,
+        "top_outlets": [
+          {
+            "domain": "appleinsider.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 1600000,
+            "outlet_score": 0.689,
+            "traffic_score": 0.689
+          }
+        ]
+      },
+      "title": "Blood pressure tracking & GLP-1 tools central to new Oura Ring 5"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 87,
+            "estimated_monthly_organic_traffic": 5300000,
+            "publication_type": "editorial",
+            "raw_source": "MakeUseOf"
+          },
+          "published_at": "2026-05-28T16:36:09.833296Z",
+          "source": "news_search",
+          "title": "Oura Ring 5 finally makes smart rings worth wearing — if you trust the company with your health data",
+          "url": "https://www.makeuseof.com/ura-introduces-the-worlds-smallest-smart-ring-with-big-implications-for-your-health/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7eff9738bc3b05b2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "smart ring health data",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.2,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.766
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.5,
+        "top_outlets": [
+          {
+            "domain": "www.makeuseof.com",
+            "domain_authority": 87,
+            "domain_authority_score": 0.87,
+            "estimated_monthly_organic_traffic": 5300000,
+            "outlet_score": 0.766,
+            "traffic_score": 0.747
+          }
+        ]
+      },
+      "title": "Oura Ring 5 finally makes smart rings worth wearing — if you trust the company with your health data"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Digital Health News"
+          },
+          "published_at": "2026-05-28T15:36:11.224887Z",
+          "source": "news_search",
+          "title": "NIMS & IISc Bengaluru to Collaborate for AI Integration in Advanced Diagnostics",
+          "url": "https://www.digitalhealthnews.com/nims-iisc-bengaluru-to-collaborate-for-ai-integration-in-advanced-diagnostics"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d7d1ace5a09f012a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.075,
+      "query": "clinical wearable integration",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "NIMS & IISc Bengaluru to Collaborate for AI Integration in Advanced Diagnostics"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 22000000,
+            "publication_type": "editorial",
+            "raw_source": "CNET"
+          },
+          "published_at": "2026-05-28T11:36:10.64666Z",
+          "source": "news_search",
+          "title": "Oura Ring Is Rolling Out New Health-Tracking Features: When to Unlock Them",
+          "url": "https://www.cnet.com/health/medical/oura-ring-rolling-out-new-health-tracking-features-when-unlock-them/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8e98964e902eb25e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.064,
+      "query": "Oura Ring health signals",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.223,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.83
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnet.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 22000000,
+            "outlet_score": 0.83,
+            "traffic_score": 0.816
+          }
+        ]
+      },
+      "title": "Oura Ring Is Rolling Out New Health-Tracking Features: When to Unlock Them"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "publication_type": "editorial",
+            "raw_source": "MobiHealthNews"
+          },
+          "published_at": "2026-05-28T01:36:06.083623Z",
+          "source": "news_search",
+          "title": "Can wearable data do more than track health? Singapore's Signsbeat is trying to find out",
+          "url": "https://www.mobihealthnews.com/news/asia/can-wearable-data-do-more-track-health-singapores-signsbeat-trying-find-out"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c14bf43faebd2e4f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "wearable health data",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.133,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.568
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 32.9,
+        "top_outlets": [
+          {
+            "domain": "www.mobihealthnews.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "outlet_score": 0.568,
+            "traffic_score": 0.568
+          }
+        ]
+      },
+      "title": "Can wearable data do more than track health? Singapore's Signsbeat is trying to find out"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Endpoints News"
+          },
+          "published_at": "2026-05-28T11:36:06.083699Z",
+          "source": "news_search",
+          "title": "Oura pushes deeper into healthcare services as part of new ring launch",
+          "url": "https://endpoints.news/oura-pushes-deeper-into-healthcare-services-as-part-of-new-ring-launch/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "dd05233b531e7641",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "wearable health data",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Oura pushes deeper into healthcare services as part of new ring launch"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 16000000,
+            "publication_type": "editorial",
+            "raw_source": "WIRED"
+          },
+          "published_at": "2026-05-28T11:36:05.329086Z",
+          "source": "news_search",
+          "title": "Oura’s New Ring 5 Is Smaller and Lighter—and Adds an AI Health Coach",
+          "url": "https://www.wired.com/story/oura-ring-5/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a99f6d32d4a40b25",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.818
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.9,
+        "top_outlets": [
+          {
+            "domain": "www.wired.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 16000000,
+            "outlet_score": 0.818,
+            "traffic_score": 0.8
+          }
+        ]
+      },
+      "title": "Oura’s New Ring 5 Is Smaller and Lighter—and Adds an AI Health Coach"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 8000000,
+            "publication_type": "editorial",
+            "raw_source": "Android Authority"
+          },
+          "published_at": "2026-05-28T11:36:05.329161Z",
+          "source": "news_search",
+          "title": "Oura’s newest smart ring is tiny on the finger but big on impact",
+          "url": "https://www.androidauthority.com/oura-ring-5-launch-3670785/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a721cdfa86bfe888",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.201,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.767
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.5,
+        "top_outlets": [
+          {
+            "domain": "www.androidauthority.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 8000000,
+            "outlet_score": 0.767,
+            "traffic_score": 0.767
+          }
+        ]
+      },
+      "title": "Oura’s newest smart ring is tiny on the finger but big on impact"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "publication_type": "editorial",
+            "raw_source": "New York Post"
+          },
+          "published_at": "2026-05-28T11:36:05.329189Z",
+          "source": "news_search",
+          "title": "A new Oura ring is coming — and the CEO believes it will make doctors take the trendy wearable seriously",
+          "url": "https://nypost.com/2026/05/28/business/oura-ceo-unveils-new-ai-powered-oura-ring/?utm_campaign=nypost&utm_medium=referral"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1ad45349286862cc",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.246,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.896
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.9,
+        "top_outlets": [
+          {
+            "domain": "nypost.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "outlet_score": 0.896,
+            "traffic_score": 0.893
+          }
+        ]
+      },
+      "title": "A new Oura ring is coming — and the CEO believes it will make doctors take the trendy wearable seriously"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T11:36:05.329Z",
+          "source": "news_search",
+          "title": "Oura is launching its smallest smart ring yet, shrinking wearable design by 40%",
+          "url": "https://www.cnbc.com/2026/05/28/oura-ring-smallest-wearable-health-fitness.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ffc7a42f4aa39cf1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "Oura is launching its smallest smart ring yet, shrinking wearable design by 40%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "publication_type": "editorial",
+            "raw_source": "New York Post"
+          },
+          "published_at": "2026-05-28T18:36:08.085843Z",
+          "source": "news_search",
+          "title": "Wearable ultrasound patch can monitor high-risk pregnancies round the clock",
+          "url": "https://nypost.com/2026/05/28/health/wearable-ultrasound-patch-can-monitor-high-risk-pregnancies/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "53b2cd5d81bb99ef",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "blood pressure wearable data",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.246,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.896
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.9,
+        "top_outlets": [
+          {
+            "domain": "nypost.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "outlet_score": 0.896,
+            "traffic_score": 0.893
+          }
+        ]
+      },
+      "title": "Wearable ultrasound patch can monitor high-risk pregnancies round the clock"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 10000000,
+            "publication_type": "editorial",
+            "raw_source": "The Boston Globe"
+          },
+          "published_at": "2026-05-28T19:36:08.085633Z",
+          "source": "news_search",
+          "title": "Blood pressure wearables flood the market after FDA relaxes oversight, concerning experts",
+          "url": "https://www.bostonglobe.com/2026/05/28/business/whoop-samsung-oura-fda/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5d2b1de82516f35c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.04,
+      "query": "blood pressure wearable data",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.211,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.796
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 47.4,
+        "top_outlets": [
+          {
+            "domain": "www.bostonglobe.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 10000000,
+            "outlet_score": 0.796,
+            "traffic_score": 0.778
+          }
+        ]
+      },
+      "title": "Blood pressure wearables flood the market after FDA relaxes oversight, concerning experts"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "publication_type": "other",
+            "raw_source": "Forbes"
+          },
+          "published_at": "2026-05-28T11:36:09.833399Z",
+          "source": "news_search",
+          "title": "Oura Ring 5 Launch: Preorder Its Thinnest And Most Intelligent Smart Ring",
+          "url": "https://www.forbes.com/sites/forbes-personal-shopper/2026/05/28/oura-ring-5-launch/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "547129bef2365a29",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.039,
+      "query": "smart ring health data",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.894
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.7,
+        "top_outlets": [
+          {
+            "domain": "www.forbes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "outlet_score": 0.894,
+            "traffic_score": 0.885
+          }
+        ]
+      },
+      "title": "Oura Ring 5 Launch: Preorder Its Thinnest And Most Intelligent Smart Ring"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 8400000,
+            "publication_type": "editorial",
+            "raw_source": "BGR"
+          },
+          "published_at": "2026-05-28T18:36:09.833339Z",
+          "source": "news_search",
+          "title": "The Oura Ring 5 Is Closing The Gap Between Smartwatches And Smart Rings",
+          "url": "https://www.bgr.com/2183119/oura-ring-5-features-price-release/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "90c513616aa97781",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "smart ring health data",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.204,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.775
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.1,
+        "top_outlets": [
+          {
+            "domain": "www.bgr.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 8400000,
+            "outlet_score": 0.775,
+            "traffic_score": 0.769
+          }
+        ]
+      },
+      "title": "The Oura Ring 5 Is Closing The Gap Between Smartwatches And Smart Rings"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "publication_type": "editorial",
+            "raw_source": "New York Post"
+          },
+          "published_at": "2026-05-28T11:36:10.646785Z",
+          "source": "news_search",
+          "title": "A new AI-powered Oura ring is coming — and it could change the future of healthcare",
+          "url": "https://nypost.com/2026/05/28/business/oura-ceo-unveils-new-ai-powered-oura-ring/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7c4342a73658cec5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "Oura Ring health signals",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.246,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.896
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.9,
+        "top_outlets": [
+          {
+            "domain": "nypost.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 110000000,
+            "outlet_score": 0.896,
+            "traffic_score": 0.893
+          }
+        ]
+      },
+      "title": "A new AI-powered Oura ring is coming — and it could change the future of healthcare"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "publication_type": "editorial",
+            "raw_source": "MobiHealthNews"
+          },
+          "published_at": "2026-05-28T15:36:05.329062Z",
+          "source": "news_search",
+          "title": "Oura unveils AI-enabled Ring 5 with predictive health features",
+          "url": "https://www.mobihealthnews.com/news/oura-unveils-ai-enabled-ring-5-predictive-health-features"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "eff969a1cf2e7d57",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "wearable health data blood pressure sleep signals",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.133,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.568
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 32.9,
+        "top_outlets": [
+          {
+            "domain": "www.mobihealthnews.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "outlet_score": 0.568,
+            "traffic_score": 0.568
+          }
+        ]
+      },
+      "title": "Oura unveils AI-enabled Ring 5 with predictive health features"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "company": "Brave",
+  "website": "https://brave.com",
+  "description": "Privacy-focused browser and search company focused on tracker blocking, browser privacy, web security, and user-controlled browsing.",
+  "topics": [
+    "browser privacy",
+    "web tracking",
+    "side-channel attacks",
+    "privacy-preserving browsers",
+    "browser APIs",
+    "anti-tracking technology"
+  ],
+  "competitors": [
+    "Mozilla Firefox",
+    "Google Chrome",
+    "DuckDuckGo",
+    "Apple Safari",
+    "Vivaldi",
+    "Ghostery"
+  ],
+  "search_terms": [
+    "browser side channel attack",
+    "SSD activity web tracking",
+    "website tracking browser API",
+    "privacy browser web tracking",
+    "browser fingerprinting side channel",
+    "web privacy attack",
+    "storage API tracking",
+    "malicious website tracking"
+  ],
+  "spokespeople": [
+    "Browser privacy lead",
+    "Security researcher",
+    "Chief policy or privacy officer"
+  ],
+  "standing": [
+    "browser privacy and anti-tracking",
+    "web security research",
+    "privacy-preserving browser design",
+    "user protection from tracking technologies"
+  ]
+}

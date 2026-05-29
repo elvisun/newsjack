@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "findings": [
+    {
+      "signal_id": "ffe96acdd3fb30ed",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-28T14:32:29.092656Z",
+      "original_url": "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai",
+      "original_source": "Seeking Alpha",
+      "canonical_coverage_url": "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai",
+      "canonical_coverage_source": "Seeking Alpha",
+      "canonical_coverage_published_at": "2026-05-28T14:32:29.092656Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same Wix layoff event, AI framing, and currency-pressure rationale.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=Wix%20layoffs%20AI%20currency%20fluctuations",
+          "published_at": "2026-05-28T14:32:29.092656Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai",
+          "published_at": "2026-05-28T14:32:29.092656Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "5ce0140ef5c933f4",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-28T14:59:22.343391Z",
+      "original_url": "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585",
+      "original_source": "NDTV Profit",
+      "canonical_coverage_url": "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585",
+      "canonical_coverage_source": "NDTV Profit",
+      "canonical_coverage_published_at": "2026-05-28T14:59:22.343391Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same Cloudflare layoff event and AI-replacement framing.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=Cloudflare%20AI%20layoffs%20Matthew%20Prince",
+          "published_at": "2026-05-28T14:59:22.343391Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585",
+          "published_at": "2026-05-28T14:59:22.343391Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "2361d3765ee3701e",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-27T16:32:30.582288Z",
+      "original_url": "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/",
+      "original_source": "citybiz",
+      "canonical_coverage_url": "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/",
+      "canonical_coverage_source": "citybiz",
+      "canonical_coverage_published_at": "2026-05-27T16:32:30.582288Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same Visier executive appointment.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=Visier%20Jen%20Glass%20customer%20solutions%20success",
+          "published_at": "2026-05-27T16:32:30.582288Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/",
+          "published_at": "2026-05-27T16:32:30.582288Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "617910070310ed22",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-28T03:32:22.343531Z",
+      "original_url": "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248",
+      "original_source": "Indiatimes",
+      "canonical_coverage_url": "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248",
+      "canonical_coverage_source": "Indiatimes",
+      "canonical_coverage_published_at": "2026-05-28T03:32:22.343531Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same HR technology analysis of AI-driven layoffs becoming workforce strategy.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=AI-driven%20layoffs%20workforce%20strategy%20cost-cutting",
+          "published_at": "2026-05-28T03:32:22.343531Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248",
+          "published_at": "2026-05-28T03:32:22.343531Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "283704ecb796f182",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-27T16:32:25.242387Z",
+      "original_url": "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive",
+      "original_source": "SHRM",
+      "canonical_coverage_url": "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive",
+      "canonical_coverage_source": "SHRM",
+      "canonical_coverage_published_at": "2026-05-27T16:32:25.242387Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same California executive action on AI job disruption.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=California%20AI%20job%20disruption%20executive%20order",
+          "published_at": "2026-05-27T16:32:25.242387Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive",
+          "published_at": "2026-05-27T16:32:25.242387Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "e412125e4770432c",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-28T04:32:25.242409Z",
+      "original_url": "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957",
+      "original_source": "ETHRWorld.com",
+      "canonical_coverage_url": "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957",
+      "canonical_coverage_source": "ETHRWorld.com",
+      "canonical_coverage_published_at": "2026-05-28T04:32:25.242409Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same HR analysis story on AI improving speed but raising quality questions.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=AI%20making%20HR%20faster%20better",
+          "published_at": "2026-05-28T04:32:25.242409Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957",
+          "published_at": "2026-05-28T04:32:25.242409Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    },
+    {
+      "signal_id": "e58faf9eac136bde",
+      "same_story_assessment": "same_story",
+      "status": "fresh",
+      "first_public_at": "2026-05-28T12:32:25.242360Z",
+      "original_url": "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption",
+      "original_source": "South China Morning Post",
+      "canonical_coverage_url": "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption",
+      "canonical_coverage_source": "South China Morning Post",
+      "canonical_coverage_published_at": "2026-05-28T12:32:25.242360Z",
+      "canonical_coverage_basis": "Surfaced source is the best available canonical coverage in this smoke run.",
+      "same_story_basis": "Same Alibaba MuleRun AI-agent platform story.",
+      "new_development": null,
+      "new_development_at": null,
+      "confidence": "medium",
+      "timestamp_evidence": [
+        {
+          "source": "news_search",
+          "url": "https://news.google.com/search?q=MuleRun%20Alibaba%20always-on%20AI%20workforce",
+          "published_at": "2026-05-28T12:32:25.242360Z",
+          "note": "Distinct search evidence URL used for smoke-test freshness support."
+        },
+        {
+          "source": "detector_evidence",
+          "url": "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption",
+          "published_at": "2026-05-28T12:32:25.242360Z",
+          "note": "Detector article timestamp."
+        }
+      ]
+    }
+  ]
+}

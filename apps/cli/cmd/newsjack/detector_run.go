@@ -652,7 +652,10 @@ func passesSelectionFloor(signal map[string]any, minQueuePriority, minMajorNews 
 	if queuePriority(signal) >= minQueuePriority {
 		return true
 	}
-	return signalLaneValue(signal) == "major_news" && floatValue(mech["major_news"]) >= minMajorNews
+	if signalLaneValue(signal) == "major_news" && floatValue(mech["major_news"]) >= minMajorNews {
+		return true
+	}
+	return storyRecallSelectionPass(signal)
 }
 
 func queuePriority(signal map[string]any) float64 {

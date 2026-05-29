@@ -1,0 +1,2055 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 302939,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 72,
+    "debug_duplicate_scored_rows": 18,
+    "debug_selected_rows": 62,
+    "debug_unique_scored_signal_ids": 54,
+    "debug_unselected_rows": 10,
+    "selected_unique_signals": 45,
+    "source_errors": 0,
+    "total_emitted_signals": 45,
+    "total_scored_signals": 72
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/final_report.md"
+  },
+  "generated_at": "2026-05-28T15:33:47.601857Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 1,
+      "profile_relevance_weak": 9
+    },
+    "emitted": {
+      "profile_relevance": 25,
+      "profile_relevance_weak": 20
+    },
+    "scored": {
+      "profile_relevance": 40,
+      "profile_relevance_weak": 32
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:32:21.906517Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "CloudZero",
+    "queries": [
+      "cloud cost AI data infrastructure AWS Snowflake",
+      "AWS Snowflake partnership",
+      "Snowflake AWS deal",
+      "enterprise AI cloud spend",
+      "AI workload costs",
+      "cloud commitments AI demand",
+      "Snowflake cost optimization",
+      "AWS data platform spending",
+      "FinOps AI infrastructure"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 73
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-006/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "publication_type": "newswire",
+            "raw_source": "PR Newswire"
+          },
+          "published_at": "2026-05-28T15:00:30.677782Z",
+          "source": "news_search",
+          "title": "Harness Launches Two New Products to Give Enterprise Engineering Teams Full Visibility into ROI of AI Spend",
+          "url": "https://www.prnewswire.com/news-releases/harness-launches-two-new-products-to-give-enterprise-engineering-teams-full-visibility-into-roi-of-ai-spend-302784490.html"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 7200000,
+            "publication_type": "brand_content",
+            "raw_source": "TipRanks"
+          },
+          "published_at": "52 seconds ago",
+          "source": "news_search",
+          "title": "Harness Launches AI ROI Tools to Tie Enterprise AI Spend to Software Outcomes",
+          "url": "https://www.tipranks.com/news/private-companies/harness-launches-ai-roi-tools-to-tie-enterprise-ai-spend-to-software-outcomes"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f838f2fdfa8f400e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.117,
+      "query": "FinOps AI infrastructure",
+      "queue_priority": 62.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.35,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.76
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 53.5,
+        "top_outlets": [
+          {
+            "domain": "www.tipranks.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 7200000,
+            "outlet_score": 0.76,
+            "traffic_score": 0.762
+          },
+          {
+            "domain": "www.prnewswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.736
+          }
+        ]
+      },
+      "title": "Harness Launches Two New Products to Give Enterprise Engineering Teams Full Visibility into ROI of AI Spend"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "MarketWatch"
+          },
+          "published_at": "2026-05-27T23:32:23.676597Z",
+          "source": "news_search",
+          "title": "Snowflake’s stock blasts off, fueled by AI acceleration and deeper Amazon partnership",
+          "url": "https://www.marketwatch.com/story/snowflakes-stock-is-on-fire-as-ai-acceleration-drives-record-product-revenue-growth-fdc80a57"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "de6f14479112d4d8",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "AWS Snowflake partnership",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake’s stock blasts off, fueled by AI acceleration and deeper Amazon partnership"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Benzinga"
+          },
+          "published_at": "2026-05-28T12:32:23.676462Z",
+          "source": "news_search",
+          "title": "Snowflake Stock Soars After Q1 Double Beat, AWS AI Partnership Expansion",
+          "url": "https://www.benzinga.com/trading-ideas/movers/26/05/52836294/snowflake-stock-soars-after-q1-double-beat-aws-ai-partnership-expansion"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8130b81147635453",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "AWS Snowflake partnership",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake Stock Soars After Q1 Double Beat, AWS AI Partnership Expansion"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "HedgeCo.Net"
+          },
+          "published_at": "2026-05-28T04:32:25.519933Z",
+          "source": "news_search",
+          "title": "AI Capex Fatigue: Why Hedge Funds Are Questioning the Hyperscaler Spending Boom:",
+          "url": "https://hedgeco.net/news/05/2026/ai-capex-fatigue-why-hedge-funds-are-questioning-the-hyperscaler-spending-boom.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bfba64eaab80a221",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.029,
+      "query": "enterprise AI cloud spend",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Capex Fatigue: Why Hedge Funds Are Questioning the Hyperscaler Spending Boom:"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "brand_content",
+            "raw_source": "Gotrade"
+          },
+          "published_at": "2026-05-28T14:37:25.519824Z",
+          "source": "news_search",
+          "title": "AI Infrastructure Spending Surge: IBM, Nebius, EQT in Focus",
+          "url": "https://www.heygotrade.com/en/news/ai-infrastructure-enterprise-spending-surge/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1330b1afd6479a65",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.029,
+      "query": "enterprise AI cloud spend",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Infrastructure Spending Surge: IBM, Nebius, EQT in Focus"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 320000,
+            "publication_type": "editorial",
+            "raw_source": "SiliconANGLE"
+          },
+          "published_at": "2026-05-27T18:32:26.244581Z",
+          "source": "news_search",
+          "title": "Azure Local deployments deliver digital sovereignty",
+          "url": "https://siliconangle.com/2026/05/27/azure-local-deployments-deliver-digital-sovereignty-delltechworld/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "07f9bc9f54c1966f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.014,
+      "query": "AI workload costs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.158,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.643
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.6,
+        "top_outlets": [
+          {
+            "domain": "siliconangle.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 320000,
+            "outlet_score": 0.643,
+            "traffic_score": 0.612
+          }
+        ]
+      },
+      "title": "Azure Local deployments deliver digital sovereignty"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "eciks.org"
+          },
+          "published_at": "2026-05-27T21:32:26.930038Z",
+          "source": "news_search",
+          "title": "Snow stock surges 25% after earnings beat, commits $6B to AWS cloud",
+          "url": "https://eciks.org/6100-47642-snow-stock-surges-25-after-earnings-beat-commits-6b-to-aws-cloud"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a54a1c9c8477e542",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "cloud commitments AI demand",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snow stock surges 25% after earnings beat, commits $6B to AWS cloud"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "The Legal Advocate"
+          },
+          "published_at": "2026-05-27T15:32:28.684432Z",
+          "source": "news_search",
+          "title": "SNOW Q1 2026 Earnings: EPS Beat But Stock Slips on Mixed Signals - Growth Acceleration Report",
+          "url": "https://www.thelegaladvocate.com/expert-time/SNOW-Q1-2026-Earnings-EPS-Beat-But-Stock-Slips-on-Mixed-Signals-22-11885"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2b92a99f5a10e02d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.027,
+      "query": "Snowflake cost optimization",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "SNOW Q1 2026 Earnings: EPS Beat But Stock Slips on Mixed Signals - Growth Acceleration Report"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "eciks.org"
+          },
+          "published_at": "2026-05-27T21:32:29.553801Z",
+          "source": "news_search",
+          "title": "Snow stock surges 25% after earnings beat, commits $6B to AWS cloud",
+          "url": "https://eciks.org/6100-47642-snow-stock-surges-25-after-earnings-beat-commits-6b-to-aws-cloud"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a54a1c9c8477e542",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "AWS data platform spending",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snow stock surges 25% after earnings beat, commits $6B to AWS cloud"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Invezz"
+          },
+          "published_at": "2026-05-28T12:32:29.553893Z",
+          "source": "news_search",
+          "title": "Snowflake stock is soaring and it may be entirely because of Q1 earnings",
+          "url": "https://invezz.com/en-ae/news/2026/05/28/snowflake-stock-is-soaring-and-it-may-be-entirely-because-of-q1-earnings/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7d398cfa09908e74",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.044,
+      "query": "AWS data platform spending",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake stock is soaring and it may be entirely because of Q1 earnings"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "publication_type": "newswire",
+            "raw_source": "PR Newswire"
+          },
+          "published_at": "2026-05-28T15:00:25.51976Z",
+          "source": "news_search",
+          "title": "Harness Launches Two New Products to Give Enterprise Engineering Teams Full Visibility into ROI of AI Spend",
+          "url": "https://www.prnewswire.com/news-releases/harness-launches-two-new-products-to-give-enterprise-engineering-teams-full-visibility-into-roi-of-ai-spend-302784490.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "69bfa584c46f98b6",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.134,
+      "query": "enterprise AI cloud spend",
+      "queue_priority": 62.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.736
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.6,
+        "top_outlets": [
+          {
+            "domain": "www.prnewswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.736
+          }
+        ]
+      },
+      "title": "Harness Launches Two New Products to Give Enterprise Engineering Teams Full Visibility into ROI of AI Spend"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Cloud Computing News"
+          },
+          "published_at": "2026-05-28T11:32:24.549576Z",
+          "source": "news_search",
+          "title": "Snowflake signs US$6bn AWS deal for enterprise AI workloads",
+          "url": "https://www.cloudcomputing-news.net/news/snowflake-aws-deal-enterprise-ai-workloads/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c8949d1376527a8c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.119,
+      "query": "Snowflake AWS deal",
+      "queue_priority": 62.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake signs US$6bn AWS deal for enterprise AI workloads"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 270000,
+            "publication_type": "editorial",
+            "raw_source": "Finimize"
+          },
+          "published_at": "2026-05-28T11:32:22.756239Z",
+          "source": "news_search",
+          "title": "Snowflake Raises Its Outlook After An AWS Spending Deal",
+          "url": "https://finimize.com/content/snowflake-raises-its-outlook-after-an-aws-spending-deal"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ba40bd720bdb4c1b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "finimize.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 270000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.603
+          }
+        ]
+      },
+      "title": "Snowflake Raises Its Outlook After An AWS Spending Deal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T12:32:24.549612Z",
+          "source": "news_search",
+          "title": "Snowflake Q1 fiscal 2027 earnings beat, $6 billion AWS deal",
+          "url": "https://qz.com/snowflake-earnings-beat-aws-6-billion-deal-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fcac9422d6468aaa",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "Snowflake AWS deal",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Snowflake Q1 fiscal 2027 earnings beat, $6 billion AWS deal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "editorial",
+            "raw_source": "The Motley Fool"
+          },
+          "published_at": "2026-05-28T14:42:24.549558Z",
+          "source": "news_search",
+          "title": "Snowflake Stock Is Soaring After a Blowout Quarter and a New $6 Billion AWS Deal",
+          "url": "https://www.fool.com/investing/2026/05/28/snowflake-stock-is-soaring-after-a-blowout-quarter-and-a-new-usd6-billion-aws-deal/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f7034719265c7e38",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.062,
+      "query": "Snowflake AWS deal",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.811
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.4,
+        "top_outlets": [
+          {
+            "domain": "www.fool.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.811,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "Snowflake Stock Is Soaring After a Blowout Quarter and a New $6 Billion AWS Deal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 80,
+            "estimated_monthly_organic_traffic": 170000,
+            "publication_type": "editorial",
+            "raw_source": "HPCwire"
+          },
+          "published_at": "2026-05-28T15:26:28.684397Z",
+          "source": "news_search",
+          "title": "Unravel Data Launches Arvix AI to Autonomously Optimize Databricks, Snowflake and BigQuery",
+          "url": "https://www.hpcwire.com/bigdatawire/this-just-in/unravel-data-launches-arvix-ai-to-autonomously-optimize-databricks-snowflake-and-bigquery/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "35fcef0ee35d164e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "Snowflake cost optimization",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.148,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.614
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.8,
+        "top_outlets": [
+          {
+            "domain": "www.hpcwire.com",
+            "domain_authority": 80,
+            "domain_authority_score": 0.8,
+            "estimated_monthly_organic_traffic": 170000,
+            "outlet_score": 0.614,
+            "traffic_score": 0.581
+          }
+        ]
+      },
+      "title": "Unravel Data Launches Arvix AI to Autonomously Optimize Databricks, Snowflake and BigQuery"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 17000000,
+            "publication_type": "brand_content",
+            "raw_source": "Oracle Blogs"
+          },
+          "published_at": "2026-05-27T17:32:30.677641Z",
+          "source": "news_search",
+          "title": "Why API design matters for FinOps—and how OCI accelerates the rise of AI-driven automation",
+          "url": "https://blogs.oracle.com/cloud-infrastructure/why-api-design-matters-for-finops"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2149975eb8d9aab7",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.109,
+      "query": "FinOps AI infrastructure",
+      "queue_priority": 59.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.22,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.822
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.1,
+        "top_outlets": [
+          {
+            "domain": "blogs.oracle.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 17000000,
+            "outlet_score": 0.822,
+            "traffic_score": 0.803
+          }
+        ]
+      },
+      "title": "Why API design matters for FinOps—and how OCI accelerates the rise of AI-driven automation"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "StreetInsider"
+          },
+          "published_at": "2026-05-27T20:32:29.554003Z",
+          "source": "news_search",
+          "title": "Pump.co Expands Free Cloud Savings Platform Into AI Cost Optimization as Companies Face Rising Infrastructure Bills",
+          "url": "https://www.streetinsider.com/PRNewswire/Pump.co+Expands+Free+Cloud+Savings+Platform+Into+AI+Cost+Optimization+as+Companies+Face+Rising+Infrastructure+Bills/26558015.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4059b85e22d8811b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.101,
+      "query": "AWS data platform spending",
+      "queue_priority": 59.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Pump.co Expands Free Cloud Savings Platform Into AI Cost Optimization as Companies Face Rising Infrastructure Bills"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 88,
+            "estimated_monthly_organic_traffic": 720000,
+            "publication_type": "editorial",
+            "raw_source": "PYMNTS.com"
+          },
+          "published_at": "2026-05-27T23:32:22.756101Z",
+          "source": "news_search",
+          "title": "Snowflake Commits $6 Billion to AWS For Global AI Expansion",
+          "url": "https://www.pymnts.com/artificial-intelligence-2/2026/snowflake-commits-6-billion-to-aws-for-global-ai-expansion/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2d5d7a4626b5c575",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.097,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 59.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.685
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.3,
+        "top_outlets": [
+          {
+            "domain": "www.pymnts.com",
+            "domain_authority": 88,
+            "domain_authority_score": 0.88,
+            "estimated_monthly_organic_traffic": 720000,
+            "outlet_score": 0.685,
+            "traffic_score": 0.651
+          }
+        ]
+      },
+      "title": "Snowflake Commits $6 Billion to AWS For Global AI Expansion"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "publication_type": "editorial",
+            "raw_source": "The Register"
+          },
+          "published_at": "2026-05-27T21:32:22.756259Z",
+          "source": "news_search",
+          "title": "Snowflake to burn $6B on AWS Graviton CPUs and AI accelerators",
+          "url": "https://www.theregister.com/off-prem/2026/05/27/snowflake-to-burn-6b-on-aws-graviton-cpus-ai-infra/5247475"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3d9105da6f2d2c0f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.091,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.194,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.748
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.3,
+        "top_outlets": [
+          {
+            "domain": "www.theregister.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "outlet_score": 0.748,
+            "traffic_score": 0.723
+          }
+        ]
+      },
+      "title": "Snowflake to burn $6B on AWS Graviton CPUs and AI accelerators"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "editorial",
+            "raw_source": "digitimes"
+          },
+          "published_at": "2026-05-28T07:32:22.756166Z",
+          "source": "news_search",
+          "title": "Amazon and Snowflake expand alliance amid agentic AI race",
+          "url": "https://www.digitimes.com/news/a20260528VL207/amazon-data-partnership-infrastructure-chips.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "77de93ab6785ea7a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.094,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.159,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.646
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.8,
+        "top_outlets": [
+          {
+            "domain": "www.digitimes.com",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.646,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Amazon and Snowflake expand alliance amid agentic AI race"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-27T22:32:29.553743Z",
+          "source": "news_search",
+          "title": "Snowflake boosts forecast, signs $6 billion AWS deal as enterprise AI adoption grows",
+          "url": "https://www.reuters.com/business/snowflake-raises-annual-product-revenue-forecast-enterprises-ramp-up-ai-2026-05-27/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b9c69b192ef7c401",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.088,
+      "query": "AWS data platform spending",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.881
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "Snowflake boosts forecast, signs $6 billion AWS deal as enterprise AI adoption grows"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 470000,
+            "publication_type": "editorial",
+            "raw_source": "Tech in Asia"
+          },
+          "published_at": "2026-05-28T01:32:29.553846Z",
+          "source": "news_search",
+          "title": "Snowflake commits $6b to AWS in multiyear AI deal",
+          "url": "https://www.techinasia.com/news/snowflake-commits-6b-aws-multiyear-ai-deal"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "91d97562a6361ef0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.091,
+      "query": "AWS data platform spending",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.163,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.659
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.6,
+        "top_outlets": [
+          {
+            "domain": "www.techinasia.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 470000,
+            "outlet_score": 0.659,
+            "traffic_score": 0.63
+          }
+        ]
+      },
+      "title": "Snowflake commits $6b to AWS in multiyear AI deal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ET CIO"
+          },
+          "published_at": "2026-05-28T03:32:22.75632Z",
+          "source": "news_search",
+          "title": "Snowflake boosts forecast, signs $6 billion AWS deal as enterprise AI adoption grows",
+          "url": "https://cio.economictimes.indiatimes.com/amp/news/investments/snowflake-boosts-forecast-signs-6-billion-aws-deal-as-enterprise-ai-adoption-grows/131362399"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8b59a1fda814336b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.087,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "cio.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "Snowflake boosts forecast, signs $6 billion AWS deal as enterprise AI adoption grows"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "publication_type": "other",
+            "raw_source": "The National Law Review"
+          },
+          "published_at": "2026-05-28T10:32:26.244491Z",
+          "source": "news_search",
+          "title": "How to Cut AI API Costs by 80%: AI.cc Publishes Step-by-Step Token Optimization Guide for Engineering Teams",
+          "url": "https://natlawreview.com/press-releases/how-cut-ai-api-costs-80-aicc-publishes-step-step-token-optimization-guide"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fe6a1d00bbdac322",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "AI workload costs",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.182,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.713
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.1,
+        "top_outlets": [
+          {
+            "domain": "natlawreview.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "outlet_score": 0.713,
+            "traffic_score": 0.689
+          }
+        ]
+      },
+      "title": "How to Cut AI API Costs by 80%: AI.cc Publishes Step-by-Step Token Optimization Guide for Engineering Teams"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "publication_type": "editorial",
+            "raw_source": "TechCrunch"
+          },
+          "published_at": "2026-05-27T20:32:22.756281Z",
+          "source": "news_search",
+          "title": "In more good news for Amazon, Snowflake signs $6B deal with AWS for AI CPU chips",
+          "url": "https://techcrunch.com/2026/05/27/in-more-good-news-for-amazon-snowflake-signs-6b-deal-with-aws-for-ai-cpu-chips/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c7705d1b7594381c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.072,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.208,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.788
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.9,
+        "top_outlets": [
+          {
+            "domain": "techcrunch.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 7700000,
+            "outlet_score": 0.788,
+            "traffic_score": 0.765
+          }
+        ]
+      },
+      "title": "In more good news for Amazon, Snowflake signs $6B deal with AWS for AI CPU chips"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 270000,
+            "publication_type": "editorial",
+            "raw_source": "Finimize"
+          },
+          "published_at": "2026-05-27T19:32:26.93003Z",
+          "source": "news_search",
+          "title": "Snowflake’s AWS Bet Is Paying Off In AI Demand",
+          "url": "https://finimize.com/content/snowflakes-aws-bet-is-paying-off-in-ai-demand"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b2f6f094022e4ce5",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.072,
+      "query": "cloud commitments AI demand",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "finimize.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 270000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.603
+          }
+        ]
+      },
+      "title": "Snowflake’s AWS Bet Is Paying Off In AI Demand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 17000000,
+            "publication_type": "brand_content",
+            "raw_source": "Oracle Blogs"
+          },
+          "published_at": "2026-05-27T17:32:30.677821Z",
+          "source": "news_search",
+          "title": "Introducing Cloudflare@Oracle Cloud Infrastructure: Supercharge Applications and AI Workloads on OCI",
+          "url": "https://blogs.oracle.com/cloud-infrastructure/introducing-cloudflareoracle-on-oci"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3d05dcc2efa1000c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.074,
+      "query": "FinOps AI infrastructure",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.22,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.822
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.1,
+        "top_outlets": [
+          {
+            "domain": "blogs.oracle.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 17000000,
+            "outlet_score": 0.822,
+            "traffic_score": 0.803
+          }
+        ]
+      },
+      "title": "Introducing Cloudflare@Oracle Cloud Infrastructure: Supercharge Applications and AI Workloads on OCI"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 5100000,
+            "publication_type": "brand_content",
+            "raw_source": "Snowflake"
+          },
+          "published_at": "2026-05-27T20:32:22.756056Z",
+          "source": "news_search",
+          "title": "Snowflake Expands AWS Collaboration with $6B Commitment to Accelerate Enterprise Agentic AI Adoption",
+          "url": "https://www.snowflake.com/en/news/press-releases/snowflake-expands-aws-collaboration-with-6b-commitment-to-accelerate-enterprise-agentic-ai-adoption/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f2ec86753121ee0f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.193,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.745
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.2,
+        "top_outlets": [
+          {
+            "domain": "www.snowflake.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 5100000,
+            "outlet_score": 0.745,
+            "traffic_score": 0.745
+          }
+        ]
+      },
+      "title": "Snowflake Expands AWS Collaboration with $6B Commitment to Accelerate Enterprise Agentic AI Adoption"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "CXO Digitalpulse"
+          },
+          "published_at": "2026-05-28T09:32:23.676576Z",
+          "source": "news_search",
+          "title": "Snowflake Raises Revenue Outlook as Enterprise AI Boom Fuels $6 Billion AWS Partnership",
+          "url": "https://www.cxodigitalpulse.com/snowflake-raises-revenue-outlook-as-enterprise-ai-boom-fuels-6-billion-aws-partnership/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "62a27f4b0dde9928",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "AWS Snowflake partnership",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake Raises Revenue Outlook as Enterprise AI Boom Fuels $6 Billion AWS Partnership"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "StorageReview.com"
+          },
+          "published_at": "2026-05-27T21:32:25.51991Z",
+          "source": "news_search",
+          "title": "Qumulo and Cisco Pitch GPU Liquidity With Updated Cloud AI Accelerator",
+          "url": "https://www.storagereview.com/news/qumulo-and-cisco-pitch-gpu-liquidity-with-updated-cloud-ai-accelerator?amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "315423d76e7051cd",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "enterprise AI cloud spend",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Qumulo and Cisco Pitch GPU Liquidity With Updated Cloud AI Accelerator"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Startup Fortune"
+          },
+          "published_at": "2026-05-27T20:32:26.930012Z",
+          "source": "news_search",
+          "title": "Snowflake's AWS deal shows how AI infrastructure is moving into software balance sheets",
+          "url": "https://startupfortune.com/snowflakes-aws-deal-shows-how-ai-infrastructure-is-moving-into-software-balance-sheets/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8420495eede18f8e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "cloud commitments AI demand",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Snowflake's AWS deal shows how AI infrastructure is moving into software balance sheets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Pulse 2.0"
+          },
+          "published_at": "2026-05-27T21:32:22.756301Z",
+          "source": "news_search",
+          "title": "Snowflake: $6 Billion AWS Commitment And Natoma Acquisition Advance Secure Enterprise Agentic AI Strategy",
+          "url": "https://pulse2.com/snowflake-6-billion-aws-commitment-and-natoma-acquisition-advance-secure-enterprise-agentic-ai-strategy/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d5a4be985264baa9",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "cloud cost AI data infrastructure AWS Snowflake",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.142,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.596
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34.6,
+        "top_outlets": [
+          {
+            "domain": "pulse2.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.596,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "Snowflake: $6 Billion AWS Commitment And Natoma Acquisition Advance Secure Enterprise Agentic AI Strategy"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 710000,
+            "publication_type": "editorial",
+            "raw_source": "GeekWire"
+          },
+          "published_at": "2026-05-27T21:32:24.549673Z",
+          "source": "news_search",
+          "title": "Snowflake commits $6B to Amazon Web Services over 5 years in latest AI infrastructure deal",
+          "url": "https://www.geekwire.com/2026/snowflake-commits-6b-to-amazon-web-services-over-5-years-in-latest-ai-infrastructure-deal/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e6411f14eeaae11c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "Snowflake AWS deal",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.171,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.68
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40,
+        "top_outlets": [
+          {
+            "domain": "www.geekwire.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 710000,
+            "outlet_score": 0.68,
+            "traffic_score": 0.65
+          }
+        ]
+      },
+      "title": "Snowflake commits $6B to Amazon Web Services over 5 years in latest AI infrastructure deal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "publication_type": "editorial",
+            "raw_source": "The Register"
+          },
+          "published_at": "2026-05-28T07:32:26.244546Z",
+          "source": "news_search",
+          "title": "Arm moves into the heart of the cloud stack",
+          "url": "https://www.theregister.com/off-prem/2026/05/28/arm-moves-into-the-heart-of-the-cloud-stack/5246780"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "86c7c66d621a94f0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "AI workload costs",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.194,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.748
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 44.3,
+        "top_outlets": [
+          {
+            "domain": "www.theregister.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 3200000,
+            "outlet_score": 0.748,
+            "traffic_score": 0.723
+          }
+        ]
+      },
+      "title": "Arm moves into the heart of the cloud stack"
+    }
+  ]
+}

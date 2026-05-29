@@ -1,0 +1,2845 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 347561,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 84,
+    "debug_duplicate_scored_rows": 12,
+    "debug_selected_rows": 57,
+    "debug_unique_scored_signal_ids": 72,
+    "debug_unselected_rows": 27,
+    "selected_unique_signals": 49,
+    "source_errors": 0,
+    "total_emitted_signals": 49,
+    "total_scored_signals": 84
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/final_report.md"
+  },
+  "generated_at": "2026-05-28T15:33:47.60799Z",
+  "hygiene_rejections": {
+    "seo_landing_page": 1
+  },
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 27
+    },
+    "emitted": {
+      "profile_relevance": 20,
+      "profile_relevance_weak": 29
+    },
+    "scored": {
+      "profile_relevance": 24,
+      "profile_relevance_weak": 60
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:32:21.709313Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "TRM Labs",
+    "queries": [
+      "prediction market compliance insider trading",
+      "Polymarket insider trading",
+      "prediction market manipulation",
+      "crypto betting market compliance",
+      "confidential data prediction market",
+      "digital asset market surveillance",
+      "crypto fraud investigations",
+      "online betting market enforcement",
+      "search data betting fraud"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 87
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-004/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-27T23:32:28.883342Z",
+          "source": "news_search",
+          "title": "Google employee charged with $1M Polymarket insider trading bet on search term",
+          "url": "https://www.cnbc.com/2026/05/27/google-employee-polymarket-insider-trading.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2ef0b3e7462e2740",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "search data betting fraud",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "Google employee charged with $1M Polymarket insider trading bet on search term"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Coinfomania"
+          },
+          "published_at": "2026-05-28T13:32:22.47623Z",
+          "source": "news_search",
+          "title": "Google Engineer Charged with Insider Trading on Polymarket",
+          "url": "https://coinfomania.com/google-engineer-polymarket-insider-trading-case/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f0404e915c14867a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Google Engineer Charged with Insider Trading on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 26000000,
+            "publication_type": "editorial",
+            "raw_source": "ABC News - Breaking News, Latest News and Videos"
+          },
+          "published_at": "2026-05-27T21:32:23.105093Z",
+          "source": "news_search",
+          "title": "Google information security engineer charged with using inside information to make $1M on Polymarket",
+          "url": "https://abcnews.com/US/google-employee-charged-inside-information-make-1-million/story?id=133350018"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "55a87d765b080674",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "Polymarket insider trading",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.225,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.837
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50,
+        "top_outlets": [
+          {
+            "domain": "abcnews.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 26000000,
+            "outlet_score": 0.837,
+            "traffic_score": 0.824
+          }
+        ]
+      },
+      "title": "Google information security engineer charged with using inside information to make $1M on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "LegalSportsReport"
+          },
+          "published_at": "2026-05-27T20:32:23.803234Z",
+          "source": "news_search",
+          "title": "Trump Backs CFTC’s Authority Over Prediction Markets, Blasts Critics",
+          "url": "https://www.legalsportsreport.com/264741/trump-backs-cftcs-authority-over-prediction-markets-blasts-critics/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e88883fc963ec45b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.03,
+      "query": "prediction market manipulation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Trump Backs CFTC’s Authority Over Prediction Markets, Blasts Critics"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "RotoWire"
+          },
+          "published_at": "2026-05-28T13:32:23.803183Z",
+          "source": "news_search",
+          "title": "Google Engineer Accused of Insider Trading on Polymarket",
+          "url": "https://www.rotowire.com/article/google-engineer-polymarket-insider-trading-116014"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "232e4aa31cfd3a67",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.046,
+      "query": "prediction market manipulation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Google Engineer Accused of Insider Trading on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "The Daily Tribune News"
+          },
+          "published_at": "2026-05-28T00:32:24.789068Z",
+          "source": "news_search",
+          "title": "Kryptokasinot.io Raises Concerns Over Proposed Cryptocurrency Restrictions in Finland's Gambling Reform",
+          "url": "https://www.daily-tribune.com/online_features/press_releases/kryptokasinot-io-raises-concerns-over-proposed-cryptocurrency-restrictions-in-finlands-gambling-reform/article_a52a11cb-a4da-5717-825b-893570bfc2cf.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "486078a06beb0deb",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "crypto betting market compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Kryptokasinot.io Raises Concerns Over Proposed Cryptocurrency Restrictions in Finland's Gambling Reform"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "ReadWrite"
+          },
+          "published_at": "2026-05-28T10:32:24.789095Z",
+          "source": "news_search",
+          "title": "CFTC seeks reversal in Gemini Bitcoin enforcement settlement",
+          "url": "https://readwrite.com/cftc-gemini-bitcoin-futures-enforcement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e0f9e8aeecf639f1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "crypto betting market compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CFTC seeks reversal in Gemini Bitcoin enforcement settlement"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Coinfomania"
+          },
+          "published_at": "2026-05-28T13:32:24.789031Z",
+          "source": "news_search",
+          "title": "Google Engineer Charged with Insider Trading on Polymarket",
+          "url": "https://coinfomania.com/google-engineer-polymarket-insider-trading-case/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f0404e915c14867a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "crypto betting market compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Google Engineer Charged with Insider Trading on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 26000000,
+            "publication_type": "editorial",
+            "raw_source": "ABC News - Breaking News, Latest News and Videos"
+          },
+          "published_at": "2026-05-27T21:32:25.575851Z",
+          "source": "news_search",
+          "title": "Google information security engineer charged with using inside information to make $1M on Polymarket",
+          "url": "https://abcnews.com/US/google-employee-charged-inside-information-make-1-million/story?id=133350018"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "55a87d765b080674",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "confidential data prediction market",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.225,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.837
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50,
+        "top_outlets": [
+          {
+            "domain": "abcnews.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 26000000,
+            "outlet_score": 0.837,
+            "traffic_score": 0.824
+          }
+        ]
+      },
+      "title": "Google information security engineer charged with using inside information to make $1M on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 45000,
+            "publication_type": "brand_content",
+            "raw_source": "Consumer Financial Services Law Monitor"
+          },
+          "published_at": "2026-05-27T19:32:26.285198Z",
+          "source": "news_search",
+          "title": "Troutman Pepper Locke Weekly Consumer Financial Services Newsletter – May 27, 2026",
+          "url": "https://www.consumerfinancialserviceslawmonitor.com/2026/05/troutman-pepper-locke-weekly-consumer-financial-services-newsletter-may-27-2026/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3b65d7ada8597762",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.013,
+      "query": "digital asset market surveillance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.117,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.517
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 29.7,
+        "top_outlets": [
+          {
+            "domain": "www.consumerfinancialserviceslawmonitor.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 45000,
+            "outlet_score": 0.517,
+            "traffic_score": 0.517
+          }
+        ]
+      },
+      "title": "Troutman Pepper Locke Weekly Consumer Financial Services Newsletter – May 27, 2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Finance Magnates"
+          },
+          "published_at": "2026-05-28T08:32:26.285234Z",
+          "source": "news_search",
+          "title": "CFTC Pushes Prediction Markets Into Formal Federal Rulemaking",
+          "url": "https://www.financemagnates.com/fintech/cftc-pushes-prediction-markets-into-formal-federal-rulemaking/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b1338ce65cefaf48",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "digital asset market surveillance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CFTC Pushes Prediction Markets Into Formal Federal Rulemaking"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 280000,
+            "publication_type": "brand_content",
+            "raw_source": "Blockchain Council"
+          },
+          "published_at": "2026-05-28T09:32:26.285225Z",
+          "source": "news_search",
+          "title": "Making Sense of Bitcoin, Cryptocurrency and Blockchain: A Practical Guide",
+          "url": "https://www.blockchain-council.org/blockchain/making-sense-of-bitcoin-cryptocurrency-and-blockchain/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9650ab8e80be17c8",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.015,
+      "query": "digital asset market surveillance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.145,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.605
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.2,
+        "top_outlets": [
+          {
+            "domain": "www.blockchain-council.org",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 280000,
+            "outlet_score": 0.605,
+            "traffic_score": 0.605
+          }
+        ]
+      },
+      "title": "Making Sense of Bitcoin, Cryptocurrency and Blockchain: A Practical Guide"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "publication_type": "brand_content",
+            "raw_source": "TradingView"
+          },
+          "published_at": "2026-05-28T13:32:26.285171Z",
+          "source": "news_search",
+          "title": "AmericanFortress Launches Privacy Infrastructure on Arbitrum for Institutional DeFi",
+          "url": "https://www.tradingview.com/news/chainwire:360406cdc094b:0-americanfortress-launches-privacy-infrastructure-on-arbitrum-for-institutional-defi/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4cc585ae0d27d84c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "digital asset market surveillance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.257,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.926
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 55.8,
+        "top_outlets": [
+          {
+            "domain": "www.tradingview.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "outlet_score": 0.926,
+            "traffic_score": 0.929
+          }
+        ]
+      },
+      "title": "AmericanFortress Launches Privacy Infrastructure on Arbitrum for Institutional DeFi"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-28T13:32:26.285216Z",
+          "source": "news_search",
+          "title": "US personal savings rate drops to 2.6%, nearing all-time low",
+          "url": "https://cryptobriefing.com/us-personal-savings-rate-nears-all-time-low/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "32f562d3842c3aa7",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.015,
+      "query": "digital asset market surveillance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "US personal savings rate drops to 2.6%, nearing all-time low"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Regulatory Oversight"
+          },
+          "published_at": "2026-05-27T22:32:26.918919Z",
+          "source": "news_search",
+          "title": "Missouri AG Files Suit Against Cryptocurrency ATM Operator Over Consumer Protection Issues",
+          "url": "https://www.regulatoryoversight.com/2026/05/missouri-ag-files-suit-against-cryptocurrency-atm-operator-over-consumer-protection-issues/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9e0674434b51fd1e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "crypto fraud investigations",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Missouri AG Files Suit Against Cryptocurrency ATM Operator Over Consumer Protection Issues"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Pluang"
+          },
+          "published_at": "2026-05-28T03:32:26.918943Z",
+          "source": "news_search",
+          "title": "Investigation launched into Verra Mobility over contract disclosure and possible securities fraud",
+          "url": "https://pluang.com/en/news-feed/peringatan-pemegang-saham-ademi-llp-selidiki-tuduhan-penipuan-sekuritas-verra"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e80fdc174f1f8588",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.044,
+      "query": "crypto fraud investigations",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Investigation launched into Verra Mobility over contract disclosure and possible securities fraud"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Інтент"
+          },
+          "published_at": "2026-05-28T10:32:26.918898Z",
+          "source": "news_search",
+          "title": "Fraud with crypto wallets exposed in Odesa :: Intent :: Socio-political publication",
+          "url": "https://intent.press/en/news/crime/2026/fraud-with-crypto-wallets-exposed-in-odesa/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "40cfde08625d4992",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "crypto fraud investigations",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Fraud with crypto wallets exposed in Odesa :: Intent :: Socio-political publication"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Covers.com"
+          },
+          "published_at": "2026-05-27T17:32:28.170904Z",
+          "source": "news_search",
+          "title": "Tennessee Seeks to Reinstate Enforcement Against Kalshi",
+          "url": "https://www.covers.com/industry/tennessee-seeks-to-reinstate-enforcement-against-kalshi-may-27-2027"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ea4603a871bb461b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.03,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tennessee Seeks to Reinstate Enforcement Against Kalshi"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "SportsLine"
+          },
+          "published_at": "2026-05-27T18:32:28.170807Z",
+          "source": "news_search",
+          "title": "Where are Online Casinos Legal in the US? A 2026 State-by-State Guide",
+          "url": "https://www.sportsline.com/casinos/legal-online-casinos-in-usa/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0ae8ad72b0d65ef9",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Where are Online Casinos Legal in the US? A 2026 State-by-State Guide"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Action Network"
+          },
+          "published_at": "2026-05-27T23:32:28.170786Z",
+          "source": "news_search",
+          "title": "Tracking Every Prediction Market Lawsuit Involving Kalshi, Polymarket & Other Operators",
+          "url": "https://www.actionnetwork.com/education/tracking-prediction-market-lawsuits"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "088cafa4417afc51",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tracking Every Prediction Market Lawsuit Involving Kalshi, Polymarket & Other Operators"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People Matters Global"
+          },
+          "published_at": "2026-05-28T04:32:28.170858Z",
+          "source": "news_search",
+          "title": "Google employee accused of using confidential company data to win $1.2 million in bets",
+          "url": "https://anz.peoplemattersglobal.com/amp/news/business/google-employee-accused-of-using-confidential-company-data-to-win-dollar12-million-in-bets-49966"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ee8946980e956646",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.04,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Google employee accused of using confidential company data to win $1.2 million in bets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "iGaming Business"
+          },
+          "published_at": "2026-05-28T08:32:28.170881Z",
+          "source": "news_search",
+          "title": "Why an end to Austria’s iGaming monopoly is a wise decision",
+          "url": "https://igamingbusiness.com/legal-compliance/an-end-to-austria-igaming-monopoly-good-decision/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "94b81e208af50c16",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.014,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Why an end to Austria’s iGaming monopoly is a wise decision"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "CoinGeek"
+          },
+          "published_at": "2026-05-28T09:32:28.17076Z",
+          "source": "news_search",
+          "title": "Indonesia blocks Polymarket as part of online gambling crackdown",
+          "url": "https://coingeek.com/indonesia-blocks-polymarket-as-part-of-online-gambling-crackdown/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7796403ab15026be",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Indonesia blocks Polymarket as part of online gambling crackdown"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "ReadWrite"
+          },
+          "published_at": "2026-05-28T10:32:28.170925Z",
+          "source": "news_search",
+          "title": "CFTC seeks reversal in Gemini Bitcoin enforcement settlement",
+          "url": "https://readwrite.com/cftc-gemini-bitcoin-futures-enforcement/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e0f9e8aeecf639f1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.027,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CFTC seeks reversal in Gemini Bitcoin enforcement settlement"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "iGamingToday.com"
+          },
+          "published_at": "2026-05-28T11:32:28.170834Z",
+          "source": "news_search",
+          "title": "Argentina Moves to Criminalize Tech Providers and Ban Sports Sponsorships in Massive Online Betting Crackdown",
+          "url": "https://www.igamingtoday.com/argentina-moves-to-criminalize-tech-providers-and-ban-sports-sponsorships-in-massive-online-betting-crackdown/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ed90393dd30fa0c8",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "online betting market enforcement",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Argentina Moves to Criminalize Tech Providers and Ban Sports Sponsorships in Massive Online Betting Crackdown"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-28T11:32:22.476561Z",
+          "source": "news_search",
+          "title": "Polymarket clarifies KYC applies only to new beta product, not its core platform",
+          "url": "https://cryptobriefing.com/polymarket-kyc-beta-product-clarification/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d947fb580adcc731",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 61.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Polymarket clarifies KYC applies only to new beta product, not its core platform"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 6200000,
+            "publication_type": "editorial",
+            "raw_source": "Engadget"
+          },
+          "published_at": "2026-05-28T11:32:23.105255Z",
+          "source": "news_search",
+          "title": "Google Employee Accused Of Making $1 Million From Insider Trading On Polymarket",
+          "url": "https://www.engadget.com/2182614/google-employee-accused-of-making-1-million-from-insider-trading-on-polymarket/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c4906a39a1308e27",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.071,
+      "query": "Polymarket insider trading",
+      "queue_priority": 61.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.204,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.777
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.2,
+        "top_outlets": [
+          {
+            "domain": "www.engadget.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 6200000,
+            "outlet_score": 0.777,
+            "traffic_score": 0.755
+          }
+        ]
+      },
+      "title": "Google Employee Accused Of Making $1 Million From Insider Trading On Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "other",
+            "raw_source": "Event Horizon | Dustin Gouker"
+          },
+          "published_at": "2026-05-28T12:32:22.476732Z",
+          "source": "news_search",
+          "title": "The Polymarket-Google Case, And How Prediction Markets Manufacture Insider Trading Incentives",
+          "url": "https://nexteventhorizon.substack.com/p/the-polymarket-google-case-and-insider-trading"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e3b6442c94ee3279",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.251,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.909
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.7,
+        "top_outlets": [
+          {
+            "domain": "nexteventhorizon.substack.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.909,
+            "traffic_score": 0.905
+          }
+        ]
+      },
+      "title": "The Polymarket-Google Case, And How Prediction Markets Manufacture Insider Trading Incentives"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "publication_type": "editorial",
+            "raw_source": "The New York Times"
+          },
+          "published_at": "2026-05-28T12:32:23.105143Z",
+          "source": "news_search",
+          "title": "Another Insider Trading Case Hits Prediction Markets",
+          "url": "https://www.nytimes.com/2026/05/28/business/dealbook/insider-trading-polymarket.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2292e0831e8a6f49",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "Polymarket insider trading",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.273,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.971
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 58.7,
+        "top_outlets": [
+          {
+            "domain": "www.nytimes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "outlet_score": 0.971,
+            "traffic_score": 0.977
+          }
+        ]
+      },
+      "title": "Another Insider Trading Case Hits Prediction Markets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "publication_type": "brand_content",
+            "raw_source": "MEXC"
+          },
+          "published_at": "2026-05-28T11:32:24.78904Z",
+          "source": "news_search",
+          "title": "Polymarket: Beta-Only KYC Sparks Regulatory Compliance Questions",
+          "url": "https://www.mexc.com/news/1117076"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3174d907b68013b2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "crypto betting market compliance",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.809
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "www.mexc.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "outlet_score": 0.809,
+            "traffic_score": 0.809
+          }
+        ]
+      },
+      "title": "Polymarket: Beta-Only KYC Sparks Regulatory Compliance Questions"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Casino.org"
+          },
+          "published_at": "2026-05-28T11:32:25.576225Z",
+          "source": "news_search",
+          "title": "Feds Charge Google Engineer in $1.2 Million Polymarket Insider Trading Scheme",
+          "url": "https://www.casino.org/news/feds-charge-google-engineer-polymarket-insider-trading-scheme/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a4c4ec161fc24739",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "confidential data prediction market",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Feds Charge Google Engineer in $1.2 Million Polymarket Insider Trading Scheme"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "publication_type": "brand_content",
+            "raw_source": "MEXC"
+          },
+          "published_at": "2026-05-28T12:32:25.576269Z",
+          "source": "news_search",
+          "title": "Google Engineer Charged After Allegedly Making $1.2M on Prediction Market Bets",
+          "url": "https://www.mexc.com/news/1117075"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ceb9066da36d21a7",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "confidential data prediction market",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.809
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "www.mexc.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "outlet_score": 0.809,
+            "traffic_score": 0.809
+          }
+        ]
+      },
+      "title": "Google Engineer Charged After Allegedly Making $1.2M on Prediction Market Bets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "13WMAZ"
+          },
+          "published_at": "2026-05-28T15:07:25.575982Z",
+          "source": "news_search",
+          "title": "Google engineer accused of secretly using search data to make $1.2M on Polymarket",
+          "url": "https://www.13wmaz.com/article/news/nation-world/google-engineer-accused-of-secretly-using-search-data-to-make-12m-on-polymarket/507-6607c5d4-d912-4cfa-84cf-7464bc94f79c"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "78dab20e7e0e6e69",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "confidential data prediction market",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.188,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.73
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 43.2,
+        "top_outlets": [
+          {
+            "domain": "www.13wmaz.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.73,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Google engineer accused of secretly using search data to make $1.2M on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "WNEP"
+          },
+          "published_at": "2026-05-28T15:07:28.882923Z",
+          "source": "news_search",
+          "title": "Google engineer accused of secretly using search data to make $1.2M on Polymarket",
+          "url": "https://www.wnep.com/article/news/nation-world/google-engineer-accused-of-secretly-using-search-data-to-make-12m-on-polymarket/507-6607c5d4-d912-4cfa-84cf-7464bc94f79c"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "26dc847eea4d0539",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.056,
+      "query": "search data betting fraud",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Google engineer accused of secretly using search data to make $1.2M on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Casino.org"
+          },
+          "published_at": "2026-05-27T18:32:22.476599Z",
+          "source": "news_search",
+          "title": "Are Prediction Markets Rife With Insider Trading? House Oversight Investigates",
+          "url": "https://www.casino.org/news/are-prediction-markets-rife-with-insider-trading/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9477f023bedca490",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.077,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Are Prediction Markets Rife With Insider Trading? House Oversight Investigates"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "LegalSportsReport"
+          },
+          "published_at": "2026-05-27T18:32:22.476649Z",
+          "source": "news_search",
+          "title": "Comer Launches Investigation Into Insider Trading On Prediction Markets",
+          "url": "https://www.legalsportsreport.com/264719/comer-launches-investigation-into-insider-trading-on-prediction-markets/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9d2cb3016b5b0726",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.079,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Comer Launches Investigation Into Insider Trading On Prediction Markets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 190000,
+            "publication_type": "editorial",
+            "raw_source": "Cryptonews.net"
+          },
+          "published_at": "2026-05-28T08:32:24.789086Z",
+          "source": "news_search",
+          "title": "Google Engineer Indicted for $1.2M Insider Trading on Polymarket, US Prosecutors Allege",
+          "url": "https://cryptonews.net/news/legal/32929330/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1143c9b569144bd6",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.079,
+      "query": "crypto betting market compliance",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.139,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.587
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34,
+        "top_outlets": [
+          {
+            "domain": "cryptonews.net",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 190000,
+            "outlet_score": 0.587,
+            "traffic_score": 0.587
+          }
+        ]
+      },
+      "title": "Google Engineer Indicted for $1.2M Insider Trading on Polymarket, US Prosecutors Allege"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "newswire",
+            "raw_source": "Business Wire"
+          },
+          "published_at": "2026-05-28T02:32:26.285144Z",
+          "source": "news_search",
+          "title": "EXIO Group Partners with Solidus Labs to Strengthen Trade Surveillance and AML Compliance",
+          "url": "https://www.businesswire.com/news/home/20260527247234/en/EXIO-Group-Partners-with-Solidus-Labs-to-Strengthen-Trade-Surveillance-and-AML-Compliance"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c6776acc6018b467",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.076,
+      "query": "digital asset market surveillance",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.businesswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "EXIO Group Partners with Solidus Labs to Strengthen Trade Surveillance and AML Compliance"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Finance Magnates"
+          },
+          "published_at": "2026-05-28T09:32:24.789059Z",
+          "source": "news_search",
+          "title": "“We Are Not Here Provide Jobs”: CySEC Chair on Crypto Perps, Prediction Markets and the High-Wire Act of EU Regulation",
+          "url": "https://www.financemagnates.com/forex/we-are-not-here-provide-jobs-cysec-chair-on-crypto-perps-prediction-markets-and-the-high-wire-act-of-eu-regulation/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1648f72bf0ec824b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.069,
+      "query": "crypto betting market compliance",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "“We Are Not Here Provide Jobs”: CySEC Chair on Crypto Perps, Prediction Markets and the High-Wire Act of EU Regulation"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-27T19:32:26.91898Z",
+          "source": "news_search",
+          "title": "T3 Financial Crime Unit launches official website as frozen crypto assets top $450M",
+          "url": "https://cryptobriefing.com/t3-financial-crime-unit-launches-website/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7ffec4c6956d995f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.072,
+      "query": "crypto fraud investigations",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "T3 Financial Crime Unit launches official website as frozen crypto assets top $450M"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 19000000,
+            "publication_type": "editorial",
+            "raw_source": "The Globe and Mail"
+          },
+          "published_at": "2026-05-28T09:32:23.802898Z",
+          "source": "news_search",
+          "title": "Feel like the markets are rigged? You’re not entirely wrong",
+          "url": "https://www.theglobeandmail.com/investing/markets/inside-the-market/article-prediction-market-trading-regulation-trump/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "85cc19bf79074e16",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "prediction market manipulation",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.22,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.822
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.1,
+        "top_outlets": [
+          {
+            "domain": "www.theglobeandmail.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 19000000,
+            "outlet_score": 0.822,
+            "traffic_score": 0.809
+          }
+        ]
+      },
+      "title": "Feel like the markets are rigged? You’re not entirely wrong"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "publication_type": "other",
+            "raw_source": "The National Law Review"
+          },
+          "published_at": "2026-05-27T23:32:26.285159Z",
+          "source": "news_search",
+          "title": "AiTradeBtc Expands AI Crypto Trading Infrastructure With Automated Execution and Real-Time Market Intelligence",
+          "url": "https://natlawreview.com/press-releases/aitradebtc-expands-ai-crypto-trading-infrastructure-automated-execution-and"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0ce4cc31377dbb3b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "digital asset market surveillance",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.182,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.713
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.1,
+        "top_outlets": [
+          {
+            "domain": "natlawreview.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "outlet_score": 0.713,
+            "traffic_score": 0.689
+          }
+        ]
+      },
+      "title": "AiTradeBtc Expands AI Crypto Trading Infrastructure With Automated Execution and Real-Time Market Intelligence"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "publication_type": "brand_content",
+            "raw_source": "MEXC"
+          },
+          "published_at": "2026-05-28T07:32:26.28518Z",
+          "source": "news_search",
+          "title": "Lambda256 and CertiK Join Forces to Strengthen Digital Asset Security for South Korean Financial Institutions",
+          "url": "https://www.mexc.com/news/1116473"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e29a8bc33f787dc2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "digital asset market surveillance",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.809
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "www.mexc.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 19000000,
+            "outlet_score": 0.809,
+            "traffic_score": 0.809
+          }
+        ]
+      },
+      "title": "Lambda256 and CertiK Join Forces to Strengthen Digital Asset Security for South Korean Financial Institutions"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Crypto Briefing"
+          },
+          "published_at": "2026-05-28T08:32:25.576132Z",
+          "source": "news_search",
+          "title": "US charges Google engineer with using internal search data to profit $1.2M on Polymarket",
+          "url": "https://cryptobriefing.com/google-engineer-insider-trading-polymarket-3/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c57dafec2e3cb29f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.054,
+      "query": "confidential data prediction market",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "cryptobriefing.com",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "US charges Google engineer with using internal search data to profit $1.2M on Polymarket"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 3900000,
+            "publication_type": "editorial",
+            "raw_source": "Fast Company"
+          },
+          "published_at": "2026-05-27T16:32:26.918971Z",
+          "source": "news_search",
+          "title": "The FBI just dropped its 2025 internet crime report. Here are 6 big takeaways",
+          "url": "https://www.fastcompany.com/91549214/fbi-2025-internet-crime-report-6-takeaways"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e935f2afbdc5ff4c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.055,
+      "query": "crypto fraud investigations",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.198,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.759
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45,
+        "top_outlets": [
+          {
+            "domain": "www.fastcompany.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 3900000,
+            "outlet_score": 0.759,
+            "traffic_score": 0.732
+          }
+        ]
+      },
+      "title": "The FBI just dropped its 2025 internet crime report. Here are 6 big takeaways"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "publication_type": "brand_content",
+            "raw_source": "TradingView"
+          },
+          "published_at": "2026-05-28T08:32:22.476106Z",
+          "source": "news_search",
+          "title": "CFTC Pushes Prediction Markets Into Formal Federal Rulemaking",
+          "url": "https://www.tradingview.com/news/financemagnates:8e7e24a44094b:0-cftc-pushes-prediction-markets-into-formal-federal-rulemaking/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "50392b963513b8ef",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.257,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.926
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 55.8,
+        "top_outlets": [
+          {
+            "domain": "www.tradingview.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "outlet_score": 0.926,
+            "traffic_score": 0.929
+          }
+        ]
+      },
+      "title": "CFTC Pushes Prediction Markets Into Formal Federal Rulemaking"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 17000000,
+            "publication_type": "brand_content",
+            "raw_source": "Bitget"
+          },
+          "published_at": "2026-05-28T10:32:22.476141Z",
+          "source": "news_search",
+          "title": "Polymarket says no mandatory KYC planned for main prediction market",
+          "url": "https://www.bitget.com/amp/news/detail/12560605432802"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "05a82baa2d458d6e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.045,
+      "query": "prediction market compliance insider trading",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.213,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.803
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 47.9,
+        "top_outlets": [
+          {
+            "domain": "www.bitget.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 17000000,
+            "outlet_score": 0.803,
+            "traffic_score": 0.803
+          }
+        ]
+      },
+      "title": "Polymarket says no mandatory KYC planned for main prediction market"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-27T23:32:23.10507Z",
+          "source": "news_search",
+          "title": "Google employee charged with $1M Polymarket insider trading bet on search term",
+          "url": "https://www.cnbc.com/2026/05/27/google-employee-polymarket-insider-trading.html"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 75000000,
+            "publication_type": "brand_content",
+            "raw_source": "WSJ"
+          },
+          "published_at": "2026-05-27T23:32:23.105177Z",
+          "source": "news_search",
+          "title": "Google Employee Charged With Insider Trading on Polymarket",
+          "url": "https://www.wsj.com/tech/google-employee-charged-with-insider-trading-on-polymarket-b6a3b60f"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ae7f065ead797437",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "Polymarket insider trading",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.427,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 2,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 63.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          },
+          {
+            "domain": "www.wsj.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 75000000,
+            "outlet_score": 0.882,
+            "traffic_score": 0.875
+          }
+        ]
+      },
+      "title": "Google employee charged with $1M Polymarket insider trading bet on search term"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 140000000,
+            "publication_type": "editorial",
+            "raw_source": "Al Jazeera"
+          },
+          "published_at": "2026-05-28T02:32:23.105111Z",
+          "source": "news_search",
+          "title": "Google employee charged with insider trading over Polymarket bets",
+          "url": "https://www.aljazeera.com/news/2026/5/28/google-employee-charged-with-insider-trading-over-polymarket-bets"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 93,
+            "estimated_monthly_organic_traffic": 290000000,
+            "publication_type": "editorial",
+            "raw_source": "The Guardian"
+          },
+          "published_at": "2026-05-28T14:36:23.105038Z",
+          "source": "news_search",
+          "title": "Google employee charged with using insider data to rig bets on Polymarket",
+          "url": "https://www.theguardian.com/technology/2026/may/28/doj-charges-google-employee-insider-trading-polymarket"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T14:41:23.10528Z",
+          "source": "news_search",
+          "title": "Google engineer charged with using insider data to make $1.2M on Polymarket",
+          "url": "https://qz.com/google-engineer-insider-trading-polymarket-year-in-search-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6b1c240e711087f3",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "Polymarket insider trading",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "major",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.546,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.939
+        },
+        "confidence": "medium",
+        "known_authority_count": 3,
+        "known_outlet_count": 3,
+        "known_traffic_count": 3,
+        "score": 72.3,
+        "top_outlets": [
+          {
+            "domain": "www.theguardian.com",
+            "domain_authority": 93,
+            "domain_authority_score": 0.93,
+            "estimated_monthly_organic_traffic": 290000000,
+            "outlet_score": 0.939,
+            "traffic_score": 0.94
+          },
+          {
+            "domain": "www.aljazeera.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 140000000,
+            "outlet_score": 0.904,
+            "traffic_score": 0.905
+          },
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Google employee charged with insider trading over Polymarket bets"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 30000000,
+            "publication_type": "editorial",
+            "raw_source": "Euronews.com"
+          },
+          "published_at": "2026-05-28T11:32:23.10522Z",
+          "source": "news_search",
+          "title": "Google insider's Polymarket scam puts prediction markets on trial",
+          "url": "https://www.euronews.com/business/2026/05/28/google-engineer-charged-in-alleged-12mn-polymarket-insider-trading-scheme"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7431f402d959b713",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "Polymarket insider trading",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.227,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.841
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.3,
+        "top_outlets": [
+          {
+            "domain": "www.euronews.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 30000000,
+            "outlet_score": 0.841,
+            "traffic_score": 0.831
+          }
+        ]
+      },
+      "title": "Google insider's Polymarket scam puts prediction markets on trial"
+    }
+  ]
+}

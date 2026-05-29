@@ -166,7 +166,8 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 }
 
 func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProfile) map[string]any {
-	if stringValue(decision["decision"]) != "reject" || stringValue(decision["reason"]) != "no_profile_bridge" {
+	reason := stringValue(decision["reason"])
+	if stringValue(decision["decision"]) != "reject" || (reason != "no_profile_bridge" && reason != "major_news_no_bridge") {
 		return decision
 	}
 	matches := coarseRecallMatches(signal, profile)
@@ -181,7 +182,7 @@ func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProf
 	guarded["confidence"] = "low"
 	guarded["guardrail"] = "profile_match_recall_guard"
 	guarded["guardrail_matches"] = matches
-	guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker rejected as no profile bridge.") + " Kept for review because detector/profile evidence matched: " + strings.Join(firstN(matches, 5), ", ") + ".")
+	guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker rejected as missing a profile bridge.") + " Kept for review because detector/profile evidence matched: " + strings.Join(firstN(matches, 5), ", ") + ".")
 	return guarded
 }
 
@@ -198,12 +199,23 @@ func coarseRecallMatches(signal map[string]any, profile monitorProfile) []string
 	for _, raw := range valueOrEmptyArray(signal["profile_matches"]) {
 		add(stringValue(raw))
 	}
+	for _, raw := range valueOrEmptyArray(valueOrEmptyMap(signal["features"])["profile_matches"]) {
+		add(stringValue(raw))
+	}
 	for _, match := range profileMatches(profile, coarseRecallText(signal)) {
 		add(match)
 	}
 	mech := valueOrEmptyMap(signal["mechanical_scores"])
-	if score, ok := numberValue(mech["profile_match"]); ok && profile.matchText() != "" && score >= 0.05 {
-		add(fmt.Sprintf("profile_match=%.3g", score))
+	if profile.matchText() != "" {
+		if score, ok := numberValue(mech["profile_match"]); ok && score >= 0.05 {
+			add(fmt.Sprintf("profile_match=%.3g", score))
+		}
+		if storySize, ok := signalStorySizeScore(signal); ok {
+			profileMatch := signalProfileMatchForRecall(signal)
+			if _, ok := storyRecallQueueFloor(storySize, true, profileMatch); ok {
+				add(fmt.Sprintf("large_story_recall story_size=%.3g profile_match=%.3g", storySize, profileMatch))
+			}
+		}
 	}
 	return matches
 }

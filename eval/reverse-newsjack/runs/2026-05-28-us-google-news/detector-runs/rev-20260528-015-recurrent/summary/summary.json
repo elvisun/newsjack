@@ -1,0 +1,2217 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 219247,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 57,
+    "debug_duplicate_scored_rows": 6,
+    "debug_selected_rows": 34,
+    "debug_unique_scored_signal_ids": 51,
+    "debug_unselected_rows": 23,
+    "selected_unique_signals": 30,
+    "source_errors": 0,
+    "total_emitted_signals": 30,
+    "total_scored_signals": 57
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:53.273216Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 2,
+      "profile_relevance_weak": 21
+    },
+    "emitted": {
+      "profile_relevance": 16,
+      "profile_relevance_weak": 14
+    },
+    "scored": {
+      "profile_relevance": 21,
+      "profile_relevance_weak": 36
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:44.787711Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Recurrent",
+    "queries": [
+      "Rivian R2 deliveries EV battery charging",
+      "Rivian R2 deliveries",
+      "Rivian R2 order invites",
+      "EV battery health",
+      "electric SUV launch",
+      "consumer EV readiness",
+      "used EV analytics",
+      "EV range battery data",
+      "Rivian battery range"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 62
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-recurrent/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T13:36:45.673633Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9",
+          "url": "https://theevreport.com/rivian-r2-launch-order-invitations-deliveries-june-9"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c380be8d2e4c1b62",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.054,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T13:36:48.573562Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9",
+          "url": "https://theevreport.com/rivian-r2-launch-order-invitations-deliveries-june-9"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c380be8d2e4c1b62",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Electric Vehicles"
+          },
+          "published_at": "2026-05-28T09:36:48.573697Z",
+          "source": "news_search",
+          "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9",
+          "url": "https://eletric-vehicles.com/rivian/rivian-sets-two-to-six-week-r2-delivery-window-as-orders-open-june-9/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T18:36:48.573622Z",
+          "source": "news_search",
+          "title": "Rivian is setting June 9 as the first delivery date for its R2 electric SUV",
+          "url": "https://qz.com/rivian-r2-electric-suv-first-deliveries-june-9-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f3af423d775f7a80",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Drive Tesla Canada"
+          },
+          "published_at": "2026-05-28T01:36:45.673721Z",
+          "source": "news_search",
+          "title": "Volvo to get Tesla Supercharger access across Europe later this year",
+          "url": "https://driveteslacanada.ca/news/volvo-tesla-supercharger-europe/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8c834debd2c1af71",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Volvo to get Tesla Supercharger access across Europe later this year"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Drive Tesla Canada"
+          },
+          "published_at": "2026-05-28T01:36:45.673738Z",
+          "source": "news_search",
+          "title": "Tesla Opens First Superchargers in Colombia With Stations in Bogotá and Medellín",
+          "url": "https://driveteslacanada.ca/news/tesla-supercharger-colombia-bogota-medellin/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "afadc8a98d1b9d70",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tesla Opens First Superchargers in Colombia With Stations in Bogotá and Medellín"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Drive Tesla Canada"
+          },
+          "published_at": "2026-05-28T15:36:45.673615Z",
+          "source": "news_search",
+          "title": "Tesla now asking customers to accept Model 3 Premium RWD spec downgrades before delivery",
+          "url": "https://driveteslacanada.ca/news/tesla-model-3-specification-changes-canada-delivery/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "921168e1a9726e96",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tesla now asking customers to accept Model 3 Premium RWD spec downgrades before delivery"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "autoevolution"
+          },
+          "published_at": "2026-05-28T08:36:46.64548Z",
+          "source": "news_search",
+          "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks",
+          "url": "https://www.autoevolution.com/news/rivian-opens-the-r2-order-books-on-june-9-with-the-first-deliveries-promised-within-2-to-6-weeks-270631.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "242236670fdf7bd1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Top Speed"
+          },
+          "published_at": "2026-05-28T19:36:46.64542Z",
+          "source": "news_search",
+          "title": "Rivian's Most Affordable EV SUV Finally Goes on Sale June 9",
+          "url": "https://www.topspeed.com/rivian-r2-deliveries-begin-in-two-weeks-heres-what-the-order-book-opening-means-for-enthusiasts/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "56cf115ae7ca8753",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian's Most Affordable EV SUV Finally Goes on Sale June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "autoevolution"
+          },
+          "published_at": "2026-05-28T08:36:48.574665Z",
+          "source": "news_search",
+          "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks",
+          "url": "https://www.autoevolution.com/news/rivian-opens-the-r2-order-books-on-june-9-with-the-first-deliveries-promised-within-2-to-6-weeks-270631.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "242236670fdf7bd1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Not a Tesla App"
+          },
+          "published_at": "2026-05-28T13:36:48.575237Z",
+          "source": "news_search",
+          "title": "Tesla Model Y Competitor, the Rivian R2 Launches on June 9th",
+          "url": "https://www.notateslaapp.com/news/4209/rivian-r2-launches-on-june-9th"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "666d624d620e7a83",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tesla Model Y Competitor, the Rivian R2 Launches on June 9th"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Waste Dive"
+          },
+          "published_at": "2026-05-28T15:36:49.294615Z",
+          "source": "news_search",
+          "title": "Colorado EV battery EPR bill heads to governor",
+          "url": "https://www.wastedive.com/news/colorado-ev-epr-battery-bill-heads-to-governor-2026/821355/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "02b834bd6fddfef3",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "EV battery health",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Colorado EV battery EPR bill heads to governor"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Engineer Live"
+          },
+          "published_at": "2026-05-28T15:36:49.294662Z",
+          "source": "news_search",
+          "title": "New EU battery passports for EVs and industrial applications",
+          "url": "https://www.engineerlive.com/content/new-eu-battery-passports-evs-and-industrial-applications"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6979765991b2fae7",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "EV battery health",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "New EU battery passports for EVs and industrial applications"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Autoguide.com"
+          },
+          "published_at": "2026-05-28T20:36:49.294829Z",
+          "source": "news_search",
+          "title": "2024 Tesla Model 3 Performance For Sale",
+          "url": "https://www.autoguide.com/auto/2024-tesla-model-3-for-sale-44633485"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "04088fc05ab39032",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "EV battery health",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "2024 Tesla Model 3 Performance For Sale"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-28T03:36:49.959432Z",
+          "source": "news_search",
+          "title": "China's auto industry is unlikely to return to 'golden era,' NIO CEO says",
+          "url": "https://www.reuters.com/business/autos-transportation/chinas-auto-industry-is-unlikely-return-golden-era-nio-ceo-says-2026-05-28/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4f3ef22ba414e1a4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "electric SUV launch",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.881
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "China's auto industry is unlikely to return to 'golden era,' NIO CEO says"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Cartoq"
+          },
+          "published_at": "2026-05-28T04:36:49.959578Z",
+          "source": "news_search",
+          "title": "Toyota Ebella Electric SUV Launch Cancelled: Rumours",
+          "url": "https://www.cartoq.com/car-news/toyota-cancels-ebella-electric-suv-launch-india/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "035a78110083f6aa",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "electric SUV launch",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Toyota Ebella Electric SUV Launch Cancelled: Rumours"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "autoX"
+          },
+          "published_at": "2026-05-28T08:36:50.484668Z",
+          "source": "news_search",
+          "title": "SIAM Reportedly Urges Delhi Govt to Reconsider 2028 Petrol Two-Wheeler Ban",
+          "url": "https://www.autox.com/news/bike-news/siam-reportedly-urges-delhi-govt-to-reconsider-2028-petrol-two-wheeler-ban-123622/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "11fc51c971a44dcb",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "consumer EV readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "SIAM Reportedly Urges Delhi Govt to Reconsider 2028 Petrol Two-Wheeler Ban"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T09:36:50.484731Z",
+          "source": "news_search",
+          "title": "Spinoto Introduces 15-Minute On-Demand Mechanic Service, Autotech now on fingertips",
+          "url": "https://www.bignewsnetwork.com/news/279082415/spinoto-introduces-15-minute-on-demand-mechanic-service-autotech-now-on-fingertips"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "860fc9b307d8bfe4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "consumer EV readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Spinoto Introduces 15-Minute On-Demand Mechanic Service, Autotech now on fingertips"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T17:36:50.484703Z",
+          "source": "news_search",
+          "title": "How India's Local Garages Are Quietly Getting EV Ready",
+          "url": "https://www.bignewsnetwork.com/news/279087591/how-india-local-garages-are-quietly-getting-ev-ready"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2120df497bcde856",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "consumer EV readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "How India's Local Garages Are Quietly Getting EV Ready"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Charged EVs"
+          },
+          "published_at": "2026-05-28T20:36:52.410538Z",
+          "source": "news_search",
+          "title": "Vishay's new IHXL inductors for battery charging boast lower core losses, lower heat generation and lower prices",
+          "url": "https://chargedevs.com/newswire/vishays-new-ihxl-inductors-for-battery-charging-boast-lower-core-losses-lower-heat-generation-and-lower-prices/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1205441ac3fbc0d6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "EV range battery data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Vishay's new IHXL inductors for battery charging boast lower core losses, lower heat generation and lower prices"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "The Weekly Driver"
+          },
+          "published_at": "2026-05-28T22:36:52.410418Z",
+          "source": "news_search",
+          "title": "Charging Anxiety: Why Your Next EV May Grade Chargers A to F",
+          "url": "https://theweeklydriver.com/2026/05/ev-charger-reliability-charging-anxiety-parkopedia/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5d6ebb20d7c0a3d2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "EV range battery data",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Charging Anxiety: Why Your Next EV May Grade Chargers A to F"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 47,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "ElectricDrives"
+          },
+          "published_at": "2026-05-28T08:36:52.410612Z",
+          "source": "news_search",
+          "title": "Five EV myths that are costing fleets money, and what the data actually says",
+          "url": "https://electricdrives.tv/five-ev-myths-that-are-costing-fleets-money-and-what-the-data-actually-says/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4bfc4217e7302700",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.132,
+      "query": "EV range battery data",
+      "queue_priority": 59.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.102,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.47
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 26.8,
+        "top_outlets": [
+          {
+            "domain": "electricdrives.tv",
+            "domain_authority": 47,
+            "domain_authority_score": 0.47,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.47,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Five EV myths that are costing fleets money, and what the data actually says"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "EnergyNow"
+          },
+          "published_at": "2026-05-28T13:36:52.410732Z",
+          "source": "news_search",
+          "title": "TECHNOLOGY: China’s CATL Debuts EV Battery With Speedy Six-Minute Recharge and a 1,000-km Range",
+          "url": "https://energynow.ca/2026/04/chinas-catl-debuts-ev-battery-with-speedy-six-minute-recharge-and-a-1000-km-range/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1b190c70b07c1627",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "EV range battery data",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "TECHNOLOGY: China’s CATL Debuts EV Battery With Speedy Six-Minute Recharge and a 1,000-km Range"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "LAist"
+          },
+          "published_at": "2026-05-28T00:36:49.294867Z",
+          "source": "news_search",
+          "title": "EV batteries",
+          "url": "https://laist.com/brief/news/climate-environment/how-long-do-electric-vehicle-batteries-actually-last"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c6b7757ccf374312",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.075,
+      "query": "EV battery health",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "EV batteries"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T13:36:46.645399Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9",
+          "url": "https://theevreport.com/rivian-r2-launch-order-invitations-deliveries-june-9"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T18:36:46.645339Z",
+          "source": "news_search",
+          "title": "Rivian is setting June 9 as the first delivery date for its R2 electric SUV",
+          "url": "https://qz.com/rivian-r2-electric-suv-first-deliveries-june-9-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4e6c43948a8c5170",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.062,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "Mashable SEA"
+          },
+          "published_at": "2026-05-28T11:36:49.959287Z",
+          "source": "news_search",
+          "title": "Rivian sets official launch date for Rivian R2",
+          "url": "https://sea.mashable.com/transportation/47751/rivian-sets-official-launch-date-for-rivian-r2"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3d5997d514993773",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "electric SUV launch",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.215,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.808
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.2,
+        "top_outlets": [
+          {
+            "domain": "sea.mashable.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.808,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Rivian sets official launch date for Rivian R2"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electric Cars Report"
+          },
+          "published_at": "2026-05-28T06:36:45.673701Z",
+          "source": "news_search",
+          "title": "Scania’s New Under-Cab Battery Module Pushes Electric Truck Range Beyond 800 km",
+          "url": "https://electriccarsreport.com/2026/05/scanias-new-under-cab-battery-module-pushes-electric-truck-range-beyond-800-km/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b8e0841c7166efc0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Scania’s New Under-Cab Battery Module Pushes Electric Truck Range Beyond 800 km"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 9400000,
+            "publication_type": "editorial",
+            "raw_source": "Notebookcheck"
+          },
+          "published_at": "2026-05-28T09:36:45.673577Z",
+          "source": "news_search",
+          "title": "Rivian R2 SUV deliveries to kick off on June 9",
+          "url": "https://www.notebookcheck.net/Rivian-R2-SUV-deliveries-to-kick-off-on-June-9.1308523.0.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f6e716c0426b38b4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.054,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.203,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.775
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46,
+        "top_outlets": [
+          {
+            "domain": "www.notebookcheck.net",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 9400000,
+            "outlet_score": 0.775,
+            "traffic_score": 0.775
+          }
+        ]
+      },
+      "title": "Rivian R2 SUV deliveries to kick off on June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Electric Vehicles"
+          },
+          "published_at": "2026-05-28T10:36:45.67355Z",
+          "source": "news_search",
+          "title": "Rivian Pushes R2 Canadian Details to 2027, When Deliveries Begin",
+          "url": "https://eletric-vehicles.com/rivian/rivian-pushes-r2-canadian-details-to-2027-when-deliveries-begin/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "afad225aa54fc061",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian Pushes R2 Canadian Details to 2027, When Deliveries Begin"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "InsideEVs"
+          },
+          "published_at": "2026-05-28T12:36:45.673681Z",
+          "source": "news_search",
+          "title": "I Drove The 2026 Toyota bZ Woodland. This EV Is Big, But Missing Some Key Features",
+          "url": "https://insideevs.com/reviews/787449/toyota-bz-woodland-ev-review-2026/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f38eac280a59a8b0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "I Drove The 2026 Toyota bZ Woodland. This EV Is Big, But Missing Some Key Features"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 280000,
+            "publication_type": "editorial",
+            "raw_source": "Gadget Review"
+          },
+          "published_at": "2026-05-28T16:36:45.673597Z",
+          "source": "news_search",
+          "title": "Rivian R2 Deliveries Begin June 9",
+          "url": "https://www.gadgetreview.com/rivian-r2-deliveries-begin-june-9"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4849c560c3751e01",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "Rivian R2 deliveries EV battery charging",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.15,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.621
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.2,
+        "top_outlets": [
+          {
+            "domain": "www.gadgetreview.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 280000,
+            "outlet_score": 0.621,
+            "traffic_score": 0.605
+          }
+        ]
+      },
+      "title": "Rivian R2 Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electric Cars Report"
+          },
+          "published_at": "2026-05-28T03:36:46.645557Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations Begin June 9 as First Deliveries Approach",
+          "url": "https://electriccarsreport.com/2026/05/rivian-r2-order-invitations-begin-june-9-as-first-deliveries-approach/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9cdd3dc918109eac",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Order Invitations Begin June 9 as First Deliveries Approach"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Techgenyz"
+          },
+          "published_at": "2026-05-28T11:36:48.575343Z",
+          "source": "news_search",
+          "title": "Rivian R2 Launch: Massive EV Game-Changer Arrives",
+          "url": "https://techgenyz.com/rivian-r2-launch-date-specs-trims/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f744e67d44351d4d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Launch: Massive EV Game-Changer Arrives"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 7500000,
+            "publication_type": "brand_content",
+            "raw_source": "Statista"
+          },
+          "published_at": "2026-05-28T04:36:49.2949Z",
+          "source": "news_search",
+          "title": "Electric vehicle battery sales worldwide from 2018 to 2025, by battery type",
+          "url": "https://www.statista.com/statistics/1661621/ev-battery-sales-worldwide-by-battery-type-in-mwh/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "29524e8a9fbbb6c0",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.055,
+      "query": "EV battery health",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.2,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.764
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.3,
+        "top_outlets": [
+          {
+            "domain": "www.statista.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 7500000,
+            "outlet_score": 0.764,
+            "traffic_score": 0.764
+          }
+        ]
+      },
+      "title": "Electric vehicle battery sales worldwide from 2018 to 2025, by battery type"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electric Cars Report"
+          },
+          "published_at": "2026-05-28T10:36:49.959342Z",
+          "source": "news_search",
+          "title": "MG 4X Launches In China With Up To 610 KM Range And Semi-Solid-State Battery",
+          "url": "https://electriccarsreport.com/2026/05/mg-4x-launches-in-china-with-up-to-610-km-range-and-semi-solid-state-battery/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "edcb6f8598f92c27",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "electric SUV launch",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "MG 4X Launches In China With Up To 610 KM Range And Semi-Solid-State Battery"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 1000000,
+            "publication_type": "editorial",
+            "raw_source": "Automotive News"
+          },
+          "published_at": "2026-05-28T13:36:52.410708Z",
+          "source": "news_search",
+          "title": "Germans switch to EVs at record pace, helped by government incentive",
+          "url": "https://www.autonews.com/ev/ane-germans-make-ev-switch-on-incentive-energy-0528/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f19267d9bea5204a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "EV range battery data",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.174,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.69
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.6,
+        "top_outlets": [
+          {
+            "domain": "www.autonews.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 1000000,
+            "outlet_score": 0.69,
+            "traffic_score": 0.667
+          }
+        ]
+      },
+      "title": "Germans switch to EVs at record pace, helped by government incentive"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Carscoops"
+          },
+          "published_at": "2026-05-28T13:36:52.410663Z",
+          "source": "news_search",
+          "title": "Ford’s $19.5 Billion EV Flop And Its 28% Stock Surge Run On The Same Batteries",
+          "url": "https://www.carscoops.com/2026/05/ford-energy-storage/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "631753d97f47878c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.05,
+      "query": "EV range battery data",
+      "queue_priority": 58.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.202,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.77
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 45.7,
+        "top_outlets": [
+          {
+            "domain": "www.carscoops.com",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.77,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Ford’s $19.5 Billion EV Flop And Its 28% Stock Surge Run On The Same Batteries"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Electric Vehicles"
+          },
+          "published_at": "2026-05-28T09:36:46.645453Z",
+          "source": "news_search",
+          "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9",
+          "url": "https://eletric-vehicles.com/rivian/rivian-sets-two-to-six-week-r2-delivery-window-as-orders-open-june-9/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "brand_content",
+            "raw_source": "Cars.com"
+          },
+          "published_at": "2026-05-28T18:36:46.645373Z",
+          "source": "news_search",
+          "title": "Rivian Announces R2 First Delivery, Test-Drive Dates",
+          "url": "https://www.cars.com/articles/rivian-announces-r2-first-delivery-test-drive-dates-525248/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d8c3b5e0dd875853",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.042,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.233,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 51.5,
+        "top_outlets": [
+          {
+            "domain": "www.cars.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.86,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Autoblog"
+          },
+          "published_at": "2026-05-28T11:36:48.573482Z",
+          "source": "news_search",
+          "title": "Rivian R2 Arrives June 9—Here’s How Order Invitations Work",
+          "url": "https://www.autoblog.com/news/rivian-r2-launch-date-and-orders"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9e0711b4a4ecdccd",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.81
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 48.3,
+        "top_outlets": [
+          {
+            "domain": "www.autoblog.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.81,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Rivian R2 Arrives June 9—Here’s How Order Invitations Work"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 13000000,
+            "publication_type": "editorial",
+            "raw_source": "The Verge"
+          },
+          "published_at": "2026-05-28T11:36:49.294791Z",
+          "source": "news_search",
+          "title": "Kia’s flagship EV has a battery problem",
+          "url": "https://www.theverge.com/report/938783/kia-ev9-battery-problem-issues"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e64cba3c983f4309",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "EV battery health",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.81
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.3,
+        "top_outlets": [
+          {
+            "domain": "www.theverge.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 13000000,
+            "outlet_score": 0.81,
+            "traffic_score": 0.79
+          }
+        ]
+      },
+      "title": "Kia’s flagship EV has a battery problem"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T01:36:49.959386Z",
+          "source": "news_search",
+          "title": "Nio shares jump 10% after releasing first flagship EV in more than two years",
+          "url": "https://www.cnbc.com/2026/05/28/nio-surges-9percent-after-releasing-first-flagship-ev-in-more-than-two-years.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ef3dabbe0e7fbd29",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.031,
+      "query": "electric SUV launch",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "Nio shares jump 10% after releasing first flagship EV in more than two years"
+    }
+  ]
+}

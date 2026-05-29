@@ -1,0 +1,9 @@
+~/.newsjack/bin/newsjack detector run "Form Health GLP-1 coverage and access" \
+  --profile profiles/form-health.json \
+  --sources news_search,x \
+  --lookback-days 1 \
+  --depth quick \
+  --limit 120 \
+  --include-all-scored \
+  --no-x-trends \
+  --emit json

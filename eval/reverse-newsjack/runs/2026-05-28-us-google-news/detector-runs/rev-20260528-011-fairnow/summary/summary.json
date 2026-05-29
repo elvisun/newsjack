@@ -1,0 +1,2317 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 255141,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 76,
+    "debug_duplicate_scored_rows": 30,
+    "debug_selected_rows": 46,
+    "debug_unique_scored_signal_ids": 46,
+    "debug_unselected_rows": 30,
+    "selected_unique_signals": 25,
+    "source_errors": 0,
+    "total_emitted_signals": 25,
+    "total_scored_signals": 76
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:51.176736Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 30
+    },
+    "emitted": {
+      "profile_relevance": 17,
+      "profile_relevance_weak": 8
+    },
+    "scored": {
+      "profile_relevance": 28,
+      "profile_relevance_weak": 48
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:44.788355Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "FairNow",
+    "queries": [
+      "AI hiring bias compliance",
+      "AI hiring tools racial disparities",
+      "AI hiring bias",
+      "automated employment decision tools",
+      "algorithmic bias hiring",
+      "AI governance employment",
+      "AI compliance hiring tools",
+      "responsible AI hiring",
+      "AI audit employment discrimination"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 76
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-011-fairnow/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People Matters Global"
+          },
+          "published_at": "2026-05-28T03:36:45.656314Z",
+          "source": "news_search",
+          "title": "This HR-tech startup says AI boosted revenue per employee by 50% without layoffs",
+          "url": "https://anz.peoplemattersglobal.com/news/hr-technology/this-hr-tech-startup-says-ai-boosted-revenue-per-employee-by-50percent-without-layoffs-49961"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1ddceb87b0aa6066",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "This HR-tech startup says AI boosted revenue per employee by 50% without layoffs"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "https://streamlinefeed.co.ke/"
+          },
+          "published_at": "2026-05-28T10:36:45.656337Z",
+          "source": "news_search",
+          "title": "Enterprise AI Hallucinations Cost Global Businesses $67 Billion",
+          "url": "https://streamlinefeed.co.ke/news/enterprise-ai-hallucinations-cost-global-businesses-67-billion"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f87def334e75d777",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Enterprise AI Hallucinations Cost Global Businesses $67 Billion"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T23:58:45.656048Z",
+          "source": "news_search",
+          "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List",
+          "url": "https://www.jdsupra.com/legalnews/connecticut-employers-need-to-prepare-9473501/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f21778a6d78468b6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The HR Digest"
+          },
+          "published_at": "2026-05-28T09:36:46.297924Z",
+          "source": "news_search",
+          "title": "Why 92% of Workers Prefer Security Over a Salary Bump",
+          "url": "https://www.thehrdigest.com/why-92-of-workers-prefer-security-over-a-salary-bump/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7e2e358954a19888",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Why 92% of Workers Prefer Security Over a Salary Bump"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The HR Digest"
+          },
+          "published_at": "2026-05-28T10:36:46.29798Z",
+          "source": "news_search",
+          "title": "Cloudflare Layoffs: Why AI is Replacing ‘Measurement’ Roles",
+          "url": "https://www.thehrdigest.com/cloudflare-layoffs-why-ai-is-replacing-measurement-roles/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f644ccacdd34256a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.021,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Cloudflare Layoffs: Why AI is Replacing ‘Measurement’ Roles"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "News Ghana"
+          },
+          "published_at": "2026-05-28T11:36:46.298031Z",
+          "source": "news_search",
+          "title": "AI Struggles Buy Ghana Time in Global BPO Race",
+          "url": "https://www.newsghana.com.gh/ai-struggles-buy-ghana-time-in-global-bpo-race/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2c3ab674be78e1e5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Struggles Buy Ghana Time in Global BPO Race"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 220000,
+            "publication_type": "newswire",
+            "raw_source": "PA Media"
+          },
+          "published_at": "2026-05-28T14:36:46.297854Z",
+          "source": "news_search",
+          "title": "Pearson launches AI modules to address \"AI Readiness\" gap between higher education and work",
+          "url": "https://pressreleasehub.pa.media/article/pearson-launches-ai-modules-to-address-ai-readiness-gap-between-higher-education-and-work-74981.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a4b655f7e0a7d735",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.141,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.594
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34.5,
+        "top_outlets": [
+          {
+            "domain": "pressreleasehub.pa.media",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 220000,
+            "outlet_score": 0.594,
+            "traffic_score": 0.594
+          }
+        ]
+      },
+      "title": "Pearson launches AI modules to address \"AI Readiness\" gap between higher education and work"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2600000,
+            "publication_type": "brand_content",
+            "raw_source": "University of California"
+          },
+          "published_at": "2026-05-28T17:36:46.297743Z",
+          "source": "news_search",
+          "title": "The largest study of AI use by undergrads is in, revealing disparities in access — and in cheating",
+          "url": "https://www.universityofcalifornia.edu/news/largest-study-ai-use-undergrads-revealing-disparities-access-and-cheating"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "33dd0b4e524812d6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.021,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.182,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.713
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.1,
+        "top_outlets": [
+          {
+            "domain": "www.universityofcalifornia.edu",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2600000,
+            "outlet_score": 0.713,
+            "traffic_score": 0.713
+          }
+        ]
+      },
+      "title": "The largest study of AI use by undergrads is in, revealing disparities in access — and in cheating"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "publication_type": "editorial",
+            "raw_source": "Bloomberg Law News"
+          },
+          "published_at": "2026-05-28T09:36:46.862909Z",
+          "source": "news_search",
+          "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate",
+          "url": "https://news.bloomberglaw.com/daily-labor-report/fired-trucker-ai-monitoring-suit-adds-twist-to-liability-debate"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "039c71ebbd176813",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI hiring bias",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.181,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.711
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42,
+        "top_outlets": [
+          {
+            "domain": "news.bloomberglaw.com",
+            "domain_authority": 87,
+            "domain_authority_score": 0.87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "outlet_score": 0.711,
+            "traffic_score": 0.683
+          }
+        ]
+      },
+      "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T23:58:46.862643Z",
+          "source": "news_search",
+          "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List",
+          "url": "https://www.jdsupra.com/legalnews/connecticut-employers-need-to-prepare-9473501/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f21778a6d78468b6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI hiring bias",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "publication_type": "editorial",
+            "raw_source": "Bloomberg Law News"
+          },
+          "published_at": "2026-05-28T09:36:47.589702Z",
+          "source": "news_search",
+          "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate",
+          "url": "https://news.bloomberglaw.com/daily-labor-report/fired-trucker-ai-monitoring-suit-adds-twist-to-liability-debate"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "039c71ebbd176813",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "automated employment decision tools",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.181,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.711
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42,
+        "top_outlets": [
+          {
+            "domain": "news.bloomberglaw.com",
+            "domain_authority": 87,
+            "domain_authority_score": 0.87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "outlet_score": 0.711,
+            "traffic_score": 0.683
+          }
+        ]
+      },
+      "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "Human Resources Director"
+          },
+          "published_at": "2026-05-28T19:36:47.589822Z",
+          "source": "news_search",
+          "title": "Wix axes 20% of its workforce as AI layoffs reshape global tech",
+          "url": "https://www.hcamag.com/ca/news/general/wix-axes-20-of-its-workforce-as-ai-layoffs-reshape-global-tech/576995"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5e23c8179edac755",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "automated employment decision tools",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.146,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.607
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.4,
+        "top_outlets": [
+          {
+            "domain": "www.hcamag.com",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.607,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Wix axes 20% of its workforce as AI layoffs reshape global tech"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T23:58:47.589505Z",
+          "source": "news_search",
+          "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List",
+          "url": "https://www.jdsupra.com/legalnews/connecticut-employers-need-to-prepare-9473501/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f21778a6d78468b6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "automated employment decision tools",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Big News Network.com"
+          },
+          "published_at": "2026-05-28T14:36:48.289884Z",
+          "source": "news_search",
+          "title": "Rethinking Talent and AI in HR: Insights from SRIF HR Summit 2026",
+          "url": "https://www.bignewsnetwork.com/news/279085644/rethinking-talent-and-ai-in-hr-insights-from-srif-hr-summit-2026"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "eeb6722c7834d5f6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "algorithmic bias hiring",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rethinking Talent and AI in HR: Insights from SRIF HR Summit 2026"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T21:36:48.289829Z",
+          "source": "news_search",
+          "title": "Karen Panetta Advocates Ethics Across Engineering Curricula",
+          "url": "https://letsdatascience.com/news/karen-panetta-advocates-ethics-across-engineering-curricula-92e5cd28"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d9f9bf08187765bd",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "algorithmic bias hiring",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Karen Panetta Advocates Ethics Across Engineering Curricula"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Spiceworks"
+          },
+          "published_at": "2026-05-28T12:36:48.946063Z",
+          "source": "news_search",
+          "title": "IT Job Watch: Machine learning engineer",
+          "url": "https://www.spiceworks.com/it-careers/it-job-watch-machine-learning-engineer/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "afa4ec2a2ba05141",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "AI governance employment",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "IT Job Watch: Machine learning engineer"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Intelligent CISO"
+          },
+          "published_at": "2026-05-28T13:36:48.946094Z",
+          "source": "news_search",
+          "title": "How workplace security friction is driving shadow AI risks",
+          "url": "https://www.intelligentciso.com/2026/05/28/how-workplace-security-friction-is-driving-shadow-ai-risks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "03b26d320bc68f53",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI governance employment",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "How workplace security friction is driving shadow AI risks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T23:58:48.945888Z",
+          "source": "news_search",
+          "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List",
+          "url": "https://www.jdsupra.com/legalnews/connecticut-employers-need-to-prepare-9473501/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f21778a6d78468b6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI governance employment",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "publication_type": "editorial",
+            "raw_source": "Bloomberg Law News"
+          },
+          "published_at": "2026-05-28T09:36:49.750534Z",
+          "source": "news_search",
+          "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate",
+          "url": "https://news.bloomberglaw.com/daily-labor-report/fired-trucker-ai-monitoring-suit-adds-twist-to-liability-debate"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "039c71ebbd176813",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI compliance hiring tools",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.181,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.711
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42,
+        "top_outlets": [
+          {
+            "domain": "news.bloomberglaw.com",
+            "domain_authority": 87,
+            "domain_authority_score": 0.87,
+            "estimated_monthly_organic_traffic": 1400000,
+            "outlet_score": 0.711,
+            "traffic_score": 0.683
+          }
+        ]
+      },
+      "title": "Fired Trucker AI Monitoring Suit Adds Twist to Liability Debate"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T23:58:49.750338Z",
+          "source": "news_search",
+          "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List",
+          "url": "https://www.jdsupra.com/legalnews/connecticut-employers-need-to-prepare-9473501/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f21778a6d78468b6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI compliance hiring tools",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Connecticut Employers Need to Prepare for New Workplace AI Law: 4 Items For Your To-Do List"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 20000000,
+            "publication_type": "brand_content",
+            "raw_source": "Stanford Digital Economy Lab"
+          },
+          "published_at": "2026-05-29T00:15:46.297619Z",
+          "source": "news_search",
+          "title": "Q&A | Algorithmic Monoculture in Hiring",
+          "url": "https://digitaleconomy.stanford.edu/news/qa-algorithmic-monoculture/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2d5946538e88a3fb",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "AI hiring tools racial disparities",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.222,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.828
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49.4,
+        "top_outlets": [
+          {
+            "domain": "digitaleconomy.stanford.edu",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 20000000,
+            "outlet_score": 0.828,
+            "traffic_score": 0.811
+          }
+        ]
+      },
+      "title": "Q&A | Algorithmic Monoculture in Hiring"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 740000,
+            "publication_type": "editorial",
+            "raw_source": "Law360"
+          },
+          "published_at": "2026-05-28T21:36:47.58977Z",
+          "source": "news_search",
+          "title": "New Connecticut Law On Employers' AI Use Is Inventive",
+          "url": "https://www.law360.com/articles/2482044/new-connecticut-law-on-employers-ai-use-is-inventive"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f63d6c056dcf50a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "automated employment decision tools",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.17,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.679
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.9,
+        "top_outlets": [
+          {
+            "domain": "www.law360.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 740000,
+            "outlet_score": 0.679,
+            "traffic_score": 0.652
+          }
+        ]
+      },
+      "title": "New Connecticut Law On Employers' AI Use Is Inventive"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 740000,
+            "publication_type": "editorial",
+            "raw_source": "Law360"
+          },
+          "published_at": "2026-05-28T21:36:51.043953Z",
+          "source": "news_search",
+          "title": "New Connecticut Law On Employers' AI Use Is Inventive",
+          "url": "https://www.law360.com/employment-authority/discrimination/articles/2482044/new-connecticut-law-on-employers-ai-use-is-inventive"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d28b615f8408e098",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI audit employment discrimination",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.17,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.679
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.9,
+        "top_outlets": [
+          {
+            "domain": "www.law360.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 740000,
+            "outlet_score": 0.679,
+            "traffic_score": 0.652
+          }
+        ]
+      },
+      "title": "New Connecticut Law On Employers' AI Use Is Inventive"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "publication_type": "other",
+            "raw_source": "The National Law Review"
+          },
+          "published_at": "2026-05-28T21:36:49.750487Z",
+          "source": "news_search",
+          "title": "AI Transcription Tools in Health Care: What In-House Counsel Needs to Get Right",
+          "url": "https://natlawreview.com/article/ai-transcription-tools-health-care-what-house-counsel-needs-get-right?amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8f38446cf1dffc0e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "AI compliance hiring tools",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.182,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.713
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.1,
+        "top_outlets": [
+          {
+            "domain": "natlawreview.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 1600000,
+            "outlet_score": 0.713,
+            "traffic_score": 0.689
+          }
+        ]
+      },
+      "title": "AI Transcription Tools in Health Care: What In-House Counsel Needs to Get Right"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ET HRSEA"
+          },
+          "published_at": "2026-05-28T05:36:45.656285Z",
+          "source": "news_search",
+          "title": "Global employers face mounting AI compliance pressure: IBA reports",
+          "url": "https://hrsea.economictimes.indiatimes.com/amp/news/industry/new-iba-report-reveals-urgent-ai-compliance-needs-for-global-employers/131363495"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d615e53db5b0ef8f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.157,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 60.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "hrsea.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "Global employers face mounting AI compliance pressure: IBA reports"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "publication_type": "editorial",
+            "raw_source": "Fortune"
+          },
+          "published_at": "2026-05-28T12:36:48.946037Z",
+          "source": "news_search",
+          "title": "The boardroom wants answers on AI. Are you ready?",
+          "url": "https://fortune.com/2026/05/28/ai-governance-committee-executive-risk-strategy/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "79434144b4984dd4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.12,
+      "query": "AI governance employment",
+      "queue_priority": 59.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.229,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.848
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.8,
+        "top_outlets": [
+          {
+            "domain": "fortune.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "outlet_score": 0.848,
+            "traffic_score": 0.837
+          }
+        ]
+      },
+      "title": "The boardroom wants answers on AI. Are you ready?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 120000,
+            "publication_type": "brand_content",
+            "raw_source": "Security Boulevard"
+          },
+          "published_at": "2026-05-28T19:36:48.945978Z",
+          "source": "news_search",
+          "title": "The AI Governance Gap: Verizon's 2026 DBIR Shows Attackers Scaling AI While Employees Leak Data Through It",
+          "url": "https://securityboulevard.com/2026/05/the-ai-governance-gap-verizons-2026-dbir-shows-attackers-scaling-ai-while-employees-leak-data-through-it/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d8853302b2b19f24",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.116,
+      "query": "AI governance employment",
+      "queue_priority": 59.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.601
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35,
+        "top_outlets": [
+          {
+            "domain": "securityboulevard.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 120000,
+            "outlet_score": 0.601,
+            "traffic_score": 0.564
+          }
+        ]
+      },
+      "title": "The AI Governance Gap: Verizon's 2026 DBIR Shows Attackers Scaling AI While Employees Leak Data Through It"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "https://hrtoday.in/"
+          },
+          "published_at": "2026-05-28T13:36:45.656245Z",
+          "source": "news_search",
+          "title": "Amoral Drift: The AI Hiring Risk Nobody in Talent Acquisition Is Talking About",
+          "url": "https://hrtoday.in/insights/amoral-drift-the-ai-hiring-risk-nobody-in-talent-acquisition-is-talking-about/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7c1e6c0db3820f03",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.098,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 59.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Amoral Drift: The AI Hiring Risk Nobody in Talent Acquisition Is Talking About"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 80,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "People Management"
+          },
+          "published_at": "2026-05-28T10:36:46.862766Z",
+          "source": "news_search",
+          "title": "AI can make recruitment more inclusive, says former Ericsson talent lead",
+          "url": "https://www.peoplemanagement.co.uk/article/1959584/ai-recruitment-inclusive-says-former-ericsson-talent-lead"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a8d58ff371a9c671",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.096,
+      "query": "AI hiring bias",
+      "queue_priority": 59.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.146,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.609
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.5,
+        "top_outlets": [
+          {
+            "domain": "www.peoplemanagement.co.uk",
+            "domain_authority": 80,
+            "domain_authority_score": 0.8,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.609,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "AI can make recruitment more inclusive, says former Ericsson talent lead"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Legal Service India"
+          },
+          "published_at": "2026-05-28T11:36:48.289858Z",
+          "source": "news_search",
+          "title": "AI Hiring Bias in India: How Artificial Intelligence Is Worsening Youth Unemployment",
+          "url": "https://www.legalserviceindia.com/Legal-Articles/ai-hiring-bias-india-youth-unemployment-law/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fb581843298c24e4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.083,
+      "query": "algorithmic bias hiring",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI Hiring Bias in India: How Artificial Intelligence Is Worsening Youth Unemployment"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Startup Fortune"
+          },
+          "published_at": "2026-05-28T06:36:46.862725Z",
+          "source": "news_search",
+          "title": "AI hiring tools face fresh scrutiny after study finds racial bias",
+          "url": "https://startupfortune.com/ai-hiring-tools-face-fresh-scrutiny-after-study-finds-racial-bias/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "50bab6d84c3c3ac8",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.077,
+      "query": "AI hiring bias",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI hiring tools face fresh scrutiny after study finds racial bias"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "publication_type": "other",
+            "raw_source": "Forbes"
+          },
+          "published_at": "2026-05-28T12:36:46.862617Z",
+          "source": "news_search",
+          "title": "The Smart Leaders’ Guide To Stopping AI Bias In Its Tracks",
+          "url": "https://www.forbes.com/sites/aytekintank/2026/05/28/the-smart-leaders-guide-to-stopping-ai-bias-in-its-tracks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "20179164fa00a676",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.082,
+      "query": "AI hiring bias",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.894
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.7,
+        "top_outlets": [
+          {
+            "domain": "www.forbes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "outlet_score": 0.894,
+            "traffic_score": 0.885
+          }
+        ]
+      },
+      "title": "The Smart Leaders’ Guide To Stopping AI Bias In Its Tracks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 2600000,
+            "publication_type": "editorial",
+            "raw_source": "The Hacker News"
+          },
+          "published_at": "2026-05-28T11:36:48.946123Z",
+          "source": "news_search",
+          "title": "New AI Usage Report: Enterprise AI Risk Is Heavily Concentrated Among a Small Group of AI \"Power users\"",
+          "url": "https://thehackernews.com/2026/05/new-ai-usage-report-enterprise-ai-risk.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d483d2a9616e989d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "AI governance employment",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.189,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.735
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.5,
+        "top_outlets": [
+          {
+            "domain": "thehackernews.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 2600000,
+            "outlet_score": 0.735,
+            "traffic_score": 0.713
+          }
+        ]
+      },
+      "title": "New AI Usage Report: Enterprise AI Risk Is Heavily Concentrated Among a Small Group of AI \"Power users\""
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Corporate Compliance Insights"
+          },
+          "published_at": "2026-05-28T10:36:45.656182Z",
+          "source": "news_search",
+          "title": "AI: Reliable or Reliably Unsafe?",
+          "url": "https://www.corporatecomplianceinsights.com/ai-reliable-or-reliably-unsafe/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "78a34d36768d615e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI: Reliable or Reliably Unsafe?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 81,
+            "estimated_monthly_organic_traffic": 84000,
+            "publication_type": "editorial",
+            "raw_source": "HR Executive"
+          },
+          "published_at": "2026-05-28T11:36:45.656206Z",
+          "source": "news_search",
+          "title": "AI’s real hurdle in healthcare? It’s all in our heads",
+          "url": "https://hrexecutive.com/ais-real-hurdle-in-healthcare-its-all-in-our-heads/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "977cc0c62ecc24d8",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.139,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.587
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34,
+        "top_outlets": [
+          {
+            "domain": "hrexecutive.com",
+            "domain_authority": 81,
+            "domain_authority_score": 0.81,
+            "estimated_monthly_organic_traffic": 84000,
+            "outlet_score": 0.587,
+            "traffic_score": 0.547
+          }
+        ]
+      },
+      "title": "AI’s real hurdle in healthcare? It’s all in our heads"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 67,
+            "estimated_monthly_organic_traffic": 20000,
+            "publication_type": "editorial",
+            "raw_source": "HRTech Series"
+          },
+          "published_at": "2026-05-28T13:36:49.75042Z",
+          "source": "news_search",
+          "title": "RemoFirst Goes All-In on AI, Becoming the First Major AI-Native Employer of Record and Launches RemoAI",
+          "url": "https://techrseries.com/ai-automation/remofirst-goes-all-in-on-ai-becoming-the-first-major-ai-native-employer-of-record-and-launches-remoai-2/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "038e4b4a93c7318a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "AI compliance hiring tools",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.113,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.507
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 29,
+        "top_outlets": [
+          {
+            "domain": "techrseries.com",
+            "domain_authority": 67,
+            "domain_authority_score": 0.67,
+            "estimated_monthly_organic_traffic": 20000,
+            "outlet_score": 0.507,
+            "traffic_score": 0.478
+          }
+        ]
+      },
+      "title": "RemoFirst Goes All-In on AI, Becoming the First Major AI-Native Employer of Record and Launches RemoAI"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 160000,
+            "publication_type": "editorial",
+            "raw_source": "HR Dive"
+          },
+          "published_at": "2026-05-28T19:36:50.428325Z",
+          "source": "news_search",
+          "title": "Newsom signs order focused on AI’s workforce impacts",
+          "url": "https://www.hrdive.com/news/newsom-signs-order-focused-ais-workforce-impacts/821274/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ead7bc830f9363ed",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "responsible AI hiring",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.616
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.9,
+        "top_outlets": [
+          {
+            "domain": "www.hrdive.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 160000,
+            "outlet_score": 0.616,
+            "traffic_score": 0.578
+          }
+        ]
+      },
+      "title": "Newsom signs order focused on AI’s workforce impacts"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 4500000,
+            "publication_type": "brand_content",
+            "raw_source": "McKinsey & Company"
+          },
+          "published_at": "2026-05-28T17:36:47.589893Z",
+          "source": "news_search",
+          "title": "AI in the workplace: A report for 2025 | McKinsey",
+          "url": "http://mckinsey.com/capabilities/tech-and-ai/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7eba3624aafc90c2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.028,
+      "query": "automated employment decision tools",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.2,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.766
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.5,
+        "top_outlets": [
+          {
+            "domain": "mckinsey.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 4500000,
+            "outlet_score": 0.766,
+            "traffic_score": 0.739
+          }
+        ]
+      },
+      "title": "AI in the workplace: A report for 2025 | McKinsey"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "publication_type": "editorial",
+            "raw_source": "Fortune"
+          },
+          "published_at": "2026-05-28T06:36:50.428738Z",
+          "source": "news_search",
+          "title": "Adding AI 'employees' is backfiring by creating new office scapegoats and making human workers sloppier and lazier",
+          "url": "https://fortune.com/2026/05/28/ai-employees-org-chart-human-workers-blame-errors-bcg-study/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c577c1fa857a818b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "responsible AI hiring",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.229,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.848
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.8,
+        "top_outlets": [
+          {
+            "domain": "fortune.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "outlet_score": 0.848,
+            "traffic_score": 0.837
+          }
+        ]
+      },
+      "title": "Adding AI 'employees' is backfiring by creating new office scapegoats and making human workers sloppier and lazier"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 31000,
+            "publication_type": "brand_content",
+            "raw_source": "CBIA"
+          },
+          "published_at": "2026-05-28T13:36:45.656087Z",
+          "source": "news_search",
+          "title": "Connecticut Regulates AI in Employment Decision Making",
+          "url": "https://www.cbia.com/news/hr-safety/ct-regulates-ai-employment-decision-making"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3a0ef77324faa578",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.043,
+      "query": "AI hiring bias compliance",
+      "queue_priority": 42,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.111,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.499
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 28.6,
+        "top_outlets": [
+          {
+            "domain": "www.cbia.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 31000,
+            "outlet_score": 0.499,
+            "traffic_score": 0.499
+          }
+        ]
+      },
+      "title": "Connecticut Regulates AI in Employment Decision Making"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "company": "Credo AI",
+  "website": "https://www.credo.ai",
+  "description": "AI governance platform for responsible AI oversight, risk management, policy mapping, and compliance workflows.",
+  "topics": [
+    "AI governance",
+    "AI hiring bias",
+    "algorithmic fairness",
+    "AI risk management",
+    "responsible AI compliance",
+    "automated employment decision tools"
+  ],
+  "competitors": [
+    "FairNow",
+    "Holistic AI",
+    "ModelOp",
+    "Arthur AI",
+    "Fiddler AI",
+    "Workday"
+  ],
+  "search_terms": [
+    "AI hiring algorithm bias",
+    "AI hiring tools racial disparities",
+    "automated employment decision tools",
+    "algorithmic fairness hiring",
+    "AI governance hiring",
+    "responsible AI employment",
+    "AI audit bias",
+    "AI discrimination hiring"
+  ],
+  "spokespeople": [
+    "AI governance executive",
+    "Responsible AI policy lead",
+    "AI risk management expert"
+  ],
+  "standing": [
+    "AI governance for high-risk systems",
+    "algorithmic fairness oversight",
+    "AI compliance and risk management",
+    "responsible AI controls for enterprise tools"
+  ]
+}

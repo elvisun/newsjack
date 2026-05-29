@@ -1,0 +1,2385 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 266950,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 76,
+    "debug_duplicate_scored_rows": 31,
+    "debug_selected_rows": 49,
+    "debug_unique_scored_signal_ids": 45,
+    "debug_unselected_rows": 27,
+    "selected_unique_signals": 27,
+    "source_errors": 0,
+    "total_emitted_signals": 27,
+    "total_scored_signals": 76
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:54.273548Z",
+  "hygiene_rejections": {
+    "owned_docs_or_help": 1
+  },
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 10,
+      "profile_relevance_weak": 17
+    },
+    "emitted": {
+      "profile_relevance": 20,
+      "profile_relevance_weak": 7
+    },
+    "scored": {
+      "profile_relevance": 47,
+      "profile_relevance_weak": 29
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:44.763595Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Constructor",
+    "queries": [
+      "AI shopping assistant retail ecommerce",
+      "AI shopping assistants retailers",
+      "Amazon AWS retail AI shopping",
+      "ecommerce AI search",
+      "AI product discovery",
+      "retail chatbot shopping assistant",
+      "personalized shopping AI",
+      "AI-powered shopping experiences",
+      "retail AI assistant platform"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 83
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-013-constructor/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Gazette"
+          },
+          "published_at": "2026-05-28T09:36:48.021168Z",
+          "source": "news_search",
+          "title": "Amazon opens Alexa shopping tech to retailers with new AWS agentic AI tool",
+          "url": "https://www.retailgazette.co.uk/blog/2026/05/amazon-opens-alexa-shopping-tech-to-retailers-with-new-aws-agentic-ai-tool/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 240000,
+            "publication_type": "brand_content",
+            "raw_source": "AI Magazine"
+          },
+          "published_at": "2026-05-28T13:36:48.020187Z",
+          "source": "news_search",
+          "title": "Amazon Alexa Tech Powers New AWS Retail AI Assistant",
+          "url": "https://aimagazine.com/news/amazon-alexa-tech-powers-new-aws-retail-ai-assistant"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b10a8d3ae18c581b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.15,
+      "query": "Amazon AWS retail AI shopping",
+      "queue_priority": 60.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.618
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "aimagazine.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 240000,
+            "outlet_score": 0.618,
+            "traffic_score": 0.598
+          }
+        ]
+      },
+      "title": "Amazon opens Alexa shopping tech to retailers with new AWS agentic AI tool"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:47.329585Z",
+          "source": "news_search",
+          "title": "Amazon opens Agentic Shopping Assistant to outside retailers",
+          "url": "https://www.emarketer.com/content/amazon-opens-agentic-shopping-assistant-outside-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ec94935564ff15ce",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.08,
+      "query": "AI shopping assistants retailers",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Amazon opens Agentic Shopping Assistant to outside retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:48.020593Z",
+          "source": "news_search",
+          "title": "Amazon opens Agentic Shopping Assistant to outside retailers",
+          "url": "https://www.emarketer.com/content/amazon-opens-agentic-shopping-assistant-outside-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ec94935564ff15ce",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.08,
+      "query": "Amazon AWS retail AI shopping",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Amazon opens Agentic Shopping Assistant to outside retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:51.255502Z",
+          "source": "news_search",
+          "title": "Amazon opens Agentic Shopping Assistant to outside retailers",
+          "url": "https://www.emarketer.com/content/amazon-opens-agentic-shopping-assistant-outside-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ec94935564ff15ce",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.08,
+      "query": "personalized shopping AI",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Amazon opens Agentic Shopping Assistant to outside retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:54.145071Z",
+          "source": "news_search",
+          "title": "Amazon opens Agentic Shopping Assistant to outside retailers",
+          "url": "https://www.emarketer.com/content/amazon-opens-agentic-shopping-assistant-outside-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ec94935564ff15ce",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.08,
+      "query": "retail AI assistant platform",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Amazon opens Agentic Shopping Assistant to outside retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:46.170022Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 200000,
+            "publication_type": "editorial",
+            "raw_source": "Modern Retail"
+          },
+          "published_at": "2026-05-28T13:36:46.169871Z",
+          "source": "news_search",
+          "title": "Marketplace Briefing: Why Amazon is selling its AI-powered shopping tools to other retailers",
+          "url": "https://www.modernretail.co/technology/marketplace-briefing-why-amazon-is-selling-its-ai-powered-shopping-tools-to-other-retailers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f32c8096952606c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.15,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.619
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.1,
+        "top_outlets": [
+          {
+            "domain": "www.modernretail.co",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 200000,
+            "outlet_score": 0.619,
+            "traffic_score": 0.589
+          }
+        ]
+      },
+      "title": "Amazon offers AI shopping tools to rival retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:47.329559Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 200000,
+            "publication_type": "editorial",
+            "raw_source": "Modern Retail"
+          },
+          "published_at": "2026-05-28T13:36:47.329461Z",
+          "source": "news_search",
+          "title": "Marketplace Briefing: Why Amazon is selling its AI-powered shopping tools to other retailers",
+          "url": "https://www.modernretail.co/technology/marketplace-briefing-why-amazon-is-selling-its-ai-powered-shopping-tools-to-other-retailers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f32c8096952606c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "AI shopping assistants retailers",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.15,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.619
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.1,
+        "top_outlets": [
+          {
+            "domain": "www.modernretail.co",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 200000,
+            "outlet_score": 0.619,
+            "traffic_score": 0.589
+          }
+        ]
+      },
+      "title": "Amazon offers AI shopping tools to rival retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:48.020374Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 200000,
+            "publication_type": "editorial",
+            "raw_source": "Modern Retail"
+          },
+          "published_at": "2026-05-28T13:36:48.020255Z",
+          "source": "news_search",
+          "title": "Marketplace Briefing: Why Amazon is selling its AI-powered shopping tools to other retailers",
+          "url": "https://www.modernretail.co/technology/marketplace-briefing-why-amazon-is-selling-its-ai-powered-shopping-tools-to-other-retailers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f32c8096952606c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "Amazon AWS retail AI shopping",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.15,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.619
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.1,
+        "top_outlets": [
+          {
+            "domain": "www.modernretail.co",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 200000,
+            "outlet_score": 0.619,
+            "traffic_score": 0.589
+          }
+        ]
+      },
+      "title": "Amazon offers AI shopping tools to rival retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "AsatuNews.co.id"
+          },
+          "published_at": "2026-05-28T08:36:50.408575Z",
+          "source": "news_search",
+          "title": "Amazon Launches AWS AI Tool for External Retailers",
+          "url": "https://www.asatunews.co.id/en/amazon-launches-aws-ai-retail-tool"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:50.408445Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3d616f920e714ef5",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.071,
+      "query": "retail chatbot shopping assistant",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Amazon Launches AWS AI Tool for External Retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:52.327276Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 200000,
+            "publication_type": "editorial",
+            "raw_source": "Modern Retail"
+          },
+          "published_at": "2026-05-28T13:36:52.326908Z",
+          "source": "news_search",
+          "title": "Marketplace Briefing: Why Amazon is selling its AI-powered shopping tools to other retailers",
+          "url": "https://www.modernretail.co/technology/marketplace-briefing-why-amazon-is-selling-its-ai-powered-shopping-tools-to-other-retailers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f32c8096952606c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "AI-powered shopping experiences",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.15,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.619
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36.1,
+        "top_outlets": [
+          {
+            "domain": "www.modernretail.co",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 200000,
+            "outlet_score": 0.619,
+            "traffic_score": 0.589
+          }
+        ]
+      },
+      "title": "Amazon offers AI shopping tools to rival retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "SaskToday.ca"
+          },
+          "published_at": "2026-05-28T16:36:47.329606Z",
+          "source": "news_search",
+          "title": "Shelly Palmer: Amazon starts selling AI shopping to its competitors",
+          "url": "https://www.sasktoday.ca/opinion/shelly-palmer-amazon-starts-selling-ai-shopping-to-its-competitors-12341911"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "91964f20b182df25",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.039,
+      "query": "AI shopping assistants retailers",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Shelly Palmer: Amazon starts selling AI shopping to its competitors"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "AEM | Association of Equipment Manufacturers"
+          },
+          "published_at": "2026-05-28T12:36:48.623776Z",
+          "source": "news_search",
+          "title": "Your E-Commerce Problem (and Opportunity Missed) Is a Data Problem",
+          "url": "https://www.aem.org/news/your-ecommerce-problem-and-opportunity-missed-is-a-data-problem"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7a30ab82202c2f73",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "ecommerce AI search",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Your E-Commerce Problem (and Opportunity Missed) Is a Data Problem"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Voice of Alexandria"
+          },
+          "published_at": "2026-05-28T12:36:48.623872Z",
+          "source": "news_search",
+          "title": "HawkSearch Secures New Customer Win, Powering Visual Search for Wholesale Gift and Home Décor Brand",
+          "url": "https://www.voiceofalexandria.com/news/national_business_news/hawksearch-secures-new-customer-win-powering-visual-search-for-wholesale-gift-and-home-d-cor/article_e11f9188-2388-552f-88dc-d1a7ce787eb5.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "020326517645d437",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "ecommerce AI search",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "HawkSearch Secures New Customer Win, Powering Visual Search for Wholesale Gift and Home Décor Brand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 80,
+            "estimated_monthly_organic_traffic": 830000,
+            "publication_type": "editorial",
+            "raw_source": "Fierce Biotech"
+          },
+          "published_at": "2026-05-28T12:36:49.234621Z",
+          "source": "news_search",
+          "title": "Human Longevity launches newco, teams with Insilico for AI-powered longevity research",
+          "url": "https://www.fiercebiotech.com/medtech/human-longevity-launches-newco-teams-insilico-ai-powered-longevity-research"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "16feaa34dc763227",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI product discovery",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.17,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.679
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.9,
+        "top_outlets": [
+          {
+            "domain": "www.fiercebiotech.com",
+            "domain_authority": 80,
+            "domain_authority_score": 0.8,
+            "estimated_monthly_organic_traffic": 830000,
+            "outlet_score": 0.679,
+            "traffic_score": 0.658
+          }
+        ]
+      },
+      "title": "Human Longevity launches newco, teams with Insilico for AI-powered longevity research"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Voice of Alexandria"
+          },
+          "published_at": "2026-05-28T12:36:49.23477Z",
+          "source": "news_search",
+          "title": "HawkSearch Secures New Customer Win, Powering Visual Search for Wholesale Gift and Home Décor Brand",
+          "url": "https://www.voiceofalexandria.com/news/national_business_news/hawksearch-secures-new-customer-win-powering-visual-search-for-wholesale-gift-and-home-d-cor/article_e11f9188-2388-552f-88dc-d1a7ce787eb5.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "020326517645d437",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "AI product discovery",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "HawkSearch Secures New Customer Win, Powering Visual Search for Wholesale Gift and Home Décor Brand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "RetailWire"
+          },
+          "published_at": "2026-05-28T19:36:49.234671Z",
+          "source": "news_search",
+          "title": "How Important Is Reddit to Brand and Retail Success Concerning Today's (and Tomorrow's) Shopper?",
+          "url": "https://retailwire.com/discussion/reddit-brand-retail-success/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "39f43f88ffbd3c7a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "AI product discovery",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "How Important Is Reddit to Brand and Retail Success Concerning Today's (and Tomorrow's) Shopper?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T16:36:51.255547Z",
+          "source": "news_search",
+          "title": "Dick's Sporting Goods launches Coach AI adviser in app",
+          "url": "https://letsdatascience.com/news/dicks-sporting-goods-launches-coach-ai-adviser-in-app-e8b71016"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "30331d634556f156",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "personalized shopping AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Dick's Sporting Goods launches Coach AI adviser in app"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Global Growth Insights"
+          },
+          "published_at": "2026-05-28T17:36:51.255536Z",
+          "source": "news_search",
+          "title": "Smart Retail Technology Market Size & Demand Analysis by 2035",
+          "url": "https://www.globalgrowthinsights.com/market-reports/smart-retail-technology-market-127140"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "33114f345b6ac4c9",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "personalized shopping AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Smart Retail Technology Market Size & Demand Analysis by 2035"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "WeRSM"
+          },
+          "published_at": "2026-05-28T18:36:51.255512Z",
+          "source": "news_search",
+          "title": "Dick’s Sporting Goods Launches An AI Coach Inside Its Shopping App",
+          "url": "https://wersm.com/dicks-sporting-goods-launches-an-ai-coach-inside-its-shopping-app/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "37a8462d14264cd0",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "personalized shopping AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Dick’s Sporting Goods Launches An AI Coach Inside Its Shopping App"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 250000,
+            "publication_type": "editorial",
+            "raw_source": "Digital Journal"
+          },
+          "published_at": "2026-05-28T23:36:51.255491Z",
+          "source": "news_search",
+          "title": "Mother’s Day shopping trends highlight interest in technology, wellness, and home",
+          "url": "https://www.digitaljournal.com/business/mothers-day-shopping-trends-highlight-interest-in-technology-wellness-and-home/article"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8cf8137ca71202e6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.02,
+      "query": "personalized shopping AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.156,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.639
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.4,
+        "top_outlets": [
+          {
+            "domain": "www.digitaljournal.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 250000,
+            "outlet_score": 0.639,
+            "traffic_score": 0.6
+          }
+        ]
+      },
+      "title": "Mother’s Day shopping trends highlight interest in technology, wellness, and home"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Herts Advertiser"
+          },
+          "published_at": "2026-05-28T23:36:47.329625Z",
+          "source": "news_search",
+          "title": "Shopping with AI leads to more sales than by traditional online searches – Adobe",
+          "url": "https://www.hertsad.co.uk/news/national/26148259.shopping-ai-leads-sales-traditional-online-searches---adobe/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f546b878251eb2dd",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "AI shopping assistants retailers",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Shopping with AI leads to more sales than by traditional online searches – Adobe"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Australia"
+          },
+          "published_at": "2026-05-28T01:36:46.170294Z",
+          "source": "news_search",
+          "title": "AWS launches agentic shopping assistant for retailers",
+          "url": "https://ecommercenews.com.au/story/aws-launches-agentic-shopping-assistant-for-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0299563eacc3967c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.173,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 60.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AWS launches agentic shopping assistant for retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "IT Brief Australia"
+          },
+          "published_at": "2026-05-28T01:36:50.408472Z",
+          "source": "news_search",
+          "title": "AWS launches agentic shopping assistant for retailers",
+          "url": "https://itbrief.com.au/story/aws-launches-agentic-shopping-assistant-for-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b3ebe4110f5345c1",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.171,
+      "query": "retail chatbot shopping assistant",
+      "queue_priority": 60.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AWS launches agentic shopping assistant for retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 73,
+            "estimated_monthly_organic_traffic": 240000,
+            "publication_type": "brand_content",
+            "raw_source": "AI Magazine"
+          },
+          "published_at": "2026-05-28T13:36:46.169962Z",
+          "source": "news_search",
+          "title": "Amazon Alexa Tech Powers New AWS Retail AI Assistant",
+          "url": "https://aimagazine.com/news/amazon-alexa-tech-powers-new-aws-retail-ai-assistant"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e730fe3e996c6bb4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.167,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 60.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.618
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "aimagazine.com",
+            "domain_authority": 73,
+            "domain_authority_score": 0.73,
+            "estimated_monthly_organic_traffic": 240000,
+            "outlet_score": 0.618,
+            "traffic_score": 0.598
+          }
+        ]
+      },
+      "title": "Amazon Alexa Tech Powers New AWS Retail AI Assistant"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 56000,
+            "publication_type": "editorial",
+            "raw_source": "Personal Care Insights"
+          },
+          "published_at": "2026-05-28T15:36:49.234587Z",
+          "source": "news_search",
+          "title": "AI powers beauty’s next frontier from retail to longevity science",
+          "url": "https://www.personalcareinsights.com/news/ai-beauty-retail-longevity.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "46275f64b9e1f26c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.158,
+      "query": "AI product discovery",
+      "queue_priority": 60.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.136,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.576
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.4,
+        "top_outlets": [
+          {
+            "domain": "www.personalcareinsights.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 56000,
+            "outlet_score": 0.576,
+            "traffic_score": 0.528
+          }
+        ]
+      },
+      "title": "AI powers beauty’s next frontier from retail to longevity science"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 37000,
+            "publication_type": "editorial",
+            "raw_source": "Retail Customer Experience"
+          },
+          "published_at": "2026-05-28T09:36:46.17034Z",
+          "source": "news_search",
+          "title": "Zoovu acquires Xgen AI to create single AI native engine",
+          "url": "https://www.retailcustomerexperience.com/news/zoovu-acquires-xgen-ai-to-create-single-ai-native-engine/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a466242c9e8226fc",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.15,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 60.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.126,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.547
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 31.5,
+        "top_outlets": [
+          {
+            "domain": "www.retailcustomerexperience.com",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 37000,
+            "outlet_score": 0.547,
+            "traffic_score": 0.508
+          }
+        ]
+      },
+      "title": "Zoovu acquires Xgen AI to create single AI native engine"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 53000,
+            "publication_type": "editorial",
+            "raw_source": "Retail TouchPoints"
+          },
+          "published_at": "2026-05-28T13:36:51.25544Z",
+          "source": "news_search",
+          "title": "Register Now for June Webinar: The AI Shopping Journey and What’s Delivering Results Now",
+          "url": "https://www.retailtouchpoints.com/news/register-now-for-june-webinar-the-ai-shopping-journey-and-whats-delivering-results-now/619669/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "01a8404763e0d18a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.102,
+      "query": "personalized shopping AI",
+      "queue_priority": 59.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.134,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.571
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33,
+        "top_outlets": [
+          {
+            "domain": "www.retailtouchpoints.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 53000,
+            "outlet_score": 0.571,
+            "traffic_score": 0.525
+          }
+        ]
+      },
+      "title": "Register Now for June Webinar: The AI Shopping Journey and What’s Delivering Results Now"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "brand_content",
+            "raw_source": "StartupHub.ai"
+          },
+          "published_at": "2026-05-28T01:36:46.170072Z",
+          "source": "news_search",
+          "title": "AWS brings Alexa shopping tech to retailers",
+          "url": "https://www.startuphub.ai/ai-news/technology/2026/aws-brings-alexa-shopping-tech-to-retailers"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1c81ba15197f0c94",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.091,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.135,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.575
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.3,
+        "top_outlets": [
+          {
+            "domain": "www.startuphub.ai",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.575,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "AWS brings Alexa shopping tech to retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "publication_type": "brand_content",
+            "raw_source": "eMarketer"
+          },
+          "published_at": "2026-05-28T04:36:46.169798Z",
+          "source": "news_search",
+          "title": "Amazon opens Agentic Shopping Assistant to outside retailers",
+          "url": "https://www.emarketer.com/content/amazon-opens-agentic-shopping-assistant-outside-retailers"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Gazette"
+          },
+          "published_at": "2026-05-28T09:36:46.170239Z",
+          "source": "news_search",
+          "title": "Amazon opens Alexa shopping tech to retailers with new AWS agentic AI tool",
+          "url": "https://www.retailgazette.co.uk/blog/2026/05/amazon-opens-alexa-shopping-tech-to-retailers-with-new-aws-agentic-ai-tool/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "626af4c90a815bac",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.093,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.149,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.617
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 36,
+        "top_outlets": [
+          {
+            "domain": "www.emarketer.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 360000,
+            "outlet_score": 0.617,
+            "traffic_score": 0.617
+          }
+        ]
+      },
+      "title": "Amazon opens Agentic Shopping Assistant to outside retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Retail Systems"
+          },
+          "published_at": "2026-05-28T10:36:54.14505Z",
+          "source": "news_search",
+          "title": "Amazon offers AI shopping tools to rival retailers",
+          "url": "https://retail-systems.com/rs/Amazon_Offers_AI_Shopping_Tools_To_Rival_Retailers.php"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "acaea356bd3b073c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.089,
+      "query": "retail AI assistant platform",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Amazon offers AI shopping tools to rival retailers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 71,
+            "estimated_monthly_organic_traffic": 580000,
+            "publication_type": "editorial",
+            "raw_source": "Storyboard18"
+          },
+          "published_at": "2026-05-28T11:36:47.329522Z",
+          "source": "news_search",
+          "title": "Amazon brings its AI shopping technology to retailers: Here’s what it means",
+          "url": "https://www.storyboard18.com/brand-makers/amazon-brings-its-ai-shopping-technology-to-retailers-heres-what-it-means-99531.htm"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4b39cca245974bd7",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.087,
+      "query": "AI shopping assistants retailers",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.161,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.651
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.1,
+        "top_outlets": [
+          {
+            "domain": "www.storyboard18.com",
+            "domain_authority": 71,
+            "domain_authority_score": 0.71,
+            "estimated_monthly_organic_traffic": 580000,
+            "outlet_score": 0.651,
+            "traffic_score": 0.64
+          }
+        ]
+      },
+      "title": "Amazon brings its AI shopping technology to retailers: Here’s what it means"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 470000,
+            "publication_type": "editorial",
+            "raw_source": "Tech in Asia"
+          },
+          "published_at": "2026-05-28T01:36:46.170172Z",
+          "source": "news_search",
+          "title": "Amazon targets retailers with shopping AI service",
+          "url": "https://www.techinasia.com/news/amazon-targets-retailers-shopping-ai-service"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2a08906d4b024c20",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.163,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.659
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.6,
+        "top_outlets": [
+          {
+            "domain": "www.techinasia.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 470000,
+            "outlet_score": 0.659,
+            "traffic_score": 0.63
+          }
+        ]
+      },
+      "title": "Amazon targets retailers with shopping AI service"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 470000,
+            "publication_type": "editorial",
+            "raw_source": "Tech in Asia"
+          },
+          "published_at": "2026-05-28T01:36:48.021224Z",
+          "source": "news_search",
+          "title": "Amazon targets retailers with shopping AI service",
+          "url": "https://www.techinasia.com/news/amazon-targets-retailers-shopping-ai-service/amp/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "83e74af71a165522",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "Amazon AWS retail AI shopping",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.163,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.659
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.6,
+        "top_outlets": [
+          {
+            "domain": "www.techinasia.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 470000,
+            "outlet_score": 0.659,
+            "traffic_score": 0.63
+          }
+        ]
+      },
+      "title": "Amazon targets retailers with shopping AI service"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "newswire",
+            "raw_source": "PRWeb"
+          },
+          "published_at": "2026-05-28T15:36:49.234746Z",
+          "source": "news_search",
+          "title": "Nosto Launches Agentic AI Workflows for Shopify Sidekick",
+          "url": "https://www.prweb.com/releases/nosto-launches-agentic-ai-workflows-for-shopify-sidekick-302784717.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f98178955f793cda",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.068,
+      "query": "AI product discovery",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Nosto Launches Agentic AI Workflows for Shopify Sidekick"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "SSBCrack"
+          },
+          "published_at": "2026-05-28T08:36:50.408592Z",
+          "source": "news_search",
+          "title": "Amazon Licenses AI Shopping Technology to Retailers to Enhance E-Commerce Experience",
+          "url": "https://news.ssbcrack.com/amazon-licenses-ai-shopping-technology-to-retailers-to-enhance-e-commerce-experience/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5b27d0e3bc295e4d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.068,
+      "query": "retail chatbot shopping assistant",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Amazon Licenses AI Shopping Technology to Retailers to Enhance E-Commerce Experience"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 83,
+            "estimated_monthly_organic_traffic": 3000000,
+            "publication_type": "editorial",
+            "raw_source": "eu.36kr.com"
+          },
+          "published_at": "2026-05-28T04:36:46.170124Z",
+          "source": "news_search",
+          "title": "618 Shopping Festival's Old Battlefield Transforms into AI Testing Ground",
+          "url": "https://eu.36kr.com/en/p/3828346458919813"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "24a802b88970c27a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "AI shopping assistant retail ecommerce",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.736
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.6,
+        "top_outlets": [
+          {
+            "domain": "eu.36kr.com",
+            "domain_authority": 83,
+            "domain_authority_score": 0.83,
+            "estimated_monthly_organic_traffic": 3000000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.72
+          }
+        ]
+      },
+      "title": "618 Shopping Festival's Old Battlefield Transforms into AI Testing Ground"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "citybiz"
+          },
+          "published_at": "2026-05-28T13:36:48.623805Z",
+          "source": "news_search",
+          "title": "Rep AI Raises $6.2M as Ecommerce AI Market Shifts Toward Unified Platforms",
+          "url": "https://www.citybiz.co/article/852250/rep-ai-raises-6-2m-as-ecommerce-ai-market-shifts-toward-unified-platforms/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9fa4ff519d124e43",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "ecommerce AI search",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "www.citybiz.co",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Rep AI Raises $6.2M as Ecommerce AI Market Shifts Toward Unified Platforms"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 640000,
+            "publication_type": "editorial",
+            "raw_source": "Ad Age"
+          },
+          "published_at": "2026-05-28T08:36:51.25548Z",
+          "source": "news_search",
+          "title": "Emerging technology trends brands and agencies need to know about",
+          "url": "https://adage.com/technology/ai/aa-emerging-news-and-trends-aws-openai-starbucks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "cf1d859d66b58471",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "personalized shopping AI",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.172,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.683
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.2,
+        "top_outlets": [
+          {
+            "domain": "adage.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 640000,
+            "outlet_score": 0.683,
+            "traffic_score": 0.645
+          }
+        ]
+      },
+      "title": "Emerging technology trends brands and agencies need to know about"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "BriefGlance"
+          },
+          "published_at": "2026-05-28T11:36:51.255522Z",
+          "source": "news_search",
+          "title": "The AI Shopping Trap: New Report Reveals a Major Trust Gap in Commerce",
+          "url": "https://briefglance.com/articles/the-ai-shopping-trap-new-report-reveals-a-major-trust-gap-in-commerce"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "0d92837de7197c7b",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "personalized shopping AI",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The AI Shopping Trap: New Report Reveals a Major Trust Gap in Commerce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 82,
+            "estimated_monthly_organic_traffic": 750000,
+            "publication_type": "editorial",
+            "raw_source": "Trend Hunter"
+          },
+          "published_at": "2026-05-28T17:36:51.255456Z",
+          "source": "news_search",
+          "title": "Experience-Focused Retail Carts",
+          "url": "https://www.trendhunter.com/amp/trends/experience-focused-retail-carts"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "223dbf6625ca6c62",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "personalized shopping AI",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.17,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.678
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 39.8,
+        "top_outlets": [
+          {
+            "domain": "www.trendhunter.com",
+            "domain_authority": 82,
+            "domain_authority_score": 0.82,
+            "estimated_monthly_organic_traffic": 750000,
+            "outlet_score": 0.678,
+            "traffic_score": 0.653
+          }
+        ]
+      },
+      "title": "Experience-Focused Retail Carts"
+    }
+  ]
+}

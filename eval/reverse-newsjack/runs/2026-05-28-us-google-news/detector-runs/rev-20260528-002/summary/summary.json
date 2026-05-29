@@ -1,0 +1,2388 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 408398,
+      "exists": true,
+      "path": "candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 127,
+    "debug_duplicate_scored_rows": 66,
+    "debug_selected_rows": 24,
+    "debug_unique_scored_signal_ids": 61,
+    "debug_unselected_rows": 103,
+    "selected_unique_signals": 10,
+    "source_errors": 1,
+    "total_emitted_signals": 10,
+    "total_scored_signals": 127
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "final_report.md"
+  },
+  "generated_at": "2026-05-28T15:11:29.735097Z",
+  "hygiene_rejections": {},
+  "input_path": "candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 1,
+      "profile_relevance_weak": 68,
+      "x_news_unmatched": 34
+    },
+    "emitted": {
+      "profile_relevance": 9,
+      "x_news": 1
+    },
+    "scored": {
+      "profile_relevance": 15,
+      "profile_relevance_weak": 72,
+      "x_news": 6,
+      "x_news_unmatched": 34
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:10:37.162005Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Form Health",
+    "queries": [
+      "Form Health GLP-1 coverage and access",
+      "GLP-1 coverage",
+      "anti-obesity medication coverage",
+      "weight loss drug insurance coverage",
+      "PBM formulary weight loss",
+      "Zepbound coverage",
+      "Wegovy coverage",
+      "tirzepatide access",
+      "semaglutide access",
+      "obesity medicine access",
+      "employer benefits weight loss drugs",
+      "Medicare obesity drug coverage",
+      "pharmacy benefit manager GLP-1"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search",
+      "x",
+      "x_news"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "relevant_candidates.json"
+  },
+  "run_dir": ".",
+  "selection": {
+    "limit": 120,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 93,
+      "x_news": 40
+    },
+    "source_errors": {
+      "Form Health GLP-1 coverage and access": {
+        "x": "X API HTTP 400: One or more parameters to your request was invalid."
+      }
+    }
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T11:10:43.451722Z",
+          "source": "news_search",
+          "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans",
+          "url": "https://www.cnbc.com/2026/05/28/cvs-covers-zepbound-adds-eli-lilly-foundayo.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "54903158e865fda5",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.06,
+      "query": "PBM formulary weight loss",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T11:10:38.411667Z",
+          "source": "news_search",
+          "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans",
+          "url": "https://www.cnbc.com/2026/05/28/cvs-covers-zepbound-adds-eli-lilly-foundayo.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "54903158e865fda5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.023,
+      "query": "Form Health GLP-1 coverage and access",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 7400000,
+            "publication_type": "editorial",
+            "raw_source": "WRAL"
+          },
+          "published_at": "2026-05-28T02:10:39.60003Z",
+          "source": "news_search",
+          "title": "Expected NC budget won’t restore GLP-1 weight-loss drug coverage for state employees, treasurer says",
+          "url": "https://www.wral.com/news/nccapitol/north-carolina-expected-budget-wont-restore-weight-loss-coverage/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c94bd6ef22424688",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.204,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.778
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 46.2,
+        "top_outlets": [
+          {
+            "domain": "www.wral.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 7400000,
+            "outlet_score": 0.778,
+            "traffic_score": 0.763
+          }
+        ]
+      },
+      "title": "Expected NC budget won’t restore GLP-1 weight-loss drug coverage for state employees, treasurer says"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Managed Healthcare Executive"
+          },
+          "published_at": "2026-05-28T11:10:39.600198Z",
+          "source": "news_search",
+          "title": "CVS Caremark to put Zepbound back on formulary and add Foundayo",
+          "url": "https://www.managedhealthcareexecutive.com/view/cvs-caremark-to-put-zepbound-back-on-formulary-and-add-foundayo"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "94f64e96b20a90fa",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.011,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CVS Caremark to put Zepbound back on formulary and add Foundayo"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T11:10:39.60022Z",
+          "source": "news_search",
+          "title": "Client Alert: The Next Era of GLP-1s: Three Market Shifts to Note",
+          "url": "https://www.jdsupra.com/legalnews/client-alert-the-next-era-of-glp-1s-4212156/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "128678ad3efe7fa9",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Client Alert: The Next Era of GLP-1s: Three Market Shifts to Note"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 72,
+            "estimated_monthly_organic_traffic": 3200000,
+            "publication_type": "editorial",
+            "raw_source": "LiveNOW from FOX"
+          },
+          "published_at": "2026-05-28T14:10:39.600176Z",
+          "source": "news_search",
+          "title": "CVS Caremark to cover Zepbound again after lawsuit, widespread backlash",
+          "url": "https://www.livenowfox.com/news/cvs-caremark-cover-zepbound-again-after-lawsuit-widespread-backlash"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b32373fc365df04f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.022,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.185,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.722
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.7,
+        "top_outlets": [
+          {
+            "domain": "www.livenowfox.com",
+            "domain_authority": 72,
+            "domain_authority_score": 0.72,
+            "estimated_monthly_organic_traffic": 3200000,
+            "outlet_score": 0.722,
+            "traffic_score": 0.723
+          }
+        ]
+      },
+      "title": "CVS Caremark to cover Zepbound again after lawsuit, widespread backlash"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 7,
+            "score": 70
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 7,
+            "x_news_cluster_post_ids": [
+              "2059687748810969490",
+              "2059706088761557079",
+              "2059650842806899187",
+              "2058981821514407962",
+              "2059696050718535836",
+              "2058987633586380855",
+              "2059723060991922497"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059050583529586731",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-27T22:20:18.000Z",
+          "source": "x_news",
+          "title": "Doctor Warns Ozempic Causes Muscle Wasting and Bone Loss Risks",
+          "url": "https://x.com/search?q=Doctor+Warns+Ozempic+Causes+Muscle+Wasting+and+Bone+Loss+Risks&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ee970ae582901da1",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.264,
+      "profile_match": 0.021,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.264,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Doctor Warns Ozempic Causes Muscle Wasting and Bone Loss Risks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 8,
+            "score": 80
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 8,
+            "x_news_cluster_post_ids": [
+              "2059916358679142697",
+              "2059916603609793000",
+              "2059954713886630183",
+              "2059916485431087480",
+              "2059920954130682086",
+              "2059984106016874974",
+              "2059974088039522400",
+              "2059977583572246731"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [
+                  "B-Well 1",
+                  "B-Well 2",
+                  "EASL Congress"
+                ],
+                "organizations": [
+                  "GSK",
+                  "Ionis Pharmaceuticals",
+                  "US FDA",
+                  "New England Journal of Medicine",
+                  "EASL"
+                ],
+                "people": [],
+                "places": [
+                  "Barcelona, Spain"
+                ],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Biotech"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059987496663154823",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T13:22:56.000Z",
+          "source": "x_news",
+          "title": "GSK Drug Achieves Hepatitis B Functional Cures in Phase 3 Trials",
+          "url": "https://x.com/search?q=GSK+Drug+Achieves+Hepatitis+B+Functional+Cures+in+Phase+3+Trials&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9223b1227672135d",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.275,
+      "profile_match": 0.007,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.275,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "GSK Drug Achieves Hepatitis B Functional Cures in Phase 3 Trials"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 9,
+            "score": 90
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 9,
+            "x_news_cluster_post_ids": [
+              "2059955565107786023",
+              "2059950576629334173",
+              "2059963773851488314",
+              "2059956724790960224",
+              "2060003817173786781",
+              "2060001836346528095",
+              "2060008481231450118",
+              "2060000386430222427",
+              "2060000958914953712"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [
+                  "CVS Caremark",
+                  "Eli Lilly",
+                  "Novo Nordisk"
+                ],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": [
+                  "LLY"
+                ]
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Business & Finance"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2060007561882190004",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T14:43:47.000Z",
+          "source": "x_news",
+          "title": "CVS Restores Coverage for Lilly's Zepbound and Adds New Pill Foundayo",
+          "url": "https://x.com/search?q=CVS+Restores+Coverage+for+Lilly%27s+Zepbound+and+Adds+New+Pill+Foundayo&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c10e175554459bbb",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.284,
+      "profile_match": 0.028,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.284,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CVS Restores Coverage for Lilly's Zepbound and Adds New Pill Foundayo"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 10,
+            "score": 100
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 10,
+            "x_news_cluster_post_ids": [
+              "2059983957111017707",
+              "2059741442247909768",
+              "2059930001848373461",
+              "2059956177283260691",
+              "2059994863140258119",
+              "2059958543382437959",
+              "2059969929709785134",
+              "2060009403835933036",
+              "2059944209252241618",
+              "2060000263289667982"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [
+                  "Washington Post"
+                ],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059998699150045341",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T14:45:04.000Z",
+          "source": "x_news",
+          "title": "GLP-1 Drugs Like Ozempic Alter Brain Circuits Beyond Curbing Hunger",
+          "url": "https://x.com/search?q=GLP-1+Drugs+Like+Ozempic+Alter+Brain+Circuits+Beyond+Curbing+Hunger&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "be61acc9e42dbbe9",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.292,
+      "profile_match": 0.041,
+      "query": "GLP-1 coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.292,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "GLP-1 Drugs Like Ozempic Alter Brain Circuits Beyond Curbing Hunger"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "publication_type": "other",
+            "raw_source": "Forbes"
+          },
+          "published_at": "2026-05-27T16:10:40.815238Z",
+          "source": "news_search",
+          "title": "Mounjaro vs. Ozempic: What’s The Difference?",
+          "url": "https://www.forbes.com/health/weight-loss/mounjaro-vs-ozempic/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f12850abb11859aa",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.036,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.894
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.7,
+        "top_outlets": [
+          {
+            "domain": "www.forbes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 93000000,
+            "outlet_score": 0.894,
+            "traffic_score": 0.885
+          }
+        ]
+      },
+      "title": "Mounjaro vs. Ozempic: What’s The Difference?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 350000,
+            "publication_type": "editorial",
+            "raw_source": "Devdiscourse"
+          },
+          "published_at": "2026-05-28T07:10:40.815273Z",
+          "source": "news_search",
+          "title": "France Takes Bold Step to Subsidize Weight-Loss Drugs",
+          "url": "https://www.devdiscourse.com/article/health/3924393-france-takes-bold-step-to-subsidize-weight-loss-drugs?amp"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 350000,
+            "publication_type": "editorial",
+            "raw_source": "Devdiscourse"
+          },
+          "published_at": "2026-05-28T10:10:40.815203Z",
+          "source": "news_search",
+          "title": "France's Bold Move: State Coverage for Breakthrough Obesity Drugs",
+          "url": "https://www.devdiscourse.com/article/health/3924625-frances-bold-move-state-coverage-for-breakthrough-obesity-drugs?amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b42206e07b516269",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.157,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.639
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.4,
+        "top_outlets": [
+          {
+            "domain": "www.devdiscourse.com",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 350000,
+            "outlet_score": 0.639,
+            "traffic_score": 0.616
+          }
+        ]
+      },
+      "title": "France Takes Bold Step to Subsidize Weight-Loss Drugs"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "publication_type": "brand_content",
+            "raw_source": "Straits Research"
+          },
+          "published_at": "2026-05-28T09:10:40.81515Z",
+          "source": "news_search",
+          "title": "Anti-obesity Drugs Market Size, Share, Growth, Analysis, 2034",
+          "url": "https://straitsresearch.com/report/anti-obesity-drugs-market"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "47b5b60b8c9eb478",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.023,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.133,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.568
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 32.9,
+        "top_outlets": [
+          {
+            "domain": "straitsresearch.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 130000,
+            "outlet_score": 0.568,
+            "traffic_score": 0.568
+          }
+        ]
+      },
+      "title": "Anti-obesity Drugs Market Size, Share, Growth, Analysis, 2034"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "TradingKey"
+          },
+          "published_at": "2026-05-28T12:10:40.81518Z",
+          "source": "news_search",
+          "title": "Eli Lilly Zepbound Returns to CVS Formulary, Pre-Market Shares Rise as Much as 2%",
+          "url": "https://www.tradingkey.com/analysis/stocks/us-stocks/261933672-eli-lilly-zepbound-returns-cvs-formulary-pre-market-shares-rise-nearly-2-tradingkey"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c5fb524bde957499",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Eli Lilly Zepbound Returns to CVS Formulary, Pre-Market Shares Rise as Much as 2%"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 7,
+            "score": 70
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 7,
+            "x_news_cluster_post_ids": [
+              "2059687748810969490",
+              "2059706088761557079",
+              "2059650842806899187",
+              "2058981821514407962",
+              "2059696050718535836",
+              "2058987633586380855",
+              "2059723060991922497"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059050583529586731",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-27T22:20:18.000Z",
+          "source": "x_news",
+          "title": "Doctor Warns Ozempic Causes Muscle Wasting and Bone Loss Risks",
+          "url": "https://x.com/search?q=Doctor+Warns+Ozempic+Causes+Muscle+Wasting+and+Bone+Loss+Risks&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ee970ae582901da1",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.264,
+      "profile_match": 0.021,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.264,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Doctor Warns Ozempic Causes Muscle Wasting and Bone Loss Risks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 7,
+            "score": 70
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 7,
+            "x_news_cluster_post_ids": [
+              "2059720804699390457",
+              "2059763969468870796",
+              "2059794586151580063",
+              "2059782676068864378",
+              "2059796479124869146",
+              "2059833245496434860",
+              "2059845636204249578"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [
+                  "CADENZA trial"
+                ],
+                "organizations": [
+                  "U.S. FDA",
+                  "UTMD Anderson Cancer Center"
+                ],
+                "people": [
+                  "Naveen Pemmaraju",
+                  "Naval Daver"
+                ],
+                "places": [
+                  "UTMD Anderson Cancer Center"
+                ],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059838630223630684",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T03:30:28.000Z",
+          "source": "x_news",
+          "title": "FDA Approves Decnupaz for Rare Aggressive Blood Cancer BPDCN",
+          "url": "https://x.com/search?q=FDA+Approves+Decnupaz+for+Rare+Aggressive+Blood+Cancer+BPDCN&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c92c778f16aed1cf",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.264,
+      "profile_match": 0,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.264,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "FDA Approves Decnupaz for Rare Aggressive Blood Cancer BPDCN"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 9,
+            "score": 90
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 9,
+            "x_news_cluster_post_ids": [
+              "2059955565107786023",
+              "2059950576629334173",
+              "2059963773851488314",
+              "2059956724790960224",
+              "2060003817173786781",
+              "2060001836346528095",
+              "2060008481231450118",
+              "2060000386430222427",
+              "2060000958914953712"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [
+                  "CVS Caremark",
+                  "Eli Lilly",
+                  "Novo Nordisk"
+                ],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": [
+                  "LLY"
+                ]
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Business & Finance"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2060007561882190004",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T14:43:47.000Z",
+          "source": "x_news",
+          "title": "CVS Restores Coverage for Lilly's Zepbound and Adds New Pill Foundayo",
+          "url": "https://x.com/search?q=CVS+Restores+Coverage+for+Lilly%27s+Zepbound+and+Adds+New+Pill+Foundayo&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c10e175554459bbb",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.284,
+      "profile_match": 0.028,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.284,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CVS Restores Coverage for Lilly's Zepbound and Adds New Pill Foundayo"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 10,
+            "score": 100
+          },
+          "metadata": {
+            "x_news_category": "News",
+            "x_news_cluster_post_count": 10,
+            "x_news_cluster_post_ids": [
+              "2059983957111017707",
+              "2059741442247909768",
+              "2059930001848373461",
+              "2059956177283260691",
+              "2059994863140258119",
+              "2059958543382437959",
+              "2059969929709785134",
+              "2060009403835933036",
+              "2059944209252241618",
+              "2060000263289667982"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [
+                  "Washington Post"
+                ],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059998699150045341",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T14:45:04.000Z",
+          "source": "x_news",
+          "title": "GLP-1 Drugs Like Ozempic Alter Brain Circuits Beyond Curbing Hunger",
+          "url": "https://x.com/search?q=GLP-1+Drugs+Like+Ozempic+Alter+Brain+Circuits+Beyond+Curbing+Hunger&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "be61acc9e42dbbe9",
+      "lane": "x_news_unmatched",
+      "major_news": 0,
+      "momentum": 0.292,
+      "profile_match": 0.041,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.292,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "GLP-1 Drugs Like Ozempic Alter Brain Circuits Beyond Curbing Hunger"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Euractiv"
+          },
+          "published_at": "2026-05-28T10:10:42.039329Z",
+          "source": "news_search",
+          "title": "France becomes first EU country to reimburse Wegovy and Mounjaro for obesity",
+          "url": "https://www.euractiv.com/news/france-becomes-first-eu-country-to-reimburse-wegovy-and-mounjaro/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7c8224ef57c84c91",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "France becomes first EU country to reimburse Wegovy and Mounjaro for obesity"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 89000000,
+            "publication_type": "editorial",
+            "raw_source": "NBC News"
+          },
+          "published_at": "2026-05-28T11:10:42.039198Z",
+          "source": "news_search",
+          "title": "CVS Caremark will cover Lilly’s weight loss drug Zepbound again after patient backlash",
+          "url": "https://www.nbcnews.com/health/health-news/cvs-caremark-will-cover-lillys-weight-loss-drug-zepbound-rcna347253"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e307148fae7d10f5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.243,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.887
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.3,
+        "top_outlets": [
+          {
+            "domain": "www.nbcnews.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 89000000,
+            "outlet_score": 0.887,
+            "traffic_score": 0.883
+          }
+        ]
+      },
+      "title": "CVS Caremark will cover Lilly’s weight loss drug Zepbound again after patient backlash"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 84,
+            "estimated_monthly_organic_traffic": 410000,
+            "publication_type": "other",
+            "raw_source": "JD Supra"
+          },
+          "published_at": "2026-05-28T11:10:42.039238Z",
+          "source": "news_search",
+          "title": "Client Alert: The Next Era of GLP-1s: Three Market Shifts to Note",
+          "url": "https://www.jdsupra.com/legalnews/client-alert-the-next-era-of-glp-1s-4212156/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "128678ad3efe7fa9",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.162,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.656
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 38.5,
+        "top_outlets": [
+          {
+            "domain": "www.jdsupra.com",
+            "domain_authority": 84,
+            "domain_authority_score": 0.84,
+            "estimated_monthly_organic_traffic": 410000,
+            "outlet_score": 0.656,
+            "traffic_score": 0.624
+          }
+        ]
+      },
+      "title": "Client Alert: The Next Era of GLP-1s: Three Market Shifts to Note"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "RFI"
+          },
+          "published_at": "2026-05-28T13:10:42.039256Z",
+          "source": "news_search",
+          "title": "France to start covering cost of weight-loss drugs for obese patients",
+          "url": "https://www.rfi.fr/en/france/20260528-france-to-start-covering-cost-of-weight-loss-drugs-wegovy-mounjaro-for-obese-patients"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "79dcf275216a8d3b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.024,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "France to start covering cost of weight-loss drugs for obese patients"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 2400000,
+            "publication_type": "editorial",
+            "raw_source": "www.statnews.com"
+          },
+          "published_at": "2026-05-28T13:10:42.039293Z",
+          "source": "news_search",
+          "title": "Pharmalittle: We're reading about a hepatitis B drug, CVS returns Lilly obesity drug to formularies, and more",
+          "url": "https://www.statnews.com/pharmalot/2026/05/28/hepatitis-drug-cvs-returns-lilly-obesity-drug-to-formularies/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5ae25d613c73c3f8",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.188,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.732
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.3,
+        "top_outlets": [
+          {
+            "domain": "www.statnews.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 2400000,
+            "outlet_score": 0.732,
+            "traffic_score": 0.709
+          }
+        ]
+      },
+      "title": "Pharmalittle: We're reading about a hepatitis B drug, CVS returns Lilly obesity drug to formularies, and more"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "MedWatch"
+          },
+          "published_at": "2026-05-28T13:10:42.03931Z",
+          "source": "news_search",
+          "title": "Eli Lilly returns to key US insurance list CVS Caremark",
+          "url": "https://medwatch.com/News/Pharma___Biotech/article19338491.ece"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ac008845f33d632a",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.011,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Eli Lilly returns to key US insurance list CVS Caremark"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-28T14:10:42.039173Z",
+          "source": "news_search",
+          "title": "CVS brings back coverage for Lilly's obesity drug Zepbound",
+          "url": "https://www.reuters.com/legal/litigation/cvs-brings-back-coverage-lillys-obesity-drug-zepbound-2026-05-28/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f9044a17a372e387",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.047,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.241,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.881
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.9,
+        "top_outlets": [
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "CVS brings back coverage for Lilly's obesity drug Zepbound"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "publication_type": "other",
+            "raw_source": "GuruFocus"
+          },
+          "published_at": "2026-05-28T14:10:53.138036Z",
+          "source": "news_search",
+          "title": "CVS Expands Access to Eli Lilly's Obesity Medicines",
+          "url": "https://www.gurufocus.com/news/8888600/cvs-expands-access-to-eli-lillys-obesity-medicines"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a43c8d538bbc0b1a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.114,
+      "query": "obesity medicine access",
+      "queue_priority": 62.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.178,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.702
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.4,
+        "top_outlets": [
+          {
+            "domain": "www.gurufocus.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 1700000,
+            "outlet_score": 0.702,
+            "traffic_score": 0.692
+          }
+        ]
+      },
+      "title": "CVS Expands Access to Eli Lilly's Obesity Medicines"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "publication_type": "newswire",
+            "raw_source": "PR Newswire"
+          },
+          "published_at": "2026-05-28T11:10:38.411626Z",
+          "source": "news_search",
+          "title": "CVS Caremark Delivers Affordability and Access to GLP-1 Weight Management Medications with Expanded Coverage Options",
+          "url": "https://www.prnewswire.com/news-releases/cvs-caremark-delivers-affordability-and-access-to-glp-1-weight-management-medications-with-expanded-coverage-options-302783820.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "98e6c6d0fd4da887",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.103,
+      "query": "Form Health GLP-1 coverage and access",
+      "queue_priority": 62.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.736
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.6,
+        "top_outlets": [
+          {
+            "domain": "www.prnewswire.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4200000,
+            "outlet_score": 0.736,
+            "traffic_score": 0.736
+          }
+        ]
+      },
+      "title": "CVS Caremark Delivers Affordability and Access to GLP-1 Weight Management Medications with Expanded Coverage Options"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 1400000,
+            "publication_type": "brand_content",
+            "raw_source": "Stock Titan"
+          },
+          "published_at": "2026-05-28T11:10:49.796813Z",
+          "source": "news_search",
+          "title": "CVS to expand access to GLP-1 weight-loss drugs Zepbound and Foundayo",
+          "url": "https://www.stocktitan.net/news/CVS/cvs-caremark-delivers-affordability-and-access-to-glp-1-weight-gb7zqsqxi98o.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c9e1b07db5d49122",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "tirzepatide access",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.171,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.683
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.2,
+        "top_outlets": [
+          {
+            "domain": "www.stocktitan.net",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 1400000,
+            "outlet_score": 0.683,
+            "traffic_score": 0.683
+          }
+        ]
+      },
+      "title": "CVS to expand access to GLP-1 weight-loss drugs Zepbound and Foundayo"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Pluang"
+          },
+          "published_at": "2026-05-28T11:10:39.600249Z",
+          "source": "news_search",
+          "title": "CVS expands GLP-1 drug coverage, adding Zepbound and easing access to affordable weight management meds.",
+          "url": "https://pluang.com/en/news-feed/cvs-caremark-perluas-cakupan-obat-pengelolaan-berat-badan-glp-1"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e9dad0888b7d41d3",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.07,
+      "query": "GLP-1 coverage",
+      "queue_priority": 61.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "CVS expands GLP-1 drug coverage, adding Zepbound and easing access to affordable weight management meds."
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T12:10:42.039218Z",
+          "source": "news_search",
+          "title": "CVS Caremark adds Zepbound and Foundayo to insurance coverage",
+          "url": "https://qz.com/cvs-caremark-zepbound-foundayo-eli-lilly-formulary-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "771946d9dee6b888",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.071,
+      "query": "weight loss drug insurance coverage",
+      "queue_priority": 61.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "CVS Caremark adds Zepbound and Foundayo to insurance coverage"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T11:10:44.593935Z",
+          "source": "news_search",
+          "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans",
+          "url": "https://www.cnbc.com/2026/05/28/cvs-covers-zepbound-adds-eli-lilly-foundayo.html"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "publication_type": "newswire",
+            "raw_source": "Reuters"
+          },
+          "published_at": "2026-05-28T14:10:44.593914Z",
+          "source": "news_search",
+          "title": "CVS brings back coverage for Lilly's obesity drug Zepbound",
+          "url": "https://www.reuters.com/legal/litigation/cvs-brings-back-coverage-lillys-obesity-drug-zepbound-2026-05-28/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "274cf819d27f6b5a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.065,
+      "query": "Zepbound coverage",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.427,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 2,
+        "known_outlet_count": 2,
+        "known_traffic_count": 2,
+        "score": 63.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          },
+          {
+            "domain": "www.reuters.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 73000000,
+            "outlet_score": 0.881,
+            "traffic_score": 0.874
+          }
+        ]
+      },
+      "title": "CVS to restore coverage of Zepbound, add Eli Lilly's obesity pill to drug plans"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "pharmaphorum"
+          },
+          "published_at": "2026-05-28T13:10:45.95621Z",
+          "source": "news_search",
+          "title": "France 'first EU country to cover obesity drugs'",
+          "url": "https://pharmaphorum.com/news/france-first-eu-country-cover-obesity-drugs"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6594fb62b20a994c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "Wegovy coverage",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "France 'first EU country to cover obesity drugs'"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 87,
+            "estimated_monthly_organic_traffic": 16000000,
+            "publication_type": "editorial",
+            "raw_source": "NJ.com"
+          },
+          "published_at": "2026-05-28T11:10:39.600092Z",
+          "source": "news_search",
+          "title": "Medicare will expand coverage for GLP-1 drugs. How this affects you",
+          "url": "https://www.nj.com/news/2026/05/medicare-will-expand-coverage-for-glp-1-drugs-how-this-affects-you.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "058405207d71bf22",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "GLP-1 coverage",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.811
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.4,
+        "top_outlets": [
+          {
+            "domain": "www.nj.com",
+            "domain_authority": 87,
+            "domain_authority_score": 0.87,
+            "estimated_monthly_organic_traffic": 16000000,
+            "outlet_score": 0.811,
+            "traffic_score": 0.8
+          }
+        ]
+      },
+      "title": "Medicare will expand coverage for GLP-1 drugs. How this affects you"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "publication_type": "editorial",
+            "raw_source": "The Manila Times"
+          },
+          "published_at": "2026-05-27T21:10:40.815253Z",
+          "source": "news_search",
+          "title": "Gala Health: High-Quality Compounded GLP-1 Weight Loss & Hormone Therapy HRT Support",
+          "url": "https://www.manilatimes.net/2026/05/28/tmt-newswire/globenewswire/gala-health-high-quality-compounded-glp-1-weight-loss-hormone-therapy-hrt-support/2353183/amp"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bb38c74503ec06ee",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "anti-obesity medication coverage",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.174,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.689
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.6,
+        "top_outlets": [
+          {
+            "domain": "www.manilatimes.net",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 1100000,
+            "outlet_score": 0.689,
+            "traffic_score": 0.671
+          }
+        ]
+      },
+      "title": "Gala Health: High-Quality Compounded GLP-1 Weight Loss & Hormone Therapy HRT Support"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": "x-news",
+          "engagement": {
+            "comments": 8,
+            "score": 80
+          },
+          "metadata": {
+            "x_news_category": "Other",
+            "x_news_cluster_post_count": 8,
+            "x_news_cluster_post_ids": [
+              "2059687748810969490",
+              "2059741442247909768",
+              "2059888293118923113",
+              "2059829889209970814",
+              "2059697352701808927",
+              "2059816958309150755",
+              "2059650842806899187",
+              "2059723060991922497"
+            ],
+            "x_news_contexts": {
+              "entities": {
+                "events": [],
+                "organizations": [],
+                "people": [],
+                "places": [],
+                "products": []
+              },
+              "finance": {
+                "tickers": []
+              },
+              "sports": {
+                "teams": []
+              },
+              "topics": [
+                "Health & Fitness"
+              ]
+            },
+            "x_news_disclaimer": "This story is a summary of posts on X and may evolve over time. Grok can make mistakes, verify its outputs.",
+            "x_news_id": "2059770965924454840",
+            "x_news_keywords": [],
+            "x_signal_type": "story_cluster"
+          },
+          "published_at": "2026-05-28T12:42:26.000Z",
+          "source": "x_news",
+          "title": "Doctor Warns of Ozempic Muscle Loss and Bone Risks Amid Weight Loss Boom",
+          "url": "https://x.com/search?q=Doctor+Warns+of+Ozempic+Muscle+Loss+and+Bone+Risks+Amid+Weight+Loss+Boom&f=live"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ab8b9ccf3545766e",
+      "lane": "x_news",
+      "major_news": 0,
+      "momentum": 0.275,
+      "profile_match": 0.054,
+      "query": "GLP-1 coverage",
+      "queue_priority": 58.4,
+      "source_agreement": 0.25,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0.275,
+          "source_quality": 0.86
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Doctor Warns of Ozempic Muscle Loss and Bone Risks Amid Weight Loss Boom"
+    }
+  ]
+}

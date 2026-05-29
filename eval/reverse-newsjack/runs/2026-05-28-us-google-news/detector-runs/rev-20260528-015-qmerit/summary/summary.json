@@ -1,0 +1,2184 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 237523,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 66,
+    "debug_duplicate_scored_rows": 8,
+    "debug_selected_rows": 34,
+    "debug_unique_scored_signal_ids": 58,
+    "debug_unselected_rows": 32,
+    "selected_unique_signals": 30,
+    "source_errors": 0,
+    "total_emitted_signals": 30,
+    "total_scored_signals": 66
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/final_report.md"
+  },
+  "generated_at": "2026-05-29T00:36:51.428502Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance": 2,
+      "profile_relevance_weak": 30
+    },
+    "emitted": {
+      "profile_relevance": 21,
+      "profile_relevance_weak": 9
+    },
+    "scored": {
+      "profile_relevance": 26,
+      "profile_relevance_weak": 40
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-29T00:36:44.798917Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Qmerit",
+    "queries": [
+      "Rivian R2 deliveries EV charging readiness",
+      "Rivian R2 deliveries",
+      "Rivian R2 order invites",
+      "EV charging readiness",
+      "home EV charger installation",
+      "electric SUV charging",
+      "residential EV charging",
+      "fleet electrification readiness",
+      "consumer EV charging infrastructure"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 70
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-015-qmerit/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Electric Vehicles"
+          },
+          "published_at": "2026-05-28T09:36:47.339231Z",
+          "source": "news_search",
+          "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9",
+          "url": "https://eletric-vehicles.com/rivian/rivian-sets-two-to-six-week-r2-delivery-window-as-orders-open-june-9/"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T18:36:47.339212Z",
+          "source": "news_search",
+          "title": "Rivian is setting June 9 as the first delivery date for its R2 electric SUV",
+          "url": "https://qz.com/rivian-r2-electric-suv-first-deliveries-june-9-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f3af423d775f7a80",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.062,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Rivian Sets Two-to-Six-Week R2 Delivery Window as Orders Open June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T13:36:47.339191Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9",
+          "url": "https://theevreport.com/rivian-r2-launch-order-invitations-deliveries-june-9"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c380be8d2e4c1b62",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "autoevolution"
+          },
+          "published_at": "2026-05-28T08:36:46.350279Z",
+          "source": "news_search",
+          "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks",
+          "url": "https://www.autoevolution.com/news/rivian-opens-the-r2-order-books-on-june-9-with-the-first-deliveries-promised-within-2-to-6-weeks-270631.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "242236670fdf7bd1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "autoevolution"
+          },
+          "published_at": "2026-05-28T08:36:47.339267Z",
+          "source": "news_search",
+          "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks",
+          "url": "https://www.autoevolution.com/news/rivian-opens-the-r2-order-books-on-june-9-with-the-first-deliveries-promised-within-2-to-6-weeks-270631.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "242236670fdf7bd1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian Opening R2 Order Books on June 9, First Deliveries Promised Within 2 to 6 Weeks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Not a Tesla App"
+          },
+          "published_at": "2026-05-28T13:36:47.339303Z",
+          "source": "news_search",
+          "title": "Tesla Model Y Competitor, the Rivian R2 Launches on June 9th",
+          "url": "https://www.notateslaapp.com/news/4209/rivian-r2-launches-on-june-9th"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "666d624d620e7a83",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tesla Model Y Competitor, the Rivian R2 Launches on June 9th"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "GoAuto.com.au"
+          },
+          "published_at": "2026-05-28T01:36:47.899561Z",
+          "source": "news_search",
+          "title": "EV tech not ready for Ford Ranger and Everest",
+          "url": "https://www.goauto.com.au/news/ford/ranger/ev-tech-not-ready-for-ford-ranger-and-everest/2026-05-27/99353.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f542c693c2e347b3",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.04,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "EV tech not ready for Ford Ranger and Everest"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "CarGuide.PH"
+          },
+          "published_at": "2026-05-28T08:36:47.899648Z",
+          "source": "news_search",
+          "title": "Mitsubishi Motors PH Finally Ready To Launch The Outlander PHEV. Are These The Specs?",
+          "url": "https://www.carguide.ph/2026/05/mitsubishi-motors-ph-finally-ready-to.html?m=0"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "66aa30fa43cdd1e2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Mitsubishi Motors PH Finally Ready To Launch The Outlander PHEV. Are These The Specs?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Capital FM Kenya"
+          },
+          "published_at": "2026-05-28T13:36:47.899472Z",
+          "source": "news_search",
+          "title": "Ready To Conquer Samburu As Geco Tribe Chargers Gear Up for 2026 Rhino Charge",
+          "url": "https://www.capitalfm.co.ke/sports/2026/05/28/ready-to-conquer-samburu-as-geco-tribe-chargers-gear-up-for-2026-rhino-charge/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5c776a2afa417e14",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Ready To Conquer Samburu As Geco Tribe Chargers Gear Up for 2026 Rhino Charge"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Work Truck Online"
+          },
+          "published_at": "2026-05-28T17:36:47.899048Z",
+          "source": "news_search",
+          "title": "Fleet Readiness, Reliability, and the Pressure Points Shaping Operations Right Now",
+          "url": "https://www.worktruckonline.com/videos/fleet-readiness-reliability-and-the-pressure-points-shaping-operations-right-now"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "62403ee2de366681",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Fleet Readiness, Reliability, and the Pressure Points Shaping Operations Right Now"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Magzter"
+          },
+          "published_at": "2026-05-28T17:36:47.899189Z",
+          "source": "news_search",
+          "title": "SM now has the widest network of free EV charging stations in the Philippines | Business World Philippines - newspaper",
+          "url": "https://www.magzter.com/stories/newspaper/Business-World-Philippines/SM-NOW-HAS-THE-WIDEST-NETWORK-OF-FREE-EV-CHARGING-STATIONS-IN-THE-PHILIPPINES"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6bcca18c55a22c31",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "SM now has the widest network of free EV charging stations in the Philippines | Business World Philippines - newspaper"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Charged EVs"
+          },
+          "published_at": "2026-05-28T20:36:47.898155Z",
+          "source": "news_search",
+          "title": "Pionix to provide its EVerest open-source software stack for Tritium’s EV chargers",
+          "url": "https://chargedevs.com/newswire/pionix-to-provide-its-everest-open-source-software-stack-for-tritiums-ev-chargers/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "106c9e058f11fc69",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "EV charging readiness",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Pionix to provide its EVerest open-source software stack for Tritium’s EV chargers"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Canary Media"
+          },
+          "published_at": "2026-05-28T07:36:48.453763Z",
+          "source": "news_search",
+          "title": "Charge your car at Menards? Its Illinois stores are adding EV ports.",
+          "url": "https://www.canarymedia.com/articles/ev-charging/charge-your-car-at-menards-its-illinois-stores-are-adding-ev-ports"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f50ca65100e74b7e",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "home EV charger installation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Charge your car at Menards? Its Illinois stores are adding EV ports."
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Motor Trade News"
+          },
+          "published_at": "2026-05-28T07:36:48.453943Z",
+          "source": "news_search",
+          "title": "Fuel price crisis boosting EV perceptions, but charging concerns persist – Motability",
+          "url": "https://www.motortradenews.com/electric-vehicles/fuel-price-crisis-boosting-ev-perceptions-but-charging-concerns-persist-motability/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3e461b66f7974f5f",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "home EV charger installation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Fuel price crisis boosting EV perceptions, but charging concerns persist – Motability"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T10:36:48.453834Z",
+          "source": "news_search",
+          "title": "char.gy Installs 5,000th UK Public EV Charge Point",
+          "url": "https://theevreport.com/chargy-5000th-uk-ev-charge-point"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7ad45c1c2b8771f2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.037,
+      "query": "home EV charger installation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "char.gy Installs 5,000th UK Public EV Charge Point"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Carwow"
+          },
+          "published_at": "2026-05-28T17:36:48.453882Z",
+          "source": "news_search",
+          "title": "These are the latest models eligible for the £1,500 electric car grant",
+          "url": "https://www.carwow.co.uk/news/9217/electric-car-grant"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c4666649591d24e6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "home EV charger installation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "These are the latest models eligible for the £1,500 electric car grant"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Renew Economy"
+          },
+          "published_at": "2026-05-28T22:36:48.453813Z",
+          "source": "news_search",
+          "title": "“Contentious piece of work:” Regulator kicks off review of EV chargers and the broader role of ...",
+          "url": "https://reneweconomy.com.au/contentious-piece-of-work-regulator-kicks-off-review-of-ev-chargers-and-the-broader-role-of-networks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2f2db405a016c98b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.018,
+      "query": "home EV charger installation",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "“Contentious piece of work:” Regulator kicks off review of EV chargers and the broader role of ..."
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Mshale"
+          },
+          "published_at": "2026-05-28T01:36:49.446859Z",
+          "source": "news_search",
+          "title": "2026 BMW IX3 Vs Audi Q6 E-tron | Buy Or Skip This EV? Tigers Vs Mets (nCOHv0QpGe)",
+          "url": "https://mshale.com/9a1a4a7c/bd1e7b0epR5Axl2SceI"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "36ea92ff891ab9b8",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.019,
+      "query": "electric SUV charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "2026 BMW IX3 Vs Audi Q6 E-tron | Buy Or Skip This EV? Tigers Vs Mets (nCOHv0QpGe)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electra"
+          },
+          "published_at": "2026-05-28T10:36:49.446325Z",
+          "source": "news_search",
+          "title": "Hyundai Ioniq 9: Price, Range, and Specs for the 7-Seater Electric SUV",
+          "url": "https://www.go-electra.com/en/newsroom/hyundai-ioniq-9-price-range-and-specs-for-the-7-seater-electric-suv/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8d9b95048bc39300",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.034,
+      "query": "electric SUV charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Hyundai Ioniq 9: Price, Range, and Specs for the 7-Seater Electric SUV"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electric Cars Report"
+          },
+          "published_at": "2026-05-28T12:36:49.446271Z",
+          "source": "news_search",
+          "title": "BMW iX3 vs Volvo EX60: Which Should You Buy in 2026?",
+          "url": "https://electriccarsreport.com/2026/05/bmw-ix3-vs-volvo-ex60-which-premium-electric-suv-should-you-buy/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "948b55727cf843ed",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "electric SUV charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "BMW iX3 vs Volvo EX60: Which Should You Buy in 2026?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Carwow"
+          },
+          "published_at": "2026-05-28T17:36:49.446761Z",
+          "source": "news_search",
+          "title": "These are the latest models eligible for the £1,500 electric car grant",
+          "url": "https://www.carwow.co.uk/news/9217/electric-car-grant"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c4666649591d24e6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.038,
+      "query": "electric SUV charging",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "These are the latest models eligible for the £1,500 electric car grant"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 75,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Fleet News"
+          },
+          "published_at": "2026-05-28T22:36:51.292227Z",
+          "source": "news_search",
+          "title": "Home charging an electric vehicle to rise by up to £50 a year",
+          "url": "https://www.fleetnews.co.uk/news/home-charging-an-electric-vehicle-to-rise-by-up-to-50-a-year"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ff0364e23a74e87f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.122,
+      "query": "consumer EV charging infrastructure",
+      "queue_priority": 62.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.195,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.75
+        },
+        "confidence": "low",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 0,
+        "score": 44.5,
+        "top_outlets": [
+          {
+            "domain": "www.fleetnews.co.uk",
+            "domain_authority": 75,
+            "domain_authority_score": 0.75,
+            "estimated_monthly_organic_traffic": null,
+            "outlet_score": 0.75,
+            "traffic_score": null
+          }
+        ]
+      },
+      "title": "Home charging an electric vehicle to rise by up to £50 a year"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 1400000,
+            "publication_type": "editorial",
+            "raw_source": "Business News Nigeria"
+          },
+          "published_at": "2026-05-28T21:36:49.446431Z",
+          "source": "news_search",
+          "title": "Electric vehicle manufacturers advocate investment in charging infrastructure, local production to boost adoption",
+          "url": "https://businessday.ng/transport/article/electric-vehicle-manufacturers-advocate-investment-in-charging-infrastructure-local-production-to-boost-adoption/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a5d890ae18b69f4f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.104,
+      "query": "electric SUV charging",
+      "queue_priority": 62.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.177,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.699
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.2,
+        "top_outlets": [
+          {
+            "domain": "businessday.ng",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 1400000,
+            "outlet_score": 0.699,
+            "traffic_score": 0.683
+          }
+        ]
+      },
+      "title": "Electric vehicle manufacturers advocate investment in charging infrastructure, local production to boost adoption"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 72,
+            "estimated_monthly_organic_traffic": 190000,
+            "publication_type": "editorial",
+            "raw_source": "Mexico Business News"
+          },
+          "published_at": "2026-05-28T22:36:51.292137Z",
+          "source": "news_search",
+          "title": "Mexico EV Growth Continues, but Infrastructure Lags: EMA",
+          "url": "https://mexicobusiness.news/automotive/news/mexico-ev-growth-continues-infrastructure-lags-ema"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1dfbcca9e91bd10c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "consumer EV charging infrastructure",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.146,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.607
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.3,
+        "top_outlets": [
+          {
+            "domain": "mexicobusiness.news",
+            "domain_authority": 72,
+            "domain_authority_score": 0.72,
+            "estimated_monthly_organic_traffic": 190000,
+            "outlet_score": 0.607,
+            "traffic_score": 0.587
+          }
+        ]
+      },
+      "title": "Mexico EV Growth Continues, but Infrastructure Lags: EMA"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "energize.co.za"
+          },
+          "published_at": "2026-05-28T12:36:47.898234Z",
+          "source": "news_search",
+          "title": "IEA flags grid readiness as EV charging demand accelerates",
+          "url": "https://www.energize.co.za/article/iea-flags-grid-readiness-as-ev-charging-demand-accelerates"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e87ebe211b4b26ab",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.12,
+      "query": "EV charging readiness",
+      "queue_priority": 59.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "IEA flags grid readiness as EV charging demand accelerates"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ET Auto"
+          },
+          "published_at": "2026-05-28T12:36:51.292216Z",
+          "source": "news_search",
+          "title": "EV registrations slump in Thiruvananthapuram as hybrids gain ground",
+          "url": "https://auto.economictimes.indiatimes.com/news/industry/thiruvananthapuram-ev-registrations-decline-as-hybrids-surge/131370629"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5dcf894db7259f9c",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.102,
+      "query": "consumer EV charging infrastructure",
+      "queue_priority": 59.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "auto.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "EV registrations slump in Thiruvananthapuram as hybrids gain ground"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 130000000,
+            "publication_type": "editorial",
+            "raw_source": "HT Auto"
+          },
+          "published_at": "2026-05-28T09:36:49.446807Z",
+          "source": "news_search",
+          "title": "V-Green joins hands with ChargeZone to set up EV charging network across India",
+          "url": "https://auto.hindustantimes.com/auto/news/vgreen-joins-hands-with-chargezone-to-set-up-ev-charging-network-across-india/amp-41779960093582.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "b6e05bcd348ff69e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.1,
+      "query": "electric SUV charging",
+      "queue_priority": 59.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.248,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.9
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 54.1,
+        "top_outlets": [
+          {
+            "domain": "auto.hindustantimes.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 130000000,
+            "outlet_score": 0.9,
+            "traffic_score": 0.902
+          }
+        ]
+      },
+      "title": "V-Green joins hands with ChargeZone to set up EV charging network across India"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 25000000,
+            "publication_type": "editorial",
+            "raw_source": "Dailyhunt"
+          },
+          "published_at": "2026-05-28T15:36:50.674821Z",
+          "source": "news_search",
+          "title": "Jio-bp partners UPSRTC to build EV charging network for electric buses in UP and Delhi",
+          "url": "http://m.dailyhunt.in/news/india/english/bioenergy+times-epaper-bioentms/jiobp+partners+upsrtc+to+build+ev+charging+network+for+electric+buses+in+up+and+delhi-newsid-n713944908"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "c078b3a42e7f523d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.096,
+      "query": "fleet electrification readiness",
+      "queue_priority": 59.3,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.218,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.817
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.8,
+        "top_outlets": [
+          {
+            "domain": "m.dailyhunt.in",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 25000000,
+            "outlet_score": 0.817,
+            "traffic_score": 0.822
+          }
+        ]
+      },
+      "title": "Jio-bp partners UPSRTC to build EV charging network for electric buses in UP and Delhi"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "EV Fleet World"
+          },
+          "published_at": "2026-05-28T12:36:48.453918Z",
+          "source": "news_search",
+          "title": "Char.gy hits 5,000th EV charger milestone as kerbside infrastructure rolls out at pace",
+          "url": "https://evfleetworld.co.uk/char-gy-hits-5000th-ev-charger-milestone-as-kerbside-infrastructure-rolls-out-at-pace/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "15cc84f01e313b0d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.091,
+      "query": "home EV charger installation",
+      "queue_priority": 59.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Char.gy hits 5,000th EV charger milestone as kerbside infrastructure rolls out at pace"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ET Auto"
+          },
+          "published_at": "2026-05-28T14:36:47.899384Z",
+          "source": "news_search",
+          "title": "Gulf Oil expands EV play as Tirex crosses ₹100 crore revenue mark",
+          "url": "https://auto.economictimes.indiatimes.com/news/oil-and-lubes/gulf-oil-expands-ev-play-as-tirex-crosses-100-crore-revenue-mark/131372785"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6795d03aed14d3cf",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.088,
+      "query": "EV charging readiness",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "auto.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "Gulf Oil expands EV play as Tirex crosses ₹100 crore revenue mark"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Springwise"
+          },
+          "published_at": "2026-05-28T08:36:49.446375Z",
+          "source": "news_search",
+          "title": "Intelligent energy management for electric vehicle charging",
+          "url": "https://springwise.com/sustainable-infrastructure/intelligent-energy-management-for-electric-vehicle-charging/?amp=true"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e9e0af83b65ca87a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.078,
+      "query": "electric SUV charging",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Intelligent energy management for electric vehicle charging"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Energetica India Magazine"
+          },
+          "published_at": "2026-05-28T06:36:50.674725Z",
+          "source": "news_search",
+          "title": "Jio-bp Partners with UPSRTC to Deploy EV Charging Infrastructure for Electric Bus Fleet",
+          "url": "https://www.energetica-india.net/news/jio-bp-partners-with-upsrtc-to-deploy-ev-charging-infrastructure-for-electric-bus-fleet"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "EVreporter"
+          },
+          "published_at": "2026-05-28T06:36:50.674776Z",
+          "source": "news_search",
+          "title": "Jio-bp partners with UPSRTC to support electric bus charging infrastructure in UP and Delhi",
+          "url": "https://evreporter.com/jio-bp-partners-with-upsrtc-to-support-electric-bus-charging-infrastructure-in-up-and-delhi/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ece81e10b4a4c695",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.077,
+      "query": "fleet electrification readiness",
+      "queue_priority": 59,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Jio-bp Partners with UPSRTC to Deploy EV Charging Infrastructure for Electric Bus Fleet"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Facebook"
+          },
+          "published_at": "2026-05-28T13:36:49.446833Z",
+          "source": "news_search",
+          "title": "Kenya pushes Electric Vehicle transition after Ruto tax exemption plan",
+          "url": "https://www.facebook.com/kenyanewsagency/posts/kenya-pushes-electric-vehicle-transition-after-ruto-tax-exemption-plan/1295399519442358/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "844ee865fac23c0f",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.073,
+      "query": "electric SUV charging",
+      "queue_priority": 58.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Kenya pushes Electric Vehicle transition after Ruto tax exemption plan"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The EV Report"
+          },
+          "published_at": "2026-05-28T13:36:46.350193Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9",
+          "url": "https://theevreport.com/rivian-r2-launch-order-invitations-deliveries-june-9"
+        },
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T18:36:46.350129Z",
+          "source": "news_search",
+          "title": "Rivian is setting June 9 as the first delivery date for its R2 electric SUV",
+          "url": "https://qz.com/rivian-r2-electric-suv-first-deliveries-june-9-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "4e6c43948a8c5170",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Rivian R2 Order Invitations and First Deliveries Begin June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Fleet EV News"
+          },
+          "published_at": "2026-05-28T19:36:47.899311Z",
+          "source": "news_search",
+          "title": "Ford Says Diesel Fleets are Already HVO-Ready",
+          "url": "https://fleetevnews.com.au/ford-says-diesel-fleets-are-already-hvo-ready/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bacee8abc660f373",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.059,
+      "query": "EV charging readiness",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Ford Says Diesel Fleets are Already HVO-Ready"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 430000,
+            "publication_type": "editorial",
+            "raw_source": "The AI Journal"
+          },
+          "published_at": "2026-05-28T13:36:48.45386Z",
+          "source": "news_search",
+          "title": "How AI-Powered Energy Management Is Changing the Future of Home Battery Storage",
+          "url": "https://aijourn.com/how-ai-powered-energy-management-is-changing-the-future-of-home-battery-storage/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e1a7638501d4dfd6",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "home EV charger installation",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.159,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.646
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 37.8,
+        "top_outlets": [
+          {
+            "domain": "aijourn.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 430000,
+            "outlet_score": 0.646,
+            "traffic_score": 0.626
+          }
+        ]
+      },
+      "title": "How AI-Powered Energy Management Is Changing the Future of Home Battery Storage"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "EVChargingStations.com"
+          },
+          "published_at": "2026-05-28T17:36:48.453725Z",
+          "source": "news_search",
+          "title": "Why Most EV Chargers Get It Wrong And What ApexCharger Is Doing Differently",
+          "url": "https://evchargingstations.com/chargingnews/what-apexcharger-is-doing/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "7031f130a5168577",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.058,
+      "query": "home EV charger installation",
+      "queue_priority": 58.7,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Why Most EV Chargers Get It Wrong And What ApexCharger Is Doing Differently"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Electric Cars Report"
+          },
+          "published_at": "2026-05-28T03:36:46.350354Z",
+          "source": "news_search",
+          "title": "Rivian R2 Order Invitations Begin June 9 as First Deliveries Approach",
+          "url": "https://electriccarsreport.com/2026/05/rivian-r2-order-invitations-begin-june-9-as-first-deliveries-approach/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9cdd3dc918109eac",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Order Invitations Begin June 9 as First Deliveries Approach"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Top Speed"
+          },
+          "published_at": "2026-05-28T19:36:46.350229Z",
+          "source": "news_search",
+          "title": "Rivian's Most Affordable EV SUV Finally Goes on Sale June 9",
+          "url": "https://www.topspeed.com/rivian-r2-deliveries-begin-in-two-weeks-heres-what-the-order-book-opening-means-for-enthusiasts/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "56cf115ae7ca8753",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.054,
+      "query": "Rivian R2 deliveries",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian's Most Affordable EV SUV Finally Goes on Sale June 9"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "editorial",
+            "raw_source": "Digital Trends"
+          },
+          "published_at": "2026-05-28T05:36:47.339285Z",
+          "source": "news_search",
+          "title": "Rivian will deliver the electric R2 starting June 9th, but you’ll need to snag an invite first",
+          "url": "https://www.digitaltrends.com/cars/rivian-will-deliver-the-electric-r2-starting-june-9th-but-youll-to-need-snag-an-invite-first/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1b16e9e15df13d55",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.707
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.7,
+        "top_outlets": [
+          {
+            "domain": "www.digitaltrends.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.707,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "Rivian will deliver the electric R2 starting June 9th, but you’ll need to snag an invite first"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Techgenyz"
+          },
+          "published_at": "2026-05-28T11:36:47.33932Z",
+          "source": "news_search",
+          "title": "Rivian R2 Launch: Massive EV Game-Changer Arrives",
+          "url": "https://techgenyz.com/rivian-r2-launch-date-specs-trims/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "f744e67d44351d4d",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.057,
+      "query": "Rivian R2 order invites",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Rivian R2 Launch: Massive EV Game-Changer Arrives"
+    }
+  ]
+}

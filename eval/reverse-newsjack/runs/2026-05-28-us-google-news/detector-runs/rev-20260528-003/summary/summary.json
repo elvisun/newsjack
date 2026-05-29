@@ -1,0 +1,2317 @@
+{
+  "artifacts": {
+    "candidates": {
+      "bytes": 242780,
+      "exists": true,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/candidates.json"
+    },
+    "coarse_relevance_decisions": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/coarse_relevance_decisions.json"
+    },
+    "commands": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/commands.log"
+    },
+    "detector_stderr": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/detector.stderr.log"
+    },
+    "detector_summary": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/summary.json"
+    },
+    "final_report": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/final_report.md"
+    },
+    "origin_findings": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/origin_findings.json"
+    },
+    "relevant_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/relevant_candidates.json"
+    },
+    "run_markdown": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/run.md"
+    },
+    "targeted_candidates": {
+      "bytes": 0,
+      "exists": false,
+      "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/targeted_candidates.json"
+    }
+  },
+  "coarse_relevance": {},
+  "coarse_relevance_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/coarse_relevance_decisions.json"
+  },
+  "counts": {
+    "debug_all_scored_rows": 59,
+    "debug_duplicate_scored_rows": 11,
+    "debug_selected_rows": 44,
+    "debug_unique_scored_signal_ids": 48,
+    "debug_unselected_rows": 15,
+    "selected_unique_signals": 36,
+    "source_errors": 0,
+    "total_emitted_signals": 36,
+    "total_scored_signals": 59
+  },
+  "final_report_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/final_report.md"
+  },
+  "generated_at": "2026-05-28T15:33:47.604344Z",
+  "hygiene_rejections": {},
+  "input_path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/candidates.json",
+  "lanes": {
+    "dropped_debug": {
+      "profile_relevance_weak": 15
+    },
+    "emitted": {
+      "profile_relevance": 17,
+      "profile_relevance_weak": 19
+    },
+    "scored": {
+      "profile_relevance": 19,
+      "profile_relevance_weak": 40
+    }
+  },
+  "monitor": {
+    "depth": "quick",
+    "feed_urls": [],
+    "generated_at": "2026-05-28T15:32:21.31692Z",
+    "lookback_days": 1,
+    "max_age_hours": 24,
+    "mock": false,
+    "name": null,
+    "profile_name": "Orgvue",
+    "queries": [
+      "AI workforce planning software layoffs",
+      "AI layoffs",
+      "software company layoffs AI",
+      "workforce planning AI adoption",
+      "organization design restructuring",
+      "talent redeployment after layoffs",
+      "SaaS workforce reductions",
+      "currency headwinds tech layoffs",
+      "AI productivity workforce planning"
+    ],
+    "sources_requested": [
+      "news_search",
+      "x",
+      "x_news"
+    ],
+    "sources_used": [
+      "news_search"
+    ]
+  },
+  "origin_findings_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/origin_findings.json"
+  },
+  "pipeline": [
+    {
+      "artifact": "candidates.json",
+      "stage": "detector",
+      "status": "done"
+    },
+    {
+      "artifact": "coarse_relevance_decisions.json",
+      "stage": "coarse_relevance",
+      "status": "pending"
+    },
+    {
+      "artifact": "relevant_candidates.json",
+      "stage": "relevance_apply",
+      "status": "pending"
+    },
+    {
+      "artifact": "origin_findings.json",
+      "stage": "story_origin",
+      "status": "pending"
+    },
+    {
+      "artifact": "targeted_candidates.json",
+      "stage": "freshness_gate",
+      "status": "pending"
+    },
+    {
+      "artifact": "final_report.md",
+      "stage": "final_report",
+      "status": "pending"
+    }
+  ],
+  "relevant_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/relevant_candidates.json"
+  },
+  "run_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003",
+  "selection": {
+    "limit": 0,
+    "min_major_news": 0.55,
+    "min_queue_priority": 40,
+    "mode": "mechanical_floor"
+  },
+  "sources": {
+    "evidence_by_source": {
+      "news_search": 59
+    },
+    "source_errors": {}
+  },
+  "targeted_candidates_file": {
+    "exists": false,
+    "path": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-003/targeted_candidates.json"
+  },
+  "top_dropped_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Lexology"
+          },
+          "published_at": "2026-05-27T17:32:22.343437Z",
+          "source": "news_search",
+          "title": "Managing AI-driven layoffs: a practical guide for in-house teams",
+          "url": "https://www.lexology.com/pro/content/managing-ai-driven-layoffs-practical-guide-in-house-teams"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "269754e1ad18b29d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Managing AI-driven layoffs: a practical guide for in-house teams"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People Matters Global"
+          },
+          "published_at": "2026-05-28T05:32:22.345002Z",
+          "source": "news_search",
+          "title": "Behind Fintech’s AI boom lies a growing global layoff crisis",
+          "url": "https://me.peoplemattersglobal.com/news/ai-and-emerging-tech/behind-fintechs-ai-boom-lies-a-growing-global-layoff-crisis-49975"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "da4769e5a5b9a282",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.045,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Behind Fintech’s AI boom lies a growing global layoff crisis"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "The American Prospect"
+          },
+          "published_at": "2026-05-28T09:32:23.162703Z",
+          "source": "news_search",
+          "title": "Tax AI to Create Jobs",
+          "url": "https://prospect.org/2026/05/28/tax-ai-to-create-jobs/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d9f50f082a80af9d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "AI layoffs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Tax AI to Create Jobs"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People of Color in Tech"
+          },
+          "published_at": "2026-05-28T11:32:23.162749Z",
+          "source": "news_search",
+          "title": "The Workforce Crisis Hitting Black Women: AI, Layoffs, and DEI Rollbacks",
+          "url": "https://peopleofcolorintech.com/articles/the-workforce-crisis-hitting-black-women-ai-layoffs-and-dei-rollbacks/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ca45841a2c36dd28",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.049,
+      "query": "AI layoffs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "The Workforce Crisis Hitting Black Women: AI, Layoffs, and DEI Rollbacks"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 77,
+            "estimated_monthly_organic_traffic": 2300000,
+            "publication_type": "editorial",
+            "raw_source": "24/7 Wall St."
+          },
+          "published_at": "2026-05-28T13:32:23.162726Z",
+          "source": "news_search",
+          "title": "Analyst Dan Ives Warns Companies Talking About Job Cuts Are 'Shooting Themselves in the Foot'",
+          "url": "https://247wallst.com/investing/2026/05/28/analyst-dan-ives-warns-companies-talking-about-job-cuts-are-shooting-themselves-in-the-foot/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "25c3af3fdf3a40d2",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI layoffs",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.183,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.716
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.3,
+        "top_outlets": [
+          {
+            "domain": "247wallst.com",
+            "domain_authority": 77,
+            "domain_authority_score": 0.77,
+            "estimated_monthly_organic_traffic": 2300000,
+            "outlet_score": 0.716,
+            "traffic_score": 0.707
+          }
+        ]
+      },
+      "title": "Analyst Dan Ives Warns Companies Talking About Job Cuts Are 'Shooting Themselves in the Foot'"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People Matters Global"
+          },
+          "published_at": "2026-05-28T05:32:24.024308Z",
+          "source": "news_search",
+          "title": "Behind Fintech’s AI boom lies a growing global layoff crisis",
+          "url": "https://me.peoplemattersglobal.com/news/ai-and-emerging-tech/behind-fintechs-ai-boom-lies-a-growing-global-layoff-crisis-49975"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "da4769e5a5b9a282",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.045,
+      "query": "software company layoffs AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Behind Fintech’s AI boom lies a growing global layoff crisis"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 250000,
+            "publication_type": "brand_content",
+            "raw_source": "MLQ.ai"
+          },
+          "published_at": "2026-05-28T12:32:24.024083Z",
+          "source": "news_search",
+          "title": "AI for investors",
+          "url": "https://mlq.ai/news/webflow-faces-criticism-over-abrupt-layoffs-as-ex-employee-describes-being-locked-out-without-notice/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "9ab6f53c9cb61e9b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "software company layoffs AI",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.143,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.6
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 34.9,
+        "top_outlets": [
+          {
+            "domain": "mlq.ai",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 250000,
+            "outlet_score": 0.6,
+            "traffic_score": 0.6
+          }
+        ]
+      },
+      "title": "AI for investors"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "CIO Africa"
+          },
+          "published_at": "2026-05-28T09:32:25.242334Z",
+          "source": "news_search",
+          "title": "Organisations Must Redesign Work; Not Just Adopt AI",
+          "url": "https://cioafrica.co/organisations-must-redesign-work-not-just-adopt-ai/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fadd529d60d68586",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Organisations Must Redesign Work; Not Just Adopt AI"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 180000,
+            "publication_type": "editorial",
+            "raw_source": "CX Today"
+          },
+          "published_at": "2026-05-28T14:46:25.242288Z",
+          "source": "news_search",
+          "title": "NiCE World 2026: Where CX AI Gets Real in Orlando",
+          "url": "https://www.cxtoday.com/event-news/nice-world-2026-where-cx-ai-gets-real-in-orlando/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2dc46b568282a5d5",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.016,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.148,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.615
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.8,
+        "top_outlets": [
+          {
+            "domain": "www.cxtoday.com",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 180000,
+            "outlet_score": 0.615,
+            "traffic_score": 0.584
+          }
+        ]
+      },
+      "title": "NiCE World 2026: Where CX AI Gets Real in Orlando"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "https://hrtoday.in/"
+          },
+          "published_at": "2026-05-27T17:32:26.491056Z",
+          "source": "news_search",
+          "title": "Elke Manjet Joined Optum as Chief People Officer",
+          "url": "https://hrtoday.in/elke-manjet-joined-optum-as-chief-people-officer/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5efcce3dd757b596",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "organization design restructuring",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Elke Manjet Joined Optum as Chief People Officer"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "디지털투데이"
+          },
+          "published_at": "2026-05-28T05:32:26.491066Z",
+          "source": "news_search",
+          "title": "Kakao CEO Jeong Shina apologises for uncertainty as strike threatened, presses ahead with restructuring",
+          "url": "https://www.digitaltoday.co.kr/en/view/59092/kakao-ceo-jeong-shina-apologises-amid-strike-threat-presses-ahead-with-restructuring"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d34bacdd99d037c1",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "organization design restructuring",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Kakao CEO Jeong Shina apologises for uncertainty as strike threatened, presses ahead with restructuring"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "People Matters Global"
+          },
+          "published_at": "2026-05-28T05:32:29.092679Z",
+          "source": "news_search",
+          "title": "Behind Fintech’s AI boom lies a growing global layoff crisis",
+          "url": "https://me.peoplemattersglobal.com/news/ai-and-emerging-tech/behind-fintechs-ai-boom-lies-a-growing-global-layoff-crisis-49975"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "da4769e5a5b9a282",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.045,
+      "query": "SaaS workforce reductions",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Behind Fintech’s AI boom lies a growing global layoff crisis"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "publication_type": "brand_content",
+            "raw_source": "TradingView"
+          },
+          "published_at": "2026-05-27T15:32:30.582479Z",
+          "source": "news_search",
+          "title": "Cardio Diagnostics Holdings (NASDAQ: CDIO) Showcases AI-Powered Cardiovascular Risk Solutions at Four National Benefits Conferences",
+          "url": "https://www.tradingview.com/news/financewire:5eaed8614094b:0-cardio-diagnostics-holdings-nasdaq-cdio-showcases-ai-powered-cardiovascular-risk-solutions-at-four-national-benefits-conferences/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2634492cb9db13a6",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0,
+      "query": "AI productivity workforce planning",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.257,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.926
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 55.8,
+        "top_outlets": [
+          {
+            "domain": "www.tradingview.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 230000000,
+            "outlet_score": 0.926,
+            "traffic_score": 0.929
+          }
+        ]
+      },
+      "title": "Cardio Diagnostics Holdings (NASDAQ: CDIO) Showcases AI-Powered Cardiovascular Risk Solutions at Four National Benefits Conferences"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "CIO Africa"
+          },
+          "published_at": "2026-05-28T09:32:30.582228Z",
+          "source": "news_search",
+          "title": "Organisations Must Redesign Work; Not Just Adopt AI",
+          "url": "https://cioafrica.co/organisations-must-redesign-work-not-just-adopt-ai/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "fadd529d60d68586",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI productivity workforce planning",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Organisations Must Redesign Work; Not Just Adopt AI"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 31000,
+            "publication_type": "brand_content",
+            "raw_source": "CBIA"
+          },
+          "published_at": "2026-05-28T13:32:30.581559Z",
+          "source": "news_search",
+          "title": "Connecticut Regulates AI in Employment Decision Making",
+          "url": "https://www.cbia.com/news/hr-safety/ct-regulates-ai-employment-decision-making"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3a0ef77324faa578",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "AI productivity workforce planning",
+      "queue_priority": 39.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.111,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.499
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 28.6,
+        "top_outlets": [
+          {
+            "domain": "www.cbia.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 31000,
+            "outlet_score": 0.499,
+            "traffic_score": 0.499
+          }
+        ]
+      },
+      "title": "Connecticut Regulates AI in Employment Decision Making"
+    }
+  ],
+  "top_signals": [
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "publication_type": "editorial",
+            "raw_source": "Seeking Alpha"
+          },
+          "published_at": "2026-05-28T14:32:29.092656Z",
+          "source": "news_search",
+          "title": "Wix CEO confirms layoffs, blames currency fluctuations, AI (WIX:NASDAQ)",
+          "url": "https://seekingalpha.com/news/4597952-wix-ceo-confirms-layoffs-blames-currency-fluctuations-ai"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "ffe96acdd3fb30ed",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.105,
+      "query": "SaaS workforce reductions",
+      "queue_priority": 62.2,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.219,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.821
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 49,
+        "top_outlets": [
+          {
+            "domain": "seekingalpha.com",
+            "domain_authority": 86,
+            "domain_authority_score": 0.86,
+            "estimated_monthly_organic_traffic": 21000000,
+            "outlet_score": 0.821,
+            "traffic_score": 0.814
+          }
+        ]
+      },
+      "title": "Wix CEO confirms layoffs, blames currency fluctuations, AI (WIX:NASDAQ)"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 2100000,
+            "publication_type": "editorial",
+            "raw_source": "The News International"
+          },
+          "published_at": "2026-05-28T12:32:29.092634Z",
+          "source": "news_search",
+          "title": "Wix.com slashes 20% workforce in major AI restructuring",
+          "url": "https://www.thenews.com.pk/latest/1403990-wixcom-slashes-20-workforce-in-major-ai-restructuring"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e84113785c97013a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.085,
+      "query": "SaaS workforce reductions",
+      "queue_priority": 61.9,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.183,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.716
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.3,
+        "top_outlets": [
+          {
+            "domain": "www.thenews.com.pk",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 2100000,
+            "outlet_score": 0.716,
+            "traffic_score": 0.702
+          }
+        ]
+      },
+      "title": "Wix.com slashes 20% workforce in major AI restructuring"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 1200000,
+            "publication_type": "editorial",
+            "raw_source": "Quartz"
+          },
+          "published_at": "2026-05-28T14:32:22.34326Z",
+          "source": "news_search",
+          "title": "Wix layoffs 2026: company cutting 20% of workforce",
+          "url": "https://qz.com/wix-layoffs-ai-shekel-workforce-cuts-052826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e2e95f6581629f98",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.069,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.18,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.709
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.8,
+        "top_outlets": [
+          {
+            "domain": "qz.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 1200000,
+            "outlet_score": 0.709,
+            "traffic_score": 0.675
+          }
+        ]
+      },
+      "title": "Wix layoffs 2026: company cutting 20% of workforce"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 67,
+            "estimated_monthly_organic_traffic": 20000,
+            "publication_type": "editorial",
+            "raw_source": "HRTech Series"
+          },
+          "published_at": "2026-05-28T11:32:25.24223Z",
+          "source": "news_search",
+          "title": "New NEOGOV Report Finds Public Sector AI Adoption is Growing, but Workforce Readiness is Lagging",
+          "url": "https://techrseries.com/employee-engagement/new-neogov-report-finds-public-sector-ai-adoption-is-growing-but-workforce-readiness-is-lagging/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8285483226c4186e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.113,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.507
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 29,
+        "top_outlets": [
+          {
+            "domain": "techrseries.com",
+            "domain_authority": 67,
+            "domain_authority_score": 0.67,
+            "estimated_monthly_organic_traffic": 20000,
+            "outlet_score": 0.507,
+            "traffic_score": 0.478
+          }
+        ]
+      },
+      "title": "New NEOGOV Report Finds Public Sector AI Adoption is Growing, but Workforce Readiness is Lagging"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Let's Data Science"
+          },
+          "published_at": "2026-05-28T15:06:29.092581Z",
+          "source": "news_search",
+          "title": "Wix Cuts 20% of Workforce Amid FX, AI Changes",
+          "url": "https://letsdatascience.com/news/wix-cuts-20-of-workforce-amid-fx-ai-changes-bc4b9d0c"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bae8e6b85a1291a1",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.063,
+      "query": "SaaS workforce reductions",
+      "queue_priority": 61.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "Wix Cuts 20% of Workforce Amid FX, AI Changes"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 4000000,
+            "publication_type": "editorial",
+            "raw_source": "NDTV Profit"
+          },
+          "published_at": "2026-05-28T14:59:22.343391Z",
+          "source": "news_search",
+          "title": "AI Replacing Jobs At Cloudflare? CEO Matthew Prince Explains 20% Layoffs Despite Record Revenue Growth",
+          "url": "https://www.ndtvprofit.com/business/ai-replacing-jobs-at-cloudflare-ceo-matthew-prince-explains-20-layoffs-despite-record-revenue-growth-11559585"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "5ce0140ef5c933f4",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.061,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 61.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.189,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.734
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.4,
+        "top_outlets": [
+          {
+            "domain": "www.ndtvprofit.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 4000000,
+            "outlet_score": 0.734,
+            "traffic_score": 0.734
+          }
+        ]
+      },
+      "title": "AI Replacing Jobs At Cloudflare? CEO Matthew Prince Explains 20% Layoffs Despite Record Revenue Growth"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 1100000,
+            "publication_type": "editorial",
+            "raw_source": "CTech"
+          },
+          "published_at": "2026-05-28T12:32:22.343289Z",
+          "source": "news_search",
+          "title": "Amdocs prepares major layoffs as new CEO launches sweeping reorganization",
+          "url": "https://www.calcalistech.com/ctechnews/article/u4qmp07cv"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e19037bb8a7dce53",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.173,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.688
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.5,
+        "top_outlets": [
+          {
+            "domain": "www.calcalistech.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 1100000,
+            "outlet_score": 0.688,
+            "traffic_score": 0.671
+          }
+        ]
+      },
+      "title": "Amdocs prepares major layoffs as new CEO launches sweeping reorganization"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 140000,
+            "publication_type": "editorial",
+            "raw_source": "Business Chief"
+          },
+          "published_at": "2026-05-28T14:32:23.162657Z",
+          "source": "news_search",
+          "title": "Anthropic and OpenAI CEOs Reverse Stance on AI Layoffs",
+          "url": "https://businesschief.com/news/anthropic-and-openai-ceos-reverse-stance-on-ai-layoffs"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "167514834ed4e5f2",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.051,
+      "query": "AI layoffs",
+      "queue_priority": 61.4,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.134,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.572
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 33.1,
+        "top_outlets": [
+          {
+            "domain": "businesschief.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 140000,
+            "outlet_score": 0.572,
+            "traffic_score": 0.572
+          }
+        ]
+      },
+      "title": "Anthropic and OpenAI CEOs Reverse Stance on AI Layoffs"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 150000,
+            "publication_type": "editorial",
+            "raw_source": "citybiz"
+          },
+          "published_at": "2026-05-27T16:32:30.582288Z",
+          "source": "news_search",
+          "title": "Visier Appoints Jen Glass to Lead Customer Solutions and Success Operations",
+          "url": "https://www.citybiz.co/article/851736/visier-appoints-jen-glass-to-lead-customer-solutions-and-success-operations/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "2361d3765ee3701e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.13,
+      "query": "AI productivity workforce planning",
+      "queue_priority": 59.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.144,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.603
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 35.1,
+        "top_outlets": [
+          {
+            "domain": "www.citybiz.co",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 150000,
+            "outlet_score": 0.603,
+            "traffic_score": 0.575
+          }
+        ]
+      },
+      "title": "Visier Appoints Jen Glass to Lead Customer Solutions and Success Operations"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 79,
+            "estimated_monthly_organic_traffic": 3600000,
+            "publication_type": "editorial",
+            "raw_source": "ynetnews"
+          },
+          "published_at": "2026-05-28T09:32:22.343324Z",
+          "source": "news_search",
+          "title": "‘We had no choice’: Wix CEO confirms mass layoffs",
+          "url": "https://www.ynetnews.com/business/article/ryroptbxme"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d4738cb43bb6e83a",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.086,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 59.1,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.19,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.738
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 43.7,
+        "top_outlets": [
+          {
+            "domain": "www.ynetnews.com",
+            "domain_authority": 79,
+            "domain_authority_score": 0.79,
+            "estimated_monthly_organic_traffic": 3600000,
+            "outlet_score": 0.738,
+            "traffic_score": 0.728
+          }
+        ]
+      },
+      "title": "‘We had no choice’: Wix CEO confirms mass layoffs"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 78,
+            "estimated_monthly_organic_traffic": 1100000,
+            "publication_type": "editorial",
+            "raw_source": "CTech"
+          },
+          "published_at": "2026-05-28T08:32:23.16268Z",
+          "source": "news_search",
+          "title": "Wix confirms 20% layoffs as CEO warns of AI era reset",
+          "url": "https://www.calcalistech.com/ctechnews/article/hytgvfsxzl"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "d61934352beb4367",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "AI layoffs",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.173,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.688
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 40.5,
+        "top_outlets": [
+          {
+            "domain": "www.calcalistech.com",
+            "domain_authority": 78,
+            "domain_authority_score": 0.78,
+            "estimated_monthly_organic_traffic": 1100000,
+            "outlet_score": 0.688,
+            "traffic_score": 0.671
+          }
+        ]
+      },
+      "title": "Wix confirms 20% layoffs as CEO warns of AI era reset"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 4100000,
+            "publication_type": "editorial",
+            "raw_source": "Inc.com"
+          },
+          "published_at": "2026-05-28T10:32:23.162534Z",
+          "source": "news_search",
+          "title": "The Flaws in ‘Mass Layoffs For AI Productivity’ Are Beyond Obvious Now",
+          "url": "https://www.inc.com/joe-procopio/the-flaws-in-mass-layoffs-for-ai-productivity-are-beyond-obvious-now/91351132"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a5ab83abadae7d53",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "AI layoffs",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.199,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.761
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45.2,
+        "top_outlets": [
+          {
+            "domain": "www.inc.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 4100000,
+            "outlet_score": 0.761,
+            "traffic_score": 0.735
+          }
+        ]
+      },
+      "title": "The Flaws in ‘Mass Layoffs For AI Productivity’ Are Beyond Obvious Now"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": 2800000,
+            "publication_type": "brand_content",
+            "raw_source": "INDmoney"
+          },
+          "published_at": "2026-05-28T07:32:24.024125Z",
+          "source": "news_search",
+          "title": "Cloudflare Layoffs Expose the Hidden AI Cost Problem Big Tech Isn’t Talking About",
+          "url": "https://www.indmoney.com/blog/us-stocks/cloudflare-layoffs-ai-costs-big-tech-2026"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "bda15ecadb5aba4e",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.067,
+      "query": "software company layoffs AI",
+      "queue_priority": 58.8,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.183,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.716
+        },
+        "confidence": "medium",
+        "known_authority_count": 0,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 42.3,
+        "top_outlets": [
+          {
+            "domain": "www.indmoney.com",
+            "domain_authority": null,
+            "domain_authority_score": null,
+            "estimated_monthly_organic_traffic": 2800000,
+            "outlet_score": 0.716,
+            "traffic_score": 0.716
+          }
+        ]
+      },
+      "title": "Cloudflare Layoffs Expose the Hidden AI Cost Problem Big Tech Isn’t Talking About"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "editorial",
+            "raw_source": "Indiatimes"
+          },
+          "published_at": "2026-05-28T03:32:22.343531Z",
+          "source": "news_search",
+          "title": "AI-driven layoffs are becoming a workforce strategy, not just a cost-cutting exercise",
+          "url": "https://hrme.economictimes.indiatimes.com/amp/news/hrtech/ai-reshapes-workforce-strategies-layoffs-vs-transformation/131346248"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "617910070310ed22",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.055,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "AI-driven layoffs are becoming a workforce strategy, not just a cost-cutting exercise"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 900000,
+            "publication_type": "brand_content",
+            "raw_source": "SHRM"
+          },
+          "published_at": "2026-05-27T16:32:25.242387Z",
+          "source": "news_search",
+          "title": "California Targets AI Job Disruption With New Executive Order",
+          "url": "https://www.shrm.org/topics-tools/news/california-targets-ai-job-disruption-with-new-executive"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "283704ecb796f182",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.052,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.176,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.697
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 41.1,
+        "top_outlets": [
+          {
+            "domain": "www.shrm.org",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 900000,
+            "outlet_score": 0.697,
+            "traffic_score": 0.662
+          }
+        ]
+      },
+      "title": "California Targets AI Job Disruption With New Executive Order"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "publication_type": "editorial",
+            "raw_source": "The New York Times"
+          },
+          "published_at": "2026-05-28T01:32:26.491028Z",
+          "source": "news_search",
+          "title": "Lakers rocked by layoffs on ‘brutal’ day amid sweeping organizational changes - The Athletic",
+          "url": "https://www.nytimes.com/athletic/7313581/2026/05/27/lakers-rocked-by-brutal-day-amid-sweeping-organizational-changes/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "a29f8bf529cbab54",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.053,
+      "query": "organization design restructuring",
+      "queue_priority": 58.6,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.273,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.971
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 58.7,
+        "top_outlets": [
+          {
+            "domain": "www.nytimes.com",
+            "domain_authority": 94,
+            "domain_authority_score": 0.94,
+            "estimated_monthly_organic_traffic": 620000000,
+            "outlet_score": 0.971,
+            "traffic_score": 0.977
+          }
+        ]
+      },
+      "title": "Lakers rocked by layoffs on ‘brutal’ day amid sweeping organizational changes - The Athletic"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": null,
+            "estimated_monthly_organic_traffic": null,
+            "publication_type": "other",
+            "raw_source": "Information Age | ACS"
+          },
+          "published_at": "2026-05-28T03:32:24.024231Z",
+          "source": "news_search",
+          "title": "WiseTech's 'damaging' AI layoffs hit by scandal",
+          "url": "https://ia.acs.org.au/article/2026/wisetechs-damaging-ai-layoffs-hit-by-scandal.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "6e4f87163bfcb879",
+      "lane": "profile_relevance",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.05,
+      "query": "software company layoffs AI",
+      "queue_priority": 58.5,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "unknown",
+        "basis": "publication_metadata_missing",
+        "components": {
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95
+        },
+        "confidence": "low",
+        "known_authority_count": 0,
+        "known_outlet_count": 0,
+        "known_traffic_count": 0,
+        "score": null,
+        "top_outlets": []
+      },
+      "title": "WiseTech's 'damaging' AI layoffs hit by scandal"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 90,
+            "estimated_monthly_organic_traffic": 8800000,
+            "publication_type": "editorial",
+            "raw_source": "Chicago Tribune"
+          },
+          "published_at": "2026-05-28T00:32:22.343349Z",
+          "source": "news_search",
+          "title": "Groupon laying off 400 employees — nearly 25% of its workforce — in AI shift",
+          "url": "https://www.chicagotribune.com/2026/05/27/groupon-layoffs-ai/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "8f77c672915eb31b",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.032,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.209,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.791
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 47.1,
+        "top_outlets": [
+          {
+            "domain": "www.chicagotribune.com",
+            "domain_authority": 90,
+            "domain_authority_score": 0.9,
+            "estimated_monthly_organic_traffic": 8800000,
+            "outlet_score": 0.791,
+            "traffic_score": 0.772
+          }
+        ]
+      },
+      "title": "Groupon laying off 400 employees — nearly 25% of its workforce — in AI shift"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 76,
+            "estimated_monthly_organic_traffic": 6600000,
+            "publication_type": "editorial",
+            "raw_source": "WION"
+          },
+          "published_at": "2026-05-28T07:32:22.345247Z",
+          "source": "news_search",
+          "title": "‘AI and layoffs’: Why cybersecurity experts are now in high demand",
+          "url": "https://www.wionews.com/technology/ai-and-layoffs-why-cybersecurity-experts-are-now-in-high-demand-1779953601826"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "3d9727f971ba0760",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI workforce planning software layoffs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "moderate",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.197,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.758
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 45,
+        "top_outlets": [
+          {
+            "domain": "www.wionews.com",
+            "domain_authority": 76,
+            "domain_authority_score": 0.76,
+            "estimated_monthly_organic_traffic": 6600000,
+            "outlet_score": 0.758,
+            "traffic_score": 0.758
+          }
+        ]
+      },
+      "title": "‘AI and layoffs’: Why cybersecurity experts are now in high demand"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 66000000,
+            "publication_type": "editorial",
+            "raw_source": "Business Insider"
+          },
+          "published_at": "2026-05-28T12:32:23.162563Z",
+          "source": "news_search",
+          "title": "Wix is laying off 20% of staff. Read the memo — and yes, it mentions AI.",
+          "url": "https://www.businessinsider.com/wix-layoffs-ai-ceo-memo-job-cuts-2026-5"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "730daddf0ce1b89d",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.046,
+      "query": "AI layoffs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.239,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.877
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 52.6,
+        "top_outlets": [
+          {
+            "domain": "www.businessinsider.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 66000000,
+            "outlet_score": 0.877,
+            "traffic_score": 0.869
+          }
+        ]
+      },
+      "title": "Wix is laying off 20% of staff. Read the memo — and yes, it mentions AI."
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "publication_type": "editorial",
+            "raw_source": "CNBC"
+          },
+          "published_at": "2026-05-28T13:32:23.16261Z",
+          "source": "news_search",
+          "title": "Wix laying off about 20% of its workforce. CEO cites AI, exchange rates in announcing cut",
+          "url": "https://www.cnbc.com/2026/05/28/wix-layoffs-ai-exchange-rates.html"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "1b0ab5a35b64b5d4",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.048,
+      "query": "AI layoffs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.245,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.892
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 53.6,
+        "top_outlets": [
+          {
+            "domain": "www.cnbc.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 97000000,
+            "outlet_score": 0.892,
+            "traffic_score": 0.887
+          }
+        ]
+      },
+      "title": "Wix laying off about 20% of its workforce. CEO cites AI, exchange rates in announcing cut"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "publication_type": "editorial",
+            "raw_source": "Fortune"
+          },
+          "published_at": "2026-05-28T15:22:23.162634Z",
+          "source": "news_search",
+          "title": "CEOs are falling into the same psychological traps as they botch AI messaging",
+          "url": "https://fortune.com/2026/05/28/ceos-ai-messaging-mistakes-bill-winters-low-value/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "da8d23d59104bf37",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.033,
+      "query": "AI layoffs",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.229,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.848
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.8,
+        "top_outlets": [
+          {
+            "domain": "fortune.com",
+            "domain_authority": 91,
+            "domain_authority_score": 0.91,
+            "estimated_monthly_organic_traffic": 34000000,
+            "outlet_score": 0.848,
+            "traffic_score": 0.837
+          }
+        ]
+      },
+      "title": "CEOs are falling into the same psychological traps as they botch AI messaging"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "publication_type": "editorial",
+            "raw_source": "ETHRWorld.com"
+          },
+          "published_at": "2026-05-28T04:32:25.242409Z",
+          "source": "news_search",
+          "title": "AI is making HR faster. But is AI making HR better?",
+          "url": "https://hr.economictimes.indiatimes.com/amp/news/trends/ai-in-hr/ai-is-making-hr-faster-but-is-ai-making-hr-better/131362957"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e412125e4770432c",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.017,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.26,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.936
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 56.4,
+        "top_outlets": [
+          {
+            "domain": "hr.economictimes.indiatimes.com",
+            "domain_authority": 92,
+            "domain_authority_score": 0.92,
+            "estimated_monthly_organic_traffic": 280000000,
+            "outlet_score": 0.936,
+            "traffic_score": 0.939
+          }
+        ]
+      },
+      "title": "AI is making HR faster. But is AI making HR better?"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "publication_type": "editorial",
+            "raw_source": "South China Morning Post"
+          },
+          "published_at": "2026-05-28T12:32:25.24236Z",
+          "source": "news_search",
+          "title": "How MuleRun plans to outpace OpenClaw: Alibaba bets on ‘always-on AI workforce’",
+          "url": "https://www.scmp.com/tech/big-tech/article/3355175/why-mulerun-could-be-next-craze-new-alibaba-ai-agent-platform-promises-safer-adoption"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e58faf9eac136bde",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.031,
+      "query": "workforce planning AI adoption",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.216,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.811
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 48.4,
+        "top_outlets": [
+          {
+            "domain": "www.scmp.com",
+            "domain_authority": 89,
+            "domain_authority_score": 0.89,
+            "estimated_monthly_organic_traffic": 15000000,
+            "outlet_score": 0.811,
+            "traffic_score": 0.797
+          }
+        ]
+      },
+      "title": "How MuleRun plans to outpace OpenClaw: Alibaba bets on ‘always-on AI workforce’"
+    },
+    {
+      "coarse_relevance": null,
+      "decay_bucket": null,
+      "evidence": [
+        {
+          "author": null,
+          "engagement": {},
+          "metadata": {
+            "domain_authority": 85,
+            "estimated_monthly_organic_traffic": 45000000,
+            "publication_type": "other",
+            "raw_source": "조선일보"
+          },
+          "published_at": "2026-05-28T06:32:26.491043Z",
+          "source": "news_search",
+          "title": "Kakao CEO Apologizes for Failed Wage Talks, Strike Looms",
+          "url": "https://www.chosun.com/english/industry-en/2026/05/28/M7Q3VTDWXVAT7ANK5SZJC7ZJCE/"
+        }
+      ],
+      "freshness_gate": null,
+      "id": "e3c60a77b1719497",
+      "lane": "profile_relevance_weak",
+      "major_news": 0,
+      "momentum": 0,
+      "profile_match": 0.035,
+      "query": "organization design restructuring",
+      "queue_priority": 46,
+      "source_agreement": 0.42,
+      "story_origin": null,
+      "story_size": {
+        "band": "high",
+        "basis": "publication_metadata",
+        "components": {
+          "coverage_spread": 0.23,
+          "major_news": 0,
+          "social_momentum": 0,
+          "source_quality": 0.95,
+          "strongest_outlet": 0.85
+        },
+        "confidence": "medium",
+        "known_authority_count": 1,
+        "known_outlet_count": 1,
+        "known_traffic_count": 1,
+        "score": 50.9,
+        "top_outlets": [
+          {
+            "domain": "www.chosun.com",
+            "domain_authority": 85,
+            "domain_authority_score": 0.85,
+            "estimated_monthly_organic_traffic": 45000000,
+            "outlet_score": 0.85,
+            "traffic_score": 0.85
+          }
+        ]
+      },
+      "title": "Kakao CEO Apologizes for Failed Wage Talks, Strike Looms"
+    }
+  ]
+}

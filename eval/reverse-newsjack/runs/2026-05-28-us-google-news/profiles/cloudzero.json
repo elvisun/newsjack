@@ -1,0 +1,42 @@
+{
+  "company": "CloudZero",
+  "website": "https://www.cloudzero.com",
+  "description": "Cloud cost intelligence and FinOps platform that helps engineering and finance teams understand, allocate, and optimize cloud spend.",
+  "topics": [
+    "cloud cost optimization",
+    "FinOps",
+    "AI workload cloud costs",
+    "enterprise cloud commitments",
+    "data platform spend",
+    "AWS and Snowflake cost management"
+  ],
+  "competitors": [
+    "Vantage",
+    "Apptio Cloudability",
+    "Kubecost",
+    "Harness Cloud Cost Management",
+    "Anodot",
+    "Datadog Cloud Cost Management"
+  ],
+  "search_terms": [
+    "AWS Snowflake partnership",
+    "Snowflake AWS deal",
+    "enterprise AI cloud spend",
+    "AI workload costs",
+    "cloud commitments AI demand",
+    "Snowflake cost optimization",
+    "AWS data platform spending",
+    "FinOps AI infrastructure"
+  ],
+  "spokespeople": [
+    "CEO or cloud cost intelligence executive",
+    "FinOps practitioner",
+    "Cloud economics expert"
+  ],
+  "standing": [
+    "cloud cost management for AI and data workloads",
+    "FinOps analysis of cloud commitments",
+    "engineering-led cloud spend optimization",
+    "AWS and data platform cost allocation"
+  ]
+}

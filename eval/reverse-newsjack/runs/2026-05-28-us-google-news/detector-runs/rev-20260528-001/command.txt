@@ -1,0 +1,9 @@
+~/.newsjack/bin/newsjack detector run "product safety supply chain compliance" \
+  --profile /Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-001/profile.json \
+  --sources news_search,x \
+  --lookback-days 1 \
+  --depth quick \
+  --limit 120 \
+  --include-all-scored \
+  --no-x-trends \
+  --emit json

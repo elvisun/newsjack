@@ -1,0 +1,42 @@
+{
+  "company": "Constructor",
+  "website": "https://constructor.com",
+  "description": "AI product discovery and search platform for ecommerce retailers, focused on personalized shopping experiences, product search, and recommendations.",
+  "topics": [
+    "retail AI",
+    "AI shopping assistants",
+    "ecommerce search",
+    "product discovery",
+    "personalized commerce",
+    "retail conversion optimization"
+  ],
+  "competitors": [
+    "Algolia",
+    "Bloomreach",
+    "Coveo",
+    "Lily AI",
+    "Klevu",
+    "Searchspring"
+  ],
+  "search_terms": [
+    "AI shopping assistants retailers",
+    "Amazon AWS retail AI shopping",
+    "ecommerce AI search",
+    "AI product discovery",
+    "retail chatbot shopping assistant",
+    "personalized shopping AI",
+    "AI-powered shopping experiences",
+    "retail AI assistant platform"
+  ],
+  "spokespeople": [
+    "Retail AI executive",
+    "Product discovery expert",
+    "Ecommerce search product lead"
+  ],
+  "standing": [
+    "AI product discovery for ecommerce",
+    "retail search and recommendations",
+    "personalized shopping experiences",
+    "commerce conversion and product relevance"
+  ]
+}

@@ -1,0 +1,9 @@
+go run ./cmd/newsjack detector run "open source software supply chain security AI" \
+  --profile /Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.tmp/reverse-newsjack/2026-05-28-test/runs/rev-20260528-007/profile.json \
+  --sources news_search,x \
+  --lookback-days 1 \
+  --depth quick \
+  --limit 0 \
+  --include-all-scored \
+  --no-x-trends \
+  --emit json

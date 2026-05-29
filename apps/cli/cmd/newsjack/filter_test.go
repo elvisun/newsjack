@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -131,6 +132,65 @@ func TestFilterApplyGuardKeepsProfileMatchedNoBridgeReject(t *testing.T) {
 	coarse := valueOrEmptyMap(payload["coarse_relevance"])
 	if coarse["guardrail_override_count"] != 1 {
 		t.Fatalf("guardrail count=%v, want 1", coarse["guardrail_override_count"])
+	}
+}
+
+func TestFilterApplyGuardKeepsLargeRemoteRelevantNoBridgeReject(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{
+			"profile": map[string]any{
+				"company": "Specright",
+				"topics":  []any{"product safety compliance", "marketplace product compliance"},
+			},
+		},
+		"signals": []any{
+			map[string]any{
+				"id":    "temu",
+				"title": "Temu hit with EU fine over unsafe goods",
+				"routing": map[string]any{
+					"lane":           "profile_relevance_weak",
+					"queue_priority": 46.0,
+					"recall_guard":   "large_story_remote_relevance",
+				},
+				"mechanical_scores": map[string]any{
+					"profile_match": 0.029,
+					"story_size":    0.587,
+				},
+				"evidence": []any{
+					map[string]any{
+						"title":   "Temu hit with EU fine over unsafe goods",
+						"excerpt": "Regulators say unsafe products were sold through the online marketplace.",
+						"url":     "https://example.com/temu-fine",
+					},
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{
+				"signal_id": "temu",
+				"decision":  "reject",
+				"reason":    "major_news_no_bridge",
+				"rationale": "Temu is not the client.",
+			},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1; payload=%#v", len(signals), payload)
+	}
+	decision := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if decision["decision"] != "monitor_only" || decision["reason"] != "plausible_client_bridge" {
+		t.Fatalf("guarded decision mismatch: %#v", decision)
+	}
+	matches := toStringSlice(decision["guardrail_matches"])
+	if len(matches) == 0 || !strings.Contains(matches[len(matches)-1], "large_story_recall") {
+		t.Fatalf("guardrail matches missing story recall evidence: %#v", decision)
 	}
 }
 

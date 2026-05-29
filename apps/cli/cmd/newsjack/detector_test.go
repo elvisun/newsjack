@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"time"
 )
@@ -60,6 +61,24 @@ func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
 	}
 }
 
+func TestProfileIgnoresLegacyAssetInventory(t *testing.T) {
+	legacyAssetKey := "pro" + "of_assets"
+	profile := profileFromMap(map[string]any{
+		"company":      "ExampleCo",
+		"topics":       []any{"workforce planning"},
+		legacyAssetKey: []any{"legacy phrase should not match"},
+	})
+	if _, ok := profile.publicDict()[legacyAssetKey]; ok {
+		t.Fatalf("public profile should not expose legacy asset inventory: %#v", profile.publicDict())
+	}
+	if strings.Contains(profile.matchText(), "legacy phrase") {
+		t.Fatalf("match text should not include legacy asset inventory: %q", profile.matchText())
+	}
+	if got := profileMatches(profile, "legacy phrase should not match"); len(got) != 0 {
+		t.Fatalf("profileMatches used legacy asset inventory: %v", got)
+	}
+}
+
 func TestSearchXNewsCallsXAPIDirectly(t *testing.T) {
 	var gotPath, gotAuth string
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -91,10 +110,9 @@ func TestSearchXNewsCallsXAPIDirectly(t *testing.T) {
 func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
 	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC)
 	profile := monitorProfile{
-		Company:     "Clearnym",
-		Topics:      []string{"data broker removal"},
-		Standing:    []string{"identity theft prevention"},
-		ProofAssets: []string{"privacy operations"},
+		Company:  "Clearnym",
+		Topics:   []string{"data broker removal"},
+		Standing: []string{"identity theft prevention", "privacy operations"},
 	}
 	opts := detectorOptions{
 		LookbackDays:                    1,
@@ -156,6 +174,38 @@ func TestMajorNewsFallbackDoesNotSelectUnmatchedMajorNews(t *testing.T) {
 	}
 	if !passesSelectionFloor(matched, defaultMinQueuePriority, defaultMinMajorNews) {
 		t.Fatal("matched major_news did not pass the broad major-news fallback")
+	}
+}
+
+func TestLargeRemoteRelevantStoryPassesSelectionFloor(t *testing.T) {
+	signal := map[string]any{
+		"routing": map[string]any{
+			"lane":           "profile_relevance_weak",
+			"queue_priority": 39.9,
+		},
+		"mechanical_scores": map[string]any{
+			"profile_match": 0.014,
+			"story_size":    0.58,
+		},
+	}
+	if !passesSelectionFloor(signal, defaultMinQueuePriority, defaultMinMajorNews) {
+		t.Fatalf("large remote-relevant story did not pass selection floor: %#v", signal)
+	}
+}
+
+func TestSmallWeakStoryStillDoesNotPassSelectionFloor(t *testing.T) {
+	signal := map[string]any{
+		"routing": map[string]any{
+			"lane":           "profile_relevance_weak",
+			"queue_priority": 39.9,
+		},
+		"mechanical_scores": map[string]any{
+			"profile_match": 0.014,
+			"story_size":    0.08,
+		},
+	}
+	if passesSelectionFloor(signal, defaultMinQueuePriority, defaultMinMajorNews) {
+		t.Fatalf("small weak story passed selection floor: %#v", signal)
 	}
 }
 
