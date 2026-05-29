@@ -35,6 +35,7 @@ dist/
 out/
 build/
 coverage/
+apps/cli/newsjack
 
 # ─── editor / os ──────────────────────────────────────
 .DS_Store
