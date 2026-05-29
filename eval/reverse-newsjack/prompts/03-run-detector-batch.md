@@ -48,7 +48,7 @@ Tasks:
    - profile.json
    - candidates.json
    - stderr.log
-   - summary.json and run.md if summarize-run succeeds
+   - summary.json and run.md if render-run succeeds
 
 Output folder shape:
 runs/TARGET_ID/

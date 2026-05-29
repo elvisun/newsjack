@@ -72,7 +72,7 @@ for row in "${profiles[@]}"; do
   if "$SCRIPT_DIR/with-fixture-env.sh" \
     "$NEWSJACK_BIN" "${detector_args[@]}" \
       >"$output" 2>"$error_log"; then
-    if "$NEWSJACK_BIN" summarize-run "$output" --output "$summary" --markdown "$markdown"; then
+    if "$NEWSJACK_BIN" render-run "$output" --output "$summary" --markdown "$markdown"; then
       echo "ok: $markdown"
       report_rows+=("| $slug | [$profile]($slug/run.md) | [$slug/candidates.json]($slug/candidates.json) | ok |")
     else

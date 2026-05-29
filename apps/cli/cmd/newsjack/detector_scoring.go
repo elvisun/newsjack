@@ -719,15 +719,48 @@ func seenSubset(urls []string, seen map[string]map[string]any) map[string]map[st
 	return out
 }
 
-var hardSafetyTerms = []string{"humanitarian crisis", "sexual violence", "missing child", "missing person", "mass shooting", "terror attack", "child abuse", "hate crime", "war crime", "earthquake", "genocide", "hostage", "assault", "bombing", "murder", "abuse", "rape"}
+// hardSafetyTerms are tragedy/human-suffering markers. A match flags a signal
+// for the doctrine's tragedy rules; downstream the human-facing renderer drops
+// flagged signals from the auto-generated scan (the LLM can still feature a
+// restrained-expert-commentary angle deliberately via final_report.md).
+//
+// Matched with word boundaries (see hardSafetyRe), not raw substrings, so
+// "manslaughter" no longer hides inside unrelated text and the terms can be
+// curated to literal-violence words. The list is recall-biased on purpose: a
+// false positive only withholds an item from the mechanical scan, while a false
+// negative leaks tragedy into the brief — the exact bug this guards against.
+var hardSafetyTerms = []string{
+	// pre-existing
+	"humanitarian crisis", "sexual violence", "missing child", "missing person", "mass shooting",
+	"terror attack", "child abuse", "hate crime", "war crime", "earthquake", "genocide", "hostage",
+	"assault", "bombing", "murder", "abuse", "rape",
+	// tragedy headline vocabulary the substring list missed
+	"missing people", "missing persons", "school shooting", "killed", "kills", "killing",
+	"fatal", "fatally", "fatalities", "deaths", "casualties", "no survivors", "dead",
+	"wildfire", "wildfires", "explosion", "blast", "manslaughter", "homicide", "massacre",
+	"airstrike", "airstrikes", "stabbing", "stabbed", "shot dead", "shooting", "suicide",
+	"overdose", "plane crash", "car crash", "fatal crash", "deadly",
+}
+
+var hardSafetyRe = func() *regexp.Regexp {
+	quoted := make([]string, len(hardSafetyTerms))
+	for i, term := range hardSafetyTerms {
+		quoted[i] = regexp.QuoteMeta(term)
+	}
+	return regexp.MustCompile(`(?i)\b(` + strings.Join(quoted, "|") + `)\b`)
+}()
 
 func safetyFlags(text string, exclusions []string) []map[string]string {
 	lower := strings.ToLower(text)
 	var flags []map[string]string
-	for _, term := range hardSafetyTerms {
-		if strings.Contains(lower, term) {
-			flags = append(flags, map[string]string{"type": "hard_safety_term", "term": term, "note": "Review against tragedy and human-suffering newsjacking rules."})
+	seen := map[string]bool{}
+	for _, match := range hardSafetyRe.FindAllString(lower, -1) {
+		term := strings.TrimSpace(match)
+		if term == "" || seen[term] {
+			continue
 		}
+		seen[term] = true
+		flags = append(flags, map[string]string{"type": "hard_safety_term", "term": term, "note": "Review against tragedy and human-suffering newsjacking rules."})
 	}
 	for _, term := range exclusions {
 		if term != "" && strings.Contains(lower, strings.ToLower(term)) {

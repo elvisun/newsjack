@@ -117,13 +117,13 @@ Only `run.md` is human-facing; the rest are provenance.
 
    Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict; do not mix story headlines and angle headlines without labeling which is which.
 
-8. **Rerender the run report:**
+8. **Render the run report.** `render-run` is a deterministic formatter — it decides nothing, but it will **not** render a coarse-rejected or hard-safety-flagged signal into the human brief, and it discloses how many it withheld.
 
    ```bash
-   ~/.newsjack/bin/newsjack summarize-run candidates.json --output summary.json --markdown run.md
+   ~/.newsjack/bin/newsjack render-run relevant_candidates.json --output summary.json --markdown run.md
    ```
 
-   Inside a timestamped folder, pass full paths for `candidates.json`, `summary.json`, and `run.md`. `run.md` renders `final_report.md` plus a compact candidate scan.
+   Render from the **gated pool** (`relevant_candidates.json`), never raw `candidates.json` — the human-facing scan must not resurface signals the coarse pass dropped (e.g. tragedy/keyword-collision junk). Inside a timestamped folder, pass full paths for the input, `summary.json`, and `run.md`. `run.md` renders `final_report.md` plus a compact candidate scan of the surviving pool. (`summarize-run` is a deprecated alias for `render-run`.)
 
 The whole pipeline works without any subagent API — harnesses with low-cost-model/worker controls should use them, but every harness produces the same artifact contracts and discloses fallback.
 
@@ -155,7 +155,8 @@ Before reporting the run complete:
 - `origin_findings.json` has exactly one finding per relevant candidate (unless `--allow-missing`).
 - `targeted_candidates.json` was produced by `origin-apply`.
 - `final_report.md` was written from `targeted_candidates.json`, not raw `candidates.json`.
-- `run.md` was rerendered after `final_report.md` existed.
+- `run.md` was rendered (via `render-run`) from the gated pool (`relevant_candidates.json`) after `final_report.md` existed — never from raw `candidates.json`.
+- The `run.md` candidate scan contains **no** coarse-rejected or hard-safety-flagged signal; if `render-run` reports withheld signals, that disclosure line is present.
 - The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
 
 ## Output Format

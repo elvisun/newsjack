@@ -93,7 +93,7 @@ else
   exit "$status"
 fi
 
-"$NEWSJACK_BIN" summarize-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
+"$NEWSJACK_BIN" render-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
 
 echo "wrote:"
 echo "- $CANDIDATES"

@@ -90,8 +90,14 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdFilterApply(args[1:], stdout, stderr)
 	case "origin-apply":
 		return cmdOriginApply(args[1:], stdout, stderr)
+	case "render-run":
+		return cmdRenderRun(args[1:], stdout, stderr)
 	case "summarize-run":
-		return cmdSummarizeRun(args[1:], stdout, stderr)
+		// Deprecated alias for render-run. "summarize" implied curation the
+		// command never did (it is a deterministic renderer); kept for
+		// backward compatibility with existing scripts and skill contracts.
+		warn(stderr, "summarize-run is deprecated; use render-run")
+		return cmdRenderRun(args[1:], stdout, stderr)
 	default:
 		printUsage(stderr)
 		return failf(stderr, "unknown command: %s", cmd)
