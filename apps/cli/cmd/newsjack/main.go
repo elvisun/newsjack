@@ -17,7 +17,7 @@ func runCLI(args []string, stdout, stderr io.Writer) int {
 }
 
 func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
-	cmd := "banner"
+	cmd := "help"
 	if len(args) > 0 {
 		cmd = args[0]
 	}
@@ -27,9 +27,6 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 	switch cmd {
 	case "help", "--help", "-h":
 		printUsage(stdout)
-		return 0
-	case "banner":
-		printBanner(stdout)
 		return 0
 	case "version", "--version":
 		fmt.Fprintln(stdout, version)

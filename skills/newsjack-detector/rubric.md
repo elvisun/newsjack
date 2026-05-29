@@ -21,14 +21,14 @@ Use `story_size` to calibrate effort, not to approve a pitch. It is a determinis
 
 ## Freshness Gate
 
-For recurring or beta cron output, the LLM `story-origin-check` recovers the first-public timestamp and canonical coverage, then the Go CLI `origin-apply` computes the freshness gate. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
+For recurring scheduled output, the LLM `story-origin-check` recovers the first-public timestamp and canonical coverage, then the Go CLI `origin-apply` computes the freshness gate. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
 
 Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `freshness_gate.computed_status`:
 
 - `fresh` - eligible for normal judgment.
 - `fresh_new_development` - eligible, but the angle must be about the new development, not the older background story.
 - `stale` - reject as stale.
-- `freshness_unverified` or missing - reject as `freshness_unverified` for cron/beta output.
+- `freshness_unverified` or missing - reject as `freshness_unverified` for recurring scheduled output.
 
 Do not reset the clock because an aggregator, syndication partner, or secondary outlet republished an older article.
 
@@ -73,7 +73,7 @@ Use when the signal is interesting but not pitch-ready:
 Use when any core gate fails:
 
 - stale
-- freshness unverified in cron/beta output
+- freshness unverified in recurring scheduled output
 - no client standing
 - no plausible journalist shape
 - off-beat

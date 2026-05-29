@@ -11,6 +11,8 @@ SOURCES="${NEWSJACK_SOURCES:-news_search,x}"
 LOOKBACK_DAYS="${NEWSJACK_LOOKBACK_DAYS:-1}"
 DEPTH="${NEWSJACK_DEPTH:-quick}"
 MAX_AGE_HOURS="${NEWSJACK_MAX_AGE_HOURS:-24}"
+SAVE="${NEWSJACK_SAVE:-1}"
+NEW_ONLY="${NEWSJACK_NEW_ONLY:-0}"
 EXTRA_ARGS=("$@")
 
 mkdir -p "$RUN_DIR"
@@ -28,7 +30,7 @@ profiles=(
 status=0
 report_rows=()
 
-echo "newsjack hourly run: $STAMP"
+echo "newsjack fixture run: $STAMP"
 echo "output: $RUN_DIR"
 
 for row in "${profiles[@]}"; do
@@ -47,18 +49,28 @@ for row in "${profiles[@]}"; do
   echo "profile: $profile"
   profile_path="$FIXTURE_DIR/$profile"
 
-  if "$SCRIPT_DIR/agent-env.sh" \
-    "$NEWSJACK_BIN" detector run \
-      "$query" \
-      --profile "$profile_path" \
-      --sources "$SOURCES" \
-      --lookback-days "$LOOKBACK_DAYS" \
-      --depth "$DEPTH" \
-      "${EXTRA_ARGS[@]}" \
-      --save \
-      --new-only \
-      --max-age-hours "$MAX_AGE_HOURS" \
-      --emit json \
+  detector_args=(
+    detector run
+    "$query"
+    --profile "$profile_path"
+    --sources "$SOURCES"
+    --lookback-days "$LOOKBACK_DAYS"
+    --depth "$DEPTH"
+    --max-age-hours "$MAX_AGE_HOURS"
+  )
+
+  if [[ "$SAVE" != "0" && "$SAVE" != "false" ]]; then
+    detector_args+=(--save)
+  fi
+
+  if [[ "$NEW_ONLY" != "0" && "$NEW_ONLY" != "false" ]]; then
+    detector_args+=(--new-only)
+  fi
+
+  detector_args+=("${EXTRA_ARGS[@]}" --emit json)
+
+  if "$SCRIPT_DIR/with-fixture-env.sh" \
+    "$NEWSJACK_BIN" "${detector_args[@]}" \
       >"$output" 2>"$error_log"; then
     if "$NEWSJACK_BIN" summarize-run "$output" --output "$summary" --markdown "$markdown"; then
       echo "ok: $markdown"
@@ -84,9 +96,11 @@ INDEX="$RUN_DIR/index.md"
   echo "- Lookback: $LOOKBACK_DAYS day(s)"
   echo "- Max source item age: $MAX_AGE_HOURS hour(s)"
   echo "- Depth: $DEPTH"
-  echo "- Beta freshness gate: final surfaced stories require LLM-verified first public timestamp within 24 hours and canonical major coverage when recoverable"
+  echo "- Save detector run: $SAVE"
+  echo "- New-only filter: $NEW_ONLY"
+  echo "- Freshness gate: final surfaced stories require LLM-verified first public timestamp within 24 hours and canonical major coverage when recoverable"
   echo
-  echo "| Beta profile | Report | Detector JSON | Status |"
+  echo "| Fixture profile | Report | Detector JSON | Status |"
   echo "|---|---|---|---|"
   for report_row in "${report_rows[@]}"; do
     echo "$report_row"

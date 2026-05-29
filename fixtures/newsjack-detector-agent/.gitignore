@@ -1,3 +1,4 @@
 runs/
 *.db
 *.db-*
+.claude/

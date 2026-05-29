@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"io"
 	"strings"
 	"testing"
 )
@@ -33,23 +32,31 @@ func TestUIColorHonorsForcedAndBufferedModes(t *testing.T) {
 	})
 }
 
-func TestBannerUsesProductRenderer(t *testing.T) {
-	var out bytes.Buffer
-	if code := runCLI([]string{"banner"}, &out, io.Discard); code != 0 {
-		t.Fatalf("banner exit code=%d", code)
+func TestBareCommandPrintsUsageLikeHelp(t *testing.T) {
+	var bareOut, bareErr, helpOut, helpErr bytes.Buffer
+	if code := runCLI(nil, &bareOut, &bareErr); code != 0 {
+		t.Fatalf("bare command exit code=%d", code)
 	}
-	want := bannerArt + "\n"
-	if out.String() != want {
-		t.Fatalf("banner output=%q, want %q", out.String(), want)
+	if code := runCLI([]string{"help"}, &helpOut, &helpErr); code != 0 {
+		t.Fatalf("help exit code=%d", code)
+	}
+	if bareOut.String() != helpOut.String() {
+		t.Fatalf("bare command output should match help:\nbare=%q\nhelp=%q", bareOut.String(), helpOut.String())
+	}
+	if strings.Contains(bareOut.String(), "banner") {
+		t.Fatalf("usage should not list banner command:\n%s", bareOut.String())
+	}
+	if bareErr.Len() != 0 || helpErr.Len() != 0 {
+		t.Fatalf("bare/help should not write stderr: bare=%q help=%q", bareErr.String(), helpErr.String())
 	}
 }
 
-func TestBareCommandPrintsBanner(t *testing.T) {
-	var out bytes.Buffer
-	if code := runCLI(nil, &out, io.Discard); code != 0 {
-		t.Fatalf("bare command exit code=%d", code)
+func TestBannerCommandIsRemoved(t *testing.T) {
+	var out, errBuf bytes.Buffer
+	if code := runCLI([]string{"banner"}, &out, &errBuf); code == 0 {
+		t.Fatalf("banner should not be a command")
 	}
-	if out.String() != bannerArt+"\n" {
-		t.Fatalf("bare command output=%q", out.String())
+	if !strings.Contains(errBuf.String(), "unknown command: banner") {
+		t.Fatalf("banner should fail as unknown command:\n%s", errBuf.String())
 	}
 }

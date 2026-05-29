@@ -17,13 +17,10 @@ if [[ "$PROFILE" != /* ]]; then
   fi
 fi
 
-exec "$SCRIPT_DIR/agent-env.sh" \
+exec "$SCRIPT_DIR/with-fixture-env.sh" \
   "$NEWSJACK_BIN" detector run \
   "$QUERY" \
   --profile "$PROFILE" \
   "$@" \
-  --sources news_search,x \
-  --lookback-days 1 \
-  --depth quick \
-  --save \
+  --mock \
   --emit json
