@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"hash/fnv"
 	"io"
 	"os"
 	"os/exec"
@@ -376,7 +377,7 @@ func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
-	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Install the schedule in %s, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, and print the final run.md and schedule paths.", runtimeLabel(scheduleRuntime))
+	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Install the schedule in %s, not system cron. Use deterministic cron jitter from the monitor slug: minute=(fnv32a(slug)%%59)+1, never minute 0. Ask only for facts you cannot infer safely. Save the monitor profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, and print the final run.md and schedule paths.", runtimeLabel(scheduleRuntime))
 }
 
 func printRuntimeList(stdout io.Writer) {
@@ -880,16 +881,18 @@ func cmdMonitorSchedule(args []string, stdout, stderr io.Writer) int {
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return fail(stderr, err)
 	}
+	suggestedMinute := suggestedScheduleMinute(slug)
 	payload := map[string]any{
-		"slug":           slug,
-		"runtime":        runtime,
-		"every":          *every,
-		"system_cron":    false,
-		"schedule_path":  monitorSchedulePath(slug),
-		"instructions":   scheduleInstructions(slug, runtime, *every),
-		"installed_at":   time.Now().UTC().Format(time.RFC3339Nano),
-		"run_command":    fmt.Sprintf("newsjack monitor run %s", shellQuote(slug)),
-		"artifact_scope": "agent_harness",
+		"slug":             slug,
+		"runtime":          runtime,
+		"every":            *every,
+		"suggested_minute": suggestedMinute,
+		"system_cron":      false,
+		"schedule_path":    monitorSchedulePath(slug),
+		"instructions":     scheduleInstructions(slug, runtime, *every),
+		"installed_at":     time.Now().UTC().Format(time.RFC3339Nano),
+		"run_command":      fmt.Sprintf("newsjack monitor run %s", shellQuote(slug)),
+		"artifact_scope":   "agent_harness",
 	}
 	if err := os.WriteFile(monitorScheduleJSONPath(slug), marshalJSON(payload), 0o644); err != nil {
 		return fail(stderr, err)
@@ -1112,24 +1115,37 @@ func selectScheduleRuntime(raw string) string {
 	}
 }
 
+func suggestedScheduleMinute(slug string) int {
+	h := fnv.New32a()
+	_, _ = h.Write([]byte(slugify(slug)))
+	return int(h.Sum32()%59) + 1
+}
+
 func scheduleInstructions(slug, runtime, every string) string {
-	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and rerender run.md.", every, shellQuote(slug), runtime)
+	minute := suggestedScheduleMinute(slug)
+	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and rerender run.md. When installing the recurring schedule, pick a stable random minute in [1, 59], never minute 0; suggested_minute is %d from `minute = (fnv32a(slug) %% 59) + 1`. Apply the same jitter to daily and weekly schedules, and avoid common top-of-hour, midnight, and Monday-09:00 defaults. This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.", every, shellQuote(slug), runtime, minute)
 }
 
 func renderScheduleMarkdown(payload map[string]any) string {
-	return fmt.Sprintf(`# Newsjack Agent Schedule
-
-- Monitor: %s
-- Runtime: %s
-- Every: %s
-- System cron installed: false
-
-%s
-
-This is an agent-harness schedule contract. Do not install this monitor in
-system cron for v1; the run must trigger the agent harness so the LLM analysis
-step can operate on the detector artifacts.
-`, payload["slug"], payload["runtime"], payload["every"], payload["instructions"])
+	return fmt.Sprintf("# Newsjack Agent Schedule\n\n"+
+		"- Monitor: %s\n"+
+		"- Runtime: %s\n"+
+		"- Every: %s\n"+
+		"- Suggested minute: %v\n"+
+		"- System cron installed: false\n\n"+
+		"%s\n\n"+
+		"## Cron Jitter\n\n"+
+		"Pick a stable random minute in [1, 59], never minute 0. Use\n"+
+		"`minute = (fnv32a(slug) %% 59) + 1`; this schedule suggests minute %v for\n"+
+		"`%s`. For hourly schedules, use that minute instead of the top of the hour.\n"+
+		"For daily or weekly schedules, use the same minute rule and avoid common\n"+
+		"midnight or Monday-09:00 defaults. This spreads load across the\n"+
+		"Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top\n"+
+		"of every hour.\n\n"+
+		"This is an agent-harness schedule contract. Do not install this monitor in\n"+
+		"system cron for v1; the run must trigger the agent harness so the LLM analysis\n"+
+		"step can operate on the detector artifacts.\n",
+		payload["slug"], payload["runtime"], payload["every"], payload["suggested_minute"], payload["instructions"], payload["suggested_minute"], payload["slug"])
 }
 
 func slugify(value string) string {

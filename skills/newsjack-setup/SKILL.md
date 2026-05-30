@@ -76,6 +76,18 @@ If the user chooses `location`, ask for target geography and save both labels an
 
 Do not make `location` the default for a generic SaaS company. Prefer `personalized` or `none` unless geography is important. If the user is unsure, choose `personalized` for founder-led/tech/media workflows and `none` for low-noise company monitoring.
 
+## Scheduling
+
+When the user opts into an hourly schedule, generate a cron expression with a stable random minute in `[1, 59]`, never `0`.
+
+Prefer deterministic jitter per monitor: `minute = (hash(slug) % 59) + 1`. Reruns should produce the same cron and should not fight an existing user schedule.
+
+Daily and weekly schedules also need jitter. Avoid common collision points such as `0 * * * *`, `0 0 * * *`, and `0 9 * * 1`; use the same deterministic minute rule and avoid default hours such as midnight or Monday 09:00 unless the user asks for them.
+
+Apply this for OpenClaw cron, Hermes cron, Claude Code Routine, Codex, and any other scheduler runtime.
+
+This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.
+
 ## Process
 
 1. **Understand the company.** Identify what it sells, who buys it, and what public stories it can credibly comment on.

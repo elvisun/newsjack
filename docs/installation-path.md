@@ -212,6 +212,11 @@ newsjack monitor status <slug>
 newsjack monitor open <slug>
 ```
 
+`monitor schedule` should tell the agent to use deterministic cron jitter for
+the recurring job. Pick a stable random minute in `[1, 59]`, never minute `0`;
+prefer `minute = (hash(slug) % 59) + 1`, and include the suggested minute in
+the schedule JSON so reruns do not churn existing schedules.
+
 `monitor run` should write a timestamped run folder under:
 
 ```text
@@ -237,6 +242,12 @@ Preferred scheduler targets:
 - Hermes cron
 - Claude Code Routine
 - similar agent-native scheduling in a supported harness
+
+All recurring schedules must avoid common collision points such as
+`0 * * * *`, `0 0 * * *`, and `0 9 * * 1`. Use the same deterministic jitter
+rule for hourly, daily, and weekly schedules. This spreads load across the
+Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top
+of every hour.
 
 System `launchd`, user `systemd`, and `crontab` are out of scope for v1
 recurring monitors. They can run the detector, but they cannot reliably trigger

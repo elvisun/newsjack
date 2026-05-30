@@ -263,10 +263,11 @@ test -f "$run_md"
 grep -q "Harness Coffee Newsjack Brief" "$run_md"
 
 newsjack monitor schedule harness-coffee --runtime claude --every 1h | tee /tmp/newsjack-monitor-schedule.json
-jq -e '.system_cron == false and .runtime == "claude" and .schedule_path' /tmp/newsjack-monitor-schedule.json >/dev/null
+jq -e '.system_cron == false and .runtime == "claude" and .schedule_path and (.suggested_minute >= 1) and (.suggested_minute <= 59)' /tmp/newsjack-monitor-schedule.json >/dev/null
 schedule_md="$(jq -r '.schedule_path' /tmp/newsjack-monitor-schedule.json)"
 test -f "$schedule_md"
 ! grep -Eq 'crontab|launchd|systemd' "$schedule_md"
+grep -q 'never minute 0' "$schedule_md"
 
 newsjack monitor status harness-coffee | tee /tmp/newsjack-monitor-status.json
 jq -e '.exists == true and .run_count == 1 and .latest_run_markdown' /tmp/newsjack-monitor-status.json >/dev/null

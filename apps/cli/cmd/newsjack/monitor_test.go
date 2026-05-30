@@ -82,6 +82,9 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		if schedule["system_cron"] != false {
 			t.Fatalf("system_cron=%v, want false", schedule["system_cron"])
 		}
+		if schedule["suggested_minute"] != float64(suggestedScheduleMinute("fixture-coffee")) {
+			t.Fatalf("suggested_minute=%v, want %d", schedule["suggested_minute"], suggestedScheduleMinute("fixture-coffee"))
+		}
 		schedulePath := stringValue(schedule["schedule_path"])
 		scheduleBody, readErr := os.ReadFile(schedulePath)
 		if readErr != nil {
@@ -89,6 +92,9 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		}
 		if strings.Contains(string(scheduleBody), "crontab") || strings.Contains(string(scheduleBody), "launchd") || strings.Contains(string(scheduleBody), "systemd") {
 			t.Fatalf("schedule should not include system scheduler instructions:\n%s", scheduleBody)
+		}
+		if !strings.Contains(string(scheduleBody), "never minute 0") {
+			t.Fatalf("schedule should include cron jitter guidance:\n%s", scheduleBody)
 		}
 
 		out.Reset()
@@ -108,6 +114,32 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 			t.Fatalf("latest_run_markdown missing: %#v", status)
 		}
 	})
+}
+
+func TestSuggestedScheduleMinute(t *testing.T) {
+	slugs := []string{
+		"fixture-coffee",
+		"medialyst",
+		"acme-corp",
+		"newsjack",
+		"localfalcon",
+		"property-saviour",
+		"Blue Bottle Coffee",
+		"",
+	}
+	for _, slug := range slugs {
+		first := suggestedScheduleMinute(slug)
+		second := suggestedScheduleMinute(slug)
+		if first != second {
+			t.Fatalf("suggestedScheduleMinute(%q)=%d then %d, want deterministic", slug, first, second)
+		}
+		if first < 1 || first > 59 {
+			t.Fatalf("suggestedScheduleMinute(%q)=%d, want [1, 59]", slug, first)
+		}
+		if first == 0 {
+			t.Fatalf("suggestedScheduleMinute(%q)=0, want nonzero", slug)
+		}
+	}
 }
 
 func TestSetupDefaultsToClaudeCode(t *testing.T) {
