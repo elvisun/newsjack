@@ -184,6 +184,14 @@ Alternatively, install via npm:
 npm install -g newsjack
 ```
 
+### Install as Claude Code plugin
+
+```bash
+claude plugin install elvisun/newsjack
+```
+
+This registers all newsjack skills (`/newsjack:angle-generator`, `/newsjack:meanest-editor`, etc.) and the optional Medialyst MCP server. Run `/newsjack:newsjack-setup` to create a monitor profile.
+
 ## Repo layout
 
 ```

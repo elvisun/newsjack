@@ -1,0 +1,15 @@
+{
+  "name": "newsjack",
+  "displayName": "Newsjack",
+  "version": "0.1.0",
+  "description": "Open-source operating system for agentic PR. Skills for newsjacking, pitch critique, angle generation, media lists, and more.",
+  "author": {
+    "name": "Elvis Sun",
+    "url": "https://github.com/elvisun"
+  },
+  "repository": "https://github.com/elvisun/newsjack",
+  "homepage": "https://newsjack.sh",
+  "license": "MIT",
+  "keywords": ["pr", "newsjacking", "media", "journalism", "pitch", "comms"],
+  "mcpServers": "../.mcp.json"
+}
