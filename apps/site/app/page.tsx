@@ -14,10 +14,10 @@ function GitHubIcon() {
 export default function Home() {
   return (
     <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.16),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
-      <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center px-5 py-12 sm:px-8 lg:px-10">
+      <main className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-10">
         <section
           aria-labelledby="hero-title"
-          className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center"
+          className="grid min-h-[calc(100svh-9rem)] w-full gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center"
         >
           <div className="max-w-3xl">
             <p className="mb-5 font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
@@ -30,8 +30,8 @@ export default function Home() {
               Open-source operating system for agentic PR.
             </h1>
             <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-zinc-300 sm:text-xl">
-              The skill layer that turns Claude, ChatGPT, and Cursor into PR
-              operators.
+              The skill layer that turns Claude, Codex, Hermes, and OpenClaw
+              into PR operators.
             </p>
 
             <div className="mt-10 max-w-xl">
@@ -75,6 +75,140 @@ export default function Home() {
               <p className="text-zinc-500">configuring optional mcp...</p>
               <p className="text-zinc-100">ready</p>
             </div>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="audience-title"
+          className="pb-12 pt-2 sm:pb-14"
+        >
+          <div className="max-w-3xl">
+            <h2
+              id="audience-title"
+              className="text-balance text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+            >
+              Who this is for
+            </h2>
+            <ul className="mt-6 space-y-3 text-base leading-7 text-zinc-300 sm:text-lg">
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  🚀
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Founders
+                </strong>{" "}
+                — running PR themselves, no agency budget
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  🏢
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  PR agencies
+                </strong>{" "}
+                — running more accounts than humans can babysit
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="skills-title"
+          className="pb-14 pt-2 sm:pb-16"
+        >
+          <div className="max-w-3xl">
+            <h2
+              id="skills-title"
+              className="text-balance text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+            >
+              What your agent can do once newsjack is installed
+            </h2>
+            <ul className="mt-6 space-y-3 text-base leading-7 text-zinc-300 sm:text-lg">
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  🛰️
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Spot newsworthy moments
+                </strong>{" "}
+                — before the wave breaks{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (newsjack-detector)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  🔍
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Verify story freshness
+                </strong>{" "}
+                — and canonical major coverage{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (story-origin-check)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  📊
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Score newsworthiness
+                </strong>{" "}
+                — of an event or pitch{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (newsworthiness-check)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  ✂️
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Roast your pitch
+                </strong>{" "}
+                — against the pro rubric{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (meanest-editor)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  🎯
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Generate ten angles
+                </strong>{" "}
+                — from one update{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (angle-generator)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  📇
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Build fit-checked media lists
+                </strong>{" "}
+                — small and targeted{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (media-list-manager)
+                </code>
+              </li>
+              <li>
+                <span aria-hidden="true" className="mr-3">
+                  ⚙️
+                </span>
+                <strong className="font-semibold text-emerald-200">
+                  Set up a company monitor
+                </strong>{" "}
+                — with RSS feeds{" "}
+                <code className="font-mono text-sm text-zinc-500">
+                  (newsjack-setup)
+                </code>
+              </li>
+            </ul>
           </div>
         </section>
       </main>
