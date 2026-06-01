@@ -46,7 +46,7 @@ curl -fsSL newsjack.sh | NEWSJACK_VERSION=<commit-sha> sh
 NEWSJACK_AUTO_UPDATE=0 newsjack doctor
 ```
 
-See [Distribution Roadmap](./docs/distribution-roadmap.md) for the curl-v1 and npm-later plan.
+See [Distribution Roadmap](./docs/2026-05-24-distribution-roadmap.md) for the curl-v1 and npm-later plan.
 
 ## What is this?
 

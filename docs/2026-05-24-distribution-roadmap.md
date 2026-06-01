@@ -1,5 +1,10 @@
 # Distribution Roadmap
 
+This roadmap captures the pre-open-source distribution plan. For the public
+open-source release model, including `newsjack.sh`, GitHub Releases, skills.sh,
+and Claude marketplace distribution, see
+[`2026-06-01-open-source-installation-distribution-spec.md`](./2026-06-01-open-source-installation-distribution-spec.md).
+
 Newsjack v1 ships with the curl installer as the primary distribution path:
 
 ```bash
