@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"io"
 	"os/exec"
 )
@@ -10,9 +12,20 @@ func commandAvailable(name string) bool {
 	return err == nil
 }
 
-func cmdDoctor(_ []string, stdout, _ io.Writer) int {
+func cmdDoctor(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("doctor", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	jsonOut := fs.Bool("json", false, "Emit doctor status as JSON")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+
 	root, rootErr := newsjackRoot()
 	key, source := loadAPIKey()
+	config := configFromEnv()
+	xConfigured := bearerToken(config) != ""
+	available := availableSources(config, []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
+	warnings := doctorWarnings(rootErr, key != "", xConfigured)
 	payload := map[string]any{
 		"version":       version,
 		"newsjack_home": newsjackHome(),
@@ -21,14 +34,99 @@ func cmdDoctor(_ []string, stdout, _ io.Writer) int {
 		"auth": map[string]any{
 			"medialyst_configured": key != "",
 			"source":               nullableString(source),
+			"x_api_configured":     xConfigured,
 		},
 		"dependencies": map[string]any{
 			"npx": commandAvailable("npx"),
 		},
+		"sources": map[string]any{
+			"news_search": contains(available, "news_search"),
+			"x_news":      contains(available, "x_news"),
+			"x":           contains(available, "x"),
+			"x_trends":    contains(available, "x_trends"),
+			"reddit":      contains(available, "reddit"),
+			"hackernews":  contains(available, "hackernews"),
+		},
+		"warnings": warnings,
 	}
 	payload["runtimes"] = runtimeStatus()
-	writeJSON(stdout, payload)
+	if *jsonOut {
+		writeJSON(stdout, payload)
+		return 0
+	}
+	printDoctor(stdout, root, rootErr, key != "", source, xConfigured, available, warnings)
 	return 0
+}
+
+func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bool, medialystSource string, xConfigured bool, available []string, warnings []string) {
+	uiProduct(w, "doctor", "system health check")
+	fmt.Fprintln(w)
+	uiSection(w, "paths")
+	uiKV(w, "home", newsjackHome())
+	if rootErr != nil {
+		uiKV(w, "install root", "missing: "+rootErr.Error())
+	} else {
+		uiKV(w, "install root", root)
+	}
+
+	fmt.Fprintln(w)
+	uiSection(w, "auth")
+	uiKV(w, "Medialyst", doctorAuthStatus(medialystConfigured, medialystSource))
+	uiKV(w, "X API", doctorStatus(xConfigured))
+
+	fmt.Fprintln(w)
+	uiSection(w, "sources")
+	for _, source := range []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"} {
+		uiKV(w, source, doctorStatus(contains(available, source)))
+	}
+
+	fmt.Fprintln(w)
+	uiSection(w, "runtimes")
+	for _, rt := range runtimeTargets {
+		status := doctorStatus(runtimeDetected(rt))
+		uiKV(w, runtimeLabel(rt.Key), status+"  "+targetDir(rt))
+	}
+
+	fmt.Fprintln(w)
+	if len(warnings) == 0 {
+		uiSuccess(w, "doctor found no actionable problems.")
+		return
+	}
+	uiSection(w, "warnings")
+	for _, warning := range warnings {
+		uiWarn(w, "%s", warning)
+	}
+}
+
+func doctorAuthStatus(configured bool, source string) string {
+	if !configured {
+		return "missing"
+	}
+	if source == "" {
+		return "ok"
+	}
+	return "ok  " + source
+}
+
+func doctorStatus(ok bool) string {
+	if ok {
+		return "ok"
+	}
+	return "missing"
+}
+
+func doctorWarnings(rootErr error, medialystConfigured, xConfigured bool) []string {
+	var warnings []string
+	if rootErr != nil {
+		warnings = append(warnings, rootErr.Error())
+	}
+	if !medialystConfigured {
+		warnings = append(warnings, "Medialyst API key is not configured; news_search will be unavailable. Run newsjack setup or newsjack login.")
+	}
+	if !xConfigured {
+		warnings = append(warnings, "X bearer token is not configured; x_news, x_trends, and X post search will be unavailable. Run newsjack setup or set X_BEARER_TOKEN in ~/.newsjack/.env.")
+	}
+	return warnings
 }
 
 func runtimeStatus() map[string]any {

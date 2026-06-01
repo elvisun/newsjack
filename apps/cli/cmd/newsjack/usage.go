@@ -5,13 +5,6 @@ import (
 	"io"
 )
 
-const bannerArt = `███╗   ██╗███████╗██╗    ██╗███████╗     ██╗ █████╗  ██████╗██╗  ██╗
-████╗  ██║██╔════╝██║    ██║██╔════╝     ██║██╔══██╗██╔════╝██║ ██╔╝
-██╔██╗ ██║█████╗  ██║ █╗ ██║███████╗     ██║███████║██║     █████╔╝.SH
-██║╚██╗██║██╔══╝  ██║███╗██║╚════██║██   ██║██╔══██║██║     ██╔═██╗
-██║ ╚████║███████╗╚███╔███╔╝███████║╚█████╔╝██║  ██║╚██████╗██║  ██╗
-╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚══════╝ ╚════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝`
-
 func printUsage(w io.Writer) {
 	uiProduct(w, "", "")
 	fmt.Fprintln(w)
@@ -20,10 +13,9 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w)
 	uiSection(w, "commands")
 	uiCommand(w, "help", "show this screen", "")
-	uiCommand(w, "banner", "print the newsjack banner", "")
 	uiCommand(w, "version", "print the installed version", "")
 	uiCommand(w, "path", "print the install root", "")
-	uiCommand(w, "doctor", "run a system health check", "")
+	uiCommand(w, "doctor", "run a system health check", "[--json]")
 	uiCommand(w, "setup", "guided install: runtimes, auth, skills", "[--yes]")
 	uiCommand(w, "install", "install the skill bundle", "[--source DIR]")
 	uiCommand(w, "skills [list]", "manage installed skills", "")
@@ -40,10 +32,6 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "newsjack doctor", "fastest way to know it works", "")
 	fmt.Fprintln(w)
 	uiNote(w, "start with: newsjack setup")
-}
-
-func printBanner(w io.Writer) {
-	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, bannerArt))
 }
 
 func fail(w io.Writer, err error) int {

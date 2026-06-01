@@ -1,3 +1,9 @@
 Read and follow `../../skills/newsjack-detector/SKILL.md`.
 
-This fixture prompt intentionally contains no pipeline, profile, query, or reporting instructions. The skill is the source of truth.
+This fixture defines the sample profiles to run. The detector skill is the canonical source for methodology, pipeline steps, judgment rules, and report contract.
+
+Use the profile files in this fixture folder:
+
+```text
+profile.*.json
+```

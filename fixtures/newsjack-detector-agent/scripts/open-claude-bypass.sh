@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-exec "$SCRIPT_DIR/agent-env.sh" claude \
+exec "$SCRIPT_DIR/with-fixture-env.sh" claude \
   --dangerously-skip-permissions \
   --permission-mode bypassPermissions \
   "$@"

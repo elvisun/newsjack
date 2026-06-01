@@ -5,9 +5,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
 
-SLUG="${NEWSJACK_OBSERVE_SLUG:-${1:-simular}}"
-QUERY="${NEWSJACK_OBSERVE_QUERY:-${2:-computer-use agents}}"
-PROFILE="${NEWSJACK_OBSERVE_PROFILE:-${3:-profile.simular.json}}"
+SLUG="${NEWSJACK_PROFILE_SLUG:-${1:-simular}}"
+QUERY="${NEWSJACK_PROFILE_QUERY:-${2:-computer-use agents}}"
+PROFILE="${NEWSJACK_PROFILE_FILE:-${3:-profile.simular.json}}"
 if [[ "$#" -gt 0 ]]; then shift; fi
 if [[ "$#" -gt 0 ]]; then shift; fi
 if [[ "$#" -gt 0 ]]; then shift; fi
@@ -21,7 +21,7 @@ if [[ "$PROFILE" != /* ]]; then
 fi
 
 STAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
-RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP-$SLUG-observe}"
+RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP-$SLUG-profile}"
 SOURCES="${NEWSJACK_SOURCES:-news_search,x}"
 LOOKBACK_DAYS="${NEWSJACK_LOOKBACK_DAYS:-1}"
 DEPTH="${NEWSJACK_DEPTH:-quick}"
@@ -54,7 +54,7 @@ COMMAND_LOG="$RUN_DIR/commands.log"
   echo "include_all_scored=$INCLUDE_ALL_SCORED"
 } > "$COMMAND_LOG"
 
-echo "observed run: $RUN_DIR"
+echo "one-profile fixture run: $RUN_DIR"
 echo "running detector..."
 
 detector_args=(
@@ -78,11 +78,11 @@ detector_args+=("$@" --emit json)
 
 {
   printf 'detector_command='
-  printf '%q ' "$SCRIPT_DIR/agent-env.sh" "$NEWSJACK_BIN" "${detector_args[@]}"
+  printf '%q ' "$SCRIPT_DIR/with-fixture-env.sh" "$NEWSJACK_BIN" "${detector_args[@]}"
   echo
 } >> "$COMMAND_LOG"
 
-if "$SCRIPT_DIR/agent-env.sh" \
+if "$SCRIPT_DIR/with-fixture-env.sh" \
   "$NEWSJACK_BIN" "${detector_args[@]}" \
     > "$CANDIDATES" 2> "$STDERR_LOG"; then
   echo "detector_status=ok" >> "$COMMAND_LOG"
@@ -93,7 +93,7 @@ else
   exit "$status"
 fi
 
-"$NEWSJACK_BIN" summarize-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
+"$NEWSJACK_BIN" render-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
 
 echo "wrote:"
 echo "- $CANDIDATES"

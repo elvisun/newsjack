@@ -17,8 +17,14 @@ import (
 
 var backtickedURLRe = regexp.MustCompile("`(https?://[^`\\s]+)`")
 
-func cmdSummarizeRun(args []string, stdout, stderr io.Writer) int {
-	fs := flag.NewFlagSet("summarize-run", flag.ContinueOnError)
+// cmdRenderRun renders run artifacts into a machine-readable summary (--output)
+// and a human-facing brief (--markdown). It is a deterministic formatter: it
+// decides nothing, but it MUST honor the gates that ran upstream — it never
+// renders a coarse-rejected or hard-safety-flagged signal into the human brief,
+// regardless of which input file it is handed. Registered as "render-run"
+// (canonical) and "summarize-run" (deprecated alias).
+func cmdRenderRun(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("render-run", flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	outputPath := fs.String("output", "", "Path to write machine-readable summary JSON")
 	markdownPath := fs.String("markdown", "", "Path to write Markdown report")
@@ -28,7 +34,7 @@ func cmdSummarizeRun(args []string, stdout, stderr io.Writer) int {
 		return 2
 	}
 	if fs.NArg() != 1 || *outputPath == "" {
-		return fail(stderr, errors.New("usage: newsjack summarize-run INPUT --output summary.json --markdown run.md"))
+		return fail(stderr, errors.New("usage: newsjack render-run INPUT --output summary.json --markdown run.md"))
 	}
 	mdPath := firstString(*markdownPath, *briefPath)
 	if mdPath == "" {
@@ -83,6 +89,13 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 	monitor := valueOrEmptyMap(payload["monitor"])
 	sourceErrors := valueOrEmptyMap(payload["source_errors"])
 	sort.SliceStable(dropped, func(i, j int) bool { return queuePriority(dropped[i]) > queuePriority(dropped[j]) })
+
+	// Gate the human-facing scan. This renderer is deterministic and decides
+	// nothing, but it must respect decisions already made upstream: a signal the
+	// coarse pass rejected, or one carrying a hard safety flag, must never reach
+	// the brief — even when the caller hands us the raw, pre-filter candidates.
+	rejectedIDs := loadCoarseRejections(paths["coarse_relevance_decisions"])
+	scanSignals, excludedRejected, excludedSafety := gateScanSignals(signals, rejectedIDs)
 	return map[string]any{
 		"generated_at": time.Now().UTC().Format(time.RFC3339Nano),
 		"input_path":   inputPath,
@@ -123,9 +136,68 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 		"origin_findings_file":     summarizeOriginFindings(paths["origin_findings"]),
 		"targeted_candidates_file": summarizeTargeted(paths["targeted_candidates"]),
 		"final_report_file":        summarizeFinalReport(paths["final_report"]),
-		"top_signals":              summarizeSignals(firstNSignals(signals, top)),
+		"top_signals":              summarizeSignals(firstNSignals(scanSignals, top)),
 		"top_dropped_signals":      summarizeSignals(firstNSignals(dropped, top)),
+		"scan_excluded": map[string]any{
+			"coarse_rejected": excludedRejected,
+			"safety_flagged":  excludedSafety,
+		},
 	}
+}
+
+// loadCoarseRejections reads coarse_relevance_decisions.json from the run dir
+// and returns the set of signal IDs the coarse pass rejected. Missing or
+// unreadable file => empty set (no gating from this source).
+func loadCoarseRejections(path string) map[string]bool {
+	out := map[string]bool{}
+	if !fileExists(path) {
+		return out
+	}
+	payload, err := readJSONMap(path)
+	if err != nil {
+		return out
+	}
+	for _, d := range mapSlice(payload["decisions"]) {
+		if firstString(d["decision"], "") == "reject" {
+			if id := stringValue(d["signal_id"]); id != "" {
+				out[id] = true
+			}
+		}
+	}
+	return out
+}
+
+// hasHardSafetyFlag reports whether a signal carries a deterministic hard
+// safety flag (tragedy/human-suffering term) from the detector.
+func hasHardSafetyFlag(signal map[string]any) bool {
+	features := valueOrEmptyMap(signal["features"])
+	for _, raw := range anySlice(features["safety_flags"]) {
+		if f, ok := raw.(map[string]any); ok {
+			if firstString(f["type"], "") == "hard_safety_term" {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// gateScanSignals drops coarse-rejected and hard-safety-flagged signals from the
+// human-facing scan, preserving input order. It returns the survivors plus the
+// number excluded for each reason so the brief can disclose the gap rather than
+// truncate silently.
+func gateScanSignals(signals []map[string]any, rejectedIDs map[string]bool) (kept []map[string]any, excludedRejected, excludedSafety int) {
+	for _, signal := range signals {
+		if id := stringValue(signal["id"]); id != "" && rejectedIDs[id] {
+			excludedRejected++
+			continue
+		}
+		if hasHardSafetyFlag(signal) {
+			excludedSafety++
+			continue
+		}
+		kept = append(kept, signal)
+	}
+	return kept, excludedRejected, excludedSafety
 }
 
 func renderSummaryMarkdown(summary map[string]any) string {
@@ -156,6 +228,9 @@ func renderSummaryMarkdown(summary map[string]any) string {
 		scanHeading = "News Scan Detail"
 	}
 	lines = append(lines, "", "## "+scanHeading, "")
+	if note := scanExclusionNote(summary); note != "" {
+		lines = append(lines, note, "")
+	}
 	for i, signal := range mapSlice(summary["top_signals"]) {
 		title := firstString(signal["title"], "(untitled)")
 		lines = append(lines, fmt.Sprintf("%d. **%s**", i+1, mdInline(title)))
@@ -174,6 +249,26 @@ func renderSummaryMarkdown(summary map[string]any) string {
 	lines = append(lines, fmt.Sprintf("- Queries: %s", mdInline(formatList(valueOrEmptyArray(monitor["queries"]), 8))))
 	lines = append(lines, fmt.Sprintf("- Sources: %s", mdInline(formatList(valueOrEmptyArray(monitor["sources_used"]), 8))))
 	return strings.TrimRight(strings.Join(lines, "\n"), "\n") + "\n"
+}
+
+// scanExclusionNote discloses signals withheld from the human scan so a gated
+// brief never reads as if it covered everything the detector emitted.
+func scanExclusionNote(summary map[string]any) string {
+	excluded := valueOrEmptyMap(summary["scan_excluded"])
+	rejected := intValue(excluded["coarse_rejected"], 0)
+	safety := intValue(excluded["safety_flagged"], 0)
+	if rejected == 0 && safety == 0 {
+		return ""
+	}
+	var parts []string
+	if rejected > 0 {
+		parts = append(parts, fmt.Sprintf("%d coarse-rejected", rejected))
+	}
+	if safety > 0 {
+		parts = append(parts, fmt.Sprintf("%d brand-safety-flagged", safety))
+	}
+	return fmt.Sprintf("_Hidden from this scan: %s. See `candidates.json` / `coarse_relevance_decisions.json` for the full pool._",
+		strings.Join(parts, ", "))
 }
 
 func statusText(summary map[string]any) string {

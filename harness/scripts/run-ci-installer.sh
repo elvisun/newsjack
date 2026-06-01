@@ -223,7 +223,7 @@ log "checking installed CLI"
 newsjack version
 newsjack setup --json | tee /tmp/newsjack-setup.json
 jq -e '.monitors_dir and .agent_prompt and .recommended_runtime and .recommended_scheduler and .agent_command' /tmp/newsjack-setup.json >/dev/null
-newsjack doctor | tee /tmp/newsjack-doctor.json
+newsjack doctor --json | tee /tmp/newsjack-doctor.json
 jq -e '.root_ok == true and .dependencies.npx == true' /tmp/newsjack-doctor.json >/dev/null
 
 log "checking installed runtime skills"
