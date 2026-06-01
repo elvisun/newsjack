@@ -93,7 +93,13 @@ NEWSJACK_SAVE=1
 NEWSJACK_NEW_ONLY=0
 NEWSJACK_RUN_DIR=fixtures/newsjack-detector-agent/runs/manual-test
 NEWSJACK_BIN=/absolute/path/to/newsjack
+NEWSJACK_USE_INSTALLED=1
 ```
+
+By default, the fixture uses the repo source shim when Go is available. In an
+installed-user container without Go, it falls back to `~/.newsjack/bin/newsjack`
+when that binary exists. Set `NEWSJACK_USE_INSTALLED=1` to require the installed
+binary explicitly.
 
 `run-all-profiles.sh` defaults to `NEWSJACK_NEW_ONLY=0` so repeated smoke runs still show current candidates. Set `NEWSJACK_NEW_ONLY=1` for hourly-style monitoring that suppresses already-seen URLs from the fixture store.
 

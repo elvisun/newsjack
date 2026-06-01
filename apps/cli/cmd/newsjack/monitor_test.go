@@ -177,7 +177,7 @@ func TestSetupDefaultsToClaudeCode(t *testing.T) {
 		if strings.Contains(text, "Command: claude ") {
 			t.Fatalf("setup should not print a runnable Claude command when Claude Code is missing:\n%s", text)
 		}
-		if strings.Contains(text, "Open it now? [Y/n]:") && strings.Contains(text, "Installing Claude Code") {
+		if strings.Contains(text, "Run auto-setup in Claude Code now? [Y/n]:") && strings.Contains(text, "Installing Claude Code") {
 			t.Fatalf("noninteractive setup should not launch or install Claude Code:\n%s", text)
 		}
 
@@ -288,7 +288,7 @@ func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
 		if !strings.Contains(text, "Installing Claude Code") {
 			t.Fatalf("setup did not run the approved Claude installer:\n%s", text)
 		}
-		if !strings.Contains(text, "Ready to open Claude Code") {
+		if !strings.Contains(text, "Ready to run low-effort auto-setup in Claude Code") {
 			t.Fatalf("setup should proceed to Claude Code launch after install:\n%s", text)
 		}
 	})
@@ -414,7 +414,7 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		text := out.String()
-		if !strings.Contains(text, "Ready to open Hermes") || !strings.Contains(text, "Command: hermes chat --query ") {
+		if !strings.Contains(text, "Ready to run low-effort auto-setup in Hermes") || !strings.Contains(text, "Command: hermes chat --query ") {
 			t.Fatalf("setup should prepare Hermes launch:\n%s", text)
 		}
 		args, err := os.ReadFile(capture)
@@ -427,6 +427,9 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		}
 		if !strings.Contains(argText, "newsjack-setup") || !strings.Contains(argText, "not system cron") {
 			t.Fatalf("Hermes prompt should load the setup skill and avoid system cron:\n%s", argText)
+		}
+		if strings.Contains(argText, "fnv32a") || strings.Contains(argText, "minute=(") {
+			t.Fatalf("Hermes prompt should not expose schedule implementation details:\n%s", argText)
 		}
 	})
 }

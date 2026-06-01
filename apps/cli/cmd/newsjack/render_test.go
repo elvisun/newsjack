@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -25,6 +26,34 @@ func TestSummarizeRunAcceptsFlagsAfterInput(t *testing.T) {
 	}
 	if !fileExists(summary) || !fileExists(runMD) {
 		t.Fatalf("summary artifacts missing")
+	}
+}
+
+func TestRenderRunSummaryReportsWrittenMarkdown(t *testing.T) {
+	dir := t.TempDir()
+	candidates := filepath.Join(dir, "candidates.json")
+	summary := filepath.Join(dir, "summary.json")
+	runMD := filepath.Join(dir, "run.md")
+	if err := os.WriteFile(candidates, []byte(`{"monitor":{"generated_at":"2026-05-25T18:00:00Z"},"signals":[]}`), 0o644); err != nil {
+		t.Fatalf("write candidates: %v", err)
+	}
+	var out, errBuf bytes.Buffer
+	code := runCLI([]string{"render-run", candidates, "--output", summary, "--markdown", runMD}, &out, &errBuf)
+	if code != 0 {
+		t.Fatalf("render-run code=%d stderr=%s", code, errBuf.String())
+	}
+	payload := map[string]any{}
+	data, readErr := os.ReadFile(summary)
+	if readErr != nil {
+		t.Fatalf("read summary: %v", readErr)
+	}
+	if err := json.Unmarshal(data, &payload); err != nil {
+		t.Fatalf("parse summary: %v", err)
+	}
+	artifacts := valueOrEmptyMap(payload["artifacts"])
+	runMarkdown := valueOrEmptyMap(artifacts["run_markdown"])
+	if !truthy(runMarkdown["exists"], false) {
+		t.Fatalf("summary reported run.md missing: %#v", runMarkdown)
 	}
 }
 

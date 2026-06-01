@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
+NEWSJACK_BIN="$("$SCRIPT_DIR/resolve-newsjack-bin.sh")"
 
 SLUG="${NEWSJACK_PROFILE_SLUG:-${1:-simular}}"
 QUERY="${NEWSJACK_PROFILE_QUERY:-${2:-computer-use agents}}"
@@ -53,9 +53,11 @@ COMMAND_LOG="$RUN_DIR/commands.log"
   echo "min_major_news=$MIN_MAJOR_NEWS"
   echo "max_age_hours=$MAX_AGE_HOURS"
   echo "include_all_scored=$INCLUDE_ALL_SCORED"
+  echo "newsjack_bin=$NEWSJACK_BIN"
 } > "$COMMAND_LOG"
 
 echo "one-profile fixture run: $RUN_DIR"
+echo "newsjack binary: $NEWSJACK_BIN"
 echo "running detector..."
 
 detector_args=(
@@ -105,3 +107,5 @@ echo "- $SUMMARY"
 echo "- $RUN_MARKDOWN"
 echo "- $STDERR_LOG"
 echo "- $COMMAND_LOG"
+echo
+echo "note: this fixture writes a detector preview. A pitch-ready report requires the full skill pipeline and a final_report.md rerender."

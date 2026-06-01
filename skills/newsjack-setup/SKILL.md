@@ -80,7 +80,7 @@ Do not make `location` the default for a generic SaaS company. Prefer `none` unl
 
 When the user opts into an hourly schedule, generate a cron expression with a stable random minute in `[1, 59]`, never `0`.
 
-Prefer deterministic jitter per monitor: `minute = (hash(slug) % 59) + 1`. Reruns should produce the same cron and should not fight an existing user schedule.
+Prefer deterministic jitter per monitor: `minute = (fnv32a(slug) % 59) + 1`. Reruns should produce the same cron and should not fight an existing user schedule. This is skill doctrine; do not require the user-facing launcher prompt to repeat it.
 
 Daily and weekly schedules also need jitter. Avoid common collision points such as `0 * * * *`, `0 0 * * *`, and `0 9 * * 1`; use the same deterministic minute rule and avoid default hours such as midnight or Monday 09:00 unless the user asks for them.
 
@@ -106,7 +106,7 @@ This spreads load across the Newsjack/Medialyst backend so we don't get a thunde
 
 8. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use location trends or no X trends; mention personalized trends only if the user has user-context OAuth configured. Explain the tradeoff briefly. Location trends should include WOEIDs.
 
-9. **Return the profile JSON and run command.** Do not write files unless the user asks you to. The user or caller can save the JSON.
+9. **Save and test when setup is launched by the CLI.** If the caller asks for auto-setup or gives a runtime schedule target, save the profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, install the schedule with `newsjack monitor schedule <slug> --runtime <runtime> --every 1h`, and return the final `run.md` and `schedule.md` paths. Use the deterministic schedule jitter above through the CLI schedule command. If the user only asks for a profile, return the JSON and run commands without writing files.
 
 ## Output Format
 

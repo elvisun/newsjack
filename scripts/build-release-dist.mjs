@@ -213,7 +213,9 @@ function packageTarget({ os, arch }) {
     `${JSON.stringify({ version, commit, os, arch, built_at: builtAt, artifact }, null, 2)}\n`,
   );
 
-  run("tar", ["-czf", artifactPath, "-C", payloadRoot, "."]);
+  run("tar", ["--no-xattrs", "-czf", artifactPath, "-C", payloadRoot, "."], {
+    env: { COPYFILE_DISABLE: "1" },
+  });
   const sha256 = sha256File(artifactPath);
   const size = statSync(artifactPath).size;
   rmSync(workRoot, { recursive: true, force: true });

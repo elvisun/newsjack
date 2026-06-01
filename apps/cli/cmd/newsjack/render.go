@@ -44,23 +44,32 @@ func cmdRenderRun(args []string, stdout, stderr io.Writer) int {
 	if err != nil {
 		return fail(stderr, err)
 	}
-	summary := summarizeRun(payload, expandPath(fs.Arg(0)), maxInt(0, *top))
 	if err := os.MkdirAll(filepath.Dir(expandPath(*outputPath)), 0o755); err != nil {
 		return fail(stderr, err)
 	}
 	if err := os.MkdirAll(filepath.Dir(expandPath(mdPath)), 0o755); err != nil {
 		return fail(stderr, err)
 	}
+	generatedAt := time.Now().UTC().Format(time.RFC3339Nano)
+	summary := summarizeRunAt(payload, expandPath(fs.Arg(0)), maxInt(0, *top), generatedAt)
 	if err := os.WriteFile(expandPath(*outputPath), marshalJSON(summary), 0o644); err != nil {
 		return fail(stderr, err)
 	}
 	if err := os.WriteFile(expandPath(mdPath), []byte(renderSummaryMarkdown(summary)), 0o644); err != nil {
 		return fail(stderr, err)
 	}
+	summary = summarizeRunAt(payload, expandPath(fs.Arg(0)), maxInt(0, *top), generatedAt)
+	if err := os.WriteFile(expandPath(*outputPath), marshalJSON(summary), 0o644); err != nil {
+		return fail(stderr, err)
+	}
 	return 0
 }
 
 func summarizeRun(payload map[string]any, inputPath string, top int) map[string]any {
+	return summarizeRunAt(payload, inputPath, top, time.Now().UTC().Format(time.RFC3339Nano))
+}
+
+func summarizeRunAt(payload map[string]any, inputPath string, top int, generatedAt string) map[string]any {
 	signals := signalSlice(payload["signals"])
 	diagnostics := valueOrEmptyMap(firstNonNil(payload["diagnostics"], payload["detector_diagnostics"]))
 	debug := valueOrEmptyMap(payload["debug"])
@@ -97,7 +106,7 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 	rejectedIDs := loadCoarseRejections(paths["coarse_relevance_decisions"])
 	scanSignals, excludedRejected, excludedSafety := gateScanSignals(signals, rejectedIDs)
 	return map[string]any{
-		"generated_at": time.Now().UTC().Format(time.RFC3339Nano),
+		"generated_at": generatedAt,
 		"input_path":   inputPath,
 		"run_dir":      runDir,
 		"artifacts":    artifactStatus(paths),

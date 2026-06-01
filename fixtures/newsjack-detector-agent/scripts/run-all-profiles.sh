@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
+NEWSJACK_BIN="$("$SCRIPT_DIR/resolve-newsjack-bin.sh")"
 
 STAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
 RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP}"
@@ -32,6 +32,7 @@ report_rows=()
 
 echo "newsjack fixture run: $STAMP"
 echo "output: $RUN_DIR"
+echo "newsjack binary: $NEWSJACK_BIN"
 
 for row in "${profiles[@]}"; do
   IFS="|" read -r slug query profile <<<"$row"
@@ -96,6 +97,7 @@ INDEX="$RUN_DIR/index.md"
   echo "- Lookback: $LOOKBACK_DAYS day(s)"
   echo "- Max source item age: $MAX_AGE_HOURS hour(s)"
   echo "- Depth: $DEPTH"
+  echo "- Newsjack binary: \`$NEWSJACK_BIN\`"
   echo "- Save detector run: $SAVE"
   echo "- New-only filter: $NEW_ONLY"
   echo "- Freshness gate: final surfaced stories require LLM-verified first public timestamp within 24 hours and canonical major coverage when recoverable"

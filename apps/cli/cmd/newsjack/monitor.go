@@ -151,9 +151,9 @@ func (w *setupWizard) run() error {
 	}
 
 	uiSection(w.stdout, "launch")
-	uiSuccess(w.stdout, "Ready to open %s with the setup prompt.", runtimeLabel(schedulerRuntime))
+	uiSuccess(w.stdout, "Ready to run low-effort auto-setup in %s.", runtimeLabel(schedulerRuntime))
 	fmt.Fprintf(w.stdout, "Command: %s\n\n", command)
-	if w.noLaunch || !w.confirm("Open it now?", true) {
+	if w.noLaunch || !w.confirm(fmt.Sprintf("Run auto-setup in %s now?", runtimeLabel(schedulerRuntime)), true) {
 		uiNote(w.stdout, "run this command when ready:")
 		fmt.Fprintln(w.stdout, command)
 		fmt.Fprintln(w.stdout)
@@ -179,11 +179,11 @@ func (w *setupWizard) chooseSkillRuntime() string {
 		{Value: "codex", Label: "Codex", Hint: runtimeChoiceHint("codex"), Selected: runtimeSelectionIncludes(defaultRuntime, "codex")},
 		{Value: "manual", Label: "Other/manual", Hint: "copy instructions", Selected: runtimeSelectionIncludes(defaultRuntime, "manual")},
 	}
-	if values, ok := w.selectMulti("Install Newsjack skills into which runtime(s)?", choices); ok {
-		return normalizeSetupRuntimeSelection(strings.Join(values, ","), defaultRuntime)
+	if value, ok := w.selectSingle("Install Newsjack skills into which runtime?", choices, firstRuntime(defaultRuntime)); ok {
+		return normalizeSetupRuntimeSelection(value, defaultRuntime)
 	}
 
-	answer := w.prompt("Install Newsjack skills into which runtime(s)? [claude,codex,openclaw,hermes,all,other]", defaultRuntime)
+	answer := w.prompt("Install Newsjack skills into which runtime? [claude,codex,openclaw,hermes,other]", defaultRuntime)
 	return normalizeSetupRuntimeSelection(answer, defaultRuntime)
 }
 
@@ -377,7 +377,7 @@ func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
-	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Install the schedule in %s, not system cron. Use deterministic cron jitter from the monitor slug: minute=(fnv32a(slug)%%59)+1, never minute 0. Ask only for facts you cannot infer safely. Save the monitor profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, and print the final run.md and schedule paths.", runtimeLabel(scheduleRuntime))
+	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Use %s for the schedule, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile, run a mock test, install the schedule, and show me the run.md and schedule paths.", runtimeLabel(scheduleRuntime))
 }
 
 func printRuntimeList(stdout io.Writer) {
@@ -442,6 +442,18 @@ func nonManualRuntimeSelection(selection string) string {
 		}
 	}
 	return strings.Join(out, ",")
+}
+
+func firstRuntime(selection string) string {
+	if selection == "all" || selection == "auto" || selection == "" {
+		return recommendedSetupRuntime()
+	}
+	for _, item := range normalizeRuntimeList(selection) {
+		if isSupportedRuntime(item) || isManualRuntime(item) {
+			return item
+		}
+	}
+	return recommendedSetupRuntime()
 }
 
 func normalizeScheduleRuntime(raw string) string {

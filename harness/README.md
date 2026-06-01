@@ -103,6 +103,17 @@ Expected:
 Use this to test the same shape as production before pushing: the site serves
 `/install.sh` and `/dist`, and the container installs via HTTP.
 
+For an interactive Codex-only install test where you manually run the
+`curl | bash` command inside a clean container:
+
+```bash
+harness/scripts/open-codex-curl-shell.sh
+```
+
+The script builds a local release bundle from the current checkout, serves it on
+localhost, and opens a container with Codex preinstalled. It prints the exact
+installer command to run inside the container.
+
 On the host, from the repo root:
 
 ```bash

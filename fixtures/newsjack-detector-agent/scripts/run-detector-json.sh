@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FIXTURE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-NEWSJACK_BIN="${NEWSJACK_BIN:-$FIXTURE_DIR/../../bin/newsjack}"
+NEWSJACK_BIN="$("$SCRIPT_DIR/resolve-newsjack-bin.sh")"
 QUERY="${NEWSJACK_QUERY:-${1:-AI search visibility}}"
 PROFILE="${NEWSJACK_PROFILE:-${2:-profile.localfalcon.json}}"
 if [[ "$#" -gt 0 ]]; then shift; fi
