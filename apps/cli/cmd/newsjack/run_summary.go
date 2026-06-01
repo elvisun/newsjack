@@ -119,7 +119,7 @@ func summarizeRunAt(payload map[string]any, inputPath string, top int, generated
 		"clustered_candidates_file": summarizeTargeted(paths["clustered_candidates"]),
 		"origin_findings_file":      summarizeOriginFindings(paths["origin_findings"]),
 		"targeted_candidates_file":  summarizeTargeted(paths["targeted_candidates"]),
-		"triaged_candidates_file":   summarizeTargeted(paths["triaged_candidates"]),
+		"triaged_candidates_file":   summarizeTriaged(paths["triaged_candidates"]),
 		"final_report_file":         summarizeMarkdownArtifact(paths["final_report"]),
 		"run_report_file":           summarizeMarkdownArtifact(paths["run_report"]),
 		"top_signals":               summarizeSignals(firstNSignals(signals, top)),
@@ -231,6 +231,38 @@ func stage(name, path string) map[string]any {
 		status = "done"
 	}
 	return map[string]any{"stage": name, "status": status, "artifact": filepath.Base(path)}
+}
+
+// summarizeTriaged reports the skill-owned triage tier breakdown
+// (pitch_ready / big_story / watch). Back-compat: counts the old advance/drop
+// gate field as pitch_ready/watch when tier is absent.
+func summarizeTriaged(path string) map[string]any {
+	if !fileExists(path) {
+		return map[string]any{"exists": false, "path": path}
+	}
+	payload, err := readJSONMap(path)
+	if err != nil {
+		return map[string]any{"exists": true, "path": path, "error": err.Error()}
+	}
+	triaged := mapSlice(payload["triaged"])
+	tiers := map[string]int{}
+	standing := map[string]int{}
+	for _, t := range triaged {
+		tier := firstString(t["tier"], "")
+		if tier == "" {
+			switch firstString(t["gate"], "") {
+			case "advance":
+				tier = "pitch_ready"
+			case "drop":
+				tier = "watch"
+			default:
+				tier = "unknown"
+			}
+		}
+		tiers[tier]++
+		standing[firstString(t["standing"], "unknown")]++
+	}
+	return map[string]any{"exists": true, "path": path, "triaged_count": len(triaged), "tier_counts": tiers, "standing_counts": standing}
 }
 
 func summarizeDecisions(path string) map[string]any {

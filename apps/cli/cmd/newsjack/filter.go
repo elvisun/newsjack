@@ -161,9 +161,43 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 	}, nil
 }
 
+// signalIsBigStory reports whether a signal's story_size band is high or major.
+// story_size is a domain-authority/coverage-spread proxy, so a "big story" here
+// means "broadly covered / high-authority," not "relevant." The pipeline never
+// lets the cheap coarse pass hard-drop one of these.
+func signalIsBigStory(signal map[string]any) bool {
+	rank, ok := storySizeBandRank[signalStorySizeBandValue(signal)]
+	return ok && rank >= storySizeBandRank["high"]
+}
+
 func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProfile) map[string]any {
+	if stringValue(decision["decision"]) != "reject" {
+		return decision
+	}
+	// Big-story recall: a high/major story_size signal is NEVER hard-dropped by
+	// the cheap coarse pass, regardless of the worker's reason. The worst it
+	// gets is monitor_only, so it survives to story-origin research and the
+	// report's "Big Stories Worth a Look" suggestions section. The worker's
+	// reject reason is preserved as weakness_flag so the report can rank and
+	// flag it (e.g. ⚠ possible keyword match) — telling a real big story apart
+	// from a high-authority-domain artifact is a ranking/labeling concern, never
+	// a drop decision a cheap model is trusted to make.
+	if signalIsBigStory(signal) {
+		band := signalStorySizeBandValue(signal)
+		guarded := cloneMap(decision)
+		guarded["original_decision"] = decision["decision"]
+		guarded["original_reason"] = decision["reason"]
+		guarded["weakness_flag"] = decision["reason"]
+		guarded["decision"] = "monitor_only"
+		guarded["reason"] = "big_story_surfaced"
+		guarded["confidence"] = "low"
+		guarded["guardrail"] = "big_story_recall"
+		guarded["guardrail_band"] = band
+		guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker flagged this as weak.") + " Never hard-dropped because story_size band=" + band + " is a big story; surfaced as a suggestion for human judgment.")
+		return guarded
+	}
 	reason := stringValue(decision["reason"])
-	if stringValue(decision["decision"]) != "reject" || (reason != "no_profile_bridge" && reason != "major_news_no_bridge") {
+	if reason != "no_profile_bridge" && reason != "major_news_no_bridge" {
 		return decision
 	}
 	matches := coarseRecallMatches(signal, profile)

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"path/filepath"
-	"strings"
 	"testing"
 	"time"
 )
@@ -210,13 +209,14 @@ func TestFilterApplyGuardKeepsLargeRemoteRelevantNoBridgeReject(t *testing.T) {
 	if len(signals) != 1 {
 		t.Fatalf("selected signals=%d, want 1; payload=%#v", len(signals), payload)
 	}
+	// story_size 0.587 → major band, so the big-story recall guard keeps it
+	// directly (no profile bridge required): a big story is never hard-dropped.
 	decision := valueOrEmptyMap(signals[0]["coarse_relevance"])
-	if decision["decision"] != "monitor_only" || decision["reason"] != "plausible_client_bridge" {
+	if decision["decision"] != "monitor_only" || decision["reason"] != "big_story_surfaced" {
 		t.Fatalf("guarded decision mismatch: %#v", decision)
 	}
-	matches := toStringSlice(decision["guardrail_matches"])
-	if len(matches) == 0 || !strings.Contains(matches[len(matches)-1], "large_story_recall") {
-		t.Fatalf("guardrail matches missing story recall evidence: %#v", decision)
+	if decision["guardrail"] != "big_story_recall" {
+		t.Fatalf("guardrail marker missing big_story_recall: %#v", decision)
 	}
 }
 
@@ -251,6 +251,57 @@ func TestFilterApplyGuardIgnoresDefaultProfileMatchWithoutProfileContext(t *test
 	coarse := valueOrEmptyMap(payload["coarse_relevance"])
 	if coarse["guardrail_override_count"] != 0 {
 		t.Fatalf("guardrail count=%v, want 0", coarse["guardrail_override_count"])
+	}
+}
+
+func TestFilterApplyNeverDropsBigStory(t *testing.T) {
+	// A high/major story_size signal must survive coarse rejection regardless of
+	// the worker's reason (here keyword_collision, which the profile-match guard
+	// would NOT have rescued). It is downgraded to monitor_only, not dropped.
+	candidates := map[string]any{
+		"monitor": map[string]any{"profile": map[string]any{"company": "Property Saviour"}},
+		"signals": []any{
+			map[string]any{
+				"id":         "opera",
+				"title":      "John Cleese Opera House tickets out now",
+				"story_size": map[string]any{"band": "high"},
+				"evidence": []any{
+					map[string]any{"url": "https://example.com/opera"},
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{
+				"signal_id": "opera",
+				"decision":  "reject",
+				"reason":    "keyword_collision",
+				"rationale": "Pure 'house' collision; not a property story.",
+			},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1 (big story must survive); payload=%#v", len(signals), payload)
+	}
+	decision := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if decision["decision"] != "monitor_only" || decision["reason"] != "big_story_surfaced" {
+		t.Fatalf("big-story decision mismatch: %#v", decision)
+	}
+	if decision["guardrail"] != "big_story_recall" {
+		t.Fatalf("missing big_story_recall guardrail: %#v", decision)
+	}
+	if decision["weakness_flag"] != "keyword_collision" {
+		t.Fatalf("weakness_flag not preserved: %#v", decision)
+	}
+	coarse := valueOrEmptyMap(payload["coarse_relevance"])
+	if coarse["guardrail_override_count"] != 1 {
+		t.Fatalf("guardrail count=%v, want 1", coarse["guardrail_override_count"])
 	}
 }
 
