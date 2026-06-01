@@ -145,6 +145,14 @@ Return only JSON:
 
 `canonical_coverage_url` should be same-story coverage, not just topically similar coverage. If no major/canonical article can be defended, use the original URL when it is credible; otherwise return `null` and explain the gap.
 
+## Output Discipline
+
+These rules are enforced downstream; violating them silently corrupts the freshness gate.
+
+- **One finding per input signal. Never skip a signal.** Relevance is judged by a later stage, not here. If a signal looks off-topic, unverifiable, or junk, still emit a finding for it with `same_story_assessment: "unclear"`, `first_public_at: null`, and low confidence. Returning fewer findings than inputs is a contract violation; the orchestrator validates the count and re-runs gaps.
+- **Two independent sources to support a fresh clock.** A `first_public_at` inside the window is only honored by `origin-apply` when `timestamp_evidence` contains **at least two independent corroborating URLs** that are not just the surfaced article citing itself. If you only have the surfaced URL, the gate will return `unverified_no_corroboration` — so populate `timestamp_evidence` with the real primary source, wire, or canonical coverage you actually found, or leave the clock unproven.
+- Date-only timestamps straddling the cutoff resolve to `unverified_boundary`; a missing/unparseable clock resolves to `unverified_no_timestamp`. Both are correct outcomes when the evidence genuinely is not there — do not invent precision to force a `fresh` result.
+
 ## Handoff
 
 Write these objects into `origin_findings.json` for `newsjack origin-apply` to attach as `story_origin` on the same signal. Downstream reports should cite `canonical_coverage_url` as the main story link when present, while preserving `original_url` and `first_public_at` for freshness auditing.

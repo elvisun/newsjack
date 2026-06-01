@@ -631,7 +631,11 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	case "x_trends_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.16*freshness+0.14*novelty+0.12*sourceQuality+0.10*engagement)))
 	case "x_news_unmatched":
-		queue = round1(math.Min(42.0, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
+		xNewsCap := 42.0
+		if opts.DemoteUnmatchedX {
+			xNewsCap = 39.9
+		}
+		queue = round1(math.Min(xNewsCap, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
 	case "profile_relevance_weak", "x_posts_weak":
 		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
 	case "x_posts":

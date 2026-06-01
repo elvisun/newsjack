@@ -28,7 +28,7 @@ Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `freshness_
 - `fresh` - eligible for normal judgment.
 - `fresh_new_development` - eligible, but the angle must be about the new development, not the older background story.
 - `stale` - reject as stale.
-- `freshness_unverified` or missing - reject as `freshness_unverified` for recurring scheduled output.
+- `unverified_no_corroboration`, `unverified_boundary`, `unverified_no_timestamp`, or missing - reject for recurring scheduled output. Track the reason: `unverified_no_corroboration` is a worker/pipeline miss (the clock may be fine, just under-sourced — re-runnable), while `unverified_boundary`/`unverified_no_timestamp` reflect genuinely thin evidence.
 
 Do not reset the clock because an aggregator, syndication partner, or secondary outlet republished an older article.
 

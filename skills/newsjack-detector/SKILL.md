@@ -75,8 +75,10 @@ RUN_DIR/
   candidates.json              # 1. detector output
   coarse_relevance_decisions.json   # 2. coarse pass
   relevant_candidates.json     # 3. filter-apply
-  origin_findings.json         # 4. story-origin pass
+  clustered_candidates.json    # 3b. cluster — same-story dedup + stale pre-gate
+  origin_findings.json         # 4. story-origin pass (representatives only)
   targeted_candidates.json     # 5. origin-apply (freshness authority)
+  triaged_candidates.json      # 5b. newsjack-triage — standing + consolidation
   final_report.md              # 7. compiled report
   run.md                       # 8. rerendered — THE human-facing artifact
   detector.stderr.log  commands.log  summary.json
@@ -98,24 +100,36 @@ Only `run.md` is human-facing; the rest are provenance.
    ~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions coarse_relevance_decisions.json --include keep --include monitor_only --output relevant_candidates.json
    ```
 
-4. **Story-origin pass** on `relevant_candidates.json` → `origin_findings.json`. Each worker loads `skills/story-origin-check/SKILL.md` and applies it per signal: decide same-story vs material-new-development, recover `first_public_at`, `original_url`, and canonical major coverage. It must **not** compute `fresh`/`stale`. Merge the per-signal results into one `findings` array, keyed by `signal_id`. The story-origin pass needs retrieval — see `references/harness-routing.md` for what to do when a low-cost worker cannot search or open pages.
+3b. **Cluster same-story signals before the expensive retrieval pass:**
+
+   ```bash
+   ~/.newsjack/bin/newsjack cluster --candidates relevant_candidates.json --drop-stale --window-hours 24 --output clustered_candidates.json
+   ```
+
+   The Go CLI collapses syndicated pickups / near-duplicate headlines of the **same public event** into one representative (it shares findings, so 15 NVIDIA-GTC copies cost one story-origin retrieval, not 15) and records the rest in `clustered_duplicates`. `--drop-stale` deterministically pre-gates low-story-size signals whose detector decay is clearly outside the window (`week`/`month`) into `pre_gated_stale`, so they skip retrieval entirely; large stories (`high`/`major`) are always researched regardless of age. Run story-origin on `clustered_candidates.json` (representatives only). Disclose how many duplicates and stale items were collapsed.
+
+4. **Story-origin pass** on `clustered_candidates.json` (representatives) → `origin_findings.json`. Each worker loads `skills/story-origin-check/SKILL.md` and applies it per signal: decide same-story vs material-new-development, recover `first_public_at`, `original_url`, and canonical major coverage. It must **not** compute `fresh`/`stale`, must return **one finding per signal (never skip)**, and must cite **≥2 independent corroborating sources** to support a fresh clock. Merge the per-signal results into one `findings` array, keyed by `signal_id`. Validate the count against the input and re-run any gaps. The story-origin pass needs retrieval — see `references/harness-routing.md`.
 
 5. **Apply the deterministic freshness gate:**
 
    ```bash
-   ~/.newsjack/bin/newsjack origin-apply --candidates relevant_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
+   ~/.newsjack/bin/newsjack origin-apply --candidates clustered_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
    ```
 
-   The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale.
+   The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale. Non-fresh signals carry a specific reason: `stale`, `unverified_no_corroboration` (worker cited <2 independent sources — a pipeline/worker-quality miss), `unverified_boundary` (date-only clock straddling the cutoff), or `unverified_no_timestamp` (no clock recovered). Distinguish these in the report and in metrics: `unverified_no_corroboration` means *we* didn't verify, not that the story is old.
 
-6. **Angle generation** on the high-priority fresh candidates in `targeted_candidates.json`. `angle-generator` is the atomic fit step: a candidate is useful only if it yields at least one honest, journalist-shaped angle. Reject/downgrade candidates that return zero viable angles, duplicate/slop angles, or no specific journalist shape.
+5b. **Standing triage** on the selected fresh signals in `targeted_candidates.json` → `triaged_candidates.json`. Load `skills/newsjack-triage/SKILL.md`: re-consolidate any same-story representatives that slipped through, assign `strong`/`partial`/`none` standing with a journalist-shape sanity check, and advance only distinct, has-standing stories. This is the standing gate the engine cannot make — it replaces ad-hoc orchestrator judgment so the decision is auditable. `none`-standing items go straight to Watch / Not A Fit.
 
-7. **Compile `final_report.md`** — story-first and skimmable:
-   - `## Top News Today`: current stories in priority order — story size, link, fit status, and three suggested `angle-generator` angles for each non-rejected story.
-   - `## Top Positioning Angles`: the strongest ways the client can enter, each anchored to specific news item(s) and story size.
-   - `## Watch / Not A Fit`: relevant-but-not-ready and rejected items with a plain reason.
+6. **Angle generation** on the **advanced** candidates in `triaged_candidates.json`. `angle-generator` is the atomic fit step: a candidate is useful only if it yields at least one honest, journalist-shaped angle. Reject/downgrade candidates that return zero viable angles, duplicate/slop angles, or no specific journalist shape.
 
-   Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict; do not mix story headlines and angle headlines without labeling which is which.
+7. **Compile `final_report.md`** — story-first and skimmable. The fixture's `scripts/build_report.py` is the reference implementation:
+   - `## Top News Today`: each advanced story shows freshness (with **both** the first-public date *and* the new-development date for `fresh_new_development`), standing, the angle-generator angles, and — critically — its **link provenance**:
+     - **One main source = the source of record**: the article the detector actually surfaced, with its real `published_at`. Flag it when the provenance is thin (`⚠ single source`, `⚠ source of record is an aggregator`).
+     - **Related coverage** underneath: the clustered duplicate pickups (real, dated, tagged `surfaced duplicate`) plus any `canonical_coverage_url`/`original_url` the story-origin worker *proposed*. A proposed link is shown with its date marked **unverified** and tagged `proposed by research — UNVERIFIED`. **Never promote a worker-proposed link into the main-source position** — it has no provenance until a source actually surfaced it. This is the anti-laundering rule: a fabricated-looking authoritative link (e.g. an NVIDIA newsroom URL the worker attached to a single KuCoin pickup) must read as unverified, not as established coverage.
+   - Every link — main and related — carries a date; dates that are only the worker's claim are marked unverified, never shown as fact.
+   - `## Watch / Not A Fit`: gated and triage-dropped items with the plain reason and date.
+
+   Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict.
 
 8. **Render the run report.** `render-run` is a deterministic formatter — it decides nothing, but it will **not** render a coarse-rejected or hard-safety-flagged signal into the human brief, and it discloses how many it withheld.
 
@@ -133,12 +147,14 @@ For recurring scheduled output, a signal is not surfaceable until its Go-compute
 
 Recurring output rules:
 
-- Surface only `fresh` or `fresh_new_development`. Reject `stale`. Reject when the first-public timestamp cannot be verified inside the last 24 hours, with reason `freshness_unverified`.
+- Surface only `fresh` or `fresh_new_development`. Reject `stale` and every `unverified_*` status. The unverified statuses are distinct on purpose: `unverified_no_corroboration` (worker cited <2 independent sources — a *pipeline* miss, often re-runnable), `unverified_boundary` (date-only clock straddling the cutoff), `unverified_no_timestamp` (no clock recovered). Report them separately so worker-quality misses are not mistaken for genuinely old stories.
+- Run with `--demote-unmatched-x` so unmatched X News/Trends clusters fall below the queue floor unless the large-story recall guard lifts them. X News surfaces for review by default; recurring precision wants it demoted unless it is a genuinely large story.
+- Cluster (step 3b) before retrieval and prefer `--drop-stale` so syndicated duplicates and clearly-old low-value items never burn story-origin retrieval.
 - Do **not** reset the clock for AOL, Yahoo, MSN, Apple News, partner syndication, wire pickup, SEO rewrites, or "published today" pages whose canonical/source story is older.
 - A newer article restarts the clock only if it adds a concrete new public fact: official action, filing, statement, data/report publication, material company update, new local impact, or another independently coverable development.
 - Prefer `story_origin.canonical_coverage_url` as the report's main link — the major/most authoritative same-story coverage, not the random pickup that triggered retrieval.
 
-`origin-apply` attaches `story_origin` and the deterministic `freshness_gate` to selected and rejected signals. If the first-public timestamp can't be verified, write `first_public_at: null` and explain the gap; `origin-apply` computes `freshness_unverified`.
+`origin-apply` attaches `story_origin` and the deterministic `freshness_gate` to selected and rejected signals. If the first-public timestamp can't be verified, write `first_public_at: null` and explain the gap; `origin-apply` computes the appropriate `unverified_*` status.
 
 ## Handoff
 
@@ -152,8 +168,9 @@ Recurring output rules:
 Before reporting the run complete:
 
 - `coarse_relevance_decisions.json` has exactly one decision per emitted candidate (unless `--allow-missing`).
-- `origin_findings.json` has exactly one finding per relevant candidate (unless `--allow-missing`).
-- `targeted_candidates.json` was produced by `origin-apply`.
+- `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
+- `origin_findings.json` has exactly one finding per clustered representative (unless `--allow-missing`) — count validated, gaps re-run.
+- `targeted_candidates.json` was produced by `origin-apply`; `triaged_candidates.json` was produced by `newsjack-triage` and only its advanced items went to `angle-generator`.
 - `final_report.md` was written from `targeted_candidates.json`, not raw `candidates.json`.
 - `run.md` was rendered (via `render-run`) from the gated pool (`relevant_candidates.json`) after `final_report.md` existed — never from raw `candidates.json`.
 - The `run.md` candidate scan contains **no** coarse-rejected or hard-safety-flagged signal; if `render-run` reports withheld signals, that disclosure line is present.
@@ -214,7 +231,7 @@ Return exactly this JSON object. No prose before or after it. Every opportunity 
       "signal_title": "Rejected public signal",
       "reason": "no_client_standing",
       "first_publication": {
-        "status": "stale | freshness_unverified | null",
+        "status": "stale | unverified_no_corroboration | unverified_boundary | unverified_no_timestamp | null",
         "first_public_at": "ISO timestamp, YYYY-MM-DD, or null",
         "original_url": "https://... or null",
         "canonical_coverage_url": "https://... or null"
@@ -235,5 +252,5 @@ Return exactly this JSON object. No prose before or after it. Every opportunity 
 ```
 
 - Allowed verdicts: `pitch_now`, `develop_angle`, `monitor`, `reject`.
-- Allowed rejection reasons: `stale`, `freshness_unverified`, `single_source`, `no_client_standing`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`, `no_viable_angle`.
+- Allowed rejection reasons: `stale`, `freshness_unverified` (umbrella; or the specific `unverified_no_corroboration` / `unverified_boundary` / `unverified_no_timestamp`), `single_source`, `no_client_standing`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`, `no_viable_angle`.
 - Allowed brand-safety block reasons: `tragedy_or_human_suffering`, `client_exclusion`, `regulated_claim_risk`, `fabrication_risk`.

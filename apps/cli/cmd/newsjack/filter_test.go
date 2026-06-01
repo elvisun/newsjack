@@ -464,8 +464,8 @@ func TestOriginApplyDowngradesWhenWorkerCitesOnlySurfacedURL(t *testing.T) {
 		t.Fatalf("rejected=%d, want 1; gate=%#v", len(rejected), gate)
 	}
 	rg := valueOrEmptyMap(rejected[0]["freshness_gate"])
-	if rg["computed_status"] != "freshness_unverified" {
-		t.Fatalf("computed_status=%v, want freshness_unverified; gate=%#v", rg["computed_status"], rg)
+	if rg["computed_status"] != "unverified_no_corroboration" {
+		t.Fatalf("computed_status=%v, want unverified_no_corroboration; gate=%#v", rg["computed_status"], rg)
 	}
 	if rg["worker_status"] != "fresh" {
 		t.Fatalf("worker_status=%v, want fresh (preserved); gate=%#v", rg["worker_status"], rg)
