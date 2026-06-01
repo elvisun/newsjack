@@ -57,16 +57,15 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		if json.Unmarshal(out.Bytes(), &testPayload) != nil {
 			t.Fatalf("invalid test JSON: %s", out.String())
 		}
-		runMD := stringValue(testPayload["run_markdown"])
-		if runMD == "" || !fileExists(runMD) {
-			t.Fatalf("run_markdown=%q does not exist", runMD)
+		if candidates := stringValue(testPayload["candidates"]); candidates == "" || !fileExists(candidates) {
+			t.Fatalf("candidates artifact missing: %#v", testPayload)
 		}
-		body, readErr := os.ReadFile(runMD)
-		if readErr != nil {
-			t.Fatal(readErr)
+		if summary := stringValue(testPayload["summary"]); summary == "" || !fileExists(summary) {
+			t.Fatalf("summary artifact missing: %#v", testPayload)
 		}
-		if !strings.Contains(string(body), "Fixture Coffee Newsjack Brief") {
-			t.Fatalf("run.md missing profile heading:\n%s", body)
+		reportTarget := stringValue(testPayload["report_target"])
+		if reportTarget == "" || fileExists(reportTarget) {
+			t.Fatalf("report_target=%q, want planned non-written run.md path", reportTarget)
 		}
 
 		out.Reset()
@@ -110,8 +109,8 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		if status["run_count"] != float64(1) {
 			t.Fatalf("run_count=%v, want 1", status["run_count"])
 		}
-		if stringValue(status["latest_run_markdown"]) == "" {
-			t.Fatalf("latest_run_markdown missing: %#v", status)
+		if stringValue(status["latest_report_path"]) != "" {
+			t.Fatalf("latest_report_path should be empty until a skill writes run.md: %#v", status)
 		}
 	})
 }

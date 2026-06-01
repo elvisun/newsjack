@@ -235,7 +235,7 @@ for dir in "${skill_dirs[@]}"; do
 done
 
 log "running mock detector smoke"
-newsjack detector run "AI search visibility" --mock --limit 1 --emit json \
+newsjack detector run "AI search visibility" --mock --limit 1 \
   | tee /tmp/newsjack-detector.json \
   | jq -e '.monitor.mock == true and (.monitor.queries | index("AI search visibility")) and (.signals | length) >= 1' >/dev/null
 
@@ -258,9 +258,10 @@ newsjack monitor init harness-coffee --profile /tmp/newsjack-profile.json | tee 
 jq -e '.slug == "harness-coffee" and .profile_path' /tmp/newsjack-monitor-init.json >/dev/null
 
 newsjack monitor test harness-coffee --mock --limit 2 | tee /tmp/newsjack-monitor-test.json
-run_md="$(jq -r '.run_markdown' /tmp/newsjack-monitor-test.json)"
-test -f "$run_md"
-grep -q "Harness Coffee Newsjack Brief" "$run_md"
+jq -e '.candidates and .summary and .report_target' /tmp/newsjack-monitor-test.json >/dev/null
+test -f "$(jq -r '.candidates' /tmp/newsjack-monitor-test.json)"
+test -f "$(jq -r '.summary' /tmp/newsjack-monitor-test.json)"
+test ! -f "$(jq -r '.report_target' /tmp/newsjack-monitor-test.json)"
 
 newsjack monitor schedule harness-coffee --runtime claude --every 1h | tee /tmp/newsjack-monitor-schedule.json
 jq -e '.system_cron == false and .runtime == "claude" and .schedule_path and (.suggested_minute >= 1) and (.suggested_minute <= 59)' /tmp/newsjack-monitor-schedule.json >/dev/null
@@ -270,7 +271,7 @@ test -f "$schedule_md"
 grep -q 'never minute 0' "$schedule_md"
 
 newsjack monitor status harness-coffee | tee /tmp/newsjack-monitor-status.json
-jq -e '.exists == true and .run_count == 1 and .latest_run_markdown' /tmp/newsjack-monitor-status.json >/dev/null
+jq -e '.exists == true and .run_count == 1 and (.latest_report_path == null)' /tmp/newsjack-monitor-status.json >/dev/null
 
 log "installer smoke complete"
 EOF

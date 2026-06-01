@@ -12,7 +12,6 @@ import (
 )
 
 var allowedDecisions = stringSet([]string{"keep", "monitor_only", "reject"})
-var allowedReasons = stringSet([]string{"relevant_news", "plausible_client_bridge", "major_news_no_bridge", "keyword_collision", "not_news", "owned_docs_or_product_page", "seo_landing_page", "low_reach_x_post", "safety_risk", "duplicate", "off_beat", "no_profile_bridge"})
 
 func cmdFilterApply(args []string, stdout, stderr io.Writer) int {
 	var includes stringList
@@ -93,9 +92,6 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 		normalized := normalizeDecision(decision)
 		if !allowedDecisions[stringValue(normalized["decision"])] {
 			errs = append(errs, fmt.Sprintf("%s: unsupported decision=%s", id, normalized["decision"]))
-		}
-		if !allowedReasons[stringValue(normalized["reason"])] {
-			errs = append(errs, fmt.Sprintf("%s: unsupported reason=%s", id, normalized["reason"]))
 		}
 		if signal := signalByID[id]; signal != nil {
 			normalized = applyCoarseRecallGuard(normalized, signal, profile)

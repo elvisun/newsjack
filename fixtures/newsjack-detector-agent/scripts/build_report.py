@@ -16,9 +16,9 @@ AGGREGATORS = ("kucoin.com", "startupfortune.com", "vocal.media", "x.com", "twit
                "bitget.com", "stocktitan", "markets.businessinsider", "einpresswire", "manilatimes")
 GATE_LABEL = {
     "stale": "Stale — older than 24h, or a newer pickup of an older original",
-    "unverified_no_corroboration": "Unverified — fewer than 2 independent corroborating sources",
-    "unverified_no_timestamp": "Unverified — no first-public timestamp recovered",
-    "unverified_boundary": "Unverified — date-only clock straddling the cutoff",
+    "unverified_no_corroboration": "Possibly fresh (single source) — a recent date was claimed but only one source backs it; confirm before using",
+    "unverified_no_timestamp": "Undated — couldn't establish age; could be fresh or old",
+    "unverified_boundary": "Possibly fresh (exact date unclear) — date-only clock straddling the 24h cutoff",
 }
 
 
@@ -183,7 +183,7 @@ def build(run):
     for r in rej:
         g[(r.get("freshness_gate") or {}).get("computed_status")].append(r)
     any_w = False
-    for st in ("stale", "unverified_no_corroboration", "unverified_boundary", "unverified_no_timestamp"):
+    for st in ("unverified_no_corroboration", "unverified_boundary", "unverified_no_timestamp", "stale"):
         items = g.get(st) or []
         if not items:
             continue

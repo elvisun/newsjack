@@ -24,6 +24,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "auth status|headers|logout", "inspect or revoke credentials", "")
 	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
+	uiCommand(w, "run-summary", "write deterministic run metadata as JSON", "INPUT [--output FILE]")
 	uiCommand(w, "mcp setup|status", "configure the MCP bridge", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
 	fmt.Fprintln(w)

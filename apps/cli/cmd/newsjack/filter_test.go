@@ -78,6 +78,32 @@ func TestFilterApplyIgnoresOriginFields(t *testing.T) {
 	}
 }
 
+func TestFilterApplyAllowsPromptOwnedReasons(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{},
+		"signals": []any{
+			map[string]any{"id": "fresh", "title": "Fresh story"},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{"signal_id": "fresh", "decision": "keep", "reason": "new_prompt_owned_reason"},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions should allow prompt-owned reasons: %v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1", len(signals))
+	}
+	decision := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if decision["reason"] != "new_prompt_owned_reason" {
+		t.Fatalf("reason=%v, want custom reason", decision["reason"])
+	}
+}
+
 func TestFilterApplyGuardKeepsProfileMatchedNoBridgeReject(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{

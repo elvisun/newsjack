@@ -1,6 +1,6 @@
 # Newsjack Detector Fixture
 
-This fixture runs the local Newsjack detector against sample company profiles. It is useful for smoke testing candidate retrieval, report rendering, and agent orchestration.
+This fixture runs the local Newsjack detector against sample company profiles. It is useful for smoke testing candidate retrieval, machine-readable summaries, and agent orchestration.
 
 ## Quick Start
 
@@ -31,7 +31,7 @@ fixtures/newsjack-detector-agent/scripts/open-claude.sh
 Ask Claude Code to run the fixture:
 
 ```bash
-fixtures/newsjack-detector-agent/scripts/open-claude-bypass.sh -p "Read and follow PROMPT.md. Run scripts/run-all-profiles.sh. Inspect the generated index.md and each run.md, then summarize what surfaced, what looks wrong, and the run folder path."
+fixtures/newsjack-detector-agent/scripts/open-claude-bypass.sh -p "Read and follow PROMPT.md. Run scripts/run-all-profiles.sh. Inspect the generated index.md plus each summary.json/candidates.json, then summarize what surfaced, what looks wrong, and the run folder path."
 ```
 
 ## Scripts
@@ -39,7 +39,7 @@ fixtures/newsjack-detector-agent/scripts/open-claude-bypass.sh -p "Read and foll
 | Script | Use |
 |---|---|
 | `scripts/run-all-profiles.sh` | Runs all configured fixture profiles and writes `runs/<timestamp>/index.md`. |
-| `scripts/run-one-profile.sh` | Runs one profile, writes `candidates.json`, `summary.json`, `run.md`, logs, and includes the full scored pool by default. |
+| `scripts/run-one-profile.sh` | Runs one profile, writes `candidates.json`, `summary.json`, logs, and includes the full scored pool by default. |
 | `scripts/run-detector-json.sh` | Runs one live detector call and prints raw JSON to stdout. |
 | `scripts/run-mock-detector.sh` | Runs one mock detector call and prints raw JSON to stdout. |
 | `scripts/with-fixture-env.sh` | Loads root `.env`, then fixture `.env`, changes into this fixture directory, and runs a command. |
@@ -58,7 +58,6 @@ runs/<timestamp>/
     candidates.json
     detector.stderr.log
     summary.json
-    run.md
 ```
 
 `run-one-profile.sh` writes:
@@ -70,10 +69,9 @@ runs/<timestamp>-<slug>-profile/
   detector.stderr.log
   commands.log
   summary.json
-  run.md
 ```
 
-The fixture reports are detector previews unless an agent also runs the full semantic pipeline from `skills/newsjack-detector/SKILL.md`: coarse relevance, story-origin check, freshness gate, final report, and rerender.
+The fixture summary is a detector artifact, not a human report. A `run.md` report is created only when an agent runs the full semantic pipeline from `skills/newsjack-detector/SKILL.md`: coarse relevance, story-origin check, freshness gate, triage, angle generation, and skill-owned report rendering.
 
 Fixture-specific script usage lives here so the public skill can stay runtime-agnostic.
 

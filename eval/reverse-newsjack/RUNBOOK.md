@@ -158,8 +158,7 @@ Use these defaults for reverse eval unless testing a specific source behavior:
   --depth quick \
   --limit 0 \
   --include-all-scored \
-  --no-x-trends \
-  --emit json
+  --no-x-trends
 ```
 
 Use `--limit 0` for the primary recall gate so the eval does not confuse candidate-pool recall with ranking quality. If you also want a product-visible ranking check, rerun or post-process with the product limit, for example top 20, and record rank buckets separately.

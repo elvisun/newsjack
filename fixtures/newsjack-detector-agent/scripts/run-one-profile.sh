@@ -37,7 +37,6 @@ CANDIDATES="$RUN_DIR/candidates.json"
 SCORED_CANDIDATES="$RUN_DIR/scored_candidates.json"
 STDERR_LOG="$RUN_DIR/detector.stderr.log"
 SUMMARY="$RUN_DIR/summary.json"
-RUN_MARKDOWN="$RUN_DIR/run.md"
 COMMAND_LOG="$RUN_DIR/commands.log"
 
 {
@@ -77,7 +76,7 @@ if [[ "$INCLUDE_ALL_SCORED" != "0" && "$INCLUDE_ALL_SCORED" != "false" ]]; then
   detector_args+=(--include-all-scored --scored-output "$SCORED_CANDIDATES")
 fi
 
-detector_args+=("$@" --emit json)
+detector_args+=("$@")
 
 {
   printf 'detector_command='
@@ -96,7 +95,7 @@ else
   exit "$status"
 fi
 
-"$NEWSJACK_BIN" render-run "$CANDIDATES" --output "$SUMMARY" --markdown "$RUN_MARKDOWN"
+"$NEWSJACK_BIN" run-summary "$CANDIDATES" --output "$SUMMARY"
 
 echo "wrote:"
 echo "- $CANDIDATES"
@@ -104,8 +103,7 @@ if [[ -f "$SCORED_CANDIDATES" ]]; then
   echo "- $SCORED_CANDIDATES"
 fi
 echo "- $SUMMARY"
-echo "- $RUN_MARKDOWN"
 echo "- $STDERR_LOG"
 echo "- $COMMAND_LOG"
 echo
-echo "note: this fixture writes a detector preview. A pitch-ready report requires the full skill pipeline and a final_report.md rerender."
+echo "note: this fixture writes detector JSON and a machine-readable summary. A pitch-ready run.md requires the full skill pipeline."

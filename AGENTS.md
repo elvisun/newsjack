@@ -21,6 +21,27 @@ Guidance for coding agents working in this repo.
 - `fixtures/newsjack-detector-agent/PROMPT.md` should only point agents to the canonical detector skill and the fixture profile files. Do not duplicate run commands or profile lists there.
 - `fixtures/newsjack-detector-agent/README.md` owns fixture script usage.
 
+## CLI Unix Principle
+
+Keep the Go CLI a deterministic, composable data layer. Before adding behavior to `apps/cli`, ask whether every Newsjack user needs the same testable operation regardless of client, voice, outlet, or prompt strategy. If the answer is no, put it in a skill, fixture, or user-provided renderer instead.
+
+CLI-owned behavior:
+
+- Install/update/runtime/auth/MCP plumbing, local paths, local state, and health checks.
+- Evidence ingestion, normalization, dedupe, clustering, source diagnostics, and local seen-store behavior.
+- Mechanical scores, routing metadata, hygiene/safety flags, and deterministic thresholds used to order work.
+- JSON-to-JSON transforms such as applying decisions, validating artifact contracts, attaching provenance, and computing freshness status codes.
+- Machine-readable facts needed by skills to render honestly: URLs, timestamps, source provenance, status codes, counts, exclusions, and diagnostics.
+
+Skill- or user-owned behavior:
+
+- PR judgment, client standing, newsworthiness, brand-safety judgment, angle fit, journalist shape, handoff decisions, and final labels/framing.
+- Report structure, Markdown/prose rendering, story hierarchy, "top news" wording, what to emphasize, and how to explain statuses to a human.
+- Prompt-shaped taxonomies or wording that should evolve without a CLI release. Prefer adding structured JSON fields in the CLI over hardcoding prose.
+- Fixture/eval reference renderers may live under `fixtures/`, but do not treat them as product CLI behavior.
+
+Do not add or expand CLI report rendering unless it is strictly a compatibility/debug path. Canonical human-facing reports should be rendered by skills from deterministic JSON artifacts.
+
 ## Common Commands
 
 CLI tests:

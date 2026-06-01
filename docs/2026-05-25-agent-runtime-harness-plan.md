@@ -25,7 +25,7 @@ The active verification surface is:
 
 ```bash
 (cd apps/cli && go test ./...)
-./bin/newsjack detector run "AI search visibility" --mock --limit 1 --emit json
+./bin/newsjack detector run "AI search visibility" --mock --limit 1
 ```
 
 The `harness/` directory may keep container assets and prompts, but there is no

@@ -38,8 +38,7 @@ Tasks:
      --depth quick \
      --limit 0 \
      --include-all-scored \
-     --no-x-trends \
-     --emit json
+     --no-x-trends
 
 5. Do not use --save or --new-only.
 6. Use `--limit 0` for primary recall. Rank buckets are scored separately from recall.
@@ -48,7 +47,7 @@ Tasks:
    - profile.json
    - candidates.json
    - stderr.log
-   - summary.json and run.md if render-run succeeds
+   - summary.json from `newsjack run-summary`
 
 Output folder shape:
 runs/TARGET_ID/
@@ -57,7 +56,6 @@ runs/TARGET_ID/
   candidates.json
   stderr.log
   summary.json
-  run.md
 
 Final response:
 - run folder path

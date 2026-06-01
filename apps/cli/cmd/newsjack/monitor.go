@@ -377,7 +377,7 @@ func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
-	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Use %s for the schedule, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile, run a mock test, install the schedule, and show me the run.md and schedule paths.", runtimeLabel(scheduleRuntime))
+	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Use %s for the schedule, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile, run a mock test, install the schedule, render the first report from the JSON artifacts, and show me the run.md and schedule paths.", runtimeLabel(scheduleRuntime))
 }
 
 func printRuntimeList(stdout io.Writer) {
@@ -938,7 +938,7 @@ func cmdMonitorOpen(args []string, stdout, stderr io.Writer) int {
 	if !truthy(status["exists"], false) {
 		return failf(stderr, "monitor not found: %s", slug)
 	}
-	if latest := stringValue(status["latest_run_markdown"]); latest != "" {
+	if latest := stringValue(status["latest_report_path"]); latest != "" {
 		fmt.Fprintln(stdout, latest)
 		return 0
 	}
@@ -973,7 +973,6 @@ func runMonitor(slug string, mock, test bool, limit int) (map[string]any, error)
 		NewOnly:                         !mock,
 		MonitorName:                     slug,
 		IncludeAllScored:                true,
-		Emit:                            "json",
 		MajorFeeds:                      !mock,
 		NoHygieneFilter:                 false,
 		NoProfileFeeds:                  false,
@@ -1006,22 +1005,24 @@ func runMonitor(slug string, mock, test bool, limit int) (map[string]any, error)
 	if err != nil {
 		return nil, err
 	}
-	summary := summarizeRun(payload, paths["candidates"], 25)
+	summaryGeneratedAt := time.Now().UTC().Format(time.RFC3339Nano)
+	summary := summarizeRunAt(payload, paths["candidates"], 25, summaryGeneratedAt)
 	if err := os.WriteFile(paths["detector_summary"], marshalJSON(summary), 0o644); err != nil {
 		return nil, err
 	}
-	if err := os.WriteFile(paths["run_markdown"], []byte(renderSummaryMarkdown(summary)), 0o644); err != nil {
+	summary = summarizeRunAt(payload, paths["candidates"], 25, summaryGeneratedAt)
+	if err := os.WriteFile(paths["detector_summary"], marshalJSON(summary), 0o644); err != nil {
 		return nil, err
 	}
 	return map[string]any{
-		"slug":         slug,
-		"mock":         mock,
-		"test":         test,
-		"feed_only":    opts.FeedOnly,
-		"run_dir":      runDir,
-		"candidates":   paths["candidates"],
-		"summary":      paths["detector_summary"],
-		"run_markdown": paths["run_markdown"],
+		"slug":          slug,
+		"mock":          mock,
+		"test":          test,
+		"feed_only":     opts.FeedOnly,
+		"run_dir":       runDir,
+		"candidates":    paths["candidates"],
+		"summary":       paths["detector_summary"],
+		"report_target": paths["run_report"],
 	}, nil
 }
 
@@ -1037,7 +1038,7 @@ func shouldRunFeedOnly(profile monitorProfile, opts detectorOptions) bool {
 }
 
 func monitorDetectorCommand(slug string, opts detectorOptions) string {
-	parts := []string{"newsjack", "detector", "run", "--profile", monitorProfilePath(slug), "--monitor-name", slug, "--depth", opts.Depth, "--limit", fmt.Sprint(opts.Limit), "--emit", "json"}
+	parts := []string{"newsjack", "detector", "run", "--profile", monitorProfilePath(slug), "--monitor-name", slug, "--depth", opts.Depth, "--limit", fmt.Sprint(opts.Limit)}
 	if opts.Mock {
 		parts = append(parts, "--mock")
 	}
@@ -1060,23 +1061,23 @@ func monitorStatus(slug string) map[string]any {
 	dir := monitorDir(slug)
 	runs := monitorRuns(slug)
 	latestRun := ""
-	latestMD := ""
+	latestReport := ""
 	if len(runs) > 0 {
 		latestRun = runs[len(runs)-1]
 		if fileExists(filepath.Join(latestRun, "run.md")) {
-			latestMD = filepath.Join(latestRun, "run.md")
+			latestReport = filepath.Join(latestRun, "run.md")
 		}
 	}
 	return map[string]any{
-		"slug":                slug,
-		"exists":              fileExists(monitorProfilePath(slug)),
-		"monitor_dir":         dir,
-		"profile_path":        monitorProfilePath(slug),
-		"schedule_path":       nullableStringIfExists(monitorSchedulePath(slug)),
-		"schedule_json_path":  nullableStringIfExists(monitorScheduleJSONPath(slug)),
-		"run_count":           len(runs),
-		"latest_run_dir":      nullableString(latestRun),
-		"latest_run_markdown": nullableString(latestMD),
+		"slug":               slug,
+		"exists":             fileExists(monitorProfilePath(slug)),
+		"monitor_dir":        dir,
+		"profile_path":       monitorProfilePath(slug),
+		"schedule_path":      nullableStringIfExists(monitorSchedulePath(slug)),
+		"schedule_json_path": nullableStringIfExists(monitorScheduleJSONPath(slug)),
+		"run_count":          len(runs),
+		"latest_run_dir":     nullableString(latestRun),
+		"latest_report_path": nullableString(latestReport),
 	}
 }
 
@@ -1135,7 +1136,7 @@ func suggestedScheduleMinute(slug string) int {
 
 func scheduleInstructions(slug, runtime, every string) string {
 	minute := suggestedScheduleMinute(slug)
-	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and rerender run.md. When installing the recurring schedule, pick a stable random minute in [1, 59], never minute 0; suggested_minute is %d from `minute = (fnv32a(slug) %% 59) + 1`. Apply the same jitter to daily and weekly schedules, and avoid common top-of-hour, midnight, and Monday-09:00 defaults. This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.", every, shellQuote(slug), runtime, minute)
+	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and render run.md from the JSON artifacts. When installing the recurring schedule, pick a stable random minute in [1, 59], never minute 0; suggested_minute is %d from `minute = (fnv32a(slug) %% 59) + 1`. Apply the same jitter to daily and weekly schedules, and avoid common top-of-hour, midnight, and Monday-09:00 defaults. This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.", every, shellQuote(slug), runtime, minute)
 }
 
 func renderScheduleMarkdown(payload map[string]any) string {

@@ -22,5 +22,4 @@ exec "$SCRIPT_DIR/with-fixture-env.sh" \
   "$QUERY" \
   --profile "$PROFILE" \
   "$@" \
-  --mock \
-  --emit json
+  --mock

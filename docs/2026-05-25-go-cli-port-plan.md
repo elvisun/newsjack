@@ -132,7 +132,7 @@ newsjack auth headers
 newsjack auth logout
 newsjack detector run ...
 newsjack filter-apply ...
-newsjack render-run ...        # formerly summarize-run (deprecated alias)
+newsjack run-summary ...        # JSON artifact summary only; report rendering lives in skills
 newsjack mcp-bridge
 newsjack update
 ```
