@@ -58,9 +58,16 @@ An angle is a structured object, not a paragraph. Every kept angle needs:
 
 9. **No prose wrapper.** The final answer is the JSON object. If the host runtime requires a wrapper, use one fenced `json` block and nothing else.
 
+## Modes
+
+The newsjack-detector pipeline runs this skill in one of two modes, set by `context.mode` (default `pitch`):
+
+- **`pitch`** (default) — full strictness. The candidate has confirmed standing; produce the 3-7 distinct angles per the rules below. Zero viable angles is a real failure and the orchestrator downgrades the candidate.
+- **`exploratory`** — the candidate is a **big story with unverified relevance**, surfaced for the report's **🔥 Big Stories Worth a Look** section. The client may have *no* standing and you are not asserting any. Return **at most one** tentative angle with `"suggestion": true`, framed as a possible opaque way in. If there is honestly no credible angle, return **zero** angles and a one-line note in `uncomfortable_questions` — that is a valid, expected result and does **not** drop the story (it still appears as "awareness only"). The anti-slop, anti-hallucination, and beatless-angle refusals still bind: never fabricate standing, a stat, or a journalist relationship to manufacture an exploratory angle.
+
 ## Process
 
-1. **Read for completeness.** If `update.facts` is empty or only says "we launched," "we raised," "new UI," or equivalent mush, return zero angles and ask for the missing proof.
+1. **Read for completeness.** If `update.facts` is empty or only says "we launched," "we raised," "new UI," or equivalent mush, return zero angles and ask for the missing proof. In `exploratory` mode, thin facts mean "awareness only" (zero angles), not a hard refusal.
 
 2. **Anchor now.** Require `context.current_time`. If missing, refuse and ask for it. Do not guess.
 
@@ -211,5 +218,7 @@ Return exactly this JSON shape. Use `null` where a value is honestly absent. Do 
 ```
 
 Allowed `refusal_reason` values: `duplicate`, `slop`, `hallucinated_fact`, `no_journalist_shape`, `no_why_now_but_required`, `off-beat`.
+
+In `exploratory` mode, add `"suggestion": true` to the single kept angle (if any) to mark it as a tentative big-story way-in, not a vetted pitch.
 
 Read `rubric.md` for scoring and enforcement details. Read `examples.md` for realistic output patterns.

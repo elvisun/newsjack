@@ -190,11 +190,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		}
 		payload["debug"] = map[string]any{"all_scored_signals": allSignals, "dropped_signal_ids": nonNilStrings(dropped), "include_all_scored": true}
 	}
-	if opts.Emit == "brief" {
-		fmt.Fprint(stdout, detectorBrief(payload))
-	} else {
-		writeJSON(stdout, payload)
-	}
+	writeJSON(stdout, payload)
 	return nil
 }
 
@@ -814,69 +810,4 @@ func signalIsSeen(signal map[string]any) bool {
 	features, _ := signal["features"].(map[string]any)
 	v, _ := features["seen_before"].(bool)
 	return v
-}
-
-func detectorBrief(payload map[string]any) string {
-	var lines []string
-	lines = append(lines, "newsjack monitor", "")
-	diagnostics, _ := payload["diagnostics"].(map[string]any)
-	if len(diagnostics) > 0 {
-		lines = append(lines, fmt.Sprintf("scored=%v emitted=%v", diagnostics["total_scored_signals"], diagnostics["total_emitted_signals"]))
-		if m, ok := diagnostics["evidence_by_source"].(map[string]int); ok && len(m) > 0 {
-			lines = append(lines, "evidence_by_source="+joinCounts(m))
-		} else if m, ok := diagnostics["evidence_by_source"].(map[string]any); ok && len(m) > 0 {
-			lines = append(lines, "evidence_by_source="+joinAnyCounts(m))
-		}
-		if m, ok := diagnostics["hygiene_rejections"].(map[string]int); ok && len(m) > 0 {
-			lines = append(lines, "hygiene_rejections="+joinCounts(m))
-		}
-		if m, ok := diagnostics["emitted_by_lane"].(map[string]int); ok && len(m) > 0 {
-			lines = append(lines, "emitted_by_lane="+joinCounts(m))
-		}
-		lines = append(lines, "")
-	}
-	for i, signal := range signalSlice(payload["signals"]) {
-		features, _ := signal["features"].(map[string]any)
-		routing, _ := signal["routing"].(map[string]any)
-		mech, _ := signal["mechanical_scores"].(map[string]any)
-		lines = append(lines, fmt.Sprintf("%d. %s (%s, %s, %s)", i+1, signal["title"], routing["lane"], features["decay_bucket"], strings.Join(toStringSlice(signal["sources"]), ", ")))
-		lines = append(lines, fmt.Sprintf("   mechanical: queue_priority=%v, profile_match=%v, major_news=%v, momentum=%v", routing["queue_priority"], mech["profile_match"], mech["major_news"], mech["momentum"]))
-		for _, link := range briefEvidenceLinks(signal, 3) {
-			lines = append(lines, "   evidence: "+link)
-		}
-		if flags := anySlice(features["safety_flags"]); len(flags) > 0 {
-			lines = append(lines, fmt.Sprintf("   safety_flags=%d", len(flags)))
-		}
-	}
-	if len(signalSlice(payload["signals"])) == 0 {
-		lines = append(lines, "No signals returned.")
-	}
-	return strings.Join(lines, "\n") + "\n"
-}
-
-func briefEvidenceLinks(signal map[string]any, limit int) []string {
-	var out []string
-	seen := map[string]bool{}
-	for _, item := range anySlice(signal["evidence"]) {
-		m, ok := item.(map[string]any)
-		if !ok {
-			continue
-		}
-		u := stringValue(m["url"])
-		if u == "" || seen[u] {
-			continue
-		}
-		seen[u] = true
-		source := stringValue(m["source"])
-		title := firstString(m["title"], m["container"])
-		if title != "" {
-			out = append(out, fmt.Sprintf("%s: %s - %s", source, truncate(title, 110), u))
-		} else {
-			out = append(out, fmt.Sprintf("%s: %s", source, u))
-		}
-		if len(out) >= limit {
-			break
-		}
-	}
-	return out
 }

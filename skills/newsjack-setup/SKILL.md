@@ -106,7 +106,7 @@ This spreads load across the Newsjack/Medialyst backend so we don't get a thunde
 
 8. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use location trends or no X trends; mention personalized trends only if the user has user-context OAuth configured. Explain the tradeoff briefly. Location trends should include WOEIDs.
 
-9. **Save and test when setup is launched by the CLI.** If the caller asks for auto-setup or gives a runtime schedule target, save the profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, install the schedule with `newsjack monitor schedule <slug> --runtime <runtime> --every 1h`, and return the final `run.md` and `schedule.md` paths. Use the deterministic schedule jitter above through the CLI schedule command. If the user only asks for a profile, return the JSON and run commands without writing files.
+9. **Save and test when setup is launched by the CLI.** If the caller asks for auto-setup or gives a runtime schedule target, save the profile with `newsjack monitor init`, run `newsjack monitor test <slug> --mock`, render the first `run.md` from the JSON artifacts if a human report is requested, install the schedule with `newsjack monitor schedule <slug> --runtime <runtime> --every 1h`, and return the artifact/report path plus `schedule.md`. Use the deterministic schedule jitter above through the CLI schedule command. If the user only asks for a profile, return the JSON and run commands without writing files.
 
 ## Output Format
 
@@ -144,8 +144,8 @@ Return a concise setup result:
   "x_news_rationale": "Enabled by default because X News returns story clusters rather than random individual posts.",
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
   "run_commands": {
-    "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48 --emit json",
-    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"TOPIC\" --profile profile.json --save --emit json"
+    "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
+    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"TOPIC\" --profile profile.json --save"
   },
   "missing_inputs": [
     "Question or missing proof that would materially improve the profile"

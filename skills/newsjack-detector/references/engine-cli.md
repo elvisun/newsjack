@@ -19,7 +19,7 @@ The binary: in this repo, prefer the `./bin/newsjack` source shim; `~/.newsjack/
 newsjack detector run "QUERY" --profile profile.json --save
 ```
 
-Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): `--emit brief` for a human scan vs default JSON for skill judgment; `--mock` for local verification without credentials; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors; `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only.
+Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): detector output is JSON; `--mock` verifies locally without credentials; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors; `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only.
 
 ## Source lanes (what `--sources` selects)
 
@@ -42,7 +42,7 @@ The engine reads credentials from the process environment or repo-root `.env`; c
 ## Recurring local workflow
 
 ```bash
-newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 24 --emit json
+newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 24
 ```
 
 A compromise for local/agent runtimes that can only run hourly. The RSS lane catches major stories first, then tests client relevance. `--new-only` uses the local monitor store to avoid re-alerting the same feed URLs; `--max-age-hours` keeps the first run from dumping a historical backlog. It is not a promise to win the first 15 minutes of a breaking story.

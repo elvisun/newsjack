@@ -40,7 +40,7 @@ The Go CLI owns (mechanical, deterministic):
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
 - deterministic story-size scoring from news-search metadata: log-scaled estimated monthly traffic + domain authority, with coverage spread across independently surfaced domains
 - deterministic hygiene filtering for docs/help/product/SEO pages
-- coarse-relevance application via `newsjack filter-apply`, plus a recall guard that upgrades `reject/no_profile_bridge` to `monitor_only` when detector/profile evidence already matched the client, a competitor, or a profile term
+- coarse-relevance application via `newsjack filter-apply`, plus two recall guards: a **big-story guard** that upgrades *any* `reject` of a `high`/`major` `story_size` signal to `monitor_only` (`big_story_recall`) — the cheap pass can never hard-drop a big story — and a **profile-match guard** that upgrades `reject/no_profile_bridge` to `monitor_only` when detector/profile evidence already matched the client, a competitor, or a profile term
 - deterministic freshness gating via `newsjack origin-apply`
 - operational routing: lane, queue priority, threshold-demotion flag
 - deterministic safety flags
@@ -62,7 +62,7 @@ One-off discovery and scans:
 ~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --save
 ```
 
-Use `--emit brief` for a human scan, default JSON for skill judgment, `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
+The detector emits JSON only; render any human scan yourself from the artifact facts. Use `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
 
 For each queued signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores` (`major_news`, `novelty`, `source_agreement`), profile matches, and safety flags. For `x` evidence inspect `x_signal_type`, `x_social_signals`, `x_author_followers`, `x_query_counts`; treat lone low-reach posts as noise. A high `major_news` means the story is broadly important, **not** that the client has standing. Treat engine age/decay as provisional until `story-origin-check` verifies the first-public clock. Then apply `rubric.md` and the **Output Format**.
 
@@ -79,8 +79,8 @@ RUN_DIR/
   origin_findings.json         # 4. story-origin pass (representatives only)
   targeted_candidates.json     # 5. origin-apply (freshness authority)
   triaged_candidates.json      # 5b. newsjack-triage — standing + consolidation
-  final_report.md              # 7. compiled report
-  run.md                       # 8. rerendered — THE human-facing artifact
+  final_report.md              # 7. compiled 3-bucket scan (pitch-ready / big stories / watch)
+  run.md                       # 8. skill-rendered — THE human-facing artifact
   detector.stderr.log  commands.log  summary.json
 ```
 
@@ -89,7 +89,7 @@ Only `run.md` is human-facing; the rest are provenance.
 1. **Run the detector and save candidates:**
 
    ```bash
-   ~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 --emit json > candidates.json
+   ~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
    ```
 
 2. **Coarse relevance pass** → `coarse_relevance_decisions.json`. High-recall junk removal only — no ranking, angles, dates, or pitch decisions. Each worker loads `skills/relevance-coarse-filter/SKILL.md` and applies it to its assigned signals; merge every worker's output into one `decisions` array. For model/worker routing and chunking, see `references/harness-routing.md`.
@@ -118,26 +118,27 @@ Only `run.md` is human-facing; the rest are provenance.
 
    The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale. Non-fresh signals carry a specific reason: `stale`, `unverified_no_corroboration` (worker cited <2 independent sources — a pipeline/worker-quality miss), `unverified_boundary` (date-only clock straddling the cutoff), or `unverified_no_timestamp` (no clock recovered). Distinguish these in the report and in metrics: `unverified_no_corroboration` means *we* didn't verify, not that the story is old.
 
-5b. **Standing triage** on the selected fresh signals in `targeted_candidates.json` → `triaged_candidates.json`. Load `skills/newsjack-triage/SKILL.md`: re-consolidate any same-story representatives that slipped through, assign `strong`/`partial`/`none` standing with a journalist-shape sanity check, and advance only distinct, has-standing stories. This is the standing gate the engine cannot make — it replaces ad-hoc orchestrator judgment so the decision is auditable. `none`-standing items go straight to Watch / Not A Fit.
+5b. **Standing triage** on the selected fresh signals in `targeted_candidates.json` → `triaged_candidates.json`. Load `skills/newsjack-triage/SKILL.md`: re-consolidate any same-story representatives that slipped through, assign `strong`/`partial`/`none` standing with a journalist-shape sanity check, and **route each story to a tier**: `pitch_ready` (strong, or partial with a sharp shape), `big_story` (a fresh `high`/`major` story that lacks standing — **never dropped**, always surfaced as a suggestion with a `bridge_note` + `relevance_confidence`), or `watch` (small/non-big with no standing, off-beat, duplicate). This is the standing gate the engine cannot make — it replaces ad-hoc orchestrator judgment so the decision is auditable. Only `watch` withholds a story, and only for items that are neither pitchable nor big.
 
-6. **Angle generation** on the **advanced** candidates in `triaged_candidates.json`. `angle-generator` is the atomic fit step: a candidate is useful only if it yields at least one honest, journalist-shaped angle. Reject/downgrade candidates that return zero viable angles, duplicate/slop angles, or no specific journalist shape.
+6. **Angle generation** on the **routed** candidates in `triaged_candidates.json`. Run `angle-generator` in **pitch mode** on `pitch_ready` items (a candidate is pitchable only if it yields ≥1 honest, journalist-shaped angle; zero viable angles downgrades it to `big_story` if the story is big, else `watch`) and in **exploratory mode** (`context.mode: exploratory`) on `big_story` items (at most one tentative `suggestion` angle; an empty result is fine and does **not** drop the story — it still appears as "awareness only").
 
-7. **Compile `final_report.md`** — story-first and skimmable. The fixture's `scripts/build_report.py` is the reference implementation:
-   - `## Top News Today`: each advanced story shows freshness (with **both** the first-public date *and* the new-development date for `fresh_new_development`), standing, the angle-generator angles, and — critically — its **link provenance**:
-     - **One main source = the source of record**: the article the detector actually surfaced, with its real `published_at`. Flag it when the provenance is thin (`⚠ single source`, `⚠ source of record is an aggregator`).
-     - **Related coverage** underneath: the clustered duplicate pickups (real, dated, tagged `surfaced duplicate`) plus any `canonical_coverage_url`/`original_url` the story-origin worker *proposed*. A proposed link is shown with its date marked **unverified** and tagged `proposed by research — UNVERIFIED`. **Never promote a worker-proposed link into the main-source position** — it has no provenance until a source actually surfaced it. This is the anti-laundering rule: a fabricated-looking authoritative link (e.g. an NVIDIA newsroom URL the worker attached to a single KuCoin pickup) must read as unverified, not as established coverage.
-   - Every link — main and related — carries a date; dates that are only the worker's claim are marked unverified, never shown as fact.
-   - `## Watch / Not A Fit`: gated and triage-dropped items with the plain reason and date.
+7. **Compile `final_report.md`** — a 3-bucket scan, story-first and skimmable. The fixture's `scripts/build_report.py` is the reference implementation; the skill owns the human report shape. Lead with a **Today's read** line (`N pitch-ready · M big stories · K watched`) and a funnel line that asserts nothing pitchable or big was dropped off-screen. Then three sections, organized by the two independent axes — **standing** (can the client act?) and **magnitude** (how big is the story?):
+   - `## ✅ Pitch-Ready` (`pitch_ready` tier): each story shows freshness (with **both** the first-public date *and* the new-development date for `fresh_new_development`), standing, the angle-generator angles, and its link provenance.
+   - `## 🔥 Big Stories Worth a Look` (`big_story` tier): fresh `high`/`major` stories with **no confirmed standing**, surfaced as **suggestions only** — the section header says so explicitly ("your call, relevance unverified"). **Sorted by coverage spread (distinct surfaced outlet count) desc**, no cap. Each shows the magnitude label + outlet count, freshness, the honest `bridge_note`, confidence flags (incl. the coarse `weakness_flag` → e.g. `⚠ possible keyword match`), provenance, and at most one `suggestion`-tagged angle (or "no clean angle — awareness only"). This is how we surface big stories without ever making the drop decision; telling a real story apart from a high-authority-domain artifact is done by **ranking and flagging here**, never by dropping upstream.
+   - `## 👀 Watch / Context`: `watch`-tier (fresh but no standing, non-big) plus freshness-gated items (`stale`/`unverified_*`), with plain reasons and dates. Big-but-stale items are marked.
+   - **Link provenance (all sections):** **One main source = the source of record** — the article the detector actually surfaced, real `published_at`, flagged when thin (`⚠ single source`, `⚠ source of record is an aggregator`). **Related coverage** underneath: clustered duplicate pickups (tagged `surfaced duplicate`) plus any `canonical_coverage_url`/`original_url` the worker *proposed*, shown with date marked **unverified** and tagged `proposed by research — UNVERIFIED`. **Never promote a worker-proposed link into the main-source position** — the anti-laundering rule. Every link carries a date.
 
    Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict.
 
-8. **Render the run report.** `render-run` is a deterministic formatter — it decides nothing, but it will **not** render a coarse-rejected or hard-safety-flagged signal into the human brief, and it discloses how many it withheld.
+8. **Write `run.md` yourself from the artifacts.** The CLI does not render reports. It only emits deterministic JSON. Use `final_report.md` plus the artifact facts to write a human-facing `run.md` in the run folder.
+
+   The report must be rendered from the **gated/fresh/triaged artifacts**, never raw `candidates.json` alone. Do not resurface coarse-rejected or hard-safety-flagged signals in the ✅/🔥 sections. The only hard drops are mechanical (URL-pattern hygiene) and hard-safety flags; disclose their counts from the JSON artifacts so nothing is hidden — never silently truncate. If you need a machine-readable artifact index, run:
 
    ```bash
-   ~/.newsjack/bin/newsjack render-run relevant_candidates.json --output summary.json --markdown run.md
+   ~/.newsjack/bin/newsjack run-summary targeted_candidates.json --output summary.json
    ```
 
-   Render from the **gated pool** (`relevant_candidates.json`), never raw `candidates.json` — the human-facing scan must not resurface signals the coarse pass dropped (e.g. tragedy/keyword-collision junk). Inside a timestamped folder, pass full paths for the input, `summary.json`, and `run.md`. `run.md` renders `final_report.md` plus a compact candidate scan of the surviving pool. (`summarize-run` is a deprecated alias for `render-run`.)
+   `run-summary` writes JSON metadata only; it does not write Markdown or make editorial decisions.
 
 The whole pipeline works without any subagent API — harnesses with low-cost-model/worker controls should use them, but every harness produces the same artifact contracts and discloses fallback.
 
@@ -170,10 +171,11 @@ Before reporting the run complete:
 - `coarse_relevance_decisions.json` has exactly one decision per emitted candidate (unless `--allow-missing`).
 - `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
 - `origin_findings.json` has exactly one finding per clustered representative (unless `--allow-missing`) — count validated, gaps re-run.
-- `targeted_candidates.json` was produced by `origin-apply`; `triaged_candidates.json` was produced by `newsjack-triage` and only its advanced items went to `angle-generator`.
-- `final_report.md` was written from `targeted_candidates.json`, not raw `candidates.json`.
-- `run.md` was rendered (via `render-run`) from the gated pool (`relevant_candidates.json`) after `final_report.md` existed — never from raw `candidates.json`.
-- The `run.md` candidate scan contains **no** coarse-rejected or hard-safety-flagged signal; if `render-run` reports withheld signals, that disclosure line is present.
+- `targeted_candidates.json` was produced by `origin-apply`; `triaged_candidates.json` was produced by `newsjack-triage` with a `tier` per signal; `pitch_ready` went to `angle-generator` in pitch mode and `big_story` in exploratory mode.
+- No fresh `high`/`major` story was routed to `watch` — every fresh big story appears in **🔥 Big Stories Worth a Look** (or **✅ Pitch-Ready** if it earned standing).
+- `final_report.md` is the 3-bucket scan (✅ Pitch-Ready / 🔥 Big Stories Worth a Look / 👀 Watch / Context), written from `targeted_candidates.json` / `triaged_candidates.json`, not raw `candidates.json`.
+- `run.md` was skill-rendered from the gated/fresh/triaged artifacts after `final_report.md` existed — never from raw `candidates.json` alone.
+- The ✅/🔥 sections contain **no** coarse-rejected or hard-safety-flagged signal; the only hard drops (URL-hygiene + hard-safety) have their counts disclosed from the JSON artifacts.
 - The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
 
 ## Output Format

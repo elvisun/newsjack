@@ -19,7 +19,7 @@ func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 		"NEWSJACK_ROOT": repo,
 	}, func() {
 		var out, err bytes.Buffer
-		code := runCLI([]string{"detector", "run", "AI customer support", "--mock", "--include-all-scored", "--emit", "json"}, &out, &err)
+		code := runCLI([]string{"detector", "run", "AI customer support", "--mock", "--include-all-scored"}, &out, &err)
 		if code != 0 {
 			t.Fatalf("detector code=%d stderr=%s", code, err.String())
 		}
@@ -54,7 +54,7 @@ func TestDetectorRunWritesScoredOutputArtifact(t *testing.T) {
 		"NEWSJACK_ROOT": repo,
 	}, func() {
 		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"detector", "run", "AI customer support", "--mock", "--scored-output", scored, "--emit", "json"}, &out, &errBuf)
+		code := runCLI([]string{"detector", "run", "AI customer support", "--mock", "--scored-output", scored}, &out, &errBuf)
 		if code != 0 {
 			t.Fatalf("detector code=%d stderr=%s", code, errBuf.String())
 		}
@@ -157,7 +157,7 @@ func TestDetectorRunAllowsXTrendsOnly(t *testing.T) {
 		"NEWSJACK_ROOT": repo,
 	}, func() {
 		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"detector", "run", "--profile", profilePath, "--sources", "x_trends", "--no-x-news", "--no-profile-feeds", "--mock", "--min-queue-priority", "0", "--emit", "json"}, &out, &errBuf)
+		code := runCLI([]string{"detector", "run", "--profile", profilePath, "--sources", "x_trends", "--no-x-news", "--no-profile-feeds", "--mock", "--min-queue-priority", "0"}, &out, &errBuf)
 		if code != 0 {
 			t.Fatalf("detector code=%d stderr=%s", code, errBuf.String())
 		}

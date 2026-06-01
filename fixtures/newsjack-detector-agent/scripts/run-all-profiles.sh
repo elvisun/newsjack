@@ -40,7 +40,6 @@ for row in "${profiles[@]}"; do
   output="$profile_dir/candidates.json"
   error_log="$profile_dir/detector.stderr.log"
   summary="$profile_dir/summary.json"
-  markdown="$profile_dir/run.md"
 
   mkdir -p "$profile_dir"
 
@@ -68,23 +67,23 @@ for row in "${profiles[@]}"; do
     detector_args+=(--new-only)
   fi
 
-  detector_args+=("${EXTRA_ARGS[@]}" --emit json)
+  detector_args+=("${EXTRA_ARGS[@]}")
 
   if "$SCRIPT_DIR/with-fixture-env.sh" \
     "$NEWSJACK_BIN" "${detector_args[@]}" \
       >"$output" 2>"$error_log"; then
-    if "$NEWSJACK_BIN" render-run "$output" --output "$summary" --markdown "$markdown"; then
-      echo "ok: $markdown"
-      report_rows+=("| $slug | [$profile]($slug/run.md) | [$slug/candidates.json]($slug/candidates.json) | ok |")
+    if "$NEWSJACK_BIN" run-summary "$output" --output "$summary"; then
+      echo "ok: $summary"
+      report_rows+=("| $slug | $profile | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | ok |")
     else
       status=1
-      echo "failed: $slug summary; see $summary / $markdown"
-      report_rows+=("| $slug | [$profile]($slug/run.md) | [$slug/candidates.json]($slug/candidates.json) | summary failed |")
+      echo "failed: $slug summary; see $summary"
+      report_rows+=("| $slug | $profile | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | summary failed |")
     fi
   else
     status=1
     echo "failed: $slug; see $error_log"
-    report_rows+=("| $slug | $profile | $slug/candidates.json | detector failed |")
+    report_rows+=("| $slug | $profile | $slug/summary.json | $slug/candidates.json | detector failed |")
   fi
 done
 
@@ -102,13 +101,13 @@ INDEX="$RUN_DIR/index.md"
   echo "- New-only filter: $NEW_ONLY"
   echo "- Freshness gate: final surfaced stories require LLM-verified first public timestamp within 24 hours and canonical major coverage when recoverable"
   echo
-  echo "| Fixture profile | Report | Detector JSON | Status |"
-  echo "|---|---|---|---|"
+  echo "| Fixture profile | Profile | Summary JSON | Detector JSON | Status |"
+  echo "|---|---|---|---|---|"
   for report_row in "${report_rows[@]}"; do
     echo "$report_row"
   done
   echo
-  echo "Open each report's \`run.md\`. Detector-only reports are clearly marked as previews until a final editorial pass writes \`final_report.md\` and rerenders the brief."
+  echo "These fixture runs stop at detector JSON plus machine-readable summaries. Human-facing \`run.md\` reports are rendered by the newsjack-detector skill after the full semantic pipeline."
 } > "$INDEX"
 
 echo

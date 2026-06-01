@@ -111,7 +111,8 @@ Required behavior:
 - run `newsjack monitor test <slug> --mock`
 - if any live no-key or credentialed source is available, run
   `newsjack monitor test <slug> --live`
-- print the final `run.md` path and the schedule status
+- render the first `run.md` from the JSON artifacts through the skill, then
+  print the report path and schedule status
 
 The setup flow should be agent-native but not agent-dependent. A user should be
 able to say this in Claude Code, Codex, Cursor Agent, OpenCode, OpenClaw, or
@@ -225,10 +226,11 @@ the schedule JSON so reruns do not churn existing schedules.
   detector.stderr.log
   commands.log
   summary.json
-  run.md
 ```
 
-`run.md` is the human-facing artifact. JSON and log files are support artifacts.
+`monitor run` writes deterministic JSON and log artifacts only. The selected
+agent harness uses the installed Newsjack skill to render `run.md`, the
+human-facing artifact, from those JSON facts.
 
 ## Agent Scheduler Contract
 
@@ -263,7 +265,8 @@ Every agent-scheduled run must:
 - write stdout/stderr to monitor-local logs
 - preserve the environment needed by the detector
 - avoid auto-sending or auto-scheduling journalist outreach
-- produce an inspectable `run.md`, even when no opportunities are found
+- produce an inspectable skill-rendered `run.md`, even when no opportunities
+  are found
 
 If multiple harness schedulers are available, `newsjack setup` should recommend
 Hermes first, then OpenClaw, then Claude Code, then Codex. Users can override

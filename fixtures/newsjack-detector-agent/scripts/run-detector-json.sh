@@ -25,5 +25,4 @@ exec "$SCRIPT_DIR/with-fixture-env.sh" \
   --sources news_search,x \
   --lookback-days 1 \
   --depth quick \
-  --save \
-  --emit json
+  --save
