@@ -312,6 +312,108 @@ func TestOriginApplySelectsFreshNewDevelopment(t *testing.T) {
 	}
 }
 
+func TestOriginApplyPromotesCutoffDateWithPreciseTimestampEvidence(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T13:46:00Z"},
+		"signals": []any{
+			map[string]any{
+				"id":    "scmp",
+				"title": "5 new cafes and coffee shops to try in Hong Kong",
+				"evidence": []any{
+					map[string]any{"url": "https://www.scmp.com/lifestyle/food-drink/article/3355305/story?utm_source=x"},
+				},
+			},
+		},
+	}
+	origins := map[string]any{
+		"findings": []any{
+			map[string]any{
+				"signal_id":              "scmp",
+				"first_public_at":        "2026-05-31",
+				"original_url":           "https://www.scmp.com/lifestyle/food-drink/article/3355305/story",
+				"canonical_coverage_url": "https://www.scmp.com/lifestyle/food-drink/article/3355305/story",
+				"timestamp_evidence": []any{
+					map[string]any{
+						"source":       "page_meta",
+						"url":          "https://www.scmp.com/lifestyle/food-drink/article/3355305/story",
+						"published_at": "2026-05-31T22:46:35Z",
+					},
+					map[string]any{
+						"source":       "news_search",
+						"url":          "https://news.google.com/rss/articles/scmp-story",
+						"published_at": "2026-05-31T22:46:35Z",
+					},
+				},
+			},
+		},
+	}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime:     mustParseTestTime(t, "2026-06-01T13:46:00Z"),
+		WindowHours: 24,
+	})
+	if err != nil {
+		t.Fatalf("applyOriginFindings error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected signals=%d, want 1; gate=%#v", len(signals), payload["freshness_gate"])
+	}
+	gate := valueOrEmptyMap(signals[0]["freshness_gate"])
+	if gate["computed_status"] != "fresh" {
+		t.Fatalf("computed_status=%v, want fresh; gate=%#v", gate["computed_status"], gate)
+	}
+	if gate["basis_field"] != "timestamp_evidence.published_at" {
+		t.Fatalf("basis_field=%v, want timestamp evidence; gate=%#v", gate["basis_field"], gate)
+	}
+}
+
+func TestOriginApplyAcceptsPrimaryAndCanonicalTimestampEvidence(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T18:00:00Z"},
+		"signals": []any{
+			map[string]any{
+				"id":    "datagrail",
+				"title": "145 AI laws passed in 2025 and privacy teams aren’t catching a break",
+				"evidence": []any{
+					map[string]any{"url": "https://www.helpnetsecurity.com/2026/06/01/datagrail-ai-privacy-risks-report/"},
+				},
+			},
+		},
+	}
+	origins := map[string]any{
+		"findings": []any{
+			map[string]any{
+				"signal_id":              "datagrail",
+				"first_public_at":        "2026-06-01",
+				"original_url":           "https://www.datagrail.io/resources/interactive/data-privacy-trends-report-2026/",
+				"canonical_coverage_url": "https://www.helpnetsecurity.com/2026/06/01/datagrail-ai-privacy-risks-report/",
+				"timestamp_evidence": []any{
+					map[string]any{
+						"source":       "primary_source",
+						"url":          "https://www.datagrail.io/resources/interactive/data-privacy-trends-report-2026/",
+						"published_at": "2026-06-01",
+					},
+					map[string]any{
+						"source":       "news_search",
+						"url":          "https://www.helpnetsecurity.com/2026/06/01/datagrail-ai-privacy-risks-report/",
+						"published_at": "2026-06-01",
+					},
+				},
+			},
+		},
+	}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime:     mustParseTestTime(t, "2026-06-01T18:00:00Z"),
+		WindowHours: 24,
+	})
+	if err != nil {
+		t.Fatalf("applyOriginFindings error=%v", err)
+	}
+	if got := len(signalSlice(payload["signals"])); got != 1 {
+		t.Fatalf("selected signals=%d, want 1; gate=%#v", got, payload["freshness_gate"])
+	}
+}
+
 func TestOriginApplyDowngradesWhenWorkerCitesOnlySurfacedURL(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{"generated_at": "2026-05-27T19:00:00Z"},

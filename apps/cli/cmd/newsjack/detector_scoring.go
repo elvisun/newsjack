@@ -606,6 +606,11 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 	sourceQuality := sourceQualityScore(cluster)
 	engagement := engagementScore(cluster)
 	profileMatch := profileMatchScore(profile, text)
+	profileTermMatches := profileMatches(profile, text)
+	sourceSet := stringSet(sources)
+	if isXTrendCluster(cluster, sourceSet) && len(profileTermMatches) == 0 {
+		profileMatch = 0
+	}
 	majorNews := majorNewsScore(cluster, age)
 	storySize := storySizeScore(cluster, sourceQuality, majorNews, engagement)
 	storySizeValue := 0.0
@@ -625,7 +630,9 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		queue = round1(100 * (0.22*freshness + 0.20*profileMatch + 0.18*sourceAgreement + 0.16*novelty + 0.14*sourceQuality + 0.10*engagement))
 	case "x_trends_unmatched":
 		queue = round1(math.Min(39.9, 100*(0.16*freshness+0.14*novelty+0.12*sourceQuality+0.10*engagement)))
-	case "x_news_unmatched", "profile_relevance_weak", "x_posts_weak":
+	case "x_news_unmatched":
+		queue = round1(math.Min(42.0, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
+	case "profile_relevance_weak", "x_posts_weak":
 		queue = round1(math.Min(39.9, 100*(0.18*freshness+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality+0.08*engagement)))
 	case "x_posts":
 		queue = round1(math.Min(64.0, 100*(0.22*freshness+0.20*engagement+0.18*profileMatch+0.16*sourceAgreement+0.14*novelty+0.10*sourceQuality)))
@@ -652,7 +659,7 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		"evidence_count":  len(cluster.Evidence),
 		"seen_before":     len(urls) > 0 && allSeen(urls, seen),
 		"seen_urls":       seenSubset(urls, seen),
-		"profile_matches": profileMatches(profile, text),
+		"profile_matches": profileTermMatches,
 		"safety_flags":    safetyFlags(text, profile.Exclusions),
 	}
 	if age != nil {
@@ -688,6 +695,20 @@ func scoreSignal(cluster signalCluster, profile monitorProfile, seen map[string]
 		"routing":           routing,
 		"mechanical_scores": mechanicalScores,
 	}
+}
+
+func isXTrendCluster(cluster signalCluster, sources map[string]bool) bool {
+	if sources["x_trends"] {
+		return true
+	}
+	if len(sources) == 1 && sources["x"] {
+		for _, item := range cluster.Evidence {
+			if item.Metadata["x_signal_type"] == "query_trend" {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func signalID(title string, urls []string, text string) string {
@@ -799,7 +820,7 @@ func clusterItems(items []evidenceItem) []signalCluster {
 				placed = true
 				break
 			}
-			if jaccard(item.text(), clusters[i].text()) >= 0.32 {
+			if jaccard(item.clusterText(), clusters[i].clusterText()) >= 0.32 {
 				clusters[i].Evidence = append(clusters[i].Evidence, item)
 				placed = true
 				break

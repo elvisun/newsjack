@@ -320,8 +320,7 @@ func collectXTrendsRaw(config map[string]any, depth, bearer string) ([]map[strin
 		return nil, "x_trends requires X_BEARER_TOKEN or TWITTER_BEARER_TOKEN"
 	}
 	if mode == "personalized" {
-		resp := apiGet("/2/users/personalized_trends?personalized_trend.fields=trend_name%2Cpost_count%2Ccategory%2Ctrending_since", bearer)
-		return parseTrendsResponse(resp, mode, "", ""), stringValue(resp["error"])
+		return nil, "personalized x_trends requires user-context OAuth; app-only bearer tokens can use location trends"
 	}
 	if mode == "location" {
 		maxResults := map[string]int{"quick": 10, "default": 20, "deep": 50}[depth]
@@ -329,7 +328,10 @@ func collectXTrendsRaw(config map[string]any, depth, bearer string) ([]map[strin
 		var items []map[string]any
 		var errors []string
 		for i, raw := range anySlice(config["woeids"]) {
-			woeid := stringValue(raw)
+			woeid := woeidString(raw)
+			if woeid == "" {
+				continue
+			}
 			resp := apiGet("/2/trends/by/woeid/"+url.PathEscape(woeid)+"?max_trends="+strconv.Itoa(maxResults), bearer)
 			if err := stringValue(resp["error"]); err != "" {
 				errors = append(errors, woeid+": "+err)
@@ -344,6 +346,29 @@ func collectXTrendsRaw(config map[string]any, depth, bearer string) ([]map[strin
 		return items, strings.Join(errors, "; ")
 	}
 	return nil, "Unsupported x_trends mode: " + mode
+}
+
+func woeidString(raw any) string {
+	switch v := raw.(type) {
+	case float64:
+		if math.Trunc(v) == v {
+			return strconv.FormatInt(int64(v), 10)
+		}
+	case float32:
+		f := float64(v)
+		if math.Trunc(f) == f {
+			return strconv.FormatInt(int64(f), 10)
+		}
+	case int:
+		return strconv.Itoa(v)
+	case int64:
+		return strconv.FormatInt(v, 10)
+	case json.Number:
+		if i, err := v.Int64(); err == nil {
+			return strconv.FormatInt(i, 10)
+		}
+	}
+	return strings.TrimSpace(stringValue(raw))
 }
 
 func parseTrendsResponse(response map[string]any, mode, woeid, location string) []map[string]any {

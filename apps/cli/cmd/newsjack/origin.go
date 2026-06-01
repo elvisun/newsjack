@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"sort"
 	"strings"
@@ -228,6 +229,9 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 			return freshnessGate("fresh_new_development", runTime, cutoff, windowHours, workerStatus, "new_development_at", newRaw, precision, "new_development_at is inside the freshness window")
 		}
 		if relation == "ambiguous" {
+			if promoted, ok := promotePreciseFreshTimestamp(origin, runTime, cutoff, windowHours, workerStatus, "fresh_new_development"); ok {
+				return promoted
+			}
 			return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "new_development_at", newRaw, precision, "new_development_at has date-only precision on the cutoff date")
 		}
 		if firstRaw == "" {
@@ -242,10 +246,60 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 		case "stale":
 			return freshnessGate("stale", runTime, cutoff, windowHours, workerStatus, "first_public_at", firstRaw, precision, "first_public_at is before the freshness cutoff")
 		default:
+			if promoted, ok := promotePreciseFreshTimestamp(origin, runTime, cutoff, windowHours, workerStatus, "fresh"); ok {
+				return promoted
+			}
 			return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "first_public_at", firstRaw, precision, "first_public_at has date-only precision on the cutoff date")
 		}
 	}
 	return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "", "", "", "first_public_at is missing or unparseable")
+}
+
+func promotePreciseFreshTimestamp(origin map[string]any, runTime, cutoff time.Time, windowHours float64, workerStatus, status string) (map[string]any, bool) {
+	candidates := preciseOriginTimestamps(origin)
+	var fresh []originTimestampCandidate
+	for _, candidate := range candidates {
+		if candidate.parsed.Before(cutoff) {
+			return nil, false
+		}
+		if !candidate.parsed.After(runTime) {
+			fresh = append(fresh, candidate)
+		}
+	}
+	if len(fresh) == 0 {
+		return nil, false
+	}
+	sort.SliceStable(fresh, func(i, j int) bool {
+		return fresh[i].parsed.Before(fresh[j].parsed)
+	})
+	candidate := fresh[0]
+	return freshnessGate(status, runTime, cutoff, windowHours, workerStatus, candidate.field, candidate.value, "time", candidate.field+" supplies precise timestamp evidence inside the freshness window"), true
+}
+
+type originTimestampCandidate struct {
+	field  string
+	value  string
+	parsed time.Time
+	url    string
+}
+
+func preciseOriginTimestamps(origin map[string]any) []originTimestampCandidate {
+	var out []originTimestampCandidate
+	add := func(field, value, rawURL string) {
+		parsed, precision, ok := parseOriginTimestamp(value)
+		if !ok || precision != "time" {
+			return
+		}
+		out = append(out, originTimestampCandidate{field: field, value: value, parsed: parsed.UTC(), url: rawURL})
+	}
+	add("surfaced_article_published_at", stringValue(origin["surfaced_article_published_at"]), stringValue(origin["original_url"]))
+	add("canonical_coverage_published_at", stringValue(origin["canonical_coverage_published_at"]), stringValue(origin["canonical_coverage_url"]))
+	for _, raw := range anySlice(origin["timestamp_evidence"]) {
+		if m, ok := raw.(map[string]any); ok {
+			add("timestamp_evidence.published_at", stringValue(m["published_at"]), stringValue(m["url"]))
+		}
+	}
+	return out
 }
 
 func freshnessGate(status string, runTime, cutoff time.Time, windowHours float64, workerStatus, basisField, basisValue, precision, rationale string) map[string]any {
@@ -263,51 +317,43 @@ func freshnessGate(status string, runTime, cutoff time.Time, windowHours float64
 	}
 }
 
-// enforceSupportingEvidence downgrades a fresh/fresh_new_development gate to
-// freshness_unverified when the origin worker has not cited independent
-// retrieval evidence. We require at least one timestamp_evidence URL that is
-// distinct from the surfaced signal's own URLs and from the worker's reported
-// original_url. This catches the failure mode where a worker returns a fresh
-// verdict while only citing the surfaced press-release/advocacy URL back to
-// itself.
+// enforceSupportingEvidence downgrades a fresh/fresh_new_development gate when
+// the worker has only cited the surfaced detector URL back to itself. Primary
+// source plus canonical coverage is valid corroboration, even when those URLs
+// are also reported as original/canonical in the origin finding.
 func enforceSupportingEvidence(gate, finding, signal map[string]any) map[string]any {
 	status := stringValue(gate["computed_status"])
 	if status != "fresh" && status != "fresh_new_development" {
 		return gate
 	}
-	selfURLs := map[string]bool{}
-	addURL := func(raw any) {
-		s := strings.ToLower(strings.TrimSpace(stringValue(raw)))
-		if s != "" {
-			selfURLs[s] = true
-		}
-	}
-	addURL(finding["original_url"])
-	addURL(finding["canonical_coverage_url"])
+	surfacedURLs := map[string]bool{}
 	if evidence, ok := signal["evidence"].([]any); ok {
 		for _, item := range evidence {
 			if m, ok := item.(map[string]any); ok {
-				addURL(m["url"])
+				if u := normalizedURLKey(stringValue(m["url"])); u != "" {
+					surfacedURLs[u] = true
+				}
 			}
 		}
 	}
-	independentEvidence := 0
+	timestampURLs := map[string]bool{}
 	if entries, ok := finding["timestamp_evidence"].([]any); ok {
 		for _, raw := range entries {
 			m, ok := raw.(map[string]any)
 			if !ok {
 				continue
 			}
-			u := strings.ToLower(strings.TrimSpace(stringValue(m["url"])))
+			u := normalizedURLKey(stringValue(m["url"]))
 			if u == "" {
 				continue
 			}
-			if !selfURLs[u] {
-				independentEvidence++
+			timestampURLs[u] = true
+			if !surfacedURLs[u] {
+				return gate
 			}
 		}
 	}
-	if independentEvidence > 0 {
+	if len(timestampURLs) >= 2 {
 		return gate
 	}
 	downgraded := cloneMap(gate)
@@ -315,6 +361,34 @@ func enforceSupportingEvidence(gate, finding, signal map[string]any) map[string]
 	downgraded["rationale"] = "no independent timestamp_evidence: worker cited only the surfaced URL"
 	downgraded["worker_status"] = nullableString(status)
 	return downgraded
+}
+
+func normalizedURLKey(raw string) string {
+	s := strings.TrimSpace(raw)
+	if s == "" {
+		return ""
+	}
+	parsed, err := url.Parse(s)
+	if err != nil || parsed.Hostname() == "" {
+		return strings.TrimRight(strings.ToLower(s), "/")
+	}
+	parsed.Scheme = strings.ToLower(parsed.Scheme)
+	parsed.Host = strings.ToLower(parsed.Host)
+	parsed.Fragment = ""
+	path := strings.TrimRight(parsed.EscapedPath(), "/")
+	if path == "" {
+		path = "/"
+	}
+	parsed.Path = path
+	query := parsed.Query()
+	for key := range query {
+		lower := strings.ToLower(key)
+		if strings.HasPrefix(lower, "utm_") || lower == "fbclid" || lower == "gclid" || lower == "mc_cid" || lower == "mc_eid" {
+			query.Del(key)
+		}
+	}
+	parsed.RawQuery = query.Encode()
+	return parsed.String()
 }
 
 func parseOriginTimestamp(value string) (time.Time, string, bool) {

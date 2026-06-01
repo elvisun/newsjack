@@ -44,7 +44,7 @@
     "enabled": true
   },
   "x_trends": {
-    "mode": "personalized",
+    "mode": "none",
     "woeids": [],
     "locations": []
   },

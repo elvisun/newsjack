@@ -45,7 +45,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 	}
 	querySources := querySources(requestedSources)
 	sources := []string{}
-	if len(queries) > 0 {
+	if len(queries) > 0 && len(querySources) > 0 {
 		if opts.Mock {
 			sources = querySources
 		} else {
@@ -114,6 +114,17 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 	}
 	laneCaps := parseLaneCaps(opts.LaneCaps)
 	signals := selectSignals(allSignals, opts.Limit, laneCaps, opts.MinQueuePriority, opts.MinMajorNews)
+	diagnostics := map[string]any{
+		"evidence_by_source":    evidenceSourceCounts,
+		"hygiene_rejections":    hygieneRejections,
+		"signals_by_lane":       countByLanes(allSignals),
+		"emitted_by_lane":       countByLanes(signals),
+		"lane_caps":             laneCaps,
+		"selection":             map[string]any{"mode": map[bool]string{true: "lane_caps", false: "mechanical_floor"}[laneCaps != nil], "limit": opts.Limit, "min_queue_priority": opts.MinQueuePriority, "min_major_news": opts.MinMajorNews},
+		"total_scored_signals":  len(allSignals),
+		"total_emitted_signals": len(signals),
+		"source_status":         sourceStatus(requestedSources, sources, trendRequested, len(feedURLs) > 0, evidenceSourceCounts, sourceErrors, config, opts.Mock),
+	}
 	var runID any
 	runID = nil
 	if opts.Save {
@@ -138,23 +149,30 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			"depth":             opts.Depth,
 			"mock":              opts.Mock,
 		},
-		"signals": signals,
-		"diagnostics": map[string]any{
-			"evidence_by_source":    evidenceSourceCounts,
-			"hygiene_rejections":    hygieneRejections,
-			"signals_by_lane":       countByLanes(allSignals),
-			"emitted_by_lane":       countByLanes(signals),
-			"lane_caps":             laneCaps,
-			"selection":             map[string]any{"mode": map[bool]string{true: "lane_caps", false: "mechanical_floor"}[laneCaps != nil], "limit": opts.Limit, "min_queue_priority": opts.MinQueuePriority, "min_major_news": opts.MinMajorNews},
-			"total_scored_signals":  len(allSignals),
-			"total_emitted_signals": len(signals),
-		},
+		"signals":       signals,
+		"diagnostics":   diagnostics,
 		"source_errors": sourceErrors,
 		"store": map[string]any{
 			"saved":  opts.Save,
 			"run_id": runID,
 			"path":   storePathForOutput(opts.Store, opts.Save),
 		},
+	}
+	if opts.ScoredOutput != "" {
+		scored := map[string]any{
+			"version":       1,
+			"generated_at":  now.Format(time.RFC3339Nano),
+			"monitor":       payload["monitor"],
+			"signals":       allSignals,
+			"diagnostics":   diagnostics,
+			"source_errors": sourceErrors,
+		}
+		if err := os.MkdirAll(filepath.Dir(expandPath(opts.ScoredOutput)), 0o755); err != nil {
+			return err
+		}
+		if err := os.WriteFile(expandPath(opts.ScoredOutput), marshalJSON(scored), 0o644); err != nil {
+			return err
+		}
 	}
 	if opts.IncludeAllScored {
 		selected := map[string]bool{}
@@ -178,6 +196,69 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		writeJSON(stdout, payload)
 	}
 	return nil
+}
+
+func sourceStatus(requestedSources, querySourcesUsed []string, trendRequested, feedsRequested bool, evidenceCounts map[string]int, sourceErrors map[string]any, config map[string]string, mock bool) map[string]any {
+	requested := stringSet(requestedSources)
+	used := stringSet(querySourcesUsed)
+	if trendRequested {
+		requested["x_trends"] = true
+		used["x_trends"] = true
+	}
+	if feedsRequested {
+		requested["major_feed"] = true
+		used["major_feed"] = true
+	}
+	out := map[string]any{}
+	for _, source := range []string{"news_search", "x_news", "x", "x_trends", "major_feed", "reddit", "hackernews"} {
+		if !requested[source] && evidenceCounts[source] == 0 {
+			continue
+		}
+		status := "not_requested"
+		if requested[source] {
+			status = "unavailable"
+			available := source == "major_feed" || mock || contains(availableSources(config, []string{source}), source)
+			if available {
+				status = "no_results"
+			}
+			if evidenceCounts[source] > 0 {
+				status = "used"
+			}
+			if sourceHasError(sourceErrors, source) {
+				status = "error"
+				if evidenceCounts[source] > 0 {
+					status = "partial_error"
+				}
+			}
+		}
+		out[source] = map[string]any{
+			"requested":      requested[source],
+			"available":      source == "major_feed" || mock || contains(availableSources(config, []string{source}), source),
+			"attempted":      used[source],
+			"evidence_count": evidenceCounts[source],
+			"status":         status,
+		}
+	}
+	return out
+}
+
+func sourceHasError(sourceErrors map[string]any, source string) bool {
+	for key, raw := range sourceErrors {
+		if key == source {
+			return true
+		}
+		if m, ok := raw.(map[string]string); ok {
+			if _, exists := m[source]; exists {
+				return true
+			}
+		}
+		if m, ok := raw.(map[string]any); ok {
+			if _, exists := m[source]; exists {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func buildQueries(opts detectorOptions, profile monitorProfile) []string {
@@ -386,14 +467,19 @@ func bearerToken(config map[string]string) string {
 	return ""
 }
 
-func mockItems(query string, now time.Time) []evidenceItem {
+func mockItems(query string, now time.Time, sources []string) []evidenceItem {
 	today := now.Format("2006-01-02")
 	h1 := sha1.Sum([]byte(query))
 	h2 := sha1.Sum([]byte(query + "x"))
-	return []evidenceItem{
-		{Source: "news_search", Title: "Regulators open inquiry tied to " + query, URL: "https://example.com/news/" + hex.EncodeToString(h1[:])[:8], Container: "Example News", PublishedAt: today, Excerpt: "Officials are examining claims and compliance practices around " + query + ".", Engagement: map[string]any{}, Metadata: map[string]any{}},
-		{Source: "x", Title: "Experts are reacting to " + query, URL: "https://x.com/example/status/" + hex.EncodeToString(h2[:])[:8], Author: "example", Container: "x.com", PublishedAt: today, Excerpt: "Thread: the " + query + " inquiry is moving faster than vendors expected.", Engagement: map[string]any{"likes": 120, "reposts": 22, "replies": 9}, Metadata: map[string]any{}},
+	requested := stringSet(sources)
+	var items []evidenceItem
+	if requested["news_search"] {
+		items = append(items, evidenceItem{Source: "news_search", Title: "Regulators open inquiry tied to " + query, URL: "https://example.com/news/" + hex.EncodeToString(h1[:])[:8], Container: "Example News", PublishedAt: today, Excerpt: "Officials are examining claims and compliance practices around " + query + ".", Engagement: map[string]any{}, Metadata: map[string]any{}})
 	}
+	if requested["x"] {
+		items = append(items, evidenceItem{Source: "x", Title: "Experts are reacting to " + query, URL: "https://x.com/example/status/" + hex.EncodeToString(h2[:])[:8], Author: "example", Container: "x.com", PublishedAt: today, Excerpt: "Thread: the " + query + " inquiry is moving faster than vendors expected.", Engagement: map[string]any{"likes": 120, "reposts": 22, "replies": 9}, Metadata: map[string]any{}})
+	}
+	return items
 }
 
 func mockFeedItems(now time.Time) []evidenceItem {
@@ -406,7 +492,7 @@ func mockFeedItems(now time.Time) []evidenceItem {
 
 func collectQuery(query string, sources []string, config map[string]string, opts detectorOptions, now time.Time) ([]evidenceItem, map[string]string) {
 	if opts.Mock {
-		return mockItems(query, now), map[string]string{}
+		return mockItems(query, now, sources), map[string]string{}
 	}
 	from, to := dateRange(opts.LookbackDays)
 	errors := map[string]string{}

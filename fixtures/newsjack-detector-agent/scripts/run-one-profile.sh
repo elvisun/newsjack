@@ -34,6 +34,7 @@ INCLUDE_ALL_SCORED="${NEWSJACK_INCLUDE_ALL_SCORED:-1}"
 mkdir -p "$RUN_DIR"
 
 CANDIDATES="$RUN_DIR/candidates.json"
+SCORED_CANDIDATES="$RUN_DIR/scored_candidates.json"
 STDERR_LOG="$RUN_DIR/detector.stderr.log"
 SUMMARY="$RUN_DIR/summary.json"
 RUN_MARKDOWN="$RUN_DIR/run.md"
@@ -71,7 +72,7 @@ detector_args=(
 )
 
 if [[ "$INCLUDE_ALL_SCORED" != "0" && "$INCLUDE_ALL_SCORED" != "false" ]]; then
-  detector_args+=(--include-all-scored)
+  detector_args+=(--include-all-scored --scored-output "$SCORED_CANDIDATES")
 fi
 
 detector_args+=("$@" --emit json)
@@ -97,6 +98,9 @@ fi
 
 echo "wrote:"
 echo "- $CANDIDATES"
+if [[ -f "$SCORED_CANDIDATES" ]]; then
+  echo "- $SCORED_CANDIDATES"
+fi
 echo "- $SUMMARY"
 echo "- $RUN_MARKDOWN"
 echo "- $STDERR_LOG"

@@ -39,6 +39,7 @@ type detectorOptions struct {
 	Store                           string
 	MonitorName                     string
 	IncludeAllScored                bool
+	ScoredOutput                    string
 	Emit                            string
 }
 
@@ -136,12 +137,13 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	fs.StringVar(&opts.Store, "store", "", "Override SQLite store path")
 	fs.StringVar(&opts.MonitorName, "monitor-name", "", "Monitor name")
 	fs.BoolVar(&opts.IncludeAllScored, "include-all-scored", false, "Include all scored signals in debug output")
+	fs.StringVar(&opts.ScoredOutput, "scored-output", "", "Write all scored signals to a separate JSON artifact")
 	fs.StringVar(&opts.Emit, "emit", "json", "json or brief")
 	valueFlags := stringSet([]string{
 		"topic", "profile", "sources", "feed-url", "feed-file", "depth", "lookback-days", "max-age-hours",
 		"x-news-min-profile-match", "x-posts-min-profile-match", "profile-relevance-min-profile-match",
 		"major-news-min-profile-match", "x-trends-min-profile-match", "min-queue-priority", "min-major-news",
-		"lane-caps", "limit", "store", "monitor-name", "emit",
+		"lane-caps", "limit", "store", "monitor-name", "scored-output", "emit",
 	})
 	if err := fs.Parse(reorderIntermixedFlags(args, valueFlags)); err != nil {
 		return opts, 2

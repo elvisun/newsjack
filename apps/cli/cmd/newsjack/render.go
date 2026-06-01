@@ -128,7 +128,7 @@ func summarizeRun(payload map[string]any, inputPath string, top int) map[string]
 		},
 		"selection":                valueOrEmptyMap(diagnostics["selection"]),
 		"lanes":                    map[string]any{"scored": firstNonNil(diagnostics["signals_by_lane"], countByLanes(allScored)), "emitted": firstNonNil(diagnostics["emitted_by_lane"], countByLanes(signals)), "dropped_debug": countByLanes(dropped)},
-		"sources":                  map[string]any{"evidence_by_source": firstNonNil(diagnostics["evidence_by_source"], countEvidenceSources(signals)), "source_errors": sourceErrors},
+		"sources":                  map[string]any{"evidence_by_source": firstNonNil(diagnostics["evidence_by_source"], countEvidenceSources(signals)), "source_errors": sourceErrors, "source_status": diagnostics["source_status"]},
 		"hygiene_rejections":       valueOrEmptyMap(diagnostics["hygiene_rejections"]),
 		"coarse_relevance":         coarseRelevanceMap(payload),
 		"coarse_relevance_file":    summarizeDecisions(paths["coarse_relevance_decisions"]),
@@ -212,8 +212,8 @@ func renderSummaryMarkdown(summary map[string]any) string {
 		fmtValue(counts["selected_unique_signals"]),
 		fmtValue(counts["total_scored_signals"]),
 	))
-	if sourceErrors := intValue(counts["source_errors"], 0); sourceErrors > 0 {
-		lines = append(lines, fmt.Sprintf("**Source warnings:** %d source error(s) recorded.", sourceErrors))
+	if warning := sourceWarningText(summary); warning != "" {
+		lines = append(lines, warning)
 	}
 	finalReport := finalReportContent(summary)
 	if finalReport != "" {
@@ -248,7 +248,128 @@ func renderSummaryMarkdown(summary map[string]any) string {
 	lines = append(lines, fmt.Sprintf("- Profile: %s", mdInline(firstString(monitor["profile_name"], "(unknown)"))))
 	lines = append(lines, fmt.Sprintf("- Queries: %s", mdInline(formatList(valueOrEmptyArray(monitor["queries"]), 8))))
 	lines = append(lines, fmt.Sprintf("- Sources: %s", mdInline(formatList(valueOrEmptyArray(monitor["sources_used"]), 8))))
+	if status := sourceStatusText(summary); status != "" {
+		lines = append(lines, fmt.Sprintf("- Source status: %s", mdInline(status)))
+	}
 	return strings.TrimRight(strings.Join(lines, "\n"), "\n") + "\n"
+}
+
+func sourceWarningText(summary map[string]any) string {
+	sourceErrors := valueOrEmptyMap(valueOrEmptyMap(summary["sources"])["source_errors"])
+	if len(sourceErrors) == 0 {
+		return ""
+	}
+	var parts []string
+	for _, source := range sortedSourceErrorNames(sourceErrors) {
+		parts = append(parts, source+": "+truncate(sourceErrorDetailFor(sourceErrors, source), 140))
+	}
+	return fmt.Sprintf("**Source warnings:** %s.", mdInline(strings.Join(parts, "; ")))
+}
+
+func sortedSourceErrorNames(sourceErrors map[string]any) []string {
+	seen := map[string]bool{}
+	for key, raw := range sourceErrors {
+		if m, ok := raw.(map[string]any); ok {
+			for source := range m {
+				seen[source] = true
+			}
+			continue
+		}
+		if m, ok := raw.(map[string]string); ok {
+			for source := range m {
+				seen[source] = true
+			}
+			continue
+		}
+		seen[key] = true
+	}
+	var out []string
+	for source := range seen {
+		out = append(out, source)
+	}
+	sort.Strings(out)
+	return out
+}
+
+func sourceErrorDetailFor(sourceErrors map[string]any, source string) string {
+	if raw, ok := sourceErrors[source]; ok {
+		return sourceErrorDetail(raw)
+	}
+	for _, raw := range sourceErrors {
+		if m, ok := raw.(map[string]any); ok {
+			if v, exists := m[source]; exists {
+				return sourceErrorDetail(v)
+			}
+		}
+		if m, ok := raw.(map[string]string); ok {
+			if v, exists := m[source]; exists {
+				return v
+			}
+		}
+	}
+	return ""
+}
+
+func sourceErrorDetail(raw any) string {
+	if s := stringValue(raw); s != "" && !strings.HasPrefix(s, "map[") {
+		return s
+	}
+	if m, ok := raw.(map[string]any); ok {
+		var parts []string
+		for _, key := range sortedAnyKeys(m) {
+			parts = append(parts, key+": "+stringValue(m[key]))
+		}
+		return strings.Join(parts, ", ")
+	}
+	if m, ok := raw.(map[string]string); ok {
+		keys := make([]string, 0, len(m))
+		for key := range m {
+			keys = append(keys, key)
+		}
+		sort.Strings(keys)
+		var parts []string
+		for _, key := range keys {
+			parts = append(parts, key+": "+m[key])
+		}
+		return strings.Join(parts, ", ")
+	}
+	return stringValue(raw)
+}
+
+func sourceStatusText(summary map[string]any) string {
+	diagnostics := valueOrEmptyMap(firstNonNil(summary["diagnostics"], summary["detector_diagnostics"]))
+	status := valueOrEmptyMap(diagnostics["source_status"])
+	if len(status) == 0 {
+		status = valueOrEmptyMap(valueOrEmptyMap(summary["selection"])["source_status"])
+	}
+	if len(status) == 0 {
+		status = valueOrEmptyMap(valueOrEmptyMap(summary["sources"])["source_status"])
+	}
+	if len(status) == 0 {
+		return ""
+	}
+	keys := sortedAnyKeys(status)
+	var parts []string
+	for _, key := range keys {
+		m := valueOrEmptyMap(status[key])
+		state := firstString(m["status"], "unknown")
+		count := intValue(m["evidence_count"], 0)
+		if count > 0 {
+			parts = append(parts, fmt.Sprintf("%s=%s/%d", key, state, count))
+		} else {
+			parts = append(parts, fmt.Sprintf("%s=%s", key, state))
+		}
+	}
+	return strings.Join(parts, ", ")
+}
+
+func sortedAnyKeys(m map[string]any) []string {
+	keys := make([]string, 0, len(m))
+	for key := range m {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys
 }
 
 // scanExclusionNote discloses signals withheld from the human scan so a gated
@@ -291,6 +412,7 @@ func artifactPaths(runDir string) map[string]string {
 	return map[string]string{
 		"candidates":                 filepath.Join(runDir, "candidates.json"),
 		"detector_summary":           filepath.Join(runDir, "summary.json"),
+		"scored_candidates":          filepath.Join(runDir, "scored_candidates.json"),
 		"commands":                   filepath.Join(runDir, "commands.log"),
 		"detector_stderr":            filepath.Join(runDir, "detector.stderr.log"),
 		"coarse_relevance_decisions": filepath.Join(runDir, "coarse_relevance_decisions.json"),
