@@ -26,7 +26,7 @@ Required:
 - 2-5 proof assets
 - 1-3 likely spokespeople
 - 2-5 RSS feed URLs
-- X trend preference: `personalized`, `location`, or `none`
+- X trend preference: `location` or `none` by default; `personalized` only when user-context OAuth is available
 
 Optional:
 
@@ -59,7 +59,7 @@ Enable `x_news` by default for every profile. X News has a much better shape tha
 
 Ask whether the user wants X trends during monitoring:
 
-- `personalized`: Uses the authenticated user's personalized X trends. Best default for solo PR users because it needs user-context auth and reflects their account's media/tech graph. It is biased by the account.
+- `personalized`: Uses the authenticated user's personalized X trends. Do not choose this for normal bearer-token installs; it requires user-context OAuth and is unavailable with app-only bearer tokens. It is biased by the account.
 - `location`: Uses X WOEID trends for one or more locations. Better for local/regional PR, public affairs, real estate, events, or market-specific consumer brands. Requires an app bearer token with access to the trends endpoint.
 - `none`: Best when the user wants only RSS/news search and does not want X trend noise.
 
@@ -74,7 +74,7 @@ If the user chooses `location`, ask for target geography and save both labels an
 - New York City: `2459115`
 - London: `44418`
 
-Do not make `location` the default for a generic SaaS company. Prefer `personalized` or `none` unless geography is important. If the user is unsure, choose `personalized` for founder-led/tech/media workflows and `none` for low-noise company monitoring.
+Do not make `location` the default for a generic SaaS company. Prefer `none` unless geography is important. If the user is unsure, choose `none` for low-noise company monitoring.
 
 ## Scheduling
 
@@ -104,7 +104,7 @@ This spreads load across the Newsjack/Medialyst backend so we don't get a thunde
 
 7. **Select feeds.** Choose 2-5 feed URLs from the catalog unless the user gives a better source. Explain why each feed belongs.
 
-8. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use personalized trends, location trends, or no X trends. Explain the tradeoff briefly. Location trends should include WOEIDs.
+8. **Choose X social sources.** Set `x_news.enabled` to `true` by default. Ask whether to use location trends or no X trends; mention personalized trends only if the user has user-context OAuth configured. Explain the tradeoff briefly. Location trends should include WOEIDs.
 
 9. **Return the profile JSON and run command.** Do not write files unless the user asks you to. The user or caller can save the JSON.
 
@@ -126,7 +126,7 @@ Return a concise setup result:
       "enabled": true
     },
     "x_trends": {
-      "mode": "personalized",
+      "mode": "none",
       "woeids": [],
       "locations": []
     },

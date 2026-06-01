@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -43,6 +45,29 @@ func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 	})
 }
 
+func TestDetectorRunWritesScoredOutputArtifact(t *testing.T) {
+	repo := repoRootForTest(t)
+	dir := t.TempDir()
+	scored := filepath.Join(dir, "scored_candidates.json")
+	withTempEnv(t, map[string]string{
+		"HOME":          t.TempDir(),
+		"NEWSJACK_ROOT": repo,
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"detector", "run", "AI customer support", "--mock", "--scored-output", scored, "--emit", "json"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("detector code=%d stderr=%s", code, errBuf.String())
+		}
+		payload, err := readJSONMap(scored)
+		if err != nil {
+			t.Fatalf("read scored output: %v", err)
+		}
+		if got := len(signalSlice(payload["signals"])); got != 2 {
+			t.Fatalf("scored signals=%d, want 2", got)
+		}
+	})
+}
+
 func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
 	withoutBearer := configFromEnv()
 	withoutBearer["X_BEARER_TOKEN"] = ""
@@ -59,6 +84,96 @@ func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
 	if len(got) != 3 || got[0] != "x" || got[1] != "x_news" || got[2] != "x_trends" {
 		t.Fatalf("x sources with bearer=%v, want all x sources", got)
 	}
+}
+
+func TestWOEIDStringFormatsJSONNumbers(t *testing.T) {
+	if got := woeidString(float64(2459115)); got != "2459115" {
+		t.Fatalf("woeidString(float64)=%q, want 2459115", got)
+	}
+	if got := woeidString("23424975"); got != "23424975" {
+		t.Fatalf("woeidString(string)=%q, want 23424975", got)
+	}
+}
+
+func TestPersonalizedXTrendsRequiresUserContextOAuth(t *testing.T) {
+	items, errText := collectXTrendsRaw(map[string]any{"mode": "personalized"}, "quick", "bearer-token")
+	if len(items) != 0 {
+		t.Fatalf("personalized trend items=%d, want none", len(items))
+	}
+	if !strings.Contains(errText, "user-context OAuth") {
+		t.Fatalf("err=%q, want user-context OAuth guidance", errText)
+	}
+}
+
+func TestSourceStatusReportsNoResultsForAttemptedEmptySource(t *testing.T) {
+	status := sourceStatus(
+		[]string{"x_news"},
+		[]string{"x_news"},
+		false,
+		false,
+		map[string]int{},
+		map[string]any{},
+		map[string]string{"X_BEARER_TOKEN": "token"},
+		false,
+	)
+	xNews := valueOrEmptyMap(status["x_news"])
+	if xNews["status"] != "no_results" || xNews["attempted"] != true {
+		t.Fatalf("x_news status=%#v, want attempted no_results", xNews)
+	}
+}
+
+func TestSourceStatusTreatsMockSourcesAsAvailable(t *testing.T) {
+	status := sourceStatus(
+		[]string{"x_news"},
+		[]string{"x_news"},
+		false,
+		false,
+		map[string]int{},
+		map[string]any{},
+		map[string]string{},
+		true,
+	)
+	xNews := valueOrEmptyMap(status["x_news"])
+	if xNews["status"] != "no_results" || xNews["available"] != true {
+		t.Fatalf("x_news status=%#v, want mock no_results available", xNews)
+	}
+}
+
+func TestDetectorRunAllowsXTrendsOnly(t *testing.T) {
+	repo := repoRootForTest(t)
+	dir := t.TempDir()
+	profilePath := filepath.Join(dir, "profile.json")
+	profile := `{
+	  "company": "Nofar Method",
+	  "topics": ["reformer Pilates"],
+	  "x_news": {"enabled": false},
+	  "x_trends": {"mode": "location", "woeids": ["2459115"], "locations": ["New York"]}
+	}`
+	if err := os.WriteFile(profilePath, []byte(profile), 0o644); err != nil {
+		t.Fatalf("write profile: %v", err)
+	}
+	withTempEnv(t, map[string]string{
+		"HOME":          t.TempDir(),
+		"NEWSJACK_ROOT": repo,
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"detector", "run", "--profile", profilePath, "--sources", "x_trends", "--no-x-news", "--no-profile-feeds", "--mock", "--min-queue-priority", "0", "--emit", "json"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("detector code=%d stderr=%s", code, errBuf.String())
+		}
+		var payload map[string]any
+		if err := json.Unmarshal(out.Bytes(), &payload); err != nil {
+			t.Fatalf("invalid JSON: %s", out.String())
+		}
+		if got := len(signalSlice(payload["signals"])); got != 1 {
+			t.Fatalf("signals=%d, want mocked x trend; payload=%s", got, out.String())
+		}
+		status := valueOrEmptyMap(valueOrEmptyMap(payload["diagnostics"])["source_status"])
+		xTrends := valueOrEmptyMap(status["x_trends"])
+		if xTrends["status"] != "used" {
+			t.Fatalf("x_trends status=%#v, want used", xTrends)
+		}
+	})
 }
 
 func TestProfileIgnoresLegacyAssetInventory(t *testing.T) {
@@ -107,7 +222,7 @@ func TestSearchXNewsCallsXAPIDirectly(t *testing.T) {
 	})
 }
 
-func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
+func TestWeakDetectorLanesSelectionFloors(t *testing.T) {
 	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC)
 	profile := monitorProfile{
 		Company:  "Clearnym",
@@ -149,6 +264,15 @@ func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
 			if lane := signalLaneValue(signal); lane != tt.wantLane {
 				t.Fatalf("lane=%s, want %s", lane, tt.wantLane)
 			}
+			if tt.source == "x_news" {
+				if priority := queuePriority(signal); priority < defaultMinQueuePriority {
+					t.Fatalf("x_news queue priority=%v, want surfaced for review", priority)
+				}
+				if !passesSelectionFloor(signal, defaultMinQueuePriority, defaultMinMajorNews) {
+					t.Fatalf("x_news did not pass selection floor: %#v", signal["routing"])
+				}
+				return
+			}
 			if priority := queuePriority(signal); priority >= defaultMinQueuePriority {
 				t.Fatalf("queue priority=%v, want below default floor %v", priority, defaultMinQueuePriority)
 			}
@@ -156,6 +280,102 @@ func TestDemotedDetectorLanesStayBelowDefaultQueueFloor(t *testing.T) {
 				t.Fatalf("demoted lane passed default selection floor: %#v", signal["routing"])
 			}
 		})
+	}
+}
+
+func TestXNewsProfileMatchUsesContextMetadata(t *testing.T) {
+	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC)
+	profile := monitorProfile{
+		Topics:      []string{"computer-use agents"},
+		Competitors: []string{"Anthropic computer use"},
+		Standing:    []string{"AI agent benchmarks"},
+	}
+	item := evidenceItem{
+		Source:      "x_news",
+		Title:       "Un cluster en français sur la cybersécurité",
+		URL:         "https://x.com/search?q=anthropic",
+		PublishedAt: now.Format(time.RFC3339),
+		Metadata: map[string]any{
+			"x_news_contexts": map[string]any{
+				"entities": map[string]any{
+					"organizations": []any{"Anthropic"},
+					"products":      []any{"computer use"},
+				},
+				"topics": []any{"Technology", "AI"},
+			},
+		},
+	}
+	score := profileMatchScore(profile, item.text())
+	if score <= 0 {
+		t.Fatalf("profile match score=%v, want metadata-driven overlap", score)
+	}
+}
+
+func TestXTrendLocationMetadataDoesNotClusterUnrelatedTrends(t *testing.T) {
+	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC).Format(time.RFC3339)
+	items := []evidenceItem{
+		{
+			Source:      "x_trends",
+			Title:       "Smotrich",
+			URL:         "https://x.com/search?q=Smotrich&f=live",
+			PublishedAt: now,
+			Metadata:    map[string]any{"x_signal_type": "trend", "x_trend_location": "New York", "x_trend_woeid": "2459115"},
+		},
+		{
+			Source:      "x_trends",
+			Title:       "Zendaya",
+			URL:         "https://x.com/search?q=Zendaya&f=live",
+			PublishedAt: now,
+			Metadata:    map[string]any{"x_signal_type": "trend", "x_trend_location": "New York", "x_trend_woeid": "2459115"},
+		},
+	}
+	if clusters := clusterItems(items); len(clusters) != 2 {
+		t.Fatalf("clusters=%d, want unrelated trends split: %#v", len(clusters), clusters)
+	}
+}
+
+func TestXTrendLocationConfigDoesNotCreateProfileMatch(t *testing.T) {
+	profile := monitorProfile{
+		Company: "Nofar Method",
+		Topics:  []string{"reformer Pilates"},
+		XTrends: map[string]any{"mode": "location", "locations": []any{"New York", "Miami"}},
+	}
+	item := evidenceItem{
+		Source:    "x_trends",
+		Title:     "Saylor",
+		Excerpt:   "Saylor. New York",
+		Author:    "x-trends",
+		Container: "x.com/trends",
+		Metadata:  map[string]any{"x_signal_type": "trend", "x_trend_location": "New York", "x_trend_woeid": "2459115"},
+	}
+	if score := profileMatchScore(profile, item.text()); score >= 0.05 {
+		t.Fatalf("profile match score=%v, want local trend below x_trends relevance floor", score)
+	}
+}
+
+func TestXTrendLocationOnlyOverlapIsDemoted(t *testing.T) {
+	now := time.Date(2026, 5, 25, 13, 0, 0, 0, time.UTC)
+	profile := monitorProfile{
+		Company:     "Nofar Method",
+		Description: "Boutique Pilates studio with classes in New York and Miami.",
+		Topics:      []string{"reformer Pilates"},
+		Standing:    []string{"NYC and Miami wellness trends"},
+	}
+	signal := scoreSignal(signalCluster{Evidence: []evidenceItem{{
+		Source:      "x_trends",
+		Title:       "Saylor",
+		URL:         "https://x.com/search?q=Saylor&f=live",
+		Excerpt:     "Saylor. New York",
+		Container:   "x.com/trends",
+		PublishedAt: now.Format(time.RFC3339),
+		Engagement:  map[string]any{},
+		Metadata:    map[string]any{"x_signal_type": "trend", "x_trend_location": "New York", "x_trend_woeid": "2459115"},
+	}}}, profile, map[string]map[string]any{}, now, detectorOptions{LookbackDays: 1, XTrendsMinProfileMatch: 0.05})
+	if lane := signalLaneValue(signal); lane != "x_trends_unmatched" {
+		t.Fatalf("lane=%s, want x_trends_unmatched", lane)
+	}
+	if match := floatValue(valueOrEmptyMap(signal["mechanical_scores"])["profile_match"]); match != 0 {
+		t.Fatalf("profile_match=%v, want location-only trend match zeroed", match)
 	}
 }
 

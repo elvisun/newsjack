@@ -85,7 +85,6 @@ func (p monitorProfile) matchText() string {
 	parts = append(parts, p.Topics...)
 	parts = append(parts, p.Competitors...)
 	parts = append(parts, p.FeedURLs...)
-	parts = append(parts, stringListValue(p.XTrends["locations"])...)
 	parts = append(parts, p.Spokespeople...)
 	parts = append(parts, p.Standing...)
 	return strings.TrimSpace(strings.Join(parts, " "))

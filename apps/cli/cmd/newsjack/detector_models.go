@@ -32,7 +32,54 @@ func evidenceFromMap(m map[string]any) evidenceItem {
 }
 
 func (e evidenceItem) text() string {
-	return strings.Join(nonEmpty(e.Title, e.Excerpt, e.Author, e.Container), " ")
+	return strings.Join(nonEmpty(e.Title, e.Excerpt, e.Author, e.Container, socialMetadataText(e.Metadata)), " ")
+}
+
+func (e evidenceItem) clusterText() string {
+	return strings.Join(nonEmpty(e.Title, e.Excerpt, socialMetadataText(e.Metadata)), " ")
+}
+
+func socialMetadataText(metadata map[string]any) string {
+	if len(metadata) == 0 {
+		return ""
+	}
+	var parts []string
+	for _, key := range []string{"x_news_category", "x_news_keywords", "x_news_contexts"} {
+		appendMetadataText(&parts, metadata[key])
+	}
+	return strings.Join(parts, " ")
+}
+
+func appendMetadataText(parts *[]string, value any) {
+	switch v := value.(type) {
+	case nil:
+		return
+	case string:
+		if strings.TrimSpace(v) != "" {
+			*parts = append(*parts, strings.TrimSpace(v))
+		}
+	case []any:
+		for _, item := range v {
+			appendMetadataText(parts, item)
+		}
+	case []string:
+		for _, item := range v {
+			appendMetadataText(parts, item)
+		}
+	case map[string]any:
+		keys := make([]string, 0, len(v))
+		for key := range v {
+			keys = append(keys, key)
+		}
+		sort.Strings(keys)
+		for _, key := range keys {
+			appendMetadataText(parts, v[key])
+		}
+	default:
+		if s := stringValue(v); s != "" {
+			*parts = append(*parts, s)
+		}
+	}
 }
 
 func (e evidenceItem) publicDict() map[string]any {
@@ -72,6 +119,14 @@ func (c signalCluster) text() string {
 	var parts []string
 	for _, item := range c.Evidence {
 		parts = append(parts, item.text())
+	}
+	return strings.Join(parts, " ")
+}
+
+func (c signalCluster) clusterText() string {
+	var parts []string
+	for _, item := range c.Evidence {
+		parts = append(parts, item.clusterText())
 	}
 	return strings.Join(parts, " ")
 }

@@ -66,6 +66,7 @@ runs/<timestamp>/
 ```text
 runs/<timestamp>-<slug>-profile/
   candidates.json
+  scored_candidates.json
   detector.stderr.log
   commands.log
   summary.json

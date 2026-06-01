@@ -48,8 +48,8 @@
   "x_trends": {
     "mode": "location",
     "woeids": [
-      2459115,
-      2450022
+      "2459115",
+      "2450022"
     ],
     "locations": [
       "New York",
