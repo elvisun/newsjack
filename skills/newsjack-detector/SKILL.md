@@ -86,11 +86,13 @@ RUN_DIR/
 
 Only `run.md` is human-facing; the rest are provenance.
 
-1. **Run the detector and save candidates:**
+1. **Run the detector and save candidates.** This is the **canonical invocation** — use it verbatim for any run a human or pitch will rely on, across every harness, so runs stay comparable:
 
    ```bash
    ~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
    ```
+
+   The floors `--min-queue-priority 40` and `--min-major-news 0.55` are the engine defaults; they define the emitted pool. **Do not lower them and do not pass `--include-all-scored` or `--no-hygiene-filter`** (debug-only) for a real run — they change which signals reach the report and make two runs of the same profile incomparable. The positional `"QUERY"` is only a label/seed; the engine retrieves from the profile's `search_terms`, so keep the profile authoritative rather than hand-tuning the query per harness. For recurring/cron precision add `--demote-unmatched-x` (see **Freshness Gate**); that is the only flag the canonical command grows.
 
 2. **Coarse relevance pass** → `coarse_relevance_decisions.json`. High-recall junk removal only — no ranking, angles, dates, or pitch decisions. Each worker loads `skills/relevance-coarse-filter/SKILL.md` and applies it to its assigned signals; merge every worker's output into one `decisions` array. For model/worker routing and chunking, see `references/harness-routing.md`.
 

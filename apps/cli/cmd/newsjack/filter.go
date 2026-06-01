@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"sort"
 	"strings"
@@ -161,13 +162,75 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 	}, nil
 }
 
-// signalIsBigStory reports whether a signal's story_size band is high or major.
-// story_size is a domain-authority/coverage-spread proxy, so a "big story" here
-// means "broadly covered / high-authority," not "relevant." The pipeline never
-// lets the cheap coarse pass hard-drop one of these.
+// signalIsBigStory reports whether a signal is a "big story" the cheap coarse
+// pass must never hard-drop. story_size is a domain-authority/coverage-spread
+// proxy, so a big story means "broadly covered / high-authority," not "relevant."
+//
+// Primary signal is the band (high/major). But a genuinely big story can come
+// back band=unknown when news-search returned no publication metadata for the
+// surfaced variant (e.g. a press-release URL) — the same story can score high on
+// one surfaced article and unknown on another. So we don't let missing metadata
+// strip protection: an unknown-band signal still counts as big when coverage
+// spread is real (the story surfaced across >=2 independent domains, or strong
+// cross-source agreement).
 func signalIsBigStory(signal map[string]any) bool {
-	rank, ok := storySizeBandRank[signalStorySizeBandValue(signal)]
-	return ok && rank >= storySizeBandRank["high"]
+	band := signalStorySizeBandValue(signal)
+	if rank, ok := storySizeBandRank[band]; ok && rank >= storySizeBandRank["high"] {
+		return true
+	}
+	if band == "unknown" {
+		if signalEvidenceDomains(signal) >= 2 {
+			return true
+		}
+		if sa, ok := numberValue(valueOrEmptyMap(signal["mechanical_scores"])["source_agreement"]); ok && sa >= 0.5 {
+			return true
+		}
+	}
+	return false
+}
+
+// bigStoryBasis explains why signalIsBigStory fired, for the guardrail rationale.
+func bigStoryBasis(signal map[string]any) string {
+	band := signalStorySizeBandValue(signal)
+	if rank, ok := storySizeBandRank[band]; ok && rank >= storySizeBandRank["high"] {
+		return "story_size band=" + band
+	}
+	if n := signalEvidenceDomains(signal); n >= 2 {
+		return fmt.Sprintf("widely covered (%d independent source domains, band=%s)", n, band)
+	}
+	return fmt.Sprintf("strong cross-source agreement (band=%s)", band)
+}
+
+// signalEvidenceDomains counts the distinct source domains in a signal's
+// evidence — a deterministic measure of how widely a story was surfaced.
+func signalEvidenceDomains(signal map[string]any) int {
+	seen := map[string]bool{}
+	for _, raw := range anySlice(signal["evidence"]) {
+		ev, ok := raw.(map[string]any)
+		if !ok {
+			continue
+		}
+		host := evidenceHost(stringValue(ev["url"]))
+		if host == "" {
+			host = strings.ToLower(strings.TrimSpace(firstString(stringValue(ev["container"]), stringValue(ev["source"]))))
+		}
+		if host != "" {
+			seen[host] = true
+		}
+	}
+	return len(seen)
+}
+
+func evidenceHost(raw string) string {
+	raw = strings.TrimSpace(raw)
+	if raw == "" {
+		return ""
+	}
+	u, err := url.Parse(raw)
+	if err != nil || u.Hostname() == "" {
+		return ""
+	}
+	return strings.TrimPrefix(strings.ToLower(u.Hostname()), "www.")
 }
 
 func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProfile) map[string]any {
@@ -183,7 +246,6 @@ func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProf
 	// from a high-authority-domain artifact is a ranking/labeling concern, never
 	// a drop decision a cheap model is trusted to make.
 	if signalIsBigStory(signal) {
-		band := signalStorySizeBandValue(signal)
 		guarded := cloneMap(decision)
 		guarded["original_decision"] = decision["decision"]
 		guarded["original_reason"] = decision["reason"]
@@ -192,8 +254,8 @@ func applyCoarseRecallGuard(decision, signal map[string]any, profile monitorProf
 		guarded["reason"] = "big_story_surfaced"
 		guarded["confidence"] = "low"
 		guarded["guardrail"] = "big_story_recall"
-		guarded["guardrail_band"] = band
-		guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker flagged this as weak.") + " Never hard-dropped because story_size band=" + band + " is a big story; surfaced as a suggestion for human judgment.")
+		guarded["guardrail_band"] = signalStorySizeBandValue(signal)
+		guarded["rationale"] = strings.TrimSpace(firstString(decision["rationale"], "Worker flagged this as weak.") + " Never hard-dropped — big story (" + bigStoryBasis(signal) + "); surfaced as a suggestion for human judgment.")
 		return guarded
 	}
 	reason := stringValue(decision["reason"])

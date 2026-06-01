@@ -19,7 +19,7 @@ The binary: in this repo, prefer the `./bin/newsjack` source shim; `~/.newsjack/
 newsjack detector run "QUERY" --profile profile.json --save
 ```
 
-Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): detector output is JSON; `--mock` verifies locally without credentials; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors; `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only.
+Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): detector output is JSON; `--mock` verifies locally without credentials; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors (defaults `40` / `0.55` — the canonical run uses the defaults; lowering them changes the emitted pool and breaks run-to-run comparability); `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only. **`--include-all-scored` does not widen the emitted `signals[]`** — it only attaches a `debug.all_scored_signals` block — so never reach for it to "get more candidates"; raise `--limit` or adjust the floors deliberately instead. The canonical, harness-independent invocation lives in `skills/newsjack-detector/SKILL.md` step 1; follow it verbatim rather than re-deriving flags per harness.
 
 ## Source lanes (what `--sources` selects)
 

@@ -305,6 +305,71 @@ func TestFilterApplyNeverDropsBigStory(t *testing.T) {
 	}
 }
 
+func TestFilterApplyNeverDropsWidelyCoveredUnknownBand(t *testing.T) {
+	// A widely-covered story whose surfaced variant has no publication metadata
+	// comes back band=unknown. Missing metadata must not strip big-story
+	// protection: coverage across >=2 independent domains still counts as big.
+	candidates := map[string]any{
+		"monitor": map[string]any{"profile": map[string]any{"company": "Clearnym"}},
+		"signals": []any{
+			map[string]any{
+				"id":         "spread",
+				"title":      "Major data-broker enforcement action",
+				"story_size": map[string]any{"band": "unknown"},
+				"evidence": []any{
+					map[string]any{"url": "https://www.reuters.com/legal/data-broker-action"},
+					map[string]any{"url": "https://www.bloomberg.com/news/data-broker-action"},
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{"signal_id": "spread", "decision": "reject", "reason": "no_profile_bridge"},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected=%d, want 1 (widely-covered unknown-band must survive)", len(signals))
+	}
+	d := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if d["guardrail"] != "big_story_recall" || d["decision"] != "monitor_only" {
+		t.Fatalf("expected big_story_recall rescue, got: %#v", d)
+	}
+}
+
+func TestFilterApplyDropsUnknownBandSingleSource(t *testing.T) {
+	// Control: an unknown-band signal with a single source domain and no
+	// cross-source agreement is NOT a big story — coarse may drop it.
+	candidates := map[string]any{
+		"monitor": map[string]any{"profile": map[string]any{"company": "Clearnym"}},
+		"signals": []any{
+			map[string]any{
+				"id":         "lone",
+				"title":      "A.I., Journalism and the Public Square",
+				"story_size": map[string]any{"band": "unknown"},
+				"evidence":   []any{map[string]any{"url": "https://www.nytco.com/press/ai-journalism/"}},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{"signal_id": "lone", "decision": "reject", "reason": "off_beat"},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	if got := len(signalSlice(payload["signals"])); got != 0 {
+		t.Fatalf("selected=%d, want 0 (lone unknown-band off-beat is droppable)", got)
+	}
+}
+
 func TestOriginApplyComputesStaleDespiteWorkerFreshStatus(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{"generated_at": "2026-05-25T18:00:00Z"},
