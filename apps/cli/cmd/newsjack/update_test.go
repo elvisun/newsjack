@@ -5,28 +5,28 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
-func TestLatestChannelVersion(t *testing.T) {
+func TestLatestReleaseVersion(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/dist/channels/main.txt" {
+		if r.URL.Path != "/release/manifest.json" {
 			t.Fatalf("unexpected path: %s", r.URL.Path)
 		}
-		w.Write([]byte("abc123\n"))
+		w.Write([]byte(`{"version":"v0.1.0"}`))
 	}))
 	defer server.Close()
 
 	withTempEnv(t, map[string]string{
-		"NEWSJACK_DIST_BASE": server.URL + "/dist",
-		"NEWSJACK_CHANNEL":   "main",
+		"NEWSJACK_RELEASE_BASE": server.URL + "/release",
 	}, func() {
-		got, err := latestChannelVersion()
+		got, err := latestReleaseVersion()
 		if err != nil {
 			t.Fatal(err)
 		}
-		if got != "abc123" {
-			t.Fatalf("latestChannelVersion() = %q, want abc123", got)
+		if got != "v0.1.0" {
+			t.Fatalf("latestReleaseVersion() = %q, want v0.1.0", got)
 		}
 	})
 }
@@ -58,4 +58,27 @@ func TestAutoUpdateDisabled(t *testing.T) {
 			t.Fatal("NEWSJACK_NO_AUTO_UPDATE=1 should disable auto-update")
 		}
 	})
+}
+
+func TestInstallerEnvPreservesExternalSkillMode(t *testing.T) {
+	state := installState{
+		Repo:        "elvisun/newsjack",
+		SkillsMode:  skillsModeExternal,
+		RuntimesRaw: "codex,claude",
+		InstallMCP:  false,
+	}
+	env := installerEnv([]string{"NEWSJACK_INSTALL_SKILLS=1", "OTHER=value"}, state)
+	joined := "\n" + strings.Join(env, "\n") + "\n"
+	for _, want := range []string{
+		"\nNEWSJACK_AUTO_UPDATE_RUNNING=1\n",
+		"\nNEWSJACK_INSTALL_SKILLS=0\n",
+		"\nNEWSJACK_INSTALL_MCP=0\n",
+		"\nNEWSJACK_RUNTIMES=codex,claude\n",
+		"\nNEWSJACK_REPO=elvisun/newsjack\n",
+		"\nOTHER=value\n",
+	} {
+		if !strings.Contains(joined, want) {
+			t.Fatalf("env missing %q in %#v", want, env)
+		}
+	}
 }

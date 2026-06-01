@@ -5,7 +5,7 @@
 > The skill layer that turns Claude, ChatGPT, and Cursor into PR operators.
 
 ```bash
-curl -fsSL newsjack.sh | sh
+curl -fsSL newsjack.sh | bash
 newsjack setup
 ```
 
@@ -13,10 +13,10 @@ newsjack setup
 agent harness that owns scheduled runs, optionally save X and Medialyst API
 keys, then launch the selected harness with the `newsjack-setup` prompt.
 
-The install path tracks the latest production deployment from `main`. The site build bundles prebuilt CLI artifacts and skills into Vercel, and `newsjack.sh` serves the bundled installer to curl/wget clients.
+The install path tracks the latest GitHub Release. `newsjack.sh` serves the installer to curl/wget clients and redirects browser traffic to this repository.
 
 The installer:
-- downloads the latest Vercel-bundled artifact for the current OS/arch
+- downloads the latest GitHub Release artifact for the current OS/arch
 - verifies the artifact checksum
 - installs a managed copy at `~/.newsjack/newsjack`
 - installs `newsjack` at `~/.newsjack/bin/newsjack`
@@ -26,7 +26,7 @@ The installer:
 
 The curl installer uses prebuilt binaries for macOS and Linux on arm64/amd64. Users do not need Go installed.
 
-Installed binaries auto-update from the `main` channel before normal user-facing commands. If the hosted channel commit differs from `~/.newsjack/newsjack/VERSION`, Newsjack re-runs the installer and then re-runs the original command on the new binary. Set `NEWSJACK_AUTO_UPDATE=0` to disable this for CI or debugging.
+Installed binaries auto-update from the latest GitHub Release before normal user-facing commands. If the hosted release version differs from `~/.newsjack/newsjack/VERSION`, Newsjack re-runs the installer and then re-runs the original command on the new binary. Set `NEWSJACK_AUTO_UPDATE=0` to disable this for CI or debugging.
 
 Runtime detection is additive. If a user has multiple supported runtimes, the installer configures all of them.
 
@@ -39,14 +39,15 @@ Supported targets:
 Override auto-detection when needed:
 
 ```bash
-curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex,claude sh
-curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=all sh
-curl -fsSL newsjack.sh | NEWSJACK_INSTALL_MCP=0 sh
-curl -fsSL newsjack.sh | NEWSJACK_VERSION=<commit-sha> sh
+curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex,claude bash
+curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=all bash
+curl -fsSL newsjack.sh | NEWSJACK_INSTALL_MCP=0 bash
+curl -fsSL newsjack.sh | NEWSJACK_VERSION=v0.1.0 bash
+curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 bash
 NEWSJACK_AUTO_UPDATE=0 newsjack doctor
 ```
 
-See [Distribution Roadmap](./docs/2026-05-24-distribution-roadmap.md) for the curl-v1 and npm-later plan.
+See [Distribution Roadmap](./docs/2026-05-24-distribution-roadmap.md) for the curl-v1 and npm-later plan. Release steps live in the [Release Playbook](./docs/release-playbook.md).
 
 ## What is this?
 
@@ -169,7 +170,7 @@ For ChatGPT, Claude web, Cursor without MCP enabled, or any runtime that only su
 ## Install
 
 ```bash
-curl -fsSL newsjack.sh | sh
+curl -fsSL newsjack.sh | bash
 ```
 
 To review the install script before executing it:
@@ -195,9 +196,9 @@ skills/      # the OSS skill files
 install.sh   # what `curl -fsSL newsjack.sh` serves to curl/wget clients
 ```
 
-## How `curl -fsSL newsjack.sh | sh` works
+## How `curl -fsSL newsjack.sh | bash` works
 
-The marketing site at `newsjack.sh` and the install script are served from the same URL. The Next.js `proxy.ts` in `apps/site/` inspects the `User-Agent` header: curl and wget are rewritten to `/install.sh`, while browsers receive the marketing page. The site `prebuild` script cross-compiles the CLI, packages the skills, writes the artifacts to `apps/site/public/dist`, and copies the root `install.sh` into `apps/site/public/install.sh` for Vercel to serve.
+The public `newsjack.sh` endpoint and the install script are served from the same URL. The Next.js `proxy.ts` in `apps/site/` inspects the `User-Agent` header: curl and wget are rewritten to `/install.sh`, while browsers are redirected to the GitHub repository. The root `install.sh` downloads versioned artifacts from GitHub Releases.
 
 ## License
 

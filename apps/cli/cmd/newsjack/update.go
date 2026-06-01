@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -24,11 +25,11 @@ func maybeAutoUpdate(args []string, stderr io.Writer) (int, bool) {
 	if !shouldAutoUpdate(args) {
 		return 0, false
 	}
-	latest, err := latestChannelVersion()
+	latest, err := latestReleaseVersion()
 	if err != nil || latest == "" {
 		return 0, false
 	}
-	current := strings.TrimSpace(readInstalledVersion())
+	current := installedVersion()
 	if current == latest {
 		return 0, false
 	}
@@ -102,22 +103,38 @@ func readInstalledVersion() string {
 	return strings.TrimSpace(string(data))
 }
 
-func latestChannelVersion() (string, error) {
-	base := strings.TrimRight(getenv("NEWSJACK_DIST_BASE", defaultDistBase), "/")
-	channel := strings.TrimSpace(getenv("NEWSJACK_CHANNEL", "main"))
-	if channel == "" {
-		channel = "main"
-	}
-	raw, err := httpGetRaw(base+"/channels/"+channel+".txt", nil, 2*time.Second)
+func latestReleaseVersion() (string, error) {
+	base := releaseBaseForUpdate()
+	raw, err := httpGetRaw(base+"/manifest.json", nil, 5*time.Second)
 	if err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(raw), nil
+	var manifest struct {
+		Version string `json:"version"`
+	}
+	err = json.Unmarshal([]byte(raw), &manifest)
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(manifest.Version), nil
+}
+
+func releaseBaseForUpdate() string {
+	if base := strings.TrimSpace(os.Getenv("NEWSJACK_RELEASE_BASE")); base != "" {
+		return strings.TrimRight(base, "/")
+	}
+	state := readInstallStateOrDefault()
+	repo := strings.TrimSpace(getenv("NEWSJACK_REPO", state.Repo))
+	if repo == "" {
+		repo = defaultRepo
+	}
+	return "https://github.com/" + repo + "/releases/latest/download"
 }
 
 func runHostedInstaller(stdout, stderr io.Writer) error {
 	shell := "sh"
-	url := getenv("NEWSJACK_INSTALL_URL", defaultInstallURL)
+	state := readInstallStateOrDefault()
+	url := getenv("NEWSJACK_INSTALL_URL", state.InstallURL)
 	var cmd *exec.Cmd
 	if curl, err := exec.LookPath("curl"); err == nil {
 		cmd = exec.Command(shell, "-c", fmt.Sprintf("%q -fsSL %q | sh", curl, url))
@@ -129,8 +146,38 @@ func runHostedInstaller(stdout, stderr io.Writer) error {
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 	cmd.Stdin = os.Stdin
-	cmd.Env = append(os.Environ(), autoUpdateGuard+"=1")
+	cmd.Env = installerEnv(os.Environ(), state)
 	return cmd.Run()
+}
+
+func installerEnv(env []string, state installState) []string {
+	env = setenv(env, autoUpdateGuard, "1")
+	if state.Repo != "" {
+		env = setenv(env, "NEWSJACK_REPO", state.Repo)
+	}
+	if state.RuntimesRaw != "" {
+		env = setenv(env, "NEWSJACK_RUNTIMES", state.RuntimesRaw)
+	}
+	if state.SkillsMode == skillsModeExternal {
+		env = setenv(env, "NEWSJACK_INSTALL_SKILLS", "0")
+	} else if state.SkillsMode == skillsModeManaged {
+		env = setenv(env, "NEWSJACK_INSTALL_SKILLS", "1")
+	}
+	if !state.InstallMCP {
+		env = setenv(env, "NEWSJACK_INSTALL_MCP", "0")
+	}
+	return env
+}
+
+func setenv(env []string, key, value string) []string {
+	prefix := key + "="
+	out := env[:0]
+	for _, item := range env {
+		if !strings.HasPrefix(item, prefix) {
+			out = append(out, item)
+		}
+	}
+	return append(out, prefix+value)
 }
 
 func runInstalledBinary(args []string) int {

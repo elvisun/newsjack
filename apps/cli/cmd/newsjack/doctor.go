@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
+	"path/filepath"
 )
 
 func commandAvailable(name string) bool {
@@ -21,6 +22,7 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 	}
 
 	root, rootErr := newsjackRoot()
+	state := readInstallStateOrDefault()
 	key, source := loadAPIKey()
 	config := configFromEnv()
 	xConfigured := bearerToken(config) != ""
@@ -31,6 +33,16 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 		"newsjack_home": newsjackHome(),
 		"newsjack_root": root,
 		"root_ok":       rootErr == nil,
+		"install": map[string]any{
+			"cli_installed":  fileExists(filepath.Join(newsjackHome(), "bin", "newsjack")),
+			"cli_version":    version,
+			"bundle_version": installedVersion(),
+			"skills_mode":    state.SkillsMode,
+			"repo":           state.Repo,
+			"runtimes":       state.Runtimes,
+			"runtimes_raw":   state.RuntimesRaw,
+			"install_mcp":    state.InstallMCP,
+		},
 		"auth": map[string]any{
 			"medialyst_configured": key != "",
 			"source":               nullableString(source),

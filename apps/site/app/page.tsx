@@ -39,10 +39,10 @@ export default function Home() {
                 aria-label="Install command"
                 className="overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 font-mono text-sm leading-6 text-emerald-200 shadow-2xl shadow-black/30 sm:text-base"
               >
-                <code>curl -fsSL newsjack.sh | sh</code>
+                <code>curl -fsSL newsjack.sh | bash</code>
               </pre>
               <p className="mt-3 font-mono text-xs text-zinc-500">
-                Installs latest from the main deployment
+                Installs latest from GitHub Releases
               </p>
             </div>
 

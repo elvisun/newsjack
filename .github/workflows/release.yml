@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: apps/cli/go.sum
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_TYPE}" = "tag"
+          [[ "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
+
+      - name: Run CLI tests
+        working-directory: apps/cli
+        run: go test ./...
+
+      - name: Build release assets
+        run: NEWSJACK_VERSION="${GITHUB_REF_NAME}" NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          prerelease_args=()
+          if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
+            prerelease_args+=(--prerelease)
+          fi
+          gh release create "${GITHUB_REF_NAME}" .tmp/newsjack-release/* \
+            --verify-tag \
+            --title "Newsjack ${GITHUB_REF_NAME}" \
+            --notes "Newsjack ${GITHUB_REF_NAME}" \
+            "${prerelease_args[@]}"

@@ -1,0 +1,41 @@
+name: Post-release smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag to install, for example v0.1.0. Defaults to latest.
+        required: false
+        type: string
+
+jobs:
+  install:
+    name: Install released assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Install Newsjack from GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          export HOME=/tmp/newsjack-release-smoke
+          export PATH="$HOME/.newsjack/bin:$PATH"
+          export NEWSJACK_NO_AUTO_UPDATE=1
+          rm -rf "$HOME"
+
+          if [ -n "${{ inputs.version }}" ]; then
+            base="https://github.com/${{ github.repository }}/releases/download/${{ inputs.version }}"
+          else
+            base="https://github.com/${{ github.repository }}/releases/latest/download"
+          fi
+
+          curl -fsSL "$base/install.sh" | \
+            NEWSJACK_REPO="${{ github.repository }}" \
+            NEWSJACK_RELEASE_BASE="$base" \
+            NEWSJACK_RUNTIMES=codex \
+            NEWSJACK_INSTALL_MCP=0 \
+            bash
+
+          newsjack version
+          newsjack skills list | grep -F newsjack-detector
+          newsjack doctor --json | jq -e '.root_ok == true and .install.skills_mode == "managed"'

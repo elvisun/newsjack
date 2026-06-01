@@ -367,16 +367,11 @@ Required GitHub Actions:
 - Existing non-Newsjack user skill files are never overwritten unless
   `NEWSJACK_FORCE=1` is set.
 
-## Open Implementation Work
+## Remaining Implementation Work
 
-- Replace Vercel `/dist` channel resolution with GitHub Release resolution.
-- Add `NEWSJACK_INSTALL_SKILLS`.
-- Add `~/.newsjack/install.json`.
-- Preserve runtime selection across auto-updates.
-- Add `skills_mode=managed|external`.
-- Add `skills-manifest.json`.
-- Add `newsjack skills status`.
 - Add marketplace-safe CLI dependency text to CLI-backed skills.
 - Add `skills.sh.json`.
 - Add Claude plugin package generation.
-- Add GitHub release workflows.
+- Add signed release provenance or attestations.
+- Run the post-release smoke workflow against the public repository after the
+  repo visibility switch.

@@ -6,10 +6,9 @@ NEWSJACK_REF="${NEWSJACK_REF:-main}"
 NEWSJACK_HOME="${NEWSJACK_HOME:-$HOME/.newsjack}"
 NEWSJACK_INSTALL_DIR="${NEWSJACK_INSTALL_DIR:-$NEWSJACK_HOME/newsjack}"
 NEWSJACK_RUNTIMES="${NEWSJACK_RUNTIMES:-auto}"
+NEWSJACK_INSTALL_SKILLS="${NEWSJACK_INSTALL_SKILLS:-1}"
 NEWSJACK_INSTALL_MCP="${NEWSJACK_INSTALL_MCP:-1}"
 NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
-NEWSJACK_DIST_BASE="${NEWSJACK_DIST_BASE:-https://newsjack.sh/dist}"
-NEWSJACK_CHANNEL="${NEWSJACK_CHANNEL:-main}"
 
 esc=$(printf '\033')
 c_reset=
@@ -88,11 +87,11 @@ have() {
 }
 
 download() {
-  url=$1
+  download_url=$1
   if have curl; then
-    curl -fsSL "$url"
+    curl -fsSL "$download_url"
   elif have wget; then
-    wget -qO- "$url"
+    wget -qO- "$download_url"
   else
     die "curl or wget is required"
   fi
@@ -128,6 +127,41 @@ sha256_file() {
   fi
 }
 
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+json_string() {
+  printf '"%s"' "$(json_escape "$1")"
+}
+
+json_bool() {
+  case "$1" in
+    1|true|yes|on) printf 'true' ;;
+    *) printf 'false' ;;
+  esac
+}
+
+runtimes_json() {
+  raw=$1
+  raw=$(printf '%s' "$raw" | tr '[:space:]' ',')
+  old_ifs=$IFS
+  IFS=,
+  first=1
+  printf '['
+  for item in $raw; do
+    [ -n "$item" ] || continue
+    if [ "$first" = "1" ]; then
+      first=0
+    else
+      printf ', '
+    fi
+    json_string "$item"
+  done
+  IFS=$old_ifs
+  printf ']'
+}
+
 ensure_compiled_binary() {
   bin=$1
   [ -f "$bin" ] || die "missing CLI binary: $bin"
@@ -146,23 +180,34 @@ copy_tree() {
   find "$ct_dest" -type f \( -name ".env" -o -name ".env.*" \) ! -name ".env.example" -exec rm -f {} \;
 }
 
-fetch_dist() {
+release_base() {
+  if [ "${NEWSJACK_RELEASE_BASE:-}" ]; then
+    printf '%s\n' "${NEWSJACK_RELEASE_BASE%/}"
+    return
+  fi
+  if [ "${NEWSJACK_VERSION:-}" ]; then
+    printf 'https://github.com/%s/releases/download/%s\n' "$NEWSJACK_REPO" "$NEWSJACK_VERSION"
+    return
+  fi
+  printf 'https://github.com/%s/releases/latest/download\n' "$NEWSJACK_REPO"
+}
+
+fetch_release() {
   tmp=$1
   platform=$(detect_platform)
-  version="${NEWSJACK_VERSION:-}"
-
-  if [ -z "$version" ]; then
-    version=$(download "$NEWSJACK_DIST_BASE/channels/$NEWSJACK_CHANNEL.txt" | tr -d '[:space:]')
-  fi
-  [ -n "$version" ] || die "could not resolve newsjack version from channel: $NEWSJACK_CHANNEL"
+  base=$(release_base)
 
   archive="$tmp/newsjack_$platform.tar.gz"
   artifact="newsjack_$platform.tar.gz"
-  url="$NEWSJACK_DIST_BASE/commits/$version/$artifact"
-  log "fetching newsjack $version for $platform"
+  url="$base/$artifact"
+  checksums="$tmp/checksums.txt"
+  log "fetching newsjack release for $platform"
+  download "$base/manifest.json" >"$tmp/release-manifest.json"
+  download "$base/checksums.txt" >"$checksums"
   download "$url" >"$archive"
 
-  expected=$(download "$url.sha256" | awk '{print $1}')
+  expected=$(awk -v artifact="$artifact" '$2 == artifact {print $1}' "$checksums" | head -n 1)
+  [ -n "$expected" ] || die "checksum missing for $artifact"
   actual=$(sha256_file "$archive")
   [ "$expected" = "$actual" ] || die "checksum mismatch for $artifact"
   success "verified checksum for $artifact"
@@ -172,6 +217,9 @@ fetch_dist() {
   [ -d "$tmp/source/skills" ] || die "artifact does not contain a skills directory"
   [ -f "$tmp/source/.newsjack-prebuilt" ] || die "artifact is missing the prebuilt marker"
   [ -f "$tmp/source/bin/newsjack" ] || die "artifact does not contain bin/newsjack"
+  [ -f "$tmp/source/VERSION" ] || die "artifact does not contain VERSION"
+  [ -f "$tmp/source/COMMIT" ] || die "artifact does not contain COMMIT"
+  [ -f "$tmp/source/skills-manifest.json" ] || die "artifact does not contain skills-manifest.json"
   ensure_compiled_binary "$tmp/source/bin/newsjack"
   printf '%s\n' "$tmp/source"
 }
@@ -205,7 +253,7 @@ fetch_source() {
     return
   fi
 
-  fetch_dist "$tmp"
+  fetch_release "$tmp"
 }
 
 install_source() {
@@ -248,6 +296,11 @@ install_cli() {
 }
 
 run_go_install() {
+  if [ "$NEWSJACK_INSTALL_SKILLS" = "0" ]; then
+    note "skipping runtime skill install because NEWSJACK_INSTALL_SKILLS=0"
+    return
+  fi
+
   set -- "$NEWSJACK_HOME/bin/newsjack" install \
     --source "$NEWSJACK_INSTALL_DIR" \
     --runtimes "$NEWSJACK_RUNTIMES"
@@ -261,6 +314,38 @@ run_go_install() {
   fi
 
   "$@"
+}
+
+write_install_state() {
+  mkdir -p "$NEWSJACK_HOME"
+  version=
+  commit=
+  [ -f "$NEWSJACK_INSTALL_DIR/VERSION" ] && version=$(tr -d '[:space:]' <"$NEWSJACK_INSTALL_DIR/VERSION")
+  [ -f "$NEWSJACK_INSTALL_DIR/COMMIT" ] && commit=$(tr -d '[:space:]' <"$NEWSJACK_INSTALL_DIR/COMMIT")
+  [ -n "$version" ] || version="${NEWSJACK_VERSION:-source}"
+  [ -n "$commit" ] || commit="${NEWSJACK_COMMIT:-}"
+  if [ "$NEWSJACK_INSTALL_SKILLS" = "0" ]; then
+    skills_mode=external
+  else
+    skills_mode=managed
+  fi
+  installed_at=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  install_url="${NEWSJACK_INSTALL_URL:-https://newsjack.sh}"
+  {
+    printf '{\n'
+    printf '  "version": '; json_string "$version"; printf ',\n'
+    printf '  "commit": '; json_string "$commit"; printf ',\n'
+    printf '  "channel": "stable",\n'
+    printf '  "repo": '; json_string "$NEWSJACK_REPO"; printf ',\n'
+    printf '  "install_url": '; json_string "$install_url"; printf ',\n'
+    printf '  "skills_mode": '; json_string "$skills_mode"; printf ',\n'
+    printf '  "runtimes": '; runtimes_json "$NEWSJACK_RUNTIMES"; printf ',\n'
+    printf '  "runtimes_raw": '; json_string "$NEWSJACK_RUNTIMES"; printf ',\n'
+    printf '  "install_mcp": '; json_bool "$NEWSJACK_INSTALL_MCP"; printf ',\n'
+    printf '  "installed_at": '; json_string "$installed_at"; printf '\n'
+    printf '}\n'
+  } >"$NEWSJACK_HOME/install.json"
+  success "wrote install state to $NEWSJACK_HOME/install.json"
 }
 
 print_next_steps() {
@@ -288,6 +373,7 @@ main() {
   install_source "$src"
   install_cli
   run_go_install
+  write_install_state
   print_next_steps
 }
 

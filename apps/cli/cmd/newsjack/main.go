@@ -45,8 +45,10 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 				return cmdSkillsList(args[2:], stdout, stderr)
 			case "install":
 				return cmdInstall(args[2:], stdout, stderr)
+			case "status":
+				return cmdSkillsStatus(args[2:], stdout, stderr)
 			case "--help", "-h":
-				fmt.Fprintln(stdout, "Usage: newsjack skills list|install")
+				fmt.Fprintln(stdout, "Usage: newsjack skills list|install|status")
 				return 0
 			default:
 				return failf(stderr, "unknown skills command: %s", args[1])

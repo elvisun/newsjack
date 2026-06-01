@@ -23,6 +23,95 @@ jobs:
         working-directory: apps/cli
         run: go test ./...
 
+  release-installer-smoke:
+    name: Release installer smoke
+    needs: cli-unit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: apps/cli/go.sum
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Build release assets
+        run: NEWSJACK_VERSION=v0.1.0-ci NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
+
+      - name: Smoke full branded install from release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8765 --directory .tmp/newsjack-release >/tmp/newsjack-release-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          sleep 1
+
+          export HOME=/tmp/newsjack-home-managed
+          export PATH="$HOME/.newsjack/bin:$PATH"
+          export NEWSJACK_RELEASE_BASE=http://127.0.0.1:8765
+          rm -rf "$HOME"
+
+          curl -fsSL http://127.0.0.1:8765/install.sh | \
+            NEWSJACK_RUNTIMES=codex \
+            NEWSJACK_INSTALL_MCP=0 \
+            bash
+
+          newsjack version | grep -F 'v0.1.0-ci'
+          newsjack skills list | grep -F 'newsjack-detector'
+          test -f "$HOME/.agents/skills/newsjack-detector/SKILL.md"
+          jq -e '.skills_mode == "managed" and .runtimes_raw == "codex"' "$HOME/.newsjack/install.json"
+
+      - name: Smoke marketplace CLI bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8766 --directory .tmp/newsjack-release >/tmp/newsjack-release-http-external.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          sleep 1
+
+          export HOME=/tmp/newsjack-home-external
+          export PATH="$HOME/.newsjack/bin:$PATH"
+          export NEWSJACK_RELEASE_BASE=http://127.0.0.1:8766
+          rm -rf "$HOME"
+
+          curl -fsSL http://127.0.0.1:8766/install.sh | \
+            NEWSJACK_INSTALL_SKILLS=0 \
+            NEWSJACK_INSTALL_MCP=0 \
+            bash
+
+          newsjack version | grep -F 'v0.1.0-ci'
+          test ! -e "$HOME/.agents/skills/newsjack-detector/SKILL.md"
+          jq -e '.skills_mode == "external" and .install_mcp == false' "$HOME/.newsjack/install.json"
+
+      - name: Smoke POSIX sh compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 8767 --directory .tmp/newsjack-release >/tmp/newsjack-release-http-sh.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          sleep 1
+
+          export HOME=/tmp/newsjack-home-sh
+          export PATH="$HOME/.newsjack/bin:$PATH"
+          export NEWSJACK_RELEASE_BASE=http://127.0.0.1:8767
+          rm -rf "$HOME"
+
+          curl -fsSL http://127.0.0.1:8767/install.sh | \
+            NEWSJACK_INSTALL_SKILLS=0 \
+            NEWSJACK_INSTALL_MCP=0 \
+            sh
+
+          newsjack version | grep -F 'v0.1.0-ci'
+          jq -e '.skills_mode == "external" and .install_mcp == false' "$HOME/.newsjack/install.json"
+
   no-token-installer:
     name: No-token installer harness
     needs: cli-unit

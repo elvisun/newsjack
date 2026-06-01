@@ -41,7 +41,7 @@ func newsjackRoot() (string, error) {
 			return repo, nil
 		}
 	}
-	return "", fmt.Errorf("newsjack is not installed at %s; run: curl -fsSL newsjack.sh | sh", root)
+	return "", fmt.Errorf("newsjack is not installed at %s; run: curl -fsSL newsjack.sh | bash", root)
 }
 
 func findRepoRoot(start string) (string, bool) {
