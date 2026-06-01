@@ -90,6 +90,8 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdMonitor(args[1:], stdout, stderr)
 	case "filter-apply":
 		return cmdFilterApply(args[1:], stdout, stderr)
+	case "cluster":
+		return cmdCluster(args[1:], stdout, stderr)
 	case "origin-apply":
 		return cmdOriginApply(args[1:], stdout, stderr)
 	case "render-run":

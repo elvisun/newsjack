@@ -20,6 +20,7 @@ type detectorOptions struct {
 	NoProfileFeeds                  bool
 	NoXNews                         bool
 	NoXTrends                       bool
+	DemoteUnmatchedX                bool
 	NoHygieneFilter                 bool
 	Depth                           string
 	LookbackDays                    int
@@ -118,6 +119,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	fs.BoolVar(&opts.NoProfileFeeds, "no-profile-feeds", false, "Do not include feed_urls from profile")
 	fs.BoolVar(&opts.NoXNews, "no-x-news", false, "Do not auto-include x_news")
 	fs.BoolVar(&opts.NoXTrends, "no-x-trends", false, "Do not include x_trends")
+	fs.BoolVar(&opts.DemoteUnmatchedX, "demote-unmatched-x", false, "Recurring-precision mode: cap unmatched X News/Trends below the default queue floor so they only surface via the large-story recall guard")
 	fs.BoolVar(&opts.NoHygieneFilter, "no-hygiene-filter", false, "Disable deterministic hygiene filter")
 	fs.StringVar(&opts.Depth, "depth", "quick", "quick, default, or deep")
 	fs.IntVar(&opts.LookbackDays, "lookback-days", 1, "Lookback window in days")

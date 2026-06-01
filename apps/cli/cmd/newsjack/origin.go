@@ -232,7 +232,7 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 			if promoted, ok := promotePreciseFreshTimestamp(origin, runTime, cutoff, windowHours, workerStatus, "fresh_new_development"); ok {
 				return promoted
 			}
-			return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "new_development_at", newRaw, precision, "new_development_at has date-only precision on the cutoff date")
+			return freshnessGate("unverified_boundary", runTime, cutoff, windowHours, workerStatus, "new_development_at", newRaw, precision, "new_development_at has date-only precision straddling the cutoff date")
 		}
 		if firstRaw == "" {
 			return freshnessGate("stale", runTime, cutoff, windowHours, workerStatus, "new_development_at", newRaw, precision, "new_development_at is before the freshness cutoff")
@@ -249,10 +249,10 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 			if promoted, ok := promotePreciseFreshTimestamp(origin, runTime, cutoff, windowHours, workerStatus, "fresh"); ok {
 				return promoted
 			}
-			return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "first_public_at", firstRaw, precision, "first_public_at has date-only precision on the cutoff date")
+			return freshnessGate("unverified_boundary", runTime, cutoff, windowHours, workerStatus, "first_public_at", firstRaw, precision, "first_public_at has date-only precision straddling the cutoff date")
 		}
 	}
-	return freshnessGate("freshness_unverified", runTime, cutoff, windowHours, workerStatus, "", "", "", "first_public_at is missing or unparseable")
+	return freshnessGate("unverified_no_timestamp", runTime, cutoff, windowHours, workerStatus, "", "", "", "first_public_at is missing or unparseable")
 }
 
 func promotePreciseFreshTimestamp(origin map[string]any, runTime, cutoff time.Time, windowHours float64, workerStatus, status string) (map[string]any, bool) {
@@ -357,8 +357,8 @@ func enforceSupportingEvidence(gate, finding, signal map[string]any) map[string]
 		return gate
 	}
 	downgraded := cloneMap(gate)
-	downgraded["computed_status"] = "freshness_unverified"
-	downgraded["rationale"] = "no independent timestamp_evidence: worker cited only the surfaced URL"
+	downgraded["computed_status"] = "unverified_no_corroboration"
+	downgraded["rationale"] = "fewer than two independent corroborating sources: worker cited only the surfaced URL"
 	downgraded["worker_status"] = nullableString(status)
 	return downgraded
 }
