@@ -156,17 +156,27 @@ gh workflow run post-release-smoke.yml -f version=v0.1.0
 gh run watch
 ```
 
-6. After the repo is public and `newsjack.sh` is deployed, run a true public
-   install smoke:
+The post-release smoke workflow verifies both direct GitHub Release assets and
+the public `newsjack.sh` path in Docker. Failures use GitHub Actions' default
+failed-workflow notifications.
+
+6. To run a true public install smoke locally without touching the host home,
+   use Docker:
 
 ```bash
-export HOME=/tmp/newsjack-public-smoke
-export PATH="$HOME/.newsjack/bin:$PATH"
-rm -rf "$HOME"
+docker run --rm -i --network bridge debian:bookworm-slim bash -s <<'EOF'
+set -euo pipefail
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  ca-certificates curl gzip jq tar
+rm -rf /var/lib/apt/lists/*
 
-curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex NEWSJACK_INSTALL_MCP=0 bash
+export HOME=/tmp/newsjack-public-smoke
+curl -fsSL newsjack.sh | NEWSJACK_VERSION=v0.1.0 bash
+export PATH="$HOME/.newsjack/bin:$PATH"
 newsjack version
 newsjack skills status --json | jq .
+EOF
 ```
 
 ## Beta Release

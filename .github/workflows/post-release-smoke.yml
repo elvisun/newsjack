@@ -39,3 +39,51 @@ jobs:
           newsjack version
           newsjack skills list | grep -F newsjack-detector
           newsjack doctor --json | jq -e '.root_ok == true and .install.skills_mode == "managed"'
+
+  public-domain-docker-install:
+    name: Public domain Docker install
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Install from newsjack.sh in Docker
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ inputs.version }}"
+          env_args=()
+          if [ -n "$version" ]; then
+            env_args+=(-e "NEWSJACK_VERSION=$version")
+          fi
+
+          docker run --rm -i --network bridge \
+            -e HOME=/tmp/newsjack-home \
+            -e TERM=dumb \
+            "${env_args[@]}" \
+            debian:bookworm-slim \
+            bash -s <<'CONTAINER_SCRIPT'
+          set -euo pipefail
+
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            ca-certificates \
+            curl \
+            gzip \
+            jq \
+            tar
+          rm -rf /var/lib/apt/lists/*
+
+          curl -fsSL https://newsjack.sh | bash
+
+          export PATH="$HOME/.newsjack/bin:$PATH"
+          installed_version="$(newsjack version)"
+          printf '%s\n' "$installed_version"
+          if [ -n "${NEWSJACK_VERSION:-}" ]; then
+            test "$installed_version" = "$NEWSJACK_VERSION"
+          fi
+
+          newsjack skills list | grep -F newsjack-detector
+          newsjack skills status --json | jq -e \
+            '.root_ok == true and .skills_mode == "managed" and .skills_manifest_present == true'
+          newsjack doctor --json | jq -e \
+            '.root_ok == true and .install.skills_mode == "managed" and .install.cli_installed == true'
+          CONTAINER_SCRIPT
