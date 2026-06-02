@@ -83,18 +83,11 @@ func (w *setupWizard) run() error {
 	uiKV(w.stdout, "mock test", "newsjack monitor test <slug> --mock")
 	fmt.Fprintln(w.stdout)
 
-	skillRuntime := w.chooseSkillRuntime()
+	skillRuntime, schedulerRuntime := w.chooseAgentRuntime()
 	manualSkillRuntime := runtimeSelectionIncludes(skillRuntime, "manual")
 	installSkillRuntime := nonManualRuntimeSelection(skillRuntime)
 	if err := w.offerRuntimeInstalls(installSkillRuntime, "skill installation"); err != nil {
 		return err
-	}
-	if manualSkillRuntime {
-		uiSection(w.stdout, "manual skill install")
-		uiNote(w.stdout, "copy this instruction into your agent runtime.")
-		fmt.Fprintln(w.stdout)
-		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
-		fmt.Fprintln(w.stdout)
 	}
 	if installSkillRuntime != "" {
 		if err := installSetupSkills(installSkillRuntime, w.stdout, w.stderr); err != nil {
@@ -106,7 +99,6 @@ func (w *setupWizard) run() error {
 		}
 	}
 
-	schedulerRuntime := w.chooseSchedulerRuntime()
 	schedulerReady := true
 	if !isManualRuntime(schedulerRuntime) {
 		var err error
@@ -143,9 +135,12 @@ func (w *setupWizard) run() error {
 	command := setupAgentCommand(schedulerRuntime, agentPrompt)
 	fmt.Fprintln(w.stdout)
 	if isManualRuntime(schedulerRuntime) || command == "" {
-		uiSection(w.stdout, "manual scheduler")
-		uiNote(w.stdout, "copy this prompt into the agent runtime that owns scheduled runs.")
+		uiSection(w.stdout, "manual setup")
+		uiNote(w.stdout, "copy the skills, then give your agent this prompt.")
 		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, "Prompt:")
 		fmt.Fprintln(w.stdout, agentPrompt)
 		return nil
 	}
@@ -162,40 +157,20 @@ func (w *setupWizard) run() error {
 	return launchSetupAgent(schedulerRuntime, agentPrompt, w.stdin, w.stdout, w.stderr)
 }
 
-func (w *setupWizard) chooseSkillRuntime() string {
-	defaultRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, recommendedSetupRuntime())
-	if w.defaultSkillRuntime == "" || w.defaultSkillRuntime == "auto" {
-		defaultRuntime = recommendedSetupRuntime()
+func (w *setupWizard) chooseAgentRuntime() (string, string) {
+	if skillRuntime, schedulerRuntime, ok := w.explicitRuntimePair(); ok {
+		uiSection(w.stdout, "agent runtime")
+		uiKV(w.stdout, "skills", runtimeSelectionLabel(skillRuntime))
+		uiKV(w.stdout, "schedule", runtimeLabel(schedulerRuntime))
+		return skillRuntime, schedulerRuntime
 	}
-	uiSection(w.stdout, "runtimes")
-	fmt.Fprintln(w.stdout, "Supported agent runtimes for skills:")
-	printRuntimeList(w.stdout)
+
+	defaultRuntime := w.defaultAgentRuntime()
+	uiSection(w.stdout, "agent runtime")
+	uiNote(w.stdout, "this installs Newsjack skills and owns scheduled runs.")
+	uiNote(w.stdout, "scheduled runs stay inside an agent harness, not system cron.")
 	fmt.Fprintln(w.stdout)
-
-	choices := []setupChoice{
-		{Value: "hermes", Label: "Hermes", Hint: runtimeChoiceHint("hermes"), Selected: runtimeSelectionIncludes(defaultRuntime, "hermes")},
-		{Value: "openclaw", Label: "OpenClaw", Hint: runtimeChoiceHint("openclaw"), Selected: runtimeSelectionIncludes(defaultRuntime, "openclaw")},
-		{Value: "claude", Label: "Claude Code", Hint: runtimeChoiceHint("claude"), Selected: runtimeSelectionIncludes(defaultRuntime, "claude")},
-		{Value: "codex", Label: "Codex", Hint: runtimeChoiceHint("codex"), Selected: runtimeSelectionIncludes(defaultRuntime, "codex")},
-		{Value: "manual", Label: "Other/manual", Hint: "copy instructions", Selected: runtimeSelectionIncludes(defaultRuntime, "manual")},
-	}
-	if value, ok := w.selectSingle("Install Newsjack skills into which runtime?", choices, firstRuntime(defaultRuntime)); ok {
-		return normalizeSetupRuntimeSelection(value, defaultRuntime)
-	}
-
-	answer := w.prompt("Install Newsjack skills into which runtime? [claude,codex,openclaw,hermes,other]", defaultRuntime)
-	return normalizeSetupRuntimeSelection(answer, defaultRuntime)
-}
-
-func (w *setupWizard) chooseSchedulerRuntime() string {
-	defaultRuntime := normalizeScheduleRuntime(w.defaultScheduler)
-	if defaultRuntime == "auto" {
-		defaultRuntime = recommendedScheduleRuntime()
-	}
-	fmt.Fprintln(w.stdout)
-	uiSection(w.stdout, "scheduler")
-	uiNote(w.stdout, "scheduled runs live inside an agent harness, not system cron.")
-	uiKV(w.stdout, "recommended order", "Hermes > OpenClaw > Claude Code > Codex > Other")
+	fmt.Fprintln(w.stdout, "Supported agent runtimes:")
 	printRuntimeList(w.stdout)
 	fmt.Fprintln(w.stdout)
 
@@ -204,14 +179,89 @@ func (w *setupWizard) chooseSchedulerRuntime() string {
 		{Value: "openclaw", Label: "OpenClaw", Hint: runtimeChoiceHint("openclaw")},
 		{Value: "claude", Label: "Claude Code", Hint: runtimeChoiceHint("claude")},
 		{Value: "codex", Label: "Codex", Hint: runtimeChoiceHint("codex")},
-		{Value: "manual", Label: "Other/manual", Hint: "copy prompt"},
+		{Value: "manual", Label: "Other/manual", Hint: "copy instructions"},
 	}
-	if value, ok := w.selectSingle("Which harness should own scheduled runs?", choices, defaultRuntime); ok {
-		return normalizeScheduleRuntime(value)
+	if value, ok := w.selectSingle("Which agent should run Newsjack?", choices, defaultRuntime); ok {
+		return setupAndScheduleRuntime(value, defaultRuntime)
 	}
 
-	answer := w.prompt("Which harness should own scheduled runs? [hermes,openclaw,claude,codex,other]", defaultRuntime)
-	return normalizeScheduleRuntime(answer)
+	answer := w.prompt("Which agent should run Newsjack? [hermes,openclaw,claude,codex,other]", defaultRuntime)
+	return setupAndScheduleRuntime(answer, defaultRuntime)
+}
+
+func (w *setupWizard) explicitRuntimePair() (string, string, bool) {
+	if !explicitRuntimeValue(w.defaultSkillRuntime) {
+		return "", "", false
+	}
+	skillRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, recommendedSetupRuntime())
+	schedulerRuntime := normalizeScheduleRuntime(w.defaultScheduler)
+	if schedulerRuntime == "auto" {
+		schedulerRuntime = scheduleRuntimeForSetupSelection(skillRuntime, recommendedScheduleRuntime())
+	}
+	if advancedSetupRuntime(skillRuntime) || explicitRuntimeValue(w.defaultScheduler) && schedulerRuntime != firstRuntime(skillRuntime) {
+		return skillRuntime, schedulerRuntime, true
+	}
+	return "", "", false
+}
+
+func (w *setupWizard) defaultAgentRuntime() string {
+	schedulerRuntime := normalizeScheduleRuntime(w.defaultScheduler)
+	if schedulerRuntime != "auto" {
+		return schedulerRuntime
+	}
+
+	skillRuntime := normalizeSetupRuntimeSelection(w.defaultSkillRuntime, recommendedSetupRuntime())
+	switch skillRuntime {
+	case "all", "detected", "none":
+		return recommendedScheduleRuntime()
+	}
+	return firstRuntime(skillRuntime)
+}
+
+func explicitRuntimeValue(raw string) bool {
+	raw = strings.ToLower(strings.TrimSpace(raw))
+	return raw != "" && raw != "auto"
+}
+
+func advancedSetupRuntime(selection string) bool {
+	return selection == "all" || selection == "none" || strings.Contains(selection, ",")
+}
+
+func runtimeSelectionLabel(selection string) string {
+	switch selection {
+	case "all":
+		return "all supported runtimes"
+	case "none":
+		return "none"
+	case "manual":
+		return runtimeLabel(selection)
+	}
+	var labels []string
+	for _, key := range normalizeRuntimeList(selection) {
+		labels = append(labels, runtimeLabel(key))
+	}
+	return strings.Join(labels, ", ")
+}
+
+func scheduleRuntimeForSetupSelection(selection, fallback string) string {
+	if selection == "all" || selection == "none" {
+		return fallback
+	}
+	return firstRuntime(selection)
+}
+
+func singleAgentRuntime(raw string) (string, bool) {
+	raw = strings.ToLower(strings.TrimSpace(raw))
+	raw = strings.ReplaceAll(raw, "claude-code", "claude")
+	raw = strings.ReplaceAll(raw, "claude_code", "claude")
+	raw = strings.ReplaceAll(raw, "cladue", "claude")
+	if raw == "other" || raw == "manual" {
+		return "manual", true
+	}
+	if isSupportedRuntime(raw) {
+		return raw, true
+	}
+	return "", false
 }
 
 func (w *setupWizard) promptForXAPIKey() error {
@@ -377,7 +427,7 @@ func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
-	return fmt.Sprintf("Use the installed Newsjack setup skill (newsjack-setup) to set up an hourly monitor for my company. Use %s for the schedule, not system cron. Ask only for facts you cannot infer safely. Save the monitor profile, run a mock test, install the schedule, render the first report from the JSON artifacts, and show me the run.md and schedule paths.", runtimeLabel(scheduleRuntime))
+	return "Use newsjack to set up monitoring for my company."
 }
 
 func printRuntimeList(stdout io.Writer) {
@@ -454,6 +504,14 @@ func firstRuntime(selection string) string {
 		}
 	}
 	return recommendedSetupRuntime()
+}
+
+func setupAndScheduleRuntime(raw, fallback string) (string, string) {
+	skillRuntime := normalizeSetupRuntimeSelection(raw, fallback)
+	if schedulerRuntime, ok := singleAgentRuntime(raw); ok {
+		return skillRuntime, schedulerRuntime
+	}
+	return skillRuntime, scheduleRuntimeForSetupSelection(skillRuntime, fallback)
 }
 
 func normalizeScheduleRuntime(raw string) string {
@@ -550,7 +608,7 @@ func manualSkillInstallInstruction() string {
 	if err != nil || root == "" {
 		root = filepath.Join(newsjackHome(), "newsjack")
 	}
-	return fmt.Sprintf("Copy every directory under `%s` into your agent runtime's skills directory, preserving each `SKILL.md`. Then run `newsjack setup --json` to inspect local paths and use the `newsjack-setup` skill to create the monitor profile and agent schedule.", filepath.Join(root, "skills"))
+	return fmt.Sprintf("Copy every directory under `%s` into your agent runtime's skills directory, preserving each `SKILL.md`.", filepath.Join(root, "skills"))
 }
 
 func isSkipValue(value string) bool {
