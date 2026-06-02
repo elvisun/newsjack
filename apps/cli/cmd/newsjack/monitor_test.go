@@ -161,8 +161,14 @@ func TestSetupDefaultsToClaudeCode(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s", code, errBuf.String())
 		}
 		text := out.String()
-		if !strings.Contains(text, "Supported agent runtimes for skills:") {
+		if !strings.Contains(text, "Supported agent runtimes:") {
 			t.Fatalf("setup should show runtime choices:\n%s", text)
+		}
+		if !strings.Contains(text, "this installs Newsjack skills and owns scheduled runs") {
+			t.Fatalf("setup should explain the combined runtime choice:\n%s", text)
+		}
+		if strings.Contains(text, "Which harness should own scheduled runs?") {
+			t.Fatalf("setup should not ask a separate scheduler-runtime question:\n%s", text)
 		}
 		if !strings.Contains(text, "installed skills for Claude Code") {
 			t.Fatalf("setup should install Claude Code skills by default:\n%s", text)
@@ -330,6 +336,43 @@ func TestSetupDoesNotTreatSkillDirectoryAsInstalledRuntime(t *testing.T) {
 	})
 }
 
+func TestSetupPreservesSeparateRuntimeFlags(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	fakeBin := t.TempDir()
+	hermesPath := filepath.Join(fakeBin, "hermes")
+	if err := os.WriteFile(hermesPath, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+		"PATH":                    fakeBin + ":/bin:/usr/bin",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLIWithIO([]string{"setup", "--runtime", "codex", "--schedule-runtime", "hermes", "--skip-credentials", "--no-launch"}, strings.NewReader(""), &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		text := out.String()
+		if !strings.Contains(text, "skills                 Codex") || !strings.Contains(text, "schedule               Hermes") {
+			t.Fatalf("setup should summarize separate runtime flags:\n%s", text)
+		}
+		if !strings.Contains(text, "installed skills for Codex") {
+			t.Fatalf("setup should install skills into the requested runtime:\n%s", text)
+		}
+		if !strings.Contains(text, "Ready to run low-effort auto-setup in Hermes") {
+			t.Fatalf("setup should schedule in the requested runtime:\n%s", text)
+		}
+		if strings.Contains(text, "Which agent should run Newsjack?") || strings.Contains(text, "Which harness should own scheduled runs?") {
+			t.Fatalf("setup should not prompt when separate runtime flags are explicit:\n%s", text)
+		}
+	})
+}
+
 func TestSetupStoresOptionalCredentials(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
@@ -346,7 +389,6 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 	}, func() {
 		var out, errBuf bytes.Buffer
 		input := strings.Join([]string{
-			"manual",
 			"manual",
 			"value",
 			"mlst_test_key_12345",
@@ -367,6 +409,15 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 		}
 		if !strings.Contains(text, "https://medialyst.ai/agents") {
 			t.Fatalf("setup should link to Medialyst agent API key page:\n%s", text)
+		}
+		if strings.Contains(text, "MANUAL SKILL INSTALL") || strings.Contains(text, "MANUAL SCHEDULER") {
+			t.Fatalf("manual setup should be one merged section:\n%s", text)
+		}
+		if !strings.Contains(text, "MANUAL SETUP") || !strings.Contains(text, "copy the skills, then give your agent this prompt") {
+			t.Fatalf("manual setup should include one merged handoff section:\n%s", text)
+		}
+		if !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+			t.Fatalf("manual setup should print the short agent prompt:\n%s", text)
 		}
 		envPath := filepath.Join(home, ".newsjack", ".env")
 		envBody, err := os.ReadFile(envPath)
@@ -415,7 +466,6 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		var out, errBuf bytes.Buffer
 		input := strings.Join([]string{
 			"hermes",
-			"hermes",
 			"",
 			"",
 			"yes",
@@ -437,11 +487,13 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		if !strings.Contains(argText, "chat\n--query\n") {
 			t.Fatalf("Hermes should be launched in chat query mode:\n%s", argText)
 		}
-		if !strings.Contains(argText, "newsjack-setup") || !strings.Contains(argText, "not system cron") {
-			t.Fatalf("Hermes prompt should load the setup skill and avoid system cron:\n%s", argText)
+		if !strings.Contains(argText, "Use newsjack to set up monitoring for my company.") {
+			t.Fatalf("Hermes prompt should be the short newsjack setup instruction:\n%s", argText)
 		}
-		if strings.Contains(argText, "fnv32a") || strings.Contains(argText, "minute=(") {
-			t.Fatalf("Hermes prompt should not expose schedule implementation details:\n%s", argText)
+		for _, forbidden := range []string{"newsjack-setup", "not system cron", "fnv32a", "minute=(", "run.md", "schedule paths", "mock test"} {
+			if strings.Contains(argText, forbidden) {
+				t.Fatalf("Hermes prompt should not expose %q:\n%s", forbidden, argText)
+			}
 		}
 	})
 }
