@@ -387,7 +387,7 @@ func setupAgentCommand(runtime, prompt string) string {
 	case "codex":
 		return fmt.Sprintf("codex %s", shellQuote(prompt))
 	case "openclaw":
-		return fmt.Sprintf("openclaw chat --message %s", shellQuote(prompt))
+		return fmt.Sprintf("openclaw agent --message %s", shellQuote(prompt))
 	case "hermes":
 		return fmt.Sprintf("hermes chat --query %s", shellQuote(prompt))
 	default:
@@ -402,7 +402,7 @@ func setupAgentArgs(runtime, prompt string) []string {
 	case "codex":
 		return []string{"codex", prompt}
 	case "openclaw":
-		return []string{"openclaw", "chat", "--message", prompt}
+		return []string{"openclaw", "agent", "--message", prompt}
 	case "hermes":
 		return []string{"hermes", "chat", "--query", prompt}
 	default:
@@ -417,17 +417,34 @@ func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io
 	}
 	if _, err := exec.LookPath(args[0]); err != nil {
 		fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", args[0], setupAgentCommand(runtime, prompt))
+		printSetupContinuationPrompt(stdout, runtime, prompt)
 		return nil
 	}
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Stdin = stdin
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
-	return cmd.Run()
+	if err := cmd.Run(); err != nil {
+		uiWarn(stdout, "auto-setup did not complete in %s.", runtimeLabel(runtime))
+		uiNote(stdout, "agent command failed: %v", err)
+		printSetupContinuationPrompt(stdout, runtime, prompt)
+		return nil
+	}
+	return nil
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
 	return "Use newsjack to set up monitoring for my company."
+}
+
+func printSetupContinuationPrompt(stdout io.Writer, runtime, prompt string) {
+	fmt.Fprintln(stdout)
+	uiSection(stdout, "continue setup")
+	uiNote(stdout, "open %s and send this prompt.", runtimeLabel(runtime))
+	fmt.Fprintln(stdout)
+	fmt.Fprintln(stdout, "Prompt:")
+	fmt.Fprintln(stdout, prompt)
+	fmt.Fprintln(stdout)
 }
 
 func printRuntimeList(stdout io.Writer) {

@@ -26,9 +26,9 @@ Run this only when the CLI launches you for auto-setup or hands you a runtime sc
 
 5. **Live agent run.** Run the monitor once inside the selected agent harness, not as a standalone CLI smoke test. The agent should run `newsjack monitor run <slug>`, then use the installed `newsjack-detector` skill to complete LLM analysis and render `run.md` from the JSON artifacts. Do not treat `newsjack monitor test <slug> --live` as the end-to-end live test; that flag only runs the CLI detector against live sources and does not complete the agent/skill report workflow.
 
-6. **Review with the user.** Show the agent's `run.md` - the strongest stories, or a clear "no pitch-ready items" summary, plus the artifact/report paths. Ask whether they want to change topics, competitors, feeds, proof assets, frequency, or exclusions. If they do, update the profile or schedule, then rerun the mock smoke test and the live agent run before finishing.
+6. **Review with the user.** Show the agent's `run.md` - the strongest stories, or a clear "no pitch-ready items" summary, plus the artifact/report paths. Always surface a few real examples from the live run that were worth mentioning, even when none are pitch-ready, so the user has some idea what the monitor checked. Ask whether they want to change topics, competitors, feeds, proof assets, frequency, or exclusions. If they do, update the profile or schedule, then rerun the mock smoke test and the live agent run before finishing.
 
-7. **Offer to star the repo.** See [Starring](#starring) below.
+7. **Ask the user if they want to support this project by starring the repo.** See [Starring](#starring) below.
 
 ## Inputs
 
@@ -136,7 +136,7 @@ This spreads load across the Newsjack/Medialyst backend so we don't get a thunde
 
 ## Starring
 
-After the live run is approved, use AskUserQuestion (or similar) to ask whether they'd like to star the `newsjack` repository on GitHub to support the project. Offer two options: "Yes, star the repo" and "No thanks".
+After the live run is approved, use AskUserQuestion (or similar) to ask whether they'd like to support this project by starring the `newsjack` repository on GitHub. Offer two options: "Yes, star the repo" and "No thanks".
 
 If yes and the `gh` CLI is available:
 

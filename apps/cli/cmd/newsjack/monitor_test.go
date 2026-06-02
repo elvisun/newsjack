@@ -497,3 +497,101 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		}
 	})
 }
+
+func TestSetupLaunchesOpenClawWithAgentMessage(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	fakeBin := t.TempDir()
+	capture := filepath.Join(t.TempDir(), "openclaw-args.txt")
+	openclawPath := filepath.Join(fakeBin, "openclaw")
+	script := "#!/bin/sh\nprintf '%s\\n' \"$@\" > " + shellQuote(capture) + "\n"
+	if err := os.WriteFile(openclawPath, []byte(script), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+		"MEDIALYST_API_KEY":       "",
+		"X_BEARER_TOKEN":          "",
+		"TWITTER_BEARER_TOKEN":    "",
+		"PATH":                    fakeBin + ":/bin:/usr/bin",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		input := strings.Join([]string{
+			"openclaw",
+			"",
+			"",
+			"yes",
+			"",
+		}, "\n")
+		code := runCLIWithIO([]string{"setup"}, strings.NewReader(input), &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		text := out.String()
+		if !strings.Contains(text, "Ready to run low-effort auto-setup in OpenClaw") || !strings.Contains(text, "Command: openclaw agent --message ") {
+			t.Fatalf("setup should prepare OpenClaw agent launch:\n%s", text)
+		}
+		args, err := os.ReadFile(capture)
+		if err != nil {
+			t.Fatal(err)
+		}
+		argText := string(args)
+		if !strings.Contains(argText, "agent\n--message\n") {
+			t.Fatalf("OpenClaw should be launched with agent message mode:\n%s", argText)
+		}
+		if !strings.Contains(argText, "Use newsjack to set up monitoring for my company.") {
+			t.Fatalf("OpenClaw prompt should be the short newsjack setup instruction:\n%s", argText)
+		}
+	})
+}
+
+func TestSetupPrintsContinuationPromptWhenAgentLaunchFails(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	fakeBin := t.TempDir()
+	codexPath := filepath.Join(fakeBin, "codex")
+	script := "#!/bin/sh\necho codex failed >&2\nexit 7\n"
+	if err := os.WriteFile(codexPath, []byte(script), 0o755); err != nil {
+		t.Fatal(err)
+	}
+
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+		"MEDIALYST_API_KEY":       "",
+		"X_BEARER_TOKEN":          "",
+		"TWITTER_BEARER_TOKEN":    "",
+		"PATH":                    fakeBin + ":/bin:/usr/bin",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		input := strings.Join([]string{
+			"codex",
+			"",
+			"",
+			"yes",
+			"",
+		}, "\n")
+		code := runCLIWithIO([]string{"setup"}, strings.NewReader(input), &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("setup should handle agent launch failure without a generic installer fallback, code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		text := out.String()
+		if !strings.Contains(text, "auto-setup did not complete in Codex") {
+			t.Fatalf("setup should explain that auto-setup failed:\n%s", text)
+		}
+		if !strings.Contains(text, "CONTINUE SETUP") || !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+			t.Fatalf("setup should print the continuation prompt:\n%s", text)
+		}
+		if !strings.Contains(errBuf.String(), "codex failed") {
+			t.Fatalf("setup should preserve agent stderr:\n%s", errBuf.String())
+		}
+	})
+}

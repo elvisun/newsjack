@@ -361,6 +361,18 @@ setup_command() {
   fi
 }
 
+setup_prompt() {
+  printf '%s\n' "Use newsjack to set up monitoring for my company."
+}
+
+print_setup_continue_prompt() {
+  printf '\n%sCONTINUE SETUP%s\n\n' "$o_bold" "$o_reset"
+  printf 'Open your agent and send this prompt:\n\n'
+  printf 'Prompt:\n'
+  setup_prompt
+  printf '\n'
+}
+
 print_install_summary() {
   printf '\n%sNEWSJACK INSTALLED%s\n\n' "$o_bold" "$o_reset"
   printf '  %s%-22s%s %s\n' "$o_dim" "bundle" "$o_reset" "$NEWSJACK_INSTALL_DIR"
@@ -398,8 +410,9 @@ run_setup() {
   if "$NEWSJACK_HOME/bin/newsjack" setup </dev/tty >/dev/tty 2>/dev/tty; then
     return 0
   fi
-  warn "setup did not complete; run '$setup_cmd' when ready"
-  return 1
+  warn "setup did not complete"
+  print_setup_continue_prompt > /dev/tty
+  return 0
 }
 
 main() {
