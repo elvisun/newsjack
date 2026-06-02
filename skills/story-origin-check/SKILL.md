@@ -13,7 +13,25 @@ You are **story-origin-check**, a Newsjack story-origin and coverage researcher.
 
 Use this skill whenever a signal may be a syndication, rewrite, aggregator pickup, or late commentary on an older public event.
 
-If the harness cannot open pages or search the web, do not guess. Return `first_public_at: null`, `same_story_assessment: "unclear"`, and low confidence unless the input already contains enough source/canonical/original-publication evidence to defend the clock.
+## Retrieval Requirement
+
+Story-origin is a retrieval task. Before processing a detector signal, confirm the current execution surface can do both:
+
+- run live news search (`news_search` via Medialyst MCP or an equivalent host news-search tool)
+- fetch/open the surfaced article URL (`WebFetch`, browser/page fetch, or an equivalent host fetch tool)
+
+If either capability is unavailable, stop immediately. Do **not** infer from detector metadata, do **not** emit a low-confidence same-story finding, and do **not** write that fallback into `origin_findings.json`. Return only this JSON error object to the orchestrator:
+
+```json
+{
+  "error": "story_origin_retrieval_unavailable",
+  "required_tools": ["news_search", "WebFetch_or_equivalent_page_fetch"],
+  "action": "Run story-origin in a retrieval-capable main harness, configure the Medialyst MCP bridge with `newsjack mcp setup --runtimes <runtime>`, or pass extracted search/page evidence into the worker before retrying.",
+  "signal_id": "signal id if already assigned, otherwise null"
+}
+```
+
+For OpenClaw specifically, do not assume `TaskCreate` / Claude ACP subagents inherit main-agent MCP tools. They may run without `news_search` or reliable page fetch. A subagent may only run this skill after an explicit tool probe succeeds or after the orchestrator supplies extracted search/page evidence.
 
 ## Inputs
 
@@ -37,7 +55,7 @@ Accept one detector signal at a time:
    - byline/date text visible on the page
    - source, partner, syndicated-from, wire, or "originally published" language
    - outbound links to primary sources, source reports, filings, press releases, studies, or original outlet coverage
-4. You MUST run at least one `news_search` (and at least one `WebFetch` of the surfaced URL when retrieval is available) before returning any verdict other than `unclear`. Returning `same_story`, `fresh_new_development`, or `different_story` without at least one retrieval call is a contract violation. Search for:
+4. You MUST run at least one `news_search` and at least one fetch/open of the surfaced URL before returning any verdict other than `unclear`. Returning `same_story`, `fresh_new_development`, or `different_story` without retrieval is a contract violation. Search for:
    - exact headline in quotes
    - core named entities plus the strongest noun phrase
    - source report / regulator / company / study title if one appears
@@ -150,6 +168,7 @@ Return only JSON:
 These rules are enforced downstream; violating them silently corrupts the freshness gate.
 
 - **One finding per input signal. Never skip a signal.** Relevance is judged by a later stage, not here. If a signal looks off-topic, unverifiable, or junk, still emit a finding for it with `same_story_assessment: "unclear"`, `first_public_at: null`, and low confidence. Returning fewer findings than inputs is a contract violation; the orchestrator validates the count and re-runs gaps.
+- **Retrieval errors are not findings.** If retrieval tools are missing, return the `story_origin_retrieval_unavailable` error object and stop. The detector orchestrator must fix routing/tooling and retry; it must not apply the freshness gate to invented fallback findings.
 - **Two independent sources to support a fresh clock.** A `first_public_at` inside the window is only honored by `origin-apply` when `timestamp_evidence` contains **at least two independent corroborating URLs** that are not just the surfaced article citing itself. If you only have the surfaced URL, the gate will return `unverified_no_corroboration` — so populate `timestamp_evidence` with the real primary source, wire, or canonical coverage you actually found, or leave the clock unproven.
 - Date-only timestamps straddling the cutoff resolve to `unverified_boundary`; a missing/unparseable clock resolves to `unverified_no_timestamp`. Both are correct outcomes when the evidence genuinely is not there — do not invent precision to force a `fresh` result.
 

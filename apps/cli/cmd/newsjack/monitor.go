@@ -611,13 +611,19 @@ func installSetupSkills(runtimeRaw string, stdout, stderr io.Writer) error {
 	opts := installOptions{
 		Source:     root,
 		Runtimes:   runtimeRaw,
-		InstallMCP: false,
+		InstallMCP: true,
 		Force:      true,
 		CLIPath:    filepath.Join(newsjackHome(), "bin", "newsjack"),
 		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
 		Ref:        getenv("NEWSJACK_REF", defaultRef),
 	}
-	return installRuntimeSkills(opts, stdout, stderr)
+	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
+		return err
+	}
+	if err := configureMCP(opts, stdout, stderr); err != nil {
+		warn(stderr, "%v", err)
+	}
+	return nil
 }
 
 func manualSkillInstallInstruction() string {
@@ -970,16 +976,17 @@ func cmdMonitorSchedule(args []string, stdout, stderr io.Writer) int {
 	}
 	suggestedMinute := suggestedScheduleMinute(slug)
 	payload := map[string]any{
-		"slug":             slug,
-		"runtime":          runtime,
-		"every":            *every,
-		"suggested_minute": suggestedMinute,
-		"system_cron":      false,
-		"schedule_path":    monitorSchedulePath(slug),
-		"instructions":     scheduleInstructions(slug, runtime, *every),
-		"installed_at":     time.Now().UTC().Format(time.RFC3339Nano),
-		"run_command":      fmt.Sprintf("newsjack monitor run %s", shellQuote(slug)),
-		"artifact_scope":   "agent_harness",
+		"slug":              slug,
+		"runtime":           runtime,
+		"every":             *every,
+		"suggested_minute":  suggestedMinute,
+		"system_cron":       false,
+		"schedule_path":     monitorSchedulePath(slug),
+		"instructions":      scheduleInstructions(slug, runtime, *every),
+		"analysis_contract": scheduleAnalysisContract(runtime),
+		"installed_at":      time.Now().UTC().Format(time.RFC3339Nano),
+		"run_command":       fmt.Sprintf("newsjack monitor run %s", shellQuote(slug)),
+		"artifact_scope":    "agent_harness",
 	}
 	if err := os.WriteFile(monitorScheduleJSONPath(slug), marshalJSON(payload), 0o644); err != nil {
 		return fail(stderr, err)
@@ -1211,7 +1218,27 @@ func suggestedScheduleMinute(slug string) int {
 
 func scheduleInstructions(slug, runtime, every string) string {
 	minute := suggestedScheduleMinute(slug)
-	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and render run.md from the JSON artifacts. When installing the recurring schedule, pick a stable random minute in [1, 59], never minute 0; suggested_minute is %d from `minute = (fnv32a(slug) %% 59) + 1`. Apply the same jitter to daily and weekly schedules, and avoid common top-of-hour, midnight, and Monday-09:00 defaults. This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.", every, shellQuote(slug), runtime, minute)
+	return fmt.Sprintf("Every %s, run `newsjack monitor run %s` inside %s, then use the installed newsjack-detector skill to complete LLM analysis and render run.md from the JSON artifacts. %s When installing the recurring schedule, pick a stable random minute in [1, 59], never minute 0; suggested_minute is %d from `minute = (fnv32a(slug) %% 59) + 1`. Apply the same jitter to daily and weekly schedules, and avoid common top-of-hour, midnight, and Monday-09:00 defaults. This spreads load across the Newsjack/Medialyst backend so we don't get a thundering-herd spike at the top of every hour.", every, shellQuote(slug), runtime, storyOriginScheduleInstruction(runtime), minute)
+}
+
+func scheduleAnalysisContract(runtime string) map[string]any {
+	contract := map[string]any{
+		"story_origin_retrieval_required": true,
+		"required_tools":                  []string{"news_search", "WebFetch_or_equivalent_page_fetch"},
+		"on_missing_retrieval":            "stop before origin_findings.json and report story_origin_retrieval_unavailable; do not render an all-unverified fallback run.md",
+	}
+	if runtime == "openclaw" {
+		contract["openclaw_story_origin_routing"] = "for fewer than 20 cluster representatives, run story-origin inline on the main OpenClaw agent; do not use TaskCreate/Claude ACP subagents unless they pass a retrieval probe or receive extracted search/page evidence"
+	}
+	return contract
+}
+
+func storyOriginScheduleInstruction(runtime string) string {
+	common := "Story-origin requires live `news_search` plus page fetch/open tools; if those tools are unavailable, stop before `origin_findings.json` and report `story_origin_retrieval_unavailable` instead of rendering an all-unverified fallback `run.md`."
+	if runtime == "openclaw" {
+		return common + " For OpenClaw, run story-origin inline on the main OpenClaw agent for fewer than 20 cluster representatives; do not use `TaskCreate` / Claude ACP subagents unless that worker passes a retrieval probe or receives extracted search/page evidence."
+	}
+	return common
 }
 
 func renderScheduleMarkdown(payload map[string]any) string {
@@ -1222,6 +1249,11 @@ func renderScheduleMarkdown(payload map[string]any) string {
 		"- Suggested minute: %v\n"+
 		"- System cron installed: false\n\n"+
 		"%s\n\n"+
+		"## Story-Origin Retrieval\n\n"+
+		"Story-origin requires live `news_search` plus page fetch/open tools. If those\n"+
+		"tools are unavailable, stop before `origin_findings.json` and report\n"+
+		"`story_origin_retrieval_unavailable`; do not render an all-unverified fallback\n"+
+		"`run.md`.\n\n"+
 		"## Cron Jitter\n\n"+
 		"Pick a stable random minute in [1, 59], never minute 0. Use\n"+
 		"`minute = (fnv32a(slug) %% 59) + 1`; this schedule suggests minute %v for\n"+

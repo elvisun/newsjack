@@ -84,6 +84,19 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		if schedule["suggested_minute"] != float64(suggestedScheduleMinute("fixture-coffee")) {
 			t.Fatalf("suggested_minute=%v, want %d", schedule["suggested_minute"], suggestedScheduleMinute("fixture-coffee"))
 		}
+		contract, ok := schedule["analysis_contract"].(map[string]any)
+		if !ok {
+			t.Fatalf("analysis_contract missing: %#v", schedule)
+		}
+		if contract["story_origin_retrieval_required"] != true {
+			t.Fatalf("story_origin_retrieval_required=%v, want true", contract["story_origin_retrieval_required"])
+		}
+		if !strings.Contains(stringValue(contract["on_missing_retrieval"]), "story_origin_retrieval_unavailable") {
+			t.Fatalf("analysis contract should hard-fail missing retrieval: %#v", contract)
+		}
+		if !strings.Contains(stringValue(contract["openclaw_story_origin_routing"]), "main OpenClaw agent") {
+			t.Fatalf("OpenClaw schedule should pin story-origin routing: %#v", contract)
+		}
 		schedulePath := stringValue(schedule["schedule_path"])
 		scheduleBody, readErr := os.ReadFile(schedulePath)
 		if readErr != nil {
@@ -94,6 +107,9 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 		}
 		if !strings.Contains(string(scheduleBody), "never minute 0") {
 			t.Fatalf("schedule should include cron jitter guidance:\n%s", scheduleBody)
+		}
+		if !strings.Contains(string(scheduleBody), "story_origin_retrieval_unavailable") || !strings.Contains(string(scheduleBody), "TaskCreate") {
+			t.Fatalf("schedule should include retrieval and OpenClaw routing guidance:\n%s", scheduleBody)
 		}
 
 		out.Reset()

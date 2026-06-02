@@ -110,13 +110,19 @@ Only `run.md` is human-facing; the rest are provenance.
 
    The Go CLI collapses syndicated pickups / near-duplicate headlines of the **same public event** into one representative (it shares findings, so 15 NVIDIA-GTC copies cost one story-origin retrieval, not 15) and records the rest in `clustered_duplicates`. `--drop-stale` deterministically pre-gates low-story-size signals whose detector decay is clearly outside the window (`week`/`month`) into `pre_gated_stale`, so they skip retrieval entirely; large stories (`high`/`major`) are always researched regardless of age. Run story-origin on `clustered_candidates.json` (representatives only). Disclose how many duplicates and stale items were collapsed.
 
-4. **Story-origin pass** on `clustered_candidates.json` (representatives) → `origin_findings.json`. Each worker loads `skills/story-origin-check/SKILL.md` and applies it per signal: decide same-story vs material-new-development, recover `first_public_at`, `original_url`, and canonical major coverage. It must **not** compute `fresh`/`stale`, must return **one finding per signal (never skip)**, and must cite **≥2 independent corroborating sources** to support a fresh clock. Merge the per-signal results into one `findings` array, keyed by `signal_id`. Validate the count against the input and re-run any gaps. The story-origin pass needs retrieval — see `references/harness-routing.md`.
+4. **Story-origin pass** on `clustered_candidates.json` (representatives) → `origin_findings.json`. Each worker loads `skills/story-origin-check/SKILL.md` and applies it per signal: decide same-story vs material-new-development, recover `first_public_at`, `original_url`, and canonical major coverage. It must **not** compute `fresh`/`stale`, must return **one finding per signal (never skip)**, and must cite **≥2 independent corroborating sources** to support a fresh clock.
+
+   **Retrieval pre-flight is mandatory.** Before creating or delegating story-origin work, prove the execution surface can run live `news_search` and fetch/open surfaced URLs (`WebFetch`, browser/page fetch, or equivalent). If retrieval is unavailable, stop the pipeline before `origin_findings.json`; report `story_origin_retrieval_unavailable` with the missing tools and the exact retry action (`newsjack mcp setup --runtimes <runtime>`, run story-origin in the retrieval-capable main harness, or pass extracted page/search evidence to workers). Do **not** synthesize fallback findings from detector metadata.
+
+   Merge the per-signal results into one `findings` array, keyed by `signal_id`. Validate the count against the input and re-run any gaps. Also validate the retrieval contract: any `same_story`, `fresh_new_development`, or `different_story` finding with zero `timestamp_evidence` and zero `evidence_urls` is invalid; if a whole batch comes back with empty evidence arrays, treat it as a harness retrieval failure, not as 15 unverified stories. The story-origin pass needs retrieval — see `references/harness-routing.md`.
 
 5. **Apply the deterministic freshness gate:**
 
    ```bash
    ~/.newsjack/bin/newsjack origin-apply --candidates clustered_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
    ```
+
+   Never run `origin-apply` on `story_origin_retrieval_unavailable` output or on fallback findings that failed the retrieval validation above. In that case the correct scheduled-run result is an actionable harness/tooling error, not a `run.md` that quietly moves every representative to `unverified_no_corroboration`.
 
    The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale. Non-fresh signals carry a specific reason: `stale`, `unverified_no_corroboration` (worker cited <2 independent sources — a pipeline/worker-quality miss), `unverified_boundary` (date-only clock straddling the cutoff), or `unverified_no_timestamp` (no clock recovered). Distinguish these in the report and in metrics: `unverified_no_corroboration` means *we* didn't verify, not that the story is old.
 
@@ -172,7 +178,8 @@ Before reporting the run complete:
 
 - `coarse_relevance_decisions.json` has exactly one decision per emitted candidate (unless `--allow-missing`).
 - `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
-- `origin_findings.json` has exactly one finding per clustered representative (unless `--allow-missing`) — count validated, gaps re-run.
+- Story-origin retrieval pre-flight passed in the execution surface that actually produced `origin_findings.json`; no missing-retrieval fallback was used.
+- `origin_findings.json` has exactly one finding per clustered representative (unless `--allow-missing`) — count validated, gaps re-run, and no non-`unclear` finding is empty of both `timestamp_evidence` and `evidence_urls`.
 - `targeted_candidates.json` was produced by `origin-apply`; `triaged_candidates.json` was produced by `newsjack-triage` with a `tier` per signal; `pitch_ready` went to `angle-generator` in pitch mode and `big_story` in exploratory mode.
 - No fresh `high`/`major` story was routed to `watch` — every fresh big story appears in **🔥 Big Stories Worth a Look** (or **✅ Pitch-Ready** if it earned standing).
 - `final_report.md` is the 3-bucket scan (✅ Pitch-Ready / 🔥 Big Stories Worth a Look / 👀 Watch / Context), written from `targeted_candidates.json` / `triaged_candidates.json`, not raw `candidates.json`.
