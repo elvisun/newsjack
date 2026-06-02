@@ -37,6 +37,7 @@ WEAKNESS_FLAG = {
     "off_beat": "⚠ off-beat for this client",
     "no_profile_bridge": "⚠ no obvious client bridge",
     "major_news_no_bridge": "⚠ big news, no obvious client bridge",
+    "competitor_or_promotional": "⚠ competitor / promotional content",
 }
 BAND_LABEL = {"major": "major story", "high": "large story", "moderate": "moderate story", "low": "small story"}
 

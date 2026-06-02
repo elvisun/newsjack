@@ -27,7 +27,7 @@ Return exactly one decision per signal.
 
 Allowed decisions: `keep`, `monitor_only`, `reject`.
 
-Allowed reasons: `relevant_news`, `plausible_client_bridge`, `major_news_no_bridge`, `keyword_collision`, `not_news`, `owned_docs_or_product_page`, `seo_landing_page`, `low_reach_x_post`, `safety_risk`, `duplicate`, `off_beat`, `no_profile_bridge`.
+Allowed reasons: `relevant_news`, `plausible_client_bridge`, `major_news_no_bridge`, `keyword_collision`, `not_news`, `owned_docs_or_product_page`, `seo_landing_page`, `competitor_or_promotional`, `low_reach_x_post`, `safety_risk`, `duplicate`, `off_beat`, `no_profile_bridge`.
 
 ## Rules
 
@@ -36,6 +36,7 @@ Allowed reasons: `relevant_news`, `plausible_client_bridge`, `major_news_no_brid
 - A named competitor counts even when it is not the headline subject. If a story is framed around Meta, China, a regulator, an acquirer, a partner, or a blocked deal but the company affected is a profile competitor, keep it for the next stage.
 - **Never `reject` a `high` or `major` `story_size.band` signal — the ceiling is `monitor_only`, even when you see no bridge at all.** A big story is always worth surfacing: a good PR person can often find an opaque angle, and our job is to suggest and let the human decide, not to make the drop call. Use `keep` when the bridge is concrete, `monitor_only` when it is weak, absent, or a likely keyword collision. Still record the *real* reason (`keyword_collision`, `off_beat`, `no_profile_bridge`, etc.) in `reason` — the report uses it to rank and flag the suggestion (e.g. ⚠ possible keyword match). The engine enforces this deterministically (`big_story_recall`), so a `reject` here is wasted: it will be upgraded to `monitor_only` anyway.
 - For moderate-to-large stories, err toward breadth: a remote but coherent connection should survive so downstream passes can decide whether there is a real way in.
+- **Promotional / owned content** — a press release (`publication_type` `brand_content`/`newswire`, or a dateline release excerpt) or vendor-authored contributed/thought-leadership, *especially from a named competitor* — is rarely a real opportunity, because pitching a competitor's own content only amplifies them. Do not `reject` it on this basis (preserve recall and let triage make the call); mark it `monitor_only` with reason `competitor_or_promotional` so the standing-triage pass can gate it. The high/major-band ceiling rule above still wins: never `reject` a big-band signal.
 - Use `no_profile_bridge` only when you can explain that no profile entity, competitor, topic, standing term, or plausible buyer/regulator/category bridge appears in the candidate.
 - Preserve evidence URLs. Each decision cites the URLs it used.
 

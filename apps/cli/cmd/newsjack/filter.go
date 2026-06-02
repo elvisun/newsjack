@@ -210,6 +210,12 @@ func signalEvidenceDomains(signal map[string]any) int {
 		if !ok {
 			continue
 		}
+		// Press releases / wire reposts are not independent coverage — a release
+		// carried by several aggregators is one story, not "widely covered." Exclude
+		// them so they can't trip the unknown-band big-story rescue on spread alone.
+		if md, ok := ev["metadata"].(map[string]any); ok && isPromotionalPublication(md) {
+			continue
+		}
 		host := evidenceHost(stringValue(ev["url"]))
 		if host == "" {
 			host = strings.ToLower(strings.TrimSpace(firstString(stringValue(ev["container"]), stringValue(ev["source"]))))

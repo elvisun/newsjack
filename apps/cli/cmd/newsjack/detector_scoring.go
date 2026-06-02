@@ -294,6 +294,16 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 	}
 	outletsByDomain := map[string]outlet{}
 	for _, item := range cluster.Evidence {
+		// A press release / brand or sponsored content / wire announcement must not
+		// earn story-size credit from the high-authority aggregator that syndicated
+		// it. A PR reposted on TradingView (DA 91) is not broad editorial coverage;
+		// crediting the container's authority inflated lone press releases to the
+		// "high"/"major" band. Skip promotional items entirely — a story with real
+		// editorial coverage alongside a release still scores from the editorial
+		// outlets, while a release-only story correctly falls to the unknown band.
+		if isPromotionalPublication(item.Metadata) {
+			continue
+		}
 		trafficScore, trafficRaw := publicationTrafficScore(item.Metadata)
 		authorityScore, authorityRaw := publicationAuthorityScore(item.Metadata)
 		if trafficScore == nil && authorityScore == nil {
@@ -400,6 +410,28 @@ func publicationOutletScore(trafficScore, authorityScore *float64) float64 {
 		return clamp01(*authorityScore)
 	default:
 		return 0
+	}
+}
+
+// publicationTypeKey normalizes the news-search publication_type label
+// (lowercased, dashes folded to underscores) for classification.
+func publicationTypeKey(metadata map[string]any) string {
+	pt := firstString(metadata["publication_type"], metadata["publicationType"])
+	pt = strings.ToLower(strings.TrimSpace(pt))
+	return strings.ReplaceAll(pt, "-", "_")
+}
+
+// isPromotionalPublication reports whether news-search metadata marks an item as
+// a press release / brand or sponsored content / wire announcement rather than
+// independent editorial coverage. Such items must not earn story-size credit from
+// the aggregator that carried them, and must not count toward coverage spread —
+// "carried by a high-authority domain" is not the same as "is a big story."
+func isPromotionalPublication(metadata map[string]any) bool {
+	switch publicationTypeKey(metadata) {
+	case "brand_content", "newswire", "press_release", "sponsored", "advertorial", "paid_post":
+		return true
+	default:
+		return false
 	}
 }
 

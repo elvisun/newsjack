@@ -17,6 +17,7 @@ You do **not**: write angles, name journalists, draft copy, recompute freshness,
 `targeted_candidates.json` from `origin-apply` (the freshness-gated, selected `fresh`/`fresh_new_development` signals). For each signal you receive:
 
 - `signal_id`, `title`, `story_origin` (canonical coverage, first-public clock, new development)
+- `evidence[]` with `metadata.publication_type` (`editorial`, `brand_content`, `newswire`, …), `author`/byline, `container`, and `excerpt` — your provenance signal for step 2
 - `story_size` band, `freshness_gate.computed_status`
 - `cluster` metadata when the engine's `cluster` step ran (`cluster_id`, `cluster_size`, `member_ids`) — same-story pickups are already collapsed to one representative
 - the client profile (company, topics, competitors, standing terms, regulators/customers/categories, spokespeople)
@@ -25,19 +26,25 @@ You do **not**: write angles, name journalists, draft copy, recompute freshness,
 
 1. **Re-consolidate.** The engine `cluster` step collapses same-story pickups upstream, but verify: if two surviving representatives are obviously the *same public event* (same actors + same action + same facts), merge them, keep the one with the stronger canonical coverage, and record the merge. Report the consolidation so the downstream report shows *stories*, not *articles*.
 
-2. **Assign standing** per `skills/newsjack-detector/rubric.md` (Standing section). Decide one of:
+2. **Content provenance — is this even a target?** Before judging standing, decide whether the surfaced item is independent journalism or someone's *own* content. You cannot newsjack content a competitor or vendor published about themselves — pitching it only amplifies them. Route to `watch` with `watch_reason: competitor_or_promotional` and `standing: none` when the item is:
+   - a **press release / brand or sponsored content** — `metadata.publication_type` is `brand_content`, `newswire`, `press_release`, `sponsored`, or the excerpt is a dateline release (e.g. "CITY, DATE - (Wire) - Company today announced…");
+   - **contributed / thought-leadership** authored by a vendor or consultant on a community/blog (e.g. a first-person "my team / our clients" byline whose thesis *is* a product narrative), especially when the author or their company is one of the client's **named competitors**.
+
+   This holds **even when the topic overlaps the client's standing** — a competitor arguing "AI support needs human-curated knowledge" is a competitor's marketing line, not a story the client pitches into. **Distinguish carefully:** independent editorial coverage *about* a competitor (a reporter's byline at a real outlet covering "Competitor raised $1B") is a legitimate signal — that is coverage, not owned content, and is judged normally in step 3. The gate is about *who authored the item*, not *who it mentions*.
+
+3. **Assign standing** per `skills/newsjack-detector/rubric.md` (Standing section). Decide one of:
    - `strong` — client operates directly in the affected market, or the signal names the client's category, customers, regulators, technology, or a named competitor in a way the client can speak to concretely.
    - `partial` — adjacent expertise; the client can explain impact or a narrower slice but not the core event.
    - `none` — the only bridge is a broad theme ("it's about AI / privacy / property and we do that too"), a keyword collision, or wrong geography/jurisdiction/audience.
 
-3. **Journalist-shape sanity check.** Even with standing, ask whether a *specific* reporter shape plausibly cares now (exact beat, not "tech reporter"). If no honest shape exists, downgrade toward `none`.
+4. **Journalist-shape sanity check.** Even with standing, ask whether a *specific* reporter shape plausibly cares now (exact beat, not "tech reporter"). If no honest shape exists, downgrade toward `none`.
 
-4. **Route to a tier.** Assign one `tier`:
+5. **Route to a tier.** Assign one `tier`:
    - `pitch_ready` — `strong`, or `partial` with a *specific* plausible reporter shape. Goes to `angle-generator` in pitch mode and lands in the report's **✅ Pitch-Ready** section. When standing is real but the client clearly has no first-party proof or spokesperson, still `pitch_ready` but flag `proof_gated: true` so the report leads with the human ask.
-   - `big_story` — a **fresh `high`/`major` `story_size`** signal that does *not* qualify for `pitch_ready` (standing is `none`, or there is no sharp shape). **A fresh big story is never dropped** — it is always surfaced as a suggestion in the report's **🔥 Big Stories Worth a Look** section, because a good PR person can often find an opaque angle and the human, not us, makes the drop call. Provide an honest `bridge_note` (the most plausible opaque way in, or "no clear bridge — awareness only") and a `relevance_confidence` (`high`/`medium`/`low`). Goes to `angle-generator` in *exploratory* mode.
+   - `big_story` — a **fresh `high`/`major` `story_size`** signal that does *not* qualify for `pitch_ready` (standing is `none`, or there is no sharp shape) **and passed the step-2 provenance gate** (it is a real public story, not a competitor's or vendor's own content that merely sits on a high-authority domain). **A fresh big story is never dropped** — it is always surfaced as a suggestion in the report's **🔥 Big Stories Worth a Look** section, because a good PR person can often find an opaque angle and the human, not us, makes the drop call. Provide an honest `bridge_note` (the most plausible opaque way in, or "no clear bridge — awareness only") and a `relevance_confidence` (`high`/`medium`/`low`). Goes to `angle-generator` in *exploratory* mode.
    - `watch` — everything else: a **non-big** story (`story_size` below `high`) with `none` standing, or an off-beat/duplicate/weak item. Lands in **👀 Watch / Context** with a plain reason. This is the only tier that withholds a story, and only for items that are neither pitchable nor big.
 
-5. **Stay honest about volume.** If most of the pool is `none`-standing, say so. Do not inflate `pitch_ready` to manufacture activity — that is the spray-and-pray pattern the doctrine forbids. `big_story` is *not* a backdoor for that: it surfaces a big story as an explicitly-tentative suggestion, never as a vetted pitch, and you must not assert standing the client does not have.
+6. **Stay honest about volume.** If most of the pool is `none`-standing, say so. Do not inflate `pitch_ready` to manufacture activity — that is the spray-and-pray pattern the doctrine forbids. `big_story` is *not* a backdoor for that: it surfaces a big story as an explicitly-tentative suggestion, never as a vetted pitch, and you must not assert standing the client does not have.
 
 ## Output
 
@@ -58,7 +65,7 @@ Return only JSON. No prose before or after.
       "relevance_confidence": "high | medium | low | null",
       "consolidated_from": ["other signal_ids merged into this one"],
       "cluster_size": 1,
-      "watch_reason": "no_client_standing | no_journalist_shape | off_beat | duplicate | weak_signal | null"
+      "watch_reason": "no_client_standing | competitor_or_promotional | no_journalist_shape | off_beat | duplicate | weak_signal | null"
     }
   ],
   "summary": {
@@ -71,7 +78,7 @@ Return only JSON. No prose before or after.
 }
 ```
 
-Allowed `tier`: `pitch_ready`, `big_story`, `watch`. `watch_reason` (only for `watch`): `no_client_standing`, `no_journalist_shape`, `off_beat`, `duplicate`, `weak_signal`, or `null`. `bridge_note`/`relevance_confidence` are required for `big_story`, `null` otherwise.
+Allowed `tier`: `pitch_ready`, `big_story`, `watch`. `watch_reason` (only for `watch`): `no_client_standing`, `competitor_or_promotional`, `no_journalist_shape`, `off_beat`, `duplicate`, `weak_signal`, or `null`. `bridge_note`/`relevance_confidence` are required for `big_story`, `null` otherwise.
 
 ## Handoff
 
