@@ -1,6 +1,6 @@
 # newsjack
 
-> **The open-source PR operator for your agent.**
+> **The open-source skills that turn your agent into a PR operator.**
 >
 > Install once. Your agent — Claude, Codex, Hermes, OpenClaw — becomes a PR team.
 
