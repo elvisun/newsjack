@@ -67,3 +67,34 @@ func TestHelpPipelineCommandsPresent(t *testing.T) {
 		}
 	}
 }
+
+func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
+	var help bytes.Buffer
+	printUsage(&help)
+	for _, want := range []string{
+		"API SETUP",
+		"auth set-medialyst",
+		"auth set-x",
+		"https://medialyst.ai/agents",
+		"live news search, media database, find journalists",
+	} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("newsjack help missing %q:\n%s", want, help.String())
+		}
+	}
+
+	help.Reset()
+	if !printCommandHelp(&help, "auth") {
+		t.Fatal("auth help topic was not handled")
+	}
+	for _, want := range []string{
+		"newsjack auth set --medialyst-key <mlst_...> --x-bearer-token <token>",
+		"newsjack auth set-medialyst --key <mlst_...>",
+		"newsjack auth set-x --bearer-token <token>",
+		"https://medialyst.ai/agents",
+	} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("newsjack help auth missing %q:\n%s", want, help.String())
+		}
+	}
+}

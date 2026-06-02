@@ -39,6 +39,10 @@ func uiSection(w io.Writer, title string) {
 	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, strings.ToUpper(title)))
 }
 
+func uiSectionExact(w io.Writer, title string) {
+	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, title))
+}
+
 func uiKV(w io.Writer, key, value string) {
 	fmt.Fprintf(w, "  %s %s\n", uiPaint(w, ansiDim, fmt.Sprintf("%-22s", key)), value)
 }

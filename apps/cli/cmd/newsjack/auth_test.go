@@ -64,6 +64,78 @@ func TestAuthStatusMissingAndLoginHeaders(t *testing.T) {
 	})
 }
 
+func TestAuthSetStoresOptionalAPIs(t *testing.T) {
+	withTempEnv(t, map[string]string{
+		"HOME":                     t.TempDir(),
+		"NEWSJACK_HOME":            "",
+		"MEDIALYST_API_KEY":        "",
+		"X_BEARER_TOKEN":           "",
+		"TWITTER_BEARER_TOKEN":     "",
+		"X_API_BEARER_TOKEN":       "",
+		"TWITTER_API_BEARER_TOKEN": "",
+	}, func() {
+		cwd, chdirErr := os.Getwd()
+		if chdirErr != nil {
+			t.Fatal(chdirErr)
+		}
+		t.Cleanup(func() {
+			if err := os.Chdir(cwd); err != nil {
+				t.Fatal(err)
+			}
+		})
+		if err := os.Chdir(t.TempDir()); err != nil {
+			t.Fatal(err)
+		}
+
+		var out, errBuf bytes.Buffer
+		testKey := "mlst_" + strings.Repeat("a", 12)
+		code := runCLI([]string{"auth", "set", "--medialyst-key", testKey, "--x-bearer-token", "x-token"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("auth set code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		if !strings.Contains(out.String(), "live news search, media database, find journalists") {
+			t.Fatalf("auth set should explain Medialyst usage:\n%s", out.String())
+		}
+
+		key, keySource := loadAPIKey()
+		if key != testKey || !strings.HasPrefix(keySource, "credentials:") {
+			t.Fatalf("medialyst key/source=%q/%q", key, keySource)
+		}
+		xToken, xSource := loadXBearerToken()
+		if xToken != "x-token" || !strings.Contains(xSource, newsjackEnvPath()+":X_BEARER_TOKEN") {
+			t.Fatalf("x token/source=%q/%q", xToken, xSource)
+		}
+		envBody, err := os.ReadFile(newsjackEnvPath())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(string(envBody), `X_BEARER_TOKEN="x-token"`) {
+			t.Fatalf("X token was not saved to newsjack env:\n%s", envBody)
+		}
+		mode, err := os.Stat(newsjackEnvPath())
+		if err != nil {
+			t.Fatal(err)
+		}
+		if mode.Mode().Perm() != 0o600 {
+			t.Fatalf("env permissions=%o, want 600", mode.Mode().Perm())
+		}
+
+		out.Reset()
+		errBuf.Reset()
+		code = runCLI([]string{"auth", "status"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("auth status code=%d stderr=%s", code, errBuf.String())
+		}
+		var status map[string]any
+		if json.Unmarshal(out.Bytes(), &status) != nil {
+			t.Fatalf("invalid auth status JSON: %s", out.String())
+		}
+		if status["medialyst_configured"] != true || status["x_api_configured"] != true {
+			t.Fatalf("auth status should report both APIs configured: %s", out.String())
+		}
+	})
+}
+
 func TestDetectorDiagnoseUsesSavedMedialystLogin(t *testing.T) {
 	repo := repoRootForTest(t)
 	withTempEnv(t, map[string]string{

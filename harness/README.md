@@ -112,7 +112,16 @@ harness/scripts/open-codex-curl-shell.sh
 
 The script builds a local release bundle from the current checkout, serves it on
 localhost, and opens a container with Codex preinstalled. It prints the exact
-installer command to run inside the container.
+installer command to run inside the container. In an interactive container, the
+installer should hand off to `newsjack setup` automatically. Set
+`NEWSJACK_RUN_SETUP=0` on the installer command for install-only debugging.
+
+To test the first-run user experience with Codex installed but no repo `.env`,
+no mounted source checkout, and no API-key environment variables:
+
+```bash
+harness/scripts/open-codex-curl-shell.sh --clean-no-env
+```
 
 On the host, from the repo root:
 

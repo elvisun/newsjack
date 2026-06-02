@@ -19,7 +19,7 @@ import (
 
 const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
 const xAPIKeyURL = "https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens"
-const medialystAPIKeyURL = "https://medialyst.ai/docs"
+const medialystAPIKeyURL = "https://medialyst.ai/agents"
 
 func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("setup", flag.ContinueOnError)
@@ -221,7 +221,7 @@ func (w *setupWizard) promptForXAPIKey() error {
 		return nil
 	}
 	fmt.Fprintln(w.stdout)
-	uiSection(w.stdout, "optional x api")
+	uiSectionExact(w.stdout, "Configure X API (Optional)")
 	uiKV(w.stdout, "used for", "X News, X trends, and X post search")
 	uiKV(w.stdout, "stored in", "~/.newsjack/.env with user-only permissions")
 	uiKV(w.stdout, "get one", xAPIKeyURL)
@@ -244,8 +244,8 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 		return nil
 	}
 	fmt.Fprintln(w.stdout)
-	uiSection(w.stdout, "optional medialyst api")
-	uiKV(w.stdout, "used for", "live news search and MCP-backed media-list workflows")
+	uiSectionExact(w.stdout, "Configure Medialyst API (Optional)")
+	uiKV(w.stdout, "used for", "live news search, media database, find journalists")
 	uiKV(w.stdout, "stored in", "~/.newsjack/credentials.json")
 	uiKV(w.stdout, "get one", medialystAPIKeyURL)
 	value := strings.TrimSpace(w.prompt("Medialyst API key (press Enter to skip)", ""))
@@ -559,7 +559,7 @@ func isSkipValue(value string) bool {
 }
 
 func writeNewsjackEnv(updates map[string]string) error {
-	path := filepath.Join(newsjackHome(), ".env")
+	path := newsjackEnvPath()
 	values := map[string]string{}
 	if data, err := os.ReadFile(path); err == nil {
 		for _, raw := range strings.Split(string(data), "\n") {

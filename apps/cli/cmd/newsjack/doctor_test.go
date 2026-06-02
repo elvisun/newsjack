@@ -41,6 +41,23 @@ func TestDoctorReportsMissingXBearerToken(t *testing.T) {
 		if !strings.Contains(out.String(), "X_BEARER_TOKEN") {
 			t.Fatalf("doctor should include actionable X warning:\n%s", out.String())
 		}
+		actions := anySlice(payload["actions"])
+		if len(actions) != 2 {
+			t.Fatalf("doctor JSON should include two API actions: %s", out.String())
+		}
+		medialystAction := valueOrEmptyMap(actions[0])
+		xAction := valueOrEmptyMap(actions[1])
+		if medialystAction["label"] != "Configure Medialyst API (Optional)" ||
+			medialystAction["command"] != "newsjack auth set-medialyst --key <mlst_...>" ||
+			medialystAction["get_key_url"] != "https://medialyst.ai/agents" ||
+			medialystAction["used_for"] != "live news search, media database, find journalists" {
+			t.Fatalf("unexpected Medialyst doctor action: %#v", medialystAction)
+		}
+		if xAction["label"] != "Configure X API (Optional)" ||
+			xAction["command"] != "newsjack auth set-x --bearer-token <token>" ||
+			xAction["writes"] != "~/.newsjack/.env:X_BEARER_TOKEN" {
+			t.Fatalf("unexpected X doctor action: %#v", xAction)
+		}
 	})
 }
 
@@ -101,7 +118,18 @@ func TestDoctorDefaultOutputIsHumanReadable(t *testing.T) {
 		if strings.HasPrefix(strings.TrimSpace(text), "{") {
 			t.Fatalf("doctor default output should not be JSON:\n%s", text)
 		}
-		for _, want := range []string{"DOCTOR", "AUTH", "SOURCES", "RUNTIMES", "WARNINGS", "X_BEARER_TOKEN"} {
+		for _, want := range []string{
+			"DOCTOR",
+			"AUTH",
+			"SOURCES",
+			"RUNTIMES",
+			"WARNINGS",
+			"NEXT ACTIONS",
+			"X_BEARER_TOKEN",
+			"newsjack auth set-medialyst --key <mlst_...>",
+			"newsjack auth set-x --bearer-token <token>",
+			"https://medialyst.ai/agents",
+		} {
 			if !strings.Contains(text, want) {
 				t.Fatalf("doctor output missing %q:\n%s", want, text)
 			}

@@ -26,6 +26,12 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 	}
 	switch cmd {
 	case "help", "--help", "-h":
+		if len(args) > 1 {
+			if printCommandHelp(stdout, args[1]) {
+				return 0
+			}
+			return failf(stderr, "unknown help topic: %s", args[1])
+		}
 		printUsage(stdout)
 		return 0
 	case "version", "--version":

@@ -28,6 +28,7 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 	xConfigured := bearerToken(config) != ""
 	available := availableSources(config, []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
 	warnings := doctorWarnings(rootErr, key != "", xConfigured)
+	actions := doctorActions(rootErr, key != "", xConfigured)
 	payload := map[string]any{
 		"version":       version,
 		"newsjack_home": newsjackHome(),
@@ -60,17 +61,18 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 			"hackernews":  contains(available, "hackernews"),
 		},
 		"warnings": warnings,
+		"actions":  actions,
 	}
 	payload["runtimes"] = runtimeStatus()
 	if *jsonOut {
 		writeJSON(stdout, payload)
 		return 0
 	}
-	printDoctor(stdout, root, rootErr, key != "", source, xConfigured, available, warnings)
+	printDoctor(stdout, root, rootErr, key != "", source, xConfigured, available, warnings, actions)
 	return 0
 }
 
-func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bool, medialystSource string, xConfigured bool, available []string, warnings []string) {
+func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bool, medialystSource string, xConfigured bool, available []string, warnings []string, actions []map[string]string) {
 	uiProduct(w, "doctor", "system health check")
 	fmt.Fprintln(w)
 	uiSection(w, "paths")
@@ -108,6 +110,21 @@ func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bo
 	for _, warning := range warnings {
 		uiWarn(w, "%s", warning)
 	}
+	if len(actions) > 0 {
+		fmt.Fprintln(w)
+		uiSection(w, "next actions")
+		for _, action := range actions {
+			if label := action["label"]; label != "" {
+				uiKV(w, label, action["command"])
+			}
+			if usedFor := action["used_for"]; usedFor != "" {
+				uiKV(w, "used for", usedFor)
+			}
+			if getKey := action["get_key_url"]; getKey != "" {
+				uiKV(w, "get key", getKey)
+			}
+		}
+	}
 }
 
 func doctorAuthStatus(configured bool, source string) string {
@@ -133,12 +150,43 @@ func doctorWarnings(rootErr error, medialystConfigured, xConfigured bool) []stri
 		warnings = append(warnings, rootErr.Error())
 	}
 	if !medialystConfigured {
-		warnings = append(warnings, "Medialyst API key is not configured; news_search will be unavailable. Run newsjack setup or newsjack login.")
+		warnings = append(warnings, "Medialyst API key is not configured; live news search, media database, and journalist discovery will be unavailable. Get one at "+medialystAPIKeyURL+", then run: newsjack auth set-medialyst --key <mlst_...>.")
 	}
 	if !xConfigured {
-		warnings = append(warnings, "X bearer token is not configured; x_news, x_trends, and X post search will be unavailable. Run newsjack setup or set X_BEARER_TOKEN in ~/.newsjack/.env.")
+		warnings = append(warnings, "X bearer token is not configured; x_news, x_trends, and X post search will be unavailable. Run: newsjack auth set-x --bearer-token <token>. This writes X_BEARER_TOKEN to ~/.newsjack/.env.")
 	}
 	return warnings
+}
+
+func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[string]string {
+	var actions []map[string]string
+	if rootErr != nil {
+		actions = append(actions, map[string]string{
+			"id":      "reinstall",
+			"label":   "Reinstall Newsjack",
+			"command": "curl -fsSL https://newsjack.sh | bash",
+		})
+	}
+	if !medialystConfigured {
+		actions = append(actions, map[string]string{
+			"id":          "configure_medialyst",
+			"label":       "Configure Medialyst API (Optional)",
+			"used_for":    "live news search, media database, find journalists",
+			"get_key_url": medialystAPIKeyURL,
+			"command":     "newsjack auth set-medialyst --key <mlst_...>",
+		})
+	}
+	if !xConfigured {
+		actions = append(actions, map[string]string{
+			"id":          "configure_x",
+			"label":       "Configure X API (Optional)",
+			"used_for":    "X News, X trends, and X post search",
+			"get_key_url": xAPIKeyURL,
+			"command":     "newsjack auth set-x --bearer-token <token>",
+			"writes":      "~/.newsjack/.env:X_BEARER_TOKEN",
+		})
+	}
+	return actions
 }
 
 func runtimeStatus() map[string]any {

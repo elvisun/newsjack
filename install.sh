@@ -9,6 +9,7 @@ NEWSJACK_RUNTIMES="${NEWSJACK_RUNTIMES:-auto}"
 NEWSJACK_INSTALL_SKILLS="${NEWSJACK_INSTALL_SKILLS:-1}"
 NEWSJACK_INSTALL_MCP="${NEWSJACK_INSTALL_MCP:-1}"
 NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
+NEWSJACK_RUN_SETUP="${NEWSJACK_RUN_SETUP:-auto}"
 
 esc=$(printf '\033')
 c_reset=
@@ -71,6 +72,10 @@ log() {
 
 success() {
   printf '%s[success]%s %s\n' "$c_green" "$c_reset" "$*" >&2
+}
+
+warn() {
+  printf '%s[warn]%s %s\n' "$c_red" "$c_reset" "$*" >&2
 }
 
 note() {
@@ -348,19 +353,53 @@ write_install_state() {
   success "wrote install state to $NEWSJACK_HOME/install.json"
 }
 
-print_next_steps() {
+setup_command() {
   if command -v newsjack >/dev/null 2>&1; then
-    setup_cmd="newsjack setup"
+    printf '%s\n' "newsjack setup"
   else
-    setup_cmd="$NEWSJACK_HOME/bin/newsjack setup"
+    printf '%s\n' "$NEWSJACK_HOME/bin/newsjack setup"
   fi
+}
 
+print_install_summary() {
   printf '\n%sNEWSJACK INSTALLED%s\n\n' "$o_bold" "$o_reset"
   printf '  %s%-22s%s %s\n' "$o_dim" "bundle" "$o_reset" "$NEWSJACK_INSTALL_DIR"
   printf '  %s%-22s%s %s\n' "$o_dim" "cli" "$o_reset" "$NEWSJACK_HOME/bin/newsjack"
+}
+
+print_next_steps() {
+  setup_cmd=$(setup_command)
   printf '\n%sNEXT%s\n' "$o_bold" "$o_reset"
   printf '  %s%s%s\n' "$o_green" "$setup_cmd" "$o_reset"
   printf '\n\n'
+}
+
+should_run_setup() {
+  if [ "${NEWSJACK_AUTO_UPDATE_RUNNING:-}" = "1" ]; then
+    return 1
+  fi
+  case "$NEWSJACK_RUN_SETUP" in
+    0|false|no|off)
+      return 1
+      ;;
+    1|true|yes|on)
+      return 0
+      ;;
+  esac
+  [ "$NEWSJACK_INSTALL_SKILLS" != "0" ] || return 1
+  ( : </dev/tty >/dev/tty ) 2>/dev/null
+}
+
+run_setup() {
+  should_run_setup || return 1
+  setup_cmd=$(setup_command)
+  printf '\n%sSETUP%s\n\n' "$o_bold" "$o_reset" > /dev/tty
+  printf '  %s%s%s\n\n' "$o_green" "$setup_cmd" "$o_reset" > /dev/tty
+  if "$NEWSJACK_HOME/bin/newsjack" setup </dev/tty >/dev/tty 2>/dev/tty; then
+    return 0
+  fi
+  warn "setup did not complete; run '$setup_cmd' when ready"
+  return 1
 }
 
 main() {
@@ -374,7 +413,10 @@ main() {
   install_cli
   run_go_install
   write_install_state
-  print_next_steps
+  print_install_summary
+  if ! run_setup; then
+    print_next_steps
+  fi
 }
 
 main "$@"

@@ -455,7 +455,7 @@ func availableSources(config map[string]string, requested []string) []string {
 }
 
 func bearerToken(config map[string]string) string {
-	for _, key := range []string{"TWITTER_BEARER_TOKEN", "X_BEARER_TOKEN", "X_API_BEARER_TOKEN", "TWITTER_API_BEARER_TOKEN"} {
+	for _, key := range xBearerEnvKeys {
 		if config[key] != "" {
 			return config[key]
 		}

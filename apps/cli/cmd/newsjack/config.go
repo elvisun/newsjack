@@ -12,4 +12,7 @@ const (
 	defaultMinMajorNews     = 0.55
 	medialystMCPURL         = "https://medialyst.ai/api/mcp"
 	envMedialystKey         = "MEDIALYST_API_KEY"
+	envXBearerToken         = "X_BEARER_TOKEN"
 )
+
+var xBearerEnvKeys = []string{"TWITTER_BEARER_TOKEN", envXBearerToken, "X_API_BEARER_TOKEN", "TWITTER_API_BEARER_TOKEN"}
