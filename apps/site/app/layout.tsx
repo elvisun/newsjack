@@ -6,8 +6,8 @@ const description =
   "The open-source skills that turn your agent into a PR operator.";
 const ogImage = {
   url: "/newsjack-og-image.png",
-  width: 1499,
-  height: 790,
+  width: 1497,
+  height: 789,
   alt: "newsjack.sh - The open-source skills that turn your agent into a PR operator.",
 };
 
