@@ -21,6 +21,7 @@ You do **not**: write angles, name journalists, draft copy, recompute freshness,
 - `story_size` band, `freshness_gate.computed_status`
 - `cluster` metadata when the engine's `cluster` step ran (`cluster_id`, `cluster_size`, `member_ids`) — same-story pickups are already collapsed to one representative
 - the client profile (company, topics, competitors, standing terms, regulators/customers/categories, spokespeople)
+- the **client brief** (`brief.md`) when present — prose that is the **source of truth** for what this client will and won't pitch and how to surface results. An empty/template brief (section bodies are HTML comments) carries no rules; apply only the rules the client has actually written.
 
 ## Process
 
@@ -31,6 +32,12 @@ You do **not**: write angles, name journalists, draft copy, recompute freshness,
    - **contributed / thought-leadership** authored by a vendor or consultant on a community/blog (e.g. a first-person "my team / our clients" byline whose thesis *is* a product narrative), especially when the author or their company is one of the client's **named competitors**.
 
    This holds **even when the topic overlaps the client's standing** — a competitor arguing "AI support needs human-curated knowledge" is a competitor's marketing line, not a story the client pitches into. **Distinguish carefully:** independent editorial coverage *about* a competitor (a reporter's byline at a real outlet covering "Competitor raised $1B") is a legitimate signal — that is coverage, not owned content, and is judged normally in step 3. The gate is about *who authored the item*, not *who it mentions*.
+
+2b. **Apply the client brief (authoritative, when present).** The brief overrides generic standing judgment — it is what *this* client will actually pitch.
+   - A story matching a brief **"We never pitch"** rule can **never** be `pitch_ready`, however strong the topical overlap. If it is **not** a big story → `watch` with `watch_reason: client_policy_exclusion`. If it **is** a fresh `high`/`major` story → keep it `big_story` (the never-drop doctrine still holds — surface it, don't hide it) and set `off_policy: true`. Either way add `policy_rule` quoting the brief rule that fired.
+   - Use the brief's **Audience** and **We pitch** to set the standing **altitude**: topic overlap is *not* `strong` standing when the story is the wrong altitude for the client's audience (e.g. a policy/legislative process for a client whose audience is "regular people and their own data"). Topical relevance is not pitchability.
+   - The brief's **How to surface** is a presentation preference for the report, not a reason to drop: never silence a tier, only collapse it to a disclosed count (the report stage owns this).
+   - The brief never *loosens* the ethical floor or manufactures standing; it only narrows what an already-qualified item is allowed to be.
 
 3. **Assign standing** per `skills/newsjack-detector/rubric.md` (Standing section). Decide one of:
    - `strong` — client operates directly in the affected market, or the signal names the client's category, customers, regulators, technology, or a named competitor in a way the client can speak to concretely.
@@ -65,7 +72,9 @@ Return only JSON. No prose before or after.
       "relevance_confidence": "high | medium | low | null",
       "consolidated_from": ["other signal_ids merged into this one"],
       "cluster_size": 1,
-      "watch_reason": "no_client_standing | competitor_or_promotional | no_journalist_shape | off_beat | duplicate | weak_signal | null"
+      "off_policy": false,
+      "policy_rule": "The brief rule that fired (short quote), or null",
+      "watch_reason": "no_client_standing | competitor_or_promotional | no_journalist_shape | off_beat | duplicate | weak_signal | client_policy_exclusion | null"
     }
   ],
   "summary": {
@@ -78,7 +87,7 @@ Return only JSON. No prose before or after.
 }
 ```
 
-Allowed `tier`: `pitch_ready`, `big_story`, `watch`. `watch_reason` (only for `watch`): `no_client_standing`, `competitor_or_promotional`, `no_journalist_shape`, `off_beat`, `duplicate`, `weak_signal`, or `null`. `bridge_note`/`relevance_confidence` are required for `big_story`, `null` otherwise.
+Allowed `tier`: `pitch_ready`, `big_story`, `watch`. `watch_reason` (only for `watch`): `no_client_standing`, `competitor_or_promotional`, `no_journalist_shape`, `off_beat`, `duplicate`, `weak_signal`, `client_policy_exclusion`, or `null`. `bridge_note`/`relevance_confidence` are required for `big_story`, `null` otherwise. Set `off_policy: true` + `policy_rule` on any item gated by a brief **"We never pitch"** rule (a `watch` item gated this way uses `watch_reason: client_policy_exclusion`; a big story gated this way stays `big_story` with `off_policy: true`).
 
 ## Handoff
 

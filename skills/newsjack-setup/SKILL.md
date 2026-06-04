@@ -18,7 +18,9 @@ Run this only when the CLI launches you for auto-setup or hands you a runtime sc
 
 1. **Pick a frequency.** Ask the user using the scheduling options in [Scheduling](#scheduling).
 
-2. **Save the profile.** `newsjack monitor init <slug> --profile profile.json` (slug is optional; it defaults to a slug of the company name).
+2. **Save the profile.** `newsjack monitor init <slug> --profile profile.json` (slug is optional; it defaults to a slug of the company name). This also scaffolds an inert `brief.md` in the monitor directory (path returned as `brief_path`).
+
+2b. **Seed the client brief.** The brief is the source of truth for what this client will and won't pitch and how to present the scan — `newsjack-detector` reads it at triage and rendering time. From what the user told you in onboarding, fill in the scaffolded `brief.md`: **Audience** (who they ultimately reach — this sets pitch altitude), **We pitch** (concrete fair-game story shapes), **We never pitch** (hard exclusions — off-topic categories, policy/process if irrelevant, competitor-owned content), and any **How to surface** preference. Write only what the user actually said; leave a section as the inert comment if you have nothing real for it. Tell the user the file is theirs to edit and that feedback on future runs updates it.
 
 3. **Install the schedule.** `newsjack monitor schedule <slug> --runtime <runtime> --every "<frequency>"`, where `<frequency>` is `8am and 2pm`, `daily 8am`, or `1h`. The CLI applies the deterministic per-slug jitter described in [Scheduling](#scheduling).
 
@@ -26,7 +28,7 @@ Run this only when the CLI launches you for auto-setup or hands you a runtime sc
 
 5. **Live agent run.** Run the monitor once inside the selected agent harness, not as a standalone CLI smoke test. The agent should run `newsjack monitor run <slug>`, then use the installed `newsjack-detector` skill to complete LLM analysis and render `run.md` from the JSON artifacts. Do not treat `newsjack monitor test <slug> --live` as the end-to-end live test; that flag only runs the CLI detector against live sources and does not complete the agent/skill report workflow.
 
-6. **Review with the user.** Show the agent's `run.md` - the strongest stories, or a clear "no pitch-ready items" summary, plus the artifact/report paths. Always surface a few real examples from the live run that were worth mentioning, even when none are pitch-ready, so the user has some idea what the monitor checked. Ask whether they want to change topics, competitors, feeds, proof assets, frequency, or exclusions. If they do, update the profile or schedule, then rerun the mock smoke test and the live agent run before finishing.
+6. **Review with the user.** Show the agent's `run.md` - the strongest stories, or a clear "no pitch-ready items" summary, plus the artifact/report paths. Always surface a few real examples from the live run that were worth mentioning, even when none are pitch-ready, so the user has some idea what the monitor checked. Ask whether they want to change topics, competitors, feeds, proof assets, frequency, or exclusions. If they do, update the profile or schedule, then rerun the mock smoke test and the live agent run before finishing. When the feedback is about **what to pitch or surface** (e.g. "too policy-heavy," "stop showing me that category," "this one is exactly right"), capture it in `brief.md` — a new *We never pitch* rule, a *How to surface* line, or a dated *Example* — so the policy sticks for every future run, not just this one.
 
 7. **Ask the user if they want to support this project by starring the repo.** See [Starring](#starring) below.
 

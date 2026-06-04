@@ -115,6 +115,99 @@ func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 	})
 }
 
+func TestMonitorBriefScaffoldAndCommand(t *testing.T) {
+	repo := repoRootForTest(t)
+	home := t.TempDir()
+	profilePath := filepath.Join(t.TempDir(), "profile.json")
+	if err := os.WriteFile(profilePath, []byte(`{"company":"Clearnym","topics":["consumer privacy"],"search_terms":["data broker removal"]}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	withTempEnv(t, map[string]string{
+		"HOME":                    home,
+		"NEWSJACK_HOME":           "",
+		"NEWSJACK_ROOT":           repo,
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"monitor", "init", "--profile", profilePath}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("monitor init code=%d stderr=%s", code, errBuf.String())
+		}
+		var initPayload map[string]any
+		if json.Unmarshal(out.Bytes(), &initPayload) != nil {
+			t.Fatalf("invalid init JSON: %s", out.String())
+		}
+		briefPath := stringValue(initPayload["brief_path"])
+		if briefPath == "" || !fileExists(briefPath) {
+			t.Fatalf("init should scaffold a brief: %#v", initPayload)
+		}
+		body, err := os.ReadFile(briefPath)
+		if err != nil {
+			t.Fatal(err)
+		}
+		// Scaffold must carry the company name and the inert section headings, and
+		// must NOT activate any rule (bodies are comments).
+		for _, want := range []string{"# Clearnym — Brief", "## We never pitch", "## How to surface", "source of truth"} {
+			if !strings.Contains(string(body), want) {
+				t.Fatalf("brief scaffold missing %q:\n%s", want, body)
+			}
+		}
+
+		// The brief is user-authored policy: re-init with --force must NOT clobber it.
+		custom := "# Clearnym — Brief\n\n## We never pitch\n- Federal legislation.\n"
+		if err := os.WriteFile(briefPath, []byte(custom), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		out.Reset()
+		errBuf.Reset()
+		if code := runCLI([]string{"monitor", "init", "--profile", profilePath, "--force"}, &out, &errBuf); code != 0 {
+			t.Fatalf("monitor init --force code=%d stderr=%s", code, errBuf.String())
+		}
+		after, _ := os.ReadFile(briefPath)
+		if string(after) != custom {
+			t.Fatalf("--force clobbered the user brief:\n%s", after)
+		}
+
+		// `monitor brief <slug>` prints the contents.
+		out.Reset()
+		errBuf.Reset()
+		if code := runCLI([]string{"monitor", "brief", "clearnym"}, &out, &errBuf); code != 0 {
+			t.Fatalf("monitor brief code=%d stderr=%s", code, errBuf.String())
+		}
+		if !strings.Contains(out.String(), "Federal legislation.") {
+			t.Fatalf("monitor brief should print contents:\n%s", out.String())
+		}
+
+		// `monitor brief <slug> --json` reports path + presence.
+		out.Reset()
+		errBuf.Reset()
+		if code := runCLI([]string{"monitor", "brief", "clearnym", "--json"}, &out, &errBuf); code != 0 {
+			t.Fatalf("monitor brief --json code=%d stderr=%s", code, errBuf.String())
+		}
+		var meta map[string]any
+		if json.Unmarshal(out.Bytes(), &meta) != nil {
+			t.Fatalf("invalid brief JSON: %s", out.String())
+		}
+		if meta["brief_present"] != true || stringValue(meta["brief_path"]) != briefPath {
+			t.Fatalf("brief --json mismatch: %#v", meta)
+		}
+
+		// status surfaces the brief as a fact for skills.
+		out.Reset()
+		errBuf.Reset()
+		if code := runCLI([]string{"monitor", "status", "clearnym"}, &out, &errBuf); code != 0 {
+			t.Fatalf("monitor status code=%d stderr=%s", code, errBuf.String())
+		}
+		var status map[string]any
+		if json.Unmarshal(out.Bytes(), &status) != nil {
+			t.Fatalf("invalid status JSON: %s", out.String())
+		}
+		if status["brief_present"] != true || stringValue(status["brief_path"]) != briefPath {
+			t.Fatalf("status should surface brief facts: %#v", status)
+		}
+	})
+}
+
 func TestSuggestedScheduleMinute(t *testing.T) {
 	slugs := []string{
 		"fixture-coffee",

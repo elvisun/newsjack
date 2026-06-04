@@ -48,6 +48,13 @@ for row in "${profiles[@]}"; do
   echo "query: $query"
   echo "profile: $profile"
   profile_path="$FIXTURE_DIR/$profile"
+  brief_path=""
+  brief_cell="-"
+  if [[ -f "$FIXTURE_DIR/brief.$slug.md" ]]; then
+    brief_path="$FIXTURE_DIR/brief.$slug.md"
+    brief_cell="[brief.$slug.md]($brief_path)"
+    echo "client brief: brief.$slug.md"
+  fi
 
   detector_args=(
     detector run
@@ -74,16 +81,16 @@ for row in "${profiles[@]}"; do
       >"$output" 2>"$error_log"; then
     if "$NEWSJACK_BIN" run-summary "$output" --output "$summary"; then
       echo "ok: $summary"
-      report_rows+=("| $slug | $profile | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | ok |")
+      report_rows+=("| $slug | $profile | $brief_cell | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | ok |")
     else
       status=1
       echo "failed: $slug summary; see $summary"
-      report_rows+=("| $slug | $profile | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | summary failed |")
+      report_rows+=("| $slug | $profile | $brief_cell | [$slug/summary.json]($slug/summary.json) | [$slug/candidates.json]($slug/candidates.json) | summary failed |")
     fi
   else
     status=1
     echo "failed: $slug; see $error_log"
-    report_rows+=("| $slug | $profile | $slug/summary.json | $slug/candidates.json | detector failed |")
+    report_rows+=("| $slug | $profile | $brief_cell | $slug/summary.json | $slug/candidates.json | detector failed |")
   fi
 done
 
@@ -101,8 +108,8 @@ INDEX="$RUN_DIR/index.md"
   echo "- New-only filter: $NEW_ONLY"
   echo "- Freshness gate: final surfaced stories require LLM-verified first public timestamp within 24 hours and canonical major coverage when recoverable"
   echo
-  echo "| Fixture profile | Profile | Summary JSON | Detector JSON | Status |"
-  echo "|---|---|---|---|---|"
+  echo "| Fixture profile | Profile | Client brief | Summary JSON | Detector JSON | Status |"
+  echo "|---|---|---|---|---|---|"
   for report_row in "${report_rows[@]}"; do
     echo "$report_row"
   done

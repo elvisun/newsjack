@@ -20,6 +20,7 @@ This is a **molecule** skill — it orchestrates atomic skills rather than re-im
    - No profile **and** no usable client context → ask for it before running. Never invent profile facts.
    - Genuinely ambiguous (which client? which topic? one-off vs recurring?) → ask one clarifying question, then proceed. Otherwise do not stall the run.
    - Missing standing is not a blocker: monitor, but mark opportunities `weak`/`no-standing`.
+   - **Load the client brief.** Read the monitor's `brief.md` (its path is surfaced as `brief_path` by `monitor run`/`monitor status`, or it sits next to the profile). It is the **source of truth** for what this client will and won't pitch and how to present the scan — see **Client Brief** below. An empty/template brief carries no rules.
 
 3. **PICK THE RUN SHAPE.**
    - One-off / "what's moving on X" → **Quick Run** below.
@@ -53,6 +54,16 @@ You own (PR judgment):
 - journalist shape, brand-safety judgment, and handoff to the next skill
 
 Never treat `routing.queue_priority` as permission to pitch — it is only operational queue order.
+
+## Client Brief
+
+Each monitor may carry a `brief.md` — a prose, user-owned statement of what this client will and won't pitch and how they want the scan presented. It is the **source of truth** for client pitch/output policy; the profile JSON governs *collection*, the brief governs *what gets pitched and shown*. The CLI only creates and surfaces the file (`monitor init` scaffolds it; `brief_path` is reported by `monitor run`/`monitor status`); it never parses it — reading and applying it is yours.
+
+- **Where it binds:** triage and report rendering — never collection. Keep retrieval and the coarse pass brief-agnostic so nothing is dropped before judgment; the brief only decides what an already-collected, already-fresh item is allowed to *be* and how it's *shown*.
+- **Never pitch rules** are hard: an item matching one can never be `pitch_ready`. A non-big item drops to `watch` (`client_policy_exclusion`); a fresh `high`/`major` item stays `big_story` with `off_policy: true` (the never-drop doctrine still holds — surface it, don't hide it). `newsjack-triage` enforces this.
+- **Audience / We pitch** set the standing *altitude*: topical overlap is not pitchability. A story can be on-topic and still off-brief.
+- **How to surface** is presentation only: collapse a section to a disclosed count, never silence it. Disclose what the brief held back (count + reason) so nothing is hidden.
+- **Feedback updates the brief.** When the user reacts to a run — "too policy-heavy," "stop showing me X," "this is exactly right" — propose an edit to `brief.md` (a new *We never pitch* rule, a *How to surface* line, or a dated *Example*) so the policy is captured durably, not just for this run. Confirm the edit. An empty/template brief means run with defaults.
 
 ## Quick Run
 
@@ -120,7 +131,7 @@ Only `run.md` is human-facing; the rest are provenance.
 
    The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale. Non-fresh signals carry a specific reason: `stale`, `unverified_no_corroboration` (worker cited <2 independent sources — a pipeline/worker-quality miss), `unverified_boundary` (date-only clock straddling the cutoff), or `unverified_no_timestamp` (no clock recovered). Distinguish these in the report and in metrics: `unverified_no_corroboration` means *we* didn't verify, not that the story is old.
 
-5b. **Standing triage** on the selected fresh signals in `targeted_candidates.json` → `triaged_candidates.json`. Load `skills/newsjack-triage/SKILL.md`: re-consolidate any same-story representatives that slipped through, assign `strong`/`partial`/`none` standing with a journalist-shape sanity check, and **route each story to a tier**: `pitch_ready` (strong, or partial with a sharp shape), `big_story` (a fresh `high`/`major` story that lacks standing — **never dropped**, always surfaced as a suggestion with a `bridge_note` + `relevance_confidence`), or `watch` (small/non-big with no standing, off-beat, duplicate). This is the standing gate the engine cannot make — it replaces ad-hoc orchestrator judgment so the decision is auditable. Only `watch` withholds a story, and only for items that are neither pitchable nor big.
+5b. **Standing triage** on the selected fresh signals in `targeted_candidates.json` → `triaged_candidates.json`. Load `skills/newsjack-triage/SKILL.md` and pass it the **client brief** when present: re-consolidate any same-story representatives that slipped through, apply the brief's **never-pitch** rules (off-policy items can never be `pitch_ready`; fresh big ones stay `big_story` with `off_policy: true`, small ones drop to `watch`/`client_policy_exclusion`), assign `strong`/`partial`/`none` standing at the brief's audience altitude with a journalist-shape sanity check, and **route each story to a tier**: `pitch_ready` (strong, or partial with a sharp shape), `big_story` (a fresh `high`/`major` story that lacks standing — **never dropped**, always surfaced as a suggestion with a `bridge_note` + `relevance_confidence`), or `watch` (small/non-big with no standing, off-beat, duplicate). This is the standing gate the engine cannot make — it replaces ad-hoc orchestrator judgment so the decision is auditable. Only `watch` withholds a story, and only for items that are neither pitchable nor big.
 
 6. **Angle generation** on the **routed** candidates in `triaged_candidates.json`. Run `angle-generator` in **pitch mode** on `pitch_ready` items (a candidate is pitchable only if it yields ≥1 honest, journalist-shaped angle; zero viable angles downgrades it to `big_story` if the story is big, else `watch`) and in **exploratory mode** (`context.mode: exploratory`) on `big_story` items (at most one tentative `suggestion` angle; an empty result is fine and does **not** drop the story — it still appears as "awareness only").
 
@@ -131,6 +142,8 @@ Only `run.md` is human-facing; the rest are provenance.
    - **Link provenance (all sections):** **One main source = the source of record** — the article the detector actually surfaced, real `published_at`, flagged when thin (`⚠ single source`, `⚠ source of record is an aggregator`). **Related coverage** underneath: clustered duplicate pickups (tagged `surfaced duplicate`) plus any `canonical_coverage_url`/`original_url` the worker *proposed*, shown with date marked **unverified** and tagged `proposed by research — UNVERIFIED`. **Never promote a worker-proposed link into the main-source position** — the anti-laundering rule. Every link carries a date.
 
    Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict.
+
+   **Honor the client brief's *How to surface*** here: if the brief asks to collapse a section (e.g. the big-stories/awareness section), render it as a one-line **disclosed count with reasons**, never silence it. Lead with whatever the brief prioritizes. State plainly when the brief moved an item out of `pitch_ready` or collapsed a section, and quote the rule (`policy_rule`). `scripts/build_report.py` is the brief-agnostic mechanical reference (`final_report.md`); the brief is honored in the skill-rendered `run.md`.
 
 8. **Write `run.md` yourself from the artifacts.** The CLI does not render reports. It only emits deterministic JSON. Use `final_report.md` plus the artifact facts to write a human-facing `run.md` in the run folder.
 
@@ -174,7 +187,8 @@ Before reporting the run complete:
 - `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
 - `origin_findings.json` has exactly one finding per clustered representative (unless `--allow-missing`) — count validated, gaps re-run.
 - `targeted_candidates.json` was produced by `origin-apply`; `triaged_candidates.json` was produced by `newsjack-triage` with a `tier` per signal; `pitch_ready` went to `angle-generator` in pitch mode and `big_story` in exploratory mode.
-- No fresh `high`/`major` story was routed to `watch` — every fresh big story appears in **🔥 Big Stories Worth a Look** (or **✅ Pitch-Ready** if it earned standing).
+- No fresh `high`/`major` story was routed to `watch` — every fresh big story appears in **🔥 Big Stories Worth a Look** (or **✅ Pitch-Ready** if it earned standing). A brief never-pitch rule may move a big story *out of pitch-ready*, but it stays a surfaced `big_story` (`off_policy: true`), never dropped.
+- If a client brief is present, the report applied it: off-policy items are out of `pitch_ready`, any collapsed section shows a disclosed count + reason, and feedback this turn that changes policy was offered as a `brief.md` edit.
 - `final_report.md` is the 3-bucket scan (✅ Pitch-Ready / 🔥 Big Stories Worth a Look / 👀 Watch / Context), written from `targeted_candidates.json` / `triaged_candidates.json`, not raw `candidates.json`.
 - `run.md` was skill-rendered from the gated/fresh/triaged artifacts after `final_report.md` existed — never from raw `candidates.json` alone.
 - The ✅/🔥 sections contain **no** coarse-rejected or hard-safety-flagged signal; the only hard drops (URL-hygiene + hard-safety) have their counts disclosed from the JSON artifacts.

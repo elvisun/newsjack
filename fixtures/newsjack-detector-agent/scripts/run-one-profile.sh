@@ -22,6 +22,10 @@ fi
 
 STAMP="$(date -u +"%Y%m%dT%H%M%SZ")"
 RUN_DIR="${NEWSJACK_RUN_DIR:-$FIXTURE_DIR/runs/$STAMP-$SLUG-profile}"
+BRIEF_PATH=""
+if [[ -f "$FIXTURE_DIR/brief.$SLUG.md" ]]; then
+  BRIEF_PATH="$FIXTURE_DIR/brief.$SLUG.md"
+fi
 SOURCES="${NEWSJACK_SOURCES:-news_search,x}"
 LOOKBACK_DAYS="${NEWSJACK_LOOKBACK_DAYS:-1}"
 DEPTH="${NEWSJACK_DEPTH:-quick}"
@@ -44,6 +48,7 @@ COMMAND_LOG="$RUN_DIR/commands.log"
   echo "slug=$SLUG"
   echo "query=$QUERY"
   echo "profile=$PROFILE"
+  echo "brief_path=$BRIEF_PATH"
   echo "sources=$SOURCES"
   echo "lookback_days=$LOOKBACK_DAYS"
   echo "depth=$DEPTH"
@@ -57,6 +62,9 @@ COMMAND_LOG="$RUN_DIR/commands.log"
 
 echo "one-profile fixture run: $RUN_DIR"
 echo "newsjack binary: $NEWSJACK_BIN"
+if [[ -n "$BRIEF_PATH" ]]; then
+  echo "client brief: $BRIEF_PATH"
+fi
 echo "running detector..."
 
 detector_args=(
@@ -105,5 +113,8 @@ fi
 echo "- $SUMMARY"
 echo "- $STDERR_LOG"
 echo "- $COMMAND_LOG"
+if [[ -n "$BRIEF_PATH" ]]; then
+  echo "- client brief: $BRIEF_PATH"
+fi
 echo
 echo "note: this fixture writes detector JSON and a machine-readable summary. A pitch-ready run.md requires the full skill pipeline."

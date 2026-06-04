@@ -840,7 +840,7 @@ func medialystConfigured() bool {
 
 func cmdMonitor(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open"))
+		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open|brief"))
 	}
 	switch args[0] {
 	case "init":
@@ -855,6 +855,8 @@ func cmdMonitor(args []string, stdout, stderr io.Writer) int {
 		return cmdMonitorStatus(args[1:], stdout, stderr)
 	case "open":
 		return cmdMonitorOpen(args[1:], stdout, stderr)
+	case "brief":
+		return cmdMonitorBrief(args[1:], stdout, stderr)
 	default:
 		return failf(stderr, "unknown monitor command: %s", args[0])
 	}
@@ -898,7 +900,15 @@ func cmdMonitorInit(args []string, stdout, stderr io.Writer) int {
 	if err := os.WriteFile(dest, marshalJSON(payload), 0o644); err != nil {
 		return fail(stderr, err)
 	}
-	writeJSON(stdout, map[string]any{"slug": slug, "profile_path": dest, "monitor_dir": dir})
+	// Scaffold a starter brief (client pitch/output policy) next to the profile.
+	// Never clobber a user-edited brief, even with --force: it is hand-authored policy.
+	briefPath := monitorBriefPath(slug)
+	if !fileExists(briefPath) {
+		if err := os.WriteFile(briefPath, []byte(briefTemplate(profile)), 0o644); err != nil {
+			return fail(stderr, err)
+		}
+	}
+	writeJSON(stdout, map[string]any{"slug": slug, "profile_path": dest, "monitor_dir": dir, "brief_path": briefPath})
 	return 0
 }
 
@@ -1021,6 +1031,45 @@ func cmdMonitorOpen(args []string, stdout, stderr io.Writer) int {
 	return 0
 }
 
+func cmdMonitorBrief(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("monitor brief", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	edit := fs.Bool("edit", false, "Open the brief in $EDITOR")
+	jsonOut := fs.Bool("json", false, "Emit brief metadata as JSON instead of contents")
+	if err := fs.Parse(reorderIntermixedFlags(args, stringSet([]string{}))); err != nil {
+		return 2
+	}
+	if fs.NArg() != 1 {
+		return fail(stderr, errors.New("usage: newsjack monitor brief <slug> [--edit|--json]"))
+	}
+	slug := fs.Arg(0)
+	if !fileExists(monitorProfilePath(slug)) {
+		return failf(stderr, "monitor not found: %s", slug)
+	}
+	path := monitorBriefPath(slug)
+	if *edit {
+		editor := firstString(os.Getenv("NEWSJACK_EDITOR"), os.Getenv("VISUAL"), os.Getenv("EDITOR"), "vi")
+		cmd := exec.Command(editor, path)
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = stdout
+		cmd.Stderr = stderr
+		if err := cmd.Run(); err != nil {
+			return fail(stderr, err)
+		}
+		return 0
+	}
+	if *jsonOut {
+		writeJSON(stdout, map[string]any{"slug": slug, "brief_path": path, "brief_present": fileExists(path)})
+		return 0
+	}
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return failf(stderr, "no brief found for %s (expected %s)", slug, path)
+	}
+	_, _ = stdout.Write(data)
+	return 0
+}
+
 func runMonitor(slug string, mock, test bool, limit int) (map[string]any, error) {
 	profilePath := monitorProfilePath(slug)
 	if !fileExists(profilePath) {
@@ -1098,6 +1147,8 @@ func runMonitor(slug string, mock, test bool, limit int) (map[string]any, error)
 		"candidates":    paths["candidates"],
 		"summary":       paths["detector_summary"],
 		"report_target": paths["run_report"],
+		"brief_path":    monitorBriefPath(slug),
+		"brief_present": fileExists(monitorBriefPath(slug)),
 	}, nil
 }
 
@@ -1148,6 +1199,8 @@ func monitorStatus(slug string) map[string]any {
 		"exists":             fileExists(monitorProfilePath(slug)),
 		"monitor_dir":        dir,
 		"profile_path":       monitorProfilePath(slug),
+		"brief_path":         monitorBriefPath(slug),
+		"brief_present":      fileExists(monitorBriefPath(slug)),
 		"schedule_path":      nullableStringIfExists(monitorSchedulePath(slug)),
 		"schedule_json_path": nullableStringIfExists(monitorScheduleJSONPath(slug)),
 		"run_count":          len(runs),
@@ -1177,6 +1230,42 @@ func monitorsDir() string { return filepath.Join(newsjackHome(), "monitors") }
 func monitorDir(slug string) string { return filepath.Join(monitorsDir(), slugify(slug)) }
 
 func monitorProfilePath(slug string) string { return filepath.Join(monitorDir(slug), "profile.json") }
+
+func monitorBriefPath(slug string) string { return filepath.Join(monitorDir(slug), "brief.md") }
+
+// briefTemplate is the starter pitch/output policy scaffolded at monitor init.
+// It is intentionally inert: the section bodies are HTML comments, so an
+// untouched brief carries no active rules and the pipeline keeps default
+// behavior. The CLI never parses this file — it only creates and surfaces it;
+// the detector and triage skills read it and update it from user feedback.
+func briefTemplate(profile monitorProfile) string {
+	company := firstString(profile.Company, "This client")
+	return fmt.Sprintf(`# %s — Brief
+
+This file is the source of truth for what %s will and won't pitch, and how the
+newsjack scan should be presented. It is prose on purpose — edit it like a note.
+The detector reads it when judging standing and rendering your report, and
+should update it when you give feedback about what you do and don't want.
+
+Delete a comment and write under the heading to activate that section. An
+untouched brief changes nothing.
+
+## Audience
+<!-- Who is reached, ultimately? e.g. "regular consumers", "CISOs at mid-market SaaS". This sets the altitude of an acceptable pitch. -->
+
+## We pitch
+<!-- The concrete kinds of stories that are fair game. Be specific. -->
+
+## We never pitch
+<!-- Hard rules: a story matching one can never be pitch-ready. A genuinely big story stays surfaced as awareness-only (never hidden), just not pitched. e.g. "policy/legislation process", "a competitor's own press releases". -->
+
+## How to surface
+<!-- Presentation preferences. e.g. "lead with pitch-ready only", "collapse the big-stories/awareness section to a one-line count". -->
+
+## Examples
+<!-- Good/bad examples, each dated. This doubles as the feedback log: when you reject something, it lands here. -->
+`, company, company)
+}
 
 func monitorSchedulePath(slug string) string { return filepath.Join(monitorDir(slug), "schedule.md") }
 

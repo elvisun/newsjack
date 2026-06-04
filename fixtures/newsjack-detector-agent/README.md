@@ -71,6 +71,9 @@ runs/<timestamp>-<slug>-profile/
   summary.json
 ```
 
+When a companion brief exists, `run-all-profiles.sh` links it from `index.md`
+and `run-one-profile.sh` records it as `brief_path` in `commands.log`.
+
 The fixture summary is a detector artifact, not a human report. A `run.md` report is created only when an agent runs the full semantic pipeline from `skills/newsjack-detector/SKILL.md`: coarse relevance, story-origin check, freshness gate, triage, angle generation, and skill-owned report rendering.
 
 Fixture-specific script usage lives here so the public skill can stay runtime-agnostic.
@@ -110,3 +113,7 @@ NEWSJACK_PROFILE_FILE=profile.simular.json
 ```
 
 Extra CLI flags are forwarded to `newsjack detector run`.
+
+## Client briefs
+
+A profile's optional companion `brief.<slug>.md` is the prose **source of truth** for what that client will and won't pitch and how the scan should be presented (see the **Client Brief** section in `skills/newsjack-detector/SKILL.md`). It is read at the triage and report-rendering stages — never at collection — so nothing is dropped before judgment. A "never pitch" rule keeps an off-policy item out of `pitch_ready` (a fresh big story stays surfaced as `off_policy` `big_story`, never hidden); "How to surface" can collapse a section to a disclosed count. In a real install the brief lives at `~/.newsjack/monitors/<slug>/brief.md` and is scaffolded by `newsjack monitor init`; in this fixture, where profiles are flat files, it is `brief.<slug>.md` beside the profile and is surfaced by the fixture scripts. `brief.clearnym.md` is a worked example. When the user gives feedback on what to pitch or surface, the agent updates the brief so the policy sticks across runs.
