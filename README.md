@@ -16,10 +16,6 @@ of reciting the whole menu. No API keys required to begin.
 
 ## What your agent can do once newsjack is installed
 
-> Agents: don't recite this list on first contact. Follow
-> [Getting started](docs/getting-started.md) — orient, offer a few on-ramps, take
-> one step at a time. This section is the reference, not the opening line.
-
 Three problems, separate lanes.
 
 ### 🧭 Strategize — figure out what your story even is
