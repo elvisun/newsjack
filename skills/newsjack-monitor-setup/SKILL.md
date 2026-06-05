@@ -41,9 +41,9 @@ Required:
 - company name
 - website
 - one-sentence description
-- 3-6 topics
+- 6-8 core broad beat topics, usually 2-3 words each; one-word beats are fine when natural
 - 3-6 competitors or adjacent major companies
-- 5-12 search terms for retrieval
+- 10-20 static search terms for retrieval: broad beat terms plus qualified entity-watch terms, each traceable to user input, the client's materials, named entities, or fresh coverage
 - 2-5 standing areas
 - 2-5 proof assets
 - 1-3 likely spokespeople
@@ -59,6 +59,12 @@ Optional:
 
 General tragedy and human-suffering exclusions are not profile fields. Those live in detector doctrine.
 
+## Editing Existing Setup
+
+The monitor profile is the setup file. Installed monitors store it at `~/.newsjack/monitors/<slug>/profile.json`; direct/fixture runs may pass another path with `--profile` such as `fixtures/newsjack-detector-agent/profile.<slug>.json`.
+
+If the user wants the monitor to look at different news, edit `profile.json`: `topics`, `search_terms`, `competitors`, and `feed_urls`. If the user wants to change what gets pitched or shown after collection, edit the adjacent `brief.md` instead.
+
 ## Building the Profile
 
 Work these steps in order. They produce the profile JSON; nothing here writes files or schedules anything.
@@ -67,11 +73,11 @@ Work these steps in order. They produce the profile JSON; nothing here writes fi
 
 2. **Define standing.** Standing is not "we use AI." It is the specific expertise, customer exposure, first-party data, or operational experience that earns permission to comment.
 
-3. **Pick topics.** Topics should be specific beat phrases, not vague categories. Good: `AI customer support`, `data broker removal`, `UK property chain collapse`. Bad: `innovation`, `technology`, `growth`, `UK property market`.
+3. **Pick broad beat topics.** Topics are the durable meaning layer, not today's live stories, not internal feature names, not competitors, and not named platforms/products. Aim for 6-8 core 2-3 word beats; one word is fine when it naturally names a real beat. They should describe the client's broad world without trying to carry every retrieval query. Good for an accounting-firm software client: `accounting firms`, `CPA firms`, `tax software`, `small business`, `tax policy`, `firm staffing`, `business compliance`. Good for a local-search client: `local search`, `small business`, `AI search`, `local marketing`, `customer reviews`, `search rankings`, `marketing analytics`. Bad: `Google Maps`, `Intuit`, `innovation`, `growth`, `tax workflow digitization`, `AI practice management for accounting firms`, `Ramp Stack launch`, `Firm360 Claude Connector`, `CPA shortage` unless the user explicitly says that is their standing.
 
 4. **Pick competitors.** Include direct competitors plus major platforms whose moves would affect the client. Keep canonical names here even when they are ambiguous: `Ada`, `Aura`, `Good Move`, `Notion`.
 
-5. **Pick search terms.** Search terms are retrieval strings, not the canonical profile. Use qualified variants for ambiguous names so retrieval does not chase junk: `Ada customer service`, `Aura identity theft`, `Good Move cash house buyer`, `Atlassian Confluence AI`. Include the strongest topic phrases too. Do not make terms so narrow that major competitor news disappears.
+5. **Pick static search terms.** Search terms are the detector's retrieval aperture. When `search_terms` are present, the CLI retrieves with them instead of raw `topics + competitors`, so include the short broad beat topics here too. Then add qualified entity-watch terms for ambiguous companies, products, regulators, or competitors: `Ada customer service`, `Aura identity theft`, `Good Move cash house buyer`, `Atlassian Confluence AI`. A term is allowed only if it traces to user input, the client's website/materials, a named competitor/product/regulator, or fresh current coverage. Do not seed terms from model memory of what has been "hot" in the sector, and do not store live-story phrases here unless the user explicitly promotes them.
 
 6. **Pick proof assets.** Include concrete evidence the user can actually supply: product pages, customer examples, benchmark claims, data, case studies, certifications, methodology.
 
@@ -158,9 +164,9 @@ Use this JSON shape only when the user asks for a profile without running the fu
     "company": "Company",
     "website": "https://example.com",
     "description": "One sentence.",
-    "topics": ["specific topic"],
+    "topics": ["broad beat topic"],
     "competitors": ["Competitor"],
-    "search_terms": ["qualified retrieval term"],
+    "search_terms": ["broad beat topic", "qualified entity-watch term"],
     "feed_urls": ["https://..."],
     "x_news": {
       "enabled": true
@@ -185,7 +191,7 @@ Use this JSON shape only when the user asks for a profile without running the fu
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
   "run_commands": {
     "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
-    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"TOPIC\" --profile profile.json --save"
+    "profile_relevance": "~/.newsjack/bin/newsjack detector run --profile profile.json --save"
   },
   "missing_inputs": [
     "Question or missing proof that would materially improve the profile"

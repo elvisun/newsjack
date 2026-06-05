@@ -16,10 +16,10 @@ newsjack doctor             # health check: runtimes, auth, what's wired
 The binary: in this repo, prefer the `./bin/newsjack` source shim; `~/.newsjack/bin/newsjack` is the end-user install path that public skills reference. A typical run:
 
 ```bash
-newsjack detector run "QUERY" --profile profile.json --save
+newsjack detector run --profile profile.json --save
 ```
 
-Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): detector output is JSON; `--mock` verifies locally without credentials; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors (defaults `40` / `0.55` — the canonical run uses the defaults; lowering them changes the emitted pool and breaks run-to-run comparability); `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only. **`--include-all-scored` does not widen the emitted `signals[]`** — it only attaches a `debug.all_scored_signals` block — so never reach for it to "get more candidates"; raise `--limit` or adjust the floors deliberately instead. The canonical, harness-independent invocation lives in `skills/newsjack-detector/SKILL.md` step 1; follow it verbatim rather than re-deriving flags per harness.
+Read `--help` for the exact flags before composing a non-trivial run. Notable behaviors worth knowing (confirm specifics via `--help`): detector output is JSON; `--mock` verifies locally without credentials; `--topic` adds an explicit one-off retrieval topic when the user asks for one; `--feed-only`, `--new-only`, and `--max-age-hours` shape recurring runs; `--min-queue-priority` / `--min-major-news` are emission floors (defaults `40` / `0.55` — the canonical run uses the defaults; lowering them changes the emitted pool and breaks run-to-run comparability); `--lane-caps` narrows a skim-only run; `--include-all-scored` and `--no-hygiene-filter` are debug-only. **`--include-all-scored` does not widen the emitted `signals[]`** — it only attaches a `debug.all_scored_signals` block — so never reach for it to "get more candidates"; raise `--limit` or adjust the floors deliberately instead. The canonical, harness-independent invocation lives in `skills/newsjack-detector/SKILL.md` step 1; follow it verbatim rather than re-deriving flags per harness.
 
 ## Source lanes (what `--sources` selects)
 
@@ -53,4 +53,5 @@ If `--new-only` returns no signals, report "no new signals since the last saved 
 
 - `feed_urls` — used by default. The shipped catalog at `references/rss-feeds.json` is the setup/onboarding starting point.
 - `search_terms` — when present, the engine retrieves with these instead of raw `topics + competitors`. Keep `topics`, `competitors`, and `standing` as canonical matching/judgment context; use `search_terms` for qualified strings like `Ada customer service`, `Aura identity theft`, `Good Move cash house buyer`.
+- `search_terms` must be static, explicit, and provenance-safe: user input, client materials, named competitors/products/regulators, or current coverage. Do not use model-remembered sector trends as durable profile terms.
 - If no profile file exists, accept plain-text company/client context and create a temporary JSON profile outside the repo. Do not invent profile facts.

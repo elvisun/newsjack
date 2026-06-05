@@ -67,15 +67,25 @@ Each monitor may carry a `brief.md` — a prose, user-owned statement of what th
 - **How to surface** is presentation only: collapse a section to a disclosed count, never silence it. Disclose what the brief held back (count + reason) so nothing is hidden.
 - **Feedback updates the brief.** When the user reacts to a run — "too policy-heavy," "stop showing me X," "this is exactly right" — propose an edit to `brief.md` (a new *We never pitch* rule, a *How to surface* line, or a dated *Example*) so the policy is captured durably, not just for this run. Confirm the edit. An empty/template brief means run with defaults.
 
+## Profile Setup File
+
+The monitor profile JSON is the source of truth for collection setup: a focused set of short broad beat topics, search terms, competitors, feeds, standing, spokespeople, and exclusions. Prefer 6-8 core 2-3 word topics, with one-word topics allowed when natural. If the user wants to change what the monitor looks for, edit the profile JSON rather than generating one-off retrieval terms during a detector run.
+
+- Installed monitors keep the setup file at `~/.newsjack/monitors/<slug>/profile.json`; `brief.md` sits next to it.
+- Direct detector runs use the file passed with `--profile`.
+- Fixture profiles live under `fixtures/newsjack-detector-agent/profile.<slug>.json`.
+
+Use `newsjack-monitor-setup` when the user wants to create or materially revise a profile. Collection feedback such as "watch broader accounting firm news" belongs in `profile.json` (`topics` / `search_terms` / `feed_urls`): put 6-8 core broad beats in `topics`, and put broad retrieval terms plus named platforms/products/regulators/competitors in `search_terms`. Pitch-policy feedback such as "don't pitch policy stories" belongs in `brief.md`. After editing `profile.json`, rerun a mock or fixture smoke before trusting the next live run.
+
 ## Quick Run
 
 One-off discovery and scans:
 
 ```bash
-~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --save
+~/.newsjack/bin/newsjack detector run --profile profile.json --save
 ```
 
-The detector emits JSON only; render any human scan yourself from the artifact facts. Use `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
+The detector emits JSON only; render any human scan yourself from the artifact facts. Use `--topic "explicit user topic"` only when the user deliberately asks to add a one-off retrieval topic. Routine profile runs should rely on the profile's durable `topics` and `search_terms`, not ad hoc generated retrieval terms. Use `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
 
 For each queued signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores` (`major_news`, `novelty`, `source_agreement`), profile matches, and safety flags. For `x` evidence inspect `x_signal_type`, `x_social_signals`, `x_author_followers`, `x_query_counts`; treat lone low-reach posts as noise. A high `major_news` means the story is broadly important, **not** that the client has standing. Treat engine age/decay as provisional until `story-origin-check` verifies the first-public clock. Then apply `rubric.md` and the **Output Format**.
 
@@ -102,10 +112,10 @@ Only `run.md` is human-facing; the rest are provenance.
 1. **Run the detector and save candidates.** This is the **canonical invocation** — use it verbatim for any run a human or pitch will rely on, across every harness, so runs stay comparable:
 
    ```bash
-   ~/.newsjack/bin/newsjack detector run "QUERY" --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
+   ~/.newsjack/bin/newsjack detector run --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
    ```
 
-   The floors `--min-queue-priority 40` and `--min-major-news 0.55` are the engine defaults; they define the emitted pool. **Do not lower them and do not pass `--include-all-scored` or `--no-hygiene-filter`** (debug-only) for a real run — they change which signals reach the report and make two runs of the same profile incomparable. The positional `"QUERY"` is only a label/seed; the engine retrieves from the profile's `search_terms`, so keep the profile authoritative rather than hand-tuning the query per harness. For recurring/cron precision add `--demote-unmatched-x` (see **Freshness Gate**); that is the only flag the canonical command grows.
+   The floors `--min-queue-priority 40` and `--min-major-news 0.55` are the engine defaults; they define the emitted pool. **Do not lower them and do not pass `--include-all-scored` or `--no-hygiene-filter`** (debug-only) for a real run — they change which signals reach the report and make two runs of the same profile incomparable. Profile terms own durable retrieval; do not hand-tune the query per run unless the user explicitly asked for a one-off `--topic`. For recurring/cron precision add `--demote-unmatched-x` (see **Freshness Gate**); that is the only flag the canonical command grows.
 
 2. **Coarse relevance pass** → `coarse_relevance_decisions.json`. High-recall junk removal only — no ranking, angles, dates, or pitch decisions. Each worker loads `skills/relevance-coarse-filter/SKILL.md` and applies it to its assigned signals; merge every worker's output into one `decisions` array. For model/worker routing and chunking, see `references/harness-routing.md`.
 

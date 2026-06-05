@@ -9,11 +9,13 @@
     "website": "https://www.localfalcon.com",
     "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
     "topics": [
-      "local rank tracking",
-      "AI search visibility",
-      "Google Business Profile optimization",
-      "geo-grid rank tracking",
-      "local SEO analytics"
+      "local search",
+      "small business",
+      "AI search",
+      "local marketing",
+      "customer reviews",
+      "search rankings",
+      "marketing analytics"
     ],
     "competitors": [
       "BrightLocal",
@@ -23,17 +25,26 @@
       "Local Viking"
     ],
     "search_terms": [
-      "local rank tracking",
-      "local SEO rank tracker",
-      "geo-grid rank tracking",
-      "AI search visibility tracking",
-      "Google Business Profile rank tracking",
-      "Google AI Overviews local visibility",
-      "ChatGPT local visibility",
-      "BrightLocal local rank tracking",
-      "Whitespark local rank tracker",
+      "local search",
+      "small business",
+      "AI search",
+      "local marketing",
+      "customer reviews",
+      "search rankings",
+      "marketing analytics",
+      "map rankings",
+      "business listings",
+      "location data",
+      "online directories",
+      "SEO",
+      "Google Maps",
+      "Google Business Profile",
+      "Google AI Overviews",
+      "ChatGPT search",
+      "BrightLocal",
+      "Whitespark",
       "Semrush Local",
-      "Yext local SEO"
+      "Yext"
     ],
     "feed_urls": [
       "https://www.techmeme.com/feed.xml",
@@ -86,7 +97,7 @@
   "x_trends_rationale": "No X trends by default because personalized trends require user-context OAuth; switch to location trends only for geography-specific campaigns.",
   "run_commands": {
     "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
-    "profile_relevance": "~/.newsjack/bin/newsjack detector run \"AI search visibility\" --profile profile.json --save"
+    "profile_relevance": "~/.newsjack/bin/newsjack detector run --profile profile.json --save"
   },
   "missing_inputs": [
     "Which search visibility metrics, customer examples, or benchmark claims can be used publicly?"
