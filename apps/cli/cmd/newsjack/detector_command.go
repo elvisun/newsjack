@@ -44,6 +44,10 @@ type detectorOptions struct {
 }
 
 func cmdDetector(args []string, stdout, stderr io.Writer) int {
+	if len(args) > 0 && (args[0] == "help" || args[0] == "--help" || args[0] == "-h") {
+		printDetectorHelp(stdout)
+		return 0
+	}
 	if len(args) == 0 {
 		args = []string{"run"}
 	}
@@ -53,6 +57,10 @@ func cmdDetector(args []string, stdout, stderr io.Writer) int {
 	}
 	switch args[0] {
 	case "run":
+		if len(args) > 1 && (args[1] == "--help" || args[1] == "-h") {
+			parseDetectorRun([]string{"--help"}, stdout)
+			return 0
+		}
 		opts, code := parseDetectorRun(args[1:], stderr)
 		if code != 0 {
 			return code
@@ -107,18 +115,18 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 		MinMajorNews:                    defaultMinMajorNews,
 		Limit:                           20,
 	}
-	fs.Var(&topics, "topic", "Topic to monitor. Repeatable.")
+	fs.Var(&topics, "topic", "Explicit one-off topic to monitor. Repeatable.")
 	fs.StringVar(&opts.ProfilePath, "profile", "", "Path to monitor profile JSON")
-	fs.StringVar(&opts.Sources, "sources", "", "Comma-separated sources")
+	fs.StringVar(&opts.Sources, "sources", "", "Comma-separated sources: news_search,x_news,x,x_trends,reddit,hackernews")
 	fs.BoolVar(&opts.MajorFeeds, "major-feeds", false, "Include default curated major-news RSS feeds")
 	fs.Var(&feedURLs, "feed-url", "RSS/Atom feed URL or local XML path. Repeatable.")
 	fs.Var(&feedFiles, "feed-file", "File containing feed URLs. Repeatable.")
-	fs.BoolVar(&opts.FeedOnly, "feed-only", false, "Skip query/profile searches")
+	fs.BoolVar(&opts.FeedOnly, "feed-only", false, "Skip query/profile searches; use feeds only")
 	fs.BoolVar(&opts.NoProfileFeeds, "no-profile-feeds", false, "Do not include feed_urls from profile")
 	fs.BoolVar(&opts.NoXNews, "no-x-news", false, "Do not auto-include x_news")
 	fs.BoolVar(&opts.NoXTrends, "no-x-trends", false, "Do not include x_trends")
 	fs.BoolVar(&opts.DemoteUnmatchedX, "demote-unmatched-x", false, "Recurring-precision mode: cap unmatched X News/Trends below the default queue floor so they only surface via the large-story recall guard")
-	fs.BoolVar(&opts.NoHygieneFilter, "no-hygiene-filter", false, "Disable deterministic hygiene filter")
+	fs.BoolVar(&opts.NoHygieneFilter, "no-hygiene-filter", false, "Disable deterministic hygiene filter (debug only)")
 	fs.StringVar(&opts.Depth, "depth", "quick", "quick, default, or deep")
 	fs.IntVar(&opts.LookbackDays, "lookback-days", 1, "Lookback window in days")
 	fs.Float64Var(&opts.MaxAgeHours, "max-age-hours", 24.0, "Drop items older than this many hours; 0 disables")
@@ -136,7 +144,7 @@ func parseDetectorRun(args []string, stderr io.Writer) (detectorOptions, int) {
 	fs.BoolVar(&opts.Save, "save", false, "Save run and seen URLs")
 	fs.StringVar(&opts.Store, "store", "", "Override SQLite store path")
 	fs.StringVar(&opts.MonitorName, "monitor-name", "", "Monitor name")
-	fs.BoolVar(&opts.IncludeAllScored, "include-all-scored", false, "Include all scored signals in debug output")
+	fs.BoolVar(&opts.IncludeAllScored, "include-all-scored", false, "Attach all scored signals under debug; does not widen emitted signals")
 	fs.StringVar(&opts.ScoredOutput, "scored-output", "", "Write all scored signals to a separate JSON artifact")
 	valueFlags := stringSet([]string{
 		"topic", "profile", "sources", "feed-url", "feed-file", "depth", "lookback-days", "max-age-hours",

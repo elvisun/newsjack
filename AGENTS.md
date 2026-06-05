@@ -62,6 +62,8 @@ Skill- or user-owned behavior:
 - Prompt-shaped taxonomies or wording that should evolve without a CLI release. Prefer adding structured JSON fields in the CLI over hardcoding prose.
 - Fixture/eval reference renderers may live under `fixtures/`, but do not treat them as product CLI behavior.
 
+Keep CLI usage details in CLI help. If agents need to know a command, flag, default, source meaning, credential recovery path, or deterministic profile behavior, expose it through `newsjack help`, command-specific help, `--help`, or `doctor`, with tests. Skill reference files may point agents to help and explain judgment doctrine, but should not duplicate flag lists or operational help text that can drift.
+
 Do not add or expand CLI report rendering unless it is strictly a compatibility/debug path. Canonical human-facing reports should be rendered by skills from deterministic JSON artifacts.
 
 ## Common Commands

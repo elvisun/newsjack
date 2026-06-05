@@ -98,3 +98,42 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		}
 	}
 }
+
+func TestDetectorHelpIsDiscoverable(t *testing.T) {
+	var out, err bytes.Buffer
+	if code := runCLI([]string{"help", "detector"}, &out, &err); code != 0 {
+		t.Fatalf("newsjack help detector exited %d: %s", code, err.String())
+	}
+	for _, want := range []string{
+		"newsjack detector run --help",
+		"news_search",
+		"x_news",
+		"search_terms",
+		"retrieval uses these instead of raw topics + competitors",
+	} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("newsjack help detector missing %q:\n%s", want, out.String())
+		}
+	}
+
+	out.Reset()
+	err.Reset()
+	if code := runCLI([]string{"detector", "--help"}, &out, &err); code != 0 {
+		t.Fatalf("newsjack detector --help exited %d: %s", code, err.String())
+	}
+	if !strings.Contains(out.String(), "newsjack detector run --help") {
+		t.Fatalf("newsjack detector --help did not print detector help:\n%s", out.String())
+	}
+}
+
+func TestDetectorRunHelpExitsZero(t *testing.T) {
+	var out, err bytes.Buffer
+	if code := runCLI([]string{"detector", "run", "--help"}, &out, &err); code != 0 {
+		t.Fatalf("newsjack detector run --help exited %d: %s", code, err.String())
+	}
+	for _, want := range []string{"Usage of detector run", "-profile", "-topic", "-sources"} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("detector run help missing %q:\n%s", want, out.String())
+		}
+	}
+}

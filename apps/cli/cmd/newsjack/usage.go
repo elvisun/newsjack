@@ -72,9 +72,41 @@ func printCommandHelp(w io.Writer, command string) bool {
 		uiCommand(w, "auth set-medialyst", "save Medialyst without rerunning setup", "--key <mlst_...>")
 		uiCommand(w, "auth set-x", "save X without rerunning setup", "--bearer-token <token>")
 		return true
+	case "detector":
+		printDetectorHelp(w)
+		return true
 	default:
 		return false
 	}
+}
+
+func printDetectorHelp(w io.Writer) {
+	uiProduct(w, "detector", "collects news evidence and emits JSON candidates for agent judgment.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack detector run --profile profile.json --save")
+	fmt.Fprintln(w, "  newsjack detector run --profile profile.json --mock")
+	fmt.Fprintln(w, "  newsjack detector diagnose")
+	fmt.Fprintln(w, "  newsjack detector recent")
+	fmt.Fprintln(w)
+	uiSection(w, "learn")
+	uiCommand(w, "newsjack detector run --help", "authoritative run flags and defaults", "")
+	uiCommand(w, "newsjack doctor", "credential and source health", "[--json]")
+	fmt.Fprintln(w)
+	uiSection(w, "sources")
+	uiKV(w, "news_search", "primary live news search")
+	uiKV(w, "x_news", "X story clusters; auto-included when enabled in profile")
+	uiKV(w, "x", "raw X post search with reach filters")
+	uiKV(w, "x_trends", "personalized or location trends from profile config")
+	uiKV(w, "major_feed", "RSS/Atom feeds from profile or flags")
+	uiKV(w, "reddit/hackernews", "optional v0 sources")
+	fmt.Fprintln(w)
+	uiSection(w, "profiles")
+	uiKV(w, "feed_urls", "included unless --no-profile-feeds is set")
+	uiKV(w, "search_terms", "if present, retrieval uses these instead of raw topics + competitors")
+	uiKV(w, "topics", "broad profile meaning and matching context")
+	uiKV(w, "competitors", "matching context; add to search_terms when they must drive retrieval")
+	uiNote(w, "Use --topic only for an explicit one-off topic. Routine monitor runs should rely on the profile.")
 }
 
 func printAuthHelp(w io.Writer) {
