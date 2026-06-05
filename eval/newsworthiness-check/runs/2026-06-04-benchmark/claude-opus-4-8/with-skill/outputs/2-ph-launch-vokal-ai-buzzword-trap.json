@@ -1,0 +1,39 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Incremental product launch wrapped in AI thought-leadership buzzword",
+    "why_not_higher": "'The future of human-AI collaboration is here' is a generic buzzword claim with no proof; 466 upvotes is a community-vote metric, not news",
+    "why_not_lower": "There is a real shipped product and a coherent AI/enterprise beat, so it is not the absolute floor"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 4, "rationale": "AI/enterprise software is a real beat, but reporters do not cover Product Hunt placements"},
+    "timeliness": {"score": 2, "rationale": "Only timing is a self-generated launch-day ranking; no external moment"},
+    "magnitude": {"score": 2, "rationale": "Seed unknown startup; no users, revenue, or customer scale stated"},
+    "proof_points": {"score": 2, "rationale": "data_available is false; upvotes and 'agents work together seamlessly' are not proof"},
+    "narrative_quality": {"score": 2, "rationale": "Buzzword framing ('future is here') with no conflict, surprise, or concrete before/after"},
+    "source_credibility": {"score": 2, "rationale": "Unknown seed startup, no independent credentials"}
+  },
+  "weak_dimensions": ["timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Drop the 'future of human-AI collaboration' buzzword; AI being a hot category is not a story",
+    "Bring first-party data: teams using it, measured handoff time saved, retention, named customer",
+    "Tie to a concrete, current workflow problem a specific reporter is covering"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "Vokal trended top 3 on Product Hunt with 466 upvotes", "url": null, "published_at": null}
+  ],
+  "evidence_gaps": [
+    "Usage or efficiency data with methodology",
+    "Named customer story",
+    "Any external news hook beyond the launch"
+  ],
+  "honest_assessment": "AI agents being a hot category is not a story and there is no proof, no data, and no hook here, just a Product Hunt ranking and a buzzword. The generic 'future is here' framing is marketing, not news. Hold.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is original data and a real external hook"
+  }
+}

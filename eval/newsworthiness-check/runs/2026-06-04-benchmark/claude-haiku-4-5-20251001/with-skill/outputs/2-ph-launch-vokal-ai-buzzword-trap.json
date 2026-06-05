@@ -1,0 +1,37 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "not newsworthy",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "AI-buzzword product launch with no proof or data",
+    "why_not_higher": "The fact that 'AI agents' is a hot category is not a substitute for proof, data, or a real journalism hook",
+    "why_not_lower": "The product has a reasonable category, but all hype with no evidence"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 4, "rationale": "AI/enterprise beat exists but pitch is generic category cheerleading"},
+    "timeliness": {"score": 1, "rationale": "No external hook, news event, or dated moment—only launch"},
+    "magnitude": {"score": 2, "rationale": "Unknown seed startup, no disclosed user base or revenue"},
+    "proof_points": {"score": 1, "rationale": "No data, customer, exclusive access, or methodology provided"},
+    "narrative_quality": {"score": 2, "rationale": "Framing ('future of human-AI collaboration is here') is generic thought leadership"},
+    "source_credibility": {"score": 2, "rationale": "Unknown startup founders with no background or standing"}
+  },
+  "weak_dimensions": ["timeliness", "proof_points", "narrative_quality", "magnitude"],
+  "improvement_suggestions": [
+    "Replace generic framing with a specific use case or customer story",
+    "Bring concrete data: user count, adoption curve, or retention metrics",
+    "Tie the pitch to a narrower beat (e.g., workflow automation or particular industry) with named customer proof"
+  ],
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Named customer or user story",
+    "Actual adoption metrics or traction data",
+    "Real-world use case beyond the product description"
+  ],
+  "honest_assessment": "This is an AI category talking point, not a story. The angle ('AI agents are the future') is a generic narrative without proof. Journalists will not cover a product for being in a hot category.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is a real customer or usage story"
+  }
+}

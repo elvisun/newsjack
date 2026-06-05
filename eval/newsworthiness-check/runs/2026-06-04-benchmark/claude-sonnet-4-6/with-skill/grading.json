@@ -1,0 +1,542 @@
+{
+  "skill_name": "newsworthiness-check",
+  "outputs_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/eval/newsworthiness-check/runs/2026-06-04-benchmark/claude-sonnet-4-6/with-skill/outputs",
+  "totals": {
+    "cases": 16,
+    "cases_passed": 16,
+    "assertions": 67,
+    "assertions_passed": 67,
+    "case_pass_rate": 1.0,
+    "assertion_pass_rate": 1.0,
+    "json_invalid_cases": []
+  },
+  "cases": [
+    {
+      "id": 1,
+      "eval_name": "ph-launch-fundraisly-overrated-as-news",
+      "industry": "ai-saas",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 2,
+      "recommended_action": "HOLD",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "mode is pitch_newsworthiness",
+          "passed": true,
+          "evidence": "mode='pitch_newsworthiness' (want =='pitch_newsworthiness')"
+        },
+        {
+          "text": "overall_score <= 3",
+          "passed": true,
+          "evidence": "overall_score=2 (want <=3)"
+        },
+        {
+          "text": "recommended_action is HOLD",
+          "passed": true,
+          "evidence": "recommended_action='HOLD' (want in ['HOLD'])"
+        },
+        {
+          "text": "honest_assessment flags the Product Hunt ranking / upvotes as not-news",
+          "passed": true,
+          "evidence": "honest_assessment matched ['product hunt', 'upvote', 'ranking', 'vanity']"
+        },
+        {
+          "text": "timeliness and proof_points both <= 3",
+          "passed": true,
+          "evidence": "dimensions.timeliness.score=2 (want <=3) | dimensions.proof_points.score=1 (want <=3)"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "ph-launch-vokal-ai-buzzword-trap",
+      "industry": "ai-saas",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 2,
+      "recommended_action": "HOLD",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 3",
+          "passed": true,
+          "evidence": "overall_score=2 (want <=3)"
+        },
+        {
+          "text": "recommended_action is HOLD or REVISE",
+          "passed": true,
+          "evidence": "recommended_action='HOLD' (want in ['HOLD', 'REVISE'])"
+        },
+        {
+          "text": "narrative_quality or proof_points <= 3",
+          "passed": true,
+          "evidence": "dimensions.narrative_quality.score=2 (want <=3) | dimensions.proof_points.score=1 (want <=3)"
+        },
+        {
+          "text": "honest_assessment does not treat AI topicality as the story (mentions lack of proof/hook/data)",
+          "passed": true,
+          "evidence": "honest_assessment matched ['not a story', 'category', 'generic']"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "ph-launch-paste-mcp-incremental-devtool",
+      "industry": "developer-tools",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 1,
+      "recommended_action": "HOLD",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 2",
+          "passed": true,
+          "evidence": "overall_score=1 (want <=2)"
+        },
+        {
+          "text": "recommended_action is HOLD",
+          "passed": true,
+          "evidence": "recommended_action='HOLD' (want in ['HOLD'])"
+        },
+        {
+          "text": "closest_anchor references incremental/utility/changelog",
+          "passed": true,
+          "evidence": "calibration_anchor.closest_anchor matched ['incremental', 'changelog', 'utility', 'feature']"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "ph-launch-coinvest-claimed-proof-capped-not-floored",
+      "industry": "fintech",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 4,
+      "recommended_action": "REVISE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score is 4 or 5",
+          "passed": true,
+          "evidence": "overall_score=4 (want 4..5)"
+        },
+        {
+          "text": "recommended_action is REVISE",
+          "passed": true,
+          "evidence": "recommended_action='REVISE' (want in ['REVISE'])"
+        },
+        {
+          "text": "evidence_gaps or improvement_suggestions demand the named brokerage partner and/or audited number",
+          "passed": true,
+          "evidence": "evidence_gaps matched ['partner', 'audited', 'verify', 'named'] | improvement_suggestions matched ['partner', 'audited', 'verify', 'named']"
+        },
+        {
+          "text": "the first-mover/novelty is credited, not floored (proof_points or beat_relevance or narrative_quality >= 5 somewhere shows the hook is real)",
+          "passed": true,
+          "evidence": "dimensions.beat_relevance.score=6 (want >=5) | dimensions.narrative_quality.score=5 (want >=5)"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "real-pr-nvidia-vera-cpu-for-agents",
+      "industry": "semiconductors",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 8,
+      "recommended_action": "PROCEED",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 6",
+          "passed": true,
+          "evidence": "overall_score=8 (want >=6)"
+        },
+        {
+          "text": "recommended_action is PROCEED",
+          "passed": true,
+          "evidence": "recommended_action='PROCEED' (want in ['PROCEED'])"
+        },
+        {
+          "text": "proof_points >= 6 (named partners + spec are real proof)",
+          "passed": true,
+          "evidence": "dimensions.proof_points.score=8 (want >=6)"
+        },
+        {
+          "text": "source_credibility >= 7 (NVIDIA is a notable, credible source)",
+          "passed": true,
+          "evidence": "dimensions.source_credibility.score=9 (want >=7)"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "real-event-anthropic-ipo-ai-builder-standing",
+      "industry": "ai-enterprise",
+      "mode": "event_newsjacking",
+      "overall_score": 6,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "mode is event_newsjacking",
+          "passed": true,
+          "evidence": "mode='event_newsjacking' (want =='event_newsjacking')"
+        },
+        {
+          "text": "overall_score between 5 and 7",
+          "passed": true,
+          "evidence": "overall_score=6 (want 5..7)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "magnitude >= 8 (event itself is major)",
+          "passed": true,
+          "evidence": "dimensions.magnitude.score=9 (want >=8)"
+        },
+        {
+          "text": "standing <= 7 (adjacent/observer, not direct-principal)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=6 (want <=7)"
+        },
+        {
+          "text": "kill_switch_triggered is false",
+          "passed": true,
+          "evidence": "kill_switch_triggered=False (want ==False)"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "eval_name": "event-skip-restaurant-chain-anthropic-ipo-no-standing",
+      "industry": "food-service",
+      "mode": "event_newsjacking",
+      "overall_score": 4,
+      "recommended_action": "SKIP",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 4",
+          "passed": true,
+          "evidence": "overall_score=4 (want <=4)"
+        },
+        {
+          "text": "recommended_action is SKIP",
+          "passed": true,
+          "evidence": "recommended_action='SKIP' (want in ['SKIP'])"
+        },
+        {
+          "text": "a no-client-standing cap is applied=true",
+          "passed": true,
+          "evidence": "cap 'no_client_standing_max_4' applied=true"
+        },
+        {
+          "text": "magnitude >= 7 (event acknowledged as big; only standing caps it)",
+          "passed": true,
+          "evidence": "dimensions.magnitude.score=9 (want >=7)"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "eval_name": "event-skip-seo-agency-deepseek-keyword-standing-trap",
+      "industry": "marketing-services",
+      "mode": "event_newsjacking",
+      "overall_score": 3,
+      "recommended_action": "SKIP",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 4",
+          "passed": true,
+          "evidence": "overall_score=3 (want <=4)"
+        },
+        {
+          "text": "recommended_action is SKIP",
+          "passed": true,
+          "evidence": "recommended_action='SKIP' (want in ['SKIP'])"
+        },
+        {
+          "text": "standing <= 3 (surface AI overlap rejected)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=1 (want <=3)"
+        },
+        {
+          "text": "a no-client-standing cap is applied=true",
+          "passed": true,
+          "evidence": "cap 'no_client_standing_max_4' applied=true"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "eval_name": "event-avoid-killswitch-food-outbreak-hook",
+      "industry": "food-cpg",
+      "mode": "event_newsjacking",
+      "overall_score": null,
+      "recommended_action": "AVOID",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "recommended_action is AVOID",
+          "passed": true,
+          "evidence": "recommended_action='AVOID' (want in ['AVOID'])"
+        },
+        {
+          "text": "kill_switch_triggered is true",
+          "passed": true,
+          "evidence": "kill_switch_triggered=True (want ==True)"
+        },
+        {
+          "text": "overall_score is null",
+          "passed": true,
+          "evidence": "overall_score=None"
+        },
+        {
+          "text": "no PR handoff: next_move.skill is null",
+          "passed": true,
+          "evidence": "next_move.skill=None"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "eval_name": "event-stale-window-alphabet-decay-cap",
+      "industry": "ai-tech",
+      "mode": "event_newsjacking",
+      "overall_score": 4,
+      "recommended_action": "SKIP",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 5",
+          "passed": true,
+          "evidence": "overall_score=4 (want <=5)"
+        },
+        {
+          "text": "recommended_action is WAIT or SKIP",
+          "passed": true,
+          "evidence": "recommended_action='SKIP' (want in ['WAIT', 'SKIP'])"
+        },
+        {
+          "text": "a stale/decay/window cap is applied=true",
+          "passed": true,
+          "evidence": "cap 'stale_event_older_than_48h_max_5' applied=true"
+        },
+        {
+          "text": "window <= 4 (recognized as stale/closing)",
+          "passed": true,
+          "evidence": "dimensions.window.score=2 (want <=4)"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "eval_name": "real-event-fda-cell-gene-guidance-biotech-standing",
+      "industry": "pharma-biotech",
+      "mode": "event_newsjacking",
+      "overall_score": 7,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 5",
+          "passed": true,
+          "evidence": "overall_score=7 (want >=5)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "standing >= 6 (direct regulatory standing)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=8 (want >=6)"
+        },
+        {
+          "text": "kill_switch_triggered is false",
+          "passed": true,
+          "evidence": "kill_switch_triggered=False (want ==False)"
+        },
+        {
+          "text": "no no-client-standing cap applied",
+          "passed": true,
+          "evidence": "no applied cap matching 'standing'"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "eval_name": "real-event-frozen-food-recall-safety-lab-standing",
+      "industry": "food-safety",
+      "mode": "event_newsjacking",
+      "overall_score": 7,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 5",
+          "passed": true,
+          "evidence": "overall_score=7 (want >=5)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "standing >= 6 (direct food-safety expertise + first-party data)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=8 (want >=6)"
+        },
+        {
+          "text": "kill_switch_triggered is false (recall/explainer, no active casualty hook)",
+          "passed": true,
+          "evidence": "kill_switch_triggered=False (want ==False)"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "eval_name": "real-event-softbank-france-datacenter-energy-standing",
+      "industry": "energy-datacenter",
+      "mode": "event_newsjacking",
+      "overall_score": 7,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 5",
+          "passed": true,
+          "evidence": "overall_score=7 (want >=5)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "standing >= 6 (direct operational standing in hyperscale cooling/power)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=8 (want >=6)"
+        },
+        {
+          "text": "magnitude >= 7 (Europe's largest AI-infra investment)",
+          "passed": true,
+          "evidence": "dimensions.magnitude.score=8 (want >=7)"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "eval_name": "marginal-real-pr-bank-cd-rate-promo",
+      "industry": "banking-finance",
+      "mode": "pitch_newsworthiness",
+      "overall_score": 2,
+      "recommended_action": "HOLD",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score <= 3",
+          "passed": true,
+          "evidence": "overall_score=2 (want <=3)"
+        },
+        {
+          "text": "recommended_action is HOLD or REVISE",
+          "passed": true,
+          "evidence": "recommended_action='HOLD' (want in ['HOLD', 'REVISE'])"
+        },
+        {
+          "text": "proof_points <= 3 (no exclusive data; matching the market is not proof)",
+          "passed": true,
+          "evidence": "dimensions.proof_points.score=1 (want <=3)"
+        },
+        {
+          "text": "honest_assessment flags it as promotional / not differentiated / not news",
+          "passed": true,
+          "evidence": "honest_assessment matched ['promotional', 'not news', 'marketing', 'no hook', 'advertis']"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "eval_name": "real-event-fed-rate-pressure-lending-fintech-standing",
+      "industry": "finance-macro",
+      "mode": "event_newsjacking",
+      "overall_score": 6,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 5",
+          "passed": true,
+          "evidence": "overall_score=6 (want >=5)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "standing >= 6 (first-party lending data + named economist)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=7 (want >=6)"
+        },
+        {
+          "text": "no no-client-standing cap applied",
+          "passed": true,
+          "evidence": "no applied cap matching 'standing'"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "eval_name": "real-event-ev-battery-recalls-safety-expert-standing",
+      "industry": "automotive-ev",
+      "mode": "event_newsjacking",
+      "overall_score": 7,
+      "recommended_action": "RIDE",
+      "json_valid": true,
+      "passed": true,
+      "expectations": [
+        {
+          "text": "overall_score >= 5",
+          "passed": true,
+          "evidence": "overall_score=7 (want >=5)"
+        },
+        {
+          "text": "recommended_action is RIDE or WAIT",
+          "passed": true,
+          "evidence": "recommended_action='RIDE' (want in ['RIDE', 'WAIT'])"
+        },
+        {
+          "text": "kill_switch_triggered is false (preventive recall, technical explainer, no casualty hook)",
+          "passed": true,
+          "evidence": "kill_switch_triggered=False (want ==False)"
+        },
+        {
+          "text": "standing >= 6 (direct EV-safety engineering expertise + failure data)",
+          "passed": true,
+          "evidence": "dimensions.standing.score=8 (want >=6)"
+        }
+      ]
+    }
+  ]
+}

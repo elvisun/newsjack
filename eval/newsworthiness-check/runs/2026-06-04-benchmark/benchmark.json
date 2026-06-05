@@ -1,0 +1,53 @@
+{
+  "date": "2026-06-04",
+  "dataset_version": 2,
+  "cases": 16,
+  "gold_reference": "claude-opus-4-8 + skill (67/67 assertions)",
+  "cells": {
+    "claude-opus-4-8": {
+      "with_skill": {
+        "cases_passed": 16,
+        "cases": 16,
+        "assertions_passed": 67,
+        "assertions": 67,
+        "schema_complete": 16,
+        "mean_abs_score_delta_vs_gold": 0.0,
+        "over_rated_ge2": 0
+      },
+      "without_skill": {
+        "mean_abs_score_delta_vs_gold": 0.933,
+        "over_rated_ge2": 1
+      }
+    },
+    "claude-sonnet-4-6": {
+      "with_skill": {
+        "cases_passed": 16,
+        "cases": 16,
+        "assertions_passed": 67,
+        "assertions": 67,
+        "schema_complete": 16,
+        "mean_abs_score_delta_vs_gold": 0.267,
+        "over_rated_ge2": 0
+      },
+      "without_skill": {
+        "mean_abs_score_delta_vs_gold": 1.533,
+        "over_rated_ge2": 5
+      }
+    },
+    "claude-haiku-4-5-20251001": {
+      "with_skill": {
+        "cases_passed": 11,
+        "cases": 16,
+        "assertions_passed": 62,
+        "assertions": 67,
+        "schema_complete": 9,
+        "mean_abs_score_delta_vs_gold": 0.133,
+        "over_rated_ge2": 0
+      },
+      "without_skill": {
+        "mean_abs_score_delta_vs_gold": 1.533,
+        "over_rated_ge2": 6
+      }
+    }
+  }
+}

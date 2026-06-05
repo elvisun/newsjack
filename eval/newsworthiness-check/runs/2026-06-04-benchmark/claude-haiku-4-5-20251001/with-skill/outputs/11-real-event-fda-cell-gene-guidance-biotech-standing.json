@@ -1,0 +1,35 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in biotech trade press and healthcare policy coverage",
+  "calibration_anchor": {
+    "closest_anchor": "Regulatory agency action with clear sector-wide implications and direct-expert standing",
+    "why_not_higher": "FDA draft guidance is newsworthy but not a final rule or court decision affecting all life sciences; magnitude is sector-important, not national",
+    "why_not_lower": "The guidance directly affects your pipeline; you have a named CMO; journalists actively seek expert context on FDA guidance shifts"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "FDA guidance changes regulatory pathway for cell and gene therapies; affects sector-wide development strategy and patient access"},
+    "velocity": {"score": 8, "rationale": "Fresh news on 2026-06-02 (2 days old); biotech and healthcare policy reporters are covering this actively"},
+    "novelty": {"score": 6, "rationale": "FDA guidance updates are routine; but accelerating cell/gene therapy development is a clear policy shift of interest"},
+    "standing": {"score": 8, "rationale": "Client is clinical-stage gene-therapy biotech with active INDs governed directly by this guidance; named CMO is a credible expert spokesperson"},
+    "window": {"score": 8, "rationale": "Draft guidance creates a live commentary window; reporters seek expert reaction within 24-72 hours"
+  },
+  "caps_applied": [],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "FDA draft guidance on cell and gene therapy development acceleration",
+      "url": null,
+      "published_at": "2026-06-02"
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "This is a textbook newsjacking opportunity. You are directly affected, you have credentialed expertise, and journalists actively seek developer voices on FDA guidance. The window is open now.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a focused, sourced comment from your CMO on what the guidance changes for your development pathway and patient access"}
+  }
+}

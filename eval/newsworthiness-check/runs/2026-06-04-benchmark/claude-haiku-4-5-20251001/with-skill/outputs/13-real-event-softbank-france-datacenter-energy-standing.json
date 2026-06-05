@@ -1,0 +1,35 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in energy, infrastructure, and European tech policy press",
+  "calibration_anchor": {
+    "closest_anchor": "Major infrastructure investment announcement with direct-expert standing in the critical constraint",
+    "why_not_higher": "SoftBank's announcement is significant but not a national emergency or policy shift; magnitude is sector-important and regionally notable",
+    "why_not_lower": "Europe's largest single AI-infrastructure investment with clear cooling/power implications and your direct operational expertise"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "SoftBank €75B (~$87.5B) investment in 5GW AI datacenter capacity is Europe's largest single announced AI-infrastructure commitment"},
+    "velocity": {"score": 7, "rationale": "Fresh announcement early June 2026; infrastructure and energy reporters are covering actively"},
+    "novelty": {"score": 7, "rationale": "Massive European AI-infrastructure investment is notable; Europe's energy constraints and cooling challenges are live policy topics"},
+    "standing": {"score": 8, "rationale": "Client is a datacenter liquid-cooling and power-density company that directly sells into hyperscale builds; has first-party efficiency data and a named engineering lead"},
+    "window": {"score": 8, "rationale": "Fresh announcement; infrastructure reporters need expert explanation of whether Europe's grid and cooling can handle 5GW"
+  },
+  "caps_applied": [],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "SoftBank €75B France AI datacenter investment (5GW)",
+      "url": null,
+      "published_at": "2026-06-01"
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "SoftBank's massive European AI-compute commitment directly raises the technical questions your company solves. Your cooling and power expertise is exactly what reporters need to explain feasibility.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sourced expert comment on the cooling and power-density requirements of 5GW AI infrastructure and European grid readiness"}
+  }
+}

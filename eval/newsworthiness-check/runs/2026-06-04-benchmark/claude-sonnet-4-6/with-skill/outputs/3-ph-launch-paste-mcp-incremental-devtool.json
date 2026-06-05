@@ -1,0 +1,45 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 1,
+  "band": "not newsworthy",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Incremental utility feature / changelog-grade developer tool",
+    "why_not_higher": "An infinite clipboard for AI coding tools is a small convenience utility — changelog material, not a story; 225 upvotes on Product Hunt is a weak signal; no data, no named users, no exclusive angle",
+    "why_not_lower": "This is already at the floor — the product has a defined use case and a real audience, but neither of those makes it news"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 2, "rationale": "Developer tools is a real beat, but reporters on this beat cover new categories, major platform changes, significant acquisitions, and genuine workflow breakthroughs — not clipboard utilities, however useful"},
+    "timeliness": {"score": 1, "rationale": "No external hook. A Product Hunt launch day is not a press event. The product addresses a persistent minor friction point, not a timely problem"},
+    "magnitude": {"score": 1, "rationale": "A clipboard tool for AI coding assistants affects a narrow slice of developers. No scale metrics provided. 225 upvotes represent a very small audience signal"},
+    "proof_points": {"score": 1, "rationale": "No data on adoption, no named users, no benchmark of time or keystrokes saved, no exclusive access or technical artifact"},
+    "narrative_quality": {"score": 1, "rationale": "There is no conflict, protagonist, or stakes. Clipboard retrieval is a convenience feature. Nothing about this framing creates tension or surprise for a reader"},
+    "source_credibility": {"score": 2, "rationale": "Bootstrapped unknown maker. No stated credentials. The product exists and appears functional, but the source has no standing beyond the tool itself"}
+  },
+  "weak_dimensions": ["beat_relevance", "timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Do not pitch this as a standalone press story — it belongs in a changelog, Product Hunt post, or developer newsletter",
+    "If there is a measurable productivity impact (e.g., tokens saved, context-switching time), surface that first and see if it rises to a data story",
+    "Look for a broader trend angle (AI coding workflow fragmentation) before pitching, and only if you have data to back it"
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Paste MCP: infinite clipboard for Claude, Codex, and AI coding tools; 225 Product Hunt upvotes",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "No adoption metrics (downloads, active users, sessions)",
+    "No productivity or efficiency data",
+    "No named users or teams using it",
+    "No independent validation or press mention"
+  ],
+  "honest_assessment": "This is a useful developer utility, not a news story. Clipboard management for AI coding tools is a narrow convenience feature — changelog material at best. 225 Product Hunt upvotes do not establish journalist interest. There is no hook, no data, no conflict, and no scale. Hold this until there is something journalists would actually stop to read.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold. No handoff is appropriate — this needs a fundamentally different story shape before outreach"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 1,
+  "band": "not newsworthy",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Incremental utility / changelog-grade feature",
+    "why_not_higher": "An infinite clipboard for AI tools is a minor UX convenience, not a category shift or news item",
+    "why_not_lower": "The product is real but belongs in a changelog, not a newsroom"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 3, "rationale": "Developer tools beat exists but this is a very narrow utility"},
+    "timeliness": {"score": 1, "rationale": "No news hook beyond product launch"},
+    "magnitude": {"score": 1, "rationale": "Unknown bootstrapped startup, no user base disclosed"},
+    "proof_points": {"score": 1, "rationale": "No data, customer testimonial, or usage metrics"},
+    "narrative_quality": {"score": 1, "rationale": "Feature description lacks conflict, consequence, or surprise"},
+    "source_credibility": {"score": 2, "rationale": "Unknown founder with no track record stated"}
+  },
+  "weak_dimensions": ["timeliness", "magnitude", "proof_points", "narrative_quality"],
+  "improvement_suggestions": [
+    "This does not warrant a press pitch; it is changelog material",
+    "If there is real adoption or a novel use case, bring that data"
+  ],
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Any indication this solves a real adoption problem",
+    "User traction or adoption metrics"
+  ],
+  "honest_assessment": "An infinite clipboard is a convenience tool, not news. It belongs in a product release notes or a newsletter, not in a journalist pitch.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch this"
+  }
+}

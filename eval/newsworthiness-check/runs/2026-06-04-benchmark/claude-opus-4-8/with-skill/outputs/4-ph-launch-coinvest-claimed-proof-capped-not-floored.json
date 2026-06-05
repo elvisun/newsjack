@@ -1,0 +1,39 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 4,
+  "band": "routine",
+  "recommended_action": "REVISE",
+  "will_get_coverage": "possible in fintech trade if the claims can be verified",
+  "calibration_anchor": {
+    "closest_anchor": "Genuine first-mover product novelty with unverified single-source proof",
+    "why_not_higher": "The 40,000 users and trade volume are claimed but unaudited, with no named brokerage partner, so the central proof is single-source and unverifiable",
+    "why_not_lower": "Being first to offer in-chat brokerage trading is a real, specific novelty that fintech reporters would plausibly find interesting, so it is not floored"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 6, "rationale": "In-chat trading is a clean fintech beat fit and the novelty gives a reporter a real reason to look"},
+    "timeliness": {"score": 3, "rationale": "Only timing is the launch itself; no external regulatory or market moment attached"},
+    "magnitude": {"score": 4, "rationale": "40,000 beta users would be moderate if true, but it is unverified and trade volume is vague"},
+    "proof_points": {"score": 3, "rationale": "Central proof is claimed-but-unverified with no audit and no named brokerage partner; a regulatory red flag for trading claims"},
+    "narrative_quality": {"score": 5, "rationale": "'First brokerage trading from inside ChatGPT/Claude' is a genuinely novel, story-shaped hook with real tension"},
+    "source_credibility": {"score": 3, "rationale": "Unknown startup making a regulated-finance claim with no named partner or audited figure"}
+  },
+  "weak_dimensions": ["timeliness", "proof_points", "source_credibility"],
+  "improvement_suggestions": [
+    "Name the licensed brokerage partner that clears the trades; an unnamed partner is fatal for a fintech reporter",
+    "Provide an audited or verifiable user and trade-volume number rather than a self-reported claim",
+    "Tie the launch to a current moment in AI-agent finance to add timeliness"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "Co-Invest claims first in-chat brokerage trading, 40,000 beta users", "url": null, "published_at": null}
+  ],
+  "evidence_gaps": [
+    "Named brokerage partner of record",
+    "Audited or verified user and trade-volume numbers",
+    "Regulatory/compliance posture for offering trading inside chat tools"
+  ],
+  "honest_assessment": "The first-in-chat-brokerage novelty is real and gives this more than a routine launch, so it is not floored. But the core proof is a single-source, unaudited claim with no named brokerage partner, which is disqualifying for a trading product. Revise with verifiable proof before pitching.",
+  "next_move": {
+    "skill": "fact-check",
+    "rationale": "Verify the user-count, trade-volume, and brokerage-partner claims before any journalist outreach"
+  }
+}

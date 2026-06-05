@@ -1,0 +1,37 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 5,
+  "band": "routine but marginally salvageable",
+  "recommended_action": "REVISE",
+  "will_get_coverage": "possible with stronger proof",
+  "calibration_anchor": {
+    "closest_anchor": "First-mover novelty in a growing fintech category, but unverified single-source claims",
+    "why_not_higher": "The claim to be 'first in-chat brokerage' is novelty, but 40K beta users and volume are unverified and unaudited. No named brokerage partner. Single-source claim caps at 5 per rubric.",
+    "why_not_lower": "The first-mover angle and novel product category are real; not floored"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 6, "rationale": "Fintech beat plausibly covers in-app trading innovation"},
+    "timeliness": {"score": 4, "rationale": "Launch hook exists but no external catalyst or news moment"},
+    "magnitude": {"score": 5, "rationale": "40K beta users is claimed but unverified; if real, noteworthy adoption"},
+    "proof_points": {"score": 4, "rationale": "Beta user count and 'meaningful volume' claimed but unaudited; no named brokerage partner to verify regulatory standing"},
+    "narrative_quality": {"score": 5, "rationale": "First-mover angle is credible; in-chat trading is novel enough to interest fintech reporters"},
+    "source_credibility": {"score": 4, "rationale": "Unknown startup; credibility depends on verifying the 40K claim and regulatory partnership"
+  },
+  "weak_dimensions": ["proof_points", "source_credibility"],
+  "improvement_suggestions": [
+    "Name the brokerage partner or publish the regulatory filing that authorizes in-app trading",
+    "Provide an audited or third-party-verified user count and trade-volume figure",
+    "Share a specific named customer case study or use case"
+  ],
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Verified brokerage partner identity and licensing",
+    "Audited user count or third-party verification of 40K",
+    "Named customer or trade-volume metric with supporting data"
+  ],
+  "honest_assessment": "The first-mover claim is credible and interesting, but unverified. A 40K-user startup without a named brokerage partner or audited numbers cannot anchor a pitch yet. Once verified, this becomes a 6-7 story.",
+  "next_move": {
+    "skill": "fact-check",
+    "rationale": "Verify the brokerage partnership and user claims before outreach"}
+  }
+}

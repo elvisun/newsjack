@@ -1,0 +1,39 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "PROCEED",
+  "will_get_coverage": "likely in trade press; possible in mainstream business press",
+  "calibration_anchor": {
+    "closest_anchor": "New product category from a dominant, well-known company with concrete specs and named marquee partners",
+    "why_not_higher": "This is sector-important news but NVIDIA is known for incremental iteration; the product is real but not a generational shift like the GPU itself was",
+    "why_not_lower": "A new CPU design from NVIDIA with 1.8x performance claims, 88 custom cores, and partnerships from Dell, HPE, Lenovo, Oracle, Anthropic, and OpenAI is substantial sector news"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 8, "rationale": "Chip and enterprise-infrastructure reporters cover new CPU announcements from NVIDIA as a matter of course"},
+    "timeliness": {"score": 8, "rationale": "Live product launch with fall 2026 availability creates a timely news window"},
+    "magnitude": {"score": 7, "rationale": "NVIDIA is a globally dominant $3T+ company; a new CPU category affects enterprise purchasing and AI-infrastructure strategy"},
+    "proof_points": {"score": 8, "rationale": "Concrete specs (1.8x perf vs x86, 88 cores, NVLink-C2C), named launch partners (Dell, HPE, Lenovo, Supermicro, Oracle, CoreWeave, Anthropic, OpenAI, NYSE), and stated shipping date"},
+    "narrative_quality": {"score": 7, "rationale": "New product category (CPU for agents) tied to a clear market moment (AI infrastructure scaling)"},
+    "source_credibility": {"score": 8, "rationale": "NVIDIA is a credible, globally recognized company with a stated product and financial stake"}
+  },
+  "weak_dimensions": [],
+  "improvement_suggestions": [
+    "Emphasize the market-timing angle: why agents need a dedicated CPU now",
+    "Lead with partner breadth and tier (Oracle, Anthropic, OpenAI) to signal market validation"
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "NVIDIA Vera CPU specification and launch partners",
+      "url": null,
+      "published_at": "2026-06-02"
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "This is a legitimate, newsworthy product announcement from a dominant company with real partners and concrete specs. Chip and enterprise reporters will cover it.",
+  "next_move": {
+    "skill": "journalist-fit-check",
+    "rationale": "Identify specific chip reporters and enterprise IT journalists for targeted outreach"
+  }
+}

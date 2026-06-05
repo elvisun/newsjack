@@ -1,0 +1,35 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": null,
+  "band": "blocked",
+  "recommended_action": "AVOID",
+  "will_get_coverage": "not applicable",
+  "calibration_anchor": {
+    "closest_anchor": "brand-safety kill switch",
+    "why_not_higher": "Active public-health outbreak with people sickened cannot be scored for newsjacking opportunity",
+    "why_not_lower": "Score is not assigned — the kill switch applies before scoring begins"
+  },
+  "dimensions": {},
+  "caps_applied": [],
+  "kill_switch_triggered": true,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "E. coli O157:H7 outbreak linked to beef kofta; consumers sickened; whole-genome sequencing confirmation; early June 2026",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Client: DTC meal-kit brand; intent is to promote safety and drive subscriptions during the outbreak scare",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "This is an active food-safety outbreak with real people harmed. Using it as a promotional hook to drive meal-kit subscriptions trips the brand-safety kill switch without exception. The client has no direct public-interest standing in the investigation, no remediation role, and an explicitly commercial motivation. If the brand wants to communicate on food safety, it should do so through operational channels with no promotional angle attached — and only if it has genuine relevant information.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No PR handoff is appropriate. If the company has direct food-safety expertise and genuinely wants to contribute to public understanding without any promotional hook, escalate to legal and a PR crisis advisor — not a newsjacking workflow."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Incremental product launch / community-vote ranking, not a journalist hook",
+    "why_not_higher": "A Product Hunt #1 with 1,000 upvotes is a community-vote vanity metric, not external news; no data, customer proof, or live hook is supplied",
+    "why_not_lower": "There is a real shipped product and a plausibly-correct beat, so it is not a pure floor non-news item"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 4, "rationale": "Startups/venture is a coherent beat, but reporters do not cover Product Hunt rankings as news"},
+    "timeliness": {"score": 2, "rationale": "The only timing is a self-generated launch-day ranking, not an external moment"},
+    "magnitude": {"score": 2, "rationale": "Seed-stage unknown startup; no users, revenue, or market effect stated beyond upvotes"},
+    "proof_points": {"score": 2, "rationale": "Upvote count is a popularity signal, not data, named customer, or methodology; data_available is false"},
+    "narrative_quality": {"score": 2, "rationale": "Generic 'AI agent books meetings for founders' framing with no tension or surprise"},
+    "source_credibility": {"score": 2, "rationale": "Unknown seed startup with no independent credentials stated"}
+  },
+  "weak_dimensions": ["timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Drop the Product Hunt ranking entirely; it is a community vote, not a journalist hook",
+    "Lead with first-party data: how many meetings booked, dollar value raised by founders using it, conversion rates",
+    "Tie to a current trend reporters are already covering about AI agents in venture fundraising, with named-customer proof"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "Fundraisly hit #1 Product of the Day on Product Hunt with 1,000+ upvotes", "url": null, "published_at": null}
+  ],
+  "evidence_gaps": [
+    "Usage, revenue, or founder-outcome metrics",
+    "Named customer or case study",
+    "Any external hook beyond the launch-day ranking"
+  ],
+  "honest_assessment": "A Product Hunt #1 ranking and upvotes are a community-vote vanity metric, not news. Reporters do not cover Product Hunt rankings, and there is no data, customer, or hook here. Hold until there is real proof.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is original data or an external hook; there is no story to pitch yet"
+  }
+}

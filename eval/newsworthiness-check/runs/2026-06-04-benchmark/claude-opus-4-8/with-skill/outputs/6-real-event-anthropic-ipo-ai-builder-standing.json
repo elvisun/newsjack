@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "the event will get heavy mainstream coverage; this client can earn adjacent-source commentary if the angle is narrow",
+  "calibration_anchor": {
+    "closest_anchor": "Mega tech IPO filing (potential trillion-dollar listing)",
+    "why_not_higher": "The client is an adjacent builder, not a principal in the IPO; observer/adjacent standing caps the newsjacking value well below the event's own magnitude",
+    "why_not_lower": "The client genuinely builds on Claude and its unit economics depend on model pricing, so it has a real, narrow expert angle reporters are already chasing"
+  },
+  "dimensions": {
+    "magnitude": {"score": 9, "rationale": "Confidential IPO filing after a $65B round at ~$965B valuation with ~$47B run-rate; a potential trillion-dollar listing ahead of OpenAI is a major national/global business story"},
+    "velocity": {"score": 8, "rationale": "Filed 2026-06-01, three days ago; still spreading hard across business and tech press"},
+    "novelty": {"score": 7, "rationale": "A frontier-AI lab racing to a trillion-dollar IPO ahead of its rival is a genuinely new, surprising milestone"},
+    "standing": {"score": 6, "rationale": "Adjacent/observer standing: the client builds its core product on Claude and is exposed to model pricing, but it is not a principal; the angle must stay narrowly on builder economics"},
+    "window": {"score": 7, "rationale": "Three days old and still developing; the builder-economics angle is still timely as reporters work the implications"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client has genuine adjacent standing as a Claude-based builder exposed to model economics, so the no-standing cap does not apply; standing is held to an adjacent-observer ceiling instead"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "Event broke 2026-06-01, ~3 days ago, but velocity is still high and the story is actively developing, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "Anthropic confidentially filed for IPO after $65B round at ~$965B valuation", "url": null, "published_at": "2026-06-01"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current coverage saturation / whether the builder-economics angle is already crowded",
+    "First-party data from the client on how Claude pricing moves its own unit economics"
+  ],
+  "honest_assessment": "The event is huge and the client is not a principal, but it has a real, narrow angle as a company whose economics depend on Claude pricing. Ride only with that tightly-scoped builder-economics angle backed by its own data; do not pretend to be a capital-markets authority.",
+  "next_move": {
+    "skill": "angle-generator",
+    "rationale": "Shape the narrow 'what an Anthropic IPO means for companies that build on frontier models' angle with the client's own economics"
+  }
+}

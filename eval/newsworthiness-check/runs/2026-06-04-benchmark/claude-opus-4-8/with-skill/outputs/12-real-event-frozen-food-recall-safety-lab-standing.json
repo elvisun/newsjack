@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in consumer, food-safety, and retail trade press, possible mainstream consumer pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Large multi-retailer product recall with consumer-safety interest",
+    "why_not_higher": "A precautionary recall is not a national headline on the scale of a court ruling or systemic event; impact is contained to consumer-safety coverage",
+    "why_not_lower": "A ~37M-pound recall across Trader Joe's and Kroger creates real demand for a credentialed explainer, and the client has direct standing and first-party data"
+  },
+  "dimensions": {
+    "magnitude": {"score": 6, "rationale": "About 37 million pounds across two major retailers over glass contamination is a sizable consumer-safety story"},
+    "velocity": {"score": 6, "rationale": "Reported early June 2026, fresh, with active consumer and retail-press interest"},
+    "novelty": {"score": 5, "rationale": "Recalls are common, but the scale and dual-retailer scope give it above-routine interest"},
+    "standing": {"score": 8, "rationale": "Direct standing: an independent food-safety lab with first-party contamination-detection data and a named food-safety scientist"},
+    "window": {"score": 6, "rationale": "Fresh, still-developing recall; the explainer window is open"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client is a food-safety lab with first-party data and a named scientist; standing is direct, so no standing cap applies"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "Recall is fresh and still expanding, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "Frozen-food recall expanded to ~37M lbs of Trader Joe's and Kroger products over glass contamination", "url": null, "published_at": "2026-06"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current reporter traction",
+    "Whether any illnesses have been reported (would change tone and require added restraint)"
+  ],
+  "honest_assessment": "This is a legitimate explainer opportunity: a large precautionary recall, direct food-safety standing, first-party detection data, and a credentialed spokesperson. Because this is a recall with no active-casualty hook and the angle is sober explanation rather than attacking the retailers, no kill switch fires. Ride with restraint and keep it educational, not promotional.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sober, sourced food-safety-scientist explainer on glass contamination and detection while the window is open"
+  }
+}

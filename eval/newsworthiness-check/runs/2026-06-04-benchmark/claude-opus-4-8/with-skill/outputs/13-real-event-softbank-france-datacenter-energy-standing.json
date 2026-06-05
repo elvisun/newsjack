@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in energy, data-center, and tech-infrastructure press, possible mainstream business pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Major industry infrastructure investment leading sector coverage",
+    "why_not_higher": "It is a large investment announcement, not a national/global headline event; capacity will be built over years, so impact is forward-looking",
+    "why_not_lower": "Europe's largest single announced AI-infrastructure investment, fresh, with direct operational standing and a clear reporter-demand angle"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Up to €75B (~$87.5B) for 5GW of AI data-center capacity is Europe's largest single announced AI-infrastructure investment"},
+    "velocity": {"score": 7, "rationale": "Reported early June 2026, fresh, spreading across energy and tech-infra press"},
+    "novelty": {"score": 6, "rationale": "Hyperscale AI-infra investments are a known trend, but the European scale here is record-setting"},
+    "standing": {"score": 8, "rationale": "Direct operational standing: the client sells liquid-cooling and power-density into exactly these hyperscale builds, with first-party cooling-efficiency data and a named engineering lead"},
+    "window": {"score": 7, "rationale": "Fresh announcement; the 'can the grid and cooling handle 5GW' angle is timely and open"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client has direct operational standing in hyperscale cooling and power with first-party data, so no standing cap applies"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "Event is fresh (early June 2026) and actively spreading, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "SoftBank to invest up to €75B for 5GW of AI data-center capacity in France", "url": null, "published_at": "2026-06"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current reporter traction on the cooling/power angle",
+    "Specifics of the client's first-party cooling-efficiency data to anchor the pitch"
+  ],
+  "honest_assessment": "This is a strong newsjacking opportunity: a record-scale fresh infrastructure event with direct operational standing and first-party data, plus an obvious reporter-demand angle on whether the grid and cooling can support 5GW. Ride with the technical power-and-cooling-realities angle backed by the client's own data.",
+  "next_move": {
+    "skill": "angle-generator",
+    "rationale": "Shape the 'power and cooling realities of 5GW of AI compute' angle around the client's first-party efficiency data"
+  }
+}

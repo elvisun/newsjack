@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 4,
+  "band": "significant event, stale window",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the original story was covered; a late comment with nothing new will not get pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Major AI-compute financing story that has already peaked and decayed",
+    "why_not_higher": "The event broke more than a week ago (2026-05-27) with declining velocity and no new development; the window is closed and the stale cap applies even with adjacent standing",
+    "why_not_lower": "The client has genuine adjacent standing on AI-compute demand, so it is not a no-standing skip; the event itself was real and large"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "An $80B AI-compute stock-sale plan from Alphabet is a major capital-markets story"},
+    "velocity": {"score": 3, "rationale": "Coverage velocity is declining a week-plus after the break with no new catalyst"},
+    "novelty": {"score": 3, "rationale": "Nothing new since the original break; a late reaction adds no fresh information"},
+    "standing": {"score": 6, "rationale": "Genuine adjacent standing on AI-compute demand, but with no new data or contrarian proof point to justify late entry"},
+    "window": {"score": 3, "rationale": "More than 48 hours (over a week) old with declining velocity and no new development; the window is effectively closed"}
+  },
+  "caps_applied": [
+    {"cap": "stale_event_older_than_48h_max_5", "applied": true, "rationale": "Event broke 2026-05-27, over a week ago, with declining velocity and no new development since, so the score is capped at 5"},
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client has genuine adjacent standing on AI-compute demand, so the no-standing cap does not apply"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "Alphabet $80B AI-compute stock-sale plan", "url": null, "published_at": "2026-05-27"}
+  ],
+  "evidence_gaps": [
+    "Any new development or contrarian data point that would reopen the window",
+    "Confirmation of current coverage saturation"
+  ],
+  "honest_assessment": "Even with real adjacent standing, this is a stale window: the event broke over a week ago, velocity is declining, and the client has nothing new to add. A late me-too comment will not get picked up. Skip unless a genuinely new data point or development emerges.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch a week-old story with nothing new; wait for a fresh development backed by first-party data"
+  }
+}

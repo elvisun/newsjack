@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in personal-finance and fintech press, possible mainstream business pickup around the FOMC meeting",
+  "calibration_anchor": {
+    "closest_anchor": "Major live macro story with a dated upcoming catalyst",
+    "why_not_higher": "The Fed has not yet acted; this is a run-up to a possible cut, not a decision, so the peak news moment is still ahead at the June 16-17 meeting",
+    "why_not_lower": "An unusual 8-4 split (most dissents since 1992) plus a live cut debate is a real macro story, and the client has direct first-party lending data and a named economist"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Fed policy and a possible first cut after an unusually divided 8-4 vote is a major macro story affecting borrowers, lenders, and markets broadly"},
+    "velocity": {"score": 6, "rationale": "Ongoing live backdrop with rising attention as the June 16-17 FOMC approaches, though not a single breaking moment"},
+    "novelty": {"score": 6, "rationale": "The 8-4 split with the most dissents since 1992 is a genuinely unusual, story-worthy wrinkle"},
+    "standing": {"score": 8, "rationale": "Direct standing: a consumer-lending/mortgage fintech with first-party application and refinance-demand data plus a named chief economist who can speak to rate sensitivity"},
+    "window": {"score": 6, "rationale": "Window is open now for a data-backed run-up angle and reopens at the June 16-17 decision; timing is favorable either way"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client has direct first-party lending data and a named chief economist, so no standing cap applies"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "This is a live, ongoing macro backdrop with a dated upcoming catalyst, not a stale single break, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "Fed held at 3.5-3.75% for three meetings amid 8-4 split; possible first cut at June 16-17 FOMC", "url": null, "published_at": "2026-06"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current reporter traction on the run-up angle",
+    "Specifics of the client's live application-volume data to anchor the pitch"
+  ],
+  "honest_assessment": "This is a strong opportunity: a major live macro story with a dated catalyst (June 16-17) and direct standing from first-party lending data and a named economist. Ride the run-up now with the application-data angle, or wait and react to the decision; either way this is well above a skip.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a data-backed chief-economist comment on what borrowers and lenders should expect into the June Fed decision"
+  }
+}

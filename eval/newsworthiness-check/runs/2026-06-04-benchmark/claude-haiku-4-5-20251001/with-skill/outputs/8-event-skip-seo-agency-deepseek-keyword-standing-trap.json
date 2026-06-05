@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 3,
+  "band": "significant event, zero relevant user standing",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "yes, but not with a local-SEO agency as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Frontier-model funding news with zero connection to SEO or local marketing",
+    "why_not_higher": "Sharing the token 'AI' is not standing. A local-SEO agency that helps clients rank for 'AI search' has no expertise in frontier-model fundraising.",
+    "why_not_lower": "The event itself (DeepSeek $7.4B raise) is legitimate sector news; the cap applies only to this client's standing"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "DeepSeek $7.4B fundraise with Tencent/CATL is significant in the frontier-model and China-AI landscape"},
+    "velocity": {"score": 7, "rationale": "Event reported 2026-06-03 (fresh), likely ongoing coverage"},
+    "novelty": {"score": 6, "rationale": "DeepSeek funding is notable; China AI raises are strategically significant but not unprecedented"},
+    "standing": {"score": 1, "rationale": "Local-SEO agency helping clients rank in 'AI search' has no connection to frontier-model funding, regulatory positioning, or China-AI strategy"},
+    "window": {"score": 7, "rationale": "Timing window is open for commentary on the implications"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": true,
+      "rationale": "Keyword overlap ('AI') does not create standing. A local-SEO agency has no expertise or affected customers in frontier-model markets or geopolitical AI strategy."
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Any actual connection between SEO ranking practices and frontier-model funding strategy"
+  ],
+  "honest_assessment": "This is a classic keyword-adjacency trap. Sharing a word with a story does not make you a source for it. A local-SEO agency is not credible commentary on Chinese frontier-model fundraising.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch this"
+  }
+}

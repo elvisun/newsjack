@@ -1,0 +1,38 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Routine promotional corporate PR (rate advertisement) with no differentiated hook",
+    "why_not_higher": "The CD rate is explicitly in line with what large banks already advertise; matching the market is not news and there is no exclusive data or trend angle",
+    "why_not_lower": "Personal-finance reporters do compile rate roundups, so the topic is not entirely off-beat"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 4, "rationale": "Personal-finance is the right beat, but reporters source rate roundups broadly and do not cover a single bank matching the market"},
+    "timeliness": {"score": 2, "rationale": "No live hook beyond 'rates are attractive right now'; no dated catalyst or trend the bank can own"},
+    "magnitude": {"score": 2, "rationale": "A market-matching 4.00% APY at a mid-size bank has no unusual scale or market effect"},
+    "proof_points": {"score": 2, "rationale": "No exclusive data; a rate in line with competitors is an advertisement, not proof or original information"},
+    "narrative_quality": {"score": 2, "rationale": "Pure promotional framing with no tension, surprise, or human story"},
+    "source_credibility": {"score": 4, "rationale": "A real mid-size retail bank is a credible institution, but that alone does not make a rate promo newsworthy"}
+  },
+  "weak_dimensions": ["timeliness", "magnitude", "proof_points", "narrative_quality"],
+  "improvement_suggestions": [
+    "Bring exclusive first-party data (e.g., deposit-flow shifts, saver behavior across the rate cycle) instead of advertising a rate",
+    "Find a differentiated angle: an unusually high rate, a contrarian deposit trend, or proprietary saver data, not a market match",
+    "If the goal is acquisition, use paid advertising channels; this is promotional, not a press story"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "Mid-size bank offering CDs with APYs up to 4.00%, in line with the market", "url": null, "published_at": null}
+  ],
+  "evidence_gaps": [
+    "Any exclusive or first-party data",
+    "Any differentiated or trend hook beyond 'rates are attractive'"
+  ],
+  "honest_assessment": "A CD rate that merely matches what large banks already advertise is promotional marketing, not news. There is no exclusive data, no differentiated hook, and no trend angle. Personal-finance reporters will not cover one bank in line with the market. Hold.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No story to pitch; hold until there is exclusive data or a genuinely differentiated rate trend"
+  }
+}

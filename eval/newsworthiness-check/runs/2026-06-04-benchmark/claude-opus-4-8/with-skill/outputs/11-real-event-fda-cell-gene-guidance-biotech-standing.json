@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in pharma/biotech and health-regulatory trade press, possible mainstream health pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Federal agency draft guidance with direct sector-wide implications",
+    "why_not_higher": "Draft guidance is not a final rule, court ruling, or national headline; impact is sector-specific to cell and gene therapy developers",
+    "why_not_lower": "Fresh FDA guidance directly governing the client's programs creates immediate demand for credentialed expert explanation"
+  },
+  "dimensions": {
+    "magnitude": {"score": 6, "rationale": "Draft guidance to accelerate cell and gene therapy development materially affects developers, investors, and patients in that sector"},
+    "velocity": {"score": 7, "rationale": "Issued 2026-06-02, two days ago; fresh with active trade pickup and analyst interest"},
+    "novelty": {"score": 6, "rationale": "FDA scrutiny of advanced therapies is familiar, but new guidance designed to accelerate them is a concrete regulatory shift"},
+    "standing": {"score": 8, "rationale": "Direct standing: the client has active INDs governed by exactly this guidance and a named chief medical officer who can explain regulatory and patient-access implications"},
+    "window": {"score": 7, "rationale": "Two-day-old same-cycle window is still open for an explanatory expert response"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client is directly governed by the guidance with a credentialed CMO; standing is direct, so no standing cap applies"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "Event is two days old and still fresh with active interest, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "FDA issued draft guidance to accelerate cell and gene therapy development", "url": null, "published_at": "2026-06-02"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current reporter traction on the guidance",
+    "Specific first-party detail on how the guidance changes the client's own IND timelines"
+  ],
+  "honest_assessment": "This is a real newsjacking opportunity: direct regulatory standing, fresh sector news, genuine demand for expert explanation, and a credentialed spokesperson. Ride with a substantive 'what the guidance changes for developers and patients' explainer, not a promotional pitch.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a restrained, sourced CMO comment on the guidance while the same-cycle window is open"
+  }
+}

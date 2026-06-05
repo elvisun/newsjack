@@ -1,0 +1,85 @@
+{
+  "note": "Stripped scenarios for the without-skill baseline. Contains NO mode/expected_output/assertions \u2014 only id + scenario \u2014 so a baseline model cannot be contaminated by the answer key.",
+  "items": [
+    {
+      "id": 1,
+      "industry": "ai-saas",
+      "scenario": "We just launched Fundraisly on Product Hunt and hit #1 Product of the Day with over 1,000 upvotes. Fundraisly is an AI fundraising agent that finds investors and books meetings for founders. We want to pitch tech reporters that we were the #1 product of the day. company_stage: seed, company_notability: unknown startup, target_journalist_beat: startups/venture, data_available: false, exclusive_angle: false, human_story_available: false."
+    },
+    {
+      "id": 2,
+      "industry": "ai-saas",
+      "scenario": "Vokal launched on Product Hunt today: a collaboration workspace where AI agents and human teammates work together seamlessly instead of through manual handoffs. We trended in the top 3 with 466 upvotes. The angle is 'the future of human-AI collaboration is here.' company_stage: seed, company_notability: unknown startup, target_journalist_beat: AI/enterprise software, data_available: false, exclusive_angle: false, human_story_available: false."
+    },
+    {
+      "id": 3,
+      "industry": "developer-tools",
+      "scenario": "We launched Paste MCP on Product Hunt: an infinite clipboard for Claude, Codex, and other AI coding tools that lets you instantly retrieve previously copied content. 225 upvotes. We want coverage in developer-tooling and AI press. company_stage: bootstrapped, company_notability: unknown, target_journalist_beat: developer tools, data_available: false, exclusive_angle: false, human_story_available: false."
+    },
+    {
+      "id": 4,
+      "industry": "fintech",
+      "scenario": "Co-Invest launched on Product Hunt: trade 500+ markets (crypto, equities, commodities) directly from inside ChatGPT and Claude. We claim to be the first to offer in-chat brokerage trading. We say we have 40,000 beta users and processed meaningful trade volume, but we have not shared an audited number or a named brokerage partner publicly. target_journalist_beat: fintech, data_available: claimed-but-unverified, exclusive_angle: 'first in-chat trading', human_story_available: false."
+    },
+    {
+      "id": 5,
+      "industry": "semiconductors",
+      "scenario": "Client: NVIDIA (globally dominant AI-compute company). Real launch (2026-06-02): NVIDIA unveiled 'Vera, the CPU for Agents', its first data-center CPU purpose-built for agentic AI, claiming 1.8x the performance of x86 processors, with 88 custom cores and NVLink-C2C to its GPUs. Named launch partners and customers include Dell Technologies, HPE, Lenovo, Supermicro, Oracle Cloud Infrastructure, CoreWeave, Anthropic, OpenAI, and NYSE; systems ship fall 2026. We are pitching enterprise-tech and semiconductor reporters. target_journalist_beat: chips / enterprise infrastructure, data_available: true (spec + named partners), exclusive_angle: 'first CPU designed for AI agents', human_story_available: false."
+    },
+    {
+      "id": 6,
+      "industry": "ai-enterprise",
+      "scenario": "now/current_time: 2026-06-04. Real event: Anthropic confidentially filed for an IPO on 2026-06-01 after a $65B round at a ~$965B valuation, with a ~$47B revenue run-rate, getting ahead of OpenAI \u2014 a potential trillion-dollar listing. Client: a venture-backed enterprise-software company that builds its core product on Anthropic's Claude models and whose unit economics depend on model pricing and availability. Angle: a builder's view on what an Anthropic IPO and its economics mean for companies that build on frontier models."
+    },
+    {
+      "id": 7,
+      "industry": "food-service",
+      "scenario": "now/current_time: 2026-06-04. Real event: Anthropic confidentially filed for an IPO on 2026-06-01 after a $65B round at a ~$965B valuation. Client: a regional fast-casual restaurant chain whose marketing lead wants to put out a LinkedIn/press reactive comment 'about the AI moment' to look modern. The chain has no AI product, no capital-markets connection, and no expertise relevant to the filing."
+    },
+    {
+      "id": 8,
+      "industry": "marketing-services",
+      "scenario": "now/current_time: 2026-06-04. Real event: DeepSeek is preparing to raise about $7.4B with Tencent and CATL among investors (reported 2026-06-03). Client: a small local-SEO marketing agency that argues it has standing because 'AI is our space' and it helps clients rank in AI search. The link between frontier-model fundraising and a local-SEO agency is tenuous keyword overlap."
+    },
+    {
+      "id": 9,
+      "industry": "food-cpg",
+      "scenario": "now/current_time: 2026-06-04. Real event: an E. coli O157:H7 outbreak has been linked by whole-genome sequencing to beef kofta from a named producer, with consumers sickened (reported early June 2026). Client: a direct-to-consumer meal-kit brand that wants to newsjack the outbreak to promote that its meals are 'safer' and drive subscriptions during the scare."
+    },
+    {
+      "id": 10,
+      "industry": "ai-tech",
+      "scenario": "now/current_time: 2026-06-04. Event: Alphabet's $80B AI-compute stock-sale plan. Treat it as having broken on 2026-05-27, more than a week ago, with declining coverage velocity and no new development since. Client: an AI-infrastructure startup with genuine adjacent standing on AI-compute demand, which only now wants to comment, with no new data or contrarian proof point."
+    },
+    {
+      "id": 11,
+      "industry": "pharma-biotech",
+      "scenario": "now/current_time: 2026-06-04. Real event: on 2026-06-02 the FDA issued draft guidance intended to accelerate development of cell and gene therapies. Client: a clinical-stage gene-therapy biotech with active INDs whose programs are directly governed by exactly this guidance, with a named chief medical officer who can explain the regulatory and patient-access implications. Angle: what the new guidance changes for developers and patients."
+    },
+    {
+      "id": 12,
+      "industry": "food-safety",
+      "scenario": "now/current_time: 2026-06-04. Real event: a major frozen-food recall expanded to about 37 million pounds of Trader Joe's and Kroger products over glass-contamination concerns (reported early June 2026). Client: an independent food-safety testing laboratory with first-party data on contamination-detection rates and a named food-safety scientist. Angle: a sober expert explainer on how glass contamination happens and how detection works \u2014 NOT attacking the named retailers, and not promotional."
+    },
+    {
+      "id": 13,
+      "industry": "energy-datacenter",
+      "scenario": "now/current_time: 2026-06-04. Real event: SoftBank announced it will invest up to \u20ac75B (~$87.5B) to develop and operate 5 gigawatts of AI data-center capacity in France \u2014 Europe's largest single announced AI-infrastructure investment (reported early June 2026). Client: a data-center liquid-cooling and power-density company that sells into exactly these hyperscale builds, with first-party data on cooling efficiency and a named engineering lead. Angle: the power and cooling realities of standing up 5GW of AI compute."
+    },
+    {
+      "id": 14,
+      "industry": "banking-finance",
+      "scenario": "Client: a mid-size retail bank. We want to pitch personal-finance reporters that we are now offering CDs with APYs up to 4.00%, in line with what large banks are advertising as of early June 2026. There is no exclusive data, no unusual rate relative to the market, and no broader trend angle beyond 'rates are attractive right now.' target_journalist_beat: personal finance, data_available: false, exclusive_angle: false, human_story_available: false."
+    },
+    {
+      "id": 15,
+      "industry": "finance-macro",
+      "scenario": "now/current_time: 2026-06-04. Real backdrop: the Fed has held its policy rate at 3.5-3.75% for three straight meetings amid an unusual 8-4 split with four dissents (the most since 1992), and markets see a possible first cut at the 2026-06-16/17 FOMC meeting. Client: a consumer-lending / mortgage fintech with first-party data on how application volume and refinance demand move with rate expectations, and a named chief economist. Angle: what borrowers and lenders should expect into the June Fed decision, backed by the company's live application data."
+    },
+    {
+      "id": 16,
+      "industry": "automotive-ev",
+      "scenario": "now/current_time: 2026-06-04. Real event: a cluster of EV recalls in early June 2026 \u2014 Tesla recalling 2026 Model Y / 2025 Model 3 over a battery contactor that can cause loss of propulsion, and Volvo recalling EX30s over battery packs that can overheat. These are preventive recalls with no reported injuries or deaths. Client: a battery-management-systems and EV-safety engineering firm with first-party failure-analysis data and a named safety engineer. Angle: a sober technical explainer on why battery/contactor faults happen and how BMS design mitigates them. The client is not promoting that anyone was harmed."
+    }
+  ]
+}

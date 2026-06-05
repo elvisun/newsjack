@@ -1,0 +1,37 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in finance and lending trade press; possible in mainstream business",
+  "calibration_anchor": {
+    "closest_anchor": "Live macroeconomic catalyst with direct-expert standing and original first-party data",
+    "why_not_higher": "The Fed rate decision is not a surprise or unprecedented event; it is an expected catalyst. Magnitude depends on what the Fed actually does.",
+    "why_not_lower": "You have first-party lending data, a named economist, and a live dated catalyst (June 16-17 FOMC meeting). This is a legitimate macro story with expert standing."
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "Fed rate decision affects trillions in lending markets; unusual 8-4 dissent split is notable; potential first cut is a significant macro signal"},
+    "velocity": {"score": 6, "rationale": "Fed policy is a standing story; coverage will accelerate as June 16-17 meeting approaches"},
+    "novelty": {"score": 6, "rationale": "Fed decisions are known events; the unusual dissent pattern and potential cut are noteworthy shifts"},
+    "standing": {"score": 7, "rationale": "Consumer-lending fintech with first-party application/refinance data and a named chief economist is a credible source on how borrowers respond to rate signals"},
+    "window": {"score": 7, "rationale": "Window is open through June 17 FOMC decision; pre-decision reporting and post-decision reaction both offer angles"
+  },
+  "caps_applied": [],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Fed holding at 3.5-3.75%, unusual 8-4 dissent, potential first cut in June 2026",
+      "url": null,
+      "published_at": "2026-05-01"
+    }
+  ],
+  "evidence_gaps": [
+    "Confirmation of what your latest application volume and refinance data show (current trend)"
+  ],
+  "honest_assessment": "You have both the macro story (Fed indecision with an unusual dissent pattern) and the means to inform it (first-party lending data). This is a strong RIDE if you can anchor the pitch in your latest data and speak to what borrowers are actually doing ahead of the June decision.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sourced comment from your chief economist on application trends and refinance demand ahead of the June FOMC meeting, anchored in your first-party data"}
+  }
+}

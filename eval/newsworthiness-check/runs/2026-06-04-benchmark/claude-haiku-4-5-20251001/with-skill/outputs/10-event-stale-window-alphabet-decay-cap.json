@@ -1,0 +1,44 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 5,
+  "band": "routine but stale timing",
+  "recommended_action": "WAIT",
+  "will_get_coverage": "the event already received coverage, but window is closing",
+  "calibration_anchor": {
+    "closest_anchor": "Significant infrastructure story, but aged 8+ days with no new development",
+    "why_not_higher": "Stale window (>48 hours with declining velocity, no new data) caps the score at 5 per rubric even with adjacent standing",
+    "why_not_lower": "The event itself is substantial ($80B AI-compute plan); standing is legitimate (AI-infrastructure vendor); the cap is timing-only"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Alphabet $80B AI-compute investment is a major infrastructure signal"},
+    "velocity": {"score": 3, "rationale": "Event broke 2026-05-27; as of eval date (2026-06-04), coverage is 8 days old and declining"},
+    "novelty": {"score": 6, "rationale": "Alphabet infrastructure spending is known, but $80B scale is noteworthy"},
+    "standing": {"score": 7, "rationale": "AI-infrastructure vendor with adjacent standing in compute supply chain and power/cooling expertise"},
+    "window": {"score": 2, "rationale": "Newsjacking window closed 4+ days ago; velocity declining; no new angle or contrarian data offered"}
+  },
+  "caps_applied": [
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": true,
+      "rationale": "Event is 8+ days old with declining coverage and no new development, so score capped at 5 even though standing is good"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Alphabet $80B AI-compute plan",
+      "url": null,
+      "published_at": "2026-05-27"
+    }
+  ],
+  "evidence_gaps": [
+    "New data or contrarian proof point that would warrant a second-cycle story",
+    "Confirmation of recent reporter interest or secondary angles"
+  ],
+  "honest_assessment": "This was a strong story on 2026-05-27. By 2026-06-04, it is stale. Unless you have exclusive new data about Alphabet's buildout timeline or power constraints, this newsjacking window has passed. WAIT for a new related development (e.g., regulatory action, competing announcement, grid challenges) before resuming.",
+  "next_move": {
+    "skill": "newsjack-detector",
+    "rationale": "Monitor for follow-up angles or new infrastructure announcements to restore a fresh window"
+  }
+}

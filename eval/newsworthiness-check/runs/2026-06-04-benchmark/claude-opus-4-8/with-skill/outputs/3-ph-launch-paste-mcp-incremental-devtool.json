@@ -1,0 +1,38 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 1,
+  "band": "not news",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Incremental developer utility / changelog-grade feature",
+    "why_not_higher": "An infinite clipboard for AI coding tools is a small incremental utility; 225 upvotes is a community-vote metric and there is no data or external hook",
+    "why_not_lower": "There is a real, shipped, working tool, so it narrowly clears total non-existence"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 2, "rationale": "Developer-tools reporters exist but do not cover single-feature clipboard utilities"},
+    "timeliness": {"score": 1, "rationale": "No external hook; only a launch-day Product Hunt placement"},
+    "magnitude": {"score": 1, "rationale": "Bootstrapped unknown; no users, revenue, or impact stated beyond upvotes"},
+    "proof_points": {"score": 1, "rationale": "data_available is false; no usage numbers, customers, or methodology"},
+    "narrative_quality": {"score": 1, "rationale": "A clipboard utility has no story tension or surprise"},
+    "source_credibility": {"score": 2, "rationale": "Unknown bootstrapped maker, no independent credentials"}
+  },
+  "weak_dimensions": ["beat_relevance", "timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Do not pitch a single-feature utility as news; this is changelog material",
+    "If there is a genuinely surprising usage pattern across thousands of developers, bring that data instead",
+    "Consider community/launch channels (Product Hunt, dev forums) rather than press for a tool at this stage"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "Paste MCP launched on Product Hunt with 225 upvotes", "url": null, "published_at": null}
+  ],
+  "evidence_gaps": [
+    "Any usage data or adoption metrics",
+    "Any external news hook"
+  ],
+  "honest_assessment": "This is an incremental, changelog-grade developer utility. A Product Hunt placement and 225 upvotes are not a journalist hook, and there is no data or story here. Hold.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No story to pitch; this belongs on a changelog or launch channel, not in press"
+  }
+}

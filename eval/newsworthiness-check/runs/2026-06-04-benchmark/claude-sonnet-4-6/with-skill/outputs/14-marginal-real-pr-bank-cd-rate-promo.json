@@ -1,0 +1,45 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no — a CD rate that matches what large banks are already advertising is not a story",
+  "calibration_anchor": {
+    "closest_anchor": "Routine promotional corporate announcement; market-matching rate with no differentiated hook",
+    "why_not_higher": "The pitch is explicitly described as 'in line with what large banks are advertising' — matching the market is not news. There is no exclusive data, no unusual rate, no broader trend angle with evidence, and no differentiated position. This is promotional PR, not journalism.",
+    "why_not_lower": "Personal finance is a real beat and CD rates are a legitimate category of coverage; the absolute floor is for total non-stories, and this is at least a named financial product from a real institution"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 4, "rationale": "Personal finance is a real beat and savings-rate coverage is a legitimate story category. However, reporters on this beat write about notable rate changes, outlier rates, or rate environment trend stories — not individual bank promotional announcements that match what large banks already advertise"},
+    "timeliness": {"score": 3, "rationale": "The broader rate environment (Fed holding at 3.5-3.75%) is a live macro story, but the client's CD rate offering does not add anything new to it. There is no exclusive timing, no embargo, no regulatory catalyst — only the bank's own announcement date"},
+    "magnitude": {"score": 2, "rationale": "A mid-size retail bank offering a market-rate CD has no measurable market impact. The rate is not unusual relative to what large banks are already advertising. There are no absolute user, deposit, or economic figures attached"},
+    "proof_points": {"score": 1, "rationale": "No exclusive data. The rate (up to 4.00% APY) matches what large banks are already advertising by the prompt's own admission. Matching the market is not proof of differentiation. No customer stories, no deposit growth data, no proprietary rate analysis"},
+    "narrative_quality": {"score": 2, "rationale": "There is no conflict, surprise, tension, or human story. 'We offer CD rates in line with large banks' is a marketing statement with no narrative arc. Even the broader rate story would require a unique angle from this source to work"},
+    "source_credibility": {"score": 4, "rationale": "A mid-size retail bank is a legitimate institution, but it has no special standing or expertise to comment on rate environments beyond its own product offering. Credibility is adequate but not distinctive"}
+  },
+  "weak_dimensions": ["proof_points", "magnitude", "narrative_quality", "timeliness"],
+  "improvement_suggestions": [
+    "Do not pitch a market-matching CD rate as news — it is advertising, not journalism",
+    "If the bank has proprietary data on how customer deposit behavior is changing with rate expectations, lead with that data instead",
+    "Tie to the upcoming June Fed decision (June 16-17) with a specific prediction or customer-behavior insight from the bank's own data",
+    "Find a differentiated angle: is the bank offering above-market rates in a specific term? Is there a notable trend in CD ladder behavior among their customers? Data makes the story; a rate announcement does not."
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Mid-size retail bank CD pitch: APYs up to 4.00%, in line with large banks; no exclusive data, no unusual rate, no broader trend angle with evidence",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Proprietary customer deposit behavior data tied to rate environment",
+    "Evidence that 4.00% APY is unusual for this bank's category or market segment",
+    "Any external hook beyond the bank's own announcement date"
+  ],
+  "honest_assessment": "This is promotional marketing, not news. A mid-size bank offering CD rates that match what large banks are already advertising has nothing for a personal finance reporter to write about. There is no exclusive data, no differentiated rate, no hook, and no story beyond 'we sell CDs.' Matching the market is not a pitch. Hold this until there is something genuinely differentiated — a rate that is unusual relative to peers, proprietary customer data, or a specific trend angle with evidence.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold. No handoff is appropriate — this needs a fundamentally different story with real proof before any outreach"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "not newsworthy",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Market-matching promotional offer with no data, exclusivity, or story angle",
+    "why_not_higher": "A 4.00% APY CD matching what competitors are already advertising is not news; it is marketing",
+    "why_not_lower": "The product is real, but it is a commodity offer"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 5, "rationale": "Personal-finance beat covers rates, but only when there is new data or differentiation"},
+    "timeliness": {"score": 1, "rationale": "No news hook, embargo, or external catalyst; only the bank's decision to advertise"}
+    , "magnitude": {"score": 2, "rationale": "A single mid-size bank adjusting its CD rate to match the market has no scale"},
+    "proof_points": {"score": 1, "rationale": "No exclusive data, market analysis, or comparison provided; just a feature announcement"},
+    "narrative_quality": {"score": 1, "rationale": "The framing is purely promotional; no consumer story, trend, or conflict"},
+    "source_credibility": {"score": 3, "rationale": "A mid-size retail bank is a reasonable source on its own products, but lacks uniqueness or insight"
+  },
+  "weak_dimensions": ["timeliness", "proof_points", "narrative_quality", "magnitude"],
+  "improvement_suggestions": [
+    "Do not pitch this as a news story",
+    "If CD rates are shifting due to Fed policy, tie the pitch to the macro event with original data (e.g., first-mover on a major rate drop or exclusive customer research)"
+  ],
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Exclusive data on customer demand shifts",
+    "First-mover advantage or differentiated rate tier",
+    "Consumer trend or macro hook"
+  ],
+  "honest_assessment": "A mid-size bank advertising market-rate CDs is promotional material, not news. Personal-finance reporters see dozens of these pitches per week. Without exclusive data or a clear external story hook, this will not get coverage.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is a real news angle (e.g., a Fed rate cut, exclusive customer data, or a major competitive differentiation)"}
+  }
+}

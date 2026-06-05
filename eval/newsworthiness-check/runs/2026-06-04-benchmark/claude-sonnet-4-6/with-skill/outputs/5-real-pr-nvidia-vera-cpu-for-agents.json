@@ -1,0 +1,44 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 8,
+  "band": "major",
+  "recommended_action": "PROCEED",
+  "will_get_coverage": "highly likely across enterprise tech, semiconductor, and mainstream business press",
+  "calibration_anchor": {
+    "closest_anchor": "Major product category launch from the dominant AI-compute company, with named marquee partners and concrete performance specs",
+    "why_not_higher": "This is a product launch, not a regulatory ruling, acquisition, or market-systemic event; it does not reach the 9-10 band even for NVIDIA",
+    "why_not_lower": "A first-ever data-center CPU purpose-built for agentic AI from the globally dominant AI-compute company, with 1.8x x86 performance claim, 88 custom cores, NVLink-C2C integration, and named partners including Anthropic, OpenAI, Oracle, Dell, HPE, Lenovo, CoreWeave, and NYSE — this is a new product category from the market leader, not an incremental release"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 8, "rationale": "Chips and enterprise infrastructure reporters have a direct beat match. The semiconductor, AI-infrastructure, cloud, and enterprise-tech beats all have reasons to cover this. The named partners (Anthropic, OpenAI, NYSE) also give financial and AI-policy angles"},
+    "timeliness": {"score": 8, "rationale": "Live launch on 2026-06-02, three days before now. The window is still fresh. Systems ship fall 2026, giving reporters a near-term follow-up hook. The agentic AI category is at peak reporter attention"},
+    "magnitude": {"score": 8, "rationale": "NVIDIA is the globally dominant AI-compute company. A first-ever data-center CPU purpose-built for AI agents, claimed at 1.8x x86 performance, with NVLink-C2C GPU integration and fall 2026 ship date, is a significant architectural move. Named partners include the largest cloud and AI companies globally"},
+    "proof_points": {"score": 8, "rationale": "Concrete performance spec (1.8x x86), named core count (88), named integration (NVLink-C2C), named partners (Dell, HPE, Lenovo, Supermicro, Oracle, CoreWeave, Anthropic, OpenAI, NYSE), confirmed ship timeframe (fall 2026). This is strong proof by any PR standard"},
+    "narrative_quality": {"score": 7, "rationale": "The story has a clear protagonist (NVIDIA), a specific technical argument (CPUs designed for agents not data processing), a performance claim, a roster of industry validators, and a live deployment window. The narrative is coherent and specific"},
+    "source_credibility": {"score": 9, "rationale": "NVIDIA is a globally notable, publicly traded, dominant AI-compute company. Its announcements receive immediate mainstream and trade attention regardless of marketing language. The named partners independently validate the launch"}
+  },
+  "weak_dimensions": [],
+  "improvement_suggestions": [
+    "Secure any exclusive first-look or benchmark access before the general launch wave to stand above the crowded coverage",
+    "Add a customer-deployment case study with specific workload metrics when systems ship in fall 2026",
+    "Prepare technical spokespeople for the performance-claim stress tests reporters will apply (1.8x vs x86 under what conditions)"
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "NVIDIA Vera CPU for Agents launch: first data-center CPU purpose-built for agentic AI, 1.8x x86 performance, 88 custom cores, NVLink-C2C, named partners including Anthropic, OpenAI, Dell, HPE, Lenovo, Oracle, CoreWeave, NYSE; systems ship fall 2026",
+      "url": null,
+      "published_at": "2026-06-02"
+    }
+  ],
+  "evidence_gaps": [
+    "Independent benchmark replication of the 1.8x x86 performance claim",
+    "Specifics of the test conditions and workloads for the performance comparison",
+    "Pricing and availability details for enterprise procurement reporters"
+  ],
+  "honest_assessment": "This is a legitimate major product launch. A first data-center CPU purpose-built for AI agents from NVIDIA — the market-defining company in AI compute — with concrete specs, NVLink integration, fall 2026 ship date, and a named roster of marquee partners including Anthropic, OpenAI, and NYSE is clearly newsworthy. Reporters will cover this. The pitch does not need a hook — it is the hook. Proceed with technical spokespeople ready to defend the performance claim.",
+  "next_move": {
+    "skill": "journalist-fit-check",
+    "rationale": "The story is strong; use journalist-fit-check to prioritize semiconductor, enterprise-infrastructure, and AI-beat reporters most likely to run a serious technical piece rather than a brief"
+  }
+}

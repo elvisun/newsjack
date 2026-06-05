@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 4,
+  "band": "routine — stale window",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the story received coverage at the time; the window for newsjacking is effectively closed",
+  "calibration_anchor": {
+    "closest_anchor": "Major sector financial story; stale event older than 48h with declining velocity and no new development",
+    "why_not_higher": "The event broke 2026-05-27 — 8 days ago as of 2026-06-04. No new development is cited. Velocity is explicitly declining. The stale-event cap (max 5) applies, and without a new data point or contrarian proof, the window is effectively closed even for a client with adjacent standing",
+    "why_not_lower": "The client has genuine adjacent standing on AI-compute demand; the event was significant ($80B); the score does not floor below 4 because the standing is real, just the timing window has closed"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Alphabet's $80B AI-compute stock-sale plan is a major signal of hyperscaler AI-infrastructure investment — significant industry and financial news"},
+    "velocity": {"score": 2, "rationale": "8 days since the break with explicitly declining coverage velocity and no new development. The story cycle has moved on. Velocity is effectively at the stale stage by the timing guidance"},
+    "novelty": {"score": 5, "rationale": "At the time of breaking, an $80B AI-compute capital plan was notable. Now, 8 days later with no new development, the novelty signal has decayed — it has been absorbed into the broader hyperscaler AI-spend narrative"},
+    "standing": {"score": 6, "rationale": "An AI-infrastructure startup with genuine adjacent standing on AI-compute demand has a defensible angle on what this capital plan means for the compute supply chain. Standing is real but not direct-expert"},
+    "window": {"score": 2, "rationale": "Broke 2026-05-27, now 8 days old. Velocity is declining. No new data or contrarian proof point is offered. By the timing rubric, this is in the 'week' or 'mostly stale' stage. Without a new hook, this is a closed window."}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "Client has genuine adjacent standing as an AI-infrastructure company with expertise on AI-compute demand — the standing cap does not apply"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": true,
+      "rationale": "The event broke 2026-05-27, 8 days before the now anchor of 2026-06-04. Coverage velocity is explicitly declining and no new development is present. The stale-event cap (max 5) applies. Given the low velocity and window scores, the effective score is 4."
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "The event is treated as confirmed"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "Not applicable"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Alphabet $80B AI-compute stock-sale plan; broke 2026-05-27; declining coverage velocity; no new development",
+      "url": null,
+      "published_at": "2026-05-27"
+    },
+    {
+      "source": "user_input",
+      "title": "Client: AI-infrastructure startup with adjacent standing on AI-compute demand; no new data or contrarian proof point offered",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "New data from the client on AI-compute supply/demand that could reopen a fresh angle",
+    "A contrarian proof point (e.g., why the $80B signals something analysts missed) that would justify a late comment",
+    "Confirmation of current coverage velocity — is there any ongoing journalist interest remaining?"
+  ],
+  "honest_assessment": "The event was genuinely significant but it broke 8 days ago and the window has closed. Declining velocity with no new development is exactly the stale pattern the timing rubric warns against. Even with real adjacent standing, commentating on last week's news without a new hook makes the client look slow, not authoritative. The right move is to wait for the next AI-compute signal (quarterly earnings, a fresh deal, a supply constraint) and ride that one with better timing.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Skip this newsjacking attempt. Monitor for a fresh AI-compute development where the window is still open."
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "skill_name": "newsworthiness-check",
+  "version": 2,
+  "description": "Cross-industry calibration evals for newsworthiness-check. Balanced should-be-newsworthy vs should-not sets. POSITIVE examples are sourced from REAL news and REAL corporate launch press releases (week of 2026-06-01), not fixture companies. Industries: AI/tech, semiconductors, fintech, finance/macro, pharma/biotech, consumer/food safety, automotive/EV, energy/datacenters. Central stress test retained: the model over-rating ordinary product launches (Product Hunt #1 / AI-buzzword / routine corporate PR) as 'news'. Assertions carry a machine-checkable `check` so any model/skill-version run can be graded deterministically by grade.py. Do NOT edit the skill to pass these; fix the case or log a skill bug.",
+  "now_anchor": "2026-06-04",
+  "grader": "eval/newsworthiness-check/grade.py",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "ph-launch-fundraisly-overrated-as-news",
+      "industry": "ai-saas",
+      "mode": "pitch_newsworthiness",
+      "tags": ["product-hunt", "bias-trap", "should-not"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. We just launched Fundraisly on Product Hunt and hit #1 Product of the Day with over 1,000 upvotes. Fundraisly is an AI fundraising agent that finds investors and books meetings for founders. We want to pitch tech reporters that we were the #1 product of the day. company_stage: seed, company_notability: unknown startup, target_journalist_beat: startups/venture, data_available: false, exclusive_angle: false, human_story_available: false.",
+      "expected_output": "Low score (1-3), HOLD. A Product Hunt ranking is a community-vote metric, not a journalist hook.",
+      "assertions": [
+        {"id": "1a", "text": "mode is pitch_newsworthiness", "type": "auto", "check": {"path": "mode", "op": "==", "value": "pitch_newsworthiness"}},
+        {"id": "1b", "text": "overall_score <= 3", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 3}},
+        {"id": "1c", "text": "recommended_action is HOLD", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["HOLD"]}},
+        {"id": "1d", "text": "honest_assessment flags the Product Hunt ranking / upvotes as not-news", "type": "auto", "check": {"path": "honest_assessment", "op": "contains_any", "value": ["product hunt", "upvote", "ranking", "community-vote", "community vote", "vanity"]}},
+        {"id": "1e", "text": "timeliness and proof_points both <= 3", "type": "auto", "check": {"op": "all", "checks": [{"path": "dimensions.timeliness.score", "op": "<=", "value": 3}, {"path": "dimensions.proof_points.score", "op": "<=", "value": 3}]}}
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "ph-launch-vokal-ai-buzzword-trap",
+      "industry": "ai-saas",
+      "mode": "pitch_newsworthiness",
+      "tags": ["product-hunt", "bias-trap", "ai-hype", "should-not"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. Vokal launched on Product Hunt today: a collaboration workspace where AI agents and human teammates work together seamlessly instead of through manual handoffs. We trended in the top 3 with 466 upvotes. The angle is 'the future of human-AI collaboration is here.' company_stage: seed, company_notability: unknown startup, target_journalist_beat: AI/enterprise software, data_available: false, exclusive_angle: false, human_story_available: false.",
+      "expected_output": "Low score (1-3), HOLD or REVISE. 'AI agents' being hot is not a substitute for proof or a hook.",
+      "assertions": [
+        {"id": "2a", "text": "overall_score <= 3", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 3}},
+        {"id": "2b", "text": "recommended_action is HOLD or REVISE", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["HOLD", "REVISE"]}},
+        {"id": "2c", "text": "narrative_quality or proof_points <= 3", "type": "auto", "check": {"op": "any", "checks": [{"path": "dimensions.narrative_quality.score", "op": "<=", "value": 3}, {"path": "dimensions.proof_points.score", "op": "<=", "value": 3}]}},
+        {"id": "2d", "text": "honest_assessment does not treat AI topicality as the story (mentions lack of proof/hook/data)", "type": "auto", "check": {"path": "honest_assessment", "op": "contains_any", "value": ["no proof", "no data", "no hook", "not a story", "category", "buzzword", "generic"]}}
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "ph-launch-paste-mcp-incremental-devtool",
+      "industry": "developer-tools",
+      "mode": "pitch_newsworthiness",
+      "tags": ["product-hunt", "incremental-launch", "should-not"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. We launched Paste MCP on Product Hunt: an infinite clipboard for Claude, Codex, and other AI coding tools that lets you instantly retrieve previously copied content. 225 upvotes. We want coverage in developer-tooling and AI press. company_stage: bootstrapped, company_notability: unknown, target_journalist_beat: developer tools, data_available: false, exclusive_angle: false, human_story_available: false.",
+      "expected_output": "Very low (1-2), HOLD. Incremental / changelog-grade utility.",
+      "assertions": [
+        {"id": "3a", "text": "overall_score <= 2", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 2}},
+        {"id": "3b", "text": "recommended_action is HOLD", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["HOLD"]}},
+        {"id": "3c", "text": "closest_anchor references incremental/utility/changelog", "type": "auto", "check": {"path": "calibration_anchor.closest_anchor", "op": "contains_any", "value": ["incremental", "changelog", "utility", "feature"]}}
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "ph-launch-coinvest-claimed-proof-capped-not-floored",
+      "industry": "fintech",
+      "mode": "pitch_newsworthiness",
+      "tags": ["product-hunt", "balanced-counterexample", "unverified-proof"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. Co-Invest launched on Product Hunt: trade 500+ markets (crypto, equities, commodities) directly from inside ChatGPT and Claude. We claim to be the first to offer in-chat brokerage trading. We say we have 40,000 beta users and processed meaningful trade volume, but we have not shared an audited number or a named brokerage partner publicly. target_journalist_beat: fintech, data_available: claimed-but-unverified, exclusive_angle: 'first in-chat trading', human_story_available: false.",
+      "expected_output": "Mid (4-5), REVISE. Genuine first-mover novelty so NOT floored at 1-2, but unverified single-source proof and no named brokerage partner keep it from PROCEED.",
+      "assertions": [
+        {"id": "4a", "text": "overall_score is 4 or 5", "type": "auto", "check": {"path": "overall_score", "op": "between", "value": [4, 5]}},
+        {"id": "4b", "text": "recommended_action is REVISE", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["REVISE"]}},
+        {"id": "4c", "text": "evidence_gaps or improvement_suggestions demand the named brokerage partner and/or audited number", "type": "auto", "check": {"op": "any", "checks": [{"path": "evidence_gaps", "op": "contains_any", "value": ["partner", "audited", "verify", "verified", "named"]}, {"path": "improvement_suggestions", "op": "contains_any", "value": ["partner", "audited", "verify", "verified", "named"]}]}},
+        {"id": "4d", "text": "the first-mover/novelty is credited, not floored (proof_points or beat_relevance or narrative_quality >= 5 somewhere shows the hook is real)", "type": "auto", "check": {"op": "any", "checks": [{"path": "dimensions.beat_relevance.score", "op": ">=", "value": 5}, {"path": "dimensions.narrative_quality.score", "op": ">=", "value": 5}]}}
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "real-pr-nvidia-vera-cpu-for-agents",
+      "industry": "semiconductors",
+      "mode": "pitch_newsworthiness",
+      "tags": ["should-trigger", "real-press-release", "new-category", "named-proof"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. Client: NVIDIA (globally dominant AI-compute company). Real launch (2026-06-02): NVIDIA unveiled 'Vera, the CPU for Agents', its first data-center CPU purpose-built for agentic AI, claiming 1.8x the performance of x86 processors, with 88 custom cores and NVLink-C2C to its GPUs. Named launch partners and customers include Dell Technologies, HPE, Lenovo, Supermicro, Oracle Cloud Infrastructure, CoreWeave, Anthropic, OpenAI, and NYSE; systems ship fall 2026. We are pitching enterprise-tech and semiconductor reporters. target_journalist_beat: chips / enterprise infrastructure, data_available: true (spec + named partners), exclusive_angle: 'first CPU designed for AI agents', human_story_available: false.",
+      "expected_output": "Strong (6-8), PROCEED. A genuinely new product category from the dominant player, with concrete performance numbers and many named marquee partners, at a live launch moment. This is a real corporate launch that IS newsworthy.",
+      "assertions": [
+        {"id": "5a", "text": "overall_score >= 6", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 6}},
+        {"id": "5b", "text": "recommended_action is PROCEED", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["PROCEED"]}},
+        {"id": "5c", "text": "proof_points >= 6 (named partners + spec are real proof)", "type": "auto", "check": {"path": "dimensions.proof_points.score", "op": ">=", "value": 6}},
+        {"id": "5d", "text": "source_credibility >= 7 (NVIDIA is a notable, credible source)", "type": "auto", "check": {"path": "dimensions.source_credibility.score", "op": ">=", "value": 7}}
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "real-event-anthropic-ipo-ai-builder-standing",
+      "industry": "ai-enterprise",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "adjacent-standing", "high-anchor"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: Anthropic confidentially filed for an IPO on 2026-06-01 after a $65B round at a ~$965B valuation, with a ~$47B revenue run-rate, getting ahead of OpenAI — a potential trillion-dollar listing. Client: a venture-backed enterprise-software company that builds its core product on Anthropic's Claude models and whose unit economics depend on model pricing and availability. Angle: a builder's view on what an Anthropic IPO and its economics mean for companies that build on frontier models.",
+      "expected_output": "Mid-high (5-7), RIDE or WAIT. Magnitude is very high (8-9). The client has adjacent/observer standing as a Claude-based builder (not a principal), so standing is capped below direct-expert and the angle must be narrow. Not a SKIP.",
+      "assertions": [
+        {"id": "6a", "text": "mode is event_newsjacking", "type": "auto", "check": {"path": "mode", "op": "==", "value": "event_newsjacking"}},
+        {"id": "6b", "text": "overall_score between 5 and 7", "type": "auto", "check": {"path": "overall_score", "op": "between", "value": [5, 7]}},
+        {"id": "6c", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "6d", "text": "magnitude >= 8 (event itself is major)", "type": "auto", "check": {"path": "dimensions.magnitude.score", "op": ">=", "value": 8}},
+        {"id": "6e", "text": "standing <= 7 (adjacent/observer, not direct-principal)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": "<=", "value": 7}},
+        {"id": "6f", "text": "kill_switch_triggered is false", "type": "auto", "check": {"path": "kill_switch_triggered", "op": "==", "value": false}}
+      ]
+    },
+    {
+      "id": 7,
+      "eval_name": "event-skip-restaurant-chain-anthropic-ipo-no-standing",
+      "industry": "food-service",
+      "mode": "event_newsjacking",
+      "tags": ["should-not", "big-news-no-standing", "standing-cap", "non-tech-client"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: Anthropic confidentially filed for an IPO on 2026-06-01 after a $65B round at a ~$965B valuation. Client: a regional fast-casual restaurant chain whose marketing lead wants to put out a LinkedIn/press reactive comment 'about the AI moment' to look modern. The chain has no AI product, no capital-markets connection, and no expertise relevant to the filing.",
+      "expected_output": "Capped at 4, SKIP. Huge event, zero standing. A restaurant chain has nothing a finance or AI reporter would use.",
+      "assertions": [
+        {"id": "7a", "text": "overall_score <= 4", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 4}},
+        {"id": "7b", "text": "recommended_action is SKIP", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["SKIP"]}},
+        {"id": "7c", "text": "a no-client-standing cap is applied=true", "type": "auto", "check": {"path": "caps_applied", "op": "cap_applied", "value": "standing"}},
+        {"id": "7d", "text": "magnitude >= 7 (event acknowledged as big; only standing caps it)", "type": "auto", "check": {"path": "dimensions.magnitude.score", "op": ">=", "value": 7}}
+      ]
+    },
+    {
+      "id": 8,
+      "eval_name": "event-skip-seo-agency-deepseek-keyword-standing-trap",
+      "industry": "marketing-services",
+      "mode": "event_newsjacking",
+      "tags": ["should-not", "keyword-adjacency-trap", "standing-cap"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: DeepSeek is preparing to raise about $7.4B with Tencent and CATL among investors (reported 2026-06-03). Client: a small local-SEO marketing agency that argues it has standing because 'AI is our space' and it helps clients rank in AI search. The link between frontier-model fundraising and a local-SEO agency is tenuous keyword overlap.",
+      "expected_output": "Capped at 4, SKIP. Sharing the token 'AI' is not standing.",
+      "assertions": [
+        {"id": "8a", "text": "overall_score <= 4", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 4}},
+        {"id": "8b", "text": "recommended_action is SKIP", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["SKIP"]}},
+        {"id": "8c", "text": "standing <= 3 (surface AI overlap rejected)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": "<=", "value": 3}},
+        {"id": "8d", "text": "a no-client-standing cap is applied=true", "type": "auto", "check": {"path": "caps_applied", "op": "cap_applied", "value": "standing"}}
+      ]
+    },
+    {
+      "id": 9,
+      "eval_name": "event-avoid-killswitch-food-outbreak-hook",
+      "industry": "food-cpg",
+      "mode": "event_newsjacking",
+      "tags": ["should-not", "kill-switch", "brand-safety", "non-tech"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: an E. coli O157:H7 outbreak has been linked by whole-genome sequencing to beef kofta from a named producer, with consumers sickened (reported early June 2026). Client: a direct-to-consumer meal-kit brand that wants to newsjack the outbreak to promote that its meals are 'safer' and drive subscriptions during the scare.",
+      "expected_output": "AVOID, kill switch, score null. An active outbreak with people harmed, used as a promotional hook, trips the brand-safety kill switch.",
+      "assertions": [
+        {"id": "9a", "text": "recommended_action is AVOID", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["AVOID"]}},
+        {"id": "9b", "text": "kill_switch_triggered is true", "type": "auto", "check": {"path": "kill_switch_triggered", "op": "==", "value": true}},
+        {"id": "9c", "text": "overall_score is null", "type": "auto", "check": {"path": "overall_score", "op": "is_null"}},
+        {"id": "9d", "text": "no PR handoff: next_move.skill is null", "type": "auto", "check": {"path": "next_move.skill", "op": "is_null"}}
+      ]
+    },
+    {
+      "id": 10,
+      "eval_name": "event-stale-window-alphabet-decay-cap",
+      "industry": "ai-tech",
+      "mode": "event_newsjacking",
+      "tags": ["should-not", "stale-window", "decay-cap", "timing"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Event: Alphabet's $80B AI-compute stock-sale plan. Treat it as having broken on 2026-05-27, more than a week ago, with declining coverage velocity and no new development since. Client: an AI-infrastructure startup with genuine adjacent standing on AI-compute demand, which only now wants to comment, with no new data or contrarian proof point.",
+      "expected_output": "Capped at 5, WAIT or SKIP. Even with adjacent standing, a >48h-old event with declining velocity and nothing new is a stale window.",
+      "assertions": [
+        {"id": "10a", "text": "overall_score <= 5", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 5}},
+        {"id": "10b", "text": "recommended_action is WAIT or SKIP", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["WAIT", "SKIP"]}},
+        {"id": "10c", "text": "a stale/decay/window cap is applied=true", "type": "auto", "check": {"path": "caps_applied", "op": "cap_applied", "value": "stale"}},
+        {"id": "10d", "text": "window <= 4 (recognized as stale/closing)", "type": "auto", "check": {"path": "dimensions.window.score", "op": "<=", "value": 4}}
+      ]
+    },
+    {
+      "id": 11,
+      "eval_name": "real-event-fda-cell-gene-guidance-biotech-standing",
+      "industry": "pharma-biotech",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "direct-standing", "healthcare"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: on 2026-06-02 the FDA issued draft guidance intended to accelerate development of cell and gene therapies. Client: a clinical-stage gene-therapy biotech with active INDs whose programs are directly governed by exactly this guidance, with a named chief medical officer who can explain the regulatory and patient-access implications. Angle: what the new guidance changes for developers and patients.",
+      "expected_output": "Strong (6-7), RIDE. Direct regulatory standing, fresh sector news, real demand for expert explanation, a credentialed spokesperson.",
+      "assertions": [
+        {"id": "11a", "text": "overall_score >= 5", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 5}},
+        {"id": "11b", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "11c", "text": "standing >= 6 (direct regulatory standing)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": ">=", "value": 6}},
+        {"id": "11d", "text": "kill_switch_triggered is false", "type": "auto", "check": {"path": "kill_switch_triggered", "op": "==", "value": false}},
+        {"id": "11e", "text": "no no-client-standing cap applied", "type": "auto", "check": {"path": "caps_applied", "op": "cap_not_applied", "value": "standing"}}
+      ]
+    },
+    {
+      "id": 12,
+      "eval_name": "real-event-frozen-food-recall-safety-lab-standing",
+      "industry": "food-safety",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "direct-standing", "expert-explainer", "restraint"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: a major frozen-food recall expanded to about 37 million pounds of Trader Joe's and Kroger products over glass-contamination concerns (reported early June 2026). Client: an independent food-safety testing laboratory with first-party data on contamination-detection rates and a named food-safety scientist. Angle: a sober expert explainer on how glass contamination happens and how detection works — NOT attacking the named retailers, and not promotional.",
+      "expected_output": "Strong (6-7), RIDE. Genuine expert demand for explanation, direct standing, first-party data, credible spokesperson. The angle is explanatory, not schadenfreude, so no kill switch.",
+      "assertions": [
+        {"id": "12a", "text": "overall_score >= 5", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 5}},
+        {"id": "12b", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "12c", "text": "standing >= 6 (direct food-safety expertise + first-party data)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": ">=", "value": 6}},
+        {"id": "12d", "text": "kill_switch_triggered is false (recall/explainer, no active casualty hook)", "type": "auto", "check": {"path": "kill_switch_triggered", "op": "==", "value": false}}
+      ]
+    },
+    {
+      "id": 13,
+      "eval_name": "real-event-softbank-france-datacenter-energy-standing",
+      "industry": "energy-datacenter",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "direct-standing", "energy"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: SoftBank announced it will invest up to €75B (~$87.5B) to develop and operate 5 gigawatts of AI data-center capacity in France — Europe's largest single announced AI-infrastructure investment (reported early June 2026). Client: a data-center liquid-cooling and power-density company that sells into exactly these hyperscale builds, with first-party data on cooling efficiency and a named engineering lead. Angle: the power and cooling realities of standing up 5GW of AI compute.",
+      "expected_output": "Strong (6-7), RIDE. Major fresh infrastructure event with direct operational standing and first-party data; clear reporter demand for the 'can the grid/cooling handle it' angle.",
+      "assertions": [
+        {"id": "13a", "text": "overall_score >= 5", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 5}},
+        {"id": "13b", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "13c", "text": "standing >= 6 (direct operational standing in hyperscale cooling/power)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": ">=", "value": 6}},
+        {"id": "13d", "text": "magnitude >= 7 (Europe's largest AI-infra investment)", "type": "auto", "check": {"path": "dimensions.magnitude.score", "op": ">=", "value": 7}}
+      ]
+    },
+    {
+      "id": 14,
+      "eval_name": "marginal-real-pr-bank-cd-rate-promo",
+      "industry": "banking-finance",
+      "mode": "pitch_newsworthiness",
+      "tags": ["should-not", "routine-corporate-pr", "promotional", "non-tech"],
+      "prompt": "Run newsworthiness-check in pitch_newsworthiness mode. Client: a mid-size retail bank. We want to pitch personal-finance reporters that we are now offering CDs with APYs up to 4.00%, in line with what large banks are advertising as of early June 2026. There is no exclusive data, no unusual rate relative to the market, and no broader trend angle beyond 'rates are attractive right now.' target_journalist_beat: personal finance, data_available: false, exclusive_angle: false, human_story_available: false.",
+      "expected_output": "Low (1-3), HOLD or REVISE. A market-matching CD rate is promotional, not news; no exclusive data or differentiated hook. Tests over-rating routine corporate PR beyond the Product Hunt cases.",
+      "assertions": [
+        {"id": "14a", "text": "overall_score <= 3", "type": "auto", "check": {"path": "overall_score", "op": "<=", "value": 3}},
+        {"id": "14b", "text": "recommended_action is HOLD or REVISE", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["HOLD", "REVISE"]}},
+        {"id": "14c", "text": "proof_points <= 3 (no exclusive data; matching the market is not proof)", "type": "auto", "check": {"path": "dimensions.proof_points.score", "op": "<=", "value": 3}},
+        {"id": "14d", "text": "honest_assessment flags it as promotional / not differentiated / not news", "type": "auto", "check": {"path": "honest_assessment", "op": "contains_any", "value": ["promotional", "not news", "marketing", "not differentiated", "no hook", "routine", "in line", "matches the market", "advertis"]}}
+      ]
+    },
+    {
+      "id": 15,
+      "eval_name": "real-event-fed-rate-pressure-lending-fintech-standing",
+      "industry": "finance-macro",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "direct-standing", "timing-nuance"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real backdrop: the Fed has held its policy rate at 3.5-3.75% for three straight meetings amid an unusual 8-4 split with four dissents (the most since 1992), and markets see a possible first cut at the 2026-06-16/17 FOMC meeting. Client: a consumer-lending / mortgage fintech with first-party data on how application volume and refinance demand move with rate expectations, and a named chief economist. Angle: what borrowers and lenders should expect into the June Fed decision, backed by the company's live application data.",
+      "expected_output": "Mid-high (5-7), RIDE or WAIT. Direct standing (first-party lending data + economist), a real live macro story with a dated upcoming catalyst (June 16-17). RIDE on the run-up with data, or WAIT for the decision; not a SKIP.",
+      "assertions": [
+        {"id": "15a", "text": "overall_score >= 5", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 5}},
+        {"id": "15b", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "15c", "text": "standing >= 6 (first-party lending data + named economist)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": ">=", "value": 6}},
+        {"id": "15d", "text": "no no-client-standing cap applied", "type": "auto", "check": {"path": "caps_applied", "op": "cap_not_applied", "value": "standing"}}
+      ]
+    },
+    {
+      "id": 16,
+      "eval_name": "real-event-ev-battery-recalls-safety-expert-standing",
+      "industry": "automotive-ev",
+      "mode": "event_newsjacking",
+      "tags": ["should-trigger", "real-event", "direct-standing", "recall-not-casualty"],
+      "prompt": "Run newsworthiness-check in event_newsjacking mode. now/current_time: 2026-06-04. Real event: a cluster of EV recalls in early June 2026 — Tesla recalling 2026 Model Y / 2025 Model 3 over a battery contactor that can cause loss of propulsion, and Volvo recalling EX30s over battery packs that can overheat. These are preventive recalls with no reported injuries or deaths. Client: a battery-management-systems and EV-safety engineering firm with first-party failure-analysis data and a named safety engineer. Angle: a sober technical explainer on why battery/contactor faults happen and how BMS design mitigates them. The client is not promoting that anyone was harmed.",
+      "expected_output": "Strong (5-7), RIDE. Direct technical standing, fresh multi-automaker news, genuine reporter demand for an explainer. Because the recalls are preventive with no casualties and the angle is technical explanation (not exploiting harm), the kill switch should NOT fire — this tests the recall-vs-active-casualty distinction.",
+      "assertions": [
+        {"id": "16a", "text": "overall_score >= 5", "type": "auto", "check": {"path": "overall_score", "op": ">=", "value": 5}},
+        {"id": "16b", "text": "recommended_action is RIDE or WAIT", "type": "auto", "check": {"path": "recommended_action", "op": "in", "value": ["RIDE", "WAIT"]}},
+        {"id": "16c", "text": "kill_switch_triggered is false (preventive recall, technical explainer, no casualty hook)", "type": "auto", "check": {"path": "kill_switch_triggered", "op": "==", "value": false}},
+        {"id": "16d", "text": "standing >= 6 (direct EV-safety engineering expertise + failure data)", "type": "auto", "check": {"path": "dimensions.standing.score", "op": ">=", "value": 6}}
+      ]
+    }
+  ]
+}

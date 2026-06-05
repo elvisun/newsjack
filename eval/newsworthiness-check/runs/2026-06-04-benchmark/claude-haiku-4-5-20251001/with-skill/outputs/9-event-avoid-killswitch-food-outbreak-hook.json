@@ -1,0 +1,22 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": null,
+  "band": "blocked",
+  "recommended_action": "AVOID",
+  "will_get_coverage": "not applicable",
+  "calibration_anchor": {
+    "closest_anchor": "Brand-safety kill switch: active health crisis with consumer harm",
+    "why_not_higher": "Active outbreak with consumer injury cannot be used as a promotional hook for 'safety' positioning",
+    "why_not_lower": "Score is not assigned because this is blocked at the kill-switch gate before evaluation"
+  },
+  "dimensions": {},
+  "caps_applied": [],
+  "kill_switch_triggered": true,
+  "evidence_used": [],
+  "evidence_gaps": [],
+  "honest_assessment": "An active E. coli outbreak with consumers sickened is a public-health crisis, not a newsjacking opportunity. Using it to promote a competitor's safety and drive subscriptions is exploitative and will trigger immediate brand backlash and credibility loss.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not engage with this angle. If the company can provide operational aid or legitimate public-health expertise, communicate through channels other than PR."
+  }
+}

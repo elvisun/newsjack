@@ -1,0 +1,37 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "not newsworthy",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Product Hunt launch at unknown startup",
+    "why_not_higher": "A Product Hunt ranking is a community-vote metric, not a journalist hook. No data, customer proof, or business traction provided.",
+    "why_not_lower": "The product claim itself (AI fundraising agent) has some category interest, but it is pure marketing"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 3, "rationale": "Startups beat exists but product is undifferentiated AI tooling"},
+    "timeliness": {"score": 1, "rationale": "No news hook beyond product launch; no external moment or embargo"},
+    "magnitude": {"score": 2, "rationale": "Unknown seed-stage startup with no disclosed traction or market scale"},
+    "proof_points": {"score": 1, "rationale": "Product Hunt upvotes are community vanity metrics, not proof"},
+    "narrative_quality": {"score": 2, "rationale": "Framing is generic 'AI agent finds investors'"},
+    "source_credibility": {"score": 2, "rationale": "Unknown founder with no stated expertise or track record"}
+  },
+  "weak_dimensions": ["timeliness", "proof_points", "narrative_quality", "magnitude"],
+  "improvement_suggestions": [
+    "Do not lead with Product Hunt ranking; it is not news",
+    "Bring customer usage data, founder background, or a concrete business milestone",
+    "Tie to a macro trend in founder tooling if evidence exists"
+  ],
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Actual user traction, revenue, or customer names",
+    "Founder expertise or prior exit",
+    "Data on whether investors are actually using the tool"
+  ],
+  "honest_assessment": "A Product Hunt ranking is a vanity metric, not a news hook. This is a launch announcement with no proof of business traction. Journalists do not cover products because they ranked on PH.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is actual business proof"
+  }
+}

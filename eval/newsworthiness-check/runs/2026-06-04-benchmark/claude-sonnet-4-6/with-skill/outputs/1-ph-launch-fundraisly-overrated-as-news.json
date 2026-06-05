@@ -1,0 +1,46 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Seed-stage product launch, no data, unknown startup",
+    "why_not_higher": "Product Hunt #1 is a community-vote metric, not a journalist hook; no data, no customers, no exclusive angle, no proof of real-world traction beyond upvotes",
+    "why_not_lower": "There is a specific beat (startups/venture) and the product concept is at least describable, preventing a score of 1"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 3, "rationale": "Startups/venture is a real beat, but a Product Hunt ranking is not the kind of event that beat covers as news — reporters want funding, exits, revenue, or genuine product innovation, not community upvotes"},
+    "timeliness": {"score": 2, "rationale": "The only timing is the Product Hunt launch day. Product Hunt rankings are not a news calendar event journalists plan around"},
+    "magnitude": {"score": 1, "rationale": "Unknown seed-stage startup. No user count, no revenue, no market signal. 1,000 upvotes on Product Hunt do not represent real-world scale"},
+    "proof_points": {"score": 1, "rationale": "No data, no named customers, no exclusive access, no audited metrics. The upvote count is a vanity metric from a community platform"},
+    "narrative_quality": {"score": 2, "rationale": "AI fundraising agent is a recognizable concept but there is no human story, no conflict, no before-and-after, no stakes differentiated from dozens of similar products"},
+    "source_credibility": {"score": 2, "rationale": "Unknown seed startup with no stated credentials, no named founders with track records, no independent validation"}
+  },
+  "weak_dimensions": ["beat_relevance", "timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Do not pitch Product Hunt ranking as the story — it is not a journalist hook",
+    "If founders have a verifiable track record of investor relationships or prior exits, lead with that instead",
+    "Surface a named investor meeting or a concrete metric (meetings booked, dollars raised by beta users) before pitching",
+    "Tie to a live trend angle (e.g., a specific shift in how founders are sourcing intros) backed by data"
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Fundraisly Product Hunt launch: #1 Product of the Day with 1,000+ upvotes",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "No revenue or usage metrics provided",
+    "No named investors or customers",
+    "No proof that the AI agent successfully booked real investor meetings at scale",
+    "No independent press coverage or external validation"
+  ],
+  "honest_assessment": "A Product Hunt #1 ranking is not news for journalists — it is a community upvote contest. Tech reporters covering startups and venture need funding announcements, revenue signals, notable founders, or genuine product breakthroughs. None of those are present here. The upvote count is a vanity metric; holding this pitch until there is real traction to report is the right move.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until there is a real story — a funding round, verifiable usage metrics, or a named customer proof point"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 3,
+  "band": "major event, zero user standing",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the event will get heavy coverage, but not with a restaurant chain as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Massive financial/tech event with zero journalist rationale for the proposed commenter",
+    "why_not_higher": "The client has no connection to capital markets, AI infrastructure, or the broader economics Anthropic impacts",
+    "why_not_lower": "The event itself is legitimate and major; the cap applies only to the user's ability to participate"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Anthropic IPO at ~$965B valuation is a major trillion-dollar-class event"},
+    "velocity": {"score": 8, "rationale": "Fresh filing on 2026-06-01; strong trade and finance coverage underway"},
+    "novelty": {"score": 7, "rationale": "AI-leader IPO at scale is newsworthy but not unprecedented"},
+    "standing": {"score": 1, "rationale": "A regional restaurant chain has no expertise, customers affected, or capital-markets standing related to an AI-company IPO"},
+    "window": {"score": 8, "rationale": "Filing and regulatory window is open and active"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": true,
+      "rationale": "A restaurant chain has no credible connection to an AI-company IPO. Large event magnitude does not grant permission for unrelated brands to comment."
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [],
+  "evidence_gaps": [
+    "Any legitimate connection between the restaurant chain and Anthropic's business or market"
+  ],
+  "honest_assessment": "The story is major and will get coverage. Your company is not a source for it. Commenting 'about the AI moment' to appear modern is exactly what journalists filter out as tone-deaf self-insertion.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch this angle"
+  }
+}

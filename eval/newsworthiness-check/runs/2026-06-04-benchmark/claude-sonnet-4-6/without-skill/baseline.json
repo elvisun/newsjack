@@ -1,0 +1,117 @@
+{
+  "executor": "claude-sonnet-4-6, generic PR assistant, no skill",
+  "results": [
+    {
+      "id": 1,
+      "industry": "ai-saas",
+      "score": 4,
+      "action": "hold for now; use as social proof, not headline",
+      "one_sentence": "#1 on Product Hunt is a nice milestone but it's not a story journalists cover on its own — you need a stronger hook like funding, traction data, or a distinctive angle to get press pickup."
+    },
+    {
+      "id": 2,
+      "industry": "ai-saas",
+      "score": 3,
+      "action": "skip pitching reporters; focus on community and social",
+      "one_sentence": "Top-3 on Product Hunt with 466 upvotes and a generic 'future of human-AI collaboration' angle won't interest journalists at AI or enterprise outlets who see dozens of similar pitches weekly."
+    },
+    {
+      "id": 3,
+      "industry": "developer-tools",
+      "score": 3,
+      "action": "skip press outreach; post in dev communities instead",
+      "one_sentence": "225 Product Hunt upvotes for a bootstrapped clipboard utility is too thin for press — share it in developer forums, Hacker News, and X where the actual audience lives."
+    },
+    {
+      "id": 4,
+      "industry": "fintech",
+      "score": 5,
+      "action": "verify claims before pitching; get audited numbers first",
+      "one_sentence": "The 'first in-chat brokerage trading' angle is genuinely interesting for fintech reporters, but pitching with unverified user counts and unnamed partners will backfire — nail down the facts before approaching press."
+    },
+    {
+      "id": 5,
+      "industry": "semiconductors",
+      "score": 10,
+      "action": "full press push — press release, briefings, embargo offers",
+      "one_sentence": "NVIDIA launching its first purpose-built agentic AI CPU with named partners including Anthropic, OpenAI, Oracle, and Dell is a major industry news event that every tech and enterprise reporter will want to cover."
+    },
+    {
+      "id": 6,
+      "industry": "ai-enterprise",
+      "score": 7,
+      "action": "pitch it — reactive comment or op-ed from the builder's perspective",
+      "one_sentence": "A company that runs its core product on Claude has authentic standing to comment on what an Anthropic IPO means for the AI-builder ecosystem, and that POV is genuinely useful to reporters covering the story."
+    },
+    {
+      "id": 7,
+      "industry": "food-service",
+      "score": 1,
+      "action": "skip — do not pitch",
+      "one_sentence": "A regional restaurant chain has no credible standing on an AI-company IPO, and inserting the brand here will read as opportunistic fluff that harms credibility rather than building it."
+    },
+    {
+      "id": 8,
+      "industry": "marketing-services",
+      "score": 1,
+      "action": "skip — do not pitch",
+      "one_sentence": "Claiming 'AI is our space' because a local-SEO agency uses AI tools is not enough standing to comment on a frontier-model fundraise, and any reporter approached will see through it immediately."
+    },
+    {
+      "id": 9,
+      "industry": "food-cpg",
+      "score": 1,
+      "action": "do not proceed — serious reputational and ethical risk",
+      "one_sentence": "Using a food-safety outbreak to market subscriptions is ethically problematic and would almost certainly generate negative press rather than positive coverage — advise the client strongly against it."
+    },
+    {
+      "id": 10,
+      "industry": "ai-tech",
+      "score": 2,
+      "action": "skip — news cycle has passed",
+      "one_sentence": "A week-old story with declining coverage velocity and no new data or fresh angle is not pitchable — the window has closed and reporters have moved on."
+    },
+    {
+      "id": 11,
+      "industry": "pharma-biotech",
+      "score": 8,
+      "action": "pitch it — proactive outreach to biotech and health policy reporters",
+      "one_sentence": "A clinical-stage gene-therapy company directly governed by new FDA guidance, with a named CMO who can explain the implications, has strong standing and a timely, substantive story for biotech and regulatory reporters."
+    },
+    {
+      "id": 12,
+      "industry": "food-safety",
+      "score": 8,
+      "action": "pitch it — offer the scientist as a source for ongoing coverage",
+      "one_sentence": "An independent food-safety lab with real detection data and a named scientist can add genuine expert context to a high-profile consumer recall story, making this a strong media moment if positioned carefully as a public-interest explainer."
+    },
+    {
+      "id": 13,
+      "industry": "energy-datacenter",
+      "score": 8,
+      "action": "pitch it — proactive outreach to energy, data center, and European tech reporters",
+      "one_sentence": "A company that sells directly into hyperscale builds has authentic standing to explain the power and cooling engineering realities behind a headline €75B investment, and reporters covering the SoftBank story will want that technical context."
+    },
+    {
+      "id": 14,
+      "industry": "banking-finance",
+      "score": 2,
+      "action": "skip — not a story",
+      "one_sentence": "Matching the market rate on CDs with no exclusive data and no distinctive angle gives a personal-finance reporter nothing to write about that they haven't already covered dozens of times."
+    },
+    {
+      "id": 15,
+      "industry": "finance-macro",
+      "score": 8,
+      "action": "pitch it — target personal finance, mortgage, and macro reporters ahead of the June FOMC meeting",
+      "one_sentence": "Live application data from a mortgage fintech, paired with a named chief economist and a hard Fed-meeting deadline, is exactly the kind of timely, data-backed story personal-finance reporters are actively seeking right now."
+    },
+    {
+      "id": 16,
+      "industry": "automotive-ev",
+      "score": 7,
+      "action": "pitch it — offer the safety engineer as an expert source",
+      "one_sentence": "EV recalls from Tesla and Volvo are generating active consumer and industry coverage, and a battery-safety firm with failure-analysis data and a named engineer can provide the technical depth reporters need for a credible explainer."
+    }
+  ]
+}

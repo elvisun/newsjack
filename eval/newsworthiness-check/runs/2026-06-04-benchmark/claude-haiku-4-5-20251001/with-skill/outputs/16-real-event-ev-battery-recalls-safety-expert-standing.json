@@ -1,0 +1,35 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in automotive and EV trade press; possible in tech and safety coverage",
+  "calibration_anchor": {
+    "closest_anchor": "Multi-automaker preventive recall with direct-expert standing in the technical solution",
+    "why_not_higher": "Recalls are known events; these are preventive (no casualties), which reduces urgency and magnitude compared to active safety crises",
+    "why_not_lower": "Multiple major automakers (Tesla, Volvo) issuing recalls in the same domain creates clear reporter demand for technical explanation, which is exactly your expertise"
+  },
+  "dimensions": {
+    "magnitude": {"score": 6, "rationale": "Tesla and Volvo recalls affect tens of thousands of EVs; battery/contactor faults are safety-relevant but contained (preventive, not active)"},
+    "velocity": {"score": 7, "rationale": "Cluster of EV recalls early June 2026 (fresh news); automotive and EV reporters are covering"},
+    "novelty": {"score": 5, "rationale": "EV battery recalls are known risks; cluster across automakers is noteworthy"},
+    "standing": {"score": 8, "rationale": "Client is a battery-management-systems and EV-safety firm with first-party failure-analysis data and a named safety engineer; direct technical standing"},
+    "window": {"score": 7, "rationale": "Fresh multi-automaker news; reporters need technical explainers on root cause and BMS design mitigations"
+  },
+  "caps_applied": [],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Tesla 2026 Model Y / 2025 Model 3 battery contactor recall; Volvo EX30 battery overheat recall",
+      "url": null,
+      "published_at": "2026-06-01"
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "This is a strong newsjacking opportunity that passes the kill-switch test. These are preventive recalls with no reported injuries, so the kill switch (active casualty hook) does not fire. Your technical expertise is exactly what reporters need to explain battery and BMS design. The angle is explainer, not exploitation.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sourced expert comment from your safety engineer on battery-contactor fault mechanisms and how BMS design and monitoring mitigate these risks"}
+  }
+}

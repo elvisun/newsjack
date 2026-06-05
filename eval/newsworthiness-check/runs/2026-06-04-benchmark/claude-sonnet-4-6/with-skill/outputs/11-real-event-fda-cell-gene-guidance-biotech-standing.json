@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in biotech/pharma trade press and health policy press; possible in mainstream health and business press",
+  "calibration_anchor": {
+    "closest_anchor": "Federal agency regulatory guidance with direct sector implications; direct expert standing from a company in active clinical programs governed by this guidance",
+    "why_not_higher": "Draft guidance is not a final rule; it does not immediately change what programs can do, and it will require a comment period — national mainstream coverage will be limited compared to a full approval or enforcement action",
+    "why_not_lower": "FDA draft guidance on cell and gene therapies with explicit intent to accelerate development is a genuine regulatory event in a high-attention therapeutic area; the client has direct, named, credentialed standing"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "FDA draft guidance on cell and gene therapy development acceleration affects an entire therapeutic category with significant patient access and industry investment implications. It is significant sector news, not a systemic market event"},
+    "velocity": {"score": 7, "rationale": "Issued 2026-06-02, 2 days ago as of 2026-06-04. The story is within the same-cycle window; biotech trade press and policy reporters will be actively seeking expert commentary in the immediate post-issuance days"},
+    "novelty": {"score": 6, "rationale": "FDA guidance on cell and gene therapies is a recurring regulatory category, but guidance explicitly aimed at accelerating development is a concrete policy shift — not just another routine update"},
+    "standing": {"score": 8, "rationale": "The client is a clinical-stage gene-therapy biotech with active INDs whose programs are directly governed by exactly this guidance. They have a named chief medical officer who can speak to the regulatory and patient-access implications with direct operational standing. This is as close to direct-expert standing as a non-agency source can have"},
+    "window": {"score": 7, "rationale": "Issued 2026-06-02, now 2 days old. The window is still squarely within the fresh zone; biotech trade reporters will be writing analysis pieces in the days following the issuance, and expert voices are actively sought in this window"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client has direct expert standing — their clinical programs are governed by this guidance and their named CMO can explain regulatory and patient-access implications from operational experience"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "Issued 2026-06-02, less than 48 hours before the now anchor of 2026-06-04"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "FDA guidance issuance is a verifiable public agency action"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle is expert regulatory and patient-access analysis, not product promotion"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "FDA draft guidance to accelerate cell and gene therapy development; issued 2026-06-02",
+      "url": null,
+      "published_at": "2026-06-02"
+    },
+    {
+      "source": "user_input",
+      "title": "Client: clinical-stage gene-therapy biotech with active INDs governed by this guidance; named CMO with regulatory standing",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Specific IND programs that are directly affected — naming these would increase the precision and credibility of any expert comment",
+    "Confirmation of current trade press pickup and which specific reporters are actively seeking expert commentary",
+    "The client's view on which elements of the guidance are most consequential for their programs — this is the core of the expert angle"
+  ],
+  "honest_assessment": "This is a genuine newsjacking opportunity. The FDA issuing guidance to accelerate cell and gene therapy development is real regulatory news in a category with active trade-press and mainstream health-press coverage. The client's standing is direct — their programs are governed by exactly this guidance, and their named CMO can explain what changes and what does not. The window is still open. Ride this with a focused comment on what the guidance means for developers and patients; do not let it drift into promotional territory.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft a CMO-attributed reactive comment on the specific regulatory changes and patient-access implications, scoped narrowly to the guidance provisions that directly affect the client's clinical programs"
+  }
+}

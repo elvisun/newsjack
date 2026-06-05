@@ -1,0 +1,46 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 2,
+  "band": "marginal",
+  "recommended_action": "HOLD",
+  "will_get_coverage": "no",
+  "calibration_anchor": {
+    "closest_anchor": "Seed-stage product launch with AI buzzwords, no proof",
+    "why_not_higher": "No data, no customers, no exclusive access; 'AI agents and humans working together' is a generic category claim repeated by dozens of companies; Product Hunt trending is not a journalist hook",
+    "why_not_lower": "There is an identifiable beat (AI/enterprise software) and the collaboration-workspace category is at least a recognized area of reporter interest, preventing a floor score"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 3, "rationale": "AI/enterprise software is a real beat and collaboration tooling is a known area of coverage, but reporters on this beat see dozens of identical 'AI + humans working together' pitches daily — the beat is right but the story is indistinguishable from noise"},
+    "timeliness": {"score": 2, "rationale": "The only timing signal is today's Product Hunt launch. No external news hook, no regulatory moment, no earnings cycle. Trending on Product Hunt is not a press calendar event"},
+    "magnitude": {"score": 1, "rationale": "Unknown seed startup with 466 upvotes on Product Hunt. No user count, no enterprise customers, no revenue. The claimed audience is a community platform vote, not real-world adoption"},
+    "proof_points": {"score": 1, "rationale": "No data, no named customers, no exclusive access, no technical proof of differentiation. 'Seamlessly' and 'the future of human-AI collaboration is here' are marketing claims, not evidence"},
+    "narrative_quality": {"score": 2, "rationale": "The framing ('the future of human-AI collaboration is here') is a generic category slogan. There is no specific conflict, protagonist, consequence, or surprise — identical language appears in hundreds of AI startup pitches"},
+    "source_credibility": {"score": 2, "rationale": "Unknown seed startup, no named founders with credentials, no independent validation, no investor roster that adds standing"}
+  },
+  "weak_dimensions": ["beat_relevance", "timeliness", "magnitude", "proof_points", "narrative_quality", "source_credibility"],
+  "improvement_suggestions": [
+    "Do not pitch 'the future of X is here' — it is a buzzword, not a story",
+    "Surface a specific, named enterprise customer who eliminated a measurable handoff delay using the product",
+    "Add first-party data: time saved per workflow, error rates reduced, or cost per task before and after",
+    "Tie to a concrete live moment — a specific company deployment, a case study, or a measured productivity outcome"
+  ],
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Vokal Product Hunt launch: top-3 trending with 466 upvotes, angle 'the future of human-AI collaboration is here'",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "No enterprise customer names or anonymized case studies",
+    "No usage metrics (active users, workflows automated, time saved)",
+    "No technical differentiation from existing AI-collaboration tools",
+    "No independent press coverage or analyst validation"
+  ],
+  "honest_assessment": "AI topicality is not a story. Every week brings dozens of 'AI agents and humans working together seamlessly' pitches to the same reporters. Without data, named customers, or a genuinely novel technical proof point, this is generic category marketing dressed up as a launch. The Product Hunt ranking is not a hook. This is not a story yet.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Hold until a named customer proof point, first-party usage data, or a concrete technical differentiator can be surfaced"
+  }
+}

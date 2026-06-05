@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely across AI-infrastructure, energy, European tech, and mainstream business press — Europe's largest announced AI-infrastructure investment",
+  "calibration_anchor": {
+    "closest_anchor": "Major sector infrastructure investment announcement with direct operational implications; client has direct expert standing in the affected technology domain",
+    "why_not_higher": "A single investment announcement, even at €75B, is not a systemic market event or policy ruling; it does not reach the 8-9 band for the client's newsjacking purposes even though the event magnitude is high",
+    "why_not_lower": "€75B / $87.5B for 5GW of AI data-center capacity is Europe's largest single announced AI-infrastructure investment; it immediately raises engineering and grid questions that reporters are not equipped to answer without expert sources; the client has direct operational standing in exactly the affected technology category"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "€75B (~$87.5B) to develop 5 gigawatts of AI data-center capacity in France — Europe's largest single announced AI-infrastructure investment. The scale of power density involved (5GW is an enormous figure for a single national build) and the SoftBank profile ensure major business and tech press coverage"},
+    "velocity": {"score": 7, "rationale": "Reported early June 2026, within 1-3 days of the now anchor (2026-06-04). The story is fresh; infrastructure, energy, and European tech reporters are actively writing on the scale and feasibility questions"},
+    "novelty": {"score": 7, "rationale": "5GW in a single national AI data-center commitment is unprecedented for Europe and represents a concrete scale claim that immediately raises grid, cooling, and power-density questions no prior announcement has needed to address at this scale"},
+    "standing": {"score": 8, "rationale": "A data-center liquid-cooling and power-density company that sells into hyperscale builds has direct operational standing. They can speak with first-party data on cooling efficiency, power-density constraints, and what standing up 5GW of AI compute actually requires in thermal management — this is exactly the expert demand this story creates"},
+    "window": {"score": 7, "rationale": "Reported early June 2026, fresh window. Infrastructure reporters, European energy journalists, and AI-beat writers will be seeking 'can the grid and cooling actually handle this' expert sources in the days following the announcement"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client sells liquid-cooling and power-density solutions into exactly these hyperscale builds, has first-party efficiency data, and has a named engineering lead — direct operational standing in the exact technology category this story's feasibility questions require"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "Reported early June 2026, within the fresh window as of 2026-06-04"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "A SoftBank investment announcement of this scale is a verifiable public event"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle (power and cooling realities of 5GW AI compute) is expert analysis, not a promotional pitch"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "SoftBank to invest up to €75B (~$87.5B) for 5GW AI data-center capacity in France; Europe's largest single AI-infrastructure investment; reported early June 2026",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Client: data-center liquid-cooling and power-density company; sells into hyperscale builds; first-party cooling efficiency data; named engineering lead",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Specific first-party data on cooling efficiency at the scale comparable to 5GW deployments — this is the anchor proof asset",
+    "Confirmation of current French grid capacity relative to 5GW demand (contextual data the client may be able to speak to)",
+    "Whether the client has existing relationships in the SoftBank or French data-center construction supply chain"
+  ],
+  "honest_assessment": "This is a strong newsjacking opportunity. The SoftBank €75B / 5GW France investment is Europe's largest announced AI-infrastructure commitment and immediately raises engineering feasibility questions — power density, cooling requirements, grid capacity — that reporters are not equipped to answer without expert sources. The client is an expert source: they sell liquid-cooling into these exact builds, have first-party efficiency data, and have a named engineering lead. The angle (the power and cooling realities of 5GW AI compute) is specific, expert, and directly answers the question reporters will be asking. Ride this.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft an engineering-lead-attributed reactive comment on the cooling and power-density realities of 5GW-scale AI data-center build-outs, backed by first-party efficiency data"
+  }
+}

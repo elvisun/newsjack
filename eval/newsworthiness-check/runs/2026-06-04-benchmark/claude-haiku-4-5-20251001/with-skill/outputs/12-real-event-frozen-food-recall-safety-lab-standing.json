@@ -1,0 +1,35 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in consumer, food-safety, and retail trade coverage",
+  "calibration_anchor": {
+    "closest_anchor": "Major product safety event with direct-expert standing and explainer demand",
+    "why_not_higher": "A food recall is significant but not systemic (limited to named retailers); magnitude is sector-important, not national breaking",
+    "why_not_lower": "Direct food-safety expertise, first-party contamination data, and consumer demand for expert explanation create a strong opportunity"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "37 million pounds of frozen food recalled from major retailers (Trader Joe's, Kroger) affects millions of consumers"},
+    "velocity": {"score": 7, "rationale": "Fresh recall reported early June 2026 (within days of eval); ongoing coverage as scope expands"},
+    "novelty": {"score": 5, "rationale": "Glass contamination recalls are known risks; scope is notable but not unprecedented"},
+    "standing": {"score": 8, "rationale": "Client is an independent food-safety testing lab with first-party contamination-detection data and a named food-safety scientist; direct expertise in the exact problem"},
+    "window": {"score": 7, "rationale": "Recall news is fresh; journalists seek expert explanation of root cause and detection methods"
+  },
+  "caps_applied": [],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Trader Joe's and Kroger frozen food glass contamination recall",
+      "url": null,
+      "published_at": "2026-06-01"
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "A major food safety incident with your direct expertise is a strong newsjacking opportunity. The angle is educational (how detection works) not promotional, and your data is credible. The window is open.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sourced expert comment on glass-contamination detection and how labs identify foreign matter in frozen products"}
+  }
+}

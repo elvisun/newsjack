@@ -1,0 +1,32 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 3,
+  "band": "major event, no user standing",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the event will get major coverage, but never with this restaurant chain as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Mega tech IPO filing with an entirely unrelated client",
+    "why_not_higher": "The restaurant chain has zero AI, capital-markets, or domain connection to the filing; no finance or AI reporter would use it, so the standing cap forces it down",
+    "why_not_lower": "The underlying event is genuinely major and timely; the score reflects total lack of standing, not a defect in the event"
+  },
+  "dimensions": {
+    "magnitude": {"score": 9, "rationale": "Anthropic's confidential IPO filing after a $65B round at ~$965B valuation is a major business story"},
+    "velocity": {"score": 8, "rationale": "Filed 2026-06-01, three days ago, spreading widely across business press"},
+    "novelty": {"score": 7, "rationale": "A frontier-AI lab approaching a trillion-dollar IPO is a surprising milestone"},
+    "standing": {"score": 1, "rationale": "A regional fast-casual restaurant chain has no AI product, no capital-markets connection, and no expertise relevant to the filing; wanting to 'look modern' is not standing"},
+    "window": {"score": 6, "rationale": "The window is open for those with standing, but irrelevant to this client"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": true, "rationale": "The restaurant chain has no legitimate connection to the event; a huge story does not create permission for an unrelated brand to comment, so the score is capped at 4"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "Anthropic confidentially filed for IPO after $65B round at ~$965B valuation", "url": null, "published_at": "2026-06-01"}
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "The story is major. Your connection to it is nonexistent. A 'comment about the AI moment' from a restaurant chain gives no finance or AI reporter anything to use and reads as bandwagoning. Skip.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch or post this; there is no credible angle for this client"
+  }
+}

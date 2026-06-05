@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in food-safety, consumer, and mainstream press — 37 million pounds across Trader Joe's and Kroger is a large recall with broad consumer reach",
+  "calibration_anchor": {
+    "closest_anchor": "Major consumer product recall with broad retail reach; client has direct expert standing with first-party data and named scientist",
+    "why_not_higher": "A recall, even at 37 million pounds, is not a systemic food-system crisis — it is a product safety event; the expert explainer angle (how contamination happens, how detection works) is a trade and mainstream consumer story, not a national emergency",
+    "why_not_lower": "37 million pounds across two of the largest US grocery chains, with a glass-contamination mechanism that is not widely understood by consumers or food writers, creates genuine reporter demand for an expert explainer from a credentialed, named food-safety scientist with first-party detection data"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "37 million pounds of frozen food across Trader Joe's and Kroger — two high-profile chains with large loyal consumer followings. The recall scale and the retail brands involved ensure mainstream consumer and food-safety press coverage"},
+    "velocity": {"score": 7, "rationale": "Reported early June 2026, within 1-3 days of the now anchor (2026-06-04). The story is in the fresh window; consumer reporters, food writers, and food-safety journalists are actively covering it and seeking expert sources"},
+    "novelty": {"score": 6, "rationale": "Glass contamination in frozen food is not unprecedented but is less common than microbial recalls — the 'how does glass get into frozen food and how is it detected' question is a genuine knowledge gap that creates reporter demand for an explainer"},
+    "standing": {"score": 8, "rationale": "An independent food-safety testing laboratory with first-party contamination-detection rate data and a named food-safety scientist has direct expert standing. They test for exactly this type of contamination and can explain the detection methodology from operational experience — not adjacent standing, direct standing"},
+    "window": {"score": 7, "rationale": "Reported early June 2026, within the fresh window. Consumer and food-safety reporters will be writing explainers and follow-up pieces for days after a recall of this scale; the expert explainer window is active"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client is an independent food-safety testing laboratory with first-party contamination-detection data and a named scientist — direct expert standing, cap does not apply"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "Reported early June 2026; within the fresh window as of 2026-06-04"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "A major recall across Trader Joe's and Kroger at 37 million pounds is a verifiable public consumer-safety event"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle is explicitly a sober expert explainer — not promotional, not attacking the named retailers, and the prompt states the client is not promoting itself opportunistically"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Major frozen-food recall: ~37 million pounds of Trader Joe's and Kroger products over glass contamination; reported early June 2026",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Client: independent food-safety testing lab with first-party contamination-detection data; named food-safety scientist; angle is explanatory, not promotional",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Specific first-party detection rate data the client can share — this is the anchor proof asset and should be made available to reporters",
+    "Confirmation of current recall status and whether expansion or investigation updates are expected (which could extend the window)",
+    "Whether the client has worked with either named retailer's supply chain, which would add further standing"
+  ],
+  "honest_assessment": "This is a clean newsjacking opportunity. The recall is genuinely large, the glass-contamination mechanism creates a real knowledge gap that consumer and food-safety reporters will want explained, and the client has exactly the right profile: a named scientist with first-party detection data and no promotional hook. The angle (how does glass contamination happen and how is it detected) is explanatory and public-interest-oriented. The kill switch does not apply here — this is a product safety recall being used for expert education, not exploitation of active human casualties. Ride with a tightly scoped expert comment from the named scientist.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft a scientist-attributed reactive comment explaining the glass-contamination mechanism and detection methodology, scoped as a public-interest explainer for consumer and food-safety reporters"
+  }
+}

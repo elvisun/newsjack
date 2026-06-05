@@ -1,0 +1,38 @@
+{
+  "mode": "pitch_newsworthiness",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "PROCEED",
+  "will_get_coverage": "likely across semiconductor and enterprise-tech press, possible mainstream business pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Major product-category launch from the dominant player in the sector",
+    "why_not_higher": "It is a product launch, not a national/global headline; systems do not ship until fall 2026 and real-world performance is unproven",
+    "why_not_lower": "A genuinely new data-center CPU category from NVIDIA with hard specs and many marquee named partners is well above routine launch noise"
+  },
+  "dimensions": {
+    "beat_relevance": {"score": 8, "rationale": "Chips and enterprise-infrastructure reporters actively cover NVIDIA data-center launches; a new CPU category is squarely their beat"},
+    "timeliness": {"score": 6, "rationale": "Live launch moment (2026-06-02, two days ago), but it is an announcement with fall-2026 shipping rather than an external breaking event"},
+    "magnitude": {"score": 7, "rationale": "First data-center CPU for agentic AI from the dominant compute vendor, with NVLink-C2C integration; meaningful sector impact, though impact is forward-looking"},
+    "proof_points": {"score": 7, "rationale": "Concrete spec (1.8x x86, 88 custom cores) plus a long list of named launch partners and customers (Dell, HPE, Lenovo, Supermicro, OCI, CoreWeave, Anthropic, OpenAI, NYSE)"},
+    "narrative_quality": {"score": 6, "rationale": "Clear 'NVIDIA enters the CPU war for the agent era' story shape, though no human protagonist"},
+    "source_credibility": {"score": 9, "rationale": "NVIDIA is the globally dominant AI-compute company; maximum source standing"}
+  },
+  "weak_dimensions": ["timeliness"],
+  "improvement_suggestions": [
+    "Lead with the 'first CPU built for AI agents' category claim plus the 1.8x number and the marquee partner roster, not adjectives",
+    "Offer a spec deep-dive or briefing to give reporters a concrete differentiated angle vs x86 incumbents",
+    "Have an independent benchmark or partner customer available to validate the 1.8x performance claim"
+  ],
+  "evidence_used": [
+    {"source": "user_input", "title": "NVIDIA unveils Vera, the CPU for Agents, with named partners (2026-06-02)", "url": null, "published_at": "2026-06-02"}
+  ],
+  "evidence_gaps": [
+    "Independent benchmarks validating the 1.8x vs x86 claim",
+    "Pricing and availability detail beyond 'ships fall 2026'"
+  ],
+  "honest_assessment": "This is a real corporate launch that is genuinely newsworthy: a new product category from the dominant player, with hard performance specs and a deep roster of named marquee partners, at a live launch moment. Proceed; this clears the bar without inflation.",
+  "next_move": {
+    "skill": "angle-generator",
+    "rationale": "Shape distinct angles (agent-era CPU war, partner ecosystem, x86 displacement) for different reporter shapes"
+  }
+}

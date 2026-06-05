@@ -1,0 +1,62 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 4,
+  "band": "routine-to-significant event, no user standing",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the event will receive major coverage; this client will not be used as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Major national financial story; capped by total absence of client standing",
+    "why_not_higher": "The no-client-standing cap applies strictly — a restaurant chain has zero relevant expertise, data, or operational connection to AI IPOs, frontier-model economics, or capital markets",
+    "why_not_lower": "The event itself is 8-9; the cap brings the newsjacking opportunity score down to 4, not below it"
+  },
+  "dimensions": {
+    "magnitude": {"score": 9, "rationale": "Anthropic confidential IPO at ~$965B valuation, ahead of OpenAI — a potential trillion-dollar AI listing. This is a major national financial and technology story by any calibration"},
+    "velocity": {"score": 7, "rationale": "Filed 2026-06-01, 3 days ago; still circulating actively in tech and business press as of 2026-06-04"},
+    "novelty": {"score": 8, "rationale": "First major frontier AI lab to file for IPO; the competitive dynamic with OpenAI and the valuation scale are genuinely novel"},
+    "standing": {"score": 1, "rationale": "A regional fast-casual restaurant chain has no AI product, no capital-markets expertise, no technology connection, and no data relevant to frontier-model economics or IPO market dynamics. 'Looking modern' is not standing. The marketing lead's desire to comment does not create expertise"},
+    "window": {"score": 7, "rationale": "The window remains open for sources with actual standing; irrelevant for this client"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": true,
+      "rationale": "The restaurant chain has no credible connection to AI, capital markets, technology, or Anthropic. The stated motivation ('look modern') confirms this is brand-image opportunism, not expert standing. The cap applies and drops the newsjacking score to 4 regardless of event magnitude"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "Stale cap is not the binding constraint here — the standing cap is"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "Event treated as confirmed per the prompt"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The cap applies to the pitch itself; the standing cap is already the binding constraint"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Anthropic confidential IPO filing, 2026-06-01; ~$965B valuation",
+      "url": null,
+      "published_at": "2026-06-01"
+    },
+    {
+      "source": "user_input",
+      "title": "Client: regional fast-casual restaurant chain; no AI product, no capital-markets connection, no relevant expertise",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "The story is newsworthy. The client's connection to it is nonexistent. A finance or AI reporter will not quote a fast-casual restaurant chain about an AI IPO — there is no angle, no data, no expertise, and no legitimate standing. The desire to 'look modern' by reacting to AI news is a marketing impulse, not a PR strategy. Do not pitch this.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No handoff appropriate. Do not pitch or comment on this event."
+  }
+}

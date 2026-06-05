@@ -1,0 +1,62 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 3,
+  "band": "marginal",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the DeepSeek funding event will get tech and finance press coverage; this client will not be used as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Significant tech-sector funding story; no-standing cap applied; keyword adjacency is not standing",
+    "why_not_higher": "A local-SEO agency sharing the token 'AI' with frontier-model fundraising is not standing; the standing cap applies and there is no defensible expertise pathway to frontier-model economics or VC dynamics",
+    "why_not_lower": "The DeepSeek event has real magnitude (6-7) but client standing is so low (1) that the overall score floors near 3 after capping"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "A $7.4B fundraise by DeepSeek with Tencent and CATL as investors is a significant frontier-AI funding story with geopolitical and capital-markets implications. It is notable sector news, not a national systemic event"},
+    "velocity": {"score": 6, "rationale": "Reported 2026-06-03, one day ago — still in the fresh window for sources with genuine standing"},
+    "novelty": {"score": 6, "rationale": "DeepSeek raising at this scale with Tencent and CATL signals continued Chinese frontier-AI investment despite export controls — a novel signal for the competitive AI landscape"},
+    "standing": {"score": 1, "rationale": "A local-SEO marketing agency helping clients rank in AI search shares the word 'AI' with DeepSeek, but has no expertise in frontier-model development, frontier-AI economics, Chinese tech investment, semiconductor supply chains, or any topic reporters covering this story would ask about. Keyword overlap is not standing."},
+    "window": {"score": 6, "rationale": "The window is open for sources with real standing; irrelevant to this client"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": true,
+      "rationale": "The local-SEO agency's self-claimed standing ('AI is our space') is rejected. Helping clients rank in AI search results has no connection to frontier-model fundraising, Chinese tech investment, or the capital-markets dynamics of this story. Sharing a keyword is not expertise. Cap applied; overall score cannot exceed 4, and given standing score of 1 the actual score is 3."
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "The event was reported 2026-06-03, less than 48 hours ago — not yet stale by the timing rule"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "The event is treated as confirmed per the prompt"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "Not the binding cap here"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "DeepSeek preparing to raise ~$7.4B with Tencent and CATL; reported 2026-06-03",
+      "url": null,
+      "published_at": "2026-06-03"
+    },
+    {
+      "source": "user_input",
+      "title": "Client: small local-SEO marketing agency; claims AI standing because it helps clients rank in AI search",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "Sharing the token 'AI' with DeepSeek does not create standing. A local-SEO agency optimizing for AI search results has no expertise, data, or operational connection to frontier-model fundraising, Chinese tech investors, or the geopolitical implications of this round. No reporter covering DeepSeek would quote this source. The self-claimed standing is a keyword-adjacency trap — recognizing and rejecting it is the correct call.",
+  "next_move": {
+    "skill": null,
+    "rationale": "Do not pitch this angle. No handoff is appropriate."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in tech and finance press",
+  "calibration_anchor": {
+    "closest_anchor": "Major company public-market debut with significant market impact and a window for builder perspective",
+    "why_not_higher": "The client has adjacent/observer standing (builds on Claude, not principal), so standing is capped below direct expert; event magnitude alone would justify 8-9",
+    "why_not_lower": "An Anthropic IPO at $965B valuation with $47B run-rate revenue is a major financial event, and the client has a legitimate builder angle"
+  },
+  "dimensions": {
+    "magnitude": {"score": 8, "rationale": "Anthropic IPO at ~$965B valuation and $47B run-rate is a major trillion-dollar-class listing; historic for AI-native company scale"},
+    "velocity": {"score": 7, "rationale": "Confidential filing on 2026-06-01; news is fresh (3 days old as of eval date 2026-06-04); likely ongoing trade/finance coverage"},
+    "novelty": {"score": 7, "rationale": "An IPO from an AI-leader at this scale is significant but not unprecedented (OpenAI also anticipated)"},
+    "standing": {"score": 7, "rationale": "Client builds core product on Claude with unit economics tied to model pricing; legitimate adjacent standing as an informed builder/customer perspective, not as principal"},
+    "window": {"score": 7, "rationale": "Filing window is open; regulatory and investor scrutiny arc likely to accelerate over weeks ahead"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "Client has legitimate adjacent standing (Claude-dependent builder); not randomly commenting on a big story"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Anthropic confidential IPO filing after $65B round at ~$965B valuation",
+      "url": null,
+      "published_at": "2026-06-01"
+    }
+  ],
+  "evidence_gaps": [
+    "Public confirmation from Anthropic or SEC filings (currently confidential)",
+    "Indication of which finance/tech reporters are already covering the story"
+  ],
+  "honest_assessment": "Anthropic's IPO is a major financial and tech-sector event. Your standing as a Claude-based builder gives you a legitimate angle on what the economics mean for dependent companies. This is ride-worthy with a narrow, builder-focused narrative.",
+  "next_move": {
+    "skill": "angle-generator",
+    "rationale": "Frame a narrow builder perspective: what pricing/availability shifts investors should expect, and how dependent companies will adapt"
+  }
+}

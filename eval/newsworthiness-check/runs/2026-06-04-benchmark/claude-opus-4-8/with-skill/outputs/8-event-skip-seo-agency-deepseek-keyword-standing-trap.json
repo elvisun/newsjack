@@ -1,0 +1,32 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 3,
+  "band": "significant event, manufactured standing",
+  "recommended_action": "SKIP",
+  "will_get_coverage": "the funding will get tech/finance coverage, but not with a local-SEO agency as a source",
+  "calibration_anchor": {
+    "closest_anchor": "Major frontier-model fundraising with a tenuously-related client",
+    "why_not_higher": "Sharing the token 'AI' is not standing; a local-SEO agency has no connection to frontier-model capital, so the standing cap forces the score down",
+    "why_not_lower": "The DeepSeek raise is a real, sizable sector event, so the low score is about the client's fit, not the event"
+  },
+  "dimensions": {
+    "magnitude": {"score": 6, "rationale": "A ~$7.4B raise with Tencent and CATL is significant frontier-AI sector news, though not a top-tier mainstream headline"},
+    "velocity": {"score": 6, "rationale": "Reported 2026-06-03, one day ago, actively spreading in tech/finance press"},
+    "novelty": {"score": 5, "rationale": "A large DeepSeek round is notable but another instance of the frontier-model funding race"},
+    "standing": {"score": 2, "rationale": "A local-SEO agency helping clients rank in AI search has only keyword overlap with frontier-model fundraising; 'AI is our space' is manufactured standing, not real expertise"},
+    "window": {"score": 6, "rationale": "Window is open for credible sources, but irrelevant to this client"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": true, "rationale": "The link between frontier-model fundraising and a local-SEO agency is tenuous keyword overlap; sharing the word 'AI' is not standing, so the score is capped at 4"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "DeepSeek preparing to raise ~$7.4B with Tencent and CATL among investors", "url": null, "published_at": "2026-06-03"}
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "Sharing the token 'AI' is not standing. A local-SEO agency has nothing a reporter covering frontier-model fundraising would use, and 'AI is our space' is exactly the keyword-adjacency trap this skill refuses. Skip.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No credible angle; do not manufacture standing from keyword overlap"
+  }
+}

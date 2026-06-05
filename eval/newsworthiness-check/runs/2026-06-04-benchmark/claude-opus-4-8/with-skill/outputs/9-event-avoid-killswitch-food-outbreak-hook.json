@@ -1,0 +1,24 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": null,
+  "band": "blocked",
+  "recommended_action": "AVOID",
+  "will_get_coverage": "not applicable",
+  "calibration_anchor": {
+    "closest_anchor": "brand-safety kill switch",
+    "why_not_higher": "An active outbreak with consumers sickened cannot be used as a promotional hook to drive subscriptions",
+    "why_not_lower": "No score is assigned because the item is blocked before scoring"
+  },
+  "dimensions": {},
+  "caps_applied": [],
+  "kill_switch_triggered": true,
+  "evidence_used": [
+    {"source": "user_input", "title": "E. coli O157:H7 outbreak linked to beef kofta from a named producer, consumers sickened", "url": null, "published_at": "2026-06"}
+  ],
+  "evidence_gaps": [],
+  "honest_assessment": "Do not newsjack this. An active foodborne-illness outbreak with people harmed is being used as a promotional hook to sell subscriptions, which trips the brand-safety kill switch. Exploiting a live health crisis for marketing is indefensible and will draw backlash. If the brand has genuine safety expertise to offer the public interest, that is a separate, non-promotional decision.",
+  "next_move": {
+    "skill": null,
+    "rationale": "No PR handoff is appropriate; this is blocked on brand safety"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely across personal finance, mortgage, and business press in the run-up to the June 16-17 FOMC meeting",
+  "calibration_anchor": {
+    "closest_anchor": "Live major macro story with a dated upcoming catalyst; direct standing from a consumer-lending fintech with first-party application data and named economist",
+    "why_not_higher": "The Fed holding rate is ongoing background news, not a single breaking event — magnitude is significant but the story has been circulating for months; the client is an important data source but not a market-moving authority like a major bank economist",
+    "why_not_lower": "The June 16-17 FOMC meeting is a concrete, dated, live catalyst with clear reporter demand for borrower and lender perspective; the client has first-party application data and a named chief economist — that combination creates a genuine newsjacking hook that most consumer-lending companies cannot offer"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "The Fed holding at 3.5-3.75% through three meetings with an 8-4 split (most dissents since 1992) and a possible first cut at the June 16-17 FOMC is a significant macro story with direct consumer-lending and mortgage implications. The 'most dissents since 1992' detail adds historical novelty that reporters will use."},
+    "velocity": {"score": 6, "rationale": "The FOMC meeting is June 16-17, 12-13 days away. The story is building toward a peak — pre-FOMC coverage is in the rising-to-peak stage, with rate-expectation pieces actively being written. The window for pre-decision expert commentary is open now and will remain open through the meeting"},
+    "novelty": {"score": 6, "rationale": "Three consecutive holds with 8-4 dissents (most since 1992) is a historically notable pattern. A possible first cut at this meeting adds urgency. The 'what do borrowers and lenders actually expect' angle is less saturated than the macro economist commentary, particularly with live application-volume data"},
+    "standing": {"score": 7, "rationale": "A consumer-lending/mortgage fintech with first-party data on application volume and refinance demand tied to rate expectations, plus a named chief economist, has direct operational standing. Their data is the micro-level proof of what the macro rate story means for actual borrowers — exactly what personal finance and mortgage reporters want"},
+    "window": {"score": 7, "rationale": "The June 16-17 FOMC meeting is the live catalyst. Pre-decision pieces are being written now. The window is open for the run-up (now through June 15) and will reopen briefly post-decision for reaction commentary. This is the right time to pitch."}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client has direct standing: first-party application volume and refinance demand data tied to rate expectations, plus a named chief economist. This clears the standing threshold for consumer-lending and mortgage reporters"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "The Fed rate backdrop is ongoing; the live catalyst (June 16-17 FOMC) is future-dated, making the timing window active rather than stale"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "The Fed policy rate and FOMC meeting date are verifiable public facts"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle is data-backed expert commentary on borrower and lender behavior into a dated macro event — not promotional"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Fed holds at 3.5-3.75% through three meetings; 8-4 dissent split (most since 1992); possible first cut at June 16-17 FOMC",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Client: consumer-lending/mortgage fintech with first-party application volume and refinance demand data; named chief economist",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Specific first-party data points from the client's application volume — the named metrics (what % change in refinance applications with each rate-expectation shift) are the anchor proof asset",
+    "Confirmation that the chief economist is available and credentialed for journalist attribution",
+    "Whether the client's application data shows a clear pre-June-16 pattern that can be shared as exclusive data"
+  ],
+  "honest_assessment": "This is a strong newsjacking window. The combination of a live major macro story, a concrete dated catalyst (June 16-17 FOMC), and a client with first-party lending application data and a named economist creates a genuine opportunity that most consumer-lending companies cannot match. Personal finance and mortgage reporters will be writing pre-decision pieces now; they need sources who can show what borrower behavior looks like in real-time, not just macro analysis. Ride with data-forward commentary in the run-up to the meeting.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft a chief-economist-attributed comment backed by specific application-volume data, positioned for personal finance and mortgage reporters in the pre-FOMC run-up window"
+  }
+}

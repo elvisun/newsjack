@@ -1,0 +1,66 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "the event is already getting major coverage; this client can contribute a builder-perspective angle in trade press",
+  "calibration_anchor": {
+    "closest_anchor": "Major national financial story (potential trillion-dollar AI IPO); client has adjacent/observer standing as a Claude-dependent builder",
+    "why_not_higher": "The client is not a principal (not an investor, not an Anthropic employee, not an analyst with proprietary data) — they are a dependent builder with legitimate but adjacent standing; standing cap limits the newsjacking score even though the event itself is 8-9",
+    "why_not_lower": "A Claude-based builder whose unit economics directly depend on Anthropic's pricing and availability has a genuine, narrow, and defensible angle that reporters covering the builder ecosystem will want — this is not a random company claiming AI adjacency"
+  },
+  "dimensions": {
+    "magnitude": {"score": 9, "rationale": "A confidential IPO filing at a ~$965B valuation with a ~$47B revenue run-rate from a frontier AI lab — ahead of OpenAI — is a potential trillion-dollar listing and a generational AI-industry moment. The event itself is 8-9 by any calibration"},
+    "velocity": {"score": 7, "rationale": "Filed 2026-06-01, now 3 days old as of 2026-06-04. The story is still actively circulating in tech and financial press but the initial peak may have passed; follow-on coverage of builder implications is still within the viable window"},
+    "novelty": {"score": 8, "rationale": "No major frontier AI lab has gone public before. The valuation scale and the competitive dynamic with OpenAI make this a first-of-kind event in the AI industry"},
+    "standing": {"score": 6, "rationale": "The client builds its core product on Claude and its unit economics directly depend on Anthropic model pricing and availability. This is adjacent-expert standing — real and defensible, but not direct-principal. The angle must stay narrow: what the IPO economics mean for builders, not broad AI-market commentary"},
+    "window": {"score": 6, "rationale": "The filing was 2026-06-01 (3 days ago). The initial breaking-news window has partially decayed, but the IPO process will generate ongoing story opportunities; a builder-perspective explainer is still within the viable window for trade press"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client has adjacent standing as a Claude-dependent builder with direct economic exposure to Anthropic pricing and availability — this clears the threshold for legitimate newsjacking, though standing is not direct-principal level"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "The filing was 2026-06-01, now 3 days old. The stale cap technically applies to events >48h with declining velocity and no new development; however, an ongoing IPO process continues to generate coverage and the builder angle has not been saturated — applying this cap strictly would be too harsh given the multi-week IPO story arc"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "The IPO filing is treated as a confirmed real event per the prompt"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle is a builder's expert perspective on IPO economics, not a promotional hook"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Anthropic confidential IPO filing, 2026-06-01; ~$965B valuation, ~$47B revenue run-rate, $65B round; ahead of OpenAI",
+      "url": null,
+      "published_at": "2026-06-01"
+    },
+    {
+      "source": "user_input",
+      "title": "Client builds core product on Claude; unit economics directly tied to Anthropic model pricing and availability",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Confirmation of current velocity — is trade press still actively soliciting builder reactions or has the initial wave passed?",
+    "First-party data from the client on how Anthropic pricing changes have affected their unit economics (this would significantly strengthen the angle)",
+    "Specific named examples of how IPO-driven pricing pressure or availability changes could affect builders"
+  ],
+  "honest_assessment": "The event is genuinely major — a potential trillion-dollar AI IPO from the only serious competitor to OpenAI. The client's standing is real but limited: they are a dependent builder, not an insider. The angle (what the IPO economics mean for companies that build on frontier models) is narrow enough to be defensible and specific enough to interest reporters covering the builder ecosystem and AI-infrastructure beat. This is not a skip — but the client must stay strictly within the builder-economics lane and not try to become a general AI commentator. The 3-day-old filing means the initial wave has partially passed; move now on trade press.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft a tight builder-perspective comment focused specifically on model pricing, API availability, and what an IPO-driven cost structure means for companies dependent on frontier-model APIs — while the story is still actively circulating"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 6,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely in automotive, EV, and safety trade press, possible mainstream consumer pickup",
+  "calibration_anchor": {
+    "closest_anchor": "Multi-automaker preventive safety recall with consumer interest",
+    "why_not_higher": "These are preventive recalls with no reported injuries or deaths; impact is contained to automotive-safety coverage, not a national headline",
+    "why_not_lower": "A cluster of EV recalls across Tesla and Volvo creates real reporter demand for a technical explainer, and the client has direct standing and first-party failure data"
+  },
+  "dimensions": {
+    "magnitude": {"score": 6, "rationale": "Recalls across two major automakers (Tesla Model Y/Model 3, Volvo EX30) over battery/propulsion faults affect many vehicles and feed the broader EV-safety narrative"},
+    "velocity": {"score": 6, "rationale": "Early June 2026 cluster of recalls, fresh, with active automotive and consumer-press interest"},
+    "novelty": {"score": 5, "rationale": "Individual recalls are routine, but a multi-automaker cluster on battery/contactor faults is an above-routine pattern reporters want explained"},
+    "standing": {"score": 8, "rationale": "Direct standing: a battery-management-systems and EV-safety engineering firm with first-party failure-analysis data and a named safety engineer"},
+    "window": {"score": 6, "rationale": "Fresh, still-developing recall cluster; the technical-explainer window is open"}
+  },
+  "caps_applied": [
+    {"cap": "no_client_standing_max_4", "applied": false, "rationale": "The client has direct EV-safety engineering expertise and first-party failure data, so no standing cap applies"},
+    {"cap": "stale_event_older_than_48h_max_5", "applied": false, "rationale": "The recall cluster is fresh and still developing, so the stale cap does not fire"}
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {"source": "user_input", "title": "EV recall cluster: Tesla Model Y/Model 3 (contactor) and Volvo EX30 (battery overheat), preventive, no injuries", "url": null, "published_at": "2026-06"}
+  ],
+  "evidence_gaps": [
+    "Confirmation of current reporter traction",
+    "Specifics of the client's first-party failure-analysis data to anchor the explainer"
+  ],
+  "honest_assessment": "This is a legitimate explainer opportunity: a fresh multi-automaker recall cluster, direct technical standing, first-party failure data, and a named engineer. Because the recalls are preventive with no casualties and the angle is sober technical explanation rather than exploiting harm, no kill switch fires. Ride with a restrained explainer on contactor/battery faults and BMS mitigation.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Prepare a sober, sourced safety-engineer explainer on why battery/contactor faults occur and how BMS design mitigates them"
+  }
+}

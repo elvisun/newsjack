@@ -1,0 +1,72 @@
+{
+  "mode": "event_newsjacking",
+  "overall_score": 7,
+  "band": "significant",
+  "recommended_action": "RIDE",
+  "will_get_coverage": "likely across automotive, EV, consumer safety, and mainstream tech press — multi-automaker recall cluster with two high-profile brands",
+  "calibration_anchor": {
+    "closest_anchor": "Multi-automaker product recall cluster with direct technical expert standing; preventive recalls, no casualties — expert explainer angle appropriate",
+    "why_not_higher": "Preventive recalls with no reported injuries are significant consumer-safety and automotive news, but not a systemic market event or safety emergency — the 8-9 band requires systemic impact or national emergency scale",
+    "why_not_lower": "A cluster of recalls from Tesla and Volvo affecting recent model years, with a technical battery/contactor fault mechanism that journalists cannot explain without expert help, creates genuine demand for an expert explainer from a credentialed BMS-engineering source with first-party failure data"
+  },
+  "dimensions": {
+    "magnitude": {"score": 7, "rationale": "Tesla recalling 2026 Model Y and 2025 Model 3, Volvo recalling EX30s — two high-profile EV brands, both with recent model year vehicles affected. The concurrent multi-automaker nature and the battery/contactor/overheat mechanism raise systemic questions about EV safety that consumers and reporters are actively asking"},
+    "velocity": {"score": 7, "rationale": "Reported early June 2026, within 1-3 days of the now anchor (2026-06-04). Automotive and EV reporters are actively covering the recall details and seeking technical expert sources to explain the fault mechanism"},
+    "novelty": {"score": 6, "rationale": "EV recalls are not unprecedented, but a concurrent multi-automaker cluster affecting two different fault types (battery contactor/propulsion loss for Tesla; battery overheat for Volvo) in the same news cycle is a compound story that raises systemic BMS-design questions beyond any single recall"},
+    "standing": {"score": 8, "rationale": "A battery-management-systems and EV-safety engineering firm with first-party failure-analysis data and a named safety engineer has direct technical expert standing. They work on exactly the systems involved — BMS design and contactor/thermal management — and can explain the fault mechanism and mitigation from operational experience, not adjacent commentary"},
+    "window": {"score": 7, "rationale": "Fresh multi-automaker recall story; automotive and EV reporters are writing technical explainers and safety analyses now. The window for expert commentary is open and active in the immediate post-recall announcement days"}
+  },
+  "caps_applied": [
+    {
+      "cap": "no_client_standing_max_4",
+      "applied": false,
+      "rationale": "The client is a BMS and EV-safety engineering firm with first-party failure-analysis data and a named safety engineer — direct technical expert standing in exactly the systems involved in these recalls"
+    },
+    {
+      "cap": "stale_event_older_than_48h_max_5",
+      "applied": false,
+      "rationale": "Reported early June 2026, within the fresh window as of 2026-06-04"
+    },
+    {
+      "cap": "single_source_no_confirmation_max_5",
+      "applied": false,
+      "rationale": "Multi-automaker recalls are verifiable public NHTSA/regulatory filings"
+    },
+    {
+      "cap": "purely_promotional_max_3",
+      "applied": false,
+      "rationale": "The angle is a sober technical explainer on fault mechanisms and BMS mitigation — explicitly not promotional and not exploiting harm"
+    }
+  ],
+  "kill_switch_triggered": false,
+  "evidence_used": [
+    {
+      "source": "user_input",
+      "title": "Tesla recall: 2026 Model Y / 2025 Model 3 over battery contactor causing loss of propulsion; early June 2026",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Volvo recall: EX30 over battery packs that can overheat; early June 2026",
+      "url": null,
+      "published_at": null
+    },
+    {
+      "source": "user_input",
+      "title": "Client: BMS and EV-safety engineering firm; first-party failure-analysis data; named safety engineer; angle is technical explainer, not promotional",
+      "url": null,
+      "published_at": null
+    }
+  ],
+  "evidence_gaps": [
+    "Specific first-party failure-analysis data the client can share on contactor fault rates or thermal management failure modes",
+    "Whether the NHTSA filings are public and contain enough technical detail to support the explainer angle",
+    "Whether the client has worked on Tesla or Volvo platform BMS designs (would add additional standing if disclosable)"
+  ],
+  "honest_assessment": "This is a clean newsjacking opportunity with a correctly applied kill-switch judgment. Preventive recalls with no reported injuries are a product safety story, not an active casualty event — the distinction matters and the kill switch correctly does not fire. The client has direct technical standing: BMS engineering firms are exactly who automotive and EV reporters need to explain why battery contactors fail and how BMS design mitigates overheat risk. The multi-automaker cluster angle (both Tesla and Volvo in the same news cycle) strengthens the story. Ride with a tightly scoped technical explainer from the named safety engineer.",
+  "next_move": {
+    "skill": "reactive-comment",
+    "rationale": "Draft a safety-engineer-attributed technical explainer on battery contactor fault mechanisms and BMS mitigation design, scoped for automotive and EV reporters covering the multi-automaker recall cluster"
+  }
+}
