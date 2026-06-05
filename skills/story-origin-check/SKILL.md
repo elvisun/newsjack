@@ -15,6 +15,8 @@ Use this skill whenever a signal may be a syndication, rewrite, aggregator picku
 
 If the harness cannot open pages or search the web, do not guess. Return `first_public_at: null`, `same_story_assessment: "unclear"`, and low confidence unless the input already contains enough source/canonical/original-publication evidence to defend the clock.
 
+For the news searches below, use the `news-search` skill — `news_search` via Medialyst when configured, otherwise host web/browser search. Either satisfies the retrieval requirement; Medialyst is not required. When you fall back to host search and cannot recover a defensible `published_at`, treat the clock as unconfirmed (`first_public_at: null`, `unclear`) rather than inferring a date.
+
 ## Inputs
 
 Accept one detector signal at a time:
@@ -37,7 +39,7 @@ Accept one detector signal at a time:
    - byline/date text visible on the page
    - source, partner, syndicated-from, wire, or "originally published" language
    - outbound links to primary sources, source reports, filings, press releases, studies, or original outlet coverage
-4. You MUST run at least one `news_search` (and at least one `WebFetch` of the surfaced URL when retrieval is available) before returning any verdict other than `unclear`. Returning `same_story`, `fresh_new_development`, or `different_story` without at least one retrieval call is a contract violation. Search for:
+4. You MUST run at least one news search via the `news-search` skill — Medialyst `news_search` when configured, otherwise host web search — (and at least one `WebFetch` of the surfaced URL when retrieval is available) before returning any verdict other than `unclear`. Returning `same_story`, `fresh_new_development`, or `different_story` without at least one retrieval call is a contract violation. Search for:
    - exact headline in quotes
    - core named entities plus the strongest noun phrase
    - source report / regulator / company / study title if one appears

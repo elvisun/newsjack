@@ -414,7 +414,7 @@ func TestSetupDoesNotTreatSkillDirectoryAsInstalledRuntime(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		text := out.String()
-		if !fileExists(filepath.Join(home, ".claude", "skills", "newsjack-setup", "SKILL.md")) {
+		if !fileExists(filepath.Join(home, ".claude", "skills", "newsjack-monitor-setup", "SKILL.md")) {
 			t.Fatalf("setup should still copy skills for a selected missing runtime")
 		}
 		if !strings.Contains(text, "claude     Claude Code    not detected") {
@@ -583,7 +583,7 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		if !strings.Contains(argText, "Use newsjack to set up monitoring for my company.") {
 			t.Fatalf("Hermes prompt should be the short newsjack setup instruction:\n%s", argText)
 		}
-		for _, forbidden := range []string{"newsjack-setup", "not system cron", "fnv32a", "minute=(", "run.md", "schedule paths", "mock test"} {
+		for _, forbidden := range []string{"newsjack-monitor-setup", "not system cron", "fnv32a", "minute=(", "run.md", "schedule paths", "mock test"} {
 			if strings.Contains(argText, forbidden) {
 				t.Fatalf("Hermes prompt should not expose %q:\n%s", forbidden, argText)
 			}

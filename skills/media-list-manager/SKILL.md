@@ -94,7 +94,7 @@ Configure that script as the MCP server command. It launches `mcp-remote` and in
 
 2. **Gather source evidence.**
    - If the user gives article URLs, use those as primary evidence.
-   - If the user gives a topic or hook, use `search_news` in MCP mode or host-agent search in local mode.
+   - If the user gives a topic or hook, use the `news-search` skill for article evidence — `search_news` via Medialyst when configured, host web/browser search otherwise. Local mode still finds bylines; just treat dates and outlet attribution as best-effort.
    - Prefer recent articles by named journalists on the exact topic.
    - Reject SEO pages, product docs, content farms, stale articles, and outlet-level pages as fit anchors.
 

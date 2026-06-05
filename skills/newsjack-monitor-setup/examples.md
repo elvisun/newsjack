@@ -1,4 +1,4 @@
-# Newsjack Setup Examples
+# Newsjack Monitor Setup Examples
 
 ## Local Falcon-Style Profile
 

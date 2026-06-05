@@ -230,7 +230,7 @@ log "checking installed runtime skills"
 mapfile -t skill_dirs < <(selected_skill_dirs)
 for dir in "${skill_dirs[@]}"; do
   test -f "$dir/newsjack-detector/SKILL.md"
-  test -f "$dir/newsjack-setup/SKILL.md"
+  test -f "$dir/newsjack-monitor-setup/SKILL.md"
   test ! -d "$dir/newsjack-detector/scripts"
 done
 

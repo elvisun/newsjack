@@ -8,7 +8,9 @@ when_to_use: "User wants to monitor news for pitchable hooks, find newsjacking o
 
 Find timely public signals and decide whether a client has a credible, non-spammy reason to use them. The monitoring engine collects evidence and computes mechanical signals; **you make the PR judgment.**
 
-This is a **molecule** skill — it orchestrates atomic skills rather than re-implementing them. Coarse relevance goes to `relevance-coarse-filter`, story identity to `story-origin-check`, angle fit to `angle-generator`, and handoff to `reactive-comment` / `journalist-fit-check` / `meanest-editor`. Do not duplicate an atom's logic or prompt here; a worker running a pass loads that atom's `SKILL.md` directly, so the atom stays the single source of truth.
+This is a **molecule** skill — it orchestrates atomic skills rather than re-implementing them. Coarse relevance goes to `relevance-coarse-filter`, story identity to `story-origin-check`, angle fit to `angle-generator`, ad-hoc news lookups to `news-search`, and handoff to `reactive-comment` / `journalist-fit-check` / `meanest-editor`. Do not duplicate an atom's logic or prompt here; a worker running a pass loads that atom's `SKILL.md` directly, so the atom stays the single source of truth.
+
+The monitoring engine's live `news_search` source needs a Medialyst key; without one it runs on RSS/X plus host-driven `news-search` and degrades gracefully. Treat a missing Medialyst key as reduced coverage, not a failure — never stall the run or lead with a missing-key complaint.
 
 ## Required Workflow (follow in order)
 

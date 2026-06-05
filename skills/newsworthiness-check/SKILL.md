@@ -30,7 +30,7 @@ If the user supplies a news event plus their planned angle, run `event_newsjacki
 Use only these signal classes:
 
 - LLM judgment for prominence, story type, historical comparison, novelty, standing, and decay heuristics.
-- News search for mainstream pickup, article count, earliest timestamp, and current framing.
+- News search (via the `news-search` skill) for mainstream pickup, article count, earliest timestamp, and current framing. Medialyst gives the most reliable timestamps; when it is not configured, `news-search` falls back to host web search — use it, but weight freshness and pickup claims more cautiously and note the gap in `evidence_gaps`.
 - Reddit when available for human traction: upvote velocity and subreddit spread.
 - X via Newsjack's direct X API source when available for real-time velocity and journalist attention.
 
