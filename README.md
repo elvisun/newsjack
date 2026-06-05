@@ -8,9 +8,7 @@
 curl -fsSL newsjack.sh | bash
 ```
 
-**New here?** Point your agent at **[Getting started](docs/getting-started.md)** —
-it starts slow, asks what you're trying to do, and takes one step at a time instead
-of reciting the whole menu. No API keys required to begin.
+**New here?** Check out **[Getting started](docs/getting-started.md)**
 
 ---
 
