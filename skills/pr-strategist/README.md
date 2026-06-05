@@ -46,9 +46,7 @@ A diagnosis-first strategy covering:
 
 | File | Purpose |
 |------|---------|
-| `SKILL.md` | Entry point. Agent persona, diagnosis gates, walkthrough, archetypes, playbooks, rules. |
-| `rubric.md` | Scoring gates, routing logic, banned metrics, banned defaults, calibration numbers. |
-| `examples.md` | 5 worked examples covering common founder patterns. |
+| `SKILL.md` | The whole skill. Persona, operating loop, the decision tree (diagnose → gate → route → prescribe → measure), archetypes, worked patterns, guardrails, playbooks, calibration numbers, and rules — all in one file. |
 | `README.md` | This file. |
 
 ## License
