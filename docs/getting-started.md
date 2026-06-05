@@ -18,8 +18,9 @@ menu:
 >
 > 1. **See what newsjack can do** — a quick tour of the workflow
 > 2. **Get a PR strategy** — figure out audience, positioning, and news pegs first
-> 3. **Set up monitoring** — watch your industry and competitors for stories to jump on
-> 4. **Find journalists** — build a small, fit-checked media list for a pitch
+> 3. **Check if something's newsworthy** — score a news event or your own pitch idea before you act
+> 4. **Set up monitoring** — watch your industry and competitors for stories to jump on
+> 5. **Find journalists** — build a small, fit-checked media list for a pitch
 
 Then let the user pick and go one step at a time. Each starting point maps to a
 skill:
@@ -28,6 +29,7 @@ skill:
 | --- | --- |
 | See what newsjack can do | (brief tour — only expand the full skill list if asked) |
 | Get a PR strategy | `pr-strategist` |
+| Check if something's newsworthy | `newsworthiness-check` |
 | Set up monitoring | `newsjack-monitor-setup` |
 | Find journalists | `media-list-manager` |
 

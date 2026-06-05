@@ -11,7 +11,7 @@
       "scenario": "vague-first-contact",
       "tags": ["slow-start", "no-key-complaint", "should-not-dump"],
       "prompt": "hey what is this? what can you do?",
-      "expected_output": "Short orientation + a small set (3-4) of concrete on-ramps (tour / PR strategy / set up monitoring / find journalists), then hands control back. No recitation of all ~16 skills. No mention that any key is missing.",
+      "expected_output": "Short orientation + a small set (3-5) of concrete on-ramps (tour / PR strategy / check newsworthiness / set up monitoring / find journalists), then hands control back. No recitation of all ~16 skills. No mention that any key is missing.",
       "assertions": [
         {"id": "1a", "text": "Offers between 2 and 5 starting points, not the full skill list", "type": "judgment"},
         {"id": "1b", "text": "Does NOT enumerate more than ~6 distinct skills/capabilities", "type": "judgment"},
