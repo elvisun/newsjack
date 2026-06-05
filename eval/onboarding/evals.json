@@ -1,0 +1,86 @@
+{
+  "skill_name": "onboarding",
+  "version": 1,
+  "description": "First-run onboarding behavior eval. Checks that an agent freshly handed the newsjack repo follows the slow-start front door (README -> docs/getting-started.md) instead of the three failure modes a real beta tester hit: (1) reciting the whole capability menu on first contact, (2) volunteering up front that a Medialyst/X key is missing, (3) treating Medialyst as a hard dependency and stalling instead of falling back to host web search. Grading is LLM-judge against per-case criteria, not a strict JSON parser, because onboarding output is conversational. Do NOT edit the docs/skills to pass these; fix the case or log a finding.",
+  "now_anchor": "2026-06-04",
+  "context": "Executor reads README.md and docs/getting-started.md, plus the front-matter + opening of the relevant skill, then responds to each prompt AS THE FRESHLY-INSTALLED AGENT. Assume NO Medialyst key and NO X token are configured; the medialyst MCP server is present but unauthenticated.",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "first-contact-what-can-you-do",
+      "scenario": "vague-first-contact",
+      "tags": ["slow-start", "no-key-complaint", "should-not-dump"],
+      "prompt": "hey what is this? what can you do?",
+      "expected_output": "Short orientation + a small set (3-4) of concrete on-ramps (tour / PR strategy / set up monitoring / find journalists), then hands control back. No recitation of all ~16 skills. No mention that any key is missing.",
+      "assertions": [
+        {"id": "1a", "text": "Offers between 2 and 5 starting points, not the full skill list", "type": "judgment"},
+        {"id": "1b", "text": "Does NOT enumerate more than ~6 distinct skills/capabilities", "type": "judgment"},
+        {"id": "1c", "text": "Does NOT state or imply a Medialyst/X API key is missing or needs configuring", "type": "judgment"},
+        {"id": "1d", "text": "Ends by inviting the user to pick a direction (one step at a time)", "type": "judgment"}
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "first-contact-just-installed",
+      "scenario": "vague-first-contact",
+      "tags": ["slow-start", "no-key-complaint", "name-check"],
+      "prompt": "I just installed newsjack, help me get started",
+      "expected_output": "Same slow-start menu as case 1. Routes to the getting-started flow, NOT straight into the monitor-setup skill as if setup were the only front door.",
+      "assertions": [
+        {"id": "2a", "text": "Gives the slow-start orientation + on-ramps, not a single forced path", "type": "judgment"},
+        {"id": "2b", "text": "Does NOT jump directly into the full monitor-profile provisioning flow without the user choosing it", "type": "judgment"},
+        {"id": "2c", "text": "Does NOT lead with a missing-key complaint", "type": "judgment"}
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "known-intent-find-journalists",
+      "scenario": "known-intent",
+      "tags": ["routing", "graceful-fallback"],
+      "prompt": "find me journalists to pitch my AI customer-support startup",
+      "expected_output": "Routes to media-list-manager, skips the menu. Builds toward a small fit-checked list, falling back to a LOCAL artifact (no Medialyst) and host web search for byline anchoring. Treats freshness as best-effort. Medialyst, if named, is framed as an optional upgrade at the relevant step.",
+      "assertions": [
+        {"id": "3a", "text": "Routes to media-list-manager (small, fit-checked list; not a scraped dump)", "type": "judgment"},
+        {"id": "3b", "text": "Proceeds without a Medialyst key via local-artifact + host-search fallback; does not stall or demand a key", "type": "judgment"},
+        {"id": "3c", "text": "Any Medialyst mention is framed as optional, not led with as a blocker", "type": "judgment"}
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "known-intent-newsworthiness",
+      "scenario": "known-intent",
+      "tags": ["routing", "graceful-fallback"],
+      "prompt": "is it newsworthy that we just hit 10,000 users?",
+      "expected_output": "Routes to newsworthiness-check (pitch mode), applies anti-inflation doctrine (a round-number milestone alone is weak), and uses host web search for pickup with explicit freshness caution. No key complaint.",
+      "assertions": [
+        {"id": "4a", "text": "Routes to newsworthiness-check and does not inflate a bare milestone into 'news'", "type": "judgment"},
+        {"id": "4b", "text": "Uses news-search fallback (host web search) and flags freshness/pickup as best-effort rather than stalling", "type": "judgment"},
+        {"id": "4c", "text": "Does not volunteer a missing-key complaint", "type": "judgment"}
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "known-intent-set-up-monitoring",
+      "scenario": "known-intent",
+      "tags": ["routing", "name-check"],
+      "prompt": "set up monitoring for my company",
+      "expected_output": "Routes to newsjack-monitor-setup. Gathers the profile inputs, notes RSS/news work out of the box, and raises the optional X token only at the step that uses it.",
+      "assertions": [
+        {"id": "5a", "text": "Routes to newsjack-monitor-setup (not a generic 'setup' front door)", "type": "judgment"},
+        {"id": "5b", "text": "X token raised only at the monitoring step that needs it, framed optional", "type": "judgment"}
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "known-intent-news-search",
+      "scenario": "known-intent",
+      "tags": ["routing", "graceful-fallback"],
+      "prompt": "search the news for what's happening with AI customer support this week",
+      "expected_output": "Routes to news-search, goes straight to host web/browser search, reads page metadata for real published_at, treats freshness as best-effort, never invents dates. Medialyst named once as optional at most.",
+      "assertions": [
+        {"id": "6a", "text": "Routes to news-search and returns (or commits to) dated, attributed results", "type": "judgment"},
+        {"id": "6b", "text": "Uses host web-search fallback with an explicit freshness caveat; does not announce a missing key as a problem", "type": "judgment"}
+      ]
+    }
+  ]
+}

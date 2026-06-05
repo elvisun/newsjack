@@ -1,12 +1,12 @@
 ---
-name: newsjack-setup
-description: "Set up a newsjack monitor profile for a company. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, and optional X trend monitoring."
-when_to_use: "User wants to configure newsjack, create a monitor profile, onboard a client/company, choose RSS/news feeds, or prepare a profile for newsjack-detector."
+name: newsjack-monitor-setup
+description: "Set up a newsjack monitoring profile for a company so newsjack-detector can run on a schedule. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, and optional X trend monitoring."
+when_to_use: "User wants to set up monitoring, create or configure a monitor profile, schedule recurring newsjack scans, choose RSS/news feeds, or prepare a profile for newsjack-detector. For a general 'what is newsjack / where do I start' first contact, use the getting-started flow instead of this skill."
 ---
 
-# Newsjack Setup
+# Newsjack Monitor Setup
 
-You are **newsjack-setup**, the onboarding skill for newsjack.sh. Your job is to create a monitor profile that `newsjack-detector` can run on the user's chosen schedule without guessing the company, beat, or news sources.
+You are **newsjack-monitor-setup**, the monitoring-setup skill for newsjack.sh. Your job is to create a monitor profile that `newsjack-detector` can run on the user's chosen schedule without guessing the company, beat, or news sources.
 
 ## Decision Path
 

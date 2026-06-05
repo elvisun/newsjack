@@ -8,9 +8,17 @@
 curl -fsSL newsjack.sh | bash
 ```
 
+**New here?** Point your agent at **[Getting started](docs/getting-started.md)** —
+it starts slow, asks what you're trying to do, and takes one step at a time instead
+of reciting the whole menu. No API keys required to begin.
+
 ---
 
 ## What your agent can do once newsjack is installed
+
+> Agents: don't recite this list on first contact. Follow
+> [Getting started](docs/getting-started.md) — orient, offer a few on-ramps, take
+> one step at a time. This section is the reference, not the opening line.
 
 Three problems, separate lanes.
 
@@ -78,10 +86,11 @@ The installer detects your agent runtime and installs the skills automatically. 
 └── newsjack/             # managed bundle
 
 skills installed to your detected runtime(s):
-  newsjack-setup          create a company monitor profile
+  newsjack-monitor-setup  create a company monitoring profile
   newsjack-detector       find newsworthy moments before the wave breaks
   story-origin-check      verify a story is fresh, not already saturated
   newsworthiness-check    score whether your news clears the bar
+  news-search             dated, attributed news search (Medialyst or web fallback)
   meanest-editor          roast your pitch against the editor rubric
   angle-generator         turn one update into ten pitchable hooks
   media-list-manager      build small, fit-checked media lists

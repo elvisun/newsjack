@@ -77,7 +77,7 @@ NEWSJACK_RUN_DIR=/tmp/newsjack-fixture-smoke NEWSJACK_INCLUDE_ALL_SCORED=0 \
 ## Skill Editing Rules
 
 - Skills are compositional:
-  - **ATOM skills** do one judgment or transformation well. Example: `angle-generator`, `story-origin-check`, `relevance-coarse-filter`, `fact-check`, `journalist-fit-check`.
+  - **ATOM skills** do one judgment or transformation well. Example: `angle-generator`, `story-origin-check`, `relevance-coarse-filter`, `fact-check`, `journalist-fit-check`, `news-search`.
   - **MOLECULE skills** combine a few atoms into a bounded workflow with one clear output. Example: `newsjack-detector` (engine evidence + `story-origin-check` + `angle-generator` into a single freshness-gated opportunity report).
   - **COMPOUND skills** orchestrate multiple molecules/atoms into an end-to-end product workflow. Example (planned): a `generate-client-report` skill that runs `newsjack-detector` plus a report-generation skill.
 - Keep atomic capability in the atom. Do not duplicate atom logic inside molecule or compound skills; call, reference, or delegate to the atom instead.
