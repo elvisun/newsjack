@@ -70,6 +70,24 @@ The installer detects your agent runtime and installs the skills automatically. 
 | Hermes                  | ✅                                 |
 | ChatGPT / Claude.ai web | manual (load `skills/*/SKILL.md`) |
 
+### Claude Code plugin
+
+If you're on Claude Code, you can install Newsjack as a plugin instead of running the script:
+
+```text
+/plugin marketplace add elvisun/newsjack
+/plugin install newsjack@newsjack
+```
+
+This registers the repo as a marketplace and installs the `newsjack` plugin — all 16 skills are auto-discovered. The skills run instruction-only out of the box; steps that use the optional `newsjack` CLI ask before installing it.
+
+Once Newsjack is approved for the community marketplace, you'll also be able to install it from there:
+
+```text
+/plugin marketplace add anthropics/claude-plugins-community
+/plugin install newsjack@claude-community
+```
+
 ---
 
 ## What gets installed
