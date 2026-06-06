@@ -334,8 +334,8 @@ func TestSetupRecommendsHighestPriorityDetectedHarness(t *testing.T) {
 		if payload["recommended_scheduler"] != "hermes" {
 			t.Fatalf("recommended_scheduler=%v, want hermes", payload["recommended_scheduler"])
 		}
-		if !strings.HasPrefix(stringValue(payload["agent_command"]), "hermes chat --query ") {
-			t.Fatalf("agent_command=%q, want hermes command", stringValue(payload["agent_command"]))
+		if stringValue(payload["agent_command"]) != "hermes chat" {
+			t.Fatalf("agent_command=%q, want interactive hermes chat command", stringValue(payload["agent_command"]))
 		}
 	})
 }
@@ -569,7 +569,7 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		text := out.String()
-		if !strings.Contains(text, "Ready to run low-effort auto-setup in Hermes") || !strings.Contains(text, "Command: hermes chat --query ") {
+		if !strings.Contains(text, "Ready to run low-effort auto-setup in Hermes") || !strings.Contains(text, "Command: hermes chat") {
 			t.Fatalf("setup should prepare Hermes launch:\n%s", text)
 		}
 		args, err := os.ReadFile(capture)
@@ -577,21 +577,19 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 			t.Fatal(err)
 		}
 		argText := string(args)
-		if !strings.Contains(argText, "chat\n--query\n") {
-			t.Fatalf("Hermes should be launched in chat query mode:\n%s", argText)
+		if strings.TrimSpace(argText) != "chat" {
+			t.Fatalf("Hermes should launch the interactive chat REPL, got args:\n%s", argText)
 		}
-		if !strings.Contains(argText, "Use newsjack to set up monitoring for my company.") {
-			t.Fatalf("Hermes prompt should be the short newsjack setup instruction:\n%s", argText)
+		if strings.Contains(argText, "--query") {
+			t.Fatalf("Hermes should not launch in one-shot --query mode:\n%s", argText)
 		}
-		for _, forbidden := range []string{"newsjack-monitor-setup", "not system cron", "fnv32a", "minute=(", "run.md", "schedule paths", "mock test"} {
-			if strings.Contains(argText, forbidden) {
-				t.Fatalf("Hermes prompt should not expose %q:\n%s", forbidden, argText)
-			}
+		if !strings.Contains(text, "send this prompt first:") || !strings.Contains(text, "Use newsjack to set up monitoring for my company.") {
+			t.Fatalf("Hermes setup should print the seed prompt to send:\n%s", text)
 		}
 	})
 }
 
-func TestSetupLaunchesOpenClawWithAgentMessage(t *testing.T) {
+func TestSetupOpenClawFallsBackToManualPrompt(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -626,19 +624,17 @@ func TestSetupLaunchesOpenClawWithAgentMessage(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		text := out.String()
-		if !strings.Contains(text, "Ready to run low-effort auto-setup in OpenClaw") || !strings.Contains(text, "Command: openclaw agent --message ") {
-			t.Fatalf("setup should prepare OpenClaw agent launch:\n%s", text)
+		// OpenClaw's agent command is one-shot only, so setup must not auto-launch
+		// it (it would stop the moment the agent needs input); it hands off the
+		// prompt for the user to run manually instead.
+		if !strings.Contains(text, "OpenClaw runs one-shot and can't host an interactive setup session") {
+			t.Fatalf("setup should explain OpenClaw has no interactive session:\n%s", text)
 		}
-		args, err := os.ReadFile(capture)
-		if err != nil {
-			t.Fatal(err)
+		if !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+			t.Fatalf("setup should print the prompt for OpenClaw:\n%s", text)
 		}
-		argText := string(args)
-		if !strings.Contains(argText, "agent\n--message\n") {
-			t.Fatalf("OpenClaw should be launched with agent message mode:\n%s", argText)
-		}
-		if !strings.Contains(argText, "Use newsjack to set up monitoring for my company.") {
-			t.Fatalf("OpenClaw prompt should be the short newsjack setup instruction:\n%s", argText)
+		if _, err := os.Stat(capture); err == nil {
+			t.Fatalf("OpenClaw should not be executed for interactive setup")
 		}
 	})
 }

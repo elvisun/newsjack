@@ -132,13 +132,27 @@ func (w *setupWizard) run() error {
 	}
 
 	agentPrompt := setupAgentPrompt(schedulerRuntime)
+	plan := setupLaunchPlanFor(schedulerRuntime, agentPrompt)
 	command := setupAgentCommand(schedulerRuntime, agentPrompt)
 	fmt.Fprintln(w.stdout)
-	if isManualRuntime(schedulerRuntime) || command == "" {
+	if isManualRuntime(schedulerRuntime) {
 		uiSection(w.stdout, "manual setup")
 		uiNote(w.stdout, "copy the skills, then give your agent this prompt.")
 		fmt.Fprintln(w.stdout)
 		fmt.Fprintln(w.stdout, manualSkillInstallInstruction())
+		fmt.Fprintln(w.stdout)
+		fmt.Fprintln(w.stdout, "Prompt:")
+		fmt.Fprintln(w.stdout, agentPrompt)
+		return nil
+	}
+	if len(plan.args) == 0 {
+		// The runtime has the skills installed but no interactive terminal
+		// session, so it can't answer the agent's follow-up questions in place.
+		// Hand the prompt off instead of launching a one-shot run that would stop
+		// the moment setup needs input.
+		uiSection(w.stdout, "manual setup")
+		uiNote(w.stdout, "%s runs one-shot and can't host an interactive setup session.", runtimeLabel(schedulerRuntime))
+		uiNote(w.stdout, "open %s and send this prompt:", runtimeLabel(schedulerRuntime))
 		fmt.Fprintln(w.stdout)
 		fmt.Fprintln(w.stdout, "Prompt:")
 		fmt.Fprintln(w.stdout, agentPrompt)
@@ -151,10 +165,15 @@ func (w *setupWizard) run() error {
 	if w.noLaunch || !w.confirm(fmt.Sprintf("Run auto-setup in %s now?", runtimeLabel(schedulerRuntime)), true) {
 		uiNote(w.stdout, "run this command when ready:")
 		fmt.Fprintln(w.stdout, command)
+		if !plan.seeded {
+			fmt.Fprintln(w.stdout)
+			uiNote(w.stdout, "then send this prompt in %s:", runtimeLabel(schedulerRuntime))
+			fmt.Fprintln(w.stdout, agentPrompt)
+		}
 		fmt.Fprintln(w.stdout)
 		return nil
 	}
-	return launchSetupAgent(schedulerRuntime, agentPrompt, w.stdin, w.stdout, w.stderr)
+	return launchSetupAgent(schedulerRuntime, plan, agentPrompt, w.stdin, w.stdout, w.stderr)
 }
 
 func (w *setupWizard) chooseAgentRuntime() (string, string) {
@@ -380,47 +399,69 @@ func setupPayload(runtimeRaw string) map[string]any {
 	}
 }
 
-func setupAgentCommand(runtime, prompt string) string {
+// setupLaunchPlan describes how to open an interactive setup session with an
+// agent so it can ask follow-up questions and the user can answer in place.
+type setupLaunchPlan struct {
+	// args is the command to exec for an interactive session. It is empty when
+	// the runtime has no interactive terminal mode, in which case setup falls
+	// back to printing the prompt for the user to send manually.
+	args []string
+	// seeded reports whether args already include the setup prompt so the agent
+	// starts on it. When false, the runtime can't seed a prompt while staying
+	// interactive, so the prompt is printed for the user to send first.
+	seeded bool
+}
+
+func setupLaunchPlanFor(runtime, prompt string) setupLaunchPlan {
 	switch runtime {
 	case "claude":
-		return fmt.Sprintf("claude %s", shellQuote(prompt))
+		// claude <prompt> seeds the first message and stays interactive.
+		return setupLaunchPlan{args: []string{"claude", prompt}, seeded: true}
 	case "codex":
-		return fmt.Sprintf("codex %s", shellQuote(prompt))
-	case "openclaw":
-		return fmt.Sprintf("openclaw agent --message %s", shellQuote(prompt))
+		// codex <prompt> opens the interactive TUI seeded with the prompt.
+		return setupLaunchPlan{args: []string{"codex", prompt}, seeded: true}
 	case "hermes":
-		return fmt.Sprintf("hermes chat --query %s", shellQuote(prompt))
+		// hermes chat is the interactive REPL. `hermes chat --query` is one-shot
+		// and exits after the first turn, and there is no flag to seed a prompt
+		// while staying interactive, so launch the REPL and print the prompt.
+		return setupLaunchPlan{args: []string{"hermes", "chat"}, seeded: false}
 	default:
+		// openclaw's agent command is one-shot only (no interactive REPL), so a
+		// follow-up question would end the session. Fall back to a manual prompt.
+		return setupLaunchPlan{}
+	}
+}
+
+func setupAgentCommand(runtime, prompt string) string {
+	plan := setupLaunchPlanFor(runtime, prompt)
+	if len(plan.args) == 0 {
 		return ""
 	}
+	parts := make([]string, len(plan.args))
+	for i, arg := range plan.args {
+		parts[i] = shellQuote(arg)
+	}
+	return strings.Join(parts, " ")
 }
 
-func setupAgentArgs(runtime, prompt string) []string {
-	switch runtime {
-	case "claude":
-		return []string{"claude", prompt}
-	case "codex":
-		return []string{"codex", prompt}
-	case "openclaw":
-		return []string{"openclaw", "agent", "--message", prompt}
-	case "hermes":
-		return []string{"hermes", "chat", "--query", prompt}
-	default:
+func launchSetupAgent(runtime string, plan setupLaunchPlan, prompt string, stdin io.Reader, stdout, stderr io.Writer) error {
+	if len(plan.args) == 0 {
 		return nil
 	}
-}
-
-func launchSetupAgent(runtime, prompt string, stdin io.Reader, stdout, stderr io.Writer) error {
-	args := setupAgentArgs(runtime, prompt)
-	if len(args) == 0 {
-		return nil
-	}
-	if _, err := exec.LookPath(args[0]); err != nil {
-		fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", args[0], setupAgentCommand(runtime, prompt))
+	if _, err := exec.LookPath(plan.args[0]); err != nil {
+		fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", plan.args[0], setupAgentCommand(runtime, prompt))
 		printSetupContinuationPrompt(stdout, runtime, prompt)
 		return nil
 	}
-	cmd := exec.Command(args[0], args[1:]...)
+	if !plan.seeded {
+		// The runtime opens an interactive session but can't seed a prompt, so
+		// show it for the user to send as their first message once the agent is up.
+		uiNote(stdout, "%s opens an interactive session — send this prompt first:", runtimeLabel(runtime))
+		fmt.Fprintln(stdout)
+		fmt.Fprintln(stdout, prompt)
+		fmt.Fprintln(stdout)
+	}
+	cmd := exec.Command(plan.args[0], plan.args[1:]...)
 	cmd.Stdin = stdin
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
