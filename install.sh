@@ -18,6 +18,7 @@ c_dim=
 c_red=
 c_green=
 c_blue=
+c_brand=
 o_reset=
 o_bold=
 o_dim=
@@ -52,6 +53,7 @@ if [ "$color_stderr" = "1" ]; then
   c_red="${esc}[31m"
   c_green="${esc}[32m"
   c_blue="${esc}[34m"
+  c_brand="${esc}[38;5;209m"
 fi
 
 if [ "$color_stdout" = "1" ]; then
@@ -63,11 +65,11 @@ fi
 
 banner() {
   bar=$(printf '%*s' 42 '' | sed 's/ /─/g')
-  printf '%s┌%s┐%s\n' "$c_blue" "$bar" "$c_reset" >&2
-  printf '%s│%s %s%-40s%s %s│%s\n' "$c_blue" "$c_reset" "$c_bold$c_blue" "newsjack" "$c_reset" "$c_blue" "$c_reset" >&2
-  printf '%s├%s┤%s\n' "$c_blue" "$bar" "$c_reset" >&2
-  printf '%s│%s %s%-40s%s %s│%s\n' "$c_blue" "$c_reset" "$c_dim" "the operating system for agentic PR" "$c_reset" "$c_blue" "$c_reset" >&2
-  printf '%s└%s┘%s\n\n' "$c_blue" "$bar" "$c_reset" >&2
+  printf '%s┌%s┐%s\n' "$c_brand" "$bar" "$c_reset" >&2
+  printf '%s│%s %s%-40s%s %s│%s\n' "$c_brand" "$c_reset" "$c_bold$c_brand" "NEWSJACK.SH" "$c_reset" "$c_brand" "$c_reset" >&2
+  printf '%s├%s┤%s\n' "$c_brand" "$bar" "$c_reset" >&2
+  printf '%s│%s %s%-40s%s %s│%s\n' "$c_brand" "$c_reset" "$c_dim" "the operating system for agentic PR" "$c_reset" "$c_brand" "$c_reset" >&2
+  printf '%s└%s┘%s\n\n' "$c_brand" "$bar" "$c_reset" >&2
 }
 
 log() {
