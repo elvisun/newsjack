@@ -62,8 +62,12 @@ if [ "$color_stdout" = "1" ]; then
 fi
 
 banner() {
-  printf '%snewsjack%s\n' "$c_bold" "$c_reset" >&2
-  printf '%sthe operating system for agentic PR%s\n\n' "$c_dim" "$c_reset" >&2
+  bar=$(printf '%*s' 42 '' | sed 's/ /─/g')
+  printf '%s┌%s┐%s\n' "$c_blue" "$bar" "$c_reset" >&2
+  printf '%s│%s %s%-40s%s %s│%s\n' "$c_blue" "$c_reset" "$c_bold$c_blue" "newsjack" "$c_reset" "$c_blue" "$c_reset" >&2
+  printf '%s├%s┤%s\n' "$c_blue" "$bar" "$c_reset" >&2
+  printf '%s│%s %s%-40s%s %s│%s\n' "$c_blue" "$c_reset" "$c_dim" "the operating system for agentic PR" "$c_reset" "$c_blue" "$c_reset" >&2
+  printf '%s└%s┘%s\n\n' "$c_blue" "$bar" "$c_reset" >&2
 }
 
 log() {
