@@ -8,15 +8,20 @@ when_to_use: "User wants to set up monitoring, create or configure a monitor pro
 
 You are **newsjack-monitor-setup**, the monitoring-setup skill for newsjack.sh. Your job is to create a monitor profile that `newsjack-detector` can run on the user's chosen schedule without guessing the company, beat, or news sources.
 
-CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+## Runtime Mode
+
+- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode can save profiles, seed `brief.md`, schedule monitors, run mock tests, and trigger live detector runs.
+- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Draft the monitor profile and client brief in the chat, then tell the user to move to Full Mode to save, schedule, test, and run it.
+
+Full Mode commands assume `newsjack` is on `PATH`.
 
 ## Decision Path
 
-Setup has two modes. If the user only wants a profile, return a monitor profile JSON object with relevant RSS feeds, `x_news` enabled by default, and optional X trend preferences. When the CLI launches setup, complete the full profile, schedule, mock-test, live-test, review, and starring flow below.
+Setup has two modes. If the user only wants a profile, or if the runtime is Limited Mode, return a monitor profile JSON object with relevant RSS feeds, `x_news` enabled by default, optional X trend preferences, and a brief draft. When the CLI launches setup in Full Mode, complete the full profile, schedule, mock-test, live-test, review, and starring flow below.
 
-If the user only asks for a profile, stop here: return the JSON and run commands without writing files or running the setup flow below.
+If the user only asks for a profile or is in Limited Mode, stop here: return the JSON and clearly labeled Full Mode next steps without writing files or running the setup flow below.
 
-Run this only when the CLI launches you for auto-setup or hands you a runtime schedule target. It installs and verifies a working monitor end to end. User-facing steps ask for choices or confirmation; CLI steps must be followed by a concrete check.
+Run this only in Full Mode when the CLI launches you for auto-setup or hands you a runtime schedule target. It installs and verifies a working monitor end to end. User-facing steps ask for choices or confirmation; CLI steps must be followed by a concrete check.
 
 1. **Pick a frequency.** Ask the user using the scheduling options in [Scheduling](#scheduling).
 
@@ -191,6 +196,12 @@ Use this JSON shape only when the user asks for a profile without running the fu
   ],
   "x_news_rationale": "Enabled by default because X News returns story clusters rather than random individual posts.",
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
+  "brief_draft": {
+    "audience": "Who the client ultimately needs to reach.",
+    "we_pitch": ["Concrete fair-game story shapes the client has standing for."],
+    "we_never_pitch": ["Client-specific hard exclusions from the user's input."],
+    "how_to_surface": ["Presentation preferences, if any."]
+  },
   "run_commands": {
     "hourly_major_news": "newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
     "profile_relevance": "newsjack detector run --profile profile.json --save"
@@ -202,3 +213,110 @@ Use this JSON shape only when the user asks for a profile without running the fu
 ```
 
 Keep `exclusions` empty unless the user gives a client-specific no-go topic.
+
+## Examples
+
+### Local Falcon-Style Profile
+
+```json
+{
+  "profile": {
+    "company": "Local Falcon",
+    "website": "https://www.localfalcon.com",
+    "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
+    "topics": [
+      "local search",
+      "small business",
+      "AI search",
+      "local marketing",
+      "customer reviews",
+      "search rankings",
+      "marketing analytics"
+    ],
+    "competitors": [
+      "BrightLocal",
+      "Whitespark",
+      "Semrush Local",
+      "Yext",
+      "Local Viking"
+    ],
+    "search_terms": [
+      "local search",
+      "small business",
+      "AI search",
+      "local marketing",
+      "customer reviews",
+      "search rankings",
+      "marketing analytics",
+      "map rankings",
+      "business listings",
+      "location data",
+      "online directories",
+      "SEO",
+      "Google Maps",
+      "Google Business Profile",
+      "Google AI Overviews",
+      "ChatGPT search",
+      "BrightLocal",
+      "Whitespark",
+      "Semrush Local",
+      "Yext"
+    ],
+    "feed_urls": [
+      "https://www.techmeme.com/feed.xml",
+      "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+      "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+    ],
+    "x_news": {
+      "enabled": true
+    },
+    "x_trends": {
+      "mode": "none",
+      "woeids": [],
+      "locations": []
+    },
+    "spokespeople": [
+      "Founder or CEO with local SEO expertise",
+      "Product lead for AI search visibility"
+    ],
+    "proof_assets": [
+      "Product pages",
+      "geo-grid rank tracking reports",
+      "SoLV and SAIV visibility metrics",
+      "Google Business Profile and Apple Maps rank tracking examples",
+      "AI search visibility reports"
+    ],
+    "standing": [
+      "local SEO rank tracking",
+      "Google Business Profile analytics",
+      "AI search visibility",
+      "geo-grid local search reporting",
+      "multi-location and agency SEO workflows"
+    ],
+    "exclusions": []
+  },
+  "feed_rationale": [
+    {
+      "feed": "https://www.techmeme.com/feed.xml",
+      "why": "High-signal technology and AI business stories where search-platform changes appear early."
+    },
+    {
+      "feed": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+      "why": "Broader technology backstop for AI search, Google Search, maps, and platform updates not surfaced by Techmeme."
+    },
+    {
+      "feed": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en",
+      "why": "Catches agency, SaaS, search, local business, and enterprise software stories."
+    }
+  ],
+  "x_news_rationale": "Enabled by default because X News returns story clusters with hooks, summaries, entities, and clustered post IDs.",
+  "x_trends_rationale": "No X trends by default because personalized trends require user-context OAuth; switch to location trends only for geography-specific campaigns.",
+  "run_commands": {
+    "hourly_major_news": "newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
+    "profile_relevance": "newsjack detector run --profile profile.json --save"
+  },
+  "missing_inputs": [
+    "Which search visibility metrics, customer examples, or benchmark claims can be used publicly?"
+  ]
+}
+```

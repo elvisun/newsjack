@@ -10,9 +10,24 @@ Track whether configured keywords appeared in real coverage. Keep this simple: `
 
 This is not `newsjack-detector`. Do not score newsjacking opportunities, generate angles, assess standing, or use monitor profiles.
 
-CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+## Runtime Mode
+
+- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode can read tracker config, check SQLite seen-state, record decisions, and suppress repeat alerts.
+- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Run a one-off manual coverage check from pasted/searchable evidence and disclose that no tracker config, SQLite state, or repeat suppression was used.
+
+Full Mode commands assume `newsjack` is on `PATH`.
 
 ## Workflow
+
+In Limited Mode, skip the CLI state steps and:
+
+1. Ask for the keyword, what it means, lookback window, and any exclusions if they are not already present.
+2. Use pasted links first. If search tools are available, search the keyword plus a recency bound and keep dated, attributed article evidence when available.
+3. Dedupe obvious repeats by URL/title/outlet/date.
+4. Classify each item with the verdicts below.
+5. Return a short inline report with new likely coverage, filtered counts, and a Limited Mode caveat that repeat suppression was unavailable.
+
+In Full Mode, run the persistent workflow:
 
 1. **Find the tracker.**
    - If the user gave a slug, run `newsjack coverage status <slug>`.

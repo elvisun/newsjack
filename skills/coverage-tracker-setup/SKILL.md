@@ -8,7 +8,12 @@ when_to_use: "User wants to create, configure, or update coverage alerts, brand/
 
 Create a simple keyword tracker for `coverage-tracker`. This workflow is intentionally separate from newsjack monitor profiles: coverage tracking answers "did my keyword get real coverage?", not "can this client newsjack a broader story?"
 
-CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+## Runtime Mode
+
+- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode can save tracker configs, run the tracker once, and hand recurrence to the harness.
+- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Draft the tracker JSON and schedule prompt in chat, then tell the user to move to Full Mode to save, run, and persist seen-state.
+
+Full Mode commands assume `newsjack` is on `PATH`.
 
 ## Inputs
 
@@ -41,6 +46,8 @@ Do not ask for standing, spokespeople, competitors, proof assets, RSS feeds, tar
    ```
 
    `keywords` may contain any number of entries. Keep each `means` field concrete enough that a later LLM pass can reject wrong-entity and generic mentions.
+
+   In Limited Mode, stop after this draft and return the tracker JSON plus the schedule prompt the user should use in a Full Mode harness. Do not claim the tracker was saved or scheduled.
 
 2. Save it with the CLI:
 

@@ -24,7 +24,7 @@ Owns:
 - installing a managed checkout at `~/.newsjack/newsjack`
 - installing the prebuilt Go `newsjack` binary at `~/.newsjack/bin/newsjack`
 - detecting Codex, Claude Code, OpenClaw, Hermes, or combinations of them
-- generating instruction-only skills into runtime-specific skill directories
+- generating Limited Mode skills into runtime-specific skill directories
 - configuring optional Medialyst MCP where a noninteractive setup path exists
 - updating from the latest Vercel production deployment
 - auto-updating installed binaries before normal user-facing commands

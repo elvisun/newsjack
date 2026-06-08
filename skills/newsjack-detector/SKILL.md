@@ -12,11 +12,18 @@ This is a **molecule** skill — it orchestrates atomic skills rather than re-im
 
 The monitoring engine's live `news_search` source needs a Medialyst key; without one it runs on RSS/X plus host-driven `news-search` and degrades gracefully. Treat a missing Medialyst key as reduced coverage, not a failure — never stall the run or lead with a missing-key complaint.
 
-CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+## Runtime Mode
+
+Newsjack Detector has two runtime modes:
+
+- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode runs the canonical `newsjack` detector pipeline, writes JSON artifacts, applies deterministic freshness gates, and can use multi-agent/cost-optimized worker passes.
+- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Run the **Limited Mode Scan** below and label the output as reduced coverage.
+
+Full Mode commands assume `newsjack` is on `PATH`.
 
 ## Required Workflow (follow in order)
 
-**Default mode: run the canonical pipeline and return a report.** This skill exists to produce a freshness-gated newsjack report, including for scheduled/cron runs. Execute by default — only drop into discussion/planning when Step 2 is blocked.
+**Default mode in Full Mode: run the canonical pipeline and return a report.** This skill exists to produce a freshness-gated newsjack report, including for scheduled/cron runs. Execute by default — only drop into discussion/planning when Step 2 is blocked. In Limited Mode, run a disclosed reduced-coverage scan instead.
 
 1. **CHECK DOCTRINE.** If `skills/ETHICS.md` or `skills/WHY-NOT-SPAM.md` exist, follow them. This skill refuses tragedy hooks, fabricated standing, fake urgency, and spray-and-pray output. These blocks are absolute and override every later step.
 
@@ -27,15 +34,16 @@ CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork o
    - **Load the client brief.** Read the monitor's `brief.md` (its path is surfaced as `brief_path` by `monitor run`/`monitor status`, or it sits next to the profile). It is the **source of truth** for what this client will and won't pitch and how to present the scan — see **Client Brief** below. An empty/template brief carries no rules.
 
 3. **PICK THE RUN SHAPE.**
+   - Restricted chat / no CLI / no filesystem → **Limited Mode Scan** below.
    - One-off / "what's moving on X" → **Quick Run** below.
    - Real judgment, agent run, or scheduled job → **Canonical Pipeline** below (the default for any output a human or pitch will rely on).
    - Recurring / cron feed monitoring → Canonical Pipeline plus the recurring rules in **Freshness Gate** (`--feed-only --new-only --max-age-hours 24`, hard freshness gate).
 
-4. **RUN THE PIPELINE.** Execute the chosen path end to end. For anything beyond a Quick Run, never skip the story-origin / freshness gate.
+4. **RUN THE PIPELINE.** Execute the chosen path end to end. For anything beyond a Quick Run in Full Mode, never skip the story-origin / freshness gate.
 
-5. **JUDGE — NEVER TRUST MECHANICS AS PERMISSION.** `routing.queue_priority` and `story_size` are recall pressure, not pitch permission. You decide newsjacking-worthiness, standing, journalist shape, and brand safety (see **Engine vs Skill Boundary** and `rubric.md`). Gate angle fit through `angle-generator`.
+5. **JUDGE — NEVER TRUST MECHANICS AS PERMISSION.** `routing.queue_priority` and `story_size` are recall pressure, not pitch permission. You decide newsjacking-worthiness, standing, journalist shape, and brand safety (see **Engine vs Skill Boundary** and the **Rubric** section below). Gate angle fit through `angle-generator`.
 
-6. **VERIFY & CONCLUDE.** Run the **Completion Checklist**, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
+6. **VERIFY & CONCLUDE.** In Full Mode, run the **Completion Checklist**, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, and top findings. In Limited Mode, state that no local artifacts, saved monitor state, or deterministic freshness gate were available.
 
 ## Engine vs Skill Boundary
 
@@ -79,6 +87,21 @@ The monitor profile JSON is the source of truth for collection setup: a focused 
 
 Use `newsjack-monitor-setup` when the user wants to create or materially revise a profile. Collection feedback such as "watch broader accounting firm news" belongs in `profile.json` (`topics` / `search_terms` / `feed_urls`): put 6-8 core broad beats in `topics`, and put broad retrieval terms plus named platforms/products/regulators/competitors in `search_terms`. Pitch-policy feedback such as "don't pitch policy stories" belongs in `brief.md`. After editing `profile.json`, rerun a mock or fixture smoke before trusting the next live run.
 
+## Limited Mode Scan
+
+Use this path when running in Claude.ai chat, ChatGPT chat, Claude Cowork, or any runtime without shell/filesystem/CLI access.
+
+Limited Mode is useful for PR judgment, not canonical monitoring. It does not create saved monitors, write JSON artifacts, keep seen-state, run source ingestion, apply the Go freshness gate, or use cost-optimized worker passes.
+
+1. **Anchor the client.** Use a pasted profile, user context, website summary, or plain-text description. If there is no usable client context, ask for it.
+2. **Collect a small evidence set.** Use pasted links first. If the runtime has web/search tools, search recent news for the profile topics, competitors, named regulators/platforms, and any explicit user topic. Keep the query list short and disclose it.
+3. **Build candidates manually.** For each candidate, keep title, source, URL, apparent publication time, why it matched the client, and any safety concerns. Do not invent publication dates, outlet names, source counts, or traffic/authority scores.
+4. **Verify freshness where possible.** Prefer primary/source-of-record pages and independent coverage. Treat unverified dates as `freshness_unverified`; do not pitch them as time-sensitive.
+5. **Apply PR judgment.** Use this skill's doctrine, `story-origin-check` reasoning where possible, `newsjack-triage` for standing/routing, and `angle-generator` for any pitchable item.
+6. **Return an inline report.** Use the same sections as Full Mode: `Pitch-Ready`, `Big Stories Worth a Look`, `Watch / Context`, plus a short `Limited Mode Caveat` that names missing capabilities and searches/evidence used.
+
+Never call this a canonical detector run. If the user wants saved monitors, scheduled scans, deterministic freshness gates, local artifacts, or recurring seen-state, recommend Full Mode in Claude Code, Codex, OpenClaw, or Hermes.
+
 ## Quick Run
 
 One-off discovery and scans:
@@ -89,7 +112,7 @@ newsjack detector run --profile profile.json --save
 
 The detector emits JSON only; render any human scan yourself from the artifact facts. Use `--topic "explicit user topic"` only when the user deliberately asks to add a one-off retrieval topic. Routine profile runs should rely on the profile's durable `topics` and `search_terms`, not ad hoc generated retrieval terms. Use `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
 
-For each queued signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores` (`major_news`, `novelty`, `source_agreement`), profile matches, and safety flags. For `x` evidence inspect `x_signal_type`, `x_social_signals`, `x_author_followers`, `x_query_counts`; treat lone low-reach posts as noise. A high `major_news` means the story is broadly important, **not** that the client has standing. Treat engine age/decay as provisional until `story-origin-check` verifies the first-public clock. Then apply `rubric.md` and the **Output Format**.
+For each queued signal, inspect title, sources, evidence URLs, age, `routing.lane`, `mechanical_scores` (`major_news`, `novelty`, `source_agreement`), profile matches, and safety flags. For `x` evidence inspect `x_signal_type`, `x_social_signals`, `x_author_followers`, `x_query_counts`; treat lone low-reach posts as noise. A high `major_news` means the story is broadly important, **not** that the client has standing. Treat engine age/decay as provisional until `story-origin-check` verifies the first-public clock. Then apply the **Rubric** section below and the **Output Format**.
 
 ## Canonical Pipeline
 
@@ -195,7 +218,7 @@ Recurring output rules:
 
 ## Completion Checklist
 
-Before reporting the run complete:
+Before reporting a Full Mode run complete:
 
 - `coarse_relevance_decisions.json` has exactly one decision per emitted candidate (unless `--allow-missing`).
 - `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
@@ -286,3 +309,255 @@ Return exactly this JSON object. No prose before or after it. Every opportunity 
 - Allowed verdicts: `pitch_now`, `develop_angle`, `monitor`, `reject`.
 - Allowed rejection reasons: `stale`, `freshness_unverified` (umbrella; or the specific `unverified_no_corroboration` / `unverified_boundary` / `unverified_no_timestamp`), `single_source`, `no_client_standing`, `no_journalist_shape`, `off_beat`, `already_seen`, `weak_signal`, `no_viable_angle`.
 - Allowed brand-safety block reasons: `tragedy_or_human_suffering`, `client_exclusion`, `regulated_claim_risk`, `fabrication_risk`.
+
+## Rubric
+
+Use this rubric after the engine returns queued evidence. The engine exposes mechanical scores and `routing.queue_priority`; neither is a PR judgment.
+
+The engine has two discovery lanes:
+
+- `profile_relevance` - profile/topic/competitor queries. These catch highly relevant but sometimes minor stories.
+- `major_news` - curated RSS/Atom feed items. These catch broader major news first, then require a stricter client-relevance judgment.
+
+Do not treat a `major_news` item as pitchable because it is big. The client still needs standing and a journalist shape.
+
+### Story Size
+
+Use `story_size` to calibrate effort, not to approve a pitch. It is a deterministic media-attention proxy based on news-search publication metadata:
+
+- log-scaled estimated monthly traffic
+- domain authority
+- coverage spread across independently surfaced domains
+
+`major` or `high` story size means the opportunity may justify faster review. It does not compensate for stale timing, weak standing, or a bad journalist shape.
+
+### Freshness
+
+For recurring scheduled output, the LLM `story-origin-check` recovers the first-public timestamp and canonical coverage, then the Go CLI `origin-apply` computes the freshness gate. News-search `published_at` values are reliable evidence for article timestamps and should be used to find candidate originals, but they are not alone a same-story or first-publication judgment.
+
+Before assigning `pitch_now`, `develop_angle`, or `monitor`, inspect `freshness_gate.computed_status`:
+
+- `fresh` - eligible for normal judgment.
+- `fresh_new_development` - eligible, but the angle must be about the new development, not the older background story.
+- `stale` - reject as stale.
+- `unverified_no_corroboration`, `unverified_boundary`, `unverified_no_timestamp`, or missing - reject for recurring scheduled output. Track the reason: `unverified_no_corroboration` is a worker/pipeline miss (the clock may be fine, just under-sourced — re-runnable), while `unverified_boundary`/`unverified_no_timestamp` reflect genuinely thin evidence.
+
+Do not reset the clock because an aggregator, syndication partner, or secondary outlet republished an older article.
+
+When citing the story, prefer `story_origin.canonical_coverage_url` when present. It should be the major or most authoritative same-story coverage, such as a primary source, wire, major publisher, or recognized trade, instead of the small pickup that triggered retrieval.
+
+### Verdict Ladder
+
+#### pitch_now
+
+Use only when all are true:
+
+- Evidence is fresh: usually `30min`, `4hr`, or `24hr`.
+- The first public story clock is verified as inside the last 24 hours, or the new development is inside the last 24 hours.
+- At least one credible news source exists, preferably `news_search`.
+- The client has direct standing to comment.
+- The client has a real spokesperson or direct domain authority.
+- A specific reporter shape is obvious.
+- No hard brand-safety block applies.
+
+#### develop_angle
+
+Use when the signal is real but needs framing:
+
+- Fresh or still within the week.
+- Client standing is plausible but not yet sharp.
+- A journalist shape exists, but the angle needs work.
+- Major-news lane items often belong here when they are important but the client angle is indirect.
+
+Handoff: `angle-generator`.
+
+#### monitor
+
+Use when the signal is interesting but not pitch-ready:
+
+- Single-source or weak cross-source confirmation.
+- Early chatter without enough news confirmation.
+- The client might have standing, but the angle is not clear yet.
+- The signal may matter if it gains traction.
+
+#### reject
+
+Use when any core gate fails:
+
+- stale
+- freshness unverified in recurring scheduled output
+- no client standing
+- no plausible journalist shape
+- off-beat
+- already seen with no new development
+- weak source quality
+
+### Decay
+
+Decay uses the verified first-public timestamp from `story-origin-check`. Engine `features.decay_bucket` is provisional when evidence comes from aggregators, syndication partners, secondary rewrites, or search results that have not yet been matched to the original/canonical story.
+
+- `30min` - live/breaking. Only use for immediate comment if the client can respond now.
+- `4hr` - same-cycle. Good for reactive comment.
+- `24hr` - still fresh. Good for angle generation or same-day response.
+- `week` - trend/context only. Do not call it breaking.
+- `month` - usually not a newsjack unless paired with a new data point or fresh hook.
+- `unknown` - do not pitch as timely without independent timestamp verification.
+
+### Standing
+
+Strong standing:
+
+- The client operates directly in the affected market.
+- The client has direct market exposure, technical expertise, or a named executive who can speak concretely.
+- The signal names the client's category, customers, regulators, technology, or competitors.
+
+Partial standing:
+
+- The client has adjacent expertise but needs a narrower angle.
+- The client can explain impact but not the core event.
+
+Weak standing:
+
+- The client merely sells into the broad category.
+- The client wants to comment because the topic is popular.
+- The client only has generic thought leadership.
+
+For `major_news` lane signals, standing must explain the bridge from the public story to the client:
+
+- same buyer being affected
+- same regulator or policy surface
+- named competitor or platform move
+- client can explain a non-obvious operational effect
+
+If the bridge is "this is about AI and the client uses AI," reject or monitor.
+
+### Journalist Shape
+
+A useful journalist shape names:
+
+- exact beat
+- outlet archetype
+- why the beat cares now
+- who should not receive it
+
+Bad shapes:
+
+- "business reporter"
+- "AI journalist"
+- "tech media"
+- "industry press"
+
+Good shapes:
+
+- "enterprise AI reporter covering vendor compliance claims after regulator action"
+- "cybersecurity trade reporter covering identity-risk fallout from new enforcement"
+- "retail operations reporter covering labor-cost impact of a same-day policy change"
+
+### Hard Blocks
+
+Block signals built on:
+
+- death
+- violence
+- disaster
+- war
+- abuse
+- sexual violence
+- missing people
+- humanitarian crisis
+- hate crime
+- terror
+- suicide
+
+The only acceptable work around these topics is restrained expert commentary with direct public-interest standing. Promotional hooks are refused.
+
+## Examples
+
+### Pitch Now
+
+Engine signal:
+
+```json
+{
+  "id": "s1",
+  "title": "FTC opens inquiry into AI compliance claims",
+  "sources": ["news_search", "x"],
+  "features": {
+    "decay_bucket": "4hr",
+    "source_count": 2,
+    "seen_before": false,
+    "profile_matches": ["AI compliance", "enterprise governance"],
+    "safety_flags": []
+  },
+  "routing": {
+    "lane": "profile_relevance",
+    "queue_priority": 86.2,
+    "demoted": false
+  },
+  "mechanical_scores": {
+    "freshness": 1.0,
+    "source_agreement": 0.78,
+    "novelty": 1.0,
+    "profile_match": 0.44,
+    "source_quality": 0.825,
+    "momentum": 0.21,
+    "major_news": 0.0
+  }
+}
+```
+
+Skill output:
+
+```json
+{
+  "signal_id": "s1",
+  "signal_title": "FTC opens inquiry into AI compliance claims",
+  "verdict": "pitch_now",
+  "decay": {
+    "stage": "4hr",
+    "rationale": "The signal is same-cycle by verified first-public clock, not just the search-result timestamp."
+  },
+  "first_publication": {
+    "status": "fresh",
+    "surfaced_article_published_at": "2026-05-25T13:14:00Z",
+    "first_public_at": "2026-05-25T13:10:00Z",
+    "original_url": "https://www.ftc.gov/news-events/news/press-releases/example",
+    "canonical_coverage_url": "https://www.reuters.com/legal/government/ftc-opens-inquiry-ai-compliance-claims-2026-05-25/",
+    "canonical_coverage_source": "Reuters",
+    "rationale": "The official FTC press release is the earliest verified public source and is inside the 24-hour cron window."
+  },
+  "why_newsjacking_worthy": "Regulator action creates a live need for explainers on AI compliance claims.",
+  "client_standing": {
+    "assessment": "strong",
+    "rationale": "The client works directly in enterprise AI governance and can explain claim substantiation."
+  },
+  "journalist_shape": {
+    "beat_description": "Enterprise AI reporter covering compliance and regulator scrutiny",
+    "why_they_care_now": "They need sourced reaction while the inquiry is fresh.",
+    "do_not_target": "General startup roundups or consumer AI reviewers"
+  },
+  "evidence_used": [
+    {
+      "source": "Reuters",
+      "title": "FTC opens inquiry into AI compliance claims",
+      "url": "https://www.reuters.com/legal/government/ftc-opens-inquiry-ai-compliance-claims-2026-05-25/"
+    },
+    {
+      "source": "FTC",
+      "title": "FTC opens inquiry into AI compliance claims",
+      "url": "https://www.ftc.gov/news-events/news/press-releases/example"
+    }
+  ],
+  "next_skill": "reactive-comment"
+}
+```
+
+### Reject (stale syndication)
+
+Engine signal: AOL article published today, canonical URL points to a BBC story from May 4 with no new development.
+
+Verdict: `reject`
+
+Reason: `stale`
+
+`first_publication.status`: `stale`

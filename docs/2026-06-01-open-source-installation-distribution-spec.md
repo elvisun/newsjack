@@ -252,8 +252,20 @@ npx skills add <owner>/newsjack
 /plugin install newsjack@claude-community
 ```
 
-Marketplace-installed skills are instruction packages first. They should work in
-instruction-only mode when the CLI is unavailable.
+Marketplace-installed skills are Limited Mode packages first. They should keep
+working when the CLI is unavailable.
+
+Newsjack's launch support stance:
+
+- Full Mode is available in capable agent harnesses: Claude Code, Codex,
+  OpenClaw, and Hermes.
+- Limited Mode is available in browser or restricted chat environments:
+  Claude.ai chat, ChatGPT chat, and Claude Cowork.
+- Limited Mode can do strategy, judgment, pitch work, fact-checking from supplied
+  or searchable evidence, and best-effort manual scans.
+- Limited Mode is not the canonical detector experience: no saved monitors,
+  scheduled runs, seen-state, deterministic freshness gates, full source
+  ingestion, local artifacts, or cost-optimized multi-agent passes.
 
 CLI-backed workflows should check for the CLI before requiring it:
 
@@ -261,8 +273,8 @@ CLI-backed workflows should check for the CLI before requiring it:
 command -v newsjack || test -x "$HOME/.newsjack/bin/newsjack"
 ```
 
-If the CLI is missing, the skill should ask for explicit user permission before
-running:
+If the CLI is missing in a Full Mode harness, the skill may ask for explicit
+user permission before running:
 
 ```bash
 curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 NEWSJACK_INSTALL_MCP=0 bash
@@ -271,6 +283,11 @@ curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 NEWSJACK_INSTALL_MCP=0 bash
 This creates `skills_mode=external` and installs only the CLI plus managed bundle.
 It does not overwrite the marketplace-owned skill files.
 
+If the CLI is missing in Claude.ai chat, ChatGPT chat, Claude Cowork, or another
+browser/restricted chat surface, do not attempt curl, npm, or an on-demand CLI
+install. Continue in Limited Mode or explain which Full Mode harness is needed for
+the requested workflow.
+
 ## Marketplace Package Shape
 
 Canonical skill source remains:
@@ -278,7 +295,6 @@ Canonical skill source remains:
 ```text
 skills/<skill-name>/SKILL.md
 skills/<skill-name>/references/
-skills/<skill-name>/examples.md
 skills/ETHICS.md
 skills/WHY-NOT-SPAM.md
 ```
@@ -317,7 +333,7 @@ Marketplace skills must:
 - keep `name` lowercase, numeric, or hyphenated
 - keep `description` at or below 200 characters for Claude.ai compatibility
 - avoid silent downloads or silent installation
-- degrade gracefully when network, shell, or CLI access is unavailable
+- degrade to Limited Mode when network, shell, or CLI access is unavailable
 - clearly mark CLI-backed steps as requiring local execution
 - never ask for API keys in the pipe installer path
 - continue local artifact fallback behavior when MCP is unavailable
@@ -325,12 +341,17 @@ Marketplace skills must:
 CLI-backed skills should include a short dependency section:
 
 ```markdown
-## CLI Dependency
+## Runtime Mode
 
-Some workflows use the local `newsjack` CLI. If it is missing, ask the user
-before installing it:
+Full Mode uses the local `newsjack` CLI and requires a capable agent harness
+such as Claude Code, Codex, OpenClaw, or Hermes.
+
+If the CLI is missing in a Full Mode harness, ask before installing it:
 
 `curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 NEWSJACK_INSTALL_MCP=0 bash`
+
+If running in Claude.ai chat, ChatGPT chat, Claude Cowork, or another restricted
+chat surface, use Limited Mode instead of attempting a CLI install.
 ```
 
 ## Release Workflows

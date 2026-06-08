@@ -2,13 +2,43 @@
 
 > **The open-source skills that turn your agent into a PR operator.**
 >
-> Install once. Your agent — Claude, Codex, Hermes, OpenClaw — becomes a PR team.
+> Install once. Your local-first agent — Claude Code, Codex, Hermes, OpenClaw — becomes a PR team.
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
 **New here?** Check out **[Getting started](docs/getting-started.md)**
+
+---
+
+## Runtime stance
+
+Newsjack is optimized for local-first agent harnesses. The full product depends
+on capabilities that browser chat products usually do not expose: shell
+execution, filesystem storage, credentials, durable client profiles, JSON
+artifacts, scheduled workflows, multi-agent orchestration, and cost-optimized
+worker passes.
+
+**Full Mode is the recommended path** and is available in capable agent harnesses:
+
+- Claude Code
+- Codex
+- OpenClaw
+- Hermes
+
+Browser and restricted chat environments support **Limited Mode**:
+
+- Claude.ai chat
+- ChatGPT chat
+- Claude Cowork
+
+Limited Mode can still use Newsjack's instruction layer for PR strategy,
+newsworthiness checks, pitch and angle generation, pitch critique,
+journalist-fit reasoning, fact-checking from pasted or searchable evidence, and
+best-effort manual news scans. It is not the canonical detector experience: no
+saved monitors, scheduled runs, seen-state, deterministic freshness gates, full
+source ingestion, local artifacts, or cost-optimized multi-agent passes.
 
 ---
 
@@ -53,9 +83,31 @@ Three problems, separate lanes.
 
 Pick the path for the harness you're using:
 
-### Claude Cowork / Claude Chat
+### Full Mode: Claude Code, Codex, OpenClaw, Hermes
 
-Use the plugin marketplace path. This installs the Newsjack skills first; when a skill needs the CLI, it installs `newsjack` on demand from npm.
+Use the curl installer when your full agent harness can reach GitHub Release
+assets:
+
+```bash
+curl -fsSL newsjack.sh | bash
+```
+
+Or review the script before running it:
+
+```bash
+curl -fsSL https://newsjack.sh
+```
+
+The installer detects your agent runtime and installs the CLI-backed skills
+automatically.
+
+### Limited Mode: Claude.ai, ChatGPT, Claude Cowork
+
+Do not try to install the Newsjack CLI inside browser chat or restricted Cowork
+surfaces. Use the marketplace/upload/manual skill path for a Limited Mode
+experience.
+
+For Claude.ai plugin-style setup:
 
 1. Open **Customize**.
 2. Go to **Personal plugins**.
@@ -68,27 +120,14 @@ Use the plugin marketplace path. This installs the Newsjack skills first; when a
 elvisun/newsjack
 ```
 
-Then install the Newsjack plugin from that marketplace.
+Then install the Newsjack plugin from that marketplace. For full detector runs,
+saved monitors, scheduled workflows, and artifacts, set up Newsjack in a Full
+Mode harness instead.
 
-### Codex, Claude Code, Hermes, OpenClaw, local shell
+### Blocked GitHub Releases / npm-only Full Mode environments
 
-Use the curl installer when your environment can reach GitHub Release assets:
-
-```bash
-curl -fsSL newsjack.sh | bash
-```
-
-Or review the script before running it:
-
-```bash
-curl -fsSL https://newsjack.sh
-```
-
-The installer detects your agent runtime and installs the skills automatically.
-
-### Blocked GitHub Releases / npm-only environments
-
-Use npm when shell installers or GitHub Release assets are blocked:
+Use npm only when you are in a full agent harness but shell installers or GitHub
+Release assets are blocked:
 
 ```bash
 npm i -g newsjack
@@ -99,14 +138,15 @@ After install, agents and skills should call the CLI as `newsjack`.
 
 ### Supported runtimes
 
-| Runtime                  | Install path                        |
-| ------------------------ | ----------------------------------- |
-| Claude Cowork / Claude Chat | plugin marketplace                |
-| Claude Code              | curl auto-detects or plugin command |
-| Codex                    | curl/npm auto-detects               |
-| OpenClaw                 | curl/npm auto-detects               |
-| Hermes                   | curl/npm auto-detects               |
-| ChatGPT web              | manual (load `skills/*/SKILL.md`)   |
+| Runtime             | Status      | Experience        | Install path |
+| ------------------- | ----------- | ----------------- | ------------ |
+| Claude Code         | Recommended | Full Mode         | curl, npm, or plugin |
+| Codex               | Recommended | Full Mode         | curl or npm |
+| OpenClaw            | Recommended | Full Mode         | curl or npm |
+| Hermes              | Recommended | Full Mode         | curl or npm |
+| Claude.ai chat      | Limited only | Limited Mode     | plugin/upload/manual skills |
+| ChatGPT chat        | Limited only | Limited Mode     | manual skills |
+| Claude Cowork       | Limited only | Limited Mode     | plugin/upload/manual skills |
 
 ### Claude Code plugin
 
@@ -117,7 +157,10 @@ If you're on Claude Code, you can install Newsjack as a plugin instead of runnin
 /plugin install newsjack@newsjack
 ```
 
-This registers the repo as a marketplace and installs the `newsjack` plugin — all 16 skills are auto-discovered. The skills run instruction-only out of the box; steps that use the optional `newsjack` CLI ask before installing it.
+This registers the repo as a marketplace and installs the `newsjack` plugin —
+all 16 skills are auto-discovered. Use `newsjack setup` or the curl/npm path
+above when you want the full CLI-backed detector, monitor, and artifact
+workflow.
 
 Once Newsjack is approved for the community marketplace, you'll also be able to install it from there:
 
