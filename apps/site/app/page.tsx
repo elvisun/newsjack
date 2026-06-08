@@ -30,8 +30,8 @@ export default function Home() {
               Open-source operating system for agentic PR.
             </h1>
             <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-zinc-300 sm:text-xl">
-              The skill layer that turns Claude, ChatGPT, and Cursor into PR
-              operators.
+              Local-first skills and CLI workflows for Claude Code, Codex,
+              OpenClaw, and Hermes. Browser chat gets Limited Mode.
             </p>
 
             <div className="mt-10 max-w-xl">

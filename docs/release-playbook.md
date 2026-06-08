@@ -29,13 +29,16 @@ newsjack-darwin-arm64
 newsjack-darwin-x64
 ```
 
-The npm path is the required install path for Claude Cowork and other runtimes
-where GitHub Release assets are blocked:
+The npm path is the fallback install path for Full Mode agent harnesses where
+GitHub Release assets are blocked:
 
 ```bash
 npm i -g newsjack
 newsjack install
 ```
+
+Claude.ai, ChatGPT chat, and Claude Cowork are Limited Mode surfaces for launch;
+do not treat them as CLI install targets in release smoke tests.
 
 Beta and test releases are GitHub prereleases. They do not become the default
 `latest` install target. Install them by pinning `NEWSJACK_VERSION`.

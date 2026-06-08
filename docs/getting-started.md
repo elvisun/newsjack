@@ -4,22 +4,51 @@ This is the front door. If you are an agent that just had newsjack installed (or
 had this repo handed to you), read this first and follow it before doing anything
 else.
 
+## Runtime modes
+
+Newsjack is optimized for local-first agent harnesses. Full Mode needs shell
+execution, filesystem storage, credentials, durable client profiles, JSON
+artifacts, scheduled workflows, multi-agent orchestration, and cost-optimized
+worker passes.
+
+Use **Full Mode** in:
+
+- Claude Code
+- Codex
+- OpenClaw
+- Hermes
+
+Use **Limited Mode** in browser or restricted chat environments:
+
+- Claude.ai chat
+- ChatGPT chat
+- Claude Cowork
+
+Limited Mode can do strategy, newsworthiness checks,
+angles, pitch critique, journalist-fit reasoning, fact-checking from pasted or
+searchable evidence, and best-effort manual news scans. It cannot run the
+canonical detector, save monitors, schedule runs, keep seen-state, write local
+artifacts, or use cost-optimized multi-agent passes.
+
 ## Install paths
 
-Default install:
+Default Full Mode install:
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
-Use npm when shell installers or GitHub Release assets are blocked, including Claude Cowork:
+Use npm only in a Full Mode harness when shell installers or GitHub Release
+assets are blocked:
 
 ```bash
 npm i -g newsjack
 newsjack install
 ```
 
-Skill instructions assume the command is available as `newsjack`.
+Skill instructions assume the command is available as `newsjack` only in Full
+Mode. In Limited Mode, do not try to install the CLI inside chat; use the
+Limited Mode workflow and label detector-style output as reduced coverage.
 
 ## For the agent: start slow
 
@@ -31,7 +60,9 @@ Instead, find out what the user is trying to do and take **one** concrete step.
 Open with a short orientation and offer a few real starting points — not the whole
 menu:
 
-> Newsjack turns me into your PR operator. Where do you want to start?
+> Newsjack turns me into your PR operator. I can run Full Mode in Claude Code,
+> Codex, OpenClaw, or Hermes, or Limited Mode in browser chat. Where do you want
+> to start?
 >
 > 1. **See what newsjack can do** — a quick tour of the workflow
 > 2. **Get a PR strategy** — figure out audience, positioning, and news pegs first

@@ -12,11 +12,18 @@ This is a **molecule** skill — it orchestrates atomic skills rather than re-im
 
 The monitoring engine's live `news_search` source needs a Medialyst key; without one it runs on RSS/X plus host-driven `news-search` and degrades gracefully. Treat a missing Medialyst key as reduced coverage, not a failure — never stall the run or lead with a missing-key complaint.
 
-CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+## Runtime Mode
+
+Newsjack Detector has two runtime modes:
+
+- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode runs the canonical `newsjack` detector pipeline, writes JSON artifacts, applies deterministic freshness gates, and can use multi-agent/cost-optimized worker passes.
+- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Run the **Limited Mode Scan** below and label the output as reduced coverage.
+
+Full Mode commands assume `newsjack` is on `PATH`.
 
 ## Required Workflow (follow in order)
 
-**Default mode: run the canonical pipeline and return a report.** This skill exists to produce a freshness-gated newsjack report, including for scheduled/cron runs. Execute by default — only drop into discussion/planning when Step 2 is blocked.
+**Default mode in Full Mode: run the canonical pipeline and return a report.** This skill exists to produce a freshness-gated newsjack report, including for scheduled/cron runs. Execute by default — only drop into discussion/planning when Step 2 is blocked. In Limited Mode, run a disclosed reduced-coverage scan instead.
 
 1. **CHECK DOCTRINE.** If `skills/ETHICS.md` or `skills/WHY-NOT-SPAM.md` exist, follow them. This skill refuses tragedy hooks, fabricated standing, fake urgency, and spray-and-pray output. These blocks are absolute and override every later step.
 
@@ -27,15 +34,16 @@ CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork o
    - **Load the client brief.** Read the monitor's `brief.md` (its path is surfaced as `brief_path` by `monitor run`/`monitor status`, or it sits next to the profile). It is the **source of truth** for what this client will and won't pitch and how to present the scan — see **Client Brief** below. An empty/template brief carries no rules.
 
 3. **PICK THE RUN SHAPE.**
+   - Restricted chat / no CLI / no filesystem → **Limited Mode Scan** below.
    - One-off / "what's moving on X" → **Quick Run** below.
    - Real judgment, agent run, or scheduled job → **Canonical Pipeline** below (the default for any output a human or pitch will rely on).
    - Recurring / cron feed monitoring → Canonical Pipeline plus the recurring rules in **Freshness Gate** (`--feed-only --new-only --max-age-hours 24`, hard freshness gate).
 
-4. **RUN THE PIPELINE.** Execute the chosen path end to end. For anything beyond a Quick Run, never skip the story-origin / freshness gate.
+4. **RUN THE PIPELINE.** Execute the chosen path end to end. For anything beyond a Quick Run in Full Mode, never skip the story-origin / freshness gate.
 
 5. **JUDGE — NEVER TRUST MECHANICS AS PERMISSION.** `routing.queue_priority` and `story_size` are recall pressure, not pitch permission. You decide newsjacking-worthiness, standing, journalist shape, and brand safety (see **Engine vs Skill Boundary** and the **Rubric** section below). Gate angle fit through `angle-generator`.
 
-6. **VERIFY & CONCLUDE.** Run the **Completion Checklist**, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
+6. **VERIFY & CONCLUDE.** In Full Mode, run the **Completion Checklist**, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, and top findings. In Limited Mode, state that no local artifacts, saved monitor state, or deterministic freshness gate were available.
 
 ## Engine vs Skill Boundary
 
@@ -78,6 +86,21 @@ The monitor profile JSON is the source of truth for collection setup: a focused 
 - Fixture profiles live under `fixtures/newsjack-detector-agent/profile.<slug>.json`.
 
 Use `newsjack-monitor-setup` when the user wants to create or materially revise a profile. Collection feedback such as "watch broader accounting firm news" belongs in `profile.json` (`topics` / `search_terms` / `feed_urls`): put 6-8 core broad beats in `topics`, and put broad retrieval terms plus named platforms/products/regulators/competitors in `search_terms`. Pitch-policy feedback such as "don't pitch policy stories" belongs in `brief.md`. After editing `profile.json`, rerun a mock or fixture smoke before trusting the next live run.
+
+## Limited Mode Scan
+
+Use this path when running in Claude.ai chat, ChatGPT chat, Claude Cowork, or any runtime without shell/filesystem/CLI access.
+
+Limited Mode is useful for PR judgment, not canonical monitoring. It does not create saved monitors, write JSON artifacts, keep seen-state, run source ingestion, apply the Go freshness gate, or use cost-optimized worker passes.
+
+1. **Anchor the client.** Use a pasted profile, user context, website summary, or plain-text description. If there is no usable client context, ask for it.
+2. **Collect a small evidence set.** Use pasted links first. If the runtime has web/search tools, search recent news for the profile topics, competitors, named regulators/platforms, and any explicit user topic. Keep the query list short and disclose it.
+3. **Build candidates manually.** For each candidate, keep title, source, URL, apparent publication time, why it matched the client, and any safety concerns. Do not invent publication dates, outlet names, source counts, or traffic/authority scores.
+4. **Verify freshness where possible.** Prefer primary/source-of-record pages and independent coverage. Treat unverified dates as `freshness_unverified`; do not pitch them as time-sensitive.
+5. **Apply PR judgment.** Use this skill's doctrine, `story-origin-check` reasoning where possible, `newsjack-triage` for standing/routing, and `angle-generator` for any pitchable item.
+6. **Return an inline report.** Use the same sections as Full Mode: `Pitch-Ready`, `Big Stories Worth a Look`, `Watch / Context`, plus a short `Limited Mode Caveat` that names missing capabilities and searches/evidence used.
+
+Never call this a canonical detector run. If the user wants saved monitors, scheduled scans, deterministic freshness gates, local artifacts, or recurring seen-state, recommend Full Mode in Claude Code, Codex, OpenClaw, or Hermes.
 
 ## Quick Run
 
@@ -195,7 +218,7 @@ Recurring output rules:
 
 ## Completion Checklist
 
-Before reporting the run complete:
+Before reporting a Full Mode run complete:
 
 - `coarse_relevance_decisions.json` has exactly one decision per emitted candidate (unless `--allow-missing`).
 - `clustered_candidates.json` was produced by `cluster`; story-origin ran on its representatives, and the run disclosed how many duplicates/stale items were collapsed.
