@@ -147,6 +147,19 @@ The npm package bundles the same CLI and skills, with the `newsjack` command ins
 
 Curl-installed Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
 
+## Telemetry
+
+The `newsjack.sh` curl path logs a privacy-limited install-funnel hit so we can
+measure whether launch traffic turns into completed installs. It records the
+request timestamp, installer user agent, coarse Vercel country/region, referrer,
+accept-language, query params, and a daily-salted SHA-256 hash of the requester
+IP. Raw IP addresses are not stored.
+
+Rows are intended to be kept for 90 days, then deleted or aggregated. Future
+script-level callbacks will honor `NEWSJACK_NO_TELEMETRY=1`; the first
+server-side `curl_hit` cannot be skipped by that env var because it happens
+before the shell script is served.
+
 Npm-installed Newsjack uses npm for CLI updates:
 
 ```bash
