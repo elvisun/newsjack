@@ -43,7 +43,13 @@ func uiProduct(w io.Writer, section, note string) {
 }
 
 func uiBanner(w io.Writer) {
+	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, bannerRule()))
 	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, bannerArt))
+}
+
+func bannerRule() string {
+	line, _, _ := strings.Cut(bannerArt, "\n")
+	return strings.Repeat("═", len([]rune(line)))
 }
 
 func uiSection(w io.Writer, title string) {
