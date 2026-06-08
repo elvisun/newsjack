@@ -107,6 +107,8 @@ NEWSJACK_RUN_DIR=/tmp/newsjack-fixture-smoke NEWSJACK_INCLUDE_ALL_SCORED=0 \
 - Keep atomic capability in the atom. Do not duplicate atom logic inside molecule or compound skills; call, reference, or delegate to the atom instead.
 - When adding behavior, place it at the lowest level that owns the concept. If it is reusable judgment, make or update an ATOM. If it is orchestration, keep it in a MOLECULE or COMPOUND.
 - Keep public skills runtime-agnostic and user-facing.
+- Write skills for the reader, who is usually a founder/marketer/PR person, not an engineer: plain language, short sentences, define any unavoidable jargon. Prefer prose, bullets, and markdown tables over code fences; keep a fence only when it carries a real contract (a machine handoff JSON a CLI/pipeline parses, a persisted artifact's schema, a literal command, or a copy-paste template the user sends).
+- A skill's human-facing output is readable markdown (headings, bold, short lists). Structured JSON/YAML belongs only in machine handoffs (pipeline stages the CLI parses) and persisted artifacts (`voice.yaml`, monitor profiles, tracker configs) that tools read back — present those as a clearly-labeled secondary block, not the headline the user reads.
 - Avoid fixture, beta-client, or one-off evaluation details in public skills.
 - Keep prompts and rubrics concise enough for runtime use. A skill's rubric and a small number of representative examples live inline in its `SKILL.md` — do not split them into separate `rubric.md`/`examples.md` files. Only long fixture/harness examples or evaluation notes belong under `fixtures/` or other reference files.
 - Follow `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` for all PR/pitch/newsjack workflows.
