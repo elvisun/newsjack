@@ -10,6 +10,8 @@ Track whether configured keywords appeared in real coverage. Keep this simple: `
 
 This is not `newsjack-detector`. Do not score newsjacking opportunities, generate angles, assess standing, or use monitor profiles.
 
+CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+
 ## Workflow
 
 1. **Find the tracker.**

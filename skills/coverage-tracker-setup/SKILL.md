@@ -8,6 +8,8 @@ when_to_use: "User wants to create, configure, or update coverage alerts, brand/
 
 Create a simple keyword tracker for `coverage-tracker`. This workflow is intentionally separate from newsjack monitor profiles: coverage tracking answers "did my keyword get real coverage?", not "can this client newsjack a broader story?"
 
+CLI commands assume `newsjack` is on `PATH`. If it is missing in Claude Cowork or another environment where GitHub Release assets are blocked, install it with `npm i -g newsjack` and then run `newsjack install`.
+
 ## Inputs
 
 Ask only for missing facts:
