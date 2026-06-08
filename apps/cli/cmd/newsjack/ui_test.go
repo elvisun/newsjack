@@ -32,6 +32,17 @@ func TestUIColorHonorsForcedAndBufferedModes(t *testing.T) {
 	})
 }
 
+func TestProductRendererUsesBannerArt(t *testing.T) {
+	var out bytes.Buffer
+	uiProduct(&out, "doctor", "system health check")
+	text := out.String()
+	for _, want := range []string{bannerArt, productTagline, "DOCTOR", "system health check"} {
+		if !strings.Contains(text, want) {
+			t.Fatalf("product renderer missing %q:\n%s", want, text)
+		}
+	}
+}
+
 func TestBareCommandPrintsUsageLikeHelp(t *testing.T) {
 	var bareOut, bareErr, helpOut, helpErr bytes.Buffer
 	if code := runCLI(nil, &bareOut, &bareErr); code != 0 {

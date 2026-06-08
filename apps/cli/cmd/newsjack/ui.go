@@ -11,6 +11,13 @@ import (
 
 const productTagline = "the operating system for agentic PR"
 
+const bannerArt = `███╗   ██╗███████╗██╗    ██╗███████╗     ██╗ █████╗  ██████╗██╗  ██╗
+████╗  ██║██╔════╝██║    ██║██╔════╝     ██║██╔══██╗██╔════╝██║ ██╔╝
+██╔██╗ ██║█████╗  ██║ █╗ ██║███████╗     ██║███████║██║     █████╔╝.SH
+██║╚██╗██║██╔══╝  ██║███╗██║╚════██║██   ██║██╔══██║██║     ██╔═██╗
+██║ ╚████║███████╗╚███╔███╔╝███████║╚█████╔╝██║  ██║╚██████╗██║  ██╗
+╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝ ╚══════╝ ╚════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝`
+
 const (
 	ansiReset   = "\x1b[0m"
 	ansiBold    = "\x1b[1m"
@@ -24,7 +31,7 @@ const (
 )
 
 func uiProduct(w io.Writer, section, note string) {
-	fmt.Fprintln(w, uiPaint(w, ansiBold, "newsjack"))
+	uiBanner(w)
 	fmt.Fprintln(w, uiPaint(w, ansiDim, productTagline))
 	if section != "" {
 		fmt.Fprintln(w)
@@ -33,6 +40,10 @@ func uiProduct(w io.Writer, section, note string) {
 	if note != "" {
 		uiNote(w, "%s", note)
 	}
+}
+
+func uiBanner(w io.Writer) {
+	fmt.Fprintln(w, uiPaint(w, ansiMagenta+ansiBold, bannerArt))
 }
 
 func uiSection(w io.Writer, title string) {
