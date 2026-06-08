@@ -278,7 +278,6 @@ Canonical skill source remains:
 ```text
 skills/<skill-name>/SKILL.md
 skills/<skill-name>/references/
-skills/<skill-name>/examples.md
 skills/ETHICS.md
 skills/WHY-NOT-SPAM.md
 ```

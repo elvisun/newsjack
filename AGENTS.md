@@ -108,7 +108,7 @@ NEWSJACK_RUN_DIR=/tmp/newsjack-fixture-smoke NEWSJACK_INCLUDE_ALL_SCORED=0 \
 - When adding behavior, place it at the lowest level that owns the concept. If it is reusable judgment, make or update an ATOM. If it is orchestration, keep it in a MOLECULE or COMPOUND.
 - Keep public skills runtime-agnostic and user-facing.
 - Avoid fixture, beta-client, or one-off evaluation details in public skills.
-- Keep prompts and rubrics concise enough for runtime use. Put long local examples or harness notes in fixture docs or reference files.
+- Keep prompts and rubrics concise enough for runtime use. A skill's rubric and a small number of representative examples live inline in its `SKILL.md` — do not split them into separate `rubric.md`/`examples.md` files. Only long fixture/harness examples or evaluation notes belong under `fixtures/` or other reference files.
 - Follow `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` for all PR/pitch/newsjack workflows.
 - For detector changes, preserve the separation:
   - Go CLI owns ingestion, deterministic scoring, filtering application, and freshness gate application.

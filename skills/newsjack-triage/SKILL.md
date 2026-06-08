@@ -39,7 +39,7 @@ You do **not**: write angles, name journalists, draft copy, recompute freshness,
    - The brief's **How to surface** is a presentation preference for the report, not a reason to drop: never silence a tier, only collapse it to a disclosed count (the report stage owns this).
    - The brief never *loosens* the ethical floor or manufactures standing; it only narrows what an already-qualified item is allowed to be.
 
-3. **Assign standing** per `skills/newsjack-detector/rubric.md` (Standing section). Decide one of:
+3. **Assign standing** per the Standing section in the Rubric of `skills/newsjack-detector/SKILL.md`. Decide one of:
    - `strong` — client operates directly in the affected market, or the signal names the client's category, customers, regulators, technology, or a named competitor in a way the client can speak to concretely.
    - `partial` — adjacent expertise; the client can explain impact or a narrower slice but not the core event.
    - `none` — the only bridge is a broad theme ("it's about AI / privacy / property and we do that too"), a keyword collision, or wrong geography/jurisdiction/audience.
