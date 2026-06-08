@@ -145,7 +145,7 @@ type installOptions struct {
 	InstallMCP bool
 	Force      bool
 	StrictMCP  bool
-	CLIPath    string
+	CLI        commandInvocation
 	Repo       string
 	Ref        string
 }
@@ -174,7 +174,7 @@ func cmdInstall(args []string, stdout, stderr io.Writer) int {
 		InstallMCP: *installMCP,
 		Force:      *force,
 		StrictMCP:  *strictMCP,
-		CLIPath:    filepath.Join(newsjackHome(), "bin", "newsjack"),
+		CLI:        newsjackCLIInvocation(),
 		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
 		Ref:        getenv("NEWSJACK_REF", defaultRef),
 	}

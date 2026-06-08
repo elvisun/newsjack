@@ -82,7 +82,7 @@ Use `newsjack-monitor-setup` when the user wants to create or materially revise 
 One-off discovery and scans:
 
 ```bash
-~/.newsjack/bin/newsjack detector run --profile profile.json --save
+newsjack detector run --profile profile.json --save
 ```
 
 The detector emits JSON only; render any human scan yourself from the artifact facts. Use `--topic "explicit user topic"` only when the user deliberately asks to add a one-off retrieval topic. Routine profile runs should rely on the profile's durable `topics` and `search_terms`, not ad hoc generated retrieval terms. Use `--mock` for local verification without credentials. Full flag/source/env reference: `references/engine-cli.md`.
@@ -112,7 +112,7 @@ Only `run.md` is human-facing; the rest are provenance.
 1. **Run the detector and save candidates.** This is the **canonical invocation** — use it verbatim for any run a human or pitch will rely on, across every harness, so runs stay comparable:
 
    ```bash
-   ~/.newsjack/bin/newsjack detector run --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
+   newsjack detector run --profile profile.json --sources news_search,x --lookback-days 1 --depth quick --limit 80 --min-queue-priority 40 --min-major-news 0.55 > candidates.json
    ```
 
    The floors `--min-queue-priority 40` and `--min-major-news 0.55` are the engine defaults; they define the emitted pool. **Do not lower them and do not pass `--include-all-scored` or `--no-hygiene-filter`** (debug-only) for a real run — they change which signals reach the report and make two runs of the same profile incomparable. Profile terms own durable retrieval; do not hand-tune the query per run unless the user explicitly asked for a one-off `--topic`. For recurring/cron precision add `--demote-unmatched-x` (see **Freshness Gate**); that is the only flag the canonical command grows.
@@ -122,13 +122,13 @@ Only `run.md` is human-facing; the rest are provenance.
 3. **Apply coarse decisions:**
 
    ```bash
-   ~/.newsjack/bin/newsjack filter-apply --candidates candidates.json --decisions coarse_relevance_decisions.json --include keep --include monitor_only --output relevant_candidates.json
+   newsjack filter-apply --candidates candidates.json --decisions coarse_relevance_decisions.json --include keep --include monitor_only --output relevant_candidates.json
    ```
 
 3b. **Cluster same-story signals before the expensive retrieval pass:**
 
    ```bash
-   ~/.newsjack/bin/newsjack cluster --candidates relevant_candidates.json --drop-stale --window-hours 24 --output clustered_candidates.json
+   newsjack cluster --candidates relevant_candidates.json --drop-stale --window-hours 24 --output clustered_candidates.json
    ```
 
    The Go CLI collapses syndicated pickups / near-duplicate headlines of the **same public event** into one representative (it shares findings, so 15 NVIDIA-GTC copies cost one story-origin retrieval, not 15) and records the rest in `clustered_duplicates`. `--drop-stale` deterministically pre-gates low-story-size signals whose detector decay is clearly outside the window (`week`/`month`) into `pre_gated_stale`, so they skip retrieval entirely; large stories (`high`/`major`) are always researched regardless of age. Run story-origin on `clustered_candidates.json` (representatives only). Disclose how many duplicates and stale items were collapsed.
@@ -138,7 +138,7 @@ Only `run.md` is human-facing; the rest are provenance.
 5. **Apply the deterministic freshness gate:**
 
    ```bash
-   ~/.newsjack/bin/newsjack origin-apply --candidates clustered_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
+   newsjack origin-apply --candidates clustered_candidates.json --origins origin_findings.json --window-hours 24 --output targeted_candidates.json
    ```
 
    The Go CLI is the freshness authority — it computes `freshness_gate.computed_status` from the run timestamp and cutoff. If an LLM labels May 8 fresh for a May 25 run, `origin-apply` marks it stale. Non-fresh signals carry a specific reason: `stale`, `unverified_no_corroboration` (worker cited <2 independent sources — a pipeline/worker-quality miss), `unverified_boundary` (date-only clock straddling the cutoff), or `unverified_no_timestamp` (no clock recovered). Distinguish these in the report and in metrics: `unverified_no_corroboration` means *we* didn't verify, not that the story is old.
@@ -162,7 +162,7 @@ Only `run.md` is human-facing; the rest are provenance.
    The report must be rendered from the **gated/fresh/triaged artifacts**, never raw `candidates.json` alone. Do not resurface coarse-rejected or hard-safety-flagged signals in the ✅/🔥 sections. The only hard drops are mechanical (URL-pattern hygiene) and hard-safety flags; disclose their counts from the JSON artifacts so nothing is hidden — never silently truncate. If you need a machine-readable artifact index, run:
 
    ```bash
-   ~/.newsjack/bin/newsjack run-summary targeted_candidates.json --output summary.json
+   newsjack run-summary targeted_candidates.json --output summary.json
    ```
 
    `run-summary` writes JSON metadata only; it does not write Markdown or make editorial decisions.

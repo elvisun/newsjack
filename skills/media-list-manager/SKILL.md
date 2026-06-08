@@ -75,7 +75,7 @@ If MCP tools are missing or return auth errors, say exactly what failed and cont
 For Claude Code auth, tell users to run:
 
 ```bash
-~/.newsjack/bin/newsjack login
+newsjack login
 ```
 
 The project `.mcp.json` uses `headersHelper` to read that saved credential automatically.
@@ -83,7 +83,7 @@ The project `.mcp.json` uses `headersHelper` to read that saved credential autom
 For Codex, OpenClaw, or another client without `headersHelper`, use the stdio bridge after login:
 
 ```bash
-~/.newsjack/bin/newsjack mcp-bridge
+newsjack mcp-bridge
 ```
 
 Configure that script as the MCP server command. It launches `mcp-remote` and injects the saved credential without requiring the user to export an environment variable.

@@ -19,13 +19,13 @@ func configureMCP(opts installOptions, stdout, stderr io.Writer) error {
 		var err error
 		switch rt.Key {
 		case "codex":
-			err = configureCodexMCP(opts.CLIPath, stdout, stderr)
+			err = configureCodexMCP(opts.CLI, stdout, stderr)
 		case "claude":
-			err = configureClaudeMCP(opts.CLIPath, stdout, stderr)
+			err = configureClaudeMCP(opts.CLI, stdout, stderr)
 		case "openclaw":
-			err = configureOpenClawMCP(opts.CLIPath, stdout, stderr)
+			err = configureOpenClawMCP(opts.CLI, stdout, stderr)
 		case "hermes":
-			err = configureHermesMCP(opts.CLIPath, stdout)
+			err = configureHermesMCP(opts.CLI, stdout)
 		}
 		if err != nil {
 			errs = append(errs, err.Error())
@@ -37,11 +37,12 @@ func configureMCP(opts installOptions, stdout, stderr io.Writer) error {
 	return nil
 }
 
-func configureCodexMCP(cli string, stdout, stderr io.Writer) error {
+func configureCodexMCP(cli commandInvocation, stdout, stderr io.Writer) error {
 	if _, err := exec.LookPath("codex"); err != nil {
 		return nil
 	}
-	cmd := exec.Command("codex", "mcp", "add", "medialyst", "--", cli, "mcp-bridge")
+	args := append([]string{"mcp", "add", "medialyst", "--", cli.Command}, cli.With("mcp-bridge")...)
+	cmd := exec.Command("codex", args...)
 	cmd.Stdin = nil
 	if out, err := cmd.CombinedOutput(); err != nil {
 		warn(stderr, "Codex MCP server 'medialyst' may already exist; leaving existing config in place: %s", strings.TrimSpace(string(out)))
@@ -51,11 +52,11 @@ func configureCodexMCP(cli string, stdout, stderr io.Writer) error {
 	return nil
 }
 
-func configureClaudeMCP(cli string, stdout, stderr io.Writer) error {
+func configureClaudeMCP(cli commandInvocation, stdout, stderr io.Writer) error {
 	if _, err := exec.LookPath("claude"); err != nil {
 		return nil
 	}
-	payload := map[string]any{"type": "stdio", "command": cli, "args": []string{"mcp-bridge"}}
+	payload := map[string]any{"type": "stdio", "command": cli.Command, "args": cli.With("mcp-bridge")}
 	data, _ := json.Marshal(payload)
 	cmd := exec.Command("claude", "mcp", "add-json", "--scope", "user", "medialyst", string(data))
 	cmd.Stdin = nil
@@ -67,11 +68,11 @@ func configureClaudeMCP(cli string, stdout, stderr io.Writer) error {
 	return nil
 }
 
-func configureOpenClawMCP(cli string, stdout, stderr io.Writer) error {
+func configureOpenClawMCP(cli commandInvocation, stdout, stderr io.Writer) error {
 	if _, err := exec.LookPath("openclaw"); err != nil {
 		return nil
 	}
-	payload := map[string]any{"command": cli, "args": []string{"mcp-bridge"}}
+	payload := map[string]any{"command": cli.Command, "args": cli.With("mcp-bridge")}
 	data, _ := json.Marshal(payload)
 	cmd := exec.Command("openclaw", "mcp", "set", "medialyst", string(data))
 	cmd.Stdin = nil
@@ -83,7 +84,7 @@ func configureOpenClawMCP(cli string, stdout, stderr io.Writer) error {
 	return nil
 }
 
-func configureHermesMCP(cli string, stdout io.Writer) error {
+func configureHermesMCP(cli commandInvocation, stdout io.Writer) error {
 	config := getenv("HERMES_CONFIG", filepath.Join(homeDir(), ".hermes", "config.yaml"))
 	data, _ := os.ReadFile(config)
 	if hermesHasMedialyst(string(data)) {
@@ -94,7 +95,10 @@ func configureHermesMCP(cli string, stdout io.Writer) error {
 		return err
 	}
 	text := string(data)
-	block := fmt.Sprintf("  medialyst:\n    command: %q\n    args:\n      - \"mcp-bridge\"\n", cli)
+	block := fmt.Sprintf("  medialyst:\n    command: %q\n    args:\n", cli.Command)
+	for _, arg := range cli.With("mcp-bridge") {
+		block += fmt.Sprintf("      - %q\n", arg)
+	}
 	lines := strings.Split(text, "\n")
 	inserted := false
 	for i, line := range lines {
@@ -143,7 +147,7 @@ func cmdMCPSetup(args []string, stdout, stderr io.Writer) int {
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
-	opts := installOptions{Runtimes: *runtimes, InstallMCP: true, CLIPath: filepath.Join(newsjackHome(), "bin", "newsjack")}
+	opts := installOptions{Runtimes: *runtimes, InstallMCP: true, CLI: newsjackCLIInvocation()}
 	if err := configureMCP(opts, stdout, stderr); err != nil {
 		return fail(stderr, err)
 	}
@@ -151,8 +155,9 @@ func cmdMCPSetup(args []string, stdout, stderr io.Writer) int {
 }
 
 func cmdMCPStatus(_ []string, stdout, _ io.Writer) int {
+	cli := newsjackCLIInvocation()
 	payload := map[string]any{
-		"bridge_command": []string{filepath.Join(newsjackHome(), "bin", "newsjack"), "mcp-bridge"},
+		"bridge_command": cli.CommandLine("mcp-bridge"),
 		"npx_available":  commandAvailable("npx"),
 	}
 	writeJSON(stdout, payload)

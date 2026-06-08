@@ -654,7 +654,7 @@ func installSetupSkills(runtimeRaw string, stdout, stderr io.Writer) error {
 		Runtimes:   runtimeRaw,
 		InstallMCP: false,
 		Force:      true,
-		CLIPath:    filepath.Join(newsjackHome(), "bin", "newsjack"),
+		CLI:        newsjackCLIInvocation(),
 		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
 		Ref:        getenv("NEWSJACK_REF", defaultRef),
 	}

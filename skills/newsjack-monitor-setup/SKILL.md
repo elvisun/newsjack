@@ -190,8 +190,8 @@ Use this JSON shape only when the user asks for a profile without running the fu
   "x_news_rationale": "Enabled by default because X News returns story clusters rather than random individual posts.",
   "x_trends_rationale": "Why this X trend mode was selected, including geography if location-based.",
   "run_commands": {
-    "hourly_major_news": "~/.newsjack/bin/newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
-    "profile_relevance": "~/.newsjack/bin/newsjack detector run --profile profile.json --save"
+    "hourly_major_news": "newsjack detector run --profile profile.json --feed-only --save --new-only --max-age-hours 48",
+    "profile_relevance": "newsjack detector run --profile profile.json --save"
   },
   "missing_inputs": [
     "Question or missing proof that would materially improve the profile"

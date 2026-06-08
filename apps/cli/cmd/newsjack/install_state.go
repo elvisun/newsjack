@@ -78,5 +78,13 @@ func installedVersion() string {
 	if state, err := readInstallState(); err == nil && strings.TrimSpace(state.Version) != "" {
 		return strings.TrimSpace(state.Version)
 	}
-	return strings.TrimSpace(readInstalledVersion())
+	if installed := strings.TrimSpace(readInstalledVersion()); installed != "" {
+		return installed
+	}
+	if root, err := newsjackRoot(); err == nil {
+		if bundled := strings.TrimSpace(readSkillsManifestVersion(root)); bundled != "" {
+			return bundled
+		}
+	}
+	return version
 }

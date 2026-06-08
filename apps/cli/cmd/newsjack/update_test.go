@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -56,6 +57,26 @@ func TestAutoUpdateDisabled(t *testing.T) {
 	withTempEnv(t, map[string]string{"NEWSJACK_NO_AUTO_UPDATE": "1"}, func() {
 		if !autoUpdateDisabled() {
 			t.Fatal("NEWSJACK_NO_AUTO_UPDATE=1 should disable auto-update")
+		}
+	})
+}
+
+func TestNPMDistributionSkipsAutoUpdate(t *testing.T) {
+	withTempEnv(t, map[string]string{"NEWSJACK_DISTRIBUTION": "npm"}, func() {
+		if shouldAutoUpdate([]string{"detector"}) {
+			t.Fatal("npm distribution should not use GitHub Release auto-update")
+		}
+	})
+}
+
+func TestNPMUpdatePrintsInstructions(t *testing.T) {
+	withTempEnv(t, map[string]string{"NEWSJACK_DISTRIBUTION": "npm"}, func() {
+		var out, err bytes.Buffer
+		if code := cmdUpdate(nil, &out, &err); code != 0 {
+			t.Fatalf("cmdUpdate() code = %d stderr=%s", code, err.String())
+		}
+		if !strings.Contains(out.String(), "npm i -g newsjack@latest") {
+			t.Fatalf("npm update instructions missing from %q", out.String())
 		}
 	})
 }

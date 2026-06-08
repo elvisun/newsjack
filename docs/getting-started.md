@@ -4,6 +4,23 @@ This is the front door. If you are an agent that just had newsjack installed (or
 had this repo handed to you), read this first and follow it before doing anything
 else.
 
+## Install paths
+
+Default install:
+
+```bash
+curl -fsSL newsjack.sh | bash
+```
+
+Use npm when shell installers or GitHub Release assets are blocked, including Claude Cowork:
+
+```bash
+npm i -g newsjack
+newsjack install
+```
+
+Skill instructions assume the command is available as `newsjack`.
+
 ## For the agent: start slow
 
 On first contact, **do not** dump the full skill list, and **do not**

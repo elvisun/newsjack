@@ -15,6 +15,10 @@ import (
 const autoUpdateGuard = "NEWSJACK_AUTO_UPDATE_RUNNING"
 
 func cmdUpdate(_ []string, stdout, stderr io.Writer) int {
+	if npmDistribution() {
+		printNPMUpdate(stdout)
+		return 0
+	}
 	if err := runHostedInstaller(stdout, stderr); err != nil {
 		return fail(stderr, err)
 	}
@@ -53,6 +57,9 @@ func shouldAutoUpdate(args []string) bool {
 	if autoUpdateDisabled() {
 		return false
 	}
+	if npmDistribution() {
+		return false
+	}
 	if os.Getenv(autoUpdateGuard) == "1" {
 		return false
 	}
@@ -68,6 +75,15 @@ func shouldAutoUpdate(args []string) bool {
 		return false
 	}
 	return true
+}
+
+func printNPMUpdate(stdout io.Writer) {
+	uiProduct(stdout, "update", "npm-managed install")
+	fmt.Fprintln(stdout)
+	uiSection(stdout, "update")
+	uiCommand(stdout, "npm i -g newsjack@latest", "update a global install", "")
+	uiCommand(stdout, "npx -y newsjack@latest", "run the latest one-shot package", "<command>")
+	uiNote(stdout, "npm packages bundle the platform binary and skills; no GitHub Release download is required.")
 }
 
 func autoUpdateDisabled() bool {

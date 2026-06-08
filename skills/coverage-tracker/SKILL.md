@@ -13,7 +13,7 @@ This is not `newsjack-detector`. Do not score newsjacking opportunities, generat
 ## Workflow
 
 1. **Find the tracker.**
-   - If the user gave a slug, run `~/.newsjack/bin/newsjack coverage status <slug>`.
+   - If the user gave a slug, run `newsjack coverage status <slug>`.
    - If working in a source checkout, prefer `bin/newsjack`.
    - If no slug is given, ask which tracker to run unless local context makes it obvious.
    - Read the returned `config_path`.
@@ -52,7 +52,7 @@ This is not `newsjack-detector`. Do not score newsjacking opportunities, generat
    - Run:
 
      ```bash
-     ~/.newsjack/bin/newsjack coverage check <slug> --input candidates.json
+     newsjack coverage check <slug> --input candidates.json
      ```
 
    - Do not reclassify `known_items` unless the user explicitly asks for a fresh review. Use their `prior_decision` to count filtered/known results and suppress repeat alerts.
@@ -101,7 +101,7 @@ This is not `newsjack-detector`. Do not score newsjacking opportunities, generat
 6. **Persist decisions and suppress repeat alerts.**
 
    ```bash
-   ~/.newsjack/bin/newsjack coverage record <slug> --input decisions.json
+   newsjack coverage record <slug> --input decisions.json
    ```
 
    Add `--run-dir RUN_DIR` only when you already created a run folder for harness provenance. Read the command's JSON stdout directly. Do not write `record.json` unless the user or harness explicitly wants artifacts. Only articles in `new_alerts` are newly alertable; previously alerted URLs must not be re-alerted.

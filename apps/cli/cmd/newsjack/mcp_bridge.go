@@ -12,7 +12,7 @@ import (
 func cmdMCPBridge(_ []string, _ io.Writer, stderr io.Writer) int {
 	key, source := loadAPIKey()
 	if key == "" {
-		fmt.Fprintln(stderr, "Medialyst API key not found. Run: ~/.newsjack/bin/newsjack login")
+		fmt.Fprintf(stderr, "Medialyst API key not found. Run: %s\n", newsjackCLIInvocation().Display("login"))
 		return 1
 	}
 	npx, err := exec.LookPath("npx")

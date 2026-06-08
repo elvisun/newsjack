@@ -1,7 +1,7 @@
 # Release Playbook
 
 This playbook covers stable, beta, and test releases for the GitHub
-Release-backed Newsjack installer.
+Release-backed Newsjack installer and npm distribution.
 
 ## Release Types
 
@@ -17,6 +17,24 @@ Stable releases become the default install target for:
 
 ```bash
 curl -fsSL newsjack.sh | bash
+```
+
+They are also published to npm as:
+
+```text
+newsjack
+newsjack-linux-arm64
+newsjack-linux-x64
+newsjack-darwin-arm64
+newsjack-darwin-x64
+```
+
+The npm path is the required install path for Claude Cowork and other runtimes
+where GitHub Release assets are blocked:
+
+```bash
+npm i -g newsjack
+newsjack install
 ```
 
 Beta and test releases are GitHub prereleases. They do not become the default
@@ -44,6 +62,8 @@ cd ../site && pnpm lint && pnpm test && pnpm build
 cd ../..
 NEWSJACK_VERSION=v0.1.0-test NEWSJACK_RELEASE_DIST=.tmp/newsjack-release-test \
   node scripts/build-release-dist.mjs
+NEWSJACK_VERSION=v0.1.0-test NEWSJACK_NPM_DIST=.tmp/newsjack-npm-test \
+  node scripts/build-npm-packages.mjs
 ```
 
 ## Local Release Smoke
@@ -147,6 +167,42 @@ newsjack_darwin_amd64.tar.gz
 newsjack_darwin_arm64.tar.gz
 newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
+```
+
+Publish npm packages with the manual npm workflow after the GitHub Release
+assets are published. For a tag that already exists, such as a release cut
+before the npm workflow was added, build from `main` while setting the package
+version to the existing tag:
+
+```bash
+gh workflow run npm-release.yml -f version=v0.1.5 -f source_ref=main
+gh run watch
+```
+
+The npm workflow uses trusted publishing only. Do not add an `NPM_TOKEN` for
+normal releases.
+
+Trusted publishing is configured on npm for:
+
+```text
+newsjack
+newsjack-linux-arm64
+newsjack-linux-x64
+newsjack-darwin-arm64
+newsjack-darwin-x64
+```
+
+Each package trusts GitHub Actions in `elvisun/newsjack` with workflow file
+`npm-release.yml` and `npm publish` permission.
+
+Verify npm:
+
+```bash
+npm view newsjack version
+npm view newsjack-linux-arm64 version
+npm i -g newsjack@0.1.5
+newsjack version
+newsjack skills list | grep -F newsjack-detector
 ```
 
 5. Run post-release smoke:

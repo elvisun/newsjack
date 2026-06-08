@@ -29,13 +29,16 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 	available := availableSources(config, []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
 	warnings := doctorWarnings(rootErr, key != "", xConfigured)
 	actions := doctorActions(rootErr, key != "", xConfigured)
+	cli := newsjackCLIInvocation()
 	payload := map[string]any{
 		"version":       version,
 		"newsjack_home": newsjackHome(),
 		"newsjack_root": root,
 		"root_ok":       rootErr == nil,
 		"install": map[string]any{
-			"cli_installed":  fileExists(filepath.Join(newsjackHome(), "bin", "newsjack")),
+			"distribution":   distributionName(),
+			"cli_command":    cli.CommandLine(),
+			"cli_installed":  npmDistribution() || fileExists(filepath.Join(newsjackHome(), "bin", "newsjack")),
 			"cli_version":    version,
 			"bundle_version": installedVersion(),
 			"skills_mode":    state.SkillsMode,
@@ -76,6 +79,7 @@ func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bo
 	uiProduct(w, "doctor", "system health check")
 	fmt.Fprintln(w)
 	uiSection(w, "paths")
+	uiKV(w, "distribution", distributionName())
 	uiKV(w, "home", newsjackHome())
 	if rootErr != nil {
 		uiKV(w, "install root", "missing: "+rootErr.Error())
@@ -164,7 +168,7 @@ func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[s
 		actions = append(actions, map[string]string{
 			"id":      "reinstall",
 			"label":   "Reinstall Newsjack",
-			"command": "curl -fsSL https://newsjack.sh | bash",
+			"command": reinstallCommand(),
 		})
 	}
 	if !medialystConfigured {
@@ -187,6 +191,13 @@ func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[s
 		})
 	}
 	return actions
+}
+
+func reinstallCommand() string {
+	if npmDistribution() {
+		return "npm i -g newsjack"
+	}
+	return "curl -fsSL https://newsjack.sh | bash"
 }
 
 func runtimeStatus() map[string]any {

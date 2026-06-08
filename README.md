@@ -71,6 +71,17 @@ The installer detects your agent runtime and installs the skills automatically. 
 | Hermes                  | ✅                                 |
 | ChatGPT / Claude.ai web | manual (load `skills/*/SKILL.md`) |
 
+### npm install
+
+Use npm when shell installers or GitHub Release assets are blocked. This is the required path for Claude Cowork:
+
+```bash
+npm i -g newsjack
+newsjack install
+```
+
+After install, agents and skills should call the CLI as `newsjack`.
+
 ### Claude Code plugin
 
 If you're on Claude Code, you can install Newsjack as a plugin instead of running the script:
@@ -111,4 +122,12 @@ skills installed to your detected runtime(s):
   media-list-manager      build small, fit-checked media lists
 ```
 
-Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
+The npm package bundles the same CLI and skills, with the `newsjack` command installed on `PATH`.
+
+Curl-installed Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
+
+Npm-installed Newsjack uses npm for CLI updates:
+
+```bash
+npm i -g newsjack@latest
+```

@@ -43,7 +43,7 @@ Do not ask for standing, spokespeople, competitors, proof assets, RSS feeds, tar
 2. Save it with the CLI:
 
    ```bash
-   ~/.newsjack/bin/newsjack coverage init <slug> --config tracker.json
+   newsjack coverage init <slug> --config tracker.json
    ```
 
    In a source checkout, prefer `bin/newsjack` from the repo root. Use `--force` only when the user explicitly wants to overwrite the existing tracker config.
@@ -63,13 +63,13 @@ Do not ask for standing, spokespeople, competitors, proof assets, RSS feeds, tar
 Run:
 
 ```bash
-~/.newsjack/bin/newsjack coverage status <slug>
+newsjack coverage status <slug>
 ```
 
 Read the `config_path`, edit the tracker JSON, then re-run:
 
 ```bash
-~/.newsjack/bin/newsjack coverage init <slug> --config tracker.json --force
+newsjack coverage init <slug> --config tracker.json --force
 ```
 
 Only change the keyword aperture or meaning snippet. Alert decisions are stored in SQLite by `coverage-tracker`; do not edit those by hand.
@@ -82,4 +82,3 @@ When setup is complete, tell the user:
 - config path
 - schedule prompt/cadence
 - first-run result if you ran it
-

@@ -1,0 +1,79 @@
+name: npm release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag to publish, for example v0.1.5.
+        required: true
+        type: string
+      source_ref:
+        description: Source ref to build from. Defaults to main for already-tagged releases.
+        required: false
+        default: main
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  npm:
+    name: Publish npm packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.source_ref }}
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: apps/cli/go.sum
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+
+      - name: Validate version
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "${{ inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
+
+      - name: Run CLI tests
+        working-directory: apps/cli
+        run: go test ./...
+
+      - name: Build npm packages
+        run: NEWSJACK_VERSION="${{ inputs.version }}" NEWSJACK_NPM_DIST=.tmp/newsjack-npm node scripts/build-npm-packages.mjs
+
+      - name: Publish npm packages
+        env:
+          NEWSJACK_VERSION: ${{ inputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install -g npm@latest
+
+          npm_tag=latest
+          if [[ "${NEWSJACK_VERSION}" == *-* ]]; then
+            npm_tag=beta
+          fi
+          if [[ "${NEWSJACK_VERSION}" == *-test.* ]]; then
+            npm_tag=test
+          fi
+
+          publish() {
+            npm publish "$1" --access public --tag "$npm_tag" --provenance
+          }
+
+          publish .tmp/newsjack-npm/newsjack-linux-arm64
+          publish .tmp/newsjack-npm/newsjack-linux-x64
+          publish .tmp/newsjack-npm/newsjack-darwin-arm64
+          publish .tmp/newsjack-npm/newsjack-darwin-x64
+          publish .tmp/newsjack-npm/newsjack
