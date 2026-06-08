@@ -121,14 +121,14 @@ If `confidence: low`, keep hard blocks but downgrade warn-level rules to informa
 
 ## Mode: Enforce
 
-When another newsjack skill drafts copy:
+When another newsjack skill drafts copy, it should:
 
-1. Load `~/.newsjack/voice/active.yaml`.
-2. Inject the fingerprint into the system prompt under a `<voice_fingerprint>` block.
+1. Load the active fingerprint from `~/.newsjack/voice/active.yaml`.
+2. Feed the fingerprint into its instructions using the `<voice_fingerprint>` block below.
 3. Draft the copy.
-4. Run `voice check` on the draft.
-5. If `verdict == "fail"` and any violation has `severity: "block"`, regenerate up to 2 times.
-6. If it still fails, return the draft with the visible warning header in the output format below.
+4. Run a check on the draft (see Mode: Check).
+5. If the check fails and any problem is a hard block, redraft it, up to 2 times.
+6. If it still fails, return the draft with the visible warning header described under Output Format.
 
 Never silently let a failing draft through. Never block forever. The user is the final arbiter.
 
@@ -173,25 +173,19 @@ Use these frames without softening:
 
 ### Extract Summary
 
-```text
-Voice fingerprint: {{profile_id}}
-Saved: ~/.newsjack/voice/{{profile_id}}.yaml
-Active profile: {{yes/no}}
-Samples: {{sample_count}} ({{sample_word_count}} words)
-Register: {{register}}
-Confidence: {{high|medium|low}}
+After saving, show the user a short, readable summary in plain markdown (not as a code block, not as YAML or JSON). Cover:
 
-What I captured:
-- Cadence: {{rhythm_signature}}, mean {{sentence_length.mean}} words/sentence, {{one_sentence_paragraph_frequency}} one-sentence paragraphs
-- Mechanics: contractions {{contractions}}, em-dashes {{em_dash_usage}}, Oxford comma {{oxford_comma}}
-- Signature phrases: {{top 3-5}}
-- Banned for this profile: {{top global/user-specific bans}}
-
-Warnings:
-- {{warning or "none"}}
-
-Refresh after: {{last_extracted_at + 90 days}}
-```
+- **Voice fingerprint:** the profile name, and where it was saved (`~/.newsjack/voice/<profile_id>.yaml`).
+- **Active profile:** whether this is now the active one (yes / no).
+- **Samples:** how many samples and total word count.
+- **Register and confidence:** the captured register and the confidence level (high / medium / low).
+- **What I captured:** a few bullets in plain English, for example:
+  - Cadence: the rhythm (short-burst, flowing, mixed, or listy), the average words per sentence, and roughly what share of paragraphs are a single sentence.
+  - Mechanics: whether they use contractions, how they use em-dashes, and their Oxford-comma habit.
+  - Signature phrases: their top 3-5 repeated phrases.
+  - Banned for this profile: the main global and user-specific words this voice should never use.
+- **Warnings:** anything the user should know, or "none."
+- **Refresh after:** the date 90 days from this extraction.
 
 ### `voice.yaml`
 
@@ -291,34 +285,20 @@ extraction:
 
 ### Check Result
 
-```json
-{
-  "verdict": "pass|fail",
-  "pass_rate": 0.71,
-  "fingerprint_used": "profile_id@YYYY-MM-DD",
-  "violations": [
-    {
-      "rule": "banned_word_global",
-      "match": "leveraging",
-      "span": [142, 152],
-      "severity": "block",
-      "fix_hint": "use 'using' or rewrite"
-    }
-  ],
-  "stats": {
-    "sentence_length_mean": 18.2,
-    "fingerprint_sentence_length_mean": 13.4,
-    "drift_score": 0.34
-  },
-  "regenerate": true
-}
-```
+A check produces a machine-usable result that the enforce step reads, plus a readable summary for the user. Every check must report:
+
+- **Verdict:** pass or fail.
+- **Pass rate:** the share of checks the draft passed (for example, 0.71).
+- **Fingerprint used:** which profile and date it was checked against (for example, `profile_id@YYYY-MM-DD`).
+- **Violations:** one entry per problem found. For each, name the rule that fired, the exact text that matched, where in the draft it sits (the character span), the severity (block or warn), and a concrete fix hint. Example: rule `banned_word_global`, match "leveraging", severity block, fix hint "use 'using' or rewrite."
+- **Stats:** the draft's average sentence length, the fingerprint's average sentence length, and a drift score that measures how far the draft strayed.
+- **Regenerate:** whether the draft should be redrafted (true / false).
+
+When you show this to the user, present it as readable markdown — what failed and the specific fix for each tell — not as a raw JSON object.
 
 ### Enforce Failure Header
 
-```text
-Voice check failed after 2 retries. Tells: {{rule ids}}. Returning draft anyway; review before send.
-```
+When a draft still fails after 2 retries, return it with a one-line warning at the top, naming the tells that survived and telling the user to review before sending. For example: "Voice check failed after 2 retries. Tells: <rule ids>. Returning draft anyway; review before send."
 
 ## Rules
 
@@ -606,63 +586,19 @@ Sample inventory:
 | s_007 | email | journalist | 2024-12-02 | 275 |
 | s_008 | linkedin | public | 2026-03-19 | 332 |
 
-**Voice Extractor Output**
+**What the Voice Extractor captures**
 
-```yaml
-profile_id: jane-doe-personal
-sample_count: 8
-sample_word_count: 1240
-sample_age_p50_days: 27
-register: casual-professional
-intent: [pitches, social]
-extraction:
-  confidence: medium
-  warnings:
-    - "1240 words is usable but light; add 8-10 more native samples for high confidence."
-cadence:
-  sentence_length: { mean: 11.2, median: 9, p10: 3, p90: 24, stdev: 6.8 }
-  paragraph_length: { mean_sentences: 1.7, one_sentence_paragraph_frequency: 0.55 }
-  rhythm_signature: short-burst
-mechanics:
-  contractions: yes
-  contraction_rate: 0.81
-  em_dash_usage: never
-  em_dash_per_1k_words: 0.0
-  oxford_comma: no
-  exclamation_rate_per_1k_words: 0.6
-sentence_initial:
-  conjunction_starts_allowed: true
-  conjunction_start_rate: 0.18
-  uses_however_furthermore_moreover: false
-idioms:
-  signature_phrases: ["the shape of this is", "two things at once", "fwiw"]
-  signature_words: [actually, basically, fwiw, ship]
-openers:
-  observed: ["Quick one:", "Saw this:", "Heads up:"]
-  banned_from_use: ["I hope this email finds you well", "I wanted to reach out"]
-```
+It saves the fingerprint as `jane-doe-personal`: 8 samples, 1,240 words, register casual-professional, intended for pitches and social, at medium confidence (with a warning that 1,240 words is usable but light, so add 8-10 more native samples for high confidence). The captured voice:
 
-**After**
+- **Cadence:** short-burst rhythm, about 11 words per sentence on average (from very short 3-word lines up to about 24 words), and roughly 55% of paragraphs are a single sentence.
+- **Mechanics:** uses contractions heavily, never uses em-dashes, and skips the Oxford comma. Light on exclamation points.
+- **Sentence starts:** comfortable starting sentences with But/And/So; does not use however, furthermore, or moreover.
+- **Signature phrases and words:** "the shape of this is," "two things at once," "fwiw"; signature words include actually, basically, fwiw, ship.
+- **Openers:** real openers like "Quick one:", "Saw this:", "Heads up:". Banned openers: "I hope this email finds you well," "I wanted to reach out."
 
-```text
-Voice fingerprint: jane-doe-personal
-Saved: ~/.newsjack/voice/jane-doe-personal.yaml
-Active profile: yes
-Samples: 8 (1240 words)
-Register: casual-professional
-Confidence: medium
+**What the user sees**
 
-What I captured:
-- Cadence: short-burst, mean 11.2 words/sentence, 55% one-sentence paragraphs
-- Mechanics: contractions yes, em-dashes never, Oxford comma no
-- Signature phrases: the shape of this is; two things at once; fwiw
-- Banned for this profile: em-dashes, however/furthermore/moreover, stock pitch openers, global anti-slop list
-
-Warnings:
-- Usable but light. Add 8-10 more native samples when you have them.
-
-Refresh after: 2026-08-16
-```
+A plain summary: fingerprint `jane-doe-personal` saved to `~/.newsjack/voice/jane-doe-personal.yaml`, now the active profile, 8 samples (1,240 words), register casual-professional, medium confidence. It restates the captured cadence, mechanics, and signature phrases above, lists what's banned for this profile (em-dashes; however/furthermore/moreover; stock pitch openers; the global anti-slop list), flags the warning that the sample set is usable but light (add 8-10 more native samples when available), and gives a refresh date of 2026-08-16.
 
 Why this works: the skill accepts the 8-sample set, stamps medium confidence, stores a local fingerprint, and makes the em-dash rule explicit before other skills draft as Jane.
 
@@ -682,32 +618,21 @@ Draft from another newsjack skill:
 
 Active fingerprint: `jane-doe-personal@2026-05-18`, confidence `medium`, em-dash usage `never`.
 
-**Voice Check Output**
+**Voice Check Result**
 
-```json
-{
-  "verdict": "fail",
-  "pass_rate": 0.11,
-  "fingerprint_used": "jane-doe-personal@2026-05-18",
-  "violations": [
-    {"rule": "em_dash_against_fingerprint", "match": "—", "span": [9, 10], "severity": "block", "fix_hint": "fingerprint says em_dash_usage=never; use a comma, period, or colon"},
-    {"rule": "banned-opener", "match": "Hope this finds you well", "span": [11, 35], "severity": "block", "fix_hint": "open with the news"},
-    {"rule": "banned-word-global", "match": "revolutionary", "span": [76, 89], "severity": "block", "fix_hint": "make a specific claim instead"},
-    {"rule": "banned-word-global", "match": "leverages", "span": [125, 134], "severity": "block", "fix_hint": "use 'uses' or rewrite"},
-    {"rule": "banned-word-global", "match": "cutting-edge", "span": [138, 150], "severity": "block", "fix_hint": "name the actual method or omit"},
-    {"rule": "banned-word-global", "match": "world-class", "span": [171, 182], "severity": "block", "fix_hint": "replace self-awarded praise with evidence"},
-    {"rule": "in-todays-world", "match": "In today's ever-evolving landscape", "span": [220, 254], "severity": "block", "fix_hint": "delete the stock setup"},
-    {"rule": "not-just-x-its-y", "match": "it's not just a product, it's a paradigm shift", "span": [256, 302], "severity": "block", "fix_hint": "rewrite as a single direct claim"},
-    {"rule": "banned-closer", "match": "Looking forward to hearing from you", "span": [304, 339], "severity": "block", "fix_hint": "close with a concrete ask"}
-  ],
-  "stats": {
-    "sentence_length_mean": 24.8,
-    "fingerprint_sentence_length_mean": 11.2,
-    "drift_score": 0.74
-  },
-  "regenerate": true
-}
-```
+Verdict: **fail**, pass rate 0.11, checked against `jane-doe-personal@2026-05-18`. The draft's average sentence runs 24.8 words against the fingerprint's 11.2, a drift score of 0.74, so it must be redrafted. Every tell below is a hard block:
+
+| Tell (rule) | What matched | Fix |
+|---|---|---|
+| em-dash against fingerprint | "—" | Fingerprint says em-dashes never; use a comma, period, or colon. |
+| banned opener | "Hope this finds you well" | Open with the news. |
+| banned word | "revolutionary" | Make a specific claim instead. |
+| banned word | "leverages" | Use "uses" or rewrite. |
+| banned word | "cutting-edge" | Name the actual method, or omit it. |
+| banned word | "world-class" | Replace self-awarded praise with evidence. |
+| in-today's-world setup | "In today's ever-evolving landscape" | Delete the stock setup. |
+| not-just-X-it's-Y | "it's not just a product, it's a paradigm shift" | Rewrite as a single direct claim. |
+| banned closer | "Looking forward to hearing from you" | Close with a concrete ask. |
 
 **After**
 

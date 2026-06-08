@@ -6,30 +6,32 @@ when_to_use: "User wants to create, configure, or update coverage alerts, brand/
 
 # Coverage Tracker Setup
 
-Create a simple keyword tracker for `coverage-tracker`. This workflow is intentionally separate from newsjack monitor profiles: coverage tracking answers "did my keyword get real coverage?", not "can this client newsjack a broader story?"
+This sets up a simple keyword tracker that the `coverage-tracker` skill runs for you. Think of it like a Google Alert: it watches for new coverage of the keywords you care about and tells you when something real shows up.
 
-## Runtime Mode
+It is deliberately a different job from setting up newsjack monitoring. A coverage tracker answers "did my keyword get real coverage?" Newsjack monitoring (`newsjack-monitor-setup`) answers a bigger question: "can my company jump into a broader news story?" If the user wants the second one, use that skill instead.
 
-- **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode can save tracker configs, run the tracker once, and hand recurrence to the harness.
-- **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Draft the tracker JSON and schedule prompt in chat, then tell the user to move to Full Mode to save, run, and persist seen-state.
+## Where you're running this
 
-Full Mode commands assume `newsjack` is on `PATH`.
+Two situations, and they change what you can finish here:
 
-## Inputs
+- **You can save files and run commands** (Claude Code, Codex, OpenClaw, Hermes, or a similar setup with shell, file, and network access). Here you can do the whole thing: save the tracker, run it once, and hand the recurring schedule to your agent. The commands below assume the `newsjack` tool is already installed and runnable.
+- **You're in a plain chat window** (Claude.ai, ChatGPT, Claude Cowork, or anything without file/command access). Here you can only draft. Write out the tracker config and the schedule prompt, then tell the user to move to a setup that can save and run things. Don't try to install or run anything, and don't tell the user it was saved or scheduled when it wasn't.
 
-Ask only for missing facts:
+## What to ask the user
 
-- tracker name
-- any number of keywords
-- one short `means` snippet per keyword: what entity/product/person the keyword should refer to
-- optional exclusions for ambiguous terms
-- cadence preference for the agent harness: daily morning, twice daily, or hourly
+Only ask for what you don't already know:
 
-Do not ask for standing, spokespeople, competitors, proof assets, RSS feeds, target beats, or PR angles. Those belong to newsjacking, not coverage tracking.
+- a name for the tracker
+- the keywords to watch (as many as they want)
+- for each keyword, one short note on what it actually means: which company, product, or person should it point to? This is what later filters out wrong matches.
+- optionally, words or uses to ignore when a keyword is ambiguous (for example, a common word that also happens to be a brand name)
+- how often to check: every morning, twice a day, or hourly
 
-## Setup Workflow
+Don't ask about company standing, spokespeople, competitors, proof assets, news feeds, target reporters, or story angles. All of that is for newsjacking, not for tracking coverage of your own keywords.
 
-1. Build a tiny tracker JSON:
+## Steps to set it up
+
+1. **Write the tracker config.** This is a small file that the `coverage-tracker` skill reads back every time it runs, so keep its shape exactly as shown:
 
    ```json
    {
@@ -45,49 +47,49 @@ Do not ask for standing, spokespeople, competitors, proof assets, RSS feeds, tar
    }
    ```
 
-   `keywords` may contain any number of entries. Keep each `means` field concrete enough that a later LLM pass can reject wrong-entity and generic mentions.
+   You can list as many keywords as you want. The `means` line for each one matters: make it specific (which company, product, or person) so the tracker can later throw out mentions of the wrong thing or generic uses of the word.
 
-   In Limited Mode, stop after this draft and return the tracker JSON plus the schedule prompt the user should use in a Full Mode harness. Do not claim the tracker was saved or scheduled.
+   If you're in a plain chat window, stop here. Hand the user this config plus the schedule prompt from step 3, and tell them to finish in a setup that can save and run things. Don't claim it was saved or scheduled.
 
-2. Save it with the CLI:
+2. **Save the config** with this command (replace `<slug>` with a short name for the tracker):
 
    ```bash
    newsjack coverage init <slug> --config tracker.json
    ```
 
-   In a source checkout, prefer `bin/newsjack` from the repo root. Use `--force` only when the user explicitly wants to overwrite the existing tracker config.
+   Working inside a copy of the project source, use `bin/newsjack` from the project root instead. Only add `--force` if the user clearly wants to overwrite a tracker that already exists.
 
-3. Set up recurrence in the agent harness, not native cron. If the runtime exposes a scheduling feature, schedule this prompt:
+3. **Schedule the recurring check through your agent, not your computer's built-in scheduler.** If your agent has a way to schedule prompts, schedule this one:
 
    ```text
    Use the coverage-tracker skill for <slug>.
    ```
 
-   If no scheduling tool is available, tell the user exactly which prompt to schedule in Claude, Codex, Hermes, OpenClaw, or their chosen harness. Do not install system cron, launchd, systemd timers, or other native schedulers.
+   If your agent can't schedule things itself, tell the user exactly which prompt to set up on a schedule in Claude, Codex, Hermes, OpenClaw, or whatever they use. Do not set up system-level schedulers (cron, launchd, systemd timers, or similar) on the user's machine.
 
-4. Run once immediately if the user asked for a working setup, or if this is an end-to-end setup flow. Use `coverage-tracker` for the new slug and relay its first-run result to the user.
+4. **Run it once right away** if the user wanted a working setup, or if you're doing the whole setup end to end. Use the `coverage-tracker` skill for the new slug and tell the user what the first run found.
 
-## Updating Existing Trackers
+## Updating a tracker you already have
 
-Run:
+First, look up where the config lives:
 
 ```bash
 newsjack coverage status <slug>
 ```
 
-Read the `config_path`, edit the tracker JSON, then re-run:
+That shows a `config_path`. Open the config file there, make your edits, then save it again with:
 
 ```bash
 newsjack coverage init <slug> --config tracker.json --force
 ```
 
-Only change the keyword aperture or meaning snippet. Alert decisions are stored in SQLite by `coverage-tracker`; do not edit those by hand.
+Only change the keywords or their meaning notes. The record of what's already been seen and alerted on is kept separately by `coverage-tracker` (in its own database) — don't edit that by hand.
 
-## Output
+## What to tell the user when you're done
 
-When setup is complete, tell the user:
+Wrap up by giving them:
 
-- tracker slug
-- config path
-- schedule prompt/cadence
-- first-run result if you ran it
+- the tracker slug (its short name)
+- where the config file is saved
+- the schedule prompt and how often it'll run
+- what the first run found, if you ran it
