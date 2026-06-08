@@ -6,7 +6,7 @@ else.
 
 ## For the agent: start slow
 
-On first contact, **do not** dump the full list of 16 skills, and **do not**
+On first contact, **do not** dump the full skill list, and **do not**
 announce missing API keys. Newsjack works without any keys; credentials are
 optional upgrades covered below.
 
@@ -20,7 +20,8 @@ menu:
 > 2. **Get a PR strategy** — figure out audience, positioning, and news pegs first
 > 3. **Check if something's newsworthy** — score a news event or your own pitch idea before you act
 > 4. **Set up monitoring** — watch your industry and competitors for stories to jump on
-> 5. **Find journalists** — build a small, fit-checked media list for a pitch
+> 5. **Track coverage** — Google Alerts-style keyword alerts filtered for real features
+> 6. **Find journalists** — build a small, fit-checked media list for a pitch
 
 Then let the user pick and go one step at a time. Each starting point maps to a
 skill:
@@ -31,6 +32,7 @@ skill:
 | Get a PR strategy | `pr-strategist` |
 | Check if something's newsworthy | `newsworthiness-check` |
 | Set up monitoring | `newsjack-monitor-setup` |
+| Track coverage | `coverage-tracker-setup` |
 | Find journalists | `media-list-manager` |
 
 If the user already knows what they want ("draft a pitch", "is this newsworthy?",
@@ -54,8 +56,9 @@ complaint.
 General web search is bad at news: it ranks for SEO over recency, paywalls or
 buries primary coverage, and rarely exposes a reliable publication timestamp.
 Medialyst is purpose-built for news and returns the outlet, author, `published_at`,
-and canonical URL that downstream skills (`story-origin-check`,
-`newsworthiness-check`, `media-list-manager`, `newsjack-detector`) depend on. The
+and canonical URL that downstream skills (`coverage-tracker`,
+`story-origin-check`, `newsworthiness-check`, `media-list-manager`,
+`newsjack-detector`) depend on. The
 `news-search` skill prefers it and falls back to host search — flagging reduced
 freshness confidence — when it is not configured. It is optional cloud substrate,
 not a signup wall.

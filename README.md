@@ -23,6 +23,7 @@ Three problems, separate lanes.
 ### 🛰️ Detect — surface what matters in your space
 
 - 📡 **Monitor your industry** — set up feeds, get fresh stories worth jumping on
+- 🗞️ **Track your coverage** — Google Alerts-style keyword tracking with LLM filtering for real features
 - 🔭 **Track competitors** — when they launch, raise, or stumble, you know
 - 🔍 **Verify the story is still fresh** — who broke it, who owns it, what oxygen's left
 - 📊 **Score newsworthiness** — cold read on whether it clears the bar before you act
@@ -98,6 +99,8 @@ Once Newsjack is approved for the community marketplace, you'll also be able to 
 └── newsjack/             # managed bundle
 
 skills installed to your detected runtime(s):
+  coverage-tracker-setup  create a keyword coverage tracker
+  coverage-tracker        find real keyword features and suppress repeat alerts
   newsjack-monitor-setup  create a company monitoring profile
   newsjack-detector       find newsworthy moments before the wave breaks
   story-origin-check      verify a story is fresh, not already saturated

@@ -39,7 +39,13 @@ CREATE TABLE IF NOT EXISTS seen_urls (url TEXT PRIMARY KEY, first_seen TEXT NOT 
 CREATE TABLE IF NOT EXISTS monitor_runs (id INTEGER PRIMARY KEY, monitor_name TEXT, profile_json TEXT, query_json TEXT NOT NULL, generated_at TEXT NOT NULL, signal_count INTEGER NOT NULL DEFAULT 0, created_at TEXT DEFAULT (datetime('now')));
 CREATE TABLE IF NOT EXISTS signal_snapshots (id INTEGER PRIMARY KEY, run_id INTEGER REFERENCES monitor_runs(id) ON DELETE CASCADE, signal_id TEXT NOT NULL, title TEXT NOT NULL, rank_score REAL NOT NULL, payload_json TEXT NOT NULL, created_at TEXT DEFAULT (datetime('now')));
 CREATE INDEX IF NOT EXISTS idx_signal_snapshots_run ON signal_snapshots(run_id);
-CREATE INDEX IF NOT EXISTS idx_signal_snapshots_rank ON signal_snapshots(rank_score DESC);`)
+CREATE INDEX IF NOT EXISTS idx_signal_snapshots_rank ON signal_snapshots(rank_score DESC);
+CREATE TABLE IF NOT EXISTS coverage_articles (id TEXT PRIMARY KEY, canonical_url TEXT NOT NULL, title TEXT, outlet TEXT, author TEXT, published_at TEXT, first_seen TEXT NOT NULL, last_seen TEXT NOT NULL, sighting_count INTEGER NOT NULL DEFAULT 1, payload_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS coverage_decisions (id INTEGER PRIMARY KEY, tracker_slug TEXT NOT NULL, article_id TEXT NOT NULL, keyword TEXT NOT NULL, verdict TEXT NOT NULL, confidence TEXT, alert INTEGER NOT NULL DEFAULT 0, rationale TEXT, run_dir TEXT, decided_at TEXT NOT NULL, payload_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS coverage_alerts (tracker_slug TEXT NOT NULL, article_id TEXT NOT NULL, keyword TEXT, first_alerted_at TEXT NOT NULL, last_alerted_at TEXT NOT NULL, alert_count INTEGER NOT NULL DEFAULT 1, PRIMARY KEY (tracker_slug, article_id));
+CREATE INDEX IF NOT EXISTS idx_coverage_decisions_tracker ON coverage_decisions(tracker_slug, decided_at DESC);
+CREATE INDEX IF NOT EXISTS idx_coverage_decisions_article ON coverage_decisions(article_id);
+CREATE INDEX IF NOT EXISTS idx_coverage_alerts_tracker ON coverage_alerts(tracker_slug, first_alerted_at DESC);`)
 	return err
 }
 

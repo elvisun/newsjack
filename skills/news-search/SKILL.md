@@ -1,7 +1,7 @@
 ---
 name: news-search
 description: "Search current news for a topic, company, competitor, or hook and return dated, attributed articles. Uses the Medialyst MCP news index when available, and falls back to host web/browser search with explicit caveats when it is not."
-when_to_use: "User asks to search the news, find recent coverage, check who has written about a topic, or pull article evidence; or another Newsjack skill needs dated, attributed news results (story-origin-check, newsworthiness-check, media-list-manager, newsjack-detector). Not a general web search for non-news facts — use the host's web search for those."
+when_to_use: "User asks to search the news, find recent coverage, check who has written about a topic, or pull article evidence; or another Newsjack skill needs dated, attributed news results (coverage-tracker, story-origin-check, newsworthiness-check, media-list-manager, newsjack-detector). Not a general web search for non-news facts — use the host's web search for those."
 ---
 
 # News Search
@@ -26,6 +26,7 @@ Downstream consumers and why they need this:
 - **newsworthiness-check** reads mainstream pickup, article count, and earliest timestamp.
 - **media-list-manager** anchors each journalist row to a real recent byline.
 - **newsjack-detector** ranks and gates signals on freshness.
+- **coverage-tracker** checks keyword coverage and needs dated, attributed articles before the LLM can reject wrong-entity mentions and junk.
 
 If `published_at` or `outlet` is unknown, say so. A result without a defensible date is not freshness evidence.
 

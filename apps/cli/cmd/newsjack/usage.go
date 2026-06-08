@@ -23,6 +23,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "login", "save an optional Medialyst API key", "[--key KEY]")
 	uiCommand(w, "auth status|set|logout", "inspect, save, or revoke API credentials", "")
 	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
+	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
 	uiCommand(w, "mcp setup|status", "configure the MCP bridge", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
@@ -75,6 +76,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "detector":
 		printDetectorHelp(w)
 		return true
+	case "coverage":
+		printCoverageHelp(w)
+		return true
 	default:
 		return false
 	}
@@ -107,6 +111,25 @@ func printDetectorHelp(w io.Writer) {
 	uiKV(w, "topics", "broad profile meaning and matching context")
 	uiKV(w, "competitors", "matching context; add to search_terms when they must drive retrieval")
 	uiNote(w, "Use --topic only for an explicit one-off topic. Routine monitor runs should rely on the profile.")
+}
+
+func printCoverageHelp(w io.Writer) {
+	uiProduct(w, "coverage", "stores keyword coverage tracker config and LLM alert state.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack coverage list")
+	fmt.Fprintln(w, "  newsjack coverage init <slug> --config tracker.json")
+	fmt.Fprintln(w, "  newsjack coverage status <slug>")
+	fmt.Fprintln(w, "  newsjack coverage open <slug>")
+	fmt.Fprintln(w, "  newsjack coverage check <slug> --input candidates.json")
+	fmt.Fprintln(w, "  newsjack coverage record <slug> --input decisions.json")
+	fmt.Fprintln(w)
+	uiSection(w, "shape")
+	uiKV(w, "list/init/status/open", "storage helpers for coverage-tracker-setup and coverage-tracker")
+	uiKV(w, "check", "marks candidates already classified in SQLite so the LLM can skip repeats")
+	uiKV(w, "record", "persists LLM-classified articles and suppresses repeat alerts")
+	uiKV(w, "scheduling", "owned by Claude, Codex, Hermes, OpenClaw, or another agent harness")
+	uiNote(w, "The coverage-tracker skill owns news-search, dedupe judgment, feature detection, and alert rendering.")
 }
 
 func printAuthHelp(w io.Writer) {
