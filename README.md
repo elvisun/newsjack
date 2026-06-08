@@ -51,6 +51,29 @@ Three problems, separate lanes.
 
 ## Install
 
+Pick the path for the harness you're using:
+
+### Claude Cowork / Claude Chat
+
+Use the plugin marketplace path. This installs the Newsjack skills first; when a skill needs the CLI, it installs `newsjack` on demand from npm.
+
+1. Open **Customize**.
+2. Go to **Personal plugins**.
+3. Click **Create plugin**.
+4. Choose **Add marketplace**.
+5. Choose **Add from a repository**.
+6. In the repository URL field, enter:
+
+```text
+elvisun/newsjack
+```
+
+Then install the Newsjack plugin from that marketplace.
+
+### Codex, Claude Code, Hermes, OpenClaw, local shell
+
+Use the curl installer when your environment can reach GitHub Release assets:
+
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
@@ -61,19 +84,11 @@ Or review the script before running it:
 curl -fsSL https://newsjack.sh
 ```
 
-The installer detects your agent runtime and installs the skills automatically. Supported:
+The installer detects your agent runtime and installs the skills automatically.
 
-| Runtime                 | Auto-detected                     |
-| ----------------------- | --------------------------------- |
-| Claude Code             | ✅                                 |
-| Codex                   | ✅                                 |
-| OpenClaw                | ✅                                 |
-| Hermes                  | ✅                                 |
-| ChatGPT / Claude.ai web | manual (load `skills/*/SKILL.md`) |
+### Blocked GitHub Releases / npm-only environments
 
-### npm install
-
-Use npm when shell installers or GitHub Release assets are blocked. This is the required path for Claude Cowork:
+Use npm when shell installers or GitHub Release assets are blocked:
 
 ```bash
 npm i -g newsjack
@@ -81,6 +96,17 @@ newsjack install
 ```
 
 After install, agents and skills should call the CLI as `newsjack`.
+
+### Supported runtimes
+
+| Runtime                  | Install path                        |
+| ------------------------ | ----------------------------------- |
+| Claude Cowork / Claude Chat | plugin marketplace                |
+| Claude Code              | curl auto-detects or plugin command |
+| Codex                    | curl/npm auto-detects               |
+| OpenClaw                 | curl/npm auto-detects               |
+| Hermes                   | curl/npm auto-detects               |
+| ChatGPT web              | manual (load `skills/*/SKILL.md`)   |
 
 ### Claude Code plugin
 
