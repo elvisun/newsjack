@@ -94,15 +94,23 @@ After install, agents and skills should call the CLI as `newsjack`.
 
 ### Limited Mode: Claude.ai, ChatGPT, Claude Cowork
 
-Do not try to install the Newsjack CLI inside browser chat or restricted Cowork
-surfaces. Use the marketplace/upload/manual skill path instead.
+Run Newsjack right inside Claude.ai, ChatGPT, or Claude Cowork — no install, no
+CLI, no setup. Paste your startup URL or your news and you get a real PR
+strategist on the spot:
 
-Limited Mode keeps Newsjack's instruction layer for PR strategy, newsworthiness
-checks, pitch and angle generation, pitch critique, journalist-fit reasoning,
-fact-checking from pasted or searchable evidence, and best-effort manual news
-scans. It does not include saved monitors, scheduled runs, seen-state,
-deterministic freshness gates, full source ingestion, local artifacts, or
-cost-optimized multi-agent passes — set up a Full Mode harness for those.
+- **A PR strategy built around your audience** — who has to believe what, the
+  positioning that lands, and the news peg worth chasing.
+- **A newsworthiness score** that tells you, before you spend a day on it,
+  whether a story will actually get picked up.
+- **Story angles and pitches** drafted in your voice, plus a brutally honest
+  critique that catches the weak ones before a journalist does.
+- **Journalist-fit reasoning** so you pitch the right reporter, and
+  **fact-checking** against pasted or searchable evidence so nothing soft ships.
+
+Add the plugin once (below) and every one of these is a single message away.
+When you're ready to put it on autopilot — always-on monitoring, scheduled
+scans, and cost-optimized multi-agent research — that lives in Full Mode with the
+CLI harness and a local agent.
 
 For Claude.ai plugin-style setup:
 
