@@ -475,7 +475,10 @@ func launchSetupAgent(runtime string, plan setupLaunchPlan, prompt string, stdin
 }
 
 func setupAgentPrompt(scheduleRuntime string) string {
-	return "Use newsjack to set up monitoring for my company."
+	// Name the skill explicitly so every runtime (including hermes, which can't
+	// seed the prompt and only prints it for the user to paste) reliably invokes
+	// newsjack-monitor-setup instead of guessing at the right skill.
+	return "Use the newsjack-monitor-setup skill to set up newsjack monitoring for my company."
 }
 
 func printSetupContinuationPrompt(stdout io.Writer, runtime, prompt string) {
