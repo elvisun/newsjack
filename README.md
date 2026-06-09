@@ -92,9 +92,9 @@ newsjack install
 
 After install, agents and skills should call the CLI as `newsjack`.
 
-### Limited Mode: Claude.ai, ChatGPT, Claude Cowork
+### Limited mode: Running on Claude.ai, ChatGPT, Claude Cowork
 
-Run Newsjack right inside Claude.ai, ChatGPT, or Claude Cowork — no install, no
+Newsjack requires a local agent to run in full mode. If you are running on Claude Chat, ChatGPT, it'll automatically fallback to limited mode — no install, no
 CLI, no setup. Paste your startup URL or your news and you get a real PR
 strategist on the spot:
 
