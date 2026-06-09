@@ -1,0 +1,46 @@
+{
+  "run": "2026-06-09-pilot",
+  "study": "Fable 5 vs Opus 4.8 — story-angle quality, GPT-5.5 (meanest-editor) blind judge",
+  "judge_model": "gpt-5.5",
+  "generator_skill": "skills/angle-generator",
+  "judge_skill": "skills/meanest-editor",
+  "note": "One record per judgment. ordering encodes which model sat in slot A vs B; aggregate.py re-anchors winner and scores to model identity to cancel position bias.",
+  "records": [
+    {
+      "brand_id": 1,
+      "brand": "Notion",
+      "ordering": "ord1",
+      "A_model": "opus",
+      "B_model": "fable",
+      "verdict_file": "brand-01-notion/verdict-ord1-Aopus-Bfable.json",
+      "verdict": {
+        "scores": {
+          "A": {"news_value": 5, "distinctness": 4, "journalist_shape": 5, "grounding": 4, "anti_slop": 5, "proof_rigor": 5, "usefulness": 5},
+          "B": {"news_value": 4, "distinctness": 5, "journalist_shape": 5, "grounding": 3, "anti_slop": 4, "proof_rigor": 4, "usefulness": 4}
+        },
+        "verdict_A": "publishable",
+        "verdict_B": "workshopable",
+        "winner": "A",
+        "margin": "clear"
+      }
+    },
+    {
+      "brand_id": 1,
+      "brand": "Notion",
+      "ordering": "ord2",
+      "A_model": "fable",
+      "B_model": "opus",
+      "verdict_file": "brand-01-notion/verdict-ord2-Afable-Bopus.json",
+      "verdict": {
+        "scores": {
+          "A": {"news_value": 5, "distinctness": 5, "journalist_shape": 5, "grounding": 4, "anti_slop": 5, "proof_rigor": 5, "usefulness": 5},
+          "B": {"news_value": 4, "distinctness": 3, "journalist_shape": 4, "grounding": 3, "anti_slop": 4, "proof_rigor": 5, "usefulness": 4}
+        },
+        "verdict_A": "publishable",
+        "verdict_B": "workshopable",
+        "winner": "A",
+        "margin": "clear"
+      }
+    }
+  ]
+}

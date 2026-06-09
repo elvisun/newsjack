@@ -1,0 +1,356 @@
+{
+  "current_time": "2026-06-09T16:00:00Z",
+  "note": "Eval scenarios, not claims of real events. Each brand is a real, well-known company paired with a constructed but plausible company update. Both models receive the IDENTICAL update text and current time. Facts are the only input the generator sees.",
+  "brands": [
+    {
+      "id": 1,
+      "name": "Notion",
+      "sector": "software",
+      "size": "mid-large",
+      "fact": "Notion is shipping an offline-first mode and customer-managed encryption keys (CMEK) for enterprise. Facts: offline editing now works with no connection and syncs on reconnect; enterprise customers can hold their own encryption keys via AWS KMS; data residency options added for the EU and Australia; the company says this unblocks regulated buyers in finance and healthcare that previously could not adopt; Notion has ~100M users and four of the five largest US banks now run pilots; no pricing change for existing Enterprise plans."
+    },
+    {
+      "id": 2,
+      "name": "Liquid Death",
+      "sector": "consumer-cpg",
+      "size": "mid",
+      "fact": "Liquid Death is opening its first permanent physical store, a 'Country Club' flagship in Los Angeles. Facts: the store sells merch, limited-edition canned water, and runs in-store events; the company became a Certified B Corp this quarter; it says it has donated $4.2M to clean-water nonprofits since founding; canned water is sold in ~120,000 retail doors in the US; the brand is profitable on a contribution-margin basis but has not disclosed net profit; no new product line announced."
+    },
+    {
+      "id": 3,
+      "name": "Airbnb",
+      "sector": "travel",
+      "size": "mega",
+      "fact": "Airbnb is launching Airbnb for Teams, a business-travel product. Facts: company travel managers get a central dashboard, consolidated billing, and direct integration with Concur and Ramp for expenses; hosts can opt into a 'business-ready' badge requiring fast wifi, a dedicated workspace, and 24-hour check-in support; Airbnb says business trips are its fastest-growing segment, up 71% year over year off a small base; the feature is free for travelers; rollout starts in the US and UK."
+    },
+    {
+      "id": 4,
+      "name": "Ramp",
+      "sector": "fintech-software",
+      "size": "mid",
+      "fact": "Ramp is launching an AI agent that audits and renegotiates a company's software subscriptions. Facts: the agent scans spend, flags duplicate and unused SaaS seats, and drafts cancellation or renegotiation emails the finance team approves; in a 200-company beta it found an average of $342,000 in annual savings per company, mostly from unused seats and auto-renewals; Ramp processes over $80B in annualized purchase volume; the feature is included for existing customers at no extra cost; an enterprise tier with custom approval workflows is coming later this year."
+    },
+    {
+      "id": 5,
+      "name": "Oatly",
+      "sector": "consumer-food",
+      "size": "large",
+      "fact": "Oatly is rolling out a reformulated barista oat milk and a coffee-chain partnership. Facts: the new barista blend claims a 31% lower climate footprint per liter than its previous formula, verified by a named third-party LCA firm; it becomes the default non-dairy option at a 1,400-location regional coffee chain in the US Northeast; Oatly remains unprofitable and reported a narrowing operating loss last quarter; the company is closing one of its three US plants to cut costs; no price change at retail."
+    },
+    {
+      "id": 6,
+      "name": "Hugging Face",
+      "sector": "ai-developer-software",
+      "size": "mid",
+      "fact": "Hugging Face is open-sourcing a 1.8B-parameter on-device model and launching a paid enterprise hub tier. Facts: the model runs offline on a laptop or phone and is released under Apache 2.0; benchmarks put it near a model 4x its size on common reasoning evals (company's own numbers, not yet independently reproduced); the enterprise tier adds private model hosting, SSO, and audit logs at $50/user/month; the Hub now hosts over 2 million models; a named Fortune 100 manufacturer is cited as an early enterprise customer."
+    },
+    {
+      "id": 7,
+      "name": "Duolingo",
+      "sector": "consumer-edtech",
+      "size": "large",
+      "fact": "Duolingo is adding AI video calls with its characters and launching a chess course. Facts: paid Max subscribers can have live spoken video conversations with the character 'Lily' for conversation practice; a chess course launches free for all users; the company says daily active users grew 40% year over year to a new high; engagement on the new video feature in beta averaged 9 minutes per session; Duolingo is publicly traded and profitable; some educators have publicly criticized gamification as shallow learning."
+    },
+    {
+      "id": 8,
+      "name": "Whoop",
+      "sector": "consumer-hardware",
+      "size": "mid",
+      "fact": "Whoop is launching blood-pressure insights and an FDA-cleared ECG feature on its newest band. Facts: the ECG feature received FDA clearance for detecting atrial fibrillation; blood-pressure insights are launching as a non-medical 'wellness' estimate, not a diagnostic, and require a one-time calibration with a cuff; the features are gated behind the most expensive membership tier; Whoop is privately held and last valued at $3.6B; a cardiologist advisory board reviewed the features; competitors already ship FDA-cleared ECG."
+    },
+    {
+      "id": 9,
+      "name": "Going",
+      "sector": "travel-consumer-app",
+      "size": "small-mid",
+      "fact": "Going (formerly Scott's Cheap Flights) is launching an AI trip planner that turns a cheap fare alert into a full itinerary. Facts: when the app finds a mistake fare or deep discount, the planner drafts a day-by-day itinerary, hotel options, and a packing list; Going has ~2 million free members and a smaller paid Premium/Elite base; the planner is Premium-only; the company says paid members save an average of $550 per booked flight; no airline or hotel booking happens in-app yet, only planning and links out."
+    },
+    {
+      "id": 10,
+      "name": "Verdano",
+      "sector": "climate-b2b-startup",
+      "size": "tiny",
+      "fact": "Verdano, a 14-person startup, raised a $6M seed round for AI software that balances community-solar grids. Facts: round led by a climate-focused seed fund with two angel investors; the software predicts local solar generation and shifts flexible loads to cut grid strain; the company has three paying utility customers in pilot; founders are ex-Tesla Energy and ex-NREL; plans to hire 10 engineers. No revenue figure, no named utility customer, and no independent results disclosed yet."
+    },
+    {
+      "id": 11,
+      "name": "Patagonia",
+      "sector": "consumer-apparel",
+      "size": "large",
+      "fact": "Patagonia is making its Worn Wear repair program available in all US stores and launching mail-in repairs nationwide. Facts: customers can drop off any Patagonia item for repair at 70+ US stores or mail it in; basic repairs are free, complex ones charged at cost; the company says its resale platform Worn Wear has now resold over 500,000 used items; Patagonia is privately held and directs profits to environmental causes; no new apparel line announced; the company will not say what share of revenue resale represents."
+    },
+    {
+      "id": 12,
+      "name": "Figma",
+      "sector": "design-software",
+      "size": "large",
+      "fact": "Figma is launching Figma Make, a tool that turns a design into working front-end code, plus an AI design assistant. Facts: Make exports React and HTML/CSS from a Figma file; the AI assistant generates layouts from a text prompt; pricing adds a new 'Make' seat at $25/user/month on top of existing plans; Figma says it has over 4 million users and is used at most Fortune 500 companies; the launch follows the collapse of its acquisition by Adobe; no IPO timing disclosed."
+    },
+    {
+      "id": 13,
+      "name": "Chipotle",
+      "sector": "restaurant",
+      "size": "mega",
+      "fact": "Chipotle is rolling out Autocado, an avocado-processing robot, to 100 restaurants and holding menu prices flat for the year. Facts: Autocado roughly halves guacamole prep time in pilot kitchens; Chipotle says it will not raise menu prices in the coming year despite food-cost inflation; the chain has over 3,500 locations; it is also testing a robotic bowl-assembly system called the Digital Makeline; no jobs will be cut, the company says, with staff redeployed to the front line; labor-cost figures not disclosed."
+    },
+    {
+      "id": 14,
+      "name": "Glossier",
+      "sector": "beauty-dtc",
+      "size": "mid",
+      "fact": "Glossier is expanding from 600 to 1,400 Sephora doors across North America and launching its first fragrance line extension. Facts: the wholesale expansion includes US and Canada Sephora locations plus Sephora at Kohl's; Glossier says wholesale is now its fastest-growing channel after a decade as DTC-only; the brand was founded in 2014 out of a beauty blog; three new fragrance products launch alongside; the company is privately held and does not disclose revenue or profitability."
+    },
+    {
+      "id": 15,
+      "name": "Rivian",
+      "sector": "automotive-ev",
+      "size": "large",
+      "fact": "Rivian is opening its Adventure Network of fast chargers to all EVs and adding NACS plugs. Facts: non-Rivian EVs can now use 3,500+ Rivian chargers via the Rivian app; all new stalls will include both CCS and Tesla-style NACS connectors; Rivian says opening the network creates a new revenue stream and improves charger utilization; the company is publicly traded and not yet profitable; pricing for non-Rivian drivers is set at a premium to Rivian owners; no partnership with another automaker announced."
+    },
+    {
+      "id": 16,
+      "name": "Plaid",
+      "sector": "fintech-infra",
+      "size": "mid",
+      "fact": "Plaid is launching Pay by Bank, letting merchants accept account-to-account payments that bypass card networks. Facts: merchants pay a flat per-transaction fee instead of card interchange; Plaid says early merchants see fees up to 70% lower than cards on large transactions; the product uses instant bank verification and the new FedNow rails; Plaid connects to over 12,000 financial institutions; the company is privately held; no named launch merchant has gone on record."
+    },
+    {
+      "id": 17,
+      "name": "Calm",
+      "sector": "wellness-app",
+      "size": "mid",
+      "fact": "Calm is partnering with three national health insurers to offer its app as a covered benefit and is publishing a peer-reviewed clinical study. Facts: members of the three insurers get Calm Premium at no cost; a randomized study in a named journal found an 18% reduction in self-reported anxiety scores over 8 weeks among regular users; Calm has over 4 million paid subscribers; the study was funded by Calm but conducted by an independent university team; the insurer deal covers an estimated 25 million members; no revenue terms disclosed."
+    },
+    {
+      "id": 18,
+      "name": "Discord",
+      "sector": "consumer-social",
+      "size": "large",
+      "fact": "Discord is launching paid creator subscriptions and a revenue-share program for community servers. Facts: server owners can charge monthly fees for premium roles and content; Discord takes a 10% platform fee, below the 30% app-store standard; the company says it has over 200 million monthly active users; the feature targets the creator and gaming-community economy; Discord is privately held and reportedly preparing for an IPO; no creator-earnings data is available yet since the program is new."
+    },
+    {
+      "id": 19,
+      "name": "Klarna",
+      "sector": "fintech-bnpl",
+      "size": "large",
+      "fact": "Klarna says its AI assistant now handles two-thirds of customer-service chats and has cut average resolution time from 11 minutes to under 2. Facts: the assistant, built on a large language model, handled the equivalent work of 700 full-time agents in its first months; Klarna froze most hiring and its headcount fell about 20% over the year, partly through attrition; the company processes payments for 150 million consumers; Klarna is profitable and has filed to go public; the company will not say how many roles were cut versus left unfilled; some consumer advocates have raised concerns about AI handling disputes."
+    },
+    {
+      "id": 20,
+      "name": "Peloton",
+      "sector": "connected-fitness",
+      "size": "large",
+      "fact": "Peloton reported its first profitable quarter in three years and is expanding a low-cost bike-rental program nationwide. Facts: the company posted positive adjusted EBITDA and free cash flow for the quarter; the rental program bundles a bike and membership for one monthly fee with no commitment; subscriber churn fell to a record low; Peloton cut over $200M in annual costs under a new CEO; total members exceed 6 million; the company remains unprofitable on a net basis and carries significant debt."
+    },
+    {
+      "id": 21,
+      "name": "Brex",
+      "sector": "fintech-software",
+      "size": "mid",
+      "fact": "Brex is launching corporate cards and expense management in 50 countries with local-currency support. Facts: companies can now issue cards to employees in Europe, Asia, and Latin America with local reimbursement; Brex says global spend management is its top enterprise customer request; the company serves tens of thousands of businesses including many venture-backed startups; Brex is privately held and last raised at a $12.3B valuation; profitability not disclosed; it competes directly with Ramp and traditional corporate-card issuers."
+    },
+    {
+      "id": 22,
+      "name": "Substack",
+      "sector": "media-platform",
+      "size": "mid",
+      "fact": "Substack is launching native video and says its top creators collectively earned over $400M last year. Facts: writers can record, host, and monetize video and podcasts directly; the platform takes a 10% cut of subscription revenue; Substack says it has over 4 million paid subscriptions across all publications; the company has leaned into a 'media app' strategy with a TikTok-style feed; Substack is privately held and has had public funding struggles; individual creator earnings beyond the aggregate not disclosed."
+    },
+    {
+      "id": 23,
+      "name": "Instacart",
+      "sector": "grocery-delivery",
+      "size": "large",
+      "fact": "Instacart says its advertising business hit a $1B annual run rate and is rolling out AI-powered smart carts to more grocery chains. Facts: the Caper smart carts track items as shoppers add them and skip the checkout line; ads now come from over 6,000 consumer brands; Instacart is publicly traded and profitable; the company partners with more than 1,500 retail banners; smart carts are live in a few hundred stores with plans to expand; grocery-delivery order growth has slowed to single digits."
+    },
+    {
+      "id": 24,
+      "name": "Canva",
+      "sector": "design-software",
+      "size": "large",
+      "fact": "Canva is launching an enterprise suite with AI design generation and SSO, pushing into Adobe and Microsoft territory. Facts: Canva Enterprise adds brand controls, admin tools, single sign-on, and an AI tool that generates on-brand designs from a prompt; the company says it has over 220 million monthly users and 24,000 teams on paid plans; Canva is privately held, profitable, and last valued at $26B; it recently acquired an AI image-generation startup; named enterprise customers not disclosed in the announcement."
+    },
+    {
+      "id": 25,
+      "name": "Monzo",
+      "sector": "neobank",
+      "size": "large",
+      "fact": "Monzo is launching in the US after years of regulatory delays and reported its first full year of UK profitability. Facts: the US product offers checking accounts and budgeting tools through a partner bank; Monzo has over 9 million UK customers; the company posted its first annual pre-tax profit this year; a previous US attempt was abandoned after it failed to secure a national banking license; the US launch is invite-only at first; customer-acquisition cost and US targets not disclosed."
+    },
+    {
+      "id": 26,
+      "name": "Mindbody",
+      "sector": "fitness-marketplace",
+      "size": "mid",
+      "fact": "Mindbody is launching an AI scheduling assistant for boutique fitness and wellness studios. Facts: the assistant fills last-minute class cancellations by texting waitlisted members and suggests optimal class times from booking data; Mindbody powers booking for over 50,000 studios and salons; the company says no-show rates dropped 22% in a pilot; Mindbody is privately held after a take-private deal; pricing is bundled into existing software tiers; the company also owns ClassPass."
+    },
+    {
+      "id": 27,
+      "name": "Allbirds",
+      "sector": "footwear-dtc",
+      "size": "small-mid",
+      "fact": "Allbirds is relaunching with a new natural-materials shoe platform and reported its first quarter of gross-margin improvement under a turnaround plan. Facts: the new platform uses a sugarcane-and-wool blend the company says is more durable than its original wool runner; Allbirds closed underperforming stores and cut its product range by 40%; the company is publicly traded, unprofitable, and trades well below its IPO price; gross margin improved but it remains net-loss-making; a named retail wholesale partnership is part of the relaunch."
+    },
+    {
+      "id": 28,
+      "name": "Databricks",
+      "sector": "data-ai-infra",
+      "size": "mega-private",
+      "fact": "Databricks is open-sourcing a new foundation model and says it crossed $3B in annualized revenue. Facts: the model is released under an open license for enterprises to fine-tune on their own data; Databricks says revenue grew over 60% year over year; the company is privately held and last valued at $62B; it positions the model as an alternative to closed APIs for regulated enterprises; benchmark numbers are the company's own; the company has signaled an eventual IPO without a date."
+    },
+    {
+      "id": 29,
+      "name": "Hims & Hers",
+      "sector": "telehealth-dtc",
+      "size": "large",
+      "fact": "Hims & Hers is launching access to compounded GLP-1 weight-loss medications and a new lab-testing service. Facts: patients can get a compounded semaglutide prescription after a telehealth visit, at a fraction of branded-drug prices; the company added at-home blood testing to personalize treatment; Hims is publicly traded and recently turned profitable; the FDA has flagged risks with compounded versions of these drugs and branded manufacturers have pushed back; the company says a licensed provider reviews every prescription; the supply source for the compounded drug is not named."
+    },
+    {
+      "id": 30,
+      "name": "Skydio",
+      "sector": "drones-hardware",
+      "size": "mid",
+      "fact": "Skydio is launching an autonomous inspection drone that flies utility and infrastructure routes with no pilot. Facts: the drone docks, charges, and runs scheduled inspection flights of power lines and substations, sending defect reports automatically; Skydio exited the consumer-drone market two years ago to focus on enterprise and public-sector customers; the company says it has contracts with several US utilities; Skydio is privately held and US-made, positioning against Chinese drone makers facing import restrictions; no named utility customer is disclosed in the release."
+    },
+    {
+      "id": 31,
+      "name": "Warby Parker",
+      "sector": "eyewear-dtc",
+      "size": "large",
+      "fact": "Warby Parker is opening 40 new stores and expanding in-store comprehensive eye exams nationwide. Facts: the retail expansion brings its store count past 300; most new stores will offer optometrist-staffed eye exams, not just glasses; Warby is publicly traded and recently reached profitability; the company says retail customers spend more than online-only customers; it is also piloting a partnership to sell glasses through a national pharmacy chain; exam-revenue contribution not broken out."
+    },
+    {
+      "id": 32,
+      "name": "Bumble",
+      "sector": "dating-app",
+      "size": "large",
+      "fact": "Bumble is relaunching with AI-assisted matchmaking and a redesigned app under its returning founder-CEO. Facts: the AI feature suggests compatible matches and helps users write opening messages; the relaunch follows a period of declining paying users and a falling stock price; Bumble is publicly traded; the founder returned as CEO this year after stepping back; the company says the women-message-first model remains core; the paying-user trend after the relaunch is not yet reported; some users have criticized AI in dating as inauthentic."
+    },
+    {
+      "id": 33,
+      "name": "Faire",
+      "sector": "wholesale-marketplace",
+      "size": "mid",
+      "fact": "Faire is launching financing that lets independent retailers buy inventory now and pay in 60 days, interest-free. Facts: the marketplace connects over 700,000 independent retailers with 100,000+ brands; the financing is underwritten by Faire using the retailer's order history; Faire says small retailers cite cash flow as their top barrier to ordering; the company is privately held and last valued at $12.6B; default-rate and financing-cost terms not disclosed; brands are paid upfront while retailers pay later."
+    },
+    {
+      "id": 34,
+      "name": "Perplexity",
+      "sector": "ai-search",
+      "size": "mid",
+      "fact": "Perplexity is launching in-app shopping and a revenue-sharing program for publishers whose content it cites. Facts: users can research and buy products without leaving the app, with Perplexity earning a referral fee; the publisher program shares ad revenue when a publisher's article is used in an answer; Perplexity says it handles hundreds of millions of queries a month; the company has faced criticism and legal threats from publishers over content use; it is privately held and recently raised at a multi-billion valuation; publisher payout amounts not disclosed."
+    },
+    {
+      "id": 35,
+      "name": "Eight Sleep",
+      "sector": "sleep-hardware",
+      "size": "mid",
+      "fact": "Eight Sleep is launching blood-oxygen and snoring detection on its smart mattress cover and partnering with a sleep-medicine clinic on a study. Facts: the new sensors track SpO2 and snoring overnight and adjust the bed's temperature automatically; the features are software-gated behind the top subscription tier; Eight Sleep is privately held and sells a premium product costing several thousand dollars; the clinical study with a named sleep clinic is ongoing with no results yet; the company markets to athletes and biohackers; the features are wellness, not FDA-cleared diagnostics."
+    },
+    {
+      "id": 36,
+      "name": "Toast",
+      "sector": "restaurant-pos",
+      "size": "large",
+      "fact": "Toast is bundling lending and payroll into its restaurant platform and crossed 120,000 restaurant locations. Facts: Toast Capital offers cash advances repaid as a share of daily sales; the payroll product targets restaurants juggling tipped and hourly staff; Toast is publicly traded and recently reached profitability; the company processes tens of billions in annual restaurant sales; it says lending and fintech are higher-margin than its hardware business; default rates on advances not disclosed; some restaurant owners have complained about Toast's fees."
+    },
+    {
+      "id": 37,
+      "name": "Deel",
+      "sector": "hr-payroll-software",
+      "size": "large",
+      "fact": "Deel is launching an AI compliance tool that flags risks in global hiring and contractor classification. Facts: the tool checks worker classification, local labor law, and tax exposure across 150 countries as a company hires; Deel handles payroll and compliance for thousands of companies hiring internationally; the company is privately held and last valued at $12B; Deel is currently in a high-profile corporate-espionage lawsuit with a competitor; the AI tool is included for existing customers; accuracy and audit data for the tool not disclosed."
+    },
+    {
+      "id": 38,
+      "name": "Linear",
+      "sector": "developer-tool",
+      "size": "small-mid",
+      "fact": "Linear is launching Linear for Product and expanding beyond engineering teams. Facts: the new product adds roadmapping and stakeholder views aimed at product managers and designers, not just engineers; Linear is known for a fast, opinionated, keyboard-driven interface; the company says tens of thousands of teams use it, growing mostly through word of mouth with little marketing; Linear is privately held and deliberately small; no enterprise sales team is mentioned; pricing for the new tier not yet announced; exact customer count not given."
+    },
+    {
+      "id": 39,
+      "name": "On",
+      "sector": "athletic-footwear",
+      "size": "large",
+      "fact": "On is launching a nationwide subscription for its fully recyclable Cyclon running shoe. Facts: subscribers pay a monthly fee, run in the shoe, then mail it back to be ground down and remade rather than owning it; the Cyclon is made from a castor-bean-based material; On is publicly traded, profitable, and one of the fastest-growing athletic brands; the subscription was previously a limited pilot; the company says it wants to close the loop on shoe waste; recycling-rate and per-unit economics not disclosed."
+    },
+    {
+      "id": 40,
+      "name": "Wise",
+      "sector": "fintech-payments",
+      "size": "large",
+      "fact": "Wise is launching stablecoin settlement for cross-border business payments. Facts: businesses can hold and settle in a regulated stablecoin to move money across borders faster and cheaper than the correspondent-banking system; Wise moves over £30B in cross-border volume per quarter; the company is publicly listed and profitable; it frames the move as extending its mission of cheap, transparent transfers; regulatory approval varies by market and the feature rolls out region by region; the specific stablecoin and partner are not named in the release."
+    },
+    {
+      "id": 41,
+      "name": "Khan Academy",
+      "sector": "edtech-nonprofit",
+      "size": "mid",
+      "fact": "Khan Academy is rolling out its Khanmigo AI tutor to 30 more US school districts and publishing first classroom results. Facts: Khanmigo gives students step-by-step tutoring and gives teachers lesson-planning help; an internal study across pilot districts found students who used it regularly gained the equivalent of extra weeks of learning, by Khan's own measure; Khan Academy is a nonprofit and offers Khanmigo to teachers for free, funded by donors; the rollout reaches an estimated 1 million additional students; the study is not yet peer-reviewed; some educators question AI tutoring's effect on independent thinking."
+    },
+    {
+      "id": 42,
+      "name": "Reddit",
+      "sector": "social-media",
+      "size": "large",
+      "fact": "Reddit is launching Reddit Answers, an AI feature that summarizes discussions, and expanding paid data-licensing deals. Facts: Reddit Answers generates answers to questions by pulling from relevant threads with links back to communities; the company has signed AI-training data deals reportedly worth over $200M combined; Reddit is publicly traded and recently profitable; moderators have protested past monetization moves; the data deals are a major revenue driver alongside advertising; some users worry AI summaries will reduce traffic to communities; per-deal terms not all disclosed."
+    },
+    {
+      "id": 43,
+      "name": "Airtable",
+      "sector": "software",
+      "size": "mid",
+      "fact": "Airtable is repositioning as an AI app-building platform and launching agents that act on a company's data. Facts: users can build internal apps and now deploy AI agents that read records and take actions like updating statuses or drafting emails; Airtable is shifting its messaging from 'spreadsheet-database' to 'AI-native app platform'; the company is privately held and was last valued at $11B, down from a higher peak; it serves many enterprise teams; named customers and agent-reliability data not disclosed; pricing for the agent features not finalized."
+    },
+    {
+      "id": 44,
+      "name": "Sweetgreen",
+      "sector": "restaurant",
+      "size": "mid",
+      "fact": "Sweetgreen is expanding its Infinite Kitchen automated-assembly system to more locations and shared margin data. Facts: the Infinite Kitchen assembles bowls and salads on a conveyor with minimal staff; the company says automated locations run higher restaurant-level margins and faster throughput than traditional stores; Sweetgreen is publicly traded and not yet net-profitable; it plans to put the system in most new stores and retrofit some existing ones; total locations number in the low hundreds; exact margin figures given as a range, not precise; some worry about reduced staff hours."
+    },
+    {
+      "id": 45,
+      "name": "Mercury",
+      "sector": "fintech-banking",
+      "size": "mid",
+      "fact": "Mercury is launching personal/consumer bank accounts after years of serving only startups. Facts: Mercury Personal offers checking and savings to individuals, initially invite-only with a waitlist; Mercury became well known as a startup-banking alternative after the collapse of Silicon Valley Bank; banking services are provided through partner banks, not a Mercury bank charter; the company says it is profitable; it serves over 200,000 businesses; consumer-product pricing and deposit targets not disclosed; the move puts it against both neobanks and incumbent banks."
+    },
+    {
+      "id": 46,
+      "name": "REI",
+      "sector": "outdoor-retail-coop",
+      "size": "large",
+      "fact": "REI is expanding its trade-in and gear-repair program to all stores and issued a record member dividend. Facts: members can trade used gear for store credit and get repairs at any of REI's 180+ stores; the co-op issued its largest-ever annual member dividend this year; REI is a member-owned cooperative, not publicly traded; it says resale and repair support its sustainability commitments; the program previously ran online and in select stores; the share of sales from used gear not disclosed; the co-op has faced unionization activity at several stores."
+    },
+    {
+      "id": 47,
+      "name": "Anker",
+      "sector": "consumer-electronics",
+      "size": "large",
+      "fact": "Anker is launching a home battery and solar energy-storage system in the US. Facts: the system stores solar or off-peak grid power to run a home during outages and cut peak-rate bills; Anker is best known for phone chargers and power banks and is now moving into whole-home energy; the company says the system installs without major electrical rewiring; Anker is a large, profitable, publicly traded electronics maker; it competes with Tesla Powerwall and others; US pricing, installer network, and capacity specifics are partially disclosed; warranty terms not detailed."
+    },
+    {
+      "id": 48,
+      "name": "Whatnot",
+      "sector": "live-shopping",
+      "size": "mid",
+      "fact": "Whatnot says it crossed $3B in annual livestream-commerce sales and is expanding beyond collectibles into fashion and electronics. Facts: sellers run live video auctions and shoppers buy in real time; Whatnot takes a commission on sales; the platform started with trading cards and collectibles and is now adding new categories; the company is privately held and last valued at nearly $5B; it says live commerce is far larger in Asia and it is betting the US catches up; seller-earnings distribution and take-rate not fully disclosed."
+    },
+    {
+      "id": 49,
+      "name": "Replit",
+      "sector": "developer-tool",
+      "size": "mid",
+      "fact": "Replit is launching an AI agent that builds and deploys full applications from a plain-English description. Facts: the agent writes code, sets up a database, and deploys a working app without the user writing code; Replit is a browser-based coding platform used heavily in education; the company says it has tens of millions of users; it is privately held; it positions the agent for non-engineers and 'vibe coders'; reliability and how often generated apps work without fixes are not disclosed; pricing is usage-based on top of subscriptions."
+    },
+    {
+      "id": 50,
+      "name": "Helio",
+      "sector": "climate-space-startup",
+      "size": "tiny",
+      "fact": "Helio, an 11-person startup, raised a $7M seed round to launch small satellites that detect wildfires within minutes. Facts: the round was led by a deep-tech seed fund with two climate angels participating; the satellites carry infrared sensors to spot ignitions and alert agencies faster than current systems; the company has a memorandum of understanding with one state fire agency; founders are ex-SpaceX and ex-Planet Labs; no satellite is in orbit yet and there are no operational results; revenue, named agency customer, and launch date not disclosed."
+    }
+  ]
+}
