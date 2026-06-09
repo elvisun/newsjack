@@ -18,7 +18,7 @@ Three problems, separate lanes.
 
 ### 🛰️ Detect — surface what matters in your space
 
-- 📡 **Monitor your industry** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks
+- 📡 **Monitor your industry** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks ([see a sample run](docs/example-run.md))
 - 🗞️ **Track your coverage** — Google Alerts-style keyword tracking with LLM filtering for real features
 - 🔭 **Track competitors** — when they launch, raise, or stumble, you know
 - 🔍 **Verify the story is still fresh** — who broke it, who owns it, what oxygen's left
