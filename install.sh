@@ -1,15 +1,4 @@
 #!/bin/sh
-## Telemetry
-# newsjack.sh logs a privacy-limited curl_hit before serving this script:
-# timestamp, installer user agent, coarse Vercel country/region, referrer,
-# accept-language, query params, and a daily-salted SHA-256 IP hash. Raw IPs
-# are not stored.
-# TODO(stage 2/3): POST install_started/install_completed to
-# /api/install-event with the server-generated install_id once the served
-# script has access to it. NEWSJACK_NO_TELEMETRY=1 must skip those callbacks.
-# Plain `curl | bash` does not expose response headers to this script, so that
-# follow-up must embed the install_id in the served body or use another
-# explicit handoff.
 set -eu
 
 NEWSJACK_REPO="${NEWSJACK_REPO:-elvisun/newsjack}"

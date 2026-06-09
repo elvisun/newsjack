@@ -32,21 +32,29 @@ pnpm test
 
 ## Telemetry
 
-The installer funnel records a privacy-limited `curl_hit` event when curl, wget,
-HTTPie, or another installer-style user agent requests `/`.
+The site records privacy-limited request events for `newsjack.sh`:
 
-Set these in the Vercel project environment:
+- `site_visit` when browser-style traffic visits `/` and is redirected to GitHub
+- `install_request` when curl, wget, HTTPie, or another installer-style user
+  agent requests `/` and receives `install.sh`
+
+The code accepts these Vercel/Neon connection variables:
 
 | Variable | Purpose |
 | --- | --- |
-| `NEWSJACK_DATABASE_URL` | Cloud Postgres connection string. Default to Neon unless an existing Newsjack Postgres database already exists. |
-| `NEWSJACK_IP_HASH_SALT` | Secret salt for the daily SHA-256 IP hash. The code also includes the UTC date so hashes are only useful for same-day dedupe. Rotate the secret periodically. |
-| `NEWSJACK_INSTALL_EVENT_SECRET` | Shared secret for `POST /api/install-event`, sent as `Authorization: Bearer ...` or `x-newsjack-install-event-secret`. |
+| `NEWSJACK_DATABASE_URL` | Newsjack-specific override when set. |
+| `DATABASE_URL` | Standard Neon/Vercel connection string. |
+| `POSTGRES_URL` | Standard Vercel Postgres connection string. |
+| `POSTGRES_PRISMA_URL` | Alternate pooled Vercel Postgres connection string. |
+
+`NEWSJACK_IP_HASH_SALT` is optional. If it is missing, the server-only database
+URL is used as the hash secret for same-day IP dedupe. Raw IP addresses are not
+stored.
 
 Run the migration before enabling telemetry:
 
 ```bash
-psql "$NEWSJACK_DATABASE_URL" -f apps/site/db/migrations/0001_install_events.sql
+psql "$DATABASE_URL" -f apps/site/db/migrations/0001_install_events.sql
 ```
 
 Local smoke test:
@@ -57,15 +65,15 @@ pnpm dev
 curl -A "curl/8.0" -i "http://localhost:3000/?utm_source=local"
 ```
 
-The response should include `X-Newsjack-Install-Id`. If the database env vars
-are set and the migration has run, a `curl_hit` row should appear in
-`install_events`.
+If the database env vars are set and the migration has run, an
+`install_request` row should appear in `install_events`. Browser-style requests
+to `/` should create `site_visit` rows.
 
-Query last-24h funnel counts from the repo root:
+Query last-24h counts from the repo root:
 
 ```bash
-NEWSJACK_DATABASE_URL="..." node scripts/funnel-stats.mjs
+NEWSJACK_ENV_FILE="/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-main/.env" \
+  node scripts/funnel-stats.mjs
 ```
 
-For details on what is collected, retention, and the stage 2/3 callback
-scaffolding, see [docs/telemetry.md](docs/telemetry.md).
+For details on what is collected, see [docs/telemetry.md](docs/telemetry.md).

@@ -1,12 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import {
-  installIdRequestHeader,
-  installIdResponseHeader,
-  isUuid,
-} from "@/lib/install-telemetry";
-
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -21,17 +15,12 @@ async function readBundledInstaller() {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   const body = await readBundledInstaller();
   const headers = new Headers({
     "cache-control": "public, max-age=60, stale-while-revalidate=300",
     "content-type": "text/x-shellscript; charset=utf-8",
   });
-  const installId = request.headers.get(installIdRequestHeader);
-
-  if (isUuid(installId)) {
-    headers.set(installIdResponseHeader, installId);
-  }
 
   return new Response(body, { headers });
 }
