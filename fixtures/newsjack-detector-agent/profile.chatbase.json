@@ -1,0 +1,71 @@
+{
+  "company": "Chatbase",
+  "website": "https://www.chatbase.co",
+  "description": "AI agent platform for customer support that lets businesses build, train, and deploy custom AI chatbots and support agents on their own data.",
+  "topics": [
+    "AI customer support",
+    "customer service automation",
+    "AI chatbots",
+    "AI agents",
+    "conversational AI",
+    "customer experience",
+    "help desk software",
+    "enterprise AI adoption"
+  ],
+  "competitors": [
+    "Intercom Fin",
+    "Zendesk AI",
+    "Ada",
+    "Sierra",
+    "Decagon",
+    "Forethought",
+    "Voiceflow",
+    "Botpress"
+  ],
+  "search_terms": [
+    "AI customer support",
+    "customer service automation",
+    "AI chatbots",
+    "AI agents",
+    "conversational AI",
+    "customer experience",
+    "help desk software",
+    "enterprise AI adoption",
+    "AI customer service chatbot",
+    "custom AI chatbot on your data",
+    "no-code AI agent builder",
+    "AI ticket deflection",
+    "Intercom Fin",
+    "Zendesk AI",
+    "Ada customer service",
+    "Sierra AI agent",
+    "Decagon AI support",
+    "Forethought AI"
+  ],
+  "feed_urls": [
+    "https://www.techmeme.com/feed.xml",
+    "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en",
+    "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+  ],
+  "x_news": {
+    "enabled": true
+  },
+  "x_trends": {
+    "mode": "none",
+    "woeids": [],
+    "locations": []
+  },
+  "spokespeople": [
+    "Founder or CEO with AI agent expertise",
+    "Product lead for AI support agents",
+    "Customer success lead for support automation adoption"
+  ],
+  "standing": [
+    "AI customer support automation",
+    "building AI agents on company data",
+    "no-code chatbot deployment",
+    "support ticket deflection and ROI",
+    "retrieval-augmented generation for support",
+    "AI agent reliability and hallucination control"
+  ]
+}
