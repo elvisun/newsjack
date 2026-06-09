@@ -110,6 +110,26 @@ unbiased).
 
 ## Results
 
+### `runs/2026-06-09-full/` — 50 brands, 100 judgments (headline study)
+
+Full writeup: [`runs/2026-06-09-full/verdict.md`](runs/2026-06-09-full/verdict.md).
+
+**Fable 5 produced the stronger angle set.** Re-anchored to model identity it won
+**67/100 judgments** (Opus 33, 0 ties) and led **6 of 7 dimensions**
+(`proof_rigor` tied). Past the judge's position bias (slot A won 69% of decisive
+calls), the position-independent view is cleaner: **Fable won both orderings on
+24/50 brands, Opus on 7/50**, and all 19 split brands were textbook position bias
+— so where the judge had a genuine order-independent preference, **Fable won
+≈77%**. Fable's edge was finding an extra distinct, sharper-shaped angle (and even
+better headline-level hallucination discipline); Opus's counter-signal was
+evidentiary restraint, which earned its tied `proof_rigor`.
+
+| | Fable 5 | Opus 4.8 | Δ |
+|---|---|---|---|
+| overall dim mean | **4.60** | 4.36 | +0.24 |
+| robust wins (both orderings) | **24/50** | 7/50 | |
+| meanest-editor `publishable` | 78/100 | 54/100 | |
+
 ### `runs/2026-06-09-pilot/` — Notion, n=2 judgments (pilot)
 
 Pilot purpose: validate the full pipeline (subagent generators + `codex exec`

@@ -1,0 +1,4 @@
+Company: Hugging Face
+Current time: 2026-06-09T16:00:00Z
+
+Hugging Face is open-sourcing a 1.8B-parameter on-device model and launching a paid enterprise hub tier. Facts: the model runs offline on a laptop or phone and is released under Apache 2.0; benchmarks put it near a model 4x its size on common reasoning evals (company's own numbers, not yet independently reproduced); the enterprise tier adds private model hosting, SSO, and audit logs at $50/user/month; the Hub now hosts over 2 million models; a named Fortune 100 manufacturer is cited as an early enterprise customer.

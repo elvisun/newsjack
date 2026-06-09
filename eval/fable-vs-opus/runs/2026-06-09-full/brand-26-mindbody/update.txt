@@ -1,0 +1,4 @@
+Company: Mindbody
+Current time: 2026-06-09T16:00:00Z
+
+Mindbody is launching an AI scheduling assistant for boutique fitness and wellness studios. Facts: the assistant fills last-minute class cancellations by texting waitlisted members and suggests optimal class times from booking data; Mindbody powers booking for over 50,000 studios and salons; the company says no-show rates dropped 22% in a pilot; Mindbody is privately held after a take-private deal; pricing is bundled into existing software tiers; the company also owns ClassPass.
