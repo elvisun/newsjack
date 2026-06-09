@@ -80,6 +80,10 @@ Or review the script before running it:
 curl -fsSL https://newsjack.sh
 ```
 
+No surprises: that's the exact, unminified [`install.sh`](install.sh) in this
+repo — `newsjack.sh` serves this file and every release bundles it unchanged, so
+what you read here is what runs. Read it before you pipe it to a shell.
+
 The installer detects your agent runtime and installs the CLI-backed skills
 automatically.
 
