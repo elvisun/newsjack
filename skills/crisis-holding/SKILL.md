@@ -1,6 +1,6 @@
 ---
 name: crisis-holding
-description: "Draft crisis holding statements, journalist Q&A posture, and what-not-to-say guidance from confirmed incident facts, with a hard legal-counsel gate."
+description: "Draft crisis holding statements, journalist Q&A posture, and what-not-to-say guidance from confirmed incident facts, with a hard legal-counsel gate. Builds each statement through proven crisis-comms frameworks (holding-statement anatomy, SCCT, CAP order, the legitimate non-answer, bridge/flag/block)."
 when_to_use: "User describes a brewing or live incident involving product safety, data security, personnel, regulatory exposure, outages, viral backlash, executive statements, third parties, or a newsjacking landmine. Not for launches, marketing copy, or ordinary press releases."
 ---
 
@@ -17,9 +17,92 @@ Your default answers when the user asks:
 - Should we promise a timeline? No, unless the user has confirmed it.
 - Should we mention product, mission, values, prior donations, or brand voice? No.
 
-Voice: cut but never cruel. Specific over general. No hedging unless it protects an unverified fact. No LinkedIn positivity. No "we take this seriously" boilerplate. Honest, narrow, short.
+## Voice
 
-<!-- TODO: Reference skills/ETHICS.md and skills/WHY-NOT-SPAM.md when those doctrine files exist in this tree. They were not present at build time. -->
+- Cut, but never cruel. Specific over general.
+- No hedging unless it protects an unverified fact.
+- No LinkedIn positivity. No "we take this seriously" boilerplate.
+- Honest, narrow, short. End by making the next move obvious: page counsel, pull the post, confirm a fact, or ship the short line.
+
+## Doctrine
+
+If `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` exist in this repo, follow them. Either way, hold the doctrine that governs the first hour of any crisis: **tell the truth, tell it fast, tell it all.** Never speculate or lie — one falsehood forfeits all credibility. Speed beats polish — silence reads as guilt, so a pre-shaped holding statement exists precisely because you cannot write one from scratch when the story breaks in minutes. And release confirmed information in one disclosure rather than dribbling it out — staggered admissions are the death of a thousand cuts, worse than one bad day.
+
+## The Frameworks — how to build a crisis statement
+
+These are the generative engine. Take the confirmed facts and run them through the frameworks below. Each one converts raw incident facts into structured, defensible language. The running example fact throughout is: **"At 09:14 we confirmed a misconfigured server exposed customer email addresses and order histories; we took it offline at 09:40."**
+
+### 1. The Holding-Statement Anatomy — the five-slot skeleton
+
+A holding statement is a fact-light bridge that occupies the information vacuum, not an explanation. It has five slots, in order: **Acknowledge** the situation exists → **What is known** (confirmed facts only) → **Action being taken** → **When more comes** (a committed next-update time) → **Where to direct questions** (a named channel).
+
+Worked example, one fact through all five slots:
+> "We are aware of and actively investigating a security issue affecting some customer data. *(Acknowledge)* Earlier today a server misconfiguration exposed some customer email addresses and order histories; we took the affected system offline at 9:40 a.m. *(What's known + action)* Our security and engineering teams are determining the full scope. *(Action)* We'll issue our next update by 1:00 p.m. ET. *(When more comes)* Media: press@company.com. Affected customers: security@company.com. *(Where to direct)*"
+
+What's deliberately absent: no "how many," no cause narrative, no "who's responsible," no apology that admits a legal conclusion — all deferred to the full statement.
+
+### 2. SCCT — match the response to attributed responsibility
+
+Situational Crisis Communication Theory (Coombs). First classify the crisis by how much blame stakeholders will assign, then pick a response strategy. Get this wrong and you sound either defensive or guilty.
+
+- **Victim cluster** (low responsibility — natural disaster, rumor, tampering): you're also a victim.
+- **Accidental cluster** (minimal responsibility — technical-error accident or harm): unintentional.
+- **Preventable cluster** (strong responsibility — human error, organizational misdeed): you could have stopped it.
+
+Strategies, low → high accommodation: **deny** (only when truly not responsible) → **diminish** (excuse/justify, for accidental) → **rebuild** (compensation + full apology, for preventable). **Bolster** (reminding of past good works, thanking) is a *supplemental* booster layered on top — never a standalone for a high-responsibility crisis. As attributed responsibility rises, move toward rebuild; prior crisis history bumps you one cluster more severe.
+
+Worked example: the misconfiguration is a **preventable** crisis — you controlled the cause, so deny and diminish are off the table ("a sophisticated attacker" framing backfires because there was no attacker). Primary strategy is **rebuild**: "This happened because of a configuration error on our side. That's on us. We're notifying every affected customer directly and providing 24 months of free credit monitoring." A bolster booster may follow but cannot lead — layering it first on a self-caused crisis reads as deflection. That is the SCCT trap.
+
+### 3. CAP — order the message Concern, Action, Perspective
+
+When people may be harmed, the *order* is the discipline: emotion before facts. Lead with **Concern** (empathy for those affected) → then **Action** (what you're doing and to prevent recurrence) → then **Perspective** (context, scale, reassurance — last, because leading with it sounds defensive). The sibling rule **PEP** (never open with policy or numbers) makes the same point.
+
+Worked example, CAP-ordered:
+> **C:** "We know having your personal information exposed is upsetting, and we're sorry our customers are dealing with this."
+> **A:** "We took the affected server offline at 9:40 this morning, we're notifying everyone affected, and we've launched a full review of our configurations."
+> **P:** "The exposed data was limited to email addresses and order histories — no passwords or payment card numbers."
+
+Reverse it ("Only email addresses, no passwords...") and you sound like you're minimizing before you've acknowledged the harm — the exact failure CAP exists to prevent.
+
+### 4. The legitimate non-answer — "we don't know yet, here's when we will"
+
+In the first hours most questions can't be truthfully answered. "No comment" reads as guilt; speculation creates retraction risk. Instead give a *structured promise*: state what you don't know, why (investigation ongoing), and when you'll update. This converts an information gap into a credibility asset.
+
+Worked example, asked "How many customers were affected?" when you genuinely don't know:
+> "I'm not going to put a number out that I'd have to correct later. We're determining the exact count now and have committed to a full update by 1:00 p.m. What I can confirm: the exposed data was email addresses and order histories, and the system is offline."
+
+### 5. Bridge / Flag / Block — hostile Q&A control
+
+Three interview moves that keep a spokesperson accurate and on-message without going silent or lying. Every Q&A posture below is built from these.
+
+- **Bridge** — acknowledge the question, then transition to your confirmed key message ("What's most important here is…," "What I can tell you is…," "Let me put that in context…").
+- **Flag** — verbally tag the one thing you most want quoted ("If there's one thing your readers should know…").
+- **Block** — decline an unanswerable or improper question without sounding evasive, then immediately bridge ("I can't speak to that yet, but what I can tell you is…").
+
+Worked examples, one hostile question per move:
+- Q: "Isn't this proof your security is negligent?" → **Bridge:** "I understand why you'd ask. What's most important right now is that the affected system is offline and we're notifying every customer directly."
+- **Flag:** "If there's one thing your readers should know, it's that no passwords or payment data were exposed."
+- Q: "Will anyone be fired?" → **Block + bridge:** "It wouldn't be right to discuss personnel while the investigation is open. What I can tell you is we've launched a full review of how this configuration error happened."
+
+### 6. Proactive vs. reactive; holding vs. full
+
+Two strategic forks that decide *when* and *what kind* of statement you ship.
+
+- **Proactive vs. reactive:** proactive = you break the news yourself (stealing thunder measurably reduces reputational damage and lets you frame first). Reactive = you respond only after a leak surfaces it (weaker, defensive, vacuum already filled). Default proactive whenever the fact will surface anyway.
+- **Holding vs. full:** the *holding* statement (framework 1) buys time with confirmed facts and a next-update promise. The *full* statement follows once scope, cause, and remediation are confirmed, and carries the SCCT-rebuild apology and the CAP-ordered substance. Never collapse the two — a premature "full" statement built on unconfirmed facts is the #1 source of damaging retractions.
+
+Worked example: because the misconfiguration will appear in logs and likely leak, go **proactive** and publish first. Sequence **holding now → full at 1:00 p.m.**: the holding statement carries only the four confirmed facts; the full statement, once forensics close, adds the rebuild apology, the affected count, the cause narrative, and the CAP-ordered concern/action/perspective.
+
+### Mapping cheat-sheet
+
+| Need | Framework | Core move |
+|---|---|---|
+| First message in minutes | Holding anatomy (1) | Acknowledge / known / action / when-more / where |
+| Tone & accountability | SCCT (2) | Classify cluster → deny/diminish/rebuild + bolster |
+| Ordering the message | CAP (3) | Concern → Action → Perspective |
+| Unknown facts | Legitimate non-answer (4) | Gap + reason + committed update time |
+| Hostile interview | Bridge / Flag / Block (5) | Acknowledge → transition to confirmed message |
+| Strategic stance | Proactive vs reactive; holding vs full (6) | Steal thunder; never ship "full" on unconfirmed facts |
 
 ## Workflow
 
@@ -46,15 +129,15 @@ Do not draft until you have collected the following. If any required field is mi
 | Prior public statement | Optional. The exact text plus when it went out. |
 | Tone constraints | Optional. |
 
-If the user says "just write something, I'll fix it," push back once with this line:
+If the user says "just write something, I'll fix it," push back once:
 
 > I won't draft without the intake. Past-tense apologies, named individuals, and committed timelines are the three things that take companies down. I won't make them up. Walk me through the basics. Two minutes.
 
 If they push back again, draft only the short statement, mark every missing fact as `[YOU MUST CONFIRM]`, and refuse the medium and cautious-legal-pass variants.
 
-### 2. Run the legal-counsel gate
+### 2. Run the legal-counsel gate (HARD GATE)
 
-This is the core of the skill. Before drafting, require legal counsel if any trigger below fires while legal status is "no counsel yet," or if the trigger independently requires counsel.
+This is the core safety gate of the skill. Before drafting, require legal counsel if any trigger below fires while legal status is "no counsel yet," or if the trigger independently requires counsel.
 
 Triggers that require counsel:
 
@@ -96,64 +179,32 @@ This draft has been generated for counsel review. It has not been verified, redl
 
 ### 3. Draft only from confirmed material
 
-Rules for every statement:
+1. Use only known facts, actions taken so far, and committed actions. Omit any sentence that requires inference.
+2. Never assert anything from the unknown-or-unverified list. Route unknowns to the Q&A as a legitimate non-answer (framework 4).
+3. Never name a person unless they are listed in "people involved" with explicit consent.
+4. Never invent a deliverable, owner, deadline, contact, regulator notice, outside investigator, refund, donation, or apology.
+5. Use active voice. Past tense for completed actions, future tense only for committed actions.
+6. Put the org name at most twice in the medium statement. Once is better.
+7. In a landmine-newsjack incident, do not mention products, campaigns, mission, values, awards, prior donations, or brand voice.
+8. Do not leave placeholders in publishable output. If a fact is missing, omit the sentence or refuse the variant.
 
-1. Use only known facts, actions taken so far, and committed actions.
-2. Omit any sentence that requires inference.
-3. Never assert anything from the unknown-or-unverified list.
-4. Never name a person unless they are listed in "people involved" with explicit consent.
-5. Never invent a deliverable, owner, deadline, contact, regulator notice, outside investigator, refund, donation, or apology.
-6. Use active voice. Use past tense for completed actions and future tense only for committed actions.
-7. Put the org name at most twice in the medium statement. Once is better.
-8. In a landmine-newsjack incident, do not mention products, campaigns, mission, values, awards, prior donations, or brand voice.
-9. Do not leave placeholders in publishable output. If a fact is missing, omit the sentence or refuse the variant.
-
-Banned in crisis output. Never use any of these:
-
-- "out of an abundance of caution"
-- "isolated incident"
-- "our hearts go out" / "our thoughts and prayers"
-- "swiftly," "promptly," or "immediately" without a timestamp
-- "robust," "comprehensive," "industry-leading," "best-in-class," "world-class"
-- "we take [X] seriously"
-- "we are committed to" plus an abstract noun
-- "deeply committed," "deeply troubled," "deeply concerned," "deeply saddened"
-- "regret any inconvenience / confusion / distress"
-- "unfortunate situation" / "regrettable circumstances"
-- "rogue employee / actor / agent / individual"
-- "fully cooperating with authorities" unless confirmed
-- "external investigation" or "external review" unless the firm is named
-- "no comment"
-- "this does not reflect our values"
-- "moving forward" / "going forward"
-- em dashes
-- "It's not just [X], it's [Y]"
-- Title Case Mid Sentence
-- any bracketed placeholder in final publishable text
+**Anti-slop principle.** Crisis boilerplate exists to *feel* like a response while saying nothing, and journalists quote it to make the company look evasive. Demonstrate seriousness with named actions, not adjectives. Cut hedges that dodge timing ("swiftly," "promptly," "immediately" with no timestamp), filler superlatives ("robust," "comprehensive," "world-class"), performative sympathy ("our hearts go out," "deeply saddened"), assertions you can't defend yet ("isolated incident," "no customer data was compromised," "rogue employee," "fully cooperating with authorities"), self-exonerating clichés ("out of an abundance of caution," "this does not reflect our values"), "we take [X] seriously," "no comment," em dashes, and any bracketed placeholder in final text. Not exhaustive — judge by the principle: if a phrase asserts more than the facts support or substitutes feeling for action, cut it.
 
 ### 4. Build the three statements
 
-**Short statement, 50 words or fewer.** Cover, in order:
-
-1. Acknowledge the company is aware of the situation.
-2. Name the most specific defensible fact.
-3. Name the most specific action already taken.
-4. Optional: the next deliverable and window, only if confirmed.
-5. Optional: a point of contact, only if provided.
-
-If the facts are too thin to do this safely, use exactly this line and nothing more:
+**Short statement, 50 words or fewer.** Use the holding anatomy (framework 1): acknowledge → most specific defensible fact → most specific action already taken → optional next deliverable and window if confirmed → optional contact if provided. If the facts are too thin to do this safely, use exactly this line and nothing more:
 
 > We are aware of the situation and are reviewing. We will share more as soon as we can confirm it.
 
-**Medium statement, about 120 words.** Cover, in order:
+**Medium statement, about 120 words.** Order by the SCCT cluster and CAP (frameworks 2-3): if people may be harmed, lead with concern. Then, in order:
 
 1. A plain acknowledgment of the situation.
 2. What is known, framed by audience. Customers first for customer impact, regulators first for regulatory status, investors first for materiality (without forward-looking claims).
 3. What the company has done and is doing. Actions only. No values.
 4. What is not yet known, and the realistic window to know more. Never "soon."
-5. Where to direct inquiries. Use a real contact or URL only if provided.
+5. Where to direct inquiries. A real contact or URL only if provided.
 
-**Cautious-legal-pass statement.** This is the medium statement softened for counsel:
+**Cautious-legal-pass statement.** The medium statement softened for counsel:
 
 - Replace cause assertions with "appears to have" or "based on what we currently know."
 - Replace completed remediation with "have begun" or "are in the process of," only where that remains accurate.
@@ -165,7 +216,7 @@ This variant is not counsel approval. It is a starting point for counsel to redl
 
 ### 5. Build the Q&A scaffold
 
-Produce 10-20 journalist questions. Do not write a full press FAQ. The scaffold is posture guidance, not finished answers.
+Produce 10-20 journalist questions. Not a full press FAQ — posture guidance. Every posture is a bridge, flag, or block (framework 5); every unknown is a legitimate non-answer (framework 4).
 
 Cover these categories:
 
@@ -180,12 +231,7 @@ Cover these categories:
 | legal | Investigations, authorities, suits, regulators. |
 | business | Financial impact, churn, partners. |
 
-For each question, give:
-
-- The question in the reporter's voice.
-- A posture: answer, deflect to the statement, decline and name why, or refer to counsel.
-- A one-sentence rationale.
-- A one- or two-sentence draft response or holding line.
+For each question, give: the question in the reporter's voice; a posture (answer, deflect to the statement, decline and name why, or refer to counsel); a one-sentence rationale; and a one- or two-sentence draft response or holding line.
 
 For a landmine-newsjack incident:
 
@@ -196,26 +242,19 @@ For a landmine-newsjack incident:
 
 ### 6. Build the what-not-to-say list
 
-Run the user's draft, their prior statement, and your own statements against the banned list above.
+Run the user's draft, their prior statement, and your own statements against the anti-slop principle in step 3.
 
-For each hit, return:
-
-- The phrase.
-- The reason it is risky.
-- A suggested rewrite, if it is recoverable.
-
-Also flag:
+For each hit, return: the phrase, why it's risky, and a suggested rewrite if recoverable. Also flag:
 
 - Any named person not in "people involved."
 - Any positive assertion drawn from the unknowns.
 - Any committed action without a source in "actions taken so far" or "actions committed to."
 - Any product mention in a landmine newsjack.
-- Any "we always have" or "we have always been" preamble.
-- Any "moving forward, we will" close.
+- Any "we always have" / "we have always been" preamble, or "moving forward, we will" close.
 
 ### 7. Stamp decay
 
-Set the issued time to now, and set "valid until" by the rules below:
+Set the issued time to now, and set "valid until" by these rules:
 
 | Situation | Valid until |
 |---|---|
@@ -234,236 +273,58 @@ Things that change a holding statement: a new public fact, an inbound from a reg
 
 ## Output format
 
-Return clean, readable markdown. Do not add a preamble, and do not wrap the result in a JSON or YAML object. Set the draftable statements off clearly so the user can copy them under pressure.
-
-Use this shape:
+Return clean, readable markdown. No preamble, and do not wrap the result in JSON or YAML. Set the draftable statements off clearly so the user can copy them under pressure.
 
 > # Holding draft - [org name] - [issued at] - valid until [valid until]
 >
 > ## Short ([word count] words)
->
-> The short statement, set off in its own block so it is easy to copy.
+> The short statement, in its own block so it is easy to copy.
 >
 > ## Medium ([word count] words)
->
-> The medium statement, set off in its own block.
+> The medium statement, in its own block.
 >
 > ## Cautious legal pass ([word count] words)
->
-> The cautious-legal-pass statement, set off in its own block, followed by a bulleted "Deltas from medium" list.
+> The cautious-legal-pass statement, in its own block, followed by a bulleted "Deltas from medium" list.
 >
 > ## Q&A scaffold
->
-> A table with columns: Category, Question, Posture, Rationale, Draft response or holding line.
+> A table: Category, Question, Posture, Rationale, Draft response or holding line.
 >
 > ## What not to say
->
-> A table with columns: Phrase, Reason, Suggested rewrite.
+> A table: Phrase, Reason, Suggested rewrite.
 >
 > ## Decay
->
 > Issued, valid until, and the refresh trigger.
 >
 > ## Refusals
->
 > Any variants you refused and why.
 
 The refresh trigger is any new public fact, regulator inbound, second incident, leaked internal email, new named individual, or elapsed decay window.
 
 If legal counsel is required, the output is the STOP block only. Do not produce statements, a Q&A scaffold, or a what-not-to-say list in that case.
 
-## Rubric
+## Quality bar
 
-Every crisis-holding output is evaluated against this rubric before it is returned. Hard gates block output. Scored criteria tell the agent whether the draft is usable, needs revision, or should be reduced to a shorter safer statement.
+Before returning, check the draft against these. The hard gates block output; the rest tell you whether to ship, revise, or reduce to the short statement.
 
-Each criterion maps to a section above: Intake, Legal counsel gate, Drafting rules, Q&A scaffold, What-not-to-say, Decay, Pushback/refusal patterns, and Sample I/O.
+**Hard gates — block and fix:**
 
-### Hard gates
+- **Intake complete.** Every required field is present. If not, ask one question at a time and do not draft.
+- **Counsel gate honored.** If any auto-fire trigger is present and counsel is not engaged, return the STOP block only (unless `--counsel-review-mode`).
+- **No unconfirmed fact, no asserted unknown.** Every factual claim maps to the known facts; nothing from the unknown list appears in a statement.
+- **No invented commitment or unconsented name.** Promises, owners, deadlines, refunds, investigations, and names trace to the intake.
+- **No placeholder in publishable text.** Refuse the variant or ask for the missing fact.
+- **Landmine post is down.** If a live offending post exists, stop and tell the user to pull it first.
 
-Block the output and ask for correction when any of these fail.
+**Quality dimensions — judge each, plain imperative:**
 
-| Gate | Source section | Fail condition | Required behavior |
-|---|---|---|---|
-| Missing intake | Inputs / Intake | Any required field is missing. | Ask for missing fields one question at a time. Do not draft. |
-| Counsel required | Legal counsel gate | Any auto-fire trigger is present and legal status is "no counsel yet." | Return the STOP block only, unless `--counsel-review-mode` is set. |
-| Unconfirmed fact | Drafting rules | Statement asserts a fact absent from the known facts. | Remove the sentence or ask the user to confirm. |
-| Unknown asserted | Drafting rules | Statement asserts anything from the unknown-or-unverified list. | Remove it from statements; handle it in Q&A as unknown. |
-| Invented commitment | Drafting rules | Statement promises an action, owner, deadline, refund, donation, investigation, notification, or deliverable absent from actions taken or committed. | Remove it. |
-| Unconsented name | Inputs / Legal counsel gate | Statement names a person not listed in "people involved" with explicit consent, except the named current spokesperson. | Remove the name or trigger counsel review. |
-| Placeholder leak | Rubric / checks | Any publishable output contains a placeholder such as `{name}`, `[DATE]`, `[Company]`, or `<contact>`. | Refuse the variant or ask for the missing fact. |
-| Short-statement slop | Banned phrase list | The short statement contains any banned phrase. | Rewrite before returning. |
-| Landmine still live | Landmine newsjack | User says the offending post is still up. | Stop and tell the user to pull it before drafting. |
-| No output contract | Output format | The markdown rendering is missing. | Return it, unless the STOP block applies. |
-
-### Score
-
-Score each criterion 0-2.
-
-- **0** - Broken or missing
-- **1** - Present but weak, risky, vague, or incomplete
-- **2** - Solid and usable
-
-Total possible: 28 points.
-
-| Points | Verdict | Meaning |
-|---|---|---|
-| 24-28 | **usable for review** | Tight enough to hand to counsel or the comms lead. Still not legal approval. |
-| 18-23 | **revise before review** | Core structure works, but one or more risk surfaces are loose. |
-| 10-17 | **reduce to short statement** | Too much exposure. Keep only the short statement and Q&A posture. |
-| 0-9 | **do not draft** | Intake, counsel gate, or factual discipline failed. |
-
-### Criteria
-
-#### 1. Intake completeness
-
-Source: Inputs / structured prompt.
-
-**Score 0:** Required fields are absent or vague enough that the agent has to infer facts.
-**Score 1:** Required fields are present, but known facts, unknowns, or actions taken are mixed with aspirations or disputed claims.
-**Score 2:** Required fields are present, facts are separated from unknowns, and actions are concrete.
-
-#### 2. Legal-counsel gate
-
-Source: Legal counsel gate / legal auto-fire keywords.
-
-**Score 0:** A trigger is missed, softened, or treated as a normal drafting case.
-**Score 1:** Gate fires, but the trigger is vague or next steps are generic.
-**Score 2:** Gate fires or clears correctly, names the exact trigger and field, and gives the narrow next step.
-
-#### 3. Factual containment
-
-Source: Drafting rules / anti-hallucination doctrine.
-
-**Score 0:** Statements include invented facts, unnamed sources, inferred scope, or invented timelines.
-**Score 1:** Mostly grounded, but one sentence overreaches or implies more certainty than the intake supports.
-**Score 2:** Every factual claim maps cleanly to the known facts.
-
-#### 4. Unknown handling
-
-Source: Drafting rules / Q&A scaffold.
-
-**Score 0:** Unknowns are asserted, denied, or buried.
-**Score 1:** Unknowns are acknowledged, but the language is vague or defensive.
-**Score 2:** Unknowns are stated plainly and routed to Q&A with "decline and name why" or "refer to counsel."
-
-#### 5. Action and commitment discipline
-
-Source: Drafting rules / Pushback pattern "we need to deny this" / "blame third party".
-
-**Score 0:** Promises, deadlines, investigations, outside firms, regulator notices, refunds, or discipline are invented.
-**Score 1:** Actions are real, but owner/window language is too loose or uses "soon."
-**Score 2:** Only confirmed actions appear, and commitments preserve the user-provided owner or window.
-
-#### 6. Short statement fitness
-
-Source: Short statement structure.
-
-**Score 0:** More than 50 words, contains slop, or tries to litigate the incident.
-**Score 1:** Short enough, but lacks either a specific confirmed fact or a specific confirmed action.
-**Score 2:** 50 words or fewer, plain, defensible, and usable for inbound press.
-
-#### 7. Medium statement fitness
-
-Source: Medium statement structure.
-
-**Score 0:** Reads like a press release, values statement, apology essay, or legal memo.
-**Score 1:** Structure is present, but audience priority or unknowns are mishandled.
-**Score 2:** Around 120 words, audience-led, action-focused, and free of brand positioning.
-
-#### 8. Cautious-legal-pass quality
-
-Source: Cautious-legal-pass rules.
-
-**Score 0:** Merely duplicates the medium statement or adds meaningless hedges.
-**Score 1:** Softens some assertions, but misses cause, remediation, third-party, or commitment language.
-**Score 2:** Rewrites the medium statement with targeted qualifiers and lists every delta from the medium.
-
-#### 9. Q&A scaffold usefulness
-
-Source: Q&A scaffold.
-
-**Score 0:** Provides a generic FAQ or full answers that invent facts.
-**Score 1:** Includes relevant questions, but categories or postures are thin.
-**Score 2:** 10-20 realistic journalist questions, sorted by category, with posture, rationale, and a defensible holding line.
-
-#### 10. What-not-to-say specificity
-
-Source: What-not-to-say list / banned phrase list.
-
-**Score 0:** Lists generic advice or misses banned phrases in the draft.
-**Score 1:** Catches obvious phrases, but reasons or rewrites are vague.
-**Score 2:** Flags exact risky phrases, explains why each is risky, and gives a recoverable rewrite when one exists.
-
-#### 11. Decay discipline
-
-Source: Decay.
-
-**Score 0:** No issued time, valid-until time, or refresh trigger.
-**Score 1:** Decay exists but uses the wrong window for urgency, data-security regulation, or landmine newsjacking.
-**Score 2:** Correct window is applied and refresh triggers are concrete.
-
-#### 12. Landmine-newsjack handling
-
-Source: Trigger / landmine recovery / Example 3.
-
-**Score 0:** Mentions product, campaign, donations, values, or a follow-up activation.
-**Score 1:** Removes product copy but still lets the brand reframe the moment.
-**Score 2:** Pull-post-first if live, short contrite language, no product or narrative recovery, 30-minute decay.
-
-#### 13. Voice and anti-slop
-
-Source: Banned in all crisis output / anti-slop doctrine.
-
-**Score 0:** Uses templated sympathy, corporate filler, passive distancing, or AI-signature structure.
-**Score 1:** Mostly clean, with one or two phrases that need tightening.
-**Score 2:** Narrow, active, direct, and free of banned phrases and performative positivity.
-
-#### 14. Output contract
-
-Source: Outputs / Output format.
-
-**Score 0:** Missing the markdown rendering, or returns prose around the artifact.
-**Score 1:** The rendering exists but fields, order, or empty sections are inconsistent.
-**Score 2:** Clean readable markdown with word counts, deltas, tables, decay, and refusals.
-
-### Banned phrase checks
-
-Soft-fail and rewrite any statement containing these. Hard-fail if they appear in the short statement.
-
-- out of an abundance of caution
-- isolated incident
-- our hearts go out / our thoughts and prayers / hearts go out
-- deeply committed / deeply troubled / deeply concerned / deeply saddened
-- we take [X] seriously
-- we are committed to transparency / integrity / excellence / our customers / our employees
-- swiftly / promptly / immediately without a timestamp
-- robust / comprehensive / industry-leading / best-in-class / world-class
-- regret any inconvenience / confusion / distress
-- unfortunate situation / regrettable circumstances
-- rogue employee / rogue actor / rogue agent
-- fully cooperating with authorities
-- external investigation / external review (unless the firm is named)
-- no comment
-- this does not reflect our values
-- moving forward / going forward
-- It's not just [X], it's [Y]
-
-### Legal auto-fire keyword checks
-
-Substring-match case-insensitively across the incident summary, known facts, unknowns, and regulatory exposure. Any hit fires the legal-counsel gate.
-
-- death, fatal, killed, died, hospitaliz, serious injury, bodily harm
-- harassment, assault, abuse, discriminat
-- fraud, theft, embezzl, misappropriat
-- SEC, FDA, OSHA, FTC, CPSC, DOJ, EPA, CFPB, EU Commission, regulator
-- GDPR, CCPA, HIPAA, DPA, data subject, PII, personally identifiable
-- CSAM, child, minor
-- ransomware, breach, exfiltrat, leaked
-- recall, hazard, defect
-- indict, subpoena, warrant, criminal
-- immigration, ICE, deport
-- weapons, defense, export control, export-control
-- class action, lawsuit, suit, litigation
+- **Contain the facts.** Say less than you're tempted to; every sentence must be defensible from the intake.
+- **Choose the right SCCT strategy.** Don't deny a self-caused crisis; don't lead with bolster on a preventable one.
+- **Order by CAP.** Concern before facts when people may be harmed; perspective last.
+- **Make the short statement usable.** 50 words or fewer, one confirmed fact, one confirmed action, no slop.
+- **Make the medium statement audience-led.** Around 120 words, action-focused, no brand positioning or apology essay.
+- **Make the cautious legal pass real.** Targeted qualifiers on cause/remediation/third-party, every delta listed — not just hedged duplication.
+- **Make the Q&A scaffold work.** 10-20 realistic questions, sorted by category, each a clear bridge/flag/block with a defensible line.
+- **Stamp decay correctly.** Right window for urgency, data-security regulation, or landmine; concrete refresh triggers.
 
 ## Examples
 
@@ -507,13 +368,7 @@ Next steps:
 If you need draft language for counsel to review, re-invoke with `--counsel-review-mode`.
 ```
 
-What the skill caught in the unsafe draft:
-
-- "isolated" is unverifiable.
-- "small number" is unsupported because total scope is unknown.
-- "out of an abundance of caution" is a banned hedge.
-- "comprehensive investigation" is invented.
-- "fix within 24 hours" is invented.
+What the skill caught in the unsafe draft: "isolated" is unverifiable; "small number" is unsupported because total scope is unknown; "out of an abundance of caution" is a banned hedge; "comprehensive investigation" and "fix within 24 hours" are invented.
 
 ### Example 2: Data security, counsel engaged
 
@@ -538,7 +393,7 @@ The unsafe draft the user considered:
 
 > Loomwork takes customer security seriously. Out of an abundance of caution, we promptly forced password resets after an isolated incident. No customer data was compromised, and we have launched a robust external investigation.
 
-The skill returns clean markdown:
+The skill returns clean markdown. This crisis is a **preventable** cluster (a compromised internal key on the company's side), so the medium statement leans toward rebuild and orders by CAP — known facts and remediation, with no minimizing claim:
 
 ---
 
