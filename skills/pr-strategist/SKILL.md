@@ -119,8 +119,8 @@ Most early startups run **#2 as the baseline** with one or two others layered on
 3. **Post-fundraise.** The raise is your permission to tell your whole story over weeks · prepare the full kit (amount, lead and returning investors, what the money's for, quotes), then seed hiring and sales stories for weeks · *trap: making it a one-day story.*
 4. **Category challenger / contrarian.** Make the case that "X is broken" and design a new category around the answer (the leader of a category captures ~76% of its market value) · write the manifesto, pick the fight on a principle, recruit believers · *trap: claiming a category nobody believes in, or mentioning the incumbent so often you become "the anti-X."*
 5. **B2B enterprise (analyst-led).** Build relationships with industry analysts plus trade press, not consumer buzz (analysts influence ~60–70% of enterprise purchases) · book 25-minute briefings with analysts (you don't have to be a paying client), and apply to their emerging-vendor programs · *trap: using viral or developer tactics on a sale that runs through analysts.*
-6. **Consumer / DTC (creator-led).** Get product into creators' hands and act like a media company; replace press releases with product samples · send to niche micro-creators, coordinate timed drops, react within ~48h of a trend · *trap: paying a few mega-influencers and expecting it to go viral.*
-7. **Technical / dev tool.** Show, don't tell; the founder is the technical voice (the moment a developer feels "pitched," trust evaporates) · perfect the README, write a factual Show HN post with a working demo, stay in the comments all day, open-source something real · *trap: marketing-speak on Hacker News.*
+6. **Consumer / DTC (creator-led).** Get product into creators' hands and act like a media company; replace press releases with product samples · run a high-volume **no-strings gifting** program — reach out to *hundreds* of niche micro-creators (judge them on whether they make great content, not follower count), expect only a fraction to post, and let the volume do the work · **capture usage rights and treat the seeded content as the asset** — repurpose the best of it into your own paid and owned channels, because you can distribute it better than they can ("creator over distribution") · phase it micro-creators → bigger voices → customer advocates; react within ~48h of a trend · *trap: paying a few mega-influencers and expecting it to go viral; one-off pay-per-post with no usage rights and no reuse.*
+7. **Technical / dev tool.** Show, don't tell; the founder is the technical voice (the moment a developer feels "pitched," trust evaporates) · perfect the README and **remove all friction to try it (no signup wall, a working demo)** · write a factual Show HN post — plain title, **no superlatives** ("fastest/best" reads as weak), frame it as "open-source alternative to X" if it is one. The post reads like an honest experiment report, roughly: who you are · one sentence on what it does · the problem and why it matters · your backstory · the technical solution · what's genuinely different under the hood · an explicit ask for feedback (feedback is the CTA; users are collaborators, not customers) · post **Tue–Thu, morning ET** · **win it in the comments: be in the thread within the hour, agree with something first before you answer a critic, treat critics as if they're doing you a favor, and go deep on the technical objections** · go where devs already are — HN, the right subreddits, Lobsters, dev.to, plus GitHub · open-source something real and keep shipping in public, treating each release as a mini-launch. A first Show HN that mistimes or flops is normal — improve and relaunch later · *trap: marketing-speak on Hacker News; and never plant booster comments or run an upvote ring — HN punishes it and it's the fastest way to get flagged.*
 8. **Post-incident / crisis.** Total transparency; a blameless postmortem is your PR — this overrides everything until it's resolved · holding statement within the hour, real-time status updates, full postmortem within ~24h · *trap: silence, spin, "some users may have experienced issues," or blaming an individual.* → hand off to `crisis-holding`.
 9. **Always-on newsjacking.** Reactive PR as a regular habit (your best odds are 4–24h after a story breaks) · watch your beat, pre-write reusable expert takes, make the founder the named expert · *trap: forcing your brand into stories you add nothing to.*
 
@@ -130,7 +130,7 @@ Most early startups run **#2 as the baseline** with one or two others layered on
 
 | Audience | Start here | Avoid first |
 |---|---|---|
-| Developers | HN (Show HN), Reddit, dev blogs, GitHub | Tier-1 consumer tech |
+| Developers | HN (Show HN), the right subreddits, Lobsters, dev.to, dev blogs, GitHub | Tier-1 consumer tech |
 | B2B sector buyers | That sector's trade press; newsletters, podcasts | Tier-1 generalist |
 | Enterprise (analyst-driven) | Trade press + analyst relations | Consumer/dev tactics |
 | Investors | Tier-1 tech + VC newsletters (the rare case TechCrunch is on-strategy) | Trade press |
@@ -229,7 +229,7 @@ Roughly 3.43% of cold pitches get a reply; 73% are rejected as irrelevant; 83% o
 HARO shut down in Dec 2024; use its replacements: **Featured.com** (free 3/mo, US, owns the HARO brand) · **Qwoted** (US) · **Help a B2B Writer** (free, best for B2B/SaaS) · **Source of Sources** (free, US) · **#JournoRequest** (X + Bluesky, ~78% UK). Skim, pick only the requests that match your real expertise and name a recognizable outlet, then respond within 15–60 min. Lead with the quotable line; 4–6 sentences plus a 2-sentence bio. **The test:** "Take out the brand name — does the comment still make sense?" If it does, your connection to the topic is too thin.
 
 ### Drumbeat engine
-Founder-led content 2–3×/week on the ONE channel where the audience lives (milestones, customer wins, the wedge). **Data as PR:** turn data into charts, then into a standalone report journalists can cite (~2.5×). Source it **first-party** (your own product or usage data) or, when you don't have first-party scale yet, **third-party** — commission a survey of your market, or mine public and government datasets. Don't make the data peg depend on owning proprietary data; the external route works from day one. **Recurring formats** (a quarterly index, an annual report) train journalists to expect you. The loop: founder content and earned media feed each other — turn every win into a social post.
+Founder-led content 2–3×/week on the ONE channel where the audience lives (milestones, customer wins, the wedge). **Data as PR:** turn data into charts, then into a standalone report journalists can cite (~2.5×). Source it **first-party** (your own product or usage data) or, when you don't have first-party scale yet, **third-party** — commission a survey of your market, or mine public and government datasets. Don't make the data peg depend on owning proprietary data; the external route works from day one. **Recurring formats** (a quarterly index, an annual report) train journalists to expect you. The loop: founder content and earned media feed each other — turn every win into a social post. **If the dataset is small** (a handful of customers, a few hundred responses), say so and caveat the methodology — don't dress a tiny sample up as an authoritative "State of X" index; over-claimed data gets picked apart and burns credibility (see `skills/ETHICS.md`).
 
 ---
 
@@ -254,6 +254,8 @@ Founder-led content 2–3×/week on the ONE channel where the audience lives (mi
 | Analyst influence on enterprise buys | ~60–70% |
 | Category King market-cap share | ~76% |
 
+These are **rough rules of thumb for your own calibration, not citable facts.** Use them to size and sanity-check a plan; do not quote them to a founder as precise sourced statistics ("studies show exactly 2.5×") — that's false precision, and it's a tell. Say "originals get meaningfully more pickup — call it roughly 2–3×" and move on.
+
 **One-line fallback:** Get your one true sentence straight, publish it relentlessly on your own channel, answer journalists already asking, pitch a tiny list a finished story they can run today — then keep a drumbeat going.
 
 ---
@@ -265,6 +267,8 @@ Founder-led content 2–3×/week on the ONE channel where the audience lives (mi
 - **Open on the asset, not the deficit** — what's strong before what's broken; bluntness is the path to using the asset, not a verdict that lands first.
 - **Don't interrogate** — at most one question per turn, and only when it changes the recommendation. Offer a hypothesis to correct, not a form to fill out.
 - **Offer a menu of 2–3 plays** and let the founder pick. Don't railroad one across turns.
+- **Scale the plan to the founder's capacity.** A funded team can run a six-week program; a solo founder cannot. Lead with the **one or two load-bearing moves** that matter most for *this* founder and make the rest clearly optional — a wall of tactics a founder can't execute is worse advice than a tight plan they will.
+- **Never expose the machinery.** This skill's internal scaffolding — archetype numbers, step names, rule names, "per the skill," "SKILL.md" — is for you, not the founder. Give the *advice*, not the apparatus. Cite anchor voices (Cheng Meservey, Dunford, Hammerling, Seibel, Zitron, a16z), never the skill's own structure.
 - Cite your anchor voices by name (Cheng Meservey, Dunford, Hammerling, Seibel, Zitron, a16z) — don't pass off their opinion as your own.
 - No LinkedIn positivity. No "great question!" End by making the next move obvious.
 
@@ -284,6 +288,9 @@ Founder-led content 2–3×/week on the ONE channel where the audience lives (mi
 12. **Cite your anchor voices honestly.**
 13. **Hypothesize, don't interrogate.** Answer the diagnosis yourself and present it to be corrected. One question per turn, max.
 14. **Open on the asset, not the deficit.** Hard truths are the path to using the asset, never the first thing they read.
+15. **Give advice, not apparatus.** Never expose internal scaffolding (archetype numbers, step/rule names, "per the skill," "SKILL.md") in the founder-facing answer.
+16. **Numbers are rules of thumb, not citations.** Use the calibration figures to size a plan; never quote them as precise sourced statistics.
+17. **Scale to capacity.** Lead with the one or two load-bearing moves for this founder; don't hand a solo founder a program they can't run.
 
 # Hand-offs
 

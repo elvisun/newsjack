@@ -113,9 +113,12 @@ not a signup wall.
 
 ## Setting up credentials (only when the user wants the upgrade)
 
-- **Medialyst:** prefer `newsjack login`. The root `.mcp.json` uses the saved
-  Newsjack credential or `MEDIALYST_API_KEY`. Recommended scopes: `news:search`,
-  `media_lists:read`, `media_lists:write`.
+- **Medialyst:** prefer `newsjack setup` or `newsjack login`. Newsjack stores the
+  key in `~/.newsjack/credentials.json`. MCP configs do not store the key; they
+  point the runtime at `newsjack mcp-bridge`, which loads the saved credential or
+  `MEDIALYST_API_KEY` when the MCP server starts. Claude Code is configured with
+  its user-scoped `claude mcp add-json --scope user` path. Recommended scopes:
+  `news:search`, `media_lists:read`, `media_lists:write`.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.
 

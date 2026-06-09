@@ -222,6 +222,33 @@ harness/scripts/run-ci-installer.sh \
 `--env-file`. The script validates that repo-local env files are ignored by git
 and never prints secret values. CI should keep using the default no-token path.
 
+## Live Medialyst MCP Check
+
+Use this only when you intentionally want to spend Medialyst credits. It runs one
+clean container per runtime, installs from a sanitized local source bundle with
+the repo `.mcp.json` removed, runs `newsjack setup` from `/tmp`, saves the
+Medialyst key from setup input, checks that the selected runtime got a
+`medialyst` MCP entry, then runs one live `news_search` query without
+`MEDIALYST_API_KEY` in the command environment.
+
+```bash
+harness/scripts/run-live-medialyst-mcp.sh \
+  --image newsjack-agent-harness:all \
+  --with-local-env
+```
+
+To narrow the run:
+
+```bash
+harness/scripts/run-live-medialyst-mcp.sh --runtime claude --with-local-env
+```
+
+Implementation detail: the runtime MCP config should contain only the bridge
+command, not the API key. The bridge is `newsjack mcp-bridge`; it reads
+`~/.newsjack/credentials.json` or `MEDIALYST_API_KEY` and passes the bearer token
+to Medialyst when the MCP server starts. Claude Code is verified through its
+special user-scoped `claude mcp add-json --scope user` setup path.
+
 ## Auto-Update Observation
 
 Installed binaries auto-update from the hosted `main` channel before normal

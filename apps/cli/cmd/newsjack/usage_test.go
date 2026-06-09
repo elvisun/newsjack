@@ -77,6 +77,8 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"auth set-x",
 		"https://medialyst.ai/agents",
 		"live news search, media database, find journalists",
+		"newsjack mcp-bridge",
+		"~/.newsjack/credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
 			t.Fatalf("newsjack help missing %q:\n%s", want, help.String())
@@ -92,6 +94,8 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack auth set-medialyst --key <mlst_...>",
 		"newsjack auth set-x --bearer-token <token>",
 		"https://medialyst.ai/agents",
+		"credentials.json",
+		"newsjack mcp-bridge",
 	} {
 		if !strings.Contains(help.String(), want) {
 			t.Fatalf("newsjack help auth missing %q:\n%s", want, help.String())

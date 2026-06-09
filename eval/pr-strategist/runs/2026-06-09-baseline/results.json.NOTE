@@ -1,0 +1,1 @@
+results.json (full per-record transcripts) omitted from the commit to keep the repo light; see results.summary.json for the aggregated numbers. Regenerate with scripts/run.js + aggregate.py.

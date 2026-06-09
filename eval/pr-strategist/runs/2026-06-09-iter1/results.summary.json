@@ -1,0 +1,577 @@
+{
+  "ALL": {
+    "n": 36,
+    "candidate_vs_gold": {
+      "win": 35,
+      "tie": 0,
+      "loss": 1,
+      "win_rate": 0.972,
+      "tie_rate": 0.0,
+      "loss_rate": 0.028,
+      "tie_or_better_rate": 0.972
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.972,
+      "positioning": 4.889,
+      "news_peg": 4.833,
+      "channel_cadence": 4.944,
+      "tactics_quality": 4.944,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.278,
+      "positioning": 3.5,
+      "news_peg": 3.833,
+      "channel_cadence": 4.222,
+      "tactics_quality": 4.556,
+      "judgment_refusals": 4.556,
+      "fit_actionability": 3.861
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.694,
+      "positioning": 1.389,
+      "news_peg": 1.0,
+      "channel_cadence": 0.722,
+      "tactics_quality": 0.388,
+      "judgment_refusals": 0.444,
+      "fit_actionability": 1.139
+    },
+    "mean_total_candidate": 4.94,
+    "mean_total_gold": 4.115,
+    "judge_identification": {
+      "correct": 6,
+      "wrong": 29,
+      "unsure": 1,
+      "accuracy_of_decided": 0.171,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 19,
+      "B_wins": 17,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly long; could be tighter, but no strategic defect.",
+        1
+      ],
+      [
+        "Slightly verbose with some name-dropping (Meservey, Dunford) that adds little operational value beyond the substance already stated",
+        1
+      ],
+      [
+        "Original-research uplift framed as a specific '2-3x' multiplier \u2014 directionally right but presented with false precision",
+        1
+      ],
+      [
+        "Slightly over-asserts that a sub-$100M-style seed 'may eventually' earn TechCrunch via trade trickle-up; fine, but could have killed tier-1 as a goal even more flatly.",
+        1
+      ],
+      [
+        "The 30-customer 'State of Mid-Market Close' report needs a strong honesty caveat about sample size; B does flag transparency and offers the 100+ commissioned survey as a sounder asset, so this is minor and not an anti-pattern (the survey is a sample, not a media blast)",
+        1
+      ],
+      [
+        "Slightly heavier/longer than needed for a solo founder with limited bandwidth \u2014 risk of overwhelming execution, though the week-by-week sequencing mitigates it",
+        1
+      ],
+      [
+        "Slightly underspecifies launch timing (B's Tue-Thu morning ET is a concrete tactic A omits)",
+        1
+      ],
+      [
+        "Omits a concrete launch-day timing recommendation (e.g., Tue-Thu morning ET) that A correctly includes \u2014 a small but real tactical miss",
+        1
+      ],
+      [
+        "Slightly over-scaffolded structure could bury the single most important next action for two busy engineers, though content is sound",
+        1
+      ],
+      [
+        "Suggests posting on 'launch day' line is fine, but slightly under-specifies the optimal HN posting window (Tue-Thu morning ET) that B nails explicitly \u2014 a real tactical detail.",
+        1
+      ],
+      [
+        "Could have been more explicit that feedback/users-as-collaborators is the CTA, not installs \u2014 a subtle but correct HN framing B gets right.",
+        1
+      ],
+      [
+        "Slightly over-long and framework-heavy; the explicit attributions add little operational value over just giving the advice.",
+        1
+      ],
+      [
+        "Could have flagged risk of a single Show HN being mistimed/flopping and a re-launch plan, though the drumbeat framing partly covers this.",
+        1
+      ],
+      [
+        "Slightly less precise on the seeding funnel math and the concrete rights-cost cap (e.g., ~$500 for sub-150k creators) than B",
+        1
+      ],
+      [
+        "The Michael Seibel attribution ('founders burn six figures before we figured this out') is a fabricated-sounding quote and a minor credibility risk \u2014 the advice stands without it.",
+        1
+      ]
+    ]
+  },
+  "split=train": {
+    "n": 24,
+    "candidate_vs_gold": {
+      "win": 24,
+      "tie": 0,
+      "loss": 0,
+      "win_rate": 1.0,
+      "tie_rate": 0.0,
+      "loss_rate": 0.0,
+      "tie_or_better_rate": 1.0
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.917,
+      "news_peg": 4.833,
+      "channel_cadence": 5.0,
+      "tactics_quality": 4.917,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.292,
+      "positioning": 3.417,
+      "news_peg": 3.583,
+      "channel_cadence": 4.167,
+      "tactics_quality": 4.625,
+      "judgment_refusals": 4.667,
+      "fit_actionability": 3.833
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.708,
+      "positioning": 1.5,
+      "news_peg": 1.25,
+      "channel_cadence": 0.833,
+      "tactics_quality": 0.292,
+      "judgment_refusals": 0.333,
+      "fit_actionability": 1.167
+    },
+    "mean_total_candidate": 4.952,
+    "mean_total_gold": 4.083,
+    "judge_identification": {
+      "correct": 3,
+      "wrong": 20,
+      "unsure": 1,
+      "accuracy_of_decided": 0.13,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 12,
+      "B_wins": 12,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly long; could be tighter, but no strategic defect.",
+        1
+      ],
+      [
+        "Slightly verbose with some name-dropping (Meservey, Dunford) that adds little operational value beyond the substance already stated",
+        1
+      ],
+      [
+        "Original-research uplift framed as a specific '2-3x' multiplier \u2014 directionally right but presented with false precision",
+        1
+      ],
+      [
+        "Slightly over-asserts that a sub-$100M-style seed 'may eventually' earn TechCrunch via trade trickle-up; fine, but could have killed tier-1 as a goal even more flatly.",
+        1
+      ],
+      [
+        "The 30-customer 'State of Mid-Market Close' report needs a strong honesty caveat about sample size; B does flag transparency and offers the 100+ commissioned survey as a sounder asset, so this is minor and not an anti-pattern (the survey is a sample, not a media blast)",
+        1
+      ],
+      [
+        "Slightly heavier/longer than needed for a solo founder with limited bandwidth \u2014 risk of overwhelming execution, though the week-by-week sequencing mitigates it",
+        1
+      ],
+      [
+        "Slightly underspecifies launch timing (B's Tue-Thu morning ET is a concrete tactic A omits)",
+        1
+      ],
+      [
+        "Omits a concrete launch-day timing recommendation (e.g., Tue-Thu morning ET) that A correctly includes \u2014 a small but real tactical miss",
+        1
+      ],
+      [
+        "Slightly over-scaffolded structure could bury the single most important next action for two busy engineers, though content is sound",
+        1
+      ],
+      [
+        "Suggests posting on 'launch day' line is fine, but slightly under-specifies the optimal HN posting window (Tue-Thu morning ET) that B nails explicitly \u2014 a real tactical detail.",
+        1
+      ],
+      [
+        "Could have been more explicit that feedback/users-as-collaborators is the CTA, not installs \u2014 a subtle but correct HN framing B gets right.",
+        1
+      ],
+      [
+        "Slightly over-long and framework-heavy; the explicit attributions add little operational value over just giving the advice.",
+        1
+      ],
+      [
+        "Could have flagged risk of a single Show HN being mistimed/flopping and a re-launch plan, though the drumbeat framing partly covers this.",
+        1
+      ],
+      [
+        "Slightly less precise on the seeding funnel math and the concrete rights-cost cap (e.g., ~$500 for sub-150k creators) than B",
+        1
+      ],
+      [
+        "The Michael Seibel attribution ('founders burn six figures before we figured this out') is a fabricated-sounding quote and a minor credibility risk \u2014 the advice stands without it.",
+        1
+      ]
+    ]
+  },
+  "model=opus": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 18,
+      "tie": 0,
+      "loss": 0,
+      "win_rate": 1.0,
+      "tie_rate": 0.0,
+      "loss_rate": 0.0,
+      "tie_or_better_rate": 1.0
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.889,
+      "news_peg": 5.0,
+      "channel_cadence": 5.0,
+      "tactics_quality": 5.0,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.167,
+      "positioning": 3.5,
+      "news_peg": 3.667,
+      "channel_cadence": 4.167,
+      "tactics_quality": 4.5,
+      "judgment_refusals": 4.444,
+      "fit_actionability": 3.778
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.833,
+      "positioning": 1.389,
+      "news_peg": 1.333,
+      "channel_cadence": 0.833,
+      "tactics_quality": 0.5,
+      "judgment_refusals": 0.556,
+      "fit_actionability": 1.222
+    },
+    "mean_total_candidate": 4.984,
+    "mean_total_gold": 4.032,
+    "judge_identification": {
+      "correct": 0,
+      "wrong": 18,
+      "unsure": 0,
+      "accuracy_of_decided": 0.0,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 9,
+      "B_wins": 9,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly long; could be tighter, but no strategic defect.",
+        1
+      ],
+      [
+        "Slightly verbose with some name-dropping (Meservey, Dunford) that adds little operational value beyond the substance already stated",
+        1
+      ],
+      [
+        "Original-research uplift framed as a specific '2-3x' multiplier \u2014 directionally right but presented with false precision",
+        1
+      ],
+      [
+        "Slightly underspecifies launch timing (B's Tue-Thu morning ET is a concrete tactic A omits)",
+        1
+      ],
+      [
+        "Omits a concrete launch-day timing recommendation (e.g., Tue-Thu morning ET) that A correctly includes \u2014 a small but real tactical miss",
+        1
+      ],
+      [
+        "Slightly over-scaffolded structure could bury the single most important next action for two busy engineers, though content is sound",
+        1
+      ],
+      [
+        "Slightly less precise on the seeding funnel math and the concrete rights-cost cap (e.g., ~$500 for sub-150k creators) than B",
+        1
+      ],
+      [
+        "The Michael Seibel attribution ('founders burn six figures before we figured this out') is a fabricated-sounding quote and a minor credibility risk \u2014 the advice stands without it.",
+        1
+      ],
+      [
+        "Slightly over-rich for a tight-budget solo founder; the data-peg / 'State of category' survey may be more than a one-product launch can execute in the window, though B correctly gates it on whether the sample is real.",
+        1
+      ],
+      [
+        "Slightly less explicit than B on the literal Magic Quadrant/research-cycle mechanics (e.g., 'engage 6-12 months ahead of the research cycle'), though it covers category creation well",
+        1
+      ],
+      [
+        "Names analyst programs generically ('cool-vendor', 'AI TRiSM') rather than committing to specific firm/report targets a founder could action immediately",
+        1
+      ],
+      [
+        "Minor: the '2-3x pickup' for original data is a quantified flourish stated as fact, though it is self-caveated and not load-bearing",
+        1
+      ],
+      [
+        "Slightly less sharp than A on one category nuance \u2014 A's 'no Magic Quadrant yet may mean the market isn't mature; help define the category' and the explicit 6-12 month research-cycle lead time are crisper than B's category-POV framing",
+        1
+      ],
+      [
+        "Does not explicitly name the every-1-2-months (never >6) analyst briefing cadence that A specifies, though it covers the briefing motion well otherwise",
+        1
+      ],
+      [
+        "Underweights the Form D / day-one-or-never funding trap \u2014 mentions 'never write it on day one' but omits the SEC Form D leak risk that B names explicitly, a concrete funding-specific trap for THIS scenario",
+        1
+      ]
+    ]
+  },
+  "model=sonnet": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 17,
+      "tie": 0,
+      "loss": 1,
+      "win_rate": 0.944,
+      "tie_rate": 0.0,
+      "loss_rate": 0.056,
+      "tie_or_better_rate": 0.944
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.944,
+      "positioning": 4.889,
+      "news_peg": 4.667,
+      "channel_cadence": 4.889,
+      "tactics_quality": 4.889,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.389,
+      "positioning": 3.5,
+      "news_peg": 4.0,
+      "channel_cadence": 4.278,
+      "tactics_quality": 4.611,
+      "judgment_refusals": 4.667,
+      "fit_actionability": 3.944
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.555,
+      "positioning": 1.389,
+      "news_peg": 0.667,
+      "channel_cadence": 0.611,
+      "tactics_quality": 0.278,
+      "judgment_refusals": 0.333,
+      "fit_actionability": 1.056
+    },
+    "mean_total_candidate": 4.897,
+    "mean_total_gold": 4.198,
+    "judge_identification": {
+      "correct": 6,
+      "wrong": 11,
+      "unsure": 1,
+      "accuracy_of_decided": 0.353,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 10,
+      "B_wins": 8,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly over-asserts that a sub-$100M-style seed 'may eventually' earn TechCrunch via trade trickle-up; fine, but could have killed tier-1 as a goal even more flatly.",
+        1
+      ],
+      [
+        "The 30-customer 'State of Mid-Market Close' report needs a strong honesty caveat about sample size; B does flag transparency and offers the 100+ commissioned survey as a sounder asset, so this is minor and not an anti-pattern (the survey is a sample, not a media blast)",
+        1
+      ],
+      [
+        "Slightly heavier/longer than needed for a solo founder with limited bandwidth \u2014 risk of overwhelming execution, though the week-by-week sequencing mitigates it",
+        1
+      ],
+      [
+        "Suggests posting on 'launch day' line is fine, but slightly under-specifies the optimal HN posting window (Tue-Thu morning ET) that B nails explicitly \u2014 a real tactical detail.",
+        1
+      ],
+      [
+        "Could have been more explicit that feedback/users-as-collaborators is the CTA, not installs \u2014 a subtle but correct HN framing B gets right.",
+        1
+      ],
+      [
+        "Slightly over-long and framework-heavy; the explicit attributions add little operational value over just giving the advice.",
+        1
+      ],
+      [
+        "Could have flagged risk of a single Show HN being mistimed/flopping and a re-launch plan, though the drumbeat framing partly covers this.",
+        1
+      ],
+      [
+        "Positioning section is strong but the news_peg gate is only implied ('magazine as side effect of a drumbeat is fine') rather than explicitly testing whether the formula clears the newsworthiness bar at all",
+        1
+      ],
+      [
+        "Slightly soft on the concrete creator economics (no usage-rights $ cap or payment ceiling like B's ~$500 guidance), leaving the founder to guess on the one place money changes hands",
+        1
+      ],
+      [
+        "Seeding volume is lighter than ideal for a pure word-of-mouth play: 200-400 identified and only ~150-200 sends vs A's ~500, which weakens the volume-not-bet logic B itself argues for",
+        1
+      ],
+      [
+        "Less tactically concrete on the content-as-asset mechanics than A \u2014 does not specify recutting to 1x1/9x16, captioning, and systematically feeding paid testing so winners scale; mentions paid amplification but stops short of the production pipeline",
+        1
+      ],
+      [
+        "Spreads the $15k across more plays (gifting + amplification + founder channel + reactive) without a crisp allocation, risking dilution at a very tight budget",
+        1
+      ],
+      [
+        "Cites a precise-sounding stat ('analysts influence 60-70% of enterprise purchasing') without sourcing \u2014 minor over-precision, though directionally correct",
+        1
+      ],
+      [
+        "Lighter than B on the AR mechanics that matter most for THIS sale: it mentions briefings but says less about the every-1-2-month cadence, the 6-12 month research-cycle lead time, and the 'don't pitch market size, map to evaluation criteria' discipline",
+        1
+      ],
+      [
+        "Does not explicitly raise the Magic Quadrant maturity / category-readiness reality check that B nails (whether a MQ even exists yet for AI governance)",
+        1
+      ]
+    ]
+  },
+  "split=holdout": {
+    "n": 12,
+    "candidate_vs_gold": {
+      "win": 11,
+      "tie": 0,
+      "loss": 1,
+      "win_rate": 0.917,
+      "tie_rate": 0.0,
+      "loss_rate": 0.083,
+      "tie_or_better_rate": 0.917
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.917,
+      "positioning": 4.833,
+      "news_peg": 4.833,
+      "channel_cadence": 4.833,
+      "tactics_quality": 5.0,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.25,
+      "positioning": 3.667,
+      "news_peg": 4.333,
+      "channel_cadence": 4.333,
+      "tactics_quality": 4.417,
+      "judgment_refusals": 4.333,
+      "fit_actionability": 3.917
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.667,
+      "positioning": 1.166,
+      "news_peg": 0.5,
+      "channel_cadence": 0.5,
+      "tactics_quality": 0.583,
+      "judgment_refusals": 0.667,
+      "fit_actionability": 1.083
+    },
+    "mean_total_candidate": 4.917,
+    "mean_total_gold": 4.179,
+    "judge_identification": {
+      "correct": 3,
+      "wrong": 9,
+      "unsure": 0,
+      "accuracy_of_decided": 0.25,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 7,
+      "B_wins": 5,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly over-asserts the audience bet (the field) on thin info \u2014 good that it's flagged as a hypothesis and gated on a question, but it commits hard before the founder answers",
+        1
+      ],
+      [
+        "Very minor: the menu is dense enough that a time-starved solo founder could struggle to triage \u2014 though it does flag the manifesto + one channel as the 80% non-negotiable, which mitigates this.",
+        1
+      ],
+      [
+        "Slightly over-relies on named authorities (Seibel, Meservey) as proof; the advice would stand on its own logic without them.",
+        1
+      ],
+      [
+        "Frames the goal as 'pick one' and then guesses it, but doesn't make the who-must-believe-what-for-the-next-milestone (hiring vs users vs raise) logic as explicit as B does",
+        1
+      ],
+      [
+        "Mentions deferring a firm but never makes the sharper 'defer until YOU are the bottleneck, and hand off production/amplification but never the story/voice' distinction",
+        1
+      ],
+      [
+        "Channel routing is implied (journalists, posting) but doesn't explicitly name where the AI community actually argues (X vs Substack-for-depth) the way B does",
+        1
+      ],
+      [
+        "Routes nearly everything through earned media / becoming a journalist's named source, underweighting the founder's own owned platform and the go-direct, unlimited-scale distribution that is this founder's actual unfair advantage (he already posts).",
+        1
+      ],
+      [
+        "Cadence is softer and slightly self-contradictory: says 'if you post sometimes you don't exist' then settles for 'even if it's just once a week,' weaker than the 2-3x/week drumbeat the situation needs.",
+        1
+      ],
+      [
+        "Picks 'named source' as the goal but doesn't tie each piece to who-must-believe-what for a specific next milestone (hiring/users/raise), so the audience-to-business-goal logic is asserted rather than operationalized.",
+        1
+      ],
+      [
+        "Defers the founder's own pitching ('Pitching yourself. Not yet.') which is reasonable, but in doing so delays leveraging the direct-distribution asset that costs nothing and is already in motion.",
+        1
+      ],
+      [
+        "Slightly over-prescribes 'this week' for the one-liner where B's 'an hour, not a week' is the sharper expectation-setting; minor.",
+        1
+      ],
+      [
+        "Could over-index on LinkedIn as 'almost certainly' the channel without testing whether recruiting communities/Slacks or a niche newsletter are the denser audience for this specific founder",
+        1
+      ],
+      [
+        "Minor: 'a few hundred recruiters' as a launch-audience target is a reasonable but unvalidated number for this category",
+        1
+      ],
+      [
+        "Survey/original-research peg is strong but A could note the risk that a rushed vendor-commissioned survey reads as a marketing stunt if not designed credibly",
+        1
+      ],
+      [
+        "Slightly over-engineered six-step sequence vs. a leaner menu, though it still offers genuine optionality",
+        1
+      ]
+    ]
+  }
+}
