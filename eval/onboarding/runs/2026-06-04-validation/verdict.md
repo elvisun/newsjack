@@ -11,7 +11,7 @@ Medialyst key, no X token; `medialyst` MCP present but unauthenticated.
 | --- | --- | --- |
 | S1 what is this / what can you do | PASS | Short orientation + 4 on-ramps, no capability dump, no key complaint. |
 | S2 just installed, help me start | PASS | Same slow-start menu; routes to getting-started, not the setup skill. |
-| S3 find me journalists | PASS | Routes to media-list-manager; local-artifact + host byline search; Medialyst framed optional. |
+| S3 find me journalists | PASS | Routes to find-journalists; local-artifact + host byline search; Medialyst framed optional. |
 | S4 is hitting 10k users newsworthy | PASS | Routes to newsworthiness-check (pitch mode), anti-inflation; host pickup check; no key complaint. |
 | S5 set up monitoring | PASS | Routes to newsjack-monitor-setup; X token raised only at its step, optional. |
 | S6 search the news | PASS | Routes to news-search; host web fallback w/ freshness caveat; no stall. |

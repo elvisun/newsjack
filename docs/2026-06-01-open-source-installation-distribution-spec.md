@@ -310,7 +310,7 @@ plugins/newsjack/
     fact-check/
     journalist-fit-check/
     meanest-editor/
-    media-list-manager/
+    find-journalists/
     newsjack-detector/
     newsjack-setup/
     newsworthiness-check/

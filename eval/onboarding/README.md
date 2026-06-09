@@ -24,7 +24,7 @@ Six scenarios across two classes:
 - **Known intent** (`3`-`6`) — where the agent should skip the menu and route to
   the right skill, and where any news lookup must use the host-search fallback
   and proceed without a key:
-  - `3` find journalists → `media-list-manager` (local artifact + host byline search)
+  - `3` find journalists → `find-journalists` (local artifact + host byline search)
   - `4` is this newsworthy → `newsworthiness-check` (anti-inflation + host pickup check)
   - `5` set up monitoring → `newsjack-monitor-setup` (X token optional, raised late)
   - `6` search the news → `news-search` (host web search, freshness best-effort)
@@ -58,7 +58,7 @@ Full transcript in [`runs/2026-06-04-validation/verdict.md`](runs/2026-06-04-val
 |---|---|---|
 | 1 what-can-you-do | PASS | 4 on-ramps, no dump, no key complaint |
 | 2 just-installed | PASS | Slow-start menu, routes to getting-started not the setup skill |
-| 3 find journalists | PASS | media-list-manager, local artifact + host byline search |
+| 3 find journalists | PASS | find-journalists, local artifact + host byline search |
 | 4 newsworthiness | PASS | newsworthiness-check, host pickup check, no key complaint |
 | 5 set up monitoring | PASS | newsjack-monitor-setup, X token raised optional + late |
 | 6 search the news | PASS | news-search, host web fallback w/ freshness caveat |

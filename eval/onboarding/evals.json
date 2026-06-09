@@ -38,9 +38,9 @@
       "scenario": "known-intent",
       "tags": ["routing", "graceful-fallback"],
       "prompt": "find me journalists to pitch my AI customer-support startup",
-      "expected_output": "Routes to media-list-manager, skips the menu. Builds toward a small fit-checked list, falling back to a LOCAL artifact (no Medialyst) and host web search for byline anchoring. Treats freshness as best-effort. Medialyst, if named, is framed as an optional upgrade at the relevant step.",
+      "expected_output": "Routes to find-journalists, skips the menu. Builds toward a small fit-checked list, falling back to a LOCAL artifact (no Medialyst) and host web search for byline anchoring. Treats freshness as best-effort. Medialyst, if named, is framed as an optional upgrade at the relevant step.",
       "assertions": [
-        {"id": "3a", "text": "Routes to media-list-manager (small, fit-checked list; not a scraped dump)", "type": "judgment"},
+        {"id": "3a", "text": "Routes to find-journalists (small, fit-checked list; not a scraped dump)", "type": "judgment"},
         {"id": "3b", "text": "Proceeds without a Medialyst key via local-artifact + host-search fallback; does not stall or demand a key", "type": "judgment"},
         {"id": "3c", "text": "Any Medialyst mention is framed as optional, not led with as a blocker", "type": "judgment"}
       ]

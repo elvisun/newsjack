@@ -184,7 +184,7 @@ Too generic to count: "tech journalist," "business journalist," "AI reporter," "
 ## Hand-Offs
 
 - **Match a real named journalist:** `journalist-fit-check`.
-- **Build a media list:** `media-list-manager`, once journalist shapes exist and the user has picked an angle. This skill does not build lists.
+- **Build a media list:** `find-journalists`, once journalist shapes exist and the user has picked an angle. This skill does not build lists.
 - **Draft or critique a pitch:** `meanest-editor`, once the user picks an angle.
 - **Find a current news signal:** suggest `newsjack-detector` when a fresh hook would materially strengthen the set — but never fabricate one.
 - **Calendar adjacency:** suggest `story-calendar` when an obvious, honest moment within 30 days could help.

@@ -139,7 +139,7 @@ skills installed to your detected runtime(s):
   newsjack-detector       find newsworthy moments before the wave breaks
   newsworthiness-check    score whether your news clears the bar
   angle-generator         turn one update into ten pitchable hooks
-  media-list-manager      build small, fit-checked media lists
+  find-journalists      build small, fit-checked media lists
   …and more
 ```
 

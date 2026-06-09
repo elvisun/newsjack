@@ -290,7 +290,7 @@ Founder-led content 2–3×/week on the ONE channel where the audience lives (mi
 - **Newsworthiness scoring** → `newsworthiness-check` (calibrated score on a specific peg).
 - **Story angles** → `angle-generator` (after positioning, audience, and peg exist).
 - **Pitch critique** → `meanest-editor` (after a draft exists).
-- **Media list** → `media-list-manager` (after journalist shapes + angles exist).
+- **Media list** → `find-journalists` (after journalist shapes + angles exist).
 - **Reactive / source queries** → `reactive-comment`.
 - **Journalist fit** → `journalist-fit-check`.
 - **News monitoring** → `newsjack-detector`.

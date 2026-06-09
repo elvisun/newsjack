@@ -137,7 +137,7 @@ Right outlet, wrong section (news pitch to the opinion desk). A stale or one-off
 
 ### Step 1 — Identify the journalist
 
-Confirm this is a real person you can actually check (author page, recent article, profile, newsletter, or any public trace). If you can't, stop and return **Unknown** (reason: unresolved). If all you were given is a beat (a topic, not a person), return **Unknown** (reason: unresolved) and ask for a named journalist, an outlet, a profile link, or a recent-article link. Finding journalists in the first place is a job for `media-list-manager` or `newsjack-detector`. Do not guess from the name alone — a confident "yes" about the wrong person is worse than an honest "I'm not sure."
+Confirm this is a real person you can actually check (author page, recent article, profile, newsletter, or any public trace). If you can't, stop and return **Unknown** (reason: unresolved). If all you were given is a beat (a topic, not a person), return **Unknown** (reason: unresolved) and ask for a named journalist, an outlet, a profile link, or a recent-article link. Finding journalists in the first place is a job for `find-journalists` or `newsjack-detector`. Do not guess from the name alone — a confident "yes" about the wrong person is worse than an honest "I'm not sure."
 
 ### Step 2 — Scan the pitch for slop tells
 
@@ -238,7 +238,7 @@ Before the answer leaves the agent, it must clear all of these. Any miss means r
 ## Hand-Offs
 
 - **Clean up a slop-flagged draft:** `meanest-editor` and `voice-extractor`.
-- **Find journalists in the first place / build a list:** `media-list-manager` or `newsjack-detector`. This skill checks one named person; it does not discover or rank them.
+- **Find journalists in the first place / build a list:** `find-journalists` or `newsjack-detector`. This skill checks one named person; it does not discover or rank them.
 
 ## Examples
 

@@ -81,7 +81,7 @@ skill:
 | Check if something's newsworthy | `newsworthiness-check` |
 | Set up monitoring | `newsjack-monitor-setup` |
 | Track coverage | `coverage-tracker-setup` |
-| Find journalists | `media-list-manager` |
+| Find journalists | `find-journalists` |
 
 If the user already knows what they want ("draft a pitch", "is this newsworthy?",
 "roast this"), skip the menu and route straight to the relevant skill.
@@ -105,7 +105,7 @@ General web search is bad at news: it ranks for SEO over recency, paywalls or
 buries primary coverage, and rarely exposes a reliable publication timestamp.
 Medialyst is purpose-built for news and returns the outlet, author, `published_at`,
 and canonical URL that downstream skills (`coverage-tracker`,
-`story-origin-check`, `newsworthiness-check`, `media-list-manager`,
+`story-origin-check`, `newsworthiness-check`, `find-journalists`,
 `newsjack-detector`) depend on. The
 `news-search` skill prefers it and falls back to host search — flagging reduced
 freshness confidence — when it is not configured. It is optional cloud substrate,
