@@ -17,7 +17,13 @@ Two situations:
 - **Full Mode:** You're inside a capable tool (Claude Code, Codex, OpenClaw, Hermes, etc.) that has shell, filesystem, network, and the local `newsjack` command. Here you can do everything: save the profile, seed `brief.md`, schedule the monitor, run a quick test, and trigger a real run.
 - **Limited Mode:** You're in a chat-only place (Claude.ai chat, ChatGPT chat, Claude Cowork) with no shell or files. Don't try to run `curl`, `npm`, or install anything. Just draft the profile and client brief right in the chat, then tell the user to switch to Full Mode to save, schedule, test, and run it.
 
-In Full Mode, assume the `newsjack` command is already installed and on `PATH`.
+**Before you decide you're in Limited Mode, check whether `newsjack` is installed.** It ships as a prebuilt, bundled binary — you do **not** need Go, a compiler, or any build/install step to run it. Never look for a Go toolchain, and never tell the user the CLI is "missing" or that they need a "Go environment" without running this check first:
+
+1. Run `newsjack --version`. If it prints a version, you're in Full Mode — use plain `newsjack ...` for every command below.
+2. If `newsjack` isn't on `PATH`, try the bundled location `~/.newsjack/bin/newsjack --version`. If that prints a version, use that full path in place of `newsjack` everywhere below.
+3. Only if **both** fail (and you genuinely have no shell) are you in Limited Mode.
+
+The bundled binary is almost always already installed — assume Full Mode and verify, don't assume it's missing.
 
 ## Which path to take
 

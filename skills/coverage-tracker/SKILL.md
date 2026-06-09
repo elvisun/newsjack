@@ -15,7 +15,13 @@ This is not `newsjack-detector`. Do not score newsjacking opportunities, generat
 - **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode can read tracker config, check SQLite seen-state, record decisions, and suppress repeat alerts.
 - **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Run a one-off manual coverage check from pasted/searchable evidence and disclose that no tracker config, SQLite state, or repeat suppression was used.
 
-Full Mode commands assume `newsjack` is on `PATH`.
+**Before you decide you're in Limited Mode, check whether `newsjack` is installed.** It ships as a prebuilt, bundled binary — you do **not** need Go, a compiler, or any build/install step to run it. Never look for a Go toolchain, and never declare the CLI "missing" or tell the user they need a "Go environment" without running this check first:
+
+1. Run `newsjack --version`. If it prints a version, you're in Full Mode — use plain `newsjack ...` for every command.
+2. If `newsjack` isn't on `PATH`, try the bundled location `~/.newsjack/bin/newsjack --version`. If that prints a version, use that full path in place of `newsjack` everywhere below.
+3. Only if **both** fail (and you genuinely have no shell) are you in Limited Mode.
+
+The bundled binary is almost always already installed — assume Full Mode and verify, don't assume it's missing.
 
 ## Workflow
 
