@@ -94,23 +94,24 @@ After install, agents and skills should call the CLI as `newsjack`.
 
 ### Limited mode: Running on Claude.ai, ChatGPT, Claude Cowork
 
-Newsjack requires a local agent to run in full mode. If you are running on Claude Chat, ChatGPT, it'll automatically fallback to limited mode — no install, no
-CLI, no setup. Paste your startup URL or your news and you get a real PR
-strategist on the spot:
+Newsjack needs a local agent for Full Mode. On Claude.ai, ChatGPT, or Claude
+Cowork it automatically falls back to Limited Mode — no install, no CLI, no
+setup. Paste your startup URL or your news and you get a real PR operator on the
+spot.
 
-- **A PR strategy built around your audience** — who has to believe what, the
-  positioning that lands, and the news peg worth chasing.
-- **A newsworthiness score** that tells you, before you spend a day on it,
-  whether a story will actually get picked up.
-- **Story angles and pitches** drafted in your voice, plus a brutally honest
-  critique that catches the weak ones before a journalist does.
-- **Journalist-fit reasoning** so you pitch the right reporter, and
-  **fact-checking** against pasted or searchable evidence so nothing soft ships.
+**Every skill still works.** PR strategy, newsworthiness scoring, story angles,
+pitch drafting and honest critique, journalist-fit reasoning, fit-checked media
+lists, reactive source-query responses, voice fingerprinting, and fact-checking
+against pasted or searchable evidence all run right in the chat — paste what
+you've got and go.
 
-Add the plugin once (below) and every one of these is a single message away.
-When you're ready to put it on autopilot — always-on monitoring, scheduled
-scans, and cost-optimized multi-agent research — that lives in Full Mode with the
-CLI harness and a local agent.
+The only things that change are the two always-on monitors — **newsjack
+monitoring** (watching your space for newsjacking opportunities) and **coverage
+monitoring** (Google Alerts-style keyword tracking). Without a local agent they
+can't keep saved profiles, run on a schedule, or remember what they've already
+flagged, so they fall back to best-effort, one-shot scans you trigger by hand.
+Want them running on autopilot? Set up Full Mode with the CLI harness and a local
+agent.
 
 For Claude.ai plugin-style setup:
 
