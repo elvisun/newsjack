@@ -1,14 +1,14 @@
-# newsjack
+# Newsjack.sh
 
-> **The open-source skills that turn your agent into a full PR team.**
->
-> Install once. Your local-first agent — Claude Code, Codex, Hermes, OpenClaw — becomes a PR team.
+**The open-source skills that turn your agent into a full PR team.**
+
+Install once. Your agent — Claude Code, Codex, Hermes, OpenClaw — becomes a PR team.
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
-**New here?** Check out **[Getting started](docs/getting-started.md)**
+**Are you an agent?** Check out **[Getting started](docs/getting-started.md)**
 
 ---
 
