@@ -19,7 +19,13 @@ Newsjack Detector has two runtime modes:
 - **Full Mode:** Use this in Claude Code, Codex, OpenClaw, Hermes, or another capable agent harness with shell, filesystem, network, and local CLI access. Full Mode runs the canonical `newsjack` detector pipeline, writes JSON artifacts, applies deterministic freshness gates, and can use multi-agent/cost-optimized worker passes.
 - **Limited Mode:** Use this in Claude.ai chat, ChatGPT chat, Claude Cowork, or any restricted runtime without shell/filesystem/CLI access. Do not attempt `curl`, `npm`, or on-demand CLI installation. Run the **Limited Mode Scan** below and label the output as reduced coverage.
 
-Full Mode commands assume `newsjack` is on `PATH`.
+**Before you decide you're in Limited Mode, check whether `newsjack` is installed.** It ships as a prebuilt, bundled binary — you do **not** need Go, a compiler, or any build/install step to run it. Never look for a Go toolchain, and never declare the CLI "missing" or tell the user they need a "Go environment" without running this check first:
+
+1. Run `newsjack --version`. If it prints a version, you're in Full Mode — use plain `newsjack ...` for every command.
+2. If `newsjack` isn't on `PATH`, try the bundled location `~/.newsjack/bin/newsjack --version`. If that prints a version, use that full path in place of `newsjack` everywhere below.
+3. Only if **both** fail (and you genuinely have no shell) are you in Limited Mode.
+
+The bundled binary is almost always already installed — assume Full Mode and verify, don't assume it's missing.
 
 ## Required Workflow (follow in order)
 
@@ -51,7 +57,7 @@ The Go CLI owns (mechanical, deterministic):
 
 - ingestion, dedupe, clustering, novelty tracking
 - mechanical scores only: freshness, source agreement, novelty, profile match, source quality, momentum, major-news weight
-- deterministic story-size scoring from news-search metadata: log-scaled estimated monthly traffic + domain authority, with coverage spread across independently surfaced domains
+- deterministic story-size scoring from news-search metadata: log-scaled estimated monthly traffic + domain authority, with coverage spread across independently surfaced domains. When authority metadata is missing for a recognized major outlet, the engine may use a low-confidence known-outlet fallback. When publication metadata is otherwise sparse, the engine may attach a low-confidence `story_size.attention_hint` from deterministic source signals such as X News clusters, major public actors, and high-stakes event terms; this is recall pressure, not proof of magnitude.
 - deterministic hygiene filtering for docs/help/product/SEO pages
 - coarse-relevance application via `newsjack filter-apply`, plus two recall guards: a **big-story guard** that upgrades *any* `reject` of a `high`/`major` `story_size` signal to `monitor_only` (`big_story_recall`) — the cheap pass can never hard-drop a big story — and a **profile-match guard** that upgrades `reject/no_profile_bridge` to `monitor_only` when detector/profile evidence already matched the client, a competitor, or a profile term
 - deterministic freshness gating via `newsjack origin-apply`
@@ -329,7 +335,9 @@ Use `story_size` to calibrate effort, not to approve a pitch. It is a determinis
 - domain authority
 - coverage spread across independently surfaced domains
 
-`major` or `high` story size means the opportunity may justify faster review. It does not compensate for stale timing, weak standing, or a bad journalist shape.
+When authority metadata is missing for a recognized major outlet, the engine may use a low-confidence known-outlet fallback. When publication metadata is otherwise sparse, it may attach `story_size.attention_hint`. Treat the hint as a low-confidence keep-alive signal: it can justify review in the big-stories section, but it does **not** prove the story is widely covered. Label the uncertainty plainly.
+
+`major` or `high` story size, or a `high`/`major` attention hint, means the opportunity may justify faster review. It does not compensate for stale timing, weak standing, or a bad journalist shape.
 
 ### Freshness
 

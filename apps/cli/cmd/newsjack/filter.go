@@ -167,15 +167,16 @@ func applyDecisions(candidates map[string]any, decisionsPayload any, include map
 // proxy, so a big story means "broadly covered / high-authority," not "relevant."
 //
 // Primary signal is the band (high/major). But a genuinely big story can come
-// back band=unknown when news-search returned no publication metadata for the
-// surfaced variant (e.g. a press-release URL) — the same story can score high on
-// one surfaced article and unknown on another. So we don't let missing metadata
-// strip protection: an unknown-band signal still counts as big when coverage
-// spread is real (the story surfaced across >=2 independent domains, or strong
-// cross-source agreement).
+// back band=unknown when publication metadata is sparse, so missing metadata
+// must not strip protection: an unknown-band signal still counts as big when it
+// has a high/major attention hint, real coverage spread, or strong cross-source
+// agreement.
 func signalIsBigStory(signal map[string]any) bool {
-	band := signalStorySizeBandValue(signal)
+	band := signalStorySizeDeclaredBand(signal)
 	if rank, ok := storySizeBandRank[band]; ok && rank >= storySizeBandRank["high"] {
+		return true
+	}
+	if rank, ok := storySizeBandRank[signalStoryAttentionHintBand(signal)]; ok && rank >= storySizeBandRank["high"] {
 		return true
 	}
 	if band == "unknown" {
@@ -191,14 +192,33 @@ func signalIsBigStory(signal map[string]any) bool {
 
 // bigStoryBasis explains why signalIsBigStory fired, for the guardrail rationale.
 func bigStoryBasis(signal map[string]any) string {
-	band := signalStorySizeBandValue(signal)
+	band := signalStorySizeDeclaredBand(signal)
 	if rank, ok := storySizeBandRank[band]; ok && rank >= storySizeBandRank["high"] {
 		return "story_size band=" + band
+	}
+	if hint := signalStoryAttentionHintBand(signal); hint != "" {
+		if rank, ok := storySizeBandRank[hint]; ok && rank >= storySizeBandRank["high"] {
+			return "story_size attention_hint band=" + hint
+		}
 	}
 	if n := signalEvidenceDomains(signal); n >= 2 {
 		return fmt.Sprintf("widely covered (%d independent source domains, band=%s)", n, band)
 	}
 	return fmt.Sprintf("strong cross-source agreement (band=%s)", band)
+}
+
+func signalStorySizeDeclaredBand(signal map[string]any) string {
+	if band := strings.ToLower(stringValue(valueOrEmptyMap(signal["story_size"])["band"])); band != "" {
+		return band
+	}
+	if score, ok := signalStorySizeScore(signal); ok {
+		return storySizeBand(score)
+	}
+	return "unknown"
+}
+
+func signalStoryAttentionHintBand(signal map[string]any) string {
+	return strings.ToLower(stringValue(valueOrEmptyMap(valueOrEmptyMap(signal["story_size"])["attention_hint"])["band"]))
 }
 
 // signalEvidenceDomains counts the distinct source domains in a signal's

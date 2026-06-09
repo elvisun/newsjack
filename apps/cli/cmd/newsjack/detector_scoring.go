@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 	"math"
 	"net/url"
 	"regexp"
@@ -289,6 +290,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 		score          float64
 		trafficScore   *float64
 		authorityScore *float64
+		scoreBasis     string
 		traffic        any
 		authority      any
 	}
@@ -306,6 +308,14 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 		}
 		trafficScore, trafficRaw := publicationTrafficScore(item.Metadata)
 		authorityScore, authorityRaw := publicationAuthorityScore(item.Metadata)
+		scoreBasis := "publication_metadata"
+		if trafficScore == nil && authorityScore == nil {
+			if score, raw, ok := knownOutletAuthorityScore(item); ok {
+				authorityScore = &score
+				authorityRaw = raw
+				scoreBasis = "known_outlet_fallback"
+			}
+		}
 		if trafficScore == nil && authorityScore == nil {
 			continue
 		}
@@ -318,6 +328,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 				score:          score,
 				trafficScore:   trafficScore,
 				authorityScore: authorityScore,
+				scoreBasis:     scoreBasis,
 				traffic:        trafficRaw,
 				authority:      authorityRaw,
 			}
@@ -328,6 +339,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 	spreadWeight := 0.0
 	knownTraffic := 0
 	knownAuthority := 0
+	fallbackAuthority := 0
 	var topOutlets []map[string]any
 	for _, o := range outletsByDomain {
 		if o.score > strongest {
@@ -340,6 +352,9 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 		if o.authorityScore != nil {
 			knownAuthority++
 		}
+		if o.scoreBasis == "known_outlet_fallback" {
+			fallbackAuthority++
+		}
 		topOutlets = append(topOutlets, map[string]any{
 			"domain":                            o.domain,
 			"outlet_score":                      roundN(o.score, 3),
@@ -347,6 +362,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 			"domain_authority_score":            nullableRounded(o.authorityScore),
 			"estimated_monthly_organic_traffic": nullableNumberAny(o.traffic),
 			"domain_authority":                  nullableNumberAny(o.authority),
+			"score_basis":                       o.scoreBasis,
 		})
 	}
 	sort.SliceStable(topOutlets, func(i, j int) bool {
@@ -363,6 +379,11 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 		if knownTraffic == 0 {
 			confidence = "low"
 		}
+		if fallbackAuthority == len(outletsByDomain) {
+			basis = "known_outlet_fallback"
+		} else if fallbackAuthority > 0 {
+			basis = "publication_metadata_and_known_outlet_fallback"
+		}
 	} else {
 		return map[string]any{
 			"score":                 nil,
@@ -373,6 +394,7 @@ func storySizeScore(cluster signalCluster, sourceQuality, majorNews, engagement 
 			"known_traffic_count":   0,
 			"known_authority_count": 0,
 			"top_outlets":           []map[string]any{},
+			"attention_hint":        storyAttentionHint(cluster, sourceQuality, majorNews, engagement),
 			"components": map[string]any{
 				"source_quality":  roundN(sourceQuality, 3),
 				"major_news":      roundN(majorNews, 3),
@@ -459,9 +481,76 @@ func publicationAuthorityScore(metadata map[string]any) (*float64, any) {
 	return &score, raw
 }
 
+var knownOutletDomainScores = map[string]float64{
+	"apnews.com":          0.93,
+	"axios.com":           0.84,
+	"bbc.com":             0.90,
+	"bloomberg.com":       0.93,
+	"businessinsider.com": 0.86,
+	"cnbc.com":            0.88,
+	"cnn.com":             0.90,
+	"forbes.com":          0.88,
+	"ft.com":              0.92,
+	"nytimes.com":         0.95,
+	"politico.com":        0.84,
+	"reuters.com":         0.95,
+	"semafor.com":         0.80,
+	"techcrunch.com":      0.84,
+	"theinformation.com":  0.83,
+	"theverge.com":        0.83,
+	"venturebeat.com":     0.78,
+	"washingtonpost.com":  0.93,
+	"wired.com":           0.84,
+	"wsj.com":             0.93,
+}
+
+var knownOutletNameScores = map[string]float64{
+	"ap":                  0.93,
+	"associated press":    0.93,
+	"axios":               0.84,
+	"bbc":                 0.90,
+	"bloomberg":           0.93,
+	"business insider":    0.86,
+	"cnbc":                0.88,
+	"cnn":                 0.90,
+	"financial times":     0.92,
+	"forbes":              0.88,
+	"new york times":      0.95,
+	"politico":            0.84,
+	"reuters":             0.95,
+	"semafor":             0.80,
+	"techcrunch":          0.84,
+	"the information":     0.83,
+	"the verge":           0.83,
+	"venturebeat":         0.78,
+	"washington post":     0.93,
+	"wired":               0.84,
+	"wall street journal": 0.93,
+	"wsj":                 0.93,
+}
+
+func knownOutletAuthorityScore(item evidenceItem) (float64, any, bool) {
+	if item.Source != "news_search" && item.Source != "major_feed" {
+		return 0, nil, false
+	}
+	host := evidenceHost(item.URL)
+	for domain, score := range knownOutletDomainScores {
+		if host == domain || strings.HasSuffix(host, "."+domain) {
+			return score, domain, true
+		}
+	}
+	for _, value := range []string{item.Container, item.Author, item.Source} {
+		key := strings.ToLower(strings.TrimSpace(value))
+		if score, ok := knownOutletNameScores[key]; ok {
+			return score, key, true
+		}
+	}
+	return 0, nil, false
+}
+
 func publicationDomainKey(item evidenceItem) string {
 	if u, err := url.Parse(item.URL); err == nil && u.Hostname() != "" {
-		return strings.ToLower(u.Hostname())
+		return strings.TrimPrefix(strings.ToLower(u.Hostname()), "www.")
 	}
 	if item.Container != "" {
 		return strings.ToLower(item.Container)
@@ -531,8 +620,96 @@ func noveltyScore(urls []string, seen map[string]map[string]any) float64 {
 	return float64(unseen) / float64(len(urls))
 }
 
-var majorNewsTerms = []string{"acquire", "acquired", "acquisition", "antitrust", "ban", "billion", "breach", "contract", "deal", "funding", "hack", "investigation", "ipo", "lawsuit", "launch", "launched", "layoffs", "merger", "outage", "probe", "regulation", "regulator", "ruling", "sec", "settlement", "shutdown", "sues", "valuation"}
-var majorEntityTerms = []string{"amazon", "anthropic", "apple", "doj", "ftc", "google", "meta", "microsoft", "nvidia", "openai", "pentagon", "salesforce", "sec", "spacex", "tesla", "white house", "xai"}
+var majorNewsTerms = []string{"acquire", "acquired", "acquisition", "agreement", "antitrust", "ban", "billion", "breach", "contract", "deal", "funding", "hack", "investigation", "ipo", "lawsuit", "launch", "launched", "layoffs", "memorandum", "merger", "mou", "outage", "partnership", "probe", "regulation", "regulator", "ruling", "sec", "settlement", "shutdown", "sues", "super app", "valuation"}
+var majorEntityTerms = []string{"amazon", "anthropic", "apple", "doj", "elevenlabs", "ftc", "google", "meta", "microsoft", "mistral", "nvidia", "openai", "pentagon", "perplexity", "salesforce", "sec", "spacex", "tesla", "white house", "xai"}
+
+func storyAttentionHint(cluster signalCluster, sourceQuality, majorNews, engagement float64) any {
+	sources := stringSet(cluster.sources())
+	text := strings.ToLower(cluster.text())
+	toks := tokens(text)
+	stakeHits := termHitCount(majorNewsTerms, text, toks)
+	entityHits := termHitCount(majorEntityTerms, text, toks)
+	score := 0.0
+	var signals []string
+
+	if sources["major_feed"] && majorNews >= 0.55 {
+		score = math.Max(score, math.Min(0.72, majorNews))
+		signals = append(signals, fmt.Sprintf("major_feed_score=%.3g", majorNews))
+	}
+	if sources["x_news"] {
+		xScore := 0.36
+		postCount := maxXNewsClusterPostCount(cluster)
+		switch {
+		case postCount >= 25:
+			xScore += 0.22
+		case postCount >= 10:
+			xScore += 0.14
+		}
+		if stakeHits > 0 {
+			xScore += 0.08
+		}
+		if entityHits > 0 {
+			xScore += 0.08
+		}
+		score = math.Max(score, math.Min(0.72, xScore))
+		signals = append(signals, fmt.Sprintf("x_news_cluster_posts=%d", postCount))
+	}
+	if sources["news_search"] && len(cluster.Evidence) == 1 && stakeHits > 0 && entityHits > 0 {
+		score = math.Max(score, 0.46)
+		signals = append(signals, "single_source_major_entity_action")
+	}
+	if engagement >= 0.45 && (stakeHits > 0 || entityHits > 0) {
+		score = math.Max(score, math.Min(0.58, 0.34+0.24*engagement))
+		signals = append(signals, fmt.Sprintf("social_momentum=%.3g", engagement))
+	}
+	if score < 0.45 {
+		return nil
+	}
+	if stakeHits > 0 {
+		signals = append(signals, fmt.Sprintf("major_action_terms=%d", stakeHits))
+	}
+	if entityHits > 0 {
+		signals = append(signals, fmt.Sprintf("major_entity_terms=%d", entityHits))
+	}
+	return map[string]any{
+		"score":      round1(100 * clamp01(score)),
+		"band":       storySizeBand(score),
+		"confidence": "low",
+		"basis":      "source_attention_signals",
+		"signals":    signals,
+		"components": map[string]any{
+			"source_quality":     roundN(sourceQuality, 3),
+			"major_news":         roundN(majorNews, 3),
+			"social_momentum":    roundN(engagement, 3),
+			"major_action_terms": stakeHits,
+			"major_entity_terms": entityHits,
+		},
+	}
+}
+
+func termHitCount(terms []string, text string, toks map[string]bool) int {
+	hits := 0
+	for _, term := range terms {
+		if termMatches(term, text, toks) {
+			hits++
+		}
+	}
+	return hits
+}
+
+func maxXNewsClusterPostCount(cluster signalCluster) int {
+	best := 0
+	for _, item := range cluster.Evidence {
+		if item.Source != "x_news" {
+			continue
+		}
+		count := intValue(item.Metadata["x_news_cluster_post_count"], 0)
+		if count > best {
+			best = count
+		}
+	}
+	return best
+}
 
 func majorNewsScore(cluster signalCluster, age *float64) float64 {
 	var feedItems []evidenceItem
@@ -563,17 +740,9 @@ func majorNewsScore(cluster signalCluster, age *float64) float64 {
 	text := strings.ToLower(cluster.text())
 	toks := tokens(text)
 	stakeHits := 0
-	for _, term := range majorNewsTerms {
-		if termMatches(term, text, toks) {
-			stakeHits++
-		}
-	}
+	stakeHits = termHitCount(majorNewsTerms, text, toks)
 	entityHits := 0
-	for _, term := range majorEntityTerms {
-		if termMatches(term, text, toks) {
-			entityHits++
-		}
-	}
+	entityHits = termHitCount(majorEntityTerms, text, toks)
 	stakeScore := math.Min(1.0, 0.22*float64(stakeHits))
 	entityScore := math.Min(1.0, 0.18*float64(entityHits))
 	freshness := freshnessScore(age, 7)

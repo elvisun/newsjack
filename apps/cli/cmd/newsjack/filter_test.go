@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 )
@@ -339,6 +340,55 @@ func TestFilterApplyNeverDropsWidelyCoveredUnknownBand(t *testing.T) {
 	d := valueOrEmptyMap(signals[0]["coarse_relevance"])
 	if d["guardrail"] != "big_story_recall" || d["decision"] != "monitor_only" {
 		t.Fatalf("expected big_story_recall rescue, got: %#v", d)
+	}
+}
+
+func TestFilterApplyNeverDropsUnknownBandWithAttentionHint(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"profile": map[string]any{"company": "Simular"}},
+		"signals": []any{
+			map[string]any{
+				"id":    "openai-super-app",
+				"title": "OpenAI plans a super app launch",
+				"story_size": map[string]any{
+					"band":       "unknown",
+					"confidence": "low",
+					"basis":      "publication_metadata_missing",
+					"attention_hint": map[string]any{
+						"band":       "high",
+						"score":      58.0,
+						"confidence": "low",
+						"basis":      "source_attention_signals",
+					},
+				},
+				"evidence": []any{
+					map[string]any{"source": "x_news", "url": "https://x.com/search?q=openai"},
+				},
+			},
+		},
+	}
+	decisions := map[string]any{
+		"decisions": []any{
+			map[string]any{"signal_id": "openai-super-app", "decision": "reject", "reason": "no_profile_bridge"},
+		},
+	}
+	payload, err := applyDecisions(candidates, decisions, map[string]bool{"keep": true, "monitor_only": true}, false, false)
+	if err != nil {
+		t.Fatalf("applyDecisions error=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected=%d, want 1 (attention-hinted unknown-band must survive)", len(signals))
+	}
+	d := valueOrEmptyMap(signals[0]["coarse_relevance"])
+	if d["guardrail"] != "big_story_recall" || d["decision"] != "monitor_only" {
+		t.Fatalf("expected big_story_recall rescue, got: %#v", d)
+	}
+	if d["guardrail_band"] != "high" {
+		t.Fatalf("guardrail_band=%v, want high from attention hint; decision=%#v", d["guardrail_band"], d)
+	}
+	if !strings.Contains(stringValue(d["rationale"]), "attention_hint") {
+		t.Fatalf("rationale should name attention_hint basis: %#v", d)
 	}
 }
 

@@ -220,10 +220,15 @@ func signalDecayBucket(signal map[string]any) string {
 
 func signalStorySizeBandValue(signal map[string]any) string {
 	if band := strings.ToLower(stringValue(valueOrEmptyMap(signal["story_size"])["band"])); band != "" {
+		if band == "unknown" {
+			if hintBand := strings.ToLower(stringValue(valueOrEmptyMap(valueOrEmptyMap(signal["story_size"])["attention_hint"])["band"])); hintBand != "" {
+				return hintBand
+			}
+		}
 		return band
 	}
 	if score, ok := signalStorySizeScore(signal); ok {
-		return storySizeBand(score * 100.0)
+		return storySizeBand(score)
 	}
 	return "unknown"
 }

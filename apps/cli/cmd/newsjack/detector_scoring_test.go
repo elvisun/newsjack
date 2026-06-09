@@ -72,3 +72,50 @@ func TestStorySizeEditorialStillScores(t *testing.T) {
 		t.Errorf("editorial on a DA-92 outlet: band=%q score=%v, want high/major", band, score)
 	}
 }
+
+func TestStorySizeUsesKnownOutletFallbackWhenMetadataMissing(t *testing.T) {
+	c := signalCluster{Evidence: []evidenceItem{{
+		Source:    "news_search",
+		Title:     "Reuters reports major AI partnership",
+		URL:       "https://www.reuters.com/technology/ai-partnership",
+		Container: "Reuters",
+		Metadata:  map[string]any{"publication_type": "editorial"},
+	}}}
+	out := storySizeScore(c, 0.95, 0, 0)
+	if out["band"] != "high" {
+		t.Fatalf("band=%v score=%v, want high from known outlet fallback; story_size=%#v", out["band"], out["score"], out)
+	}
+	if out["confidence"] != "low" {
+		t.Fatalf("confidence=%v, want low for fallback without traffic metadata", out["confidence"])
+	}
+	if out["basis"] != "known_outlet_fallback" {
+		t.Fatalf("basis=%v, want known_outlet_fallback", out["basis"])
+	}
+	top := valueOrEmptyArray(out["top_outlets"])
+	if len(top) == 0 || valueOrEmptyMap(top[0])["score_basis"] != "known_outlet_fallback" {
+		t.Fatalf("top_outlets missing known_outlet_fallback basis: %#v", top)
+	}
+}
+
+func TestStorySizeAddsAttentionHintForSparseXNewsMajorSignal(t *testing.T) {
+	c := signalCluster{Evidence: []evidenceItem{{
+		Source: "x_news",
+		Title:  "OpenAI plans a super app launch",
+		URL:    "https://x.com/search?q=openai",
+		Metadata: map[string]any{
+			"x_signal_type":             "story_cluster",
+			"x_news_cluster_post_count": 18,
+		},
+	}}}
+	out := storySizeScore(c, 0.86, 0, 0)
+	if out["band"] != "unknown" {
+		t.Fatalf("band=%v, want unknown because no publication metadata; story_size=%#v", out["band"], out)
+	}
+	hint := valueOrEmptyMap(out["attention_hint"])
+	if hint["band"] != "high" {
+		t.Fatalf("attention_hint.band=%v, want high; story_size=%#v", hint["band"], out)
+	}
+	if hint["basis"] != "source_attention_signals" || hint["confidence"] != "low" {
+		t.Fatalf("attention_hint basis/confidence mismatch: %#v", hint)
+	}
+}

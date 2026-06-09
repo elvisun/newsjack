@@ -39,6 +39,9 @@ func signalStorySizeScore(signal map[string]any) (float64, bool) {
 	if score, ok := numberValue(valueOrEmptyMap(signal["story_size"])["score"]); ok {
 		return normalizeStorySizeScore(score)
 	}
+	if score, ok := numberValue(valueOrEmptyMap(valueOrEmptyMap(signal["story_size"])["attention_hint"])["score"]); ok {
+		return normalizeStorySizeScore(score)
+	}
 	return 0, false
 }
 
