@@ -369,6 +369,9 @@ writeJSON(
       bin: {
         newsjack: "bin/newsjack",
       },
+      publishConfig: {
+        access: "public",
+      },
       engines: {
         node: ">=18",
       },
