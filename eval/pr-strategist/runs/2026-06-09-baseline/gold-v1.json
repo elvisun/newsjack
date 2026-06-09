@@ -1,0 +1,252 @@
+{
+  "skill_name": "pr-strategist",
+  "version": 1,
+  "now_anchor": "2026-06-09",
+  "description": "Gold dataset for the pr-strategist pairwise eval. Each case is a concrete founder situation (the INPUT a founder would paste) paired with a reference strategy that faithfully distills what a named expert source actually recommends for that situation. The reference is the 'expert team' bar our skill is measured against in a blind A/B judge. The reference is NOT a single correct answer: must_haves/anti_patterns capture the strategic substance a strong answer must hit, deliberately leaving room for a broad range of equally-good plans (anti-overfit). Sources are real and cited so the bar is auditable. Do NOT name these companies/scenarios in the skill, and do NOT tune the skill against the holdout split.",
+  "rubric_dimensions": [
+    {"key": "audience_goal", "desc": "Correctly identifies who must believe what for the next milestone, and the real business goal — not 'the media' / 'awareness'."},
+    {"key": "positioning", "desc": "Pins positioning (what they do in one line, the alternative, the wedge) before tactics; flags when it's the real blocker."},
+    {"key": "news_peg", "desc": "Applies the newsworthiness gate honestly; ranks/strengthens the peg; refuses 'we exist' / funding-as-headline."},
+    {"key": "channel_cadence", "desc": "Routes channel from audience (trade/HN/creators/analysts, not tier-1 reflex) and prescribes a real drumbeat + reactive muscle, not a one-shot."},
+    {"key": "tactics_quality", "desc": "Tactical advice is specific, correct, and matches expert practice (list size, pitch shape, timing, going-direct, etc.)."},
+    {"key": "judgment_refusals", "desc": "Refuses the dumb defaults the situation invites (blasts, newswires, agency, vanity metrics, bundling raise+launch) and opens on the founder's real asset."},
+    {"key": "fit_actionability", "desc": "Plan is tailored to THIS founder and immediately actionable (sequenced, ownable), offers a menu rather than railroading one play."}
+  ],
+  "cases": [
+    {
+      "id": 1,
+      "name": "b2b-saas-seed-techcrunch-reflex",
+      "industry": "b2b-saas",
+      "archetype": "recently-launched-drumbeat",
+      "split": "train",
+      "scenario": "I'm the solo founder of a B2B SaaS that helps mid-market finance teams close their books faster. We launched 4 months ago, just raised a $2.5M seed, and have about 30 paying customers. How do I get us covered in TechCrunch?",
+      "reference_strategy": "Your buyers are mid-market finance leaders (controllers, VPs Finance) — and they don't read TechCrunch, a sub-$100M seed won't move it, and it's the most contested inbox on earth. Don't chase it. Reach the people whose belief turns into pipeline. Think backward from the headline you actually want: not 'startup raises $2.5M' but something a finance-ops reader would forward, e.g. 'why mid-market close still takes 10 days when it shouldn't.' Then work out which proof points and data you need to earn it — your own usage data on close-time reduction across those 30 customers is the strongest asset you have. Channels, in order: the finance/accounting trade press and operator newsletters and podcasts your customers actually read; founder-led posts on LinkedIn 2-3x/week owning one point of view about why mid-market is underserved; a reactive habit answering source requests where you're a genuine expert. Build a 20-40 name list of reporters who covered this exact space in the last 90 days, fit-checked by reading their last 5 pieces; trade and newsletters first, tier-1 later if ever — beat writers source from the trades. Use the raise as fuel, not the story: seed hiring and customer-win stories over the coming weeks rather than spending it all on day one, and never bundle it with a product launch. Pitches are plumbing: one personalized 51-150 word email per reporter (why you / why now / why them), one follow-up at 3-7 days, never call. Measure pipeline and inbound, not impressions.",
+      "must_haves": [
+        "Redirects away from TechCrunch by naming the actual buyer/audience (mid-market finance) and why tier-1 is wrong here",
+        "Routes channel to trade press + operator newsletters/podcasts and founder-led owned content, not tier-1 first",
+        "Frames the $2.5M raise as fuel/prologue for a drumbeat, not the headline, and warns against bundling raise with launch",
+        "Prescribes a small fit-checked media list (~20-40) and a personalized, sized pitch with one follow-up",
+        "Names original/usage data as the strongest available peg and ties success to a business outcome (pipeline/inbound), not vanity metrics"
+      ],
+      "anti_patterns": [
+        "Helps draft a TechCrunch pitch or treats tier-1 as the goal",
+        "Recommends a press release on a newswire or a 100+ media list / mass blast",
+        "Treats the seed raise itself as the newsworthy story",
+        "Leads with impressions/reach as the success metric"
+      ],
+      "sources": [
+        "https://review.firstround.com/how-new-startups-can-win-at-pr-advice-from-a-20-year-comms-career/",
+        "https://www.bvp.com/atlas/pr-fundamentals-for-early-stage-founders"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "devtool-oss-prelaunch-hacker-news",
+      "industry": "developer-tools",
+      "archetype": "technical-dev-tool",
+      "split": "train",
+      "scenario": "Two engineers here. We built an open-source CLI that replaces a slow part of most CI pipelines — builds that took minutes now take seconds. We haven't launched publicly yet. We want developers to actually try it. What's the play?",
+      "reference_strategy": "Your audience is developers, the purchase decision is theirs, and the moment they smell marketing, trust evaporates — so show, don't tell, and let the founders be the technical voice. The center of gravity is a Hacker News launch (Show HN), backed by Reddit and dev blogs, not tier-1 tech press. Before you post: get the README perfect, make trying it genuinely frictionless (no signup wall), publish transparent pricing/business model if any, and frame it as 'open-source alternative to X' linking the repo for credibility. Title is plain and explicit — what it is, no superlatives ('fastest/best' read as weak); modest language is stronger. The post reads like an honest experiment report, not an announcement: introduce yourselves, one sentence on what it does, the problem and why it matters, your backstory, the technical solution, what's genuinely different under the hood, and an open invitation for feedback — feedback is the CTA, users are collaborators not customers. Post Tue-Thu morning ET. The launch is won in the comments: be there all day, reply within the first hour, go deep on technical objections, and when criticized, find something to agree with first and treat critics as if they're doing you a favor. Do NOT have friends/employees post booster comments or upvote rings — HN punishes it and it's the fastest way to get flagged. After launch, open-source something real and keep shipping in public so each release is a mini-launch. This is a drumbeat, not a one-day spike — but the spike is HN, not a PR firm.",
+      "must_haves": [
+        "Centers the launch on Hacker News / Show HN (+ Reddit/dev communities), explicitly NOT tier-1 press or a PR agency",
+        "Founder/engineer is the technical voice; no marketing-speak, frictionless free trial, perfect README",
+        "Wins it in the comments: fast authentic engagement, agree-first with critics, go technical",
+        "Refuses fake engagement (no booster comments / upvote rings / superlatives)",
+        "Treats it as a sustained build-in-public drumbeat, not a single spike"
+      ],
+      "anti_patterns": [
+        "Recommends a press release, newswire, or pitching TechCrunch first",
+        "Suggests hiring a PR agency or paying influencers",
+        "Marketing-heavy launch copy with superlatives",
+        "Encourages coordinated upvotes or planted comments"
+      ],
+      "sources": [
+        "https://www.markepear.dev/blog/dev-tool-hacker-news-launch",
+        "https://business.daily.dev/resources/hacker-news-marketing-developer-tools-show-hn-launch-day-sustained-coverage/"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "dtc-consumer-launch-creator-seeding",
+      "industry": "consumer-dtc",
+      "archetype": "consumer-creator-led",
+      "split": "train",
+      "scenario": "We just launched a DTC skincare brand — one hero product, clean ingredients, a real differentiator in the formula. Budget is tight, maybe $15k for launch marketing. I keep getting pitched by PR agencies promising magazine placements. Worth it?",
+      "reference_strategy": "Skip the agency and the magazine placements — for a tight-budget DTC launch, a feature your buyers don't see won't move product, and that retainer is your whole budget. Act like a media company and put the product in creators' hands instead. Run a seeding program: identify ~500 micro-creators whose content and values fit your brand (use the free Instagram/TikTok creator marketplaces), and judge them on whether they make great content, not raw follower count — you can distribute the content better than they can. Reach out with genuine, no-strings gifting: short intro, one line on why you picked them, explicitly no obligation. Expect ~20% to opt in (~100), and ~30% of those to post (~30 creators, 2-3 assets each = 60-90 pieces of real content). Get usage rights — most grant it free; cap any ask at ~$500 for sub-150k creators. That content library is the actual asset: caption it, cut it 1x1 and 9x16, and feed your paid testing so winners scale. Do NOT pay a couple of mega-influencers and pray for virality — that's a $20M-brand move and it's one-and-done with no compounding. Phase it: micro-creators spike comment velocity and authenticity first; reserve bigger voices for later reach; layer customer advocates for credibility. Reactively, react within ~48h of any relevant trend. Allow 2-3 months to find, seed, and scale. Measure conversion and revenue from the content, not impressions.",
+      "must_haves": [
+        "Refuses the PR agency / magazine-placement pitch for a tight-budget DTC launch and explains why coverage won't move product",
+        "Centers a micro-creator seeding program (high volume outreach, no-strings gifting, fit over follower count)",
+        "Captures content/usage rights and reuses the content as the real asset (feeds paid/owned), creator-over-distribution",
+        "Refuses paying mega-influencers for one-shot virality; phases micro -> bigger -> advocates",
+        "Ties success to conversion/revenue and a realistic 2-3 month timeline, includes reactive trend speed"
+      ],
+      "anti_patterns": [
+        "Endorses the PR agency retainer or magazine placements as the play",
+        "Recommends a press release or traditional media pitch as primary",
+        "Leads with a few macro/celebrity influencers",
+        "Vanity-metric goals (reach/impressions)"
+      ],
+      "sources": [
+        "https://www.triplewhale.com/blog/micro-influencers-dtc",
+        "https://grin.co/blog/product-seeding-in-2026-the-influencer-marketing-strategy-thats-quietly-outperforming-paid-campaigns/"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "b2b-enterprise-analyst-led-category",
+      "industry": "ai-enterprise",
+      "archetype": "enterprise-analyst-led",
+      "split": "train",
+      "scenario": "We sell an AI governance platform to large regulated enterprises (banks, insurers). Deals are six figures and run through procurement and risk committees. We've outgrown the early-adopter crowd. How should we approach PR to actually help us win these deals?",
+      "reference_strategy": "Your buyers are risk and procurement committees at slow-moving enterprises — the 'Lagging 70%' that drives ~70% of enterprise tech spend — and they're shaped by industry analysts, not viral buzz or Hacker News. Analyst relations is your center of gravity now (and only now — AR would have been a distraction while you were selling to early adopters; you've crossed that line). Start the non-commercial relationship: you can brief Gartner/Forrester/IDC without being a paying client. Request one-way briefings where you educate the analyst, then keep contact every 1-2 months (never less than every 6). Bring your founding story as positioning ('why you, why now'), your technical edge, early traction with traditional/regulated verticals, and your product + GTM roadmap — and skip the market-size pitch; map your proof points to their evaluation criteria instead. Run PR in tandem with AR so they reinforce each other: targeted trade press in banking/insurance/risk and compliance newsletters, not generalist tier-1. A reality check on category: if there's no Magic Quadrant for what you do, the market may not be mature enough yet — that's a signal to help define the category (own a point of view about why AI governance is now a board-level requirement) rather than fight for a slot in a category buyers don't recognize. If you're targeting a specific report, engage 6-12 months ahead of the research cycle. Don't assume paying guarantees placement; the frustrated vendors are often the ones paying the most without strategic engagement.",
+      "must_haves": [
+        "Makes analyst relations (Gartner/Forrester/IDC) the center of gravity, and confirms the company has outgrown early adopters so AR is now right",
+        "Explains you can brief analysts without paying; describes briefing cadence and what to bring (why-you-why-now, proof mapped to criteria)",
+        "Routes PR to regulated-vertical trade press + compliance newsletters, NOT generalist tier-1, integrated with AR",
+        "Addresses category creation / Magic Quadrant maturity and owning a category POV",
+        "Refuses pay-to-play assumptions and consumer/dev/viral tactics for this analyst-led sale"
+      ],
+      "anti_patterns": [
+        "Recommends consumer/viral/HN tactics or tier-1 consumer tech as primary",
+        "Treats paying Gartner as the way to guaranteed placement",
+        "Skips analyst relations entirely",
+        "Pitches market-size / TAM to analysts"
+      ],
+      "sources": [
+        "https://a16z.com/how-to-engage-with-analyst-relations/",
+        "https://prime-techpr.com/pr/analyst-relations-category-definition-strategy/"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "post-series-a-bundle-launch",
+      "industry": "fintech",
+      "archetype": "post-fundraise",
+      "split": "train",
+      "scenario": "We just closed a $12M Series A led by a well-known fund. We're also about to ship a major new product. I want to do one giant launch that announces the funding and the product together for maximum impact. Help me plan the big day.",
+      "reference_strategy": "Don't bundle them. A raise and a launch on the same day halve each other — you get one diluted story instead of two clean ones, and you burn your scarcest asset (reporter attention) in a single shot. The raise is permission to tell your whole story over weeks, not a one-day event. Sequence it. First, the funding: prepare the full kit — amount, lead and returning investors, what the money is specifically for, founder and investor quotes — and remember that with funding, if a reporter doesn't write on day one they never will, so line up the relationships before the date and watch the SEC Form D trap where your raise can become public before you're ready. A named, well-known lead fund is a real asset; use it. Then, over the following weeks, seed the stories the raise unlocks: the hiring push, the customer wins, the thesis behind the round (why now, why this market). Save the product launch as its own moment a few weeks later, with its own peg and its own audience — ideally given as an exclusive (one outlet, more depth) or a true embargo (date set 2+ weeks out, never moved). Never stack two announcements. Across all of it, run founder-led owned content so the narrative compounds between the earned moments, and keep a reactive muscle going. Measure pipeline, hires, and inbound investor/partner interest — not the size of the launch-day splash.",
+      "must_haves": [
+        "Refuses bundling the raise and the launch into one day and explains why it halves both",
+        "Sequences: funding moment first (with full kit), product launch as its own later moment",
+        "Treats the raise as a multi-week story engine (hiring, customer, thesis stories), not a one-day event",
+        "Uses exclusive-vs-embargo mechanics correctly (don't stack announcements; set embargo date and don't move it)",
+        "Names the funding-specific traps (day-one-or-never, Form D) and ties success to business outcomes"
+      ],
+      "anti_patterns": [
+        "Helps plan the combined funding+launch 'big day'",
+        "Treats launch day as the finish line / one-shot",
+        "Recommends a wire blast of the funding release",
+        "Vanity launch-day metrics as the goal"
+      ],
+      "sources": [
+        "https://review.firstround.com/how-new-startups-can-win-at-pr-advice-from-a-20-year-comms-career/",
+        "https://www.bvp.com/atlas/pr-fundamentals-for-early-stage-founders"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "category-challenger-contrarian",
+      "industry": "saas-productivity",
+      "archetype": "category-challenger",
+      "split": "train",
+      "scenario": "We're building a project management tool in a crowded market dominated by big incumbents. Our whole thing is that we obsess over craft and speed where they've gotten bloated. I have strong opinions about how software should be built. How do we get noticed?",
+      "reference_strategy": "In a crowded category your asset isn't a feature list, it's a point of view — and you have one. Don't out-feature the incumbents; out-narrate them. Make the case that the old way is broken (bloated, slow, design-by-committee tooling) and that a new way — craft, speed, opinionated defaults — is inevitable, and name what changed in the world to force the shift. That's a wedge: contrarian and right, not provocative for its own sake. Write it up as a manifesto and pick the fight on a principle, not on the incumbent's name — mention them too often and you become 'the anti-them' and reinforce their gravity. Own and repeat one POV relentlessly; the leader of a category captures the majority of its value, so behave like you're defining 'craft-first project management,' not competing inside 'project management.' Go direct: the founder is the best spokesperson because you hold the secret knowledge the company is built on — outsourcing comms is as bad as outsourcing code. Build a founder platform (X/LinkedIn/blog) and publish the POV 2-3x/week; treat every shipped improvement as a mini-launch (a public changelog where speed and polish are the proof). Recruit believers — early users who share your taste become the narrative's distribution. Earned media serves this narrative; it isn't the strategy, and tier-1 will come to you once the drumbeat is loud in the communities your users live in (design/eng/founder circles). Measure raving users and inbound, not placements. Positioning first: nail the one-line 'what you do' and the alternative you're replacing before any of this.",
+      "must_haves": [
+        "Centers a wedge / contrarian-but-right POV and a manifesto; out-narrate rather than out-feature",
+        "Warns against over-naming the incumbent (don't become 'the anti-X'); fight on a principle and aim to define/own a category",
+        "Founder goes direct and owns the narrative on their own platform, publishing the POV on a cadence",
+        "Treats shipping/changelog as a drumbeat of mini-launches and recruits believers as distribution",
+        "Puts positioning (one-line + the alternative) first and ties success to raving users/inbound not placements"
+      ],
+      "anti_patterns": [
+        "Leads with feature comparisons or a press release",
+        "Makes the incumbent the center of the story",
+        "Recommends tier-1 press or an agency as the first move",
+        "Skips positioning / the POV and jumps to tactics"
+      ],
+      "sources": [
+        "https://www.command.ai/blog/linear-growth-case-study/",
+        "https://www.getflack.com/p/go-direct-the-manifesto",
+        "https://www.aprildunford.com/"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "solo-founder-go-direct-ai",
+      "industry": "ai-saas",
+      "archetype": "going-direct",
+      "split": "holdout",
+      "scenario": "I'm a solo technical founder building in the AI agents space. I have genuinely strong, somewhat contrarian views about where the field is going, and I post sometimes but inconsistently. I have no PR budget. Everyone tells me to hire a PR firm. Should I?",
+      "reference_strategy": "No — for you a PR firm is the wrong first move. Your unfair advantage is that you hold the secret knowledge the company is built on and you have a real, contrarian point of view in a field everyone is watching. The best spokesperson isn't the most polished or credentialed one, it's the person with that knowledge — you. Go direct: craft and tell your own story without depending on intermediaries, and don't let it get diluted by a firm or corporate-speak. Outsourcing comms here is as close to outsourcing code as it gets. The whole planet is reachable by social and email now; build your own platform of effectively unlimited scale. The fix to 'I post inconsistently' is the entire game: turn sporadic posting into a real drumbeat — pick the one channel where the AI community actually argues (X, and/or a Substack for depth) and publish your POV 2-3x/week, consistently, especially in the face of pushback. Use the ends/ways/means lens: decide who has to believe what for your next milestone (hiring? early users? a raise?), then make every post move those specific people toward those beliefs. Layer in a reactive habit — the AI news cycle is constant, so pre-write reusable expert takes and be the fast, named expert when stories break (your best window is hours, not days). Going direct doesn't mean going alone: you can hand off the production and amplification work, but never the story or the voice. Hold off on any firm until you're genuinely the bottleneck. Measure the right people hearing the right message — inbound from the people you want (hires, users, investors), reporters coming to you — not follower vanity.",
+      "must_haves": [
+        "Says no to the PR firm as a first move; founder owns the voice and goes direct",
+        "Names the founder's knowledge + contrarian POV as the unfair advantage / best spokesperson",
+        "Fixes the inconsistency: one channel, consistent 2-3x/week drumbeat of the POV",
+        "Adds a reactive/newsjacking habit (pre-written takes, be the fast named expert)",
+        "Hand off execution not the story; defer any agency until founder is the bottleneck; success = right people, not vanity"
+      ],
+      "anti_patterns": [
+        "Recommends hiring a PR firm now",
+        "Suggests a press release or media blast",
+        "Generic 'post more' with no cadence/channel discipline or audience logic",
+        "Follower-count / impression goals"
+      ],
+      "sources": [
+        "https://www.getflack.com/p/go-direct-the-manifesto",
+        "https://www.antoinebuteau.com/lessons-from-lulu-cheng-meservey/"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "pre-product-wants-buzz",
+      "industry": "ai-saas",
+      "archetype": "pre-launch",
+      "split": "holdout",
+      "scenario": "I'm building an AI tool for recruiters. No product yet, no customers, no funding — we're a few months from a beta. I want to start generating buzz and press now so we have momentum at launch. Can you help me get some press?",
+      "reference_strategy": "Hold the press — there's nothing to pitch yet, and pitching 'we're building something' now spends credibility you'll want at launch. 'We exist / we're coming' fails all three newsworthiness tests (new, timely, interesting to someone besides you), so a story now is a coin flip that's forgotten by launch day anyway. But that's not a rejection — it's a head start, because the highest-value thing you can do pre-launch is build your launch-day audience now, which is worth far more than an early hit. Three moves, none of which need a product. First, positioning: get the one-line 'what you do' that a non-expert gets in 10 seconds, name the alternative recruiters use today, and find the one thing you'll do that it can't — most 'PR problems' at this stage are really positioning problems, and this takes an hour, not a week. Second, go direct now: pick the one channel where recruiters and talent leaders actually are (likely LinkedIn) and start publishing the founder's POV on what's broken in hiring 2-3x/week — you're gathering the audience you'll launch to. Third, build the reactive muscle: 10-15 min/day on the free journalist-request platforms, answering only where you have real expertise, to earn relationships and the occasional mention with no news of your own. Do NOT build a media list or pitch reporters yet — there's no story. When the beta is real and you have a few design partners and early data, that's your peg, and then you concentrate the audience you've built into one launch moment. Measure audience growth and design-partner interest now, not coverage.",
+      "must_haves": [
+        "Refuses to chase press now and explains 'we exist/coming' fails the newsworthiness gate",
+        "Reframes as a head start: build the launch-day audience now (going direct) rather than an early forgettable hit",
+        "Puts positioning first as the real pre-launch work (one-liner, the alternative, the wedge)",
+        "Builds the reactive muscle but explicitly NO media list / no reporter pitching yet (nothing to pitch)",
+        "Identifies the future real peg (working beta + design partners/data) and a measure of audience growth not coverage"
+      ],
+      "anti_patterns": [
+        "Helps draft pitches / build a media list to get press now",
+        "Treats 'we're building X' as a newsworthy hook",
+        "Recommends a launch PR push or agency before there's a product",
+        "Frames the redirect as a rejection rather than a head start"
+      ],
+      "sources": [
+        "https://review.firstround.com/how-new-startups-can-win-at-pr-advice-from-a-20-year-comms-career/",
+        "https://www.bvp.com/atlas/pr-fundamentals-for-early-stage-founders"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "weak-peg-manufacture-data",
+      "industry": "hr-tech",
+      "archetype": "data-pr-drumbeat",
+      "split": "holdout",
+      "scenario": "We're an established-ish HR software company with a few thousand customers and a lot of anonymized workforce data. We don't really have any 'news' coming up but we want consistent press coverage. What can we actually pitch?",
+      "reference_strategy": "You're sitting on the strongest news peg there is and not using it: original data. Roughly 2.5x the coverage comes from proprietary research versus an ordinary announcement, and a recurring data study is how you manufacture 'news' on demand when you have no launches or rounds. Mine your anonymized workforce data into a standalone study journalists can cite — pick one question your data can answer that a wider audience cares about (e.g., real return-to-office patterns, comp shifts, attrition by role), turn it into clear charts, and write it up as a report, not a sales doc. Define the headlines you want in advance and work backward to which cuts of the data support them; one study can be sliced for different audiences (a piece for HR trade press, a piece for business/finance press). Make it recurring — a quarterly index or annual report trains reporters to expect and rely on you, the way the best data PR engines do. Connect each release to a live cultural or news moment so it's timely, and cherry-pick segments to stay relevant between drops. Distribution: a small fit-checked list (~20-40) of reporters who cover the future-of-work / HR beat, each pitched a personalized 51-150 word email tying the data to their recent work; trade and newsletters first. Around the data drumbeat, run founder-led owned content and a reactive habit so earned and owned media feed each other. This isn't a one-off — it's the engine: a rolling queue of 3-5 data-driven items over ~6 months. Measure coverage that reaches your buyers and the inbound it drives, not raw clip counts.",
+      "must_haves": [
+        "Identifies the proprietary/anonymized data as the peg and invokes original research (~2.5x) to manufacture news",
+        "Turns data into a standalone, citable study/report (charts, not a sales doc); headlines-backward design",
+        "Makes it recurring (quarterly/annual index) and ties each drop to a timely moment",
+        "Distributes via a small fit-checked list + personalized sized pitches, trade-first; runs alongside owned + reactive",
+        "Frames it as an ongoing drumbeat (rolling queue) and measures buyer-relevant coverage/inbound not clip counts"
+      ],
+      "anti_patterns": [
+        "Says there's nothing to pitch / recommends waiting for 'real news'",
+        "Recommends a press release on a wire about the company itself",
+        "Suggests a one-off stunt instead of a recurring data engine",
+        "Vanity clip-count metrics"
+      ],
+      "sources": [
+        "https://review.firstround.com/how-new-startups-can-win-at-pr-advice-from-a-20-year-comms-career/",
+        "https://www.bvp.com/atlas/pr-fundamentals-for-early-stage-founders"
+      ]
+    }
+  ]
+}

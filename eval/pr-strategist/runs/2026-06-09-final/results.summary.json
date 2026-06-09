@@ -1,0 +1,577 @@
+{
+  "ALL": {
+    "n": 36,
+    "candidate_vs_gold": {
+      "win": 25,
+      "tie": 0,
+      "loss": 11,
+      "win_rate": 0.694,
+      "tie_rate": 0.0,
+      "loss_rate": 0.306,
+      "tie_or_better_rate": 0.694
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.917,
+      "positioning": 4.889,
+      "news_peg": 4.667,
+      "channel_cadence": 4.778,
+      "tactics_quality": 4.778,
+      "judgment_refusals": 4.889,
+      "fit_actionability": 4.833
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.361,
+      "positioning": 3.944,
+      "news_peg": 4.25,
+      "channel_cadence": 4.5,
+      "tactics_quality": 4.75,
+      "judgment_refusals": 4.917,
+      "fit_actionability": 4.194
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.556,
+      "positioning": 0.945,
+      "news_peg": 0.417,
+      "channel_cadence": 0.278,
+      "tactics_quality": 0.028,
+      "judgment_refusals": -0.028,
+      "fit_actionability": 0.639
+    },
+    "mean_total_candidate": 4.822,
+    "mean_total_gold": 4.417,
+    "judge_identification": {
+      "correct": 16,
+      "wrong": 19,
+      "unsure": 1,
+      "accuracy_of_decided": 0.457,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 21,
+      "B_wins": 15,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the 'name the number vs undisclosed' nuance on the raise that B nails; both otherwise complete.",
+        1
+      ],
+      [
+        "No 'never call' / channel discipline note on pitch follow-up that B adds.",
+        1
+      ],
+      [
+        "Does not surface the milestone-routing fork (pipeline now vs. teeing up the next raise), which changes the whole plan's center of gravity; A makes this explicit.",
+        1
+      ],
+      [
+        "Misses the 'undisclosed reads as small \u2014 name the number' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "Names usage data as the strongest peg but does NOT flag that 30 customers is a thin, easily-attackable sample \u2014 misses the obvious 'a reporter will pick this apart / commission or caveat the methodology' defense that B catches; minor over-confidence in the data angle for THIS tiny n.",
+        1
+      ],
+      [
+        "Misses the 'name the number, undisclosed reads as small' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "Proposes the first-party data peg from 30 customers without flagging that the sample is too thin to survive scrutiny \u2014 no methodology caveat or commission-a-survey fallback, where A explicitly warns it 'gets picked apart'",
+        1
+      ],
+      [
+        "Does not lead as hard on the milestone-routing question (pipeline vs. next raise) that should determine whether you do PR at all; treats the menu as the spine rather than the goal-diagnosis",
+        1
+      ],
+      [
+        "No major gaps; could have named a concrete near-term target (e.g., front-page HN or N installs) rather than leaving the metric qualitative",
+        1
+      ],
+      [
+        "Slightly verbose; the three-play menu risks diluting focus for two engineers with no time, though it does flag the main play as the priority.",
+        1
+      ],
+      [
+        "Marginally less crisply sequenced than A as a literal step-by-step a founder can execute top-to-bottom.",
+        1
+      ],
+      [
+        "Frames 'we haven't launched yet' as the news peg before correcting to the benchmark number \u2014 slightly loose, though it self-corrects to the right answer (the reproducible number is the headline).",
+        1
+      ],
+      [
+        "Fumbles the newsworthiness gate: frames 'we haven't launched yet' as the news peg and says it 'passes the newsworthiness test' \u2014 that is the 'we exist / launch-as-headline' soft peg the gate should refuse; it does pivot to the benchmark but the gate framing is wrong",
+        1
+      ],
+      [
+        "Positioning section is slightly soft ('you do not have a positioning problem') \u2014 reframing to a 'specificity gap' is fine but understates how often the unfilled bracket IS the real blocker",
+        1
+      ],
+      [
+        "Mildly less crisp on the hard anti-gaming rule: it lists what-not-to-do well but is less explicit than A that planted booster comments AND upvote rings are detected by HN and will kill the launch",
+        1
+      ]
+    ]
+  },
+  "split=train": {
+    "n": 24,
+    "candidate_vs_gold": {
+      "win": 16,
+      "tie": 0,
+      "loss": 8,
+      "win_rate": 0.667,
+      "tie_rate": 0.0,
+      "loss_rate": 0.333,
+      "tie_or_better_rate": 0.667
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.917,
+      "positioning": 4.958,
+      "news_peg": 4.625,
+      "channel_cadence": 4.833,
+      "tactics_quality": 4.75,
+      "judgment_refusals": 4.917,
+      "fit_actionability": 4.875
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.417,
+      "positioning": 3.958,
+      "news_peg": 4.083,
+      "channel_cadence": 4.458,
+      "tactics_quality": 4.875,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 4.208
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.5,
+      "positioning": 1.0,
+      "news_peg": 0.542,
+      "channel_cadence": 0.375,
+      "tactics_quality": -0.125,
+      "judgment_refusals": -0.083,
+      "fit_actionability": 0.667
+    },
+    "mean_total_candidate": 4.839,
+    "mean_total_gold": 4.428,
+    "judge_identification": {
+      "correct": 13,
+      "wrong": 11,
+      "unsure": 0,
+      "accuracy_of_decided": 0.542,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 14,
+      "B_wins": 10,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the 'name the number vs undisclosed' nuance on the raise that B nails; both otherwise complete.",
+        1
+      ],
+      [
+        "No 'never call' / channel discipline note on pitch follow-up that B adds.",
+        1
+      ],
+      [
+        "Does not surface the milestone-routing fork (pipeline now vs. teeing up the next raise), which changes the whole plan's center of gravity; A makes this explicit.",
+        1
+      ],
+      [
+        "Misses the 'undisclosed reads as small \u2014 name the number' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "Names usage data as the strongest peg but does NOT flag that 30 customers is a thin, easily-attackable sample \u2014 misses the obvious 'a reporter will pick this apart / commission or caveat the methodology' defense that B catches; minor over-confidence in the data angle for THIS tiny n.",
+        1
+      ],
+      [
+        "Misses the 'name the number, undisclosed reads as small' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "Proposes the first-party data peg from 30 customers without flagging that the sample is too thin to survive scrutiny \u2014 no methodology caveat or commission-a-survey fallback, where A explicitly warns it 'gets picked apart'",
+        1
+      ],
+      [
+        "Does not lead as hard on the milestone-routing question (pipeline vs. next raise) that should determine whether you do PR at all; treats the menu as the spine rather than the goal-diagnosis",
+        1
+      ],
+      [
+        "No major gaps; could have named a concrete near-term target (e.g., front-page HN or N installs) rather than leaving the metric qualitative",
+        1
+      ],
+      [
+        "Slightly verbose; the three-play menu risks diluting focus for two engineers with no time, though it does flag the main play as the priority.",
+        1
+      ],
+      [
+        "Marginally less crisply sequenced than A as a literal step-by-step a founder can execute top-to-bottom.",
+        1
+      ],
+      [
+        "Frames 'we haven't launched yet' as the news peg before correcting to the benchmark number \u2014 slightly loose, though it self-corrects to the right answer (the reproducible number is the headline).",
+        1
+      ],
+      [
+        "Fumbles the newsworthiness gate: frames 'we haven't launched yet' as the news peg and says it 'passes the newsworthiness test' \u2014 that is the 'we exist / launch-as-headline' soft peg the gate should refuse; it does pivot to the benchmark but the gate framing is wrong",
+        1
+      ],
+      [
+        "Positioning section is slightly soft ('you do not have a positioning problem') \u2014 reframing to a 'specificity gap' is fine but understates how often the unfilled bracket IS the real blocker",
+        1
+      ],
+      [
+        "Mildly less crisp on the hard anti-gaming rule: it lists what-not-to-do well but is less explicit than A that planted booster comments AND upvote rings are detected by HN and will kill the launch",
+        1
+      ]
+    ]
+  },
+  "model=opus": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 17,
+      "tie": 0,
+      "loss": 1,
+      "win_rate": 0.944,
+      "tie_rate": 0.0,
+      "loss_rate": 0.056,
+      "tie_or_better_rate": 0.944
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.944,
+      "news_peg": 4.833,
+      "channel_cadence": 5.0,
+      "tactics_quality": 5.0,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.222,
+      "positioning": 3.778,
+      "news_peg": 4.167,
+      "channel_cadence": 4.278,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.889,
+      "fit_actionability": 4.111
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.778,
+      "positioning": 1.166,
+      "news_peg": 0.666,
+      "channel_cadence": 0.722,
+      "tactics_quality": 0.333,
+      "judgment_refusals": 0.111,
+      "fit_actionability": 0.889
+    },
+    "mean_total_candidate": 4.968,
+    "mean_total_gold": 4.302,
+    "judge_identification": {
+      "correct": 5,
+      "wrong": 13,
+      "unsure": 0,
+      "accuracy_of_decided": 0.278,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 10,
+      "B_wins": 8,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the 'name the number vs undisclosed' nuance on the raise that B nails; both otherwise complete.",
+        1
+      ],
+      [
+        "No 'never call' / channel discipline note on pitch follow-up that B adds.",
+        1
+      ],
+      [
+        "Does not surface the milestone-routing fork (pipeline now vs. teeing up the next raise), which changes the whole plan's center of gravity; A makes this explicit.",
+        1
+      ],
+      [
+        "Misses the 'undisclosed reads as small \u2014 name the number' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "No major gaps; could have named a concrete near-term target (e.g., front-page HN or N installs) rather than leaving the metric qualitative",
+        1
+      ],
+      [
+        "Slightly verbose; the three-play menu risks diluting focus for two engineers with no time, though it does flag the main play as the priority.",
+        1
+      ],
+      [
+        "Marginally less crisply sequenced than A as a literal step-by-step a founder can execute top-to-bottom.",
+        1
+      ],
+      [
+        "News peg dimension is only lightly touched \u2014 it routes around earned news rather than explicitly applying the newsworthiness gate to whether the formula differentiator is itself pitchable.",
+        1
+      ],
+      [
+        "Less concrete on funnel conversion math (opt-in/post rates, cost-per-usable-asset) than B, so harder to forecast output from the $15k.",
+        1
+      ],
+      [
+        "Lighter on the operational seeding mechanics A nails \u2014 no list-size target made vivid as a number to hit, opt-in/post-rate expectations, or a tool to track cost per usable asset",
+        1
+      ],
+      [
+        "No explicit rights-payment fallback (what to do/pay if a creator asks for usage rights) where A gives a concrete cap",
+        1
+      ],
+      [
+        "Slightly under-specifies the 48-72h reactive-trend speed for riding beauty trends, beyond the always-on source habit",
+        1
+      ],
+      [
+        "No explicit mention of the analyst research-cycle lead time (engage 6-12 months ahead of a target report) \u2014 a concrete AR timing detail B nails",
+        1
+      ],
+      [
+        "Slightly underweights the Magic-Quadrant/category-maturity read (it gestures at category creation via the wedge but doesn't address the 'no MQ yet = Gartner sees insufficient demand' signal as crisply as B)",
+        1
+      ],
+      [
+        "Slightly over-weights founder 'go direct'/LinkedIn 2-3x per week; for a procurement/risk-committee buyer this is a background compounder, not buyer-facing as implied, though B does subordinate it to AR",
+        1
+      ]
+    ]
+  },
+  "model=sonnet": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 8,
+      "tie": 0,
+      "loss": 10,
+      "win_rate": 0.444,
+      "tie_rate": 0.0,
+      "loss_rate": 0.556,
+      "tie_or_better_rate": 0.444
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.833,
+      "positioning": 4.833,
+      "news_peg": 4.5,
+      "channel_cadence": 4.556,
+      "tactics_quality": 4.556,
+      "judgment_refusals": 4.778,
+      "fit_actionability": 4.667
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.5,
+      "positioning": 4.111,
+      "news_peg": 4.333,
+      "channel_cadence": 4.722,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 4.944,
+      "fit_actionability": 4.278
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.333,
+      "positioning": 0.722,
+      "news_peg": 0.167,
+      "channel_cadence": -0.166,
+      "tactics_quality": -0.277,
+      "judgment_refusals": -0.166,
+      "fit_actionability": 0.389
+    },
+    "mean_total_candidate": 4.675,
+    "mean_total_gold": 4.532,
+    "judge_identification": {
+      "correct": 11,
+      "wrong": 6,
+      "unsure": 1,
+      "accuracy_of_decided": 0.647,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 11,
+      "B_wins": 7,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Names usage data as the strongest peg but does NOT flag that 30 customers is a thin, easily-attackable sample \u2014 misses the obvious 'a reporter will pick this apart / commission or caveat the methodology' defense that B catches; minor over-confidence in the data angle for THIS tiny n.",
+        1
+      ],
+      [
+        "Misses the 'name the number, undisclosed reads as small' nuance on how to seed the raise.",
+        1
+      ],
+      [
+        "Proposes the first-party data peg from 30 customers without flagging that the sample is too thin to survive scrutiny \u2014 no methodology caveat or commission-a-survey fallback, where A explicitly warns it 'gets picked apart'",
+        1
+      ],
+      [
+        "Does not lead as hard on the milestone-routing question (pipeline vs. next raise) that should determine whether you do PR at all; treats the menu as the spine rather than the goal-diagnosis",
+        1
+      ],
+      [
+        "Frames 'we haven't launched yet' as the news peg before correcting to the benchmark number \u2014 slightly loose, though it self-corrects to the right answer (the reproducible number is the headline).",
+        1
+      ],
+      [
+        "Fumbles the newsworthiness gate: frames 'we haven't launched yet' as the news peg and says it 'passes the newsworthiness test' \u2014 that is the 'we exist / launch-as-headline' soft peg the gate should refuse; it does pivot to the benchmark but the gate framing is wrong",
+        1
+      ],
+      [
+        "Positioning section is slightly soft ('you do not have a positioning problem') \u2014 reframing to a 'specificity gap' is fine but understates how often the unfilled bracket IS the real blocker",
+        1
+      ],
+      [
+        "Mildly less crisp on the hard anti-gaming rule: it lists what-not-to-do well but is less explicit than A that planted booster comments AND upvote rings are detected by HN and will kill the launch",
+        1
+      ],
+      [
+        "Funnel math is qualitative ($5-8k product, 'hundreds') rather than B's concrete opt-in/post/asset rates and cost-per-usable-asset tracking",
+        1
+      ],
+      [
+        "Less explicit on the rights mechanics (no price cap for paid rights) and on recutting assets to 1x1/9x16 to feed paid testing",
+        1
+      ],
+      [
+        "Reactive trend-speed is implied but not given a concrete window like B's 48h",
+        1
+      ],
+      [
+        "Seeding mechanics are less rigorous than A: no opt-in/post funnel math, no explicit cost-per-usable-asset or tracking tool, so the 'volume creates signal' claim is asserted but not operationalized.",
+        1
+      ],
+      [
+        "Phasing is underspecified \u2014 A explicitly sequences micro \u2192 bigger voices \u2192 customer advocates; B says 'not mega-influencers' but never lays out the progression to bigger reach or advocacy layer.",
+        1
+      ],
+      [
+        "Less explicit on the realistic 2-3 month timeline and the 48h reactive-trend speed that A pins down.",
+        1
+      ],
+      [
+        "Largely skips Magic Quadrant / category-maturity reasoning \u2014 no read on whether an MQ exists, what its absence signals about Gartner-perceived buyer demand, or owning a category POV deliberately",
+        1
+      ]
+    ]
+  },
+  "split=holdout": {
+    "n": 12,
+    "candidate_vs_gold": {
+      "win": 9,
+      "tie": 0,
+      "loss": 3,
+      "win_rate": 0.75,
+      "tie_rate": 0.0,
+      "loss_rate": 0.25,
+      "tie_or_better_rate": 0.75
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.917,
+      "positioning": 4.75,
+      "news_peg": 4.75,
+      "channel_cadence": 4.667,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 4.833,
+      "fit_actionability": 4.75
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.25,
+      "positioning": 3.917,
+      "news_peg": 4.583,
+      "channel_cadence": 4.583,
+      "tactics_quality": 4.5,
+      "judgment_refusals": 4.75,
+      "fit_actionability": 4.167
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.667,
+      "positioning": 0.833,
+      "news_peg": 0.167,
+      "channel_cadence": 0.084,
+      "tactics_quality": 0.333,
+      "judgment_refusals": 0.083,
+      "fit_actionability": 0.583
+    },
+    "mean_total_candidate": 4.786,
+    "mean_total_gold": 4.393,
+    "judge_identification": {
+      "correct": 3,
+      "wrong": 8,
+      "unsure": 1,
+      "accuracy_of_decided": 0.273,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 7,
+      "B_wins": 5,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Positioning treatment is light \u2014 it pushes straight to thesis/POV without explicitly pinning the one-line 'what you do' and the alternative/wedge as a possible blocker; assumes the contrarian view is already crisp enough to be the positioning.",
+        1
+      ],
+      [
+        "The 'original research gets ~2-3x more pickup' figure is stated with more precision than warranted, though it's correctly relegated to a backup move so the risk is low",
+        1
+      ],
+      [
+        "Slightly over-indexes on naming authorities (Lulu, Seibel) which is persuasive scaffolding rather than added strategic substance \u2014 but it doesn't replace any real advice, so it's a minor cost",
+        1
+      ],
+      [
+        "Omits the reactive/newsjacking habit entirely (pre-written takes, be the fast named expert) \u2014 the single highest-leverage move in the AI news cycle for this founder",
+        1
+      ],
+      [
+        "Prescribes once-a-week posting, too light to establish a real drumbeat in the fast-moving AI conversation; closer to 2-3x/week is the expert norm",
+        1
+      ],
+      [
+        "Delays journalist outreach to month 3+ as a near-mandatory step; for a thought-leader play, going-direct/inbound can be the main channel and press is optional, so the timeline slightly over-centers the pitch",
+        1
+      ],
+      [
+        "Cadence too weak: explicitly prescribes 'once a week,' below the 2-3x/week drumbeat this already-posting founder needs in a fast field",
+        1
+      ],
+      [
+        "Omits the reactive/newsjacking muscle (pre-written takes, be the fast named expert) \u2014 the single highest-leverage habit for a contrarian in the AI news cycle",
+        1
+      ],
+      [
+        "Front-loads a Month 3+ journalist-pitch sequence as the goal state, partly reintroducing the media-relations frame the founder should de-emphasize; A better treats 'reporters come to you' as the byproduct of going direct",
+        1
+      ],
+      [
+        "The '2-3x' pickup figure for original/data pieces is asserted with false precision and unsourced \u2014 directionally true but the kind of made-up stat a sharp operator would hedge harder or drop.",
+        1
+      ],
+      [
+        "Volunteers unsourced quantified claims ('a few thousand of exactly the right people', 'roughly 2-3x' pickup for originals) that a careful operator would hedge \u2014 minor credibility risk if the founder takes them as fact",
+        1
+      ],
+      [
+        "Slightly longer/heavier than needed; the same plan could be delivered tighter, though this is style not substance and was not penalized",
+        1
+      ],
+      [
+        "Slightly less crisp than B on the explicit anti-vanity-metric instruction (measure audience growth / design-partner interest, not coverage) \u2014 implies it via the audience-list play but does not name the metric as directly",
+        1
+      ],
+      [
+        "Does not as explicitly tie 'go direct' to recruiting design partners out of the audience (B makes that conversion explicit)",
+        1
+      ],
+      [
+        "Presents 'commission a survey of 200 recruiters' as the strongest play for a founder with explicitly no funding \u2014 over-resourced and mildly mis-sequenced; a veteran would lead with recruiting design partners from the audience and treat paid research as optional, not the headline play.",
+        1
+      ]
+    ]
+  }
+}

@@ -1,0 +1,577 @@
+{
+  "ALL": {
+    "n": 36,
+    "candidate_vs_gold": {
+      "win": 25,
+      "tie": 0,
+      "loss": 11,
+      "win_rate": 0.694,
+      "tie_rate": 0.0,
+      "loss_rate": 0.306,
+      "tie_or_better_rate": 0.694
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.944,
+      "positioning": 4.833,
+      "news_peg": 4.833,
+      "channel_cadence": 4.889,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.889,
+      "fit_actionability": 4.944
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.361,
+      "positioning": 4.0,
+      "news_peg": 4.222,
+      "channel_cadence": 4.611,
+      "tactics_quality": 4.75,
+      "judgment_refusals": 4.833,
+      "fit_actionability": 4.25
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.583,
+      "positioning": 0.833,
+      "news_peg": 0.611,
+      "channel_cadence": 0.278,
+      "tactics_quality": -0.083,
+      "judgment_refusals": 0.056,
+      "fit_actionability": 0.694
+    },
+    "mean_total_candidate": 4.857,
+    "mean_total_gold": 4.432,
+    "judge_identification": {
+      "correct": 14,
+      "wrong": 22,
+      "unsure": 0,
+      "accuracy_of_decided": 0.389,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 23,
+      "B_wins": 13,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the commissioned-survey backfill option for the thin 30-customer sample that B explicitly names as a remedy.",
+        1
+      ],
+      [
+        "Asks the most consequential question (next milestone: pipeline vs raise vs hires) only as a closing sign-off, so the whole plan is built on an assumed goal rather than being branched on it \u2014 A makes this the routing fork up front, which is the more correct sequencing",
+        1
+      ],
+      [
+        "Slightly over-relies on named anecdotes (Seibel/$100K, a16z near-quotes) as authority set-pieces rather than reasoning, which adds little incremental strategic value",
+        1
+      ],
+      [
+        "Names only generic alternatives (spreadsheets/NetSuite/ERPs) and misses the real named category incumbents (BlackLine, FloQast) \u2014 a positioning miss for THIS specific space where the competitive set is well-defined",
+        1
+      ],
+      [
+        "Slightly softer on the wedge: 'name what's broken' rather than B's sharper 'faster close is a benefit, not a wedge \u2014 find what alternatives structurally can't do'",
+        1
+      ],
+      [
+        "Does not flag the milestone-routing fork as explicitly (pipeline vs next raise) before committing to a plan",
+        1
+      ],
+      [
+        "States the funding window is already missed as fact \u2014 overconfident and likely wrong at 4 months; A correctly treats the raise as seedable prologue, the better call",
+        1
+      ],
+      [
+        "Outlet list includes 'Finance & Commerce' (regional/construction-leaning) as a CFO trade target \u2014 a fit miss that a vetted list would catch",
+        1
+      ],
+      [
+        "Slightly thinner on pitch mechanics than A (word count, follow-up timing, no-call rule), where expert practice is specific",
+        1
+      ],
+      [
+        "Concedes TechCrunch 'for investor signaling' is 'not crazy to want' \u2014 A more cleanly subordinates it and never softens toward tier-1 as a legitimate near-term goal",
+        1
+      ],
+      [
+        "No explicit launch-day timing window (B's Tue-Thu morning ET is a real tactical add A omits)",
+        1
+      ],
+      [
+        "Channel list is slightly thinner (mentions HN/Reddit/X but not Lobsters or dev.to, which suit this dev audience)",
+        1
+      ],
+      [
+        "Slightly under-specifies the Show HN post structure itself \u2014 A's explicit seven-part 'honest experiment report' shape is more directly ownable copy guidance than B's README-centric framing",
+        1
+      ],
+      [
+        "Mentions r/devops, r/programming and X but is a touch lighter than A on the full channel set (Lobsters, dev.to) for distribution breadth",
+        1
+      ],
+      [
+        "Does not explicitly address relaunch-after-a-flop normalization (A notes a mistimed Show HN is normal and you can relaunch) \u2014 a useful expectation-setting point for first-time launchers",
+        1
+      ]
+    ]
+  },
+  "split=train": {
+    "n": 24,
+    "candidate_vs_gold": {
+      "win": 15,
+      "tie": 0,
+      "loss": 9,
+      "win_rate": 0.625,
+      "tie_rate": 0.0,
+      "loss_rate": 0.375,
+      "tie_or_better_rate": 0.625
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.958,
+      "positioning": 4.833,
+      "news_peg": 4.875,
+      "channel_cadence": 4.958,
+      "tactics_quality": 4.583,
+      "judgment_refusals": 4.875,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.333,
+      "positioning": 3.917,
+      "news_peg": 4.083,
+      "channel_cadence": 4.583,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 4.958,
+      "fit_actionability": 4.292
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.625,
+      "positioning": 0.916,
+      "news_peg": 0.792,
+      "channel_cadence": 0.375,
+      "tactics_quality": -0.25,
+      "judgment_refusals": -0.083,
+      "fit_actionability": 0.708
+    },
+    "mean_total_candidate": 4.869,
+    "mean_total_gold": 4.428,
+    "judge_identification": {
+      "correct": 10,
+      "wrong": 14,
+      "unsure": 0,
+      "accuracy_of_decided": 0.417,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 17,
+      "B_wins": 7,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the commissioned-survey backfill option for the thin 30-customer sample that B explicitly names as a remedy.",
+        1
+      ],
+      [
+        "Asks the most consequential question (next milestone: pipeline vs raise vs hires) only as a closing sign-off, so the whole plan is built on an assumed goal rather than being branched on it \u2014 A makes this the routing fork up front, which is the more correct sequencing",
+        1
+      ],
+      [
+        "Slightly over-relies on named anecdotes (Seibel/$100K, a16z near-quotes) as authority set-pieces rather than reasoning, which adds little incremental strategic value",
+        1
+      ],
+      [
+        "Names only generic alternatives (spreadsheets/NetSuite/ERPs) and misses the real named category incumbents (BlackLine, FloQast) \u2014 a positioning miss for THIS specific space where the competitive set is well-defined",
+        1
+      ],
+      [
+        "Slightly softer on the wedge: 'name what's broken' rather than B's sharper 'faster close is a benefit, not a wedge \u2014 find what alternatives structurally can't do'",
+        1
+      ],
+      [
+        "Does not flag the milestone-routing fork as explicitly (pipeline vs next raise) before committing to a plan",
+        1
+      ],
+      [
+        "States the funding window is already missed as fact \u2014 overconfident and likely wrong at 4 months; A correctly treats the raise as seedable prologue, the better call",
+        1
+      ],
+      [
+        "Outlet list includes 'Finance & Commerce' (regional/construction-leaning) as a CFO trade target \u2014 a fit miss that a vetted list would catch",
+        1
+      ],
+      [
+        "Slightly thinner on pitch mechanics than A (word count, follow-up timing, no-call rule), where expert practice is specific",
+        1
+      ],
+      [
+        "Concedes TechCrunch 'for investor signaling' is 'not crazy to want' \u2014 A more cleanly subordinates it and never softens toward tier-1 as a legitimate near-term goal",
+        1
+      ],
+      [
+        "No explicit launch-day timing window (B's Tue-Thu morning ET is a real tactical add A omits)",
+        1
+      ],
+      [
+        "Channel list is slightly thinner (mentions HN/Reddit/X but not Lobsters or dev.to, which suit this dev audience)",
+        1
+      ],
+      [
+        "Slightly under-specifies the Show HN post structure itself \u2014 A's explicit seven-part 'honest experiment report' shape is more directly ownable copy guidance than B's README-centric framing",
+        1
+      ],
+      [
+        "Mentions r/devops, r/programming and X but is a touch lighter than A on the full channel set (Lobsters, dev.to) for distribution breadth",
+        1
+      ],
+      [
+        "Does not explicitly address relaunch-after-a-flop normalization (A notes a mistimed Show HN is normal and you can relaunch) \u2014 a useful expectation-setting point for first-time launchers",
+        1
+      ]
+    ]
+  },
+  "model=opus": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 16,
+      "tie": 0,
+      "loss": 2,
+      "win_rate": 0.889,
+      "tie_rate": 0.0,
+      "loss_rate": 0.111,
+      "tie_or_better_rate": 0.889
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.833,
+      "news_peg": 4.889,
+      "channel_cadence": 5.0,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.222,
+      "positioning": 3.833,
+      "news_peg": 4.167,
+      "channel_cadence": 4.5,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.722,
+      "fit_actionability": 4.056
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.778,
+      "positioning": 1.0,
+      "news_peg": 0.722,
+      "channel_cadence": 0.5,
+      "tactics_quality": 0.166,
+      "judgment_refusals": 0.278,
+      "fit_actionability": 0.944
+    },
+    "mean_total_candidate": 4.936,
+    "mean_total_gold": 4.31,
+    "judge_identification": {
+      "correct": 4,
+      "wrong": 14,
+      "unsure": 0,
+      "accuracy_of_decided": 0.222,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 11,
+      "B_wins": 7,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly under-specifies the commissioned-survey backfill option for the thin 30-customer sample that B explicitly names as a remedy.",
+        1
+      ],
+      [
+        "Asks the most consequential question (next milestone: pipeline vs raise vs hires) only as a closing sign-off, so the whole plan is built on an assumed goal rather than being branched on it \u2014 A makes this the routing fork up front, which is the more correct sequencing",
+        1
+      ],
+      [
+        "Slightly over-relies on named anecdotes (Seibel/$100K, a16z near-quotes) as authority set-pieces rather than reasoning, which adds little incremental strategic value",
+        1
+      ],
+      [
+        "No explicit launch-day timing window (B's Tue-Thu morning ET is a real tactical add A omits)",
+        1
+      ],
+      [
+        "Channel list is slightly thinner (mentions HN/Reddit/X but not Lobsters or dev.to, which suit this dev audience)",
+        1
+      ],
+      [
+        "Slightly under-specifies the Show HN post structure itself \u2014 A's explicit seven-part 'honest experiment report' shape is more directly ownable copy guidance than B's README-centric framing",
+        1
+      ],
+      [
+        "Mentions r/devops, r/programming and X but is a touch lighter than A on the full channel set (Lobsters, dev.to) for distribution breadth",
+        1
+      ],
+      [
+        "Does not explicitly address relaunch-after-a-flop normalization (A notes a mistimed Show HN is normal and you can relaunch) \u2014 a useful expectation-setting point for first-time launchers",
+        1
+      ],
+      [
+        "Tactical precision is thinner than B: says 'hundreds' but gives no funnel math (opt-in/post rates, asset counts) or concrete rights-fee cap, which a founder needs to budget the $15k",
+        1
+      ],
+      [
+        "News-peg section is hedged as 'optional' and doesn't rank/strengthen a specific peg as far as it could",
+        1
+      ],
+      [
+        "Lighter on operational specifics than A \u2014 gives 'hundreds' rather than concrete list-size mechanics, opt-in/post-rate expectations, or where to source creators (TikTok/IG marketplaces), so it is marginally less plug-and-play.",
+        1
+      ],
+      [
+        "Doesn't name a tracking tool or cost-per-usable-asset metric, though it correctly ties success to signups/sales over impressions.",
+        1
+      ],
+      [
+        "Slightly underweights the concrete mechanics of analyst engagement that B nails: the specific briefing cadence, mapping proof to scoring frameworks, and engaging 6-12 months ahead of a research cycle.",
+        1
+      ],
+      [
+        "Does not explicitly address the Magic Quadrant / 'no MQ yet means insufficient buyer demand, so define the category' diagnosis as crisply as B does.",
+        1
+      ],
+      [
+        "Softer on the precise analyst briefing cadence and the explicit mechanic of mapping proof points to each analyst's published evaluation framework/criteria \u2014 the load-bearing AR detail A nails",
+        1
+      ]
+    ]
+  },
+  "model=sonnet": {
+    "n": 18,
+    "candidate_vs_gold": {
+      "win": 9,
+      "tie": 0,
+      "loss": 9,
+      "win_rate": 0.5,
+      "tie_rate": 0.0,
+      "loss_rate": 0.5,
+      "tie_or_better_rate": 0.5
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.889,
+      "positioning": 4.833,
+      "news_peg": 4.778,
+      "channel_cadence": 4.778,
+      "tactics_quality": 4.5,
+      "judgment_refusals": 4.778,
+      "fit_actionability": 4.889
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.5,
+      "positioning": 4.167,
+      "news_peg": 4.278,
+      "channel_cadence": 4.722,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 4.944,
+      "fit_actionability": 4.444
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.389,
+      "positioning": 0.666,
+      "news_peg": 0.5,
+      "channel_cadence": 0.056,
+      "tactics_quality": -0.333,
+      "judgment_refusals": -0.166,
+      "fit_actionability": 0.445
+    },
+    "mean_total_candidate": 4.778,
+    "mean_total_gold": 4.555,
+    "judge_identification": {
+      "correct": 10,
+      "wrong": 8,
+      "unsure": 0,
+      "accuracy_of_decided": 0.556,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 12,
+      "B_wins": 6,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Names only generic alternatives (spreadsheets/NetSuite/ERPs) and misses the real named category incumbents (BlackLine, FloQast) \u2014 a positioning miss for THIS specific space where the competitive set is well-defined",
+        1
+      ],
+      [
+        "Slightly softer on the wedge: 'name what's broken' rather than B's sharper 'faster close is a benefit, not a wedge \u2014 find what alternatives structurally can't do'",
+        1
+      ],
+      [
+        "Does not flag the milestone-routing fork as explicitly (pipeline vs next raise) before committing to a plan",
+        1
+      ],
+      [
+        "States the funding window is already missed as fact \u2014 overconfident and likely wrong at 4 months; A correctly treats the raise as seedable prologue, the better call",
+        1
+      ],
+      [
+        "Outlet list includes 'Finance & Commerce' (regional/construction-leaning) as a CFO trade target \u2014 a fit miss that a vetted list would catch",
+        1
+      ],
+      [
+        "Slightly thinner on pitch mechanics than A (word count, follow-up timing, no-call rule), where expert practice is specific",
+        1
+      ],
+      [
+        "Concedes TechCrunch 'for investor signaling' is 'not crazy to want' \u2014 A more cleanly subordinates it and never softens toward tier-1 as a legitimate near-term goal",
+        1
+      ],
+      [
+        "Slightly under-specifies the exact Show HN post anatomy (motivation/backstory, explicit feedback-as-CTA framing) that B nails",
+        1
+      ],
+      [
+        "Mentions Reddit but omits Lobsters and dev.to, and gives no day/time-of-day posting guidance (Tue-Thu morning ET)",
+        1
+      ],
+      [
+        "Does not explicitly warn that a flopped first Show HN is normal and re-launchable",
+        1
+      ],
+      [
+        "Never explicitly refuses fake engagement: no warning against coordinated upvotes or planted/booster comments from friends, employees, or cofounders \u2014 a critical non-obvious HN trap that A nails and the must-haves require",
+        1
+      ],
+      [
+        "Benchmark and go-direct sections drift toward journalist/newsletter framing ('gives journalists and newsletter authors something to reference') and tee up a future media list, slightly diluting the pure dev-led play before adoption exists",
+        1
+      ],
+      [
+        "No explicit normalization that a first Show HN may mistime/flop and can be relaunched \u2014 leaves the founders exposed to over-reading a single spike",
+        1
+      ],
+      [
+        "Omits launch-day timing guidance (e.g., Tue-Thu morning ET) that A gives concretely",
+        1
+      ],
+      [
+        "Seeding funnel is less quantified than B \u2014 doesn't model opt-in/post rates or cost-per-usable-asset, so the founder can't size expected output",
+        1
+      ]
+    ]
+  },
+  "split=holdout": {
+    "n": 12,
+    "candidate_vs_gold": {
+      "win": 10,
+      "tie": 0,
+      "loss": 2,
+      "win_rate": 0.833,
+      "tie_rate": 0.0,
+      "loss_rate": 0.167,
+      "tie_or_better_rate": 0.833
+    },
+    "dim_means_candidate": {
+      "audience_goal": 4.917,
+      "positioning": 4.833,
+      "news_peg": 4.75,
+      "channel_cadence": 4.75,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 4.917,
+      "fit_actionability": 4.833
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.417,
+      "positioning": 4.167,
+      "news_peg": 4.5,
+      "channel_cadence": 4.667,
+      "tactics_quality": 4.583,
+      "judgment_refusals": 4.583,
+      "fit_actionability": 4.167
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.5,
+      "positioning": 0.666,
+      "news_peg": 0.25,
+      "channel_cadence": 0.083,
+      "tactics_quality": 0.25,
+      "judgment_refusals": 0.334,
+      "fit_actionability": 0.666
+    },
+    "mean_total_candidate": 4.833,
+    "mean_total_gold": 4.441,
+    "judge_identification": {
+      "correct": 4,
+      "wrong": 8,
+      "unsure": 0,
+      "accuracy_of_decided": 0.333,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 6,
+      "B_wins": 6,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Positioning-as-blocker is under-pressed: A treats the contrarian thesis as already sharp and ready to write, but never stresses the one-line 'what you do / vs what alternative / the wedge' for the PRODUCT itself \u2014 the POV is nailed, the company positioning is assumed.",
+        1
+      ],
+      [
+        "Slightly soft on the raise contingency \u2014 flags it but doesn't sketch what changes if a raise is the real milestone.",
+        1
+      ],
+      [
+        "News-peg gate is handled mostly implicitly via the thesis-as-wedge framing; could state more directly that 'we exist'/funding is not a headline, though the no-press-release/no-newswire refusals cover most of it.",
+        1
+      ],
+      [
+        "Heavy reliance on named-authority citations does some of the persuasive work that sharper first-principles reasoning could carry on its own.",
+        1
+      ],
+      [
+        "Underweights the reactive/newsjacking muscle \u2014 no pre-written takes or 'be the fast named expert when stories break' habit, which is core for an AI-agents founder in a constant news cycle",
+        1
+      ],
+      [
+        "Cadence is too slow: prescribes weekly/biweekly where the field's argument cycle and the must-have call for a 2-3x/week drumbeat",
+        1
+      ],
+      [
+        "Does not connect audience to the next-milestone belief change (hires/users/raise) as explicitly as the situation needs \u2014 treats audience as a setup question rather than the steering variable for every post",
+        1
+      ],
+      [
+        "Lighter on the 'hand off production/amplification but never the voice or story' nuance for when delegation does become appropriate",
+        1
+      ],
+      [
+        "Cadence prescription is weaker: 'weekly or biweekly, consistency over frequency' under-dials the drumbeat versus the expert 2-3x/week needed to actually build presence in the fast AI discourse",
+        1
+      ],
+      [
+        "Reactive/newsjacking muscle is underdeveloped \u2014 'respond to journalists' pieces' is there, but no pre-written takes and no fast-named-expert-when-news-breaks habit, which is the highest-leverage move in a constant AI news cycle",
+        1
+      ],
+      [
+        "Does not tie the plan to a specific next business milestone (who must believe what for hires/users/raise); audience question is good but stays one level abstract from the goal",
+        1
+      ],
+      [
+        "Slightly over-indexes on the long-form essay as the calling card and on an eventual single pitch, which risks a one-shot feel versus A's continuous own-platform drumbeat",
+        1
+      ],
+      [
+        "Slightly under-emphasizes that the go-direct audience is also the design-partner pipeline; B ties audience-building to the next milestone (named design partners) more explicitly",
+        1
+      ],
+      [
+        "No major strategic gaps; coverage is complete",
+        1
+      ],
+      [
+        "Closes by demanding the founder send their positioning attempt, which is good engagement but slightly railroads the next step rather than fully leaving a menu open \u2014 A and B both offer a menu, so this is minor.",
+        1
+      ]
+    ]
+  }
+}

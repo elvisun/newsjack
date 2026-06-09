@@ -1,0 +1,462 @@
+{
+  "ALL": {
+    "n": 24,
+    "candidate_vs_gold": {
+      "win": 20,
+      "tie": 0,
+      "loss": 4,
+      "win_rate": 0.833,
+      "tie_rate": 0.0,
+      "loss_rate": 0.167,
+      "tie_or_better_rate": 0.833
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.917,
+      "news_peg": 4.875,
+      "channel_cadence": 4.917,
+      "tactics_quality": 4.708,
+      "judgment_refusals": 4.917,
+      "fit_actionability": 4.958
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.292,
+      "positioning": 3.667,
+      "news_peg": 3.667,
+      "channel_cadence": 4.292,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.667,
+      "fit_actionability": 4.0
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.708,
+      "positioning": 1.25,
+      "news_peg": 1.208,
+      "channel_cadence": 0.625,
+      "tactics_quality": 0.041,
+      "judgment_refusals": 0.25,
+      "fit_actionability": 0.958
+    },
+    "mean_total_candidate": 4.899,
+    "mean_total_gold": 4.179,
+    "judge_identification": {
+      "correct": 13,
+      "wrong": 11,
+      "unsure": 0,
+      "accuracy_of_decided": 0.542,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 16,
+      "B_wins": 8,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly over-asserts a TechCrunch hit could drive 'literal zero signups' \u2014 directionally right but a touch absolutist; a top operator would still note the indirect recruiting/credibility value of tier-1 rather than fully zeroing it.",
+        1
+      ],
+      [
+        "Slightly over-engineered: the volume of scaffolding and authority citations risks diluting the few load-bearing moves (positioning + data peg) for a solo founder who has to execute alone.",
+        1
+      ],
+      [
+        "Some quantified claims (2.5x coverage lift, 2-5 reporters in 6-12 months) are asserted with false precision and could mislead if taken literally.",
+        1
+      ],
+      [
+        "The commissioned-survey fallback for the data report adds cost/time a cash-constrained solo seed founder may not need, slightly undercutting the 'own the first-party usage data' emphasis.",
+        1
+      ],
+      [
+        "Cites a precise stat ('original research gets ~2.5x earned coverage') that is convenient but unsourced \u2014 minor over-precision risk in an otherwise strong plan",
+        1
+      ],
+      [
+        "Slightly over-engineered for a solo founder \u2014 the 6-week sequence plus three reactive tools plus survey plus LinkedIn cadence risks being more than one person executes; could have prioritized harder.",
+        1
+      ],
+      [
+        "The 'small-N data becomes a press-ready stat' framing is mostly handled responsibly (real, attributed) but flirts with promoting a 30-customer benchmark as a 'State of the Close' study, which a careful operator would caveat more on methodology/credibility risk.",
+        1
+      ],
+      [
+        "No real gaps for this scenario; the only minor omission is it does not explicitly name dev-relevant launch venues beyond HN/Reddit/Lobsters (e.g. dev.to, Lobsters is mentioned, but no mention of language-specific package-registry trending or Product Hunt as an explicitly-declined option).",
+        1
+      ],
+      [
+        "Posts Show HN time as 'Tue-Thu morning Pacific' \u2014 defensible but A's ET is at least as common; minor and not wrong",
+        1
+      ],
+      [
+        "Slightly heavy framework scaffolding (archetype numbering, doc citations) adds little strategic value over the plain advice",
+        1
+      ],
+      [
+        "No real defect against the rubric or anti-patterns",
+        1
+      ],
+      [
+        "Underweights the HN-comment combat playbook B nails: no explicit 'reply within the first hour,' 'agree-first with critics,' or 'treat critics as doing you a favor' \u2014 the craft that actually wins a launch in the thread.",
+        1
+      ],
+      [
+        "Doesn't stress frictionless trial / no-signup-wall as a precondition, which for a 'we want devs to actually try it' goal is a first-order requirement.",
+        1
+      ],
+      [
+        "Never explicitly names the 'open-source alternative to X' framing that gives an OSS tool instant comprehension and credibility on HN.",
+        1
+      ],
+      [
+        "Never refuses coordinated upvotes / planted booster comments \u2014 the single most tempting first-HN-launch own-goal and an explicit anti-pattern; A nails it, B is silent",
+        1
+      ]
+    ]
+  },
+  "split=train": {
+    "n": 24,
+    "candidate_vs_gold": {
+      "win": 20,
+      "tie": 0,
+      "loss": 4,
+      "win_rate": 0.833,
+      "tie_rate": 0.0,
+      "loss_rate": 0.167,
+      "tie_or_better_rate": 0.833
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.917,
+      "news_peg": 4.875,
+      "channel_cadence": 4.917,
+      "tactics_quality": 4.708,
+      "judgment_refusals": 4.917,
+      "fit_actionability": 4.958
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.292,
+      "positioning": 3.667,
+      "news_peg": 3.667,
+      "channel_cadence": 4.292,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.667,
+      "fit_actionability": 4.0
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.708,
+      "positioning": 1.25,
+      "news_peg": 1.208,
+      "channel_cadence": 0.625,
+      "tactics_quality": 0.041,
+      "judgment_refusals": 0.25,
+      "fit_actionability": 0.958
+    },
+    "mean_total_candidate": 4.899,
+    "mean_total_gold": 4.179,
+    "judge_identification": {
+      "correct": 13,
+      "wrong": 11,
+      "unsure": 0,
+      "accuracy_of_decided": 0.542,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 16,
+      "B_wins": 8,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly over-asserts a TechCrunch hit could drive 'literal zero signups' \u2014 directionally right but a touch absolutist; a top operator would still note the indirect recruiting/credibility value of tier-1 rather than fully zeroing it.",
+        1
+      ],
+      [
+        "Slightly over-engineered: the volume of scaffolding and authority citations risks diluting the few load-bearing moves (positioning + data peg) for a solo founder who has to execute alone.",
+        1
+      ],
+      [
+        "Some quantified claims (2.5x coverage lift, 2-5 reporters in 6-12 months) are asserted with false precision and could mislead if taken literally.",
+        1
+      ],
+      [
+        "The commissioned-survey fallback for the data report adds cost/time a cash-constrained solo seed founder may not need, slightly undercutting the 'own the first-party usage data' emphasis.",
+        1
+      ],
+      [
+        "Cites a precise stat ('original research gets ~2.5x earned coverage') that is convenient but unsourced \u2014 minor over-precision risk in an otherwise strong plan",
+        1
+      ],
+      [
+        "Slightly over-engineered for a solo founder \u2014 the 6-week sequence plus three reactive tools plus survey plus LinkedIn cadence risks being more than one person executes; could have prioritized harder.",
+        1
+      ],
+      [
+        "The 'small-N data becomes a press-ready stat' framing is mostly handled responsibly (real, attributed) but flirts with promoting a 30-customer benchmark as a 'State of the Close' study, which a careful operator would caveat more on methodology/credibility risk.",
+        1
+      ],
+      [
+        "No real gaps for this scenario; the only minor omission is it does not explicitly name dev-relevant launch venues beyond HN/Reddit/Lobsters (e.g. dev.to, Lobsters is mentioned, but no mention of language-specific package-registry trending or Product Hunt as an explicitly-declined option).",
+        1
+      ],
+      [
+        "Posts Show HN time as 'Tue-Thu morning Pacific' \u2014 defensible but A's ET is at least as common; minor and not wrong",
+        1
+      ],
+      [
+        "Slightly heavy framework scaffolding (archetype numbering, doc citations) adds little strategic value over the plain advice",
+        1
+      ],
+      [
+        "No real defect against the rubric or anti-patterns",
+        1
+      ],
+      [
+        "Underweights the HN-comment combat playbook B nails: no explicit 'reply within the first hour,' 'agree-first with critics,' or 'treat critics as doing you a favor' \u2014 the craft that actually wins a launch in the thread.",
+        1
+      ],
+      [
+        "Doesn't stress frictionless trial / no-signup-wall as a precondition, which for a 'we want devs to actually try it' goal is a first-order requirement.",
+        1
+      ],
+      [
+        "Never explicitly names the 'open-source alternative to X' framing that gives an OSS tool instant comprehension and credibility on HN.",
+        1
+      ],
+      [
+        "Never refuses coordinated upvotes / planted booster comments \u2014 the single most tempting first-HN-launch own-goal and an explicit anti-pattern; A nails it, B is silent",
+        1
+      ]
+    ]
+  },
+  "model=opus": {
+    "n": 12,
+    "candidate_vs_gold": {
+      "win": 11,
+      "tie": 0,
+      "loss": 1,
+      "win_rate": 0.917,
+      "tie_rate": 0.0,
+      "loss_rate": 0.083,
+      "tie_or_better_rate": 0.917
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 5.0,
+      "news_peg": 5.0,
+      "channel_cadence": 5.0,
+      "tactics_quality": 4.833,
+      "judgment_refusals": 5.0,
+      "fit_actionability": 5.0
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.167,
+      "positioning": 3.5,
+      "news_peg": 3.333,
+      "channel_cadence": 4.167,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.583,
+      "fit_actionability": 3.917
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.833,
+      "positioning": 1.5,
+      "news_peg": 1.667,
+      "channel_cadence": 0.833,
+      "tactics_quality": 0.166,
+      "judgment_refusals": 0.417,
+      "fit_actionability": 1.083
+    },
+    "mean_total_candidate": 4.976,
+    "mean_total_gold": 4.048,
+    "judge_identification": {
+      "correct": 7,
+      "wrong": 5,
+      "unsure": 0,
+      "accuracy_of_decided": 0.583,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 7,
+      "B_wins": 5,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Slightly over-asserts a TechCrunch hit could drive 'literal zero signups' \u2014 directionally right but a touch absolutist; a top operator would still note the indirect recruiting/credibility value of tier-1 rather than fully zeroing it.",
+        1
+      ],
+      [
+        "Slightly over-engineered: the volume of scaffolding and authority citations risks diluting the few load-bearing moves (positioning + data peg) for a solo founder who has to execute alone.",
+        1
+      ],
+      [
+        "Some quantified claims (2.5x coverage lift, 2-5 reporters in 6-12 months) are asserted with false precision and could mislead if taken literally.",
+        1
+      ],
+      [
+        "The commissioned-survey fallback for the data report adds cost/time a cash-constrained solo seed founder may not need, slightly undercutting the 'own the first-party usage data' emphasis.",
+        1
+      ],
+      [
+        "No real gaps for this scenario; the only minor omission is it does not explicitly name dev-relevant launch venues beyond HN/Reddit/Lobsters (e.g. dev.to, Lobsters is mentioned, but no mention of language-specific package-registry trending or Product Hunt as an explicitly-declined option).",
+        1
+      ],
+      [
+        "Posts Show HN time as 'Tue-Thu morning Pacific' \u2014 defensible but A's ET is at least as common; minor and not wrong",
+        1
+      ],
+      [
+        "Slightly heavy framework scaffolding (archetype numbering, doc citations) adds little strategic value over the plain advice",
+        1
+      ],
+      [
+        "No real defect against the rubric or anti-patterns",
+        1
+      ],
+      [
+        "Slightly under-specifies the seeding mechanics that B nails: A says 30-50 creators but says less about explicit no-strings gifting language, the ~20%/~30% yield reality, and capping any paid ask for smaller creators",
+        1
+      ],
+      [
+        "Mentions reusing customer before/afters and formula explainers but does not as crisply make the captured creator content the central reusable asset that feeds paid testing (content-over-distribution is implied, not foregrounded)",
+        1
+      ],
+      [
+        "Misses the load-bearing content/usage-rights capture and content-reuse-as-asset move entirely \u2014 never says to take rights and feed the seeded content into paid/owned, which is the core compounding mechanic for a DTC seeding budget",
+        1
+      ],
+      [
+        "Seeding volume of 30-50 is too small for a seeding-led $15k motion; expert practice is high-volume (hundreds) no-strings gifting to find the ~30 who post \u2014 A's ~500 is closer to correct",
+        1
+      ],
+      [
+        "No funnel math or per-creator economics (opt-in/post rates, gifting vs paid allowance sizing, price caps), leaving the spend allocation vaguer than A's",
+        1
+      ],
+      [
+        "Spends meaningful budget framing as 'small paid allowance' to micro-creators without the rights/repurposing payoff that justifies paying",
+        1
+      ],
+      [
+        "Does not crisply surface the Magic Quadrant / category-maturity reality check (no MQ for what you do = market may not be mature, so define the category rather than fight for a slot) the way B does",
+        1
+      ]
+    ]
+  },
+  "model=sonnet": {
+    "n": 12,
+    "candidate_vs_gold": {
+      "win": 9,
+      "tie": 0,
+      "loss": 3,
+      "win_rate": 0.75,
+      "tie_rate": 0.0,
+      "loss_rate": 0.25,
+      "tie_or_better_rate": 0.75
+    },
+    "dim_means_candidate": {
+      "audience_goal": 5.0,
+      "positioning": 4.833,
+      "news_peg": 4.75,
+      "channel_cadence": 4.833,
+      "tactics_quality": 4.583,
+      "judgment_refusals": 4.833,
+      "fit_actionability": 4.917
+    },
+    "dim_means_gold": {
+      "audience_goal": 4.417,
+      "positioning": 3.833,
+      "news_peg": 4.0,
+      "channel_cadence": 4.417,
+      "tactics_quality": 4.667,
+      "judgment_refusals": 4.75,
+      "fit_actionability": 4.083
+    },
+    "dim_deltas_cand_minus_gold": {
+      "audience_goal": 0.583,
+      "positioning": 1.0,
+      "news_peg": 0.75,
+      "channel_cadence": 0.416,
+      "tactics_quality": -0.084,
+      "judgment_refusals": 0.083,
+      "fit_actionability": 0.834
+    },
+    "mean_total_candidate": 4.821,
+    "mean_total_gold": 4.31,
+    "judge_identification": {
+      "correct": 6,
+      "wrong": 6,
+      "unsure": 0,
+      "accuracy_of_decided": 0.5,
+      "note": "0.5 = judge cannot tell candidate from expert (goal). >0.5 = candidate is identifiable as the AI."
+    },
+    "position_bias": {
+      "A_wins": 9,
+      "B_wins": 3,
+      "ties": 0
+    },
+    "top_candidate_gaps": [
+      [
+        "Cites a precise stat ('original research gets ~2.5x earned coverage') that is convenient but unsourced \u2014 minor over-precision risk in an otherwise strong plan",
+        1
+      ],
+      [
+        "Slightly over-engineered for a solo founder \u2014 the 6-week sequence plus three reactive tools plus survey plus LinkedIn cadence risks being more than one person executes; could have prioritized harder.",
+        1
+      ],
+      [
+        "The 'small-N data becomes a press-ready stat' framing is mostly handled responsibly (real, attributed) but flirts with promoting a 30-customer benchmark as a 'State of the Close' study, which a careful operator would caveat more on methodology/credibility risk.",
+        1
+      ],
+      [
+        "Underweights the HN-comment combat playbook B nails: no explicit 'reply within the first hour,' 'agree-first with critics,' or 'treat critics as doing you a favor' \u2014 the craft that actually wins a launch in the thread.",
+        1
+      ],
+      [
+        "Doesn't stress frictionless trial / no-signup-wall as a precondition, which for a 'we want devs to actually try it' goal is a first-order requirement.",
+        1
+      ],
+      [
+        "Never explicitly names the 'open-source alternative to X' framing that gives an OSS tool instant comprehension and credibility on HN.",
+        1
+      ],
+      [
+        "Never refuses coordinated upvotes / planted booster comments \u2014 the single most tempting first-HN-launch own-goal and an explicit anti-pattern; A nails it, B is silent",
+        1
+      ],
+      [
+        "Underweights frictionless trial / no-signup-wall, which is central to the founders' stated goal of getting devs to actually try it; B emphasizes README/benchmark but not removing install friction",
+        1
+      ],
+      [
+        "Comment-war handling is thinner than A's \u2014 says 'reply to skeptics' but omits agree-first-with-critics and reply-within-the-first-hour, the tactics that actually win an HN thread",
+        1
+      ],
+      [
+        "Slightly under-specifies the seeding funnel/scale \u2014 recommends 30-50 creators where the high-volume reality (seed hundreds to land 30-50 posters) is closer to B's framing; A risks under-voluming the program",
+        1
+      ],
+      [
+        "Usage/content-rights capture is mentioned only implicitly (\"act like a media company\") rather than made an explicit step \u2014 B is sharper that the content library is the reusable asset feeding paid",
+        1
+      ],
+      [
+        "Under-scales seeding (30-50 vs the ~hundreds a real high-volume seeding program runs), weakening the central play",
+        1
+      ],
+      [
+        "Omits the load-bearing mechanics: capturing content/usage rights and reusing creator content as the asset that feeds paid/owned \u2014 the 'creator over distribution' insight",
+        1
+      ],
+      [
+        "Reintroduces a trade-press/data-peg media play (Glossy/WWD, original research) that won't move first-purchase product for a tight DTC launch, diluting budget and focus",
+        1
+      ],
+      [
+        "Phasing of micro -> bigger -> advocates is implicit rather than the explicit progression an expert prescribes",
+        1
+      ]
+    ]
+  }
+}
