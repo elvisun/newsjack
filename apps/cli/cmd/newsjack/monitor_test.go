@@ -509,7 +509,7 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 		if !strings.Contains(text, "MANUAL SETUP") || !strings.Contains(text, "copy the skills, then give your agent this prompt") {
 			t.Fatalf("manual setup should include one merged handoff section:\n%s", text)
 		}
-		if !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+		if !strings.Contains(text, "Prompt:\nUse the newsjack-monitor-setup skill to set up newsjack monitoring for my company.") {
 			t.Fatalf("manual setup should print the short agent prompt:\n%s", text)
 		}
 		envPath := filepath.Join(home, ".newsjack", ".env")
@@ -583,7 +583,7 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 		if strings.Contains(argText, "--query") {
 			t.Fatalf("Hermes should not launch in one-shot --query mode:\n%s", argText)
 		}
-		if !strings.Contains(text, "send this prompt first:") || !strings.Contains(text, "Use newsjack to set up monitoring for my company.") {
+		if !strings.Contains(text, "send this prompt first:") || !strings.Contains(text, "Use the newsjack-monitor-setup skill to set up newsjack monitoring for my company.") {
 			t.Fatalf("Hermes setup should print the seed prompt to send:\n%s", text)
 		}
 	})
@@ -630,7 +630,7 @@ func TestSetupOpenClawFallsBackToManualPrompt(t *testing.T) {
 		if !strings.Contains(text, "OpenClaw runs one-shot and can't host an interactive setup session") {
 			t.Fatalf("setup should explain OpenClaw has no interactive session:\n%s", text)
 		}
-		if !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+		if !strings.Contains(text, "Prompt:\nUse the newsjack-monitor-setup skill to set up newsjack monitoring for my company.") {
 			t.Fatalf("setup should print the prompt for OpenClaw:\n%s", text)
 		}
 		if _, err := os.Stat(capture); err == nil {
@@ -676,7 +676,7 @@ func TestSetupPrintsContinuationPromptWhenAgentLaunchFails(t *testing.T) {
 		if !strings.Contains(text, "auto-setup did not complete in Codex") {
 			t.Fatalf("setup should explain that auto-setup failed:\n%s", text)
 		}
-		if !strings.Contains(text, "CONTINUE SETUP") || !strings.Contains(text, "Prompt:\nUse newsjack to set up monitoring for my company.") {
+		if !strings.Contains(text, "CONTINUE SETUP") || !strings.Contains(text, "Prompt:\nUse the newsjack-monitor-setup skill to set up newsjack monitoring for my company.") {
 			t.Fatalf("setup should print the continuation prompt:\n%s", text)
 		}
 		if !strings.Contains(errBuf.String(), "codex failed") {

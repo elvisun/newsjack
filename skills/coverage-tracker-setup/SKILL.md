@@ -14,7 +14,7 @@ It is deliberately a different job from setting up newsjack monitoring. A covera
 
 Two situations, and they change what you can finish here:
 
-- **You can save files and run commands** (Claude Code, Codex, OpenClaw, Hermes, or a similar setup with shell, file, and network access). Here you can do the whole thing: save the tracker, run it once, and hand the recurring schedule to your agent. The commands below assume the `newsjack` tool is already installed and runnable.
+- **You can save files and run commands** (Claude Code, Codex, OpenClaw, Hermes, or a similar setup with shell, file, and network access). Here you can do the whole thing: save the tracker, run it once, and hand the recurring schedule to your agent. **Before you decide you can't run the CLI, check whether `newsjack` is installed.** It ships as a prebuilt, bundled binary — you do **not** need Go, a compiler, or any build/install step. Never look for a Go toolchain or tell the user they need a "Go environment" without checking first: run `newsjack --version`; if that's not on `PATH`, try the bundled location `~/.newsjack/bin/newsjack --version` and use that full path everywhere if it works. The bundled binary is almost always already installed — verify, don't assume it's missing.
 - **You're in a plain chat window** (Claude.ai, ChatGPT, Claude Cowork, or anything without file/command access). Here you can only draft. Write out the tracker config and the schedule prompt, then tell the user to move to a setup that can save and run things. Don't try to install or run anything, and don't tell the user it was saved or scheduled when it wasn't.
 
 ## What to ask the user
