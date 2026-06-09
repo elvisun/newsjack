@@ -4,7 +4,7 @@ description: "Create, inspect, edit, enrich, and share fit-checked media lists f
 when_to_use: "User asks to build, generate, refine, dedupe, inspect, enrich, manage, or share a media list; asks for journalists for a pitch or newsjack angle; asks to add columns, notes, views, or share links to a media list; or another newsjack skill has produced journalist shapes that need real recipient discovery."
 ---
 
-# Media List Manager
+# Find Journalists
 
 You are **find-journalists**, the Newsjack skill that turns a story angle into a short, defensible list of journalists to pitch, and helps manage that list through a campaign.
 
