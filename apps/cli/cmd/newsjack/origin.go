@@ -129,7 +129,7 @@ func applyOriginFindings(candidates map[string]any, originsPayload any, opts ori
 			missingSignals = append(missingSignals, summarySignal(signal))
 			continue
 		}
-		gate := computeFreshnessGate(finding, opts.RunTime, cutoff, opts.WindowHours)
+		gate := computeFreshnessGate(finding, signal, opts.RunTime, cutoff, opts.WindowHours)
 		gate = enforceSupportingEvidence(gate, finding, signal)
 		status := stringValue(gate["computed_status"])
 		statusCounts[status]++
@@ -208,7 +208,7 @@ func normalizeOriginFinding(finding map[string]any) map[string]any {
 			"status", "surfaced_article_published_at", "first_public_at", "original_url",
 			"original_source", "canonical_coverage_url", "canonical_coverage_source",
 			"canonical_coverage_published_at", "canonical_coverage_basis",
-			"same_story_basis", "new_development", "new_development_at", "confidence",
+			"same_story_assessment", "same_story_basis", "new_development", "new_development_at", "confidence",
 			"timestamp_evidence", "evidence_urls", "rationale",
 		} {
 			if out[key] == nil {
@@ -219,7 +219,7 @@ func normalizeOriginFinding(finding map[string]any) map[string]any {
 	return out
 }
 
-func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, windowHours float64) map[string]any {
+func computeFreshnessGate(origin, signal map[string]any, runTime, cutoff time.Time, windowHours float64) map[string]any {
 	workerStatus := firstString(origin["status"], valueOrEmptyMap(origin["first_publication"])["status"])
 	newRaw := firstString(origin["new_development_at"], valueOrEmptyMap(origin["first_publication"])["new_development_at"])
 	firstRaw := firstString(origin["first_public_at"], valueOrEmptyMap(origin["first_publication"])["first_public_at"])
@@ -249,6 +249,9 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 			if promoted, ok := promotePreciseFreshTimestamp(origin, runTime, cutoff, windowHours, workerStatus, "fresh"); ok {
 				return promoted
 			}
+			if promoted, ok := promoteSurfacedEvidenceTimestamp(origin, signal, firstRaw, runTime, cutoff, windowHours, workerStatus); ok {
+				return promoted
+			}
 			return freshnessGate("unverified_boundary", runTime, cutoff, windowHours, workerStatus, "first_public_at", firstRaw, precision, "first_public_at has date-only precision straddling the cutoff date")
 		}
 	}
@@ -256,7 +259,30 @@ func computeFreshnessGate(origin map[string]any, runTime, cutoff time.Time, wind
 }
 
 func promotePreciseFreshTimestamp(origin map[string]any, runTime, cutoff time.Time, windowHours float64, workerStatus, status string) (map[string]any, bool) {
-	candidates := preciseOriginTimestamps(origin)
+	return promotePreciseTimestampCandidates(preciseOriginTimestamps(origin), runTime, cutoff, windowHours, workerStatus, status)
+}
+
+func promoteSurfacedEvidenceTimestamp(origin, signal map[string]any, firstRaw string, runTime, cutoff time.Time, windowHours float64, workerStatus string) (map[string]any, bool) {
+	if !originSameStory(origin) {
+		return nil, false
+	}
+	if len(preciseOriginTimestamps(origin)) > 0 {
+		return nil, false
+	}
+	firstPublished, precision, ok := parseOriginTimestamp(firstRaw)
+	if !ok || precision != "date" {
+		return nil, false
+	}
+	candidates := preciseSurfacedEvidenceTimestamps(signal, firstPublished)
+	promoted, ok := promotePreciseTimestampCandidates(candidates, runTime, cutoff, windowHours, workerStatus, "fresh")
+	if !ok {
+		return nil, false
+	}
+	promoted["detector_timestamp_fallback"] = true
+	return promoted, true
+}
+
+func promotePreciseTimestampCandidates(candidates []originTimestampCandidate, runTime, cutoff time.Time, windowHours float64, workerStatus, status string) (map[string]any, bool) {
 	var fresh []originTimestampCandidate
 	for _, candidate := range candidates {
 		if candidate.parsed.Before(cutoff) {
@@ -302,6 +328,47 @@ func preciseOriginTimestamps(origin map[string]any) []originTimestampCandidate {
 	return out
 }
 
+func preciseSurfacedEvidenceTimestamps(signal map[string]any, dateOnly time.Time) []originTimestampCandidate {
+	var out []originTimestampCandidate
+	wantDay := dateOnly.UTC().Format("2006-01-02")
+	for _, raw := range anySlice(signal["evidence"]) {
+		m, ok := raw.(map[string]any)
+		if !ok || !isArticleEvidence(m) {
+			continue
+		}
+		value := stringValue(m["published_at"])
+		parsed, precision, ok := parseOriginTimestamp(value)
+		if !ok || precision != "time" || parsed.UTC().Format("2006-01-02") != wantDay {
+			continue
+		}
+		out = append(out, originTimestampCandidate{
+			field:  "evidence.published_at",
+			value:  value,
+			parsed: parsed.UTC(),
+			url:    stringValue(m["url"]),
+		})
+	}
+	return out
+}
+
+func originSameStory(origin map[string]any) bool {
+	assessment := strings.ToLower(strings.TrimSpace(firstString(
+		origin["same_story_assessment"],
+		valueOrEmptyMap(origin["first_publication"])["same_story_assessment"],
+	)))
+	return assessment == "same_story"
+}
+
+func isArticleEvidence(evidence map[string]any) bool {
+	source := strings.ToLower(strings.TrimSpace(stringValue(evidence["source"])))
+	switch source {
+	case "x", "x_news", "x_trends", "reddit", "hackernews":
+		return false
+	default:
+		return true
+	}
+}
+
 func freshnessGate(status string, runTime, cutoff time.Time, windowHours float64, workerStatus, basisField, basisValue, precision, rationale string) map[string]any {
 	return map[string]any{
 		"computed_status":         status,
@@ -324,6 +391,9 @@ func freshnessGate(status string, runTime, cutoff time.Time, windowHours float64
 func enforceSupportingEvidence(gate, finding, signal map[string]any) map[string]any {
 	status := stringValue(gate["computed_status"])
 	if status != "fresh" && status != "fresh_new_development" {
+		return gate
+	}
+	if truthy(gate["detector_timestamp_fallback"], false) {
 		return gate
 	}
 	surfacedURLs := map[string]bool{}

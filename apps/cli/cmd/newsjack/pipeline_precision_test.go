@@ -58,6 +58,150 @@ func TestOriginBoundaryStatus(t *testing.T) {
 	}
 }
 
+func TestOriginBoundaryPromotesSameStoryFromSurfacedEvidenceTimestamp(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T13:46:00Z"},
+		"signals": []any{map[string]any{
+			"id":    "s1",
+			"title": "Cutoff-day story",
+			"evidence": []any{map[string]any{
+				"source":       "news_search",
+				"url":          "https://example.com/story",
+				"published_at": "2026-05-31T22:46:35Z",
+			}},
+		}},
+	}
+	origins := map[string]any{"findings": []any{map[string]any{
+		"signal_id":             "s1",
+		"same_story_assessment": "same_story",
+		"first_public_at":       "2026-05-31",
+		"original_url":          "https://example.com/story",
+	}}}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime: mustParseTestTime(t, "2026-06-01T13:46:00Z"), WindowHours: 24})
+	if err != nil {
+		t.Fatalf("err=%v", err)
+	}
+	signals := signalSlice(payload["signals"])
+	if len(signals) != 1 {
+		t.Fatalf("selected=%d, want 1; gate=%#v", len(signals), payload["freshness_gate"])
+	}
+	gate := valueOrEmptyMap(signals[0]["freshness_gate"])
+	if got := stringValue(gate["computed_status"]); got != "fresh" {
+		t.Fatalf("computed_status=%s, want fresh; gate=%#v", got, gate)
+	}
+	if got := stringValue(gate["basis_field"]); got != "evidence.published_at" {
+		t.Fatalf("basis_field=%s, want evidence.published_at; gate=%#v", got, gate)
+	}
+	if got := stringValue(gate["basis_value"]); got != "2026-05-31T22:46:35Z" {
+		t.Fatalf("basis_value=%s, want detector evidence timestamp; gate=%#v", got, gate)
+	}
+	if !truthy(gate["detector_timestamp_fallback"], false) {
+		t.Fatalf("missing detector timestamp fallback marker; gate=%#v", gate)
+	}
+}
+
+func TestOriginBoundaryDoesNotPromoteSurfacedEvidenceWithoutSameStory(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T13:46:00Z"},
+		"signals": []any{map[string]any{
+			"id":    "s1",
+			"title": "Unclear boundary story",
+			"evidence": []any{map[string]any{
+				"source":       "news_search",
+				"url":          "https://example.com/story",
+				"published_at": "2026-05-31T22:46:35Z",
+			}},
+		}},
+	}
+	origins := map[string]any{"findings": []any{map[string]any{
+		"signal_id":             "s1",
+		"same_story_assessment": "unclear",
+		"first_public_at":       "2026-05-31",
+	}}}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime: mustParseTestTime(t, "2026-06-01T13:46:00Z"), WindowHours: 24})
+	if err != nil {
+		t.Fatalf("err=%v", err)
+	}
+	rejected, _ := valueOrEmptyMap(payload["freshness_gate"])["rejected_signals"].([]map[string]any)
+	if len(rejected) != 1 {
+		t.Fatalf("rejected=%d, want 1", len(rejected))
+	}
+	if got := stringValue(valueOrEmptyMap(rejected[0]["freshness_gate"])["computed_status"]); got != "unverified_boundary" {
+		t.Fatalf("computed_status=%s, want unverified_boundary", got)
+	}
+}
+
+func TestOriginBoundaryDoesNotPromoteSurfacedEvidenceOnDifferentDate(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T13:46:00Z"},
+		"signals": []any{map[string]any{
+			"id":    "s1",
+			"title": "Next-day pickup",
+			"evidence": []any{map[string]any{
+				"source":       "news_search",
+				"url":          "https://example.com/story",
+				"published_at": "2026-06-01T02:18:59Z",
+			}},
+		}},
+	}
+	origins := map[string]any{"findings": []any{map[string]any{
+		"signal_id":             "s1",
+		"same_story_assessment": "same_story",
+		"first_public_at":       "2026-05-31",
+	}}}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime: mustParseTestTime(t, "2026-06-01T13:46:00Z"), WindowHours: 24})
+	if err != nil {
+		t.Fatalf("err=%v", err)
+	}
+	rejected, _ := valueOrEmptyMap(payload["freshness_gate"])["rejected_signals"].([]map[string]any)
+	if len(rejected) != 1 {
+		t.Fatalf("rejected=%d, want 1", len(rejected))
+	}
+	if got := stringValue(valueOrEmptyMap(rejected[0]["freshness_gate"])["computed_status"]); got != "unverified_boundary" {
+		t.Fatalf("computed_status=%s, want unverified_boundary", got)
+	}
+}
+
+func TestOriginBoundaryDoesNotPromoteWhenOriginEvidenceHasOlderPreciseTimestamp(t *testing.T) {
+	candidates := map[string]any{
+		"monitor": map[string]any{"generated_at": "2026-06-01T13:46:00Z"},
+		"signals": []any{map[string]any{
+			"id":    "s1",
+			"title": "Older same-day clock",
+			"evidence": []any{map[string]any{
+				"source":       "news_search",
+				"url":          "https://example.com/story",
+				"published_at": "2026-05-31T22:46:35Z",
+			}},
+		}},
+	}
+	origins := map[string]any{"findings": []any{map[string]any{
+		"signal_id":             "s1",
+		"same_story_assessment": "same_story",
+		"first_public_at":       "2026-05-31",
+		"timestamp_evidence": []any{map[string]any{
+			"source":       "page_meta",
+			"url":          "https://example.com/original",
+			"published_at": "2026-05-31T12:30:00Z",
+		}},
+	}}}
+	payload, err := applyOriginFindings(candidates, origins, originApplyOptions{
+		RunTime: mustParseTestTime(t, "2026-06-01T13:46:00Z"), WindowHours: 24})
+	if err != nil {
+		t.Fatalf("err=%v", err)
+	}
+	rejected, _ := valueOrEmptyMap(payload["freshness_gate"])["rejected_signals"].([]map[string]any)
+	if len(rejected) != 1 {
+		t.Fatalf("rejected=%d, want 1", len(rejected))
+	}
+	if got := stringValue(valueOrEmptyMap(rejected[0]["freshness_gate"])["computed_status"]); got != "unverified_boundary" {
+		t.Fatalf("computed_status=%s, want unverified_boundary", got)
+	}
+}
+
 func TestOriginNoTimestampStatus(t *testing.T) {
 	candidates := map[string]any{
 		"monitor": map[string]any{"generated_at": "2026-05-27T19:00:00Z"},
