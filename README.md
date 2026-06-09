@@ -84,6 +84,10 @@ No surprises: that's the exact, unminified [`install.sh`](install.sh) in this
 repo — `newsjack.sh` serves this file and every release bundles it unchanged, so
 what you read here is what runs. Read it before you pipe it to a shell.
 
+The routing is open too: [`apps/site/proxy.ts`](apps/site/proxy.ts) is the
+Next.js handler behind `newsjack.sh` — it rewrites installer user-agents
+(curl/wget) to `install.sh` and 308-redirects everyone else to this repo.
+
 The installer detects your agent runtime and installs the CLI-backed skills
 automatically.
 
