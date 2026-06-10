@@ -91,9 +91,11 @@ ok('figure blocks present', figBoxes.length >= 1, `${figBoxes.length} .fig block
 ok('all figures have geometry', figBoxes.every((b) => b.w > 50 && b.h > 50),
    JSON.stringify(figBoxes.filter((b) => !(b.w > 50 && b.h > 50))));
 
-// Headline stat callouts present.
+// Headline stat callouts — only assert if the figure uses a stat grid.
 const stats = await page.locator('.stat').count();
-ok('headline stat callouts present', stats >= 1, `${stats} stats`);
+if (await page.locator('.stat-grid').count()) {
+  ok('headline stat callouts present', stats >= 1, `${stats} stats`);
+}
 
 // Every chart SVG has drawable content.
 const emptySvgs = await page.locator('svg.chart').evaluateAll((els) =>

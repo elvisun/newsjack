@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Fable 5 vs Opus 4.8 — angle study figures</title>
+<title>Fable 5 vs Opus 4.8 — dimension scorecard</title>
 <!--
   Built with the eval design system (eval/design-system, "the chart room").
-  Data: eval/fable-vs-opus/runs/2026-06-09-full (aggregate.py + per-brand robustness).
+  Data: eval/fable-vs-opus/runs/2026-06-09-full (aggregate.py, per-dimension means).
+  Single figure: the dimension scorecard (grouped bars), Fable accent vs Opus grey.
   Validate: cd eval/design-system/scripts && node validate.mjs \
     ../../fable-vs-opus/runs/2026-06-09-full/figures/fable-vs-opus.html --out ../../fable-vs-opus/runs/2026-06-09-full/figures/png
 -->
@@ -15,212 +16,104 @@
 </head>
 <body data-accent="winner" data-grid="on" data-barstyle="solid">
 
-<div class="wrap">
+<div class="wrap" style="padding-top:48px; padding-bottom:48px;">
 
-  <!-- ===================== MASTHEAD ===================== -->
-  <header class="masthead">
-    <div class="kicker">
-      <span>VOL. 01 — THE EVAL DESK</span>
-      <span class="dim">FABLE 5 vs OPUS 4.8</span>
-      <span class="dim">GPT-5.5 BLIND JUDGE</span>
+  <div class="fig">
+    <div class="fig-head">
+      <span class="fig-tag">FIG. 01</span>
+      <span class="fig-kind">GROUPED BARS</span>
     </div>
-    <h1>fable wins the angle desk</h1>
-    <p class="dek">Both models generated story angles from the same 50 company updates with the <i>angle-generator</i> skill. GPT-5.5, in the <i>meanest-editor</i> persona, judged every pair blind in both orderings — 100 judgments, re-anchored to model identity so slot position cancels.</p>
-    <div class="imprint">
-      <span>50 BRANDS · <b>100 JUDGMENTS</b></span>
-      <span>JUDGE <b>GPT-5.5</b></span>
-      <span>ACCENT <b>#E05A47</b></span>
-    </div>
-  </header>
+    <h3>Fable 5 vs. Opus 4.8</h3>
+    <p class="cap">Per-dimension mean on the judge's 1–5 scale, averaged over both orderings (n=100). Fable carries the accent; Opus stays in quiet grey. Fable leads six of seven dimensions — proof rigor is a dead tie.</p>
 
-  <!-- ===================== 01 — DIMENSION SCORECARD ===================== -->
-  <section class="sec">
-    <div class="sec-head">
-      <div class="lhs">
-        <span class="num">01</span>
-        <h2>the dimension scorecard</h2>
-      </div>
-      <span class="sub">MEAN 1–5 · FABLE vs OPUS · 7 DIMENSIONS</span>
-    </div>
+    <div class="plot">
+      <svg class="chart" viewBox="0 0 1180 560" role="img" aria-label="Grouped bar chart of per-dimension mean scores, Fable versus Opus">
+        <!-- gridlines + y ticks (0..5) -->
+        <text class="t-tick" x="72" y="504" text-anchor="end">0</text>
+        <text class="t-tick" x="72" y="428" text-anchor="end">1</text>
+        <line class="grid-line" x1="90" y1="424" x2="1140" y2="424" />
+        <text class="t-tick" x="72" y="352" text-anchor="end">2</text>
+        <line class="grid-line" x1="90" y1="348" x2="1140" y2="348" />
+        <text class="t-tick" x="72" y="276" text-anchor="end">3</text>
+        <line class="grid-line" x1="90" y1="272" x2="1140" y2="272" />
+        <text class="t-tick" x="72" y="200" text-anchor="end">4</text>
+        <line class="grid-line" x1="90" y1="196" x2="1140" y2="196" />
+        <text class="t-tick" x="72" y="124" text-anchor="end">5</text>
+        <line class="grid-line" x1="90" y1="120" x2="1140" y2="120" />
+        <!-- baseline axis -->
+        <line class="axis" x1="90" y1="500" x2="1140" y2="500" />
 
-    <div class="fig">
-      <div class="fig-head">
-        <span class="fig-tag">FIG. 01</span>
-        <span class="fig-kind">GROUPED BARS</span>
-      </div>
-      <h3>Quality by dimension, re-anchored to model</h3>
-      <p class="cap">Per-dimension mean on the judge's 1–5 scale, averaged over both orderings (n=100). Fable carries the accent; Opus stays in quiet grey. Fable leads six of seven dimensions — proof rigor is a dead tie.</p>
+        <!-- NEWS VALUE -->
+        <text class="t-cat" x="165" y="88" text-anchor="middle">NEWS VALUE</text>
+        <rect class="bar-base"    x="118" y="189.9" width="44" height="310.1" />
+        <rect class="bar-primary" x="168" y="164.8" width="44" height="335.2" />
+        <text class="t-val" x="140" y="177.9" text-anchor="middle">4.08</text>
+        <text class="t-val" x="190" y="152.8" text-anchor="middle">4.41</text>
+        <text class="t-series" x="140" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="190" y="526" text-anchor="middle">FABLE</text>
 
-      <div class="plot">
-        <svg class="chart" viewBox="0 0 1180 560" role="img" aria-label="Grouped bar chart of per-dimension mean scores, Fable versus Opus">
-          <!-- gridlines + y ticks (0..5) -->
-          <text class="t-tick" x="72" y="504" text-anchor="end">0</text>
-          <text class="t-tick" x="72" y="428" text-anchor="end">1</text>
-          <line class="grid-line" x1="90" y1="424" x2="1140" y2="424" />
-          <text class="t-tick" x="72" y="352" text-anchor="end">2</text>
-          <line class="grid-line" x1="90" y1="348" x2="1140" y2="348" />
-          <text class="t-tick" x="72" y="276" text-anchor="end">3</text>
-          <line class="grid-line" x1="90" y1="272" x2="1140" y2="272" />
-          <text class="t-tick" x="72" y="200" text-anchor="end">4</text>
-          <line class="grid-line" x1="90" y1="196" x2="1140" y2="196" />
-          <text class="t-tick" x="72" y="124" text-anchor="end">5</text>
-          <line class="grid-line" x1="90" y1="120" x2="1140" y2="120" />
-          <!-- baseline axis -->
-          <line class="axis" x1="90" y1="500" x2="1140" y2="500" />
+        <!-- DISTINCT -->
+        <text class="t-cat" x="315" y="88" text-anchor="middle">DISTINCT</text>
+        <rect class="bar-base"    x="268" y="167.9" width="44" height="332.1" />
+        <rect class="bar-primary" x="318" y="136.7" width="44" height="363.3" />
+        <text class="t-val" x="290" y="155.9" text-anchor="middle">4.37</text>
+        <text class="t-val" x="340" y="124.7" text-anchor="middle">4.78</text>
+        <text class="t-series" x="290" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="340" y="526" text-anchor="middle">FABLE</text>
 
-          <!-- NEWS VALUE -->
-          <text class="t-cat" x="165" y="88" text-anchor="middle">NEWS VALUE</text>
-          <rect class="bar-base"    x="118" y="189.9" width="44" height="310.1" />
-          <rect class="bar-primary" x="168" y="164.8" width="44" height="335.2" />
-          <text class="t-val" x="140" y="177.9" text-anchor="middle">4.08</text>
-          <text class="t-val" x="190" y="152.8" text-anchor="middle">4.41</text>
-          <text class="t-series" x="140" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="190" y="526" text-anchor="middle">FABLE</text>
+        <!-- SHAPE -->
+        <text class="t-cat" x="465" y="88" text-anchor="middle">SHAPE</text>
+        <rect class="bar-base"    x="418" y="148.9" width="44" height="351.1" />
+        <rect class="bar-primary" x="468" y="127.6" width="44" height="372.4" />
+        <text class="t-val" x="440" y="136.9" text-anchor="middle">4.62</text>
+        <text class="t-val" x="490" y="115.6" text-anchor="middle">4.90</text>
+        <text class="t-series" x="440" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="490" y="526" text-anchor="middle">FABLE</text>
 
-          <!-- DISTINCT -->
-          <text class="t-cat" x="315" y="88" text-anchor="middle">DISTINCT</text>
-          <rect class="bar-base"    x="268" y="167.9" width="44" height="332.1" />
-          <rect class="bar-primary" x="318" y="136.7" width="44" height="363.3" />
-          <text class="t-val" x="290" y="155.9" text-anchor="middle">4.37</text>
-          <text class="t-val" x="340" y="124.7" text-anchor="middle">4.78</text>
-          <text class="t-series" x="290" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="340" y="526" text-anchor="middle">FABLE</text>
+        <!-- GROUNDING -->
+        <text class="t-cat" x="615" y="88" text-anchor="middle">GROUNDING</text>
+        <rect class="bar-base"    x="568" y="222.6" width="44" height="277.4" />
+        <rect class="bar-primary" x="618" y="203.6" width="44" height="296.4" />
+        <text class="t-val" x="590" y="210.6" text-anchor="middle">3.65</text>
+        <text class="t-val" x="640" y="191.6" text-anchor="middle">3.90</text>
+        <text class="t-series" x="590" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="640" y="526" text-anchor="middle">FABLE</text>
 
-          <!-- SHAPE -->
-          <text class="t-cat" x="465" y="88" text-anchor="middle">SHAPE</text>
-          <rect class="bar-base"    x="418" y="148.9" width="44" height="351.1" />
-          <rect class="bar-primary" x="468" y="127.6" width="44" height="372.4" />
-          <text class="t-val" x="440" y="136.9" text-anchor="middle">4.62</text>
-          <text class="t-val" x="490" y="115.6" text-anchor="middle">4.90</text>
-          <text class="t-series" x="440" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="490" y="526" text-anchor="middle">FABLE</text>
+        <!-- ANTI-SLOP -->
+        <text class="t-cat" x="765" y="88" text-anchor="middle">ANTI-SLOP</text>
+        <rect class="bar-base"    x="718" y="157.2" width="44" height="342.8" />
+        <rect class="bar-primary" x="768" y="140.5" width="44" height="359.5" />
+        <text class="t-val" x="740" y="145.2" text-anchor="middle">4.51</text>
+        <text class="t-val" x="790" y="128.5" text-anchor="middle">4.73</text>
+        <text class="t-series" x="740" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="790" y="526" text-anchor="middle">FABLE</text>
 
-          <!-- GROUNDING -->
-          <text class="t-cat" x="615" y="88" text-anchor="middle">GROUNDING</text>
-          <rect class="bar-base"    x="568" y="222.6" width="44" height="277.4" />
-          <rect class="bar-primary" x="618" y="203.6" width="44" height="296.4" />
-          <text class="t-val" x="590" y="210.6" text-anchor="middle">3.65</text>
-          <text class="t-val" x="640" y="191.6" text-anchor="middle">3.90</text>
-          <text class="t-series" x="590" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="640" y="526" text-anchor="middle">FABLE</text>
+        <!-- PROOF RIGOR -->
+        <text class="t-cat" x="915" y="88" text-anchor="middle">PROOF RIGOR</text>
+        <rect class="bar-base"    x="868" y="135.2" width="44" height="364.8" />
+        <rect class="bar-primary" x="918" y="136" width="44" height="364" />
+        <text class="t-val" x="890" y="123.2" text-anchor="middle">4.80</text>
+        <text class="t-val" x="940" y="124" text-anchor="middle">4.79</text>
+        <text class="t-series" x="890" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="940" y="526" text-anchor="middle">FABLE</text>
 
-          <!-- ANTI-SLOP -->
-          <text class="t-cat" x="765" y="88" text-anchor="middle">ANTI-SLOP</text>
-          <rect class="bar-base"    x="718" y="157.2" width="44" height="342.8" />
-          <rect class="bar-primary" x="768" y="140.5" width="44" height="359.5" />
-          <text class="t-val" x="740" y="145.2" text-anchor="middle">4.51</text>
-          <text class="t-val" x="790" y="128.5" text-anchor="middle">4.73</text>
-          <text class="t-series" x="740" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="790" y="526" text-anchor="middle">FABLE</text>
-
-          <!-- PROOF RIGOR -->
-          <text class="t-cat" x="915" y="88" text-anchor="middle">PROOF RIGOR</text>
-          <rect class="bar-base"    x="868" y="135.2" width="44" height="364.8" />
-          <rect class="bar-primary" x="918" y="136" width="44" height="364" />
-          <text class="t-val" x="890" y="123.2" text-anchor="middle">4.80</text>
-          <text class="t-val" x="940" y="124" text-anchor="middle">4.79</text>
-          <text class="t-series" x="890" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="940" y="526" text-anchor="middle">FABLE</text>
-
-          <!-- USEFULNESS -->
-          <text class="t-cat" x="1065" y="88" text-anchor="middle">USEFULNESS</text>
-          <rect class="bar-base"    x="1018" y="158.8" width="44" height="341.2" />
-          <rect class="bar-primary" x="1068" y="143.6" width="44" height="356.4" />
-          <text class="t-val" x="1040" y="146.8" text-anchor="middle">4.49</text>
-          <text class="t-val" x="1090" y="131.6" text-anchor="middle">4.69</text>
-          <text class="t-series" x="1040" y="526" text-anchor="middle">OPUS</text>
-          <text class="t-series" x="1090" y="526" text-anchor="middle">FABLE</text>
-        </svg>
-      </div>
-
-      <div class="legend">
-        <span class="item"><span class="key k-base"></span>Opus 4.8</span>
-        <span class="item"><span class="key k-primary"></span>Fable 5</span>
-        <span class="item" style="margin-left:auto; color:var(--nj-fg-4);">SCALE 1–5 · n=100 JUDGMENTS</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== 02 — THE VERDICT ===================== -->
-  <section class="sec">
-    <div class="sec-head">
-      <div class="lhs">
-        <span class="num">02</span>
-        <h2>the verdict</h2>
-      </div>
-      <span class="sub">POSITION-INDEPENDENT WIN RATE</span>
+        <!-- USEFULNESS -->
+        <text class="t-cat" x="1065" y="88" text-anchor="middle">USEFULNESS</text>
+        <rect class="bar-base"    x="1018" y="158.8" width="44" height="341.2" />
+        <rect class="bar-primary" x="1068" y="143.6" width="44" height="356.4" />
+        <text class="t-val" x="1040" y="146.8" text-anchor="middle">4.49</text>
+        <text class="t-val" x="1090" y="131.6" text-anchor="middle">4.69</text>
+        <text class="t-series" x="1040" y="526" text-anchor="middle">OPUS</text>
+        <text class="t-series" x="1090" y="526" text-anchor="middle">FABLE</text>
+      </svg>
     </div>
 
-    <div class="fig">
-      <div class="fig-head">
-        <span class="fig-tag">FIG. 02</span>
-        <span class="fig-kind">RADIAL / DONUT</span>
-      </div>
-      <h3>Who won when the order didn't matter</h3>
-      <p class="cap">The judge has a strong position bias (it favored slot A in 69% of decisive calls), so the honest read is per-brand: who won in <i>both</i> orderings. On the 31 brands with an order-independent preference, Fable won 24.</p>
-      <div class="plot" style="display:flex; align-items:center; justify-content:center; gap:40px; padding:18px 0 8px; flex-wrap:wrap;">
-        <svg width="240" height="240" viewBox="0 0 280 280" role="img" aria-label="Donut showing 77 percent robust win rate">
-          <circle cx="140" cy="140" r="104" fill="none" stroke="#E4E0D8" stroke-width="30" />
-          <circle cx="140" cy="140" r="104" fill="none" stroke="var(--c-hero)" stroke-width="30"
-                  stroke-linecap="butt"
-                  stroke-dasharray="505.9 653.45"
-                  transform="rotate(-90 140 140)" />
-          <text x="140" y="150" text-anchor="middle"
-                style="font-family:var(--nj-serif); font-style:italic; font-size:74px; fill:var(--nj-fg-1);">77%</text>
-        </svg>
-        <div style="max-width:220px;">
-          <div style="font-family:var(--nj-mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--nj-fg-4);">ROBUST-WIN RATE</div>
-          <div style="font-family:var(--nj-sans); font-size:15px; line-height:1.5; color:var(--nj-fg-2); margin-top:10px;">Fable won both orderings on 24 of 31 decisively-judged brands. The other 19 brands split — pure position bias.</div>
-          <div style="font-family:var(--nj-mono); font-size:12px; letter-spacing:0.12em; color:var(--c-hero); margin-top:16px;">▲ FABLE 24 · OPUS 7</div>
-        </div>
-      </div>
+    <div class="legend">
+      <span class="item"><span class="key k-base"></span>Opus 4.8</span>
+      <span class="item"><span class="key k-primary"></span>Fable 5</span>
+      <span class="item" style="margin-left:auto; color:var(--nj-fg-4);">SCALE 1–5 · n=100 JUDGMENTS</span>
     </div>
-  </section>
-
-  <!-- ===================== 03 — HEADLINE FIGURES ===================== -->
-  <section class="sec">
-    <div class="sec-head">
-      <div class="lhs">
-        <span class="num">03</span>
-        <h2>headline figures</h2>
-      </div>
-      <span class="sub">BIG-STAT CALLOUTS · NO AXES</span>
-    </div>
-
-    <div class="stat-grid">
-      <div class="stat">
-        <span class="lab">ROBUST WINS · FABLE–OPUS</span>
-        <span class="fig-num"><span class="accent">24</span>–7</span>
-        <span class="rule"></span>
-        <span class="note">Brands won in both orderings, out of 50.</span>
-      </div>
-      <div class="stat">
-        <span class="lab">DIMENSIONS LED</span>
-        <span class="fig-num"><span class="accent">6</span>/7</span>
-        <span class="rule"></span>
-        <span class="note">Quality dimensions Fable led; proof rigor tied.</span>
-      </div>
-      <div class="stat">
-        <span class="lab">FABLE "PUBLISHABLE"</span>
-        <span class="fig-num"><span class="accent">78</span>%</span>
-        <span class="rule"></span>
-        <span class="note">Of 100 judgments; Opus 54%.</span>
-      </div>
-      <div class="stat">
-        <span class="lab">POSITION BIAS · SLOT-A WINS</span>
-        <span class="fig-num">0.69</span>
-        <span class="rule" style="background:var(--nj-border-strong);"></span>
-        <span class="note">0.50 = fair. Why both orderings are mandatory.</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== COLOPHON ===================== -->
-  <footer class="colophon">
-    <span class="c">NEWSJACK.SH — <b>THE EVAL DESK</b></span>
-    <span class="c">FABLE 5 vs OPUS 4.8 · <b>2026-06-09</b></span>
-    <span class="c">JUDGE <b>GPT-5.5 · BLIND · BOTH ORDERINGS</b></span>
-  </footer>
+  </div>
 
 </div>
 
