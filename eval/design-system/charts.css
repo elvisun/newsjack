@@ -1,0 +1,226 @@
+/* ============================================================================
+ * Newsjack.sh — Eval Graph Library
+ * Page scaffold + chart primitives. Built on colors_and_type.css tokens.
+ * ============================================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body {
+  background: var(--nj-page);
+  color: var(--nj-fg-1);
+  font-family: var(--nj-sans);
+  font-size: 16px;
+  line-height: 1.5;
+}
+::selection { background: var(--nj-accent); color: #fff; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--nj-page); }
+::-webkit-scrollbar-thumb { background: var(--nj-ink); }
+
+/* ----------------------------------------------------------------------------
+ * Accent strategy — driven by body[data-accent] (Tweaks panel).
+ *   --c-primary : the highlighted / "winning" series in a comparison
+ *   --c-base    : the baseline / secondary series (always quiet grey)
+ *   --c-hero    : standalone hero marks (donut ring, big-stat rule, single bars)
+ * --------------------------------------------------------------------------*/
+:root {
+  --c-primary: var(--nj-accent);
+  --c-hero:    var(--nj-accent);
+  --c-base:    #E4E0D8;
+  --c-base-line: rgba(26,26,26,0.22);
+  --c-ink:     var(--nj-ink);
+  --grid-color: var(--nj-border);
+}
+body[data-accent="single"] { --c-primary: #C9C4B9; }              /* comparisons go grey, hero stays accent */
+body[data-accent="single"] { --c-base: #E4E0D8; }
+body[data-accent="mono"]   { --c-primary: var(--nj-ink); --c-hero: var(--nj-ink); --c-base: #DBD7CE; }
+body[data-grid="off"] .grid-line { display: none; }
+
+/* ---- accent colour swap ---- */
+body[data-chroma="ink"]    { --c-primary: var(--nj-ink); --c-hero: var(--nj-ink); }
+
+/* ---- bar style: outline (editorial / print look) ---- */
+body[data-barstyle="outline"] .bar-primary { fill: var(--nj-accent-tint); stroke: var(--c-primary); stroke-width: 1.5; }
+body[data-barstyle="outline"] .bar-base    { fill: transparent;          stroke: var(--c-base-line); stroke-width: 1.5; }
+body[data-barstyle="outline"] .bar-hero    { fill: var(--nj-accent-tint); stroke: var(--c-hero);    stroke-width: 1.5; }
+body[data-accent="mono"][data-barstyle="outline"] .bar-primary { fill: var(--nj-ink-wash); }
+
+/* ----------------------------------------------------------------------------
+ * Page scaffold
+ * --------------------------------------------------------------------------*/
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+
+/* Masthead */
+.masthead { padding: 84px 0 56px; border-bottom: 1px solid var(--nj-ink); }
+.masthead .kicker {
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--nj-accent);
+  display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+}
+.masthead .kicker .dim { color: var(--nj-fg-4); }
+.masthead h1 {
+  font-family: var(--nj-serif); font-style: italic; font-weight: 400;
+  font-size: 92px; line-height: 0.9; letter-spacing: -0.03em;
+  margin: 28px 0 0; color: var(--nj-fg-1);
+}
+.masthead .dek {
+  font-family: var(--nj-sans); font-size: 19px; line-height: 1.55;
+  color: var(--nj-fg-2); max-width: 720px; margin-top: 26px;
+}
+.masthead .imprint {
+  margin-top: 34px; display: flex; gap: 28px; flex-wrap: wrap;
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--nj-fg-4);
+}
+.masthead .imprint b { color: var(--nj-fg-1); font-weight: 500; }
+
+/* Section head — newspaper rule pattern */
+.sec { padding: 88px 0 0; }
+.sec-head {
+  border-top: 1px solid var(--nj-border);
+  padding-top: 26px; margin-bottom: 46px;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+}
+.sec-head .lhs { display: flex; align-items: baseline; gap: 22px; }
+.sec-head .num {
+  font-family: var(--nj-mono); font-size: 13px; letter-spacing: 0.1em;
+  color: var(--nj-accent);
+}
+.sec-head h2 {
+  font-family: var(--nj-serif); font-style: italic; font-weight: 400;
+  text-transform: lowercase; font-size: 40px; line-height: 1;
+  letter-spacing: -0.02em; color: var(--nj-fg-1);
+}
+.sec-head .sub {
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--nj-fg-4); text-align: right;
+}
+
+/* Specimen card */
+.grid { display: grid; gap: 28px; }
+.grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.fig {
+  border: 1px solid var(--nj-border);
+  background: var(--nj-page);
+  box-shadow: var(--nj-shadow-editorial);
+  padding: 34px 36px 38px;
+  display: flex; flex-direction: column;
+}
+.fig.dark { background: var(--nj-ink); border-color: var(--nj-border-on-ink); }
+.fig-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; margin-bottom: 6px; }
+.fig-tag {
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--nj-accent);
+}
+.fig-kind {
+  font-family: var(--nj-mono); font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--nj-fg-4);
+}
+.fig h3 {
+  font-family: var(--nj-serif); font-style: italic; font-weight: 400;
+  font-size: 27px; line-height: 1.12; letter-spacing: -0.01em;
+  color: var(--nj-fg-1); margin: 4px 0 4px;
+}
+.fig .cap {
+  font-family: var(--nj-sans); font-size: 14.5px; line-height: 1.5;
+  color: var(--nj-fg-3); max-width: 60ch; margin-bottom: 22px;
+}
+.fig.dark .fig-kind { color: var(--nj-on-ink-4); }
+.fig.dark h3 { color: var(--nj-on-ink-1); }
+.fig.dark .cap { color: var(--nj-on-ink-3); }
+
+.plot { margin-top: auto; }
+
+/* Legend */
+.legend { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 24px; }
+.legend .item {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--nj-fg-3);
+}
+.legend .key { width: 13px; height: 13px; flex: none; }
+.legend .key.k-primary { background: var(--c-primary); }
+.legend .key.k-base    { background: var(--c-base); }
+.legend .key.k-hero    { background: var(--c-hero); }
+.legend .key.line-primary { height: 0; border-top: 2.5px solid var(--c-primary); width: 18px; }
+.legend .key.line-base    { height: 0; border-top: 2.5px dashed var(--c-base-line); width: 18px; }
+
+/* ----------------------------------------------------------------------------
+ * SVG chart primitives
+ * --------------------------------------------------------------------------*/
+.chart { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--nj-mono); fill: var(--nj-fg-3); }
+
+.t-tick   { font-size: 12px; letter-spacing: 0.04em; fill: var(--nj-fg-4); }
+.t-cat    { font-size: 12.5px; letter-spacing: 0.16em; text-transform: uppercase; fill: var(--nj-fg-1); font-weight: 500; }
+.t-catsub { font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; fill: var(--nj-fg-4); }
+.t-series { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--nj-fg-3); }
+.t-val    { font-size: 16px; letter-spacing: 0.02em; fill: var(--nj-fg-1); font-weight: 500; }
+.t-val.on-bar { fill: #fff; }
+.t-axislabel { font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; fill: var(--nj-fg-4); }
+
+.axis     { stroke: var(--nj-ink); stroke-width: 1.5; }
+.grid-line{ stroke: var(--grid-color); stroke-width: 1; stroke-dasharray: 2 5; }
+
+.bar-primary { fill: var(--c-primary); }
+.bar-base    { fill: var(--c-base); }
+.bar-hero    { fill: var(--c-hero); }
+.bar-ink     { fill: var(--nj-ink); }
+
+.line-primary { fill: none; stroke: var(--c-primary); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.line-base    { fill: none; stroke: var(--c-base-line); stroke-width: 2; stroke-dasharray: 4 4; stroke-linejoin: round; }
+.area-primary { fill: var(--c-primary); opacity: 0.07; }
+.dot-primary  { fill: var(--c-primary); }
+.dot-base     { fill: var(--nj-page); stroke: var(--c-base-line); stroke-width: 2; }
+.dot-hollow   { fill: var(--nj-page); stroke: var(--c-primary); stroke-width: 2.5; }
+
+.stem { stroke: var(--nj-border-strong); stroke-width: 1.5; }
+
+/* dark-card variants */
+.fig.dark .chart text { fill: var(--nj-on-ink-3); }
+.fig.dark .t-val { fill: var(--nj-on-ink-1); }
+.fig.dark .t-cat { fill: var(--nj-on-ink-1); }
+.fig.dark .axis  { stroke: var(--nj-on-ink-2); }
+.fig.dark .grid-line { stroke: var(--nj-border-on-ink); }
+
+/* Heatmap */
+.hm-cell { stroke: var(--nj-page); stroke-width: 3; }
+.hm-label { font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; fill: var(--nj-fg-3); }
+.hm-val   { font-family: var(--nj-mono); font-size: 13px; fill: var(--nj-fg-1); }
+
+/* Big-stat callouts */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--nj-border); }
+.stat {
+  padding: 40px 32px 36px; border-right: 1px solid var(--nj-border);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.stat:last-child { border-right: 0; }
+.stat .lab { font-family: var(--nj-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--nj-fg-4); }
+.stat .fig-num {
+  font-family: var(--nj-serif); font-style: italic; font-weight: 400;
+  font-size: 76px; line-height: 0.88; letter-spacing: -0.02em; color: var(--c-hero);
+}
+.stat .fig-num .accent { color: var(--c-hero); }
+.stat .delta { font-family: var(--nj-mono); font-size: 12px; letter-spacing: 0.1em; color: var(--nj-fg-3); }
+.stat .rule { width: 38px; height: 3px; background: var(--c-hero); }
+.stat .note { font-family: var(--nj-sans); font-size: 13.5px; line-height: 1.5; color: var(--nj-fg-3); }
+
+@media (max-width: 1040px) {
+  .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .stat:nth-child(2) { border-right: 0; }
+  .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--nj-border); }
+  .masthead h1 { font-size: 60px; }
+  .wrap { padding: 0 24px; }
+}
+
+/* footer */
+.colophon { border-top: 1px solid var(--nj-ink); margin-top: 96px; padding: 40px 0 90px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.colophon .c {
+  font-family: var(--nj-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--nj-fg-4);
+}
+.colophon .c b { color: var(--nj-fg-1); font-weight: 500; }

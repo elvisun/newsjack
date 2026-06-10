@@ -1,0 +1,224 @@
+/* ============================================================================
+ * Newsjack.sh — Colors & Type
+ * Editorial-meets-terminal. Newspaper paper, ink, vermilion accent.
+ * ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+
+:root {
+  /* ---- Core palette ---- */
+  --nj-page:        #F9F8F6;  /* newsprint paper — primary background      */
+  --nj-page-2:      #F3F1EC;  /* slightly darker paper, for nested panels   */
+  --nj-ink:         #1A1A1A;  /* ink — primary text + dark surfaces         */
+  --nj-ink-2:       #2A2A2A;  /* dark surface variant                       */
+  --nj-accent:      #E05A47;  /* vermilion — the ONLY chromatic accent      */
+  --nj-accent-2:    #C84A38;  /* pressed/hover state                        */
+  --nj-success:     #4ADE80;  /* terminal green — for [success] log lines   */
+
+  /* ---- Foreground hierarchy (on paper) ---- */
+  --nj-fg-1:        #1A1A1A;            /* primary text                  */
+  --nj-fg-2:        rgba(26, 26, 26, 0.80); /* body, supporting copy     */
+  --nj-fg-3:        rgba(26, 26, 26, 0.60); /* secondary, captions       */
+  --nj-fg-4:        rgba(26, 26, 26, 0.40); /* tertiary, meta            */
+  --nj-fg-5:        rgba(26, 26, 26, 0.20); /* quietest, decorative      */
+
+  /* ---- Foreground hierarchy (on ink / dark) ---- */
+  --nj-on-ink-1:    #F9F8F6;
+  --nj-on-ink-2:    rgba(249, 248, 246, 0.80);
+  --nj-on-ink-3:    rgba(249, 248, 246, 0.60);
+  --nj-on-ink-4:    rgba(249, 248, 246, 0.40);
+  --nj-on-ink-5:    rgba(249, 248, 246, 0.20);
+
+  /* ---- Borders ---- */
+  --nj-border:        rgba(26, 26, 26, 0.10);  /* "editorial" hairline   */
+  --nj-border-strong: rgba(26, 26, 26, 0.25);
+  --nj-border-on-ink: rgba(249, 248, 246, 0.10);
+
+  /* ---- Tint washes (used for soft panels) ---- */
+  --nj-ink-wash:    rgba(26, 26, 26, 0.05);
+  --nj-accent-wash: rgba(224, 90, 71, 0.05);
+  --nj-accent-tint: rgba(224, 90, 71, 0.10);
+
+  /* ---- Typography stacks ---- */
+  --nj-serif: "Newsreader", "Charter", "Georgia", serif;
+  --nj-sans:  "DM Sans", "Inter", system-ui, sans-serif;
+  --nj-mono:  "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Type scale ---- */
+  --nj-text-xs:   10px;   /* mono meta, all-caps eyebrows               */
+  --nj-text-sm:   13px;
+  --nj-text-base: 15px;
+  --nj-text-md:   17px;
+  --nj-text-lg:   20px;
+  --nj-text-xl:   24px;
+  --nj-text-2xl:  32px;
+  --nj-text-3xl:  44px;
+  --nj-text-4xl:  64px;
+  --nj-text-5xl:  80px;
+
+  /* Fluid display sizes (clamp to viewport) */
+  --nj-fluid-h1: clamp(2.5rem, 8vw, 5rem);     /* hero, italic serif   */
+  --nj-fluid-h2: clamp(2rem,  5vw, 3.5rem);    /* section heads        */
+  --nj-fluid-body: clamp(1rem, 1.2vw, 1.25rem);
+
+  /* ---- Tracking / leading ---- */
+  --nj-track-eyebrow: 0.3em;     /* mono caps eyebrows above hero      */
+  --nj-track-meta:    0.2em;     /* mono caps meta labels              */
+  --nj-track-tight:   -0.02em;
+  --nj-track-tighter: -0.03em;
+  --nj-lh-display:    0.9;
+  --nj-lh-tight:      1.05;
+  --nj-lh-body:       1.55;
+  --nj-lh-relaxed:    1.7;
+
+  /* ---- Spacing scale ---- */
+  --nj-space-1:  4px;
+  --nj-space-2:  8px;
+  --nj-space-3:  12px;
+  --nj-space-4:  16px;
+  --nj-space-5:  24px;
+  --nj-space-6:  32px;
+  --nj-space-8:  48px;
+  --nj-space-10: 64px;
+  --nj-space-12: 96px;
+  --nj-space-16: 128px;
+
+  /* ---- Radii — NEWSJACK USES MOSTLY SHARP CORNERS ---- */
+  --nj-radius-0: 0px;     /* default for cards, panels, buttons        */
+  --nj-radius-1: 2px;     /* terminal blocks, small chips              */
+  --nj-radius-2: 6px;     /* terminal window                           */
+  --nj-radius-pill: 999px;
+
+  /* ---- Shadows ---- */
+  --nj-shadow-editorial: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --nj-shadow-lift:      0 12px 40px rgba(0, 0, 0, 0.08);
+  --nj-shadow-terminal:  0 20px 60px rgba(0, 0, 0, 0.25);
+
+  /* ---- Motion ---- */
+  --nj-ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --nj-ease-inout:  cubic-bezier(0.65, 0, 0.35, 1);
+  --nj-dur-fast:    150ms;
+  --nj-dur-base:    300ms;
+  --nj-dur-slow:    500ms;
+}
+
+/* ============================================================================
+ * Semantic typography
+ * Use these directly on elements, or as @apply targets.
+ * ============================================================================ */
+
+.nj-h1, h1.nj {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-fluid-h1);
+  font-weight: 400;
+  font-style:  italic;
+  line-height: var(--nj-lh-display);
+  letter-spacing: var(--nj-track-tighter);
+  color: var(--nj-fg-1);
+}
+
+.nj-h2, h2.nj {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-fluid-h2);
+  font-weight: 400;
+  font-style:  italic;
+  text-transform: lowercase;
+  line-height: var(--nj-lh-tight);
+  letter-spacing: var(--nj-track-tight);
+  color: var(--nj-fg-1);
+}
+
+.nj-h3, h3.nj {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-text-2xl);
+  font-weight: 400;
+  font-style:  italic;
+  line-height: 1.15;
+  color: var(--nj-fg-1);
+}
+
+.nj-h4, h4.nj {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-text-xl);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--nj-fg-1);
+}
+
+.nj-body, p.nj {
+  font-family: var(--nj-sans);
+  font-size:   var(--nj-text-md);
+  font-weight: 400;
+  line-height: var(--nj-lh-body);
+  color: var(--nj-fg-2);
+}
+
+.nj-lead {
+  font-family: var(--nj-sans);
+  font-size:   var(--nj-fluid-body);
+  font-weight: 400;
+  line-height: var(--nj-lh-body);
+  color: var(--nj-fg-2);
+}
+
+.nj-pull-quote {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-fluid-h2);
+  font-weight: 400;
+  font-style:  italic;
+  line-height: var(--nj-lh-tight);
+  color: var(--nj-fg-1);
+}
+
+/* Mono eyebrow — Vol. 01 — small caps tracker above hero / section heads. */
+.nj-eyebrow {
+  font-family: var(--nj-mono);
+  font-size:   var(--nj-text-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--nj-track-eyebrow);
+  color: var(--nj-accent);
+}
+
+/* Mono meta — section numbers (01, 02, 03), labels, CLI flag strings. */
+.nj-meta {
+  font-family: var(--nj-mono);
+  font-size:   var(--nj-text-xs);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: var(--nj-track-meta);
+  color: var(--nj-fg-4);
+}
+
+/* Terminal-style code, used in CLI blocks and inline `code`. */
+.nj-code {
+  font-family: var(--nj-mono);
+  font-size:   var(--nj-text-sm);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--nj-fg-1);
+}
+
+.nj-caption {
+  font-family: var(--nj-sans);
+  font-size:   var(--nj-text-sm);
+  font-weight: 400;
+  font-style:  italic;
+  line-height: var(--nj-lh-body);
+  color: var(--nj-fg-3);
+}
+
+/* Pull-stat — small mono cap label + large italic-serif figure (+400%). */
+.nj-stat-label {
+  font-family: var(--nj-mono);
+  font-size:   var(--nj-text-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--nj-track-meta);
+  color: var(--nj-fg-4);
+}
+.nj-stat-figure {
+  font-family: var(--nj-serif);
+  font-size:   var(--nj-text-2xl);
+  font-style:  italic;
+  color: var(--nj-fg-1);
+}

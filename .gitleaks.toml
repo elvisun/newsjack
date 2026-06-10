@@ -1,0 +1,29 @@
+# gitleaks configuration for newsjack.
+#
+# Keeps the full default gitleaks ruleset for the entire repo, and adds a narrow
+# allowlist for GENERATED eval-study run artifacts.
+#
+# The files under `eval/**/runs/` are deterministic, model-generated outputs of
+# the eval harness — LLM judges' natural-language verdicts (`*.json`) and the
+# study write-ups / generated angle sets (`*.md`), produced by agents running in
+# a read-only sandbox. They are study data, not source, and are not a place
+# where credentials are ever authored. The default high-entropy
+# `generic-api-key` rule false-positives on ordinary slash-joined English in
+# those verdicts (e.g. "profitability/expansion tension").
+#
+# Scope is deliberately tight: only `*.json` and `*.md` UNDER a `runs/` directory
+# inside `eval/` are allowlisted. All real source — including eval scripts,
+# harness prompts, brands.json, the design system, and everything outside
+# `eval/**/runs/` — is still fully scanned with the default rules.
+
+title = "newsjack gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Generated eval-study run artifacts (model-authored verdicts and write-ups, not source)."
+paths = [
+  '''eval/[^/]+/runs/.*\.json$''',
+  '''eval/[^/]+/runs/.*\.md$''',
+]

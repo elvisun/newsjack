@@ -1,0 +1,4 @@
+Company: Verdano
+Current time: 2026-06-09T16:00:00Z
+
+Verdano, a 14-person startup, raised a $6M seed round for AI software that balances community-solar grids. Facts: round led by a climate-focused seed fund with two angel investors; the software predicts local solar generation and shifts flexible loads to cut grid strain; the company has three paying utility customers in pilot; founders are ex-Tesla Energy and ex-NREL; plans to hire 10 engineers. No revenue figure, no named utility customer, and no independent results disclosed yet.

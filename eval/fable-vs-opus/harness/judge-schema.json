@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["scores", "verdict_A", "verdict_B", "winner", "margin", "rationale", "gaps_in_A", "gaps_in_B"],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["A", "B"],
+      "properties": {
+        "A": { "$ref": "#/$defs/dimscores" },
+        "B": { "$ref": "#/$defs/dimscores" }
+      }
+    },
+    "verdict_A": { "type": "string", "enum": ["publishable", "workshopable", "start-over"] },
+    "verdict_B": { "type": "string", "enum": ["publishable", "workshopable", "start-over"] },
+    "winner": { "type": "string", "enum": ["A", "B", "tie"] },
+    "margin": { "type": "string", "enum": ["clear", "slight"] },
+    "rationale": { "type": "string" },
+    "gaps_in_A": { "type": "array", "items": { "type": "string" } },
+    "gaps_in_B": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "dimscores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["news_value", "distinctness", "journalist_shape", "grounding", "anti_slop", "proof_rigor", "usefulness"],
+      "properties": {
+        "news_value": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "distinctness": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "journalist_shape": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "grounding": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "anti_slop": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "proof_rigor": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "usefulness": { "type": "integer", "minimum": 1, "maximum": 5 }
+      }
+    }
+  }
+}
