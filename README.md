@@ -169,3 +169,7 @@ Npm-installed Newsjack uses npm for CLI updates:
 ```bash
 npm i -g newsjack@latest
 ```
+
+---
+
+Author: Elvis Sun — [LinkedIn](https://www.linkedin.com/in/elvissun) · [X](https://x.com/elvissun)
