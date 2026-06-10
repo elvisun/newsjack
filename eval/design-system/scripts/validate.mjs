@@ -112,8 +112,11 @@ await page.screenshot({ path: join(outDir, `${base}--full.png`), fullPage: true 
 const figs = page.locator('.fig');
 const n = await figs.count();
 for (let i = 0; i < n; i++) {
-  const tag = await figs.nth(i).locator('.fig-tag').textContent().catch(() => null);
-  const label = (tag || `fig-${i + 1}`).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  // The fig-tag is now the NEWSJACK.SH brand mark (identical on every figure),
+  // so name crops by index — optionally suffixed with the figure kind.
+  const kind = await figs.nth(i).locator('.fig-kind').textContent().catch(() => null);
+  const kindSlug = (kind || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const label = `fig-${String(i + 1).padStart(2, '0')}${kindSlug ? `-${kindSlug}` : ''}`;
   await figs.nth(i).screenshot({ path: join(outDir, `${base}--${label}.png`) }).catch(() => {});
 }
 // stat grid as one strip
