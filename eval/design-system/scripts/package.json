@@ -1,0 +1,15 @@
+{
+  "name": "newsjack-eval-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Playwright validation + screenshotting for Newsjack eval figures",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "validate": "node validate.mjs",
+    "validate:room": "node validate.mjs ../chart-room.html"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  }
+}
