@@ -24,8 +24,8 @@ conservative about bias.
   fresh `codex exec` GPT-5.5 session that sees only two anonymized angle sets.
 - **Blind + counterbalanced.** The judge never learns which set is which model,
   and every pair is judged in **both orderings** (A=Opus/B=Fable and the swap).
-  Position bias is then averaged out in aggregation. (In the pilot it was severe
-  — see Results — which is exactly why this matters.)
+  Position bias is then averaged out in aggregation. (In the full run it was
+  severe — slot A won 69% of decisive calls — which is exactly why this matters.)
 
 ## Inputs (`brands.json`)
 
@@ -78,12 +78,7 @@ script itself is blind.
 
 ## Running it
 
-**Pilot (one brand, what's checked in here):** generators run as two subagents
-(`model: opus`, `model: fable`); `judge.sh` runs twice (both orderings). See
-`runs/2026-06-09-pilot/`.
-
-**Scale (up to all 10, or 50+ once `brands.json` is extended):** the workflow
-`scripts/run.js` (run via the Workflow tool) does the whole loop —
+The workflow `scripts/run.js` (run via the Workflow tool) does the whole loop —
 load → write `update.txt` → generate both models in parallel → judge both
 orderings via `codex exec` — every step a clean-context subagent. Invoke with:
 
@@ -129,26 +124,6 @@ evidentiary restraint, which earned its tied `proof_rigor`.
 | overall dim mean | **4.60** | 4.36 | +0.24 |
 | robust wins (both orderings) | **24/50** | 7/50 | |
 | meanest-editor `publishable` | 78/100 | 54/100 | |
-
-### `runs/2026-06-09-pilot/` — Notion, n=2 judgments (pilot)
-
-Pilot purpose: validate the full pipeline (subagent generators + `codex exec`
-GPT-5.5 judge + counterbalancing + aggregation) before scaling. It works
-end-to-end. Headline numbers at n=2 are not conclusions — they size the apparatus.
-
-- **Head-to-head: 1–1** after de-biasing (a tie on this brand).
-- **Position bias was total: slot A won 2/2** (1.00 vs 0.50 unbiased). The judge
-  picked whichever set was shown *first*, both times. This is the single most
-  important pilot finding: a one-ordering design would have reported a spurious
-  winner. Both orderings are mandatory.
-- **Dimension signal (suggestive only):** Fable led `distinctness` (+1.50) — the
-  judge, in both orderings, praised Fable's offline-editing angle as a genuinely
-  distinct fourth press lane and dinged Opus for refusing offline as "just a
-  feature note" and for three angles orbiting the same bank-pilot spine. Opus
-  edged `proof_rigor` (+0.50). Both sets were judged `publishable` once and
-  `workshopable` once.
-
-Run `python3 aggregate.py runs/2026-06-09-pilot/results.json` to reproduce.
 
 ## Discipline
 
