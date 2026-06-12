@@ -110,8 +110,11 @@ jobs:
           Invoke-WebRequest -Uri "$base/newsjack_windows_amd64.exe" -OutFile $exe
 
           # Verify the download against the published checksums, exactly as a
-          # careful user would.
-          $checksums = (Invoke-WebRequest -Uri "$base/checksums.txt").Content
+          # careful user would. Download to a file: GitHub serves the asset as
+          # octet-stream, so .Content would be a byte array, not a string.
+          $checksumsFile = Join-Path $scratch 'checksums.txt'
+          Invoke-WebRequest -Uri "$base/checksums.txt" -OutFile $checksumsFile
+          $checksums = Get-Content -Raw $checksumsFile
           $line = ($checksums -split "`n") | Where-Object { $_ -match 'newsjack_windows_amd64\.exe' } | Select-Object -First 1
           if (-not $line) { throw 'checksums.txt has no entry for newsjack_windows_amd64.exe' }
           $expected = ($line -split '\s+')[0].ToLower()
