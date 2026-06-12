@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -724,9 +725,12 @@ func TestSetupConfiguresHermesMCP(t *testing.T) {
 			t.Fatal(err)
 		}
 		text := string(body)
+		// Build the expectation exactly like the product does (%q), so the
+		// per-OS binary name and Windows backslash escaping both match.
+		expectedCommand := fmt.Sprintf("command: %q", filepath.Join(home, ".newsjack", "bin", installedBinaryName()))
 		if !strings.Contains(text, "mcp_servers:") ||
 			!strings.Contains(text, "medialyst:") ||
-			!strings.Contains(text, `command: "`+filepath.Join(home, ".newsjack", "bin", "newsjack")+`"`) ||
+			!strings.Contains(text, expectedCommand) ||
 			!strings.Contains(text, `- "mcp-bridge"`) {
 			t.Fatalf("Hermes MCP config missing:\n%s", text)
 		}
