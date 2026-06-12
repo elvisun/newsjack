@@ -35,6 +35,15 @@ jobs:
           test "${GITHUB_REF_TYPE}" = "tag"
           [[ "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
 
+      - name: Require changelog entry
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .tmp
+          node scripts/extract-changelog.mjs "${GITHUB_REF_NAME}" > .tmp/release-notes.md
+          echo "Release notes for ${GITHUB_REF_NAME}:"
+          cat .tmp/release-notes.md
+
       - name: Run CLI tests
         working-directory: apps/cli
         run: go test ./...
@@ -55,7 +64,8 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" .tmp/newsjack-release/* \
             --verify-tag \
             --title "Newsjack ${GITHUB_REF_NAME}" \
-            --notes "Newsjack ${GITHUB_REF_NAME}" \
+            --notes-file .tmp/release-notes.md \
+            --generate-notes \
             "${prerelease_args[@]}"
 
       - name: Queue npm release
