@@ -42,7 +42,7 @@ func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	if *jsonOut {
 		bootstrapOut = stderr
 	}
-	if err := ensureInstalledRoot(bootstrapOut, stderr); err != nil {
+	if err := ensureInstalledRoot(*runtimeRaw, bootstrapOut, stderr); err != nil {
 		return fail(stderr, err)
 	}
 	status := setupPayload(*runtimeRaw)

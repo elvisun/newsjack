@@ -72,6 +72,10 @@ jobs:
     if: inputs.os == 'windows'
     runs-on: windows-latest
     timeout-minutes: 45
+    env:
+      # secrets is not available in step-level `if` expressions; surface the
+      # presence check through job env instead.
+      HAS_MEDIALYST_KEY: ${{ secrets.MEDIALYST_API_KEY != '' }}
     steps:
       - uses: actions/checkout@v6
 
@@ -134,7 +138,7 @@ jobs:
           }
 
       - name: Live Medialyst query through the bridge (only with secret)
-        if: ${{ secrets.MEDIALYST_API_KEY != '' }}
+        if: env.HAS_MEDIALYST_KEY == 'true'
         shell: pwsh
         env:
           MEDIALYST_API_KEY: ${{ secrets.MEDIALYST_API_KEY }}

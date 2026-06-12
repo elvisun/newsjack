@@ -170,16 +170,7 @@ func runningInstalledBinary() bool {
 	if err != nil {
 		return false
 	}
-	want := installedBinaryPath()
-	exeReal, err := filepath.EvalSymlinks(exe)
-	if err != nil {
-		exeReal = exe
-	}
-	wantReal, err := filepath.EvalSymlinks(want)
-	if err != nil {
-		wantReal = want
-	}
-	return exeReal == wantReal
+	return samePath(exe, installedBinaryPath())
 }
 
 func readInstalledVersion() string {
@@ -268,7 +259,7 @@ func setenv(env []string, key, value string) []string {
 }
 
 func runInstalledBinary(args []string) int {
-	bin := filepath.Join(newsjackHome(), "bin", "newsjack")
+	bin := installedBinaryPath()
 	cmd := exec.Command(bin, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

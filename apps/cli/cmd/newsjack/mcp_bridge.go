@@ -60,39 +60,28 @@ func newMCPBridge(endpoint, key string, stdout, stderr io.Writer) *mcpBridge {
 	}
 }
 
+// run processes messages strictly in order: a piped handshake must not let
+// tools/list reach the server before the initialize response has populated
+// the session and protocol headers, and a fatal condition (rejected key)
+// must end the process promptly instead of blocking on stdin.
 func (b *mcpBridge) run(stdin io.Reader) int {
 	scanner := bufio.NewScanner(stdin)
 	scanner.Buffer(make([]byte, 64*1024), mcpBridgeMaxMessageBytes)
-	fatal := make(chan int, 1)
-	var wg sync.WaitGroup
 	for scanner.Scan() {
 		line := bytes.TrimSpace(scanner.Bytes())
 		if len(line) == 0 {
 			continue
 		}
 		msg := append([]byte(nil), line...)
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			if code := b.forward(msg); code != 0 {
-				select {
-				case fatal <- code:
-				default:
-				}
-			}
-		}()
+		if code := b.forward(msg); code != 0 {
+			return code
+		}
 	}
-	wg.Wait()
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintf(b.stderr, "newsjack mcp-bridge: stdin: %v\n", err)
 		return 1
 	}
-	select {
-	case code := <-fatal:
-		return code
-	default:
-		return 0
-	}
+	return 0
 }
 
 // forward sends one client JSON-RPC message upstream and relays every

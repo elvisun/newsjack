@@ -205,6 +205,8 @@ newsjack_darwin_amd64.tar.gz
 newsjack_darwin_arm64.tar.gz
 newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
+newsjack_windows_amd64.exe
+newsjack_windows_amd64.tar.gz
 ```
 
 The npm workflow publishes the five npm packages after checking that the exact

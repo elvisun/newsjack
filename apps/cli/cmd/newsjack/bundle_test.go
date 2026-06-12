@@ -100,7 +100,7 @@ func TestBootstrapInstallFromBareBinary(t *testing.T) {
 
 	withTempEnv(t, bootstrapEnv(home, server.URL), func() {
 		var out, errBuf bytes.Buffer
-		if err := bootstrapInstall(&out, &errBuf); err != nil {
+		if err := bootstrapInstall("", &out, &errBuf); err != nil {
 			t.Fatalf("bootstrapInstall: %v\nstderr=%s", err, errBuf.String())
 		}
 
@@ -271,6 +271,54 @@ func TestSetupJSONBootstrapsWhenRootMissing(t *testing.T) {
 		}
 		if root != filepath.Join(home, ".newsjack", "newsjack") {
 			t.Fatalf("root=%q after bootstrap", root)
+		}
+	})
+}
+
+func TestEnsureInstalledRootFinishesInterruptedBootstrap(t *testing.T) {
+	payload := buildBundleTarGz(t, testBundleFiles("v9.9.9-test"))
+	server := serveRelease(t, payload, "v9.9.9-test")
+	home := t.TempDir()
+
+	withTempEnv(t, bootstrapEnv(home, server.URL), func() {
+		// Simulate a bootstrap that died after the bundle swap: the managed
+		// root exists, but the binary and install state were never written.
+		if _, err := applyReleaseBundle(server.URL, io.Discard); err != nil {
+			t.Fatal(err)
+		}
+		if fileExists(installedBinaryPath()) || fileExists(installStatePath()) {
+			t.Fatal("precondition: interrupted install should have no binary or state")
+		}
+
+		var out, errBuf bytes.Buffer
+		if err := ensureInstalledRoot("", &out, &errBuf); err != nil {
+			t.Fatalf("ensureInstalledRoot: %v\nstderr=%s", err, errBuf.String())
+		}
+		if !fileExists(installedBinaryPath()) {
+			t.Fatal("repair should install the managed binary")
+		}
+		var state installState
+		data, err := os.ReadFile(installStatePath())
+		if err != nil {
+			t.Fatalf("repair should write install state: %v", err)
+		}
+		if err := json.Unmarshal(data, &state); err != nil {
+			t.Fatal(err)
+		}
+		if state.Version != "v9.9.9-test" {
+			t.Fatalf("repaired state version = %q", state.Version)
+		}
+		if !fileExists(filepath.Join(home, ".claude", "skills", "newsjack-detector", "SKILL.md")) {
+			t.Fatal("repair should install runtime skills")
+		}
+
+		// A second call must be a no-op, not another repair.
+		errBuf.Reset()
+		if err := ensureInstalledRoot("", &out, &errBuf); err != nil {
+			t.Fatal(err)
+		}
+		if strings.Contains(errBuf.String(), "interrupted") {
+			t.Fatalf("completed install should not re-trigger repair:\n%s", errBuf.String())
 		}
 	})
 }

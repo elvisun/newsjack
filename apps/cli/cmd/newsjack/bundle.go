@@ -42,18 +42,27 @@ func releaseArtifactName() string {
 // fetch the release bundle for this platform, verify its checksum, unpack
 // it, install this binary as the managed CLI, write install state, then
 // run the regular skills and MCP install. No shell, tar, curl, Node, or
-// git is required on the machine.
-func bootstrapInstall(stdout, stderr io.Writer) error {
+// git is required on the machine. runtimeSelection comes from setup's
+// --runtime flag; NEWSJACK_RUNTIMES still wins when set.
+func bootstrapInstall(runtimeSelection string, stdout, stderr io.Writer) error {
 	base := releaseBaseForUpdate()
 	logf(stderr, "newsjack is not installed yet; fetching the release bundle from %s", base)
 	version, err := applyReleaseBundle(base, stderr)
 	if err != nil {
 		return err
 	}
+	return finalizeBootstrap(version, runtimeSelection, stdout, stderr)
+}
+
+// finalizeBootstrap is the post-bundle half of first install: managed
+// binary, install state, skills, MCP. Split out so an interrupted
+// bootstrap (bundle applied, rest missing) can be resumed without
+// re-downloading the release.
+func finalizeBootstrap(version, runtimeSelection string, stdout, stderr io.Writer) error {
 	if err := installSelfBinary(); err != nil {
 		return err
 	}
-	if err := writeInstallStateFile(bootstrapInstallState(version)); err != nil {
+	if err := writeInstallStateFile(bootstrapInstallState(version, runtimeSelection)); err != nil {
 		return err
 	}
 	if os.Getenv("NEWSJACK_INSTALL_SKILLS") == "0" {
@@ -62,7 +71,7 @@ func bootstrapInstall(stdout, stderr io.Writer) error {
 	}
 	opts := installOptions{
 		Source:     managedInstallDir(),
-		Runtimes:   getenv("NEWSJACK_RUNTIMES", "auto"),
+		Runtimes:   bootstrapRuntimes(runtimeSelection),
 		InstallMCP: os.Getenv("NEWSJACK_INSTALL_MCP") != "0",
 		Force:      os.Getenv("NEWSJACK_FORCE") == "1",
 		CLI:        newsjackCLIInvocation(),
@@ -81,10 +90,22 @@ func bootstrapInstall(stdout, stderr io.Writer) error {
 	return nil
 }
 
+func bootstrapRuntimes(runtimeSelection string) string {
+	if v := strings.TrimSpace(os.Getenv("NEWSJACK_RUNTIMES")); v != "" {
+		return v
+	}
+	if v := strings.TrimSpace(runtimeSelection); v != "" && v != "other" && v != "manual" {
+		return v
+	}
+	return "auto"
+}
+
 // ensureInstalledRoot bootstraps a bare binary on first run. Explicit
 // NEWSJACK_ROOT overrides, source checkouts, and npm installs never
-// trigger a release download.
-func ensureInstalledRoot(stdout, stderr io.Writer) error {
+// trigger a release download. A managed root left behind by an
+// interrupted bootstrap (bundle present, binary or state missing) is
+// finished here without re-downloading.
+func ensureInstalledRoot(runtimeSelection string, stdout, stderr io.Writer) error {
 	if npmDistribution() {
 		return nil
 	}
@@ -92,10 +113,17 @@ func ensureInstalledRoot(stdout, stderr io.Writer) error {
 		_, err := newsjackRoot()
 		return err
 	}
-	if _, err := newsjackRoot(); err == nil {
-		return nil
+	if root, err := newsjackRoot(); err == nil {
+		if root != managedInstallDir() {
+			return nil
+		}
+		if fileExists(installedBinaryPath()) && fileExists(installStatePath()) {
+			return nil
+		}
+		logf(stderr, "finishing an interrupted newsjack install at %s", root)
+		return finalizeBootstrap(readTrimmedFile(filepath.Join(root, "VERSION")), runtimeSelection, stdout, stderr)
 	}
-	return bootstrapInstall(stdout, stderr)
+	return bootstrapInstall(runtimeSelection, stdout, stderr)
 }
 
 // applyReleaseBundle downloads, verifies, unpacks, and atomically swaps in
@@ -352,12 +380,12 @@ func samePath(a, b string) bool {
 	return filepath.Clean(a) == filepath.Clean(b)
 }
 
-func bootstrapInstallState(version string) installState {
+func bootstrapInstallState(version, runtimeSelection string) installState {
 	skillsMode := skillsModeManaged
 	if os.Getenv("NEWSJACK_INSTALL_SKILLS") == "0" {
 		skillsMode = skillsModeExternal
 	}
-	runtimesRaw := getenv("NEWSJACK_RUNTIMES", "auto")
+	runtimesRaw := bootstrapRuntimes(runtimeSelection)
 	return normalizeInstallState(installState{
 		Version:     version,
 		Commit:      readTrimmedFile(filepath.Join(managedInstallDir(), "COMMIT")),
