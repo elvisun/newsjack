@@ -221,6 +221,10 @@ function Invoke-BootstrapLeg {
     NEWSJACK_NO_AUTO_UPDATE = $env:NEWSJACK_NO_AUTO_UPDATE
     USERPROFILE             = $env:USERPROFILE
   }
+  # Run from the scratch dir, not the repo checkout: inside the repo,
+  # newsjackRoot() resolves to the source tree and setup never bootstraps
+  # (the same reason the Linux battery does `cd /tmp` before its checks).
+  Push-Location $scratch
   try {
     if ($StripGit) { $env:PATH = Remove-PathEntries 'git' }
     $env:NEWSJACK_HOME = $NewsjackHome
@@ -249,6 +253,7 @@ function Invoke-BootstrapLeg {
     }
     Log "leg passed: $LegName"
   } finally {
+    Pop-Location
     foreach ($key in $saved.Keys) {
       Set-Item -Path "env:$key" -Value $saved[$key]
     }
