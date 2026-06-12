@@ -394,6 +394,15 @@ installs the binary to `%USERPROFILE%\.newsjack\bin`, and installs skills.
 Self-update is native Go (`NEWSJACK_NATIVE_UPDATE` controls it on other
 platforms; Windows always uses it).
 
+The documented install command (for users and agents) is a PowerShell
+one-liner. Launching from a terminal avoids the Explorer SmartScreen dialog,
+and `Unblock-File` strips the Mark-of-the-Web so later launches stay clean —
+the binary is unsigned, so this is the supported path until code signing:
+
+```powershell
+iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
+```
+
 Automated coverage:
 
 - `agent-harness-ci.yml` runs Go tests on `windows-latest`, cross-compile
