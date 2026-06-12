@@ -18,6 +18,7 @@ import (
 )
 
 const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
+const defaultClaudeInstallCommandWindows = "irm https://claude.ai/install.ps1 | iex"
 const xAPIKeyURL = "https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens"
 const medialystAPIKeyURL = "https://medialyst.ai/agents"
 
@@ -34,6 +35,15 @@ func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	skipCredentials := fs.Bool("skip-credentials", false, "Do not prompt for optional API keys")
 	if err := fs.Parse(args); err != nil {
 		return 2
+	}
+	// In --json mode bootstrap progress goes to stderr so stdout stays
+	// valid JSON, mirroring the auto-update contract.
+	bootstrapOut := stdout
+	if *jsonOut {
+		bootstrapOut = stderr
+	}
+	if err := ensureInstalledRoot(bootstrapOut, stderr); err != nil {
+		return fail(stderr, err)
 	}
 	status := setupPayload(*runtimeRaw)
 	if *jsonOut {
@@ -862,7 +872,7 @@ func (w *setupWizard) ensureRuntimeInstalled(key, purpose string) (bool, error) 
 	}
 	fmt.Fprintln(w.stdout)
 	uiInfo(w.stdout, "Installing %s...", label)
-	cmd := exec.Command("bash", "-c", command)
+	cmd := shellCommand(command)
 	cmd.Stdin = w.stdin
 	cmd.Stdout = w.stdout
 	cmd.Stderr = w.stderr
@@ -895,6 +905,15 @@ func runtimeTargetForKey(key string) (runtimeTarget, bool) {
 	return runtimeTarget{}, false
 }
 
+// shellCommand wraps a runtime install command in the platform shell:
+// bash on Unix, PowerShell on Windows.
+func shellCommand(command string) *exec.Cmd {
+	if goos() == "windows" {
+		return exec.Command("powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command)
+	}
+	return exec.Command("bash", "-c", command)
+}
+
 func runtimeInstallCommand(key string) string {
 	if cmd := strings.TrimSpace(os.Getenv(runtimeInstallCommandEnv(key))); cmd != "" {
 		return cmd
@@ -903,6 +922,9 @@ func runtimeInstallCommand(key string) string {
 	case "codex":
 		return "npm install -g @openai/codex"
 	case "claude":
+		if goos() == "windows" {
+			return defaultClaudeInstallCommandWindows
+		}
 		return defaultClaudeInstallCommand
 	case "openclaw":
 		return "npm install -g openclaw"

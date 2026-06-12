@@ -158,7 +158,8 @@ func cmdMCPStatus(_ []string, stdout, _ io.Writer) int {
 	cli := newsjackCLIInvocation()
 	payload := map[string]any{
 		"bridge_command": cli.CommandLine("mcp-bridge"),
-		"npx_available":  commandAvailable("npx"),
+		"transport":      "native",
+		"endpoint":       medialystMCPEndpoint(),
 	}
 	writeJSON(stdout, payload)
 	return 0

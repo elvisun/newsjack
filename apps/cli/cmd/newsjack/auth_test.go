@@ -44,13 +44,10 @@ func TestAuthStatusMissingAndLoginHeaders(t *testing.T) {
 		if code != 0 {
 			t.Fatalf("login code=%d stderr=%s", code, err.String())
 		}
-		info, statErr := os.Stat(credentialsPath())
-		if statErr != nil {
+		if _, statErr := os.Stat(credentialsPath()); statErr != nil {
 			t.Fatalf("credentials not written: %v", statErr)
 		}
-		if got := info.Mode().Perm(); got != 0o600 {
-			t.Fatalf("credentials mode=%o, want 600", got)
-		}
+		assertOwnerOnlyFile(t, credentialsPath())
 
 		out.Reset()
 		err.Reset()
@@ -112,13 +109,7 @@ func TestAuthSetStoresOptionalAPIs(t *testing.T) {
 		if !strings.Contains(string(envBody), `X_BEARER_TOKEN="x-token"`) {
 			t.Fatalf("X token was not saved to newsjack env:\n%s", envBody)
 		}
-		mode, err := os.Stat(newsjackEnvPath())
-		if err != nil {
-			t.Fatal(err)
-		}
-		if mode.Mode().Perm() != 0o600 {
-			t.Fatalf("env permissions=%o, want 600", mode.Mode().Perm())
-		}
+		assertOwnerOnlyFile(t, newsjackEnvPath())
 
 		out.Reset()
 		errBuf.Reset()

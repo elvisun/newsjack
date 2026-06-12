@@ -25,6 +25,7 @@ const targets = [
   ["darwin", "arm64"],
   ["linux", "amd64"],
   ["linux", "arm64"],
+  ["windows", "amd64"],
 ];
 
 function run(command, args, options = {}) {
@@ -175,7 +176,8 @@ function packageTarget({ os, arch }) {
   );
   const payloadRoot = join(workRoot, "payload");
   const binRoot = join(payloadRoot, "bin");
-  const binary = join(binRoot, "newsjack");
+  const binaryName = os === "windows" ? "newsjack.exe" : "newsjack";
+  const binary = join(binRoot, binaryName);
   const artifact = `newsjack_${os}_${arch}.tar.gz`;
   const artifactPath = join(outRoot, artifact);
 
@@ -218,15 +220,31 @@ function packageTarget({ os, arch }) {
   });
   const sha256 = sha256File(artifactPath);
   const size = statSync(artifactPath).size;
+
+  const artifacts = [{ name: artifact, os, arch, sha256, size }];
+  if (os === "windows") {
+    // Windows has no `curl | sh` channel: users download one bare exe and
+    // run `newsjack setup`, which bootstraps the bundle itself.
+    const bareName = `newsjack_${os}_${arch}.exe`;
+    const barePath = join(outRoot, bareName);
+    cpSync(binary, barePath);
+    artifacts.push({
+      name: bareName,
+      os,
+      arch,
+      sha256: sha256File(barePath),
+      size: statSync(barePath).size,
+    });
+  }
   rmSync(workRoot, { recursive: true, force: true });
 
-  return { name: artifact, os, arch, sha256, size };
+  return artifacts;
 }
 
 rmSync(outRoot, { recursive: true, force: true });
 mkdirSync(outRoot, { recursive: true });
 
-const artifacts = targets.map(([os, arch]) => packageTarget({ os, arch }));
+const artifacts = targets.flatMap(([os, arch]) => packageTarget({ os, arch }));
 const manifest = {
   version,
   commit,

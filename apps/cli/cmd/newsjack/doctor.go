@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
-	"path/filepath"
 )
 
 func commandAvailable(name string) bool {
@@ -38,7 +37,7 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 		"install": map[string]any{
 			"distribution":   distributionName(),
 			"cli_command":    cli.CommandLine(),
-			"cli_installed":  npmDistribution() || fileExists(filepath.Join(newsjackHome(), "bin", "newsjack")),
+			"cli_installed":  npmDistribution() || fileExists(installedBinaryPath()),
 			"cli_version":    version,
 			"bundle_version": installedVersion(),
 			"skills_mode":    state.SkillsMode,
@@ -52,8 +51,9 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 			"source":               nullableString(source),
 			"x_api_configured":     xConfigured,
 		},
-		"dependencies": map[string]any{
-			"npx": commandAvailable("npx"),
+		"mcp_bridge": map[string]any{
+			"transport": "native",
+			"endpoint":  medialystMCPEndpoint(),
 		},
 		"sources": map[string]any{
 			"news_search": contains(available, "news_search"),
@@ -196,6 +196,9 @@ func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[s
 func reinstallCommand() string {
 	if npmDistribution() {
 		return "npm i -g newsjack"
+	}
+	if goos() == "windows" {
+		return "newsjack setup"
 	}
 	return "curl -fsSL https://newsjack.sh | bash"
 }

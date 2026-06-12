@@ -306,10 +306,7 @@ func TestSetupRecommendsHighestPriorityDetectedHarness(t *testing.T) {
 	home := t.TempDir()
 	fakeBin := t.TempDir()
 	for _, name := range []string{"codex", "claude", "openclaw", "hermes"} {
-		path := filepath.Join(fakeBin, name)
-		if err := os.WriteFile(path, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
-			t.Fatal(err)
-		}
+		writeFakeTool(t, fakeBin, name)
 	}
 	withTempEnv(t, map[string]string{
 		"HOME":                    home,
@@ -341,6 +338,7 @@ func TestSetupRecommendsHighestPriorityDetectedHarness(t *testing.T) {
 }
 
 func TestSetupInstallsClaudeCodeAfterConfirmation(t *testing.T) {
+	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -433,17 +431,14 @@ func TestSetupPreservesSeparateRuntimeFlags(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
-	hermesPath := filepath.Join(fakeBin, "hermes")
-	if err := os.WriteFile(hermesPath, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
-		t.Fatal(err)
-	}
+	writeFakeTool(t, fakeBin, "hermes")
 	withTempEnv(t, map[string]string{
 		"HOME":                    home,
 		"NEWSJACK_HOME":           "",
 		"NEWSJACK_ROOT":           repo,
 		"NEWSJACK_NO_AUTO_UPDATE": "1",
 		"NEWSJACK_IGNORE_DOTENV":  "1",
-		"PATH":                    fakeBin + ":/bin:/usr/bin",
+		"PATH":                    testPATH(fakeBin),
 	}, func() {
 		var out, errBuf bytes.Buffer
 		code := runCLIWithIO([]string{"setup", "--runtime", "codex", "--schedule-runtime", "hermes", "--skip-credentials", "--no-launch"}, strings.NewReader(""), &out, &errBuf)
@@ -520,13 +515,7 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 		if !strings.Contains(string(envBody), `X_BEARER_TOKEN="value"`) {
 			t.Fatalf("X token was not saved to newsjack env:\n%s", envBody)
 		}
-		mode, err := os.Stat(envPath)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if mode.Mode().Perm() != 0o600 {
-			t.Fatalf("env permissions=%o, want 600", mode.Mode().Perm())
-		}
+		assertOwnerOnlyFile(t, envPath)
 		key, source := loadAPIKey()
 		if key != "mlst_test_key_12345" || !strings.HasPrefix(source, "credentials:") {
 			t.Fatalf("medialyst key/source=%q/%q", key, source)
@@ -535,6 +524,7 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 }
 
 func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
+	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -590,6 +580,7 @@ func TestSetupLaunchesSelectedHarnessWithSetupSkillPrompt(t *testing.T) {
 }
 
 func TestSetupOpenClawFallsBackToManualPrompt(t *testing.T) {
+	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -647,6 +638,7 @@ func TestSetupOpenClawFallsBackToManualPrompt(t *testing.T) {
 }
 
 func TestSetupConfiguresMedialystMCPForSelectedRuntimes(t *testing.T) {
+	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -704,10 +696,7 @@ func TestSetupConfiguresHermesMCP(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
-	hermesPath := filepath.Join(fakeBin, "hermes")
-	if err := os.WriteFile(hermesPath, []byte("#!/bin/sh\nexit 0\n"), 0o755); err != nil {
-		t.Fatal(err)
-	}
+	writeFakeTool(t, fakeBin, "hermes")
 	withTempEnv(t, map[string]string{
 		"HOME":                    home,
 		"NEWSJACK_HOME":           "",
@@ -717,7 +706,7 @@ func TestSetupConfiguresHermesMCP(t *testing.T) {
 		"MEDIALYST_API_KEY":       "",
 		"X_BEARER_TOKEN":          "",
 		"TWITTER_BEARER_TOKEN":    "",
-		"PATH":                    fakeBin + ":/bin:/usr/bin",
+		"PATH":                    testPATH(fakeBin),
 	}, func() {
 		var out, errBuf bytes.Buffer
 		code := runCLIWithIO(
@@ -745,6 +734,7 @@ func TestSetupConfiguresHermesMCP(t *testing.T) {
 }
 
 func TestSetupPrintsContinuationPromptWhenAgentLaunchFails(t *testing.T) {
+	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
