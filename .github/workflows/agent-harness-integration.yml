@@ -148,6 +148,7 @@ jobs:
             $env:NEWSJACK_RUNTIMES = 'claude'
             $env:NEWSJACK_INSTALL_MCP = '1'
             $env:NEWSJACK_NO_AUTO_UPDATE = '1'
+            $env:NEWSJACK_NO_PATH_UPDATE = '1'
 
             & $exe setup --json | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "newsjack setup failed: $LASTEXITCODE" }

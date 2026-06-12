@@ -106,8 +106,11 @@ No script, no git, no Node. One PowerShell line downloads the CLI and runs
 setup (requires v0.1.10 or later):
 
 ```powershell
-iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
 ```
+
+The TLS line makes the download work on stock Windows PowerShell 5.1 (it's a
+no-op on PowerShell 7).
 
 `newsjack setup` downloads the skills bundle, verifies its checksum, installs
 the CLI to `%USERPROFILE%\.newsjack\bin`, and walks you through the same

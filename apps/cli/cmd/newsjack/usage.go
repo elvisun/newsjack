@@ -53,6 +53,28 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "auth":
 		printAuthHelp(w)
 		return true
+	case "install":
+		uiProduct(w, "install", "install skills and MCP config into agent runtimes.")
+		fmt.Fprintln(w)
+		uiSection(w, "usage")
+		fmt.Fprintln(w, "  newsjack install [--source <bundle-dir>] [--runtimes auto|all|none|codex,claude,openclaw,hermes] [--mcp] [--force]")
+		fmt.Fprintln(w)
+		uiSection(w, "options")
+		uiCommand(w, "--source", "install from a local bundle dir; prebuilt bundles are adopted as the managed install", "<dir>")
+		uiCommand(w, "--runtimes", "target runtimes; auto detects installed agent CLIs", "claude")
+		uiCommand(w, "--force", "overwrite user-owned skill directories too", "")
+		uiNote(w, "release overrides: NEWSJACK_VERSION pins the bundle tag; NEWSJACK_RELEASE_BASE points at any URL serving release assets.")
+		return true
+	case "skills":
+		uiProduct(w, "skills", "inspect and manage installed runtime skills.")
+		fmt.Fprintln(w)
+		uiSection(w, "usage")
+		fmt.Fprintln(w, "  newsjack skills list|install|status")
+		fmt.Fprintln(w)
+		uiCommand(w, "skills list", "list skills in the installed bundle", "")
+		uiCommand(w, "skills install", "same as newsjack install", "")
+		uiCommand(w, "skills status", "skills install health as JSON", "")
+		return true
 	case "doctor":
 		uiProduct(w, "doctor", "checks install health and prints concrete recovery commands.")
 		fmt.Fprintln(w)

@@ -12,8 +12,10 @@ import (
 	"io/fs"
 	"net/http"
 	"os"
+	"os/exec"
 	"path"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
 	"time"
@@ -45,7 +47,7 @@ func releaseArtifactName() string {
 // git is required on the machine. runtimeSelection comes from setup's
 // --runtime flag; NEWSJACK_RUNTIMES still wins when set.
 func bootstrapInstall(runtimeSelection string, stdout, stderr io.Writer) error {
-	base := releaseBaseForUpdate()
+	base := releaseBaseForBootstrap()
 	logf(stderr, "newsjack is not installed yet; fetching the release bundle from %s", base)
 	version, err := applyReleaseBundle(base, stderr)
 	if err != nil {
@@ -67,6 +69,7 @@ func finalizeBootstrap(version, runtimeSelection string, stdout, stderr io.Write
 	if err := writeInstallStateFile(bootstrapInstallState(version, runtimeSelection)); err != nil {
 		return err
 	}
+	maybeAddWindowsUserPath(stderr)
 	if os.Getenv("NEWSJACK_INSTALL_SKILLS") == "0" {
 		successf(stdout, "installed newsjack %s (runtime skill install skipped: NEWSJACK_INSTALL_SKILLS=0)", version)
 		return nil
@@ -126,6 +129,36 @@ func ensureInstalledRoot(runtimeSelection string, stdout, stderr io.Writer) erro
 		return finalizeBootstrap(readTrimmedFile(filepath.Join(root, "VERSION")), runtimeSelection, stdout, stderr)
 	}
 	return bootstrapInstall(runtimeSelection, stdout, stderr)
+}
+
+// releaseBaseForBootstrap picks where a bare binary fetches its bundle.
+// Unlike update (which wants latest), first install must use the bundle
+// matching the running binary: a prerelease exe pointed at `latest` would
+// fail whenever latest does not carry this platform yet, and a stale exe
+// must not install a mismatched newer bundle. Overrides:
+// NEWSJACK_RELEASE_BASE (full URL) and NEWSJACK_VERSION (tag).
+func releaseBaseForBootstrap() string {
+	if base := strings.TrimSpace(os.Getenv("NEWSJACK_RELEASE_BASE")); base != "" {
+		return strings.TrimRight(base, "/")
+	}
+	state := readInstallStateOrDefault()
+	repo := strings.TrimSpace(getenv("NEWSJACK_REPO", state.Repo))
+	if repo == "" {
+		repo = defaultRepo
+	}
+	tag := strings.TrimSpace(getenv("NEWSJACK_VERSION", version))
+	if isReleaseTag(tag) {
+		return "https://github.com/" + repo + "/releases/download/" + tag
+	}
+	return "https://github.com/" + repo + "/releases/latest/download"
+}
+
+var releaseTagPattern = regexp.MustCompile(`^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$`)
+
+// isReleaseTag reports whether a version string names a published release
+// tag. Dev builds (v0.1.0-dev, v0.1.0-dev+commit) fall back to latest.
+func isReleaseTag(tag string) bool {
+	return releaseTagPattern.MatchString(tag) && !strings.Contains(tag, "dev")
 }
 
 // applyReleaseBundle downloads, verifies, unpacks, and atomically swaps in
@@ -285,6 +318,170 @@ func untarGz(data []byte, dest string) error {
 			continue
 		}
 	}
+}
+
+// adoptBundle copies a prebuilt source bundle into the managed install
+// root and finishes the managed layout (binary + install state), so a
+// manually downloaded bundle given to `install --source` behaves exactly
+// like a bootstrap install: doctor is clean, update works, and the MCP
+// bridge command points at a binary that exists.
+func adoptBundle(source, runtimeSelection string, stderr io.Writer) error {
+	if err := os.MkdirAll(newsjackHome(), 0o755); err != nil {
+		return err
+	}
+	staging := managedInstallDir() + ".new"
+	if err := os.RemoveAll(staging); err != nil {
+		return err
+	}
+	if err := copyDirTree(source, staging); err != nil {
+		_ = os.RemoveAll(staging)
+		return err
+	}
+	if err := validateBundleLayout(staging); err != nil {
+		_ = os.RemoveAll(staging)
+		return err
+	}
+	if err := swapInstallDir(staging); err != nil {
+		return err
+	}
+	if err := updateInstalledBinaryFromBundle(); err != nil {
+		return err
+	}
+	bundleVersion := readTrimmedFile(filepath.Join(managedInstallDir(), "VERSION"))
+	if err := writeInstallStateFile(bootstrapInstallState(bundleVersion, runtimeSelection)); err != nil {
+		return err
+	}
+	maybeAddWindowsUserPath(stderr)
+	return nil
+}
+
+// shouldAdoptBundle reports whether an `install --source` target is a
+// prebuilt bundle that should be promoted into the managed root. The
+// installer scripts pass the managed root itself (no-op), and source
+// checkouts have no prebuilt marker.
+func shouldAdoptBundle(source string) bool {
+	if npmDistribution() {
+		return false
+	}
+	if !fileExists(filepath.Join(source, ".newsjack-prebuilt")) {
+		return false
+	}
+	if samePath(source, managedInstallDir()) {
+		return false
+	}
+	return !dirExists(managedInstallDir()) || !fileExists(installedBinaryPath()) || !fileExists(installStatePath())
+}
+
+// copyDirTree mirrors a bundle directory, preserving file modes and
+// stripping env files exactly like untarGz.
+func copyDirTree(src, dest string) error {
+	return filepath.WalkDir(src, func(walkPath string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		rel, err := filepath.Rel(src, walkPath)
+		if err != nil {
+			return err
+		}
+		if rel == "." {
+			return os.MkdirAll(dest, 0o755)
+		}
+		base := filepath.Base(rel)
+		if !d.IsDir() && (base == ".env" || strings.HasPrefix(base, ".env.")) && base != ".env.example" {
+			return nil
+		}
+		target := filepath.Join(dest, rel)
+		if d.IsDir() {
+			return os.MkdirAll(target, 0o755)
+		}
+		data, err := os.ReadFile(walkPath)
+		if err != nil {
+			return err
+		}
+		info, err := d.Info()
+		if err != nil {
+			return err
+		}
+		mode := info.Mode() & 0o777
+		if mode == 0 {
+			mode = 0o644
+		}
+		return os.WriteFile(target, data, mode)
+	})
+}
+
+// maybeAddWindowsUserPath appends the managed bin dir to the per-user
+// Path registry value so new shells can run `newsjack` directly. The
+// shell installers handle PATH on Unix; the bare-exe flow must do it
+// itself. Best-effort: a failure only prints the manual step. Opt out
+// with NEWSJACK_NO_PATH_UPDATE=1.
+func maybeAddWindowsUserPath(stderr io.Writer) {
+	if goos() != "windows" || os.Getenv("NEWSJACK_NO_PATH_UPDATE") == "1" {
+		return
+	}
+	binDir := filepath.Dir(installedBinaryPath())
+	current := readWindowsUserPath()
+	if pathListContains(current, binDir) {
+		return
+	}
+	updated := binDir
+	if strings.TrimSpace(current) != "" {
+		updated = strings.TrimRight(current, ";") + ";" + binDir
+	}
+	// reg.exe instead of setx: setx truncates Path values at 1024 chars.
+	cmd := exec.Command("reg", "add", `HKCU\Environment`, "/v", "Path", "/t", "REG_EXPAND_SZ", "/d", updated, "/f")
+	if out, err := cmd.CombinedOutput(); err != nil {
+		warn(stderr, "could not add %s to your user PATH (%s); add it manually for new shells", binDir, strings.TrimSpace(string(out)))
+		return
+	}
+	logf(stderr, "added %s to your user PATH; open a new terminal to run `newsjack` directly", binDir)
+}
+
+func readWindowsUserPath() string {
+	out, err := exec.Command("reg", "query", `HKCU\Environment`, "/v", "Path").Output()
+	if err != nil {
+		return ""
+	}
+	return parseRegQueryValue(string(out))
+}
+
+// parseRegQueryValue extracts the data column from `reg query /v Path`:
+//
+//	HKEY_CURRENT_USER\Environment
+//	    Path    REG_EXPAND_SZ    C:\foo;C:\bar
+//
+// Internal spacing in the value is preserved.
+func parseRegQueryValue(out string) string {
+	for _, line := range strings.Split(out, "\n") {
+		trimmed := strings.TrimSpace(line)
+		if !strings.HasPrefix(strings.ToLower(trimmed), "path") {
+			continue
+		}
+		typeIdx := strings.Index(trimmed, "REG_")
+		if typeIdx < 0 {
+			continue
+		}
+		rest := trimmed[typeIdx:]
+		valueIdx := strings.IndexAny(rest, " \t")
+		if valueIdx < 0 {
+			continue
+		}
+		return strings.TrimSpace(rest[valueIdx:])
+	}
+	return ""
+}
+
+func pathListContains(list, dir string) bool {
+	normalize := func(entry string) string {
+		return strings.ToLower(strings.TrimRight(strings.TrimSpace(entry), `\`))
+	}
+	want := normalize(dir)
+	for _, entry := range strings.Split(list, ";") {
+		if entry != "" && normalize(entry) == want {
+			return true
+		}
+	}
+	return false
 }
 
 // updateInstalledBinaryFromBundle replaces the managed CLI binary with the

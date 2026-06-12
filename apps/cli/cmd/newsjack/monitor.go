@@ -459,11 +459,24 @@ func launchSetupAgent(runtime string, plan setupLaunchPlan, prompt string, stdin
 	if len(plan.args) == 0 {
 		return nil
 	}
-	if _, err := exec.LookPath(plan.args[0]); err != nil {
-		fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", plan.args[0], setupAgentCommand(runtime, prompt))
-		printSetupContinuationPrompt(stdout, runtime, prompt)
-		return nil
+	// Resolve through the runtime prober so Windows Claude Code installs
+	// (which are not on PATH) still launch.
+	resolved := ""
+	if rt, ok := runtimeByKey(runtime); ok {
+		if path, found := resolveRuntimeBinary(rt); found && rt.Binary == plan.args[0] {
+			resolved = path
+		}
 	}
+	if resolved == "" {
+		path, err := exec.LookPath(plan.args[0])
+		if err != nil {
+			fmt.Fprintf(stdout, "%s is not on PATH. Run this command when it is available:\n%s\n", plan.args[0], setupAgentCommand(runtime, prompt))
+			printSetupContinuationPrompt(stdout, runtime, prompt)
+			return nil
+		}
+		resolved = path
+	}
+	plan.args = append([]string{resolved}, plan.args[1:]...)
 	if !plan.seeded {
 		// The runtime opens an interactive session but can't seed a prompt, so
 		// show it for the user to send as their first message once the agent is up.
