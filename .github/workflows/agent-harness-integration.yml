@@ -67,15 +67,13 @@ jobs:
             --runtime "${{ inputs.runtime }}" \
             "$source_flag"
 
-  windows-claude:
-    name: Manual Windows Claude Code harness
+  windows-build-dist:
+    name: Build release dist for the Windows harness
     if: inputs.os == 'windows'
-    runs-on: windows-latest
-    timeout-minutes: 45
-    env:
-      # secrets is not available in step-level `if` expressions; surface the
-      # presence check through job env instead.
-      HAS_MEDIALYST_KEY: ${{ secrets.MEDIALYST_API_KEY != '' }}
+    # The dist build script is Linux/macOS-only (it resolves Go via sh);
+    # cross-compile here and hand the artifacts to the Windows job.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
 
@@ -89,8 +87,32 @@ jobs:
           node-version: '22'
 
       - name: Build release dist
-        shell: bash
         run: NEWSJACK_VERSION=v0.1.0-manual NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: newsjack-release-dist-manual
+          path: .tmp/newsjack-release
+          retention-days: 1
+
+  windows-claude:
+    name: Manual Windows Claude Code harness
+    if: inputs.os == 'windows'
+    needs: windows-build-dist
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      # secrets is not available in step-level `if` expressions; surface the
+      # presence check through job env instead.
+      HAS_MEDIALYST_KEY: ${{ secrets.MEDIALYST_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download release dist
+        uses: actions/download-artifact@v6
+        with:
+          name: newsjack-release-dist-manual
+          path: .tmp/newsjack-release
 
       - name: Install Claude Code via the native Windows installer
         shell: pwsh
