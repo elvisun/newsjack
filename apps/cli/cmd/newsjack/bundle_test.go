@@ -108,8 +108,14 @@ func TestBootstrapInstallFromBareBinary(t *testing.T) {
 		if got := readTrimmedFile(filepath.Join(install, "VERSION")); got != "v9.9.9-test" {
 			t.Fatalf("installed VERSION=%q, want v9.9.9-test", got)
 		}
-		if !fileExists(filepath.Join(home, ".newsjack", "bin", installedBinaryName())) {
-			t.Fatal("self binary was not installed into the managed bin dir")
+		managedBin, err := os.ReadFile(filepath.Join(home, ".newsjack", "bin", installedBinaryName()))
+		if err != nil {
+			t.Fatalf("managed binary was not installed: %v", err)
+		}
+		// The managed CLI must come from the verified bundle, not the
+		// (possibly stale) running exe, so it always matches install.json.
+		if string(managedBin) != "fake binary payload\n" {
+			t.Fatalf("managed binary content = %q, want the bundle binary", managedBin)
 		}
 		if fileExists(filepath.Join(install, ".env")) {
 			t.Fatal("bundle .env file should be stripped during unpack")

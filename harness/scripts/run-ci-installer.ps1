@@ -220,6 +220,7 @@ function Invoke-BootstrapLeg {
     NEWSJACK_INSTALL_MCP    = $env:NEWSJACK_INSTALL_MCP
     NEWSJACK_NO_AUTO_UPDATE = $env:NEWSJACK_NO_AUTO_UPDATE
     USERPROFILE             = $env:USERPROFILE
+    HOME                    = $env:HOME
   }
   # Run from the scratch dir, not the repo checkout: inside the repo,
   # newsjackRoot() resolves to the source tree and setup never bootstraps
@@ -232,7 +233,10 @@ function Invoke-BootstrapLeg {
     $env:NEWSJACK_RUNTIMES = 'claude'
     $env:NEWSJACK_INSTALL_MCP = '0'
     $env:NEWSJACK_NO_AUTO_UPDATE = '1'
+    # The Go CLI's homeDir() prefers HOME over USERPROFILE; set both so the
+    # leg stays isolated even on runners that define HOME.
     $env:USERPROFILE = $scratch
+    $env:HOME = $scratch
 
     Invoke-CLI $bareExe @('setup', '--json') | Out-Null
     $installedCli = Join-Path $NewsjackHome 'bin\newsjack.exe'

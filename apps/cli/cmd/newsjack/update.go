@@ -75,6 +75,7 @@ func runNativeUpdate(stdout, stderr io.Writer) error {
 		Source:     managedInstallDir(),
 		Runtimes:   runtimes,
 		InstallMCP: state.InstallMCP,
+		Force:      os.Getenv("NEWSJACK_FORCE") == "1",
 		CLI:        newsjackCLIInvocation(),
 		Repo:       getenv("NEWSJACK_REPO", state.Repo),
 		Ref:        getenv("NEWSJACK_REF", defaultRef),

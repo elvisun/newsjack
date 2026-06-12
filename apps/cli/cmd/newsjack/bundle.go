@@ -57,9 +57,11 @@ func bootstrapInstall(runtimeSelection string, stdout, stderr io.Writer) error {
 // finalizeBootstrap is the post-bundle half of first install: managed
 // binary, install state, skills, MCP. Split out so an interrupted
 // bootstrap (bundle applied, rest missing) can be resumed without
-// re-downloading the release.
+// re-downloading the release. The managed binary comes from the verified
+// bundle, not the running exe: a stale downloaded binary must not become
+// the installed CLI while install.json records the bundle's version.
 func finalizeBootstrap(version, runtimeSelection string, stdout, stderr io.Writer) error {
-	if err := installSelfBinary(); err != nil {
+	if err := updateInstalledBinaryFromBundle(); err != nil {
 		return err
 	}
 	if err := writeInstallStateFile(bootstrapInstallState(version, runtimeSelection)); err != nil {
@@ -283,42 +285,6 @@ func untarGz(data []byte, dest string) error {
 			continue
 		}
 	}
-}
-
-// installSelfBinary copies the currently running executable into the
-// managed bin directory so future runs and MCP configs use a stable path.
-func installSelfBinary() error {
-	exe, err := os.Executable()
-	if err != nil {
-		return err
-	}
-	if resolved, err := filepath.EvalSymlinks(exe); err == nil {
-		exe = resolved
-	}
-	dest := installedBinaryPath()
-	if samePath(exe, dest) {
-		return nil
-	}
-	if err := os.MkdirAll(filepath.Dir(dest), 0o755); err != nil {
-		return err
-	}
-	data, err := os.ReadFile(exe)
-	if err != nil {
-		return err
-	}
-	staging := dest + ".new"
-	if err := os.WriteFile(staging, data, 0o755); err != nil {
-		return err
-	}
-	// Windows cannot rename over an existing file; the destination is not
-	// the running executable here, so removing it first is safe.
-	if fileExists(dest) {
-		if err := os.Remove(dest); err != nil {
-			_ = os.Remove(staging)
-			return err
-		}
-	}
-	return os.Rename(staging, dest)
 }
 
 // updateInstalledBinaryFromBundle replaces the managed CLI binary with the
