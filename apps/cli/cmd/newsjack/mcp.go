@@ -44,8 +44,26 @@ func configureCodexMCP(cli commandInvocation, stdout, stderr io.Writer) error {
 	args := append([]string{"mcp", "add", "medialyst", "--", cli.Command}, cli.With("mcp-bridge")...)
 	cmd := exec.Command("codex", args...)
 	cmd.Stdin = nil
-	if out, err := cmd.CombinedOutput(); err != nil {
-		warn(stderr, "Codex MCP server 'medialyst' may already exist; leaving existing config in place: %s", strings.TrimSpace(string(out)))
+	out, err := cmd.CombinedOutput()
+	if err != nil && strings.Contains(string(out), "already exists") {
+		// Same repair semantics as Claude Code: the entry is
+		// newsjack-managed, so a stale registration is rewritten.
+		remove := exec.Command("codex", "mcp", "remove", "medialyst")
+		remove.Stdin = nil
+		if removeOut, removeErr := remove.CombinedOutput(); removeErr != nil {
+			warn(stderr, "could not refresh existing Codex MCP server 'medialyst': %s", strings.TrimSpace(string(removeOut)))
+			return nil
+		}
+		cmd = exec.Command("codex", args...)
+		cmd.Stdin = nil
+		out, err = cmd.CombinedOutput()
+		if err == nil {
+			logf(stdout, "refreshed Codex MCP server: medialyst")
+			return nil
+		}
+	}
+	if err != nil {
+		warn(stderr, "could not configure Codex MCP server 'medialyst': %s", strings.TrimSpace(string(out)))
 		return nil
 	}
 	logf(stdout, "configured Codex MCP server: medialyst")
@@ -53,15 +71,38 @@ func configureCodexMCP(cli commandInvocation, stdout, stderr io.Writer) error {
 }
 
 func configureClaudeMCP(cli commandInvocation, stdout, stderr io.Writer) error {
-	if _, err := exec.LookPath("claude"); err != nil {
+	claudeRT, _ := runtimeByKey("claude")
+	claude, ok := resolveRuntimeBinary(claudeRT)
+	if !ok {
 		return nil
 	}
 	payload := map[string]any{"type": "stdio", "command": cli.Command, "args": cli.With("mcp-bridge")}
 	data, _ := json.Marshal(payload)
-	cmd := exec.Command("claude", "mcp", "add-json", "--scope", "user", "medialyst", string(data))
+	addArgs := []string{"mcp", "add-json", "--scope", "user", "medialyst", string(data)}
+	cmd := exec.Command(claude, addArgs...)
 	cmd.Stdin = nil
-	if out, err := cmd.CombinedOutput(); err != nil {
-		warn(stderr, "Claude Code MCP server 'medialyst' may already exist; leaving existing config in place: %s", strings.TrimSpace(string(out)))
+	out, err := cmd.CombinedOutput()
+	if err != nil && strings.Contains(string(out), "already exists") {
+		// Repair, don't preserve: a stale entry (for example pointing at a
+		// binary path that no longer exists) leaves the MCP server
+		// permanently broken. The entry is newsjack-managed, so rewriting
+		// it with the current bridge command is always safe.
+		remove := exec.Command(claude, "mcp", "remove", "--scope", "user", "medialyst")
+		remove.Stdin = nil
+		if removeOut, removeErr := remove.CombinedOutput(); removeErr != nil {
+			warn(stderr, "could not refresh existing Claude Code MCP server 'medialyst': %s", strings.TrimSpace(string(removeOut)))
+			return nil
+		}
+		cmd = exec.Command(claude, addArgs...)
+		cmd.Stdin = nil
+		out, err = cmd.CombinedOutput()
+		if err == nil {
+			logf(stdout, "refreshed Claude Code MCP server: medialyst")
+			return nil
+		}
+	}
+	if err != nil {
+		warn(stderr, "could not configure Claude Code MCP server 'medialyst': %s", strings.TrimSpace(string(out)))
 		return nil
 	}
 	logf(stdout, "configured Claude Code MCP server: medialyst")

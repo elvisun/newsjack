@@ -219,6 +219,7 @@ function Invoke-BootstrapLeg {
     NEWSJACK_RUNTIMES       = $env:NEWSJACK_RUNTIMES
     NEWSJACK_INSTALL_MCP    = $env:NEWSJACK_INSTALL_MCP
     NEWSJACK_NO_AUTO_UPDATE = $env:NEWSJACK_NO_AUTO_UPDATE
+    NEWSJACK_NO_PATH_UPDATE = $env:NEWSJACK_NO_PATH_UPDATE
     USERPROFILE             = $env:USERPROFILE
     HOME                    = $env:HOME
   }
@@ -233,6 +234,8 @@ function Invoke-BootstrapLeg {
     $env:NEWSJACK_RUNTIMES = 'claude'
     $env:NEWSJACK_INSTALL_MCP = '0'
     $env:NEWSJACK_NO_AUTO_UPDATE = '1'
+    # Keep the runner's HKCU PATH untouched.
+    $env:NEWSJACK_NO_PATH_UPDATE = '1'
     # The Go CLI's homeDir() prefers HOME over USERPROFILE; set both so the
     # leg stays isolated even on runners that define HOME.
     $env:USERPROFILE = $scratch

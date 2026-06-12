@@ -83,12 +83,67 @@ func runtimeDetected(rt runtimeTarget) bool {
 	return runtimeCLIInstalled(rt)
 }
 
-func runtimeCLIInstalled(rt runtimeTarget) bool {
-	if rt.Binary == "" {
-		return false
+func runtimeByKey(key string) (runtimeTarget, bool) {
+	for _, rt := range runtimeTargets {
+		if rt.Key == key {
+			return rt, true
+		}
 	}
-	_, err := exec.LookPath(rt.Binary)
-	return err == nil
+	return runtimeTarget{}, false
+}
+
+func runtimeCLIInstalled(rt runtimeTarget) bool {
+	_, ok := resolveRuntimeBinary(rt)
+	return ok
+}
+
+// resolveRuntimeBinary finds the runtime CLI. PATH wins; on Windows,
+// Claude Code's installers do not put `claude` on PATH, so its known
+// install locations are probed as a fallback.
+func resolveRuntimeBinary(rt runtimeTarget) (string, bool) {
+	if rt.Binary == "" {
+		return "", false
+	}
+	if path, err := exec.LookPath(rt.Binary); err == nil {
+		return path, true
+	}
+	if goos() == "windows" && rt.Key == "claude" {
+		if path := findWindowsClaudeBinary(os.Getenv("APPDATA"), homeDir()); path != "" {
+			return path, true
+		}
+	}
+	return "", false
+}
+
+// findWindowsClaudeBinary probes Claude Code's Windows install locations:
+// the native installer's %USERPROFILE%\.local\bin and the per-version
+// directories under %APPDATA%\Claude\claude-code.
+func findWindowsClaudeBinary(appData, home string) string {
+	if home != "" {
+		candidate := filepath.Join(home, ".local", "bin", "claude.exe")
+		if fileExists(candidate) {
+			return candidate
+		}
+	}
+	if appData == "" {
+		return ""
+	}
+	root := filepath.Join(appData, "Claude", "claude-code")
+	entries, err := os.ReadDir(root)
+	if err != nil {
+		return ""
+	}
+	// Version-named subdirectories; prefer the lexically newest.
+	for i := len(entries) - 1; i >= 0; i-- {
+		if !entries[i].IsDir() {
+			continue
+		}
+		candidate := filepath.Join(root, entries[i].Name(), "claude.exe")
+		if fileExists(candidate) {
+			return candidate
+		}
+	}
+	return ""
 }
 
 func selectedRuntimes(raw string) []runtimeTarget {
@@ -178,6 +233,14 @@ func cmdInstall(args []string, stdout, stderr io.Writer) int {
 		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
 		Ref:        getenv("NEWSJACK_REF", defaultRef),
 	}
+	if shouldAdoptBundle(opts.Source) {
+		logf(stdout, "adopting bundle %s into %s", opts.Source, managedInstallDir())
+		if err := adoptBundle(opts.Source, opts.Runtimes, stderr); err != nil {
+			return fail(stderr, err)
+		}
+		opts.Source = managedInstallDir()
+		opts.CLI = newsjackCLIInvocation()
+	}
 	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
 		return fail(stderr, err)
 	}
@@ -198,7 +261,7 @@ func installRuntimeSkills(opts installOptions, stdout, stderr io.Writer) error {
 	}
 	targets := selectedRuntimes(opts.Runtimes)
 	if len(targets) == 0 && !strings.Contains(","+strings.Join(normalizeRuntimeList(opts.Runtimes), ",")+",", ",none,") {
-		warn(stderr, "no supported runtime detected; installing portable skills into %s", filepath.Join(homeDir(), ".agents", "skills"))
+		warn(stderr, "no supported runtime detected; installing portable skills into %s — note Claude Code reads %s, so run `newsjack install --runtimes claude` to target it explicitly", filepath.Join(homeDir(), ".agents", "skills"), filepath.Join(homeDir(), ".claude", "skills"))
 		targets = []runtimeTarget{{Key: "portable", Label: "portable Agent Skills"}}
 	}
 	for _, rt := range targets {
