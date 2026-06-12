@@ -100,6 +100,21 @@ newsjack install
 
 After install, agents and skills should call the CLI as `newsjack`.
 
+### Windows
+
+No script, no git, no Node. One PowerShell line downloads the CLI and runs
+setup (requires v0.1.10 or later):
+
+```powershell
+iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
+```
+
+`newsjack setup` downloads the skills bundle, verifies its checksum, installs
+the CLI to `%USERPROFILE%\.newsjack\bin`, and walks you through the same
+guided setup as macOS/Linux — including installing Claude Code through its
+own native Windows installer if you don't have it yet. Updates are automatic,
+same as the curl install.
+
 ### Limited mode: Running on Claude.ai, ChatGPT, Claude Cowork
 
 Newsjack needs a local agent for Full Mode. On Claude.ai, ChatGPT, or Claude
