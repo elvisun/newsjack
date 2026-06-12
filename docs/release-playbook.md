@@ -168,7 +168,20 @@ newsjack version
 
 Use stable releases for public default installs.
 
-1. Update or confirm release notes.
+1. Write the changelog entry — **the release workflow refuses to publish a
+   tag without one.** Rename `## Unreleased` in `CHANGELOG.md` to
+   `## vX.Y.Z — YYYY-MM-DD`, start a fresh empty `Unreleased` above it, and
+   land that on `main` before tagging. Prerelease tags (`-rc.N`) skip this:
+   they fall back to a non-empty `Unreleased` section automatically. Check
+   locally with:
+
+```bash
+node scripts/extract-changelog.mjs vX.Y.Z
+```
+
+   The section becomes the GitHub Release body, with the auto-generated
+   merged-PR list appended.
+
 2. Tag the exact commit on `main`:
 
 ```bash
