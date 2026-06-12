@@ -6,6 +6,7 @@ on:
       - 'v*'
 
 permissions:
+  actions: write
   contents: write
 
 jobs:
@@ -56,3 +57,14 @@ jobs:
             --title "Newsjack ${GITHUB_REF_NAME}" \
             --notes "Newsjack ${GITHUB_REF_NAME}" \
             "${prerelease_args[@]}"
+
+      - name: Queue npm release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh workflow run npm-release.yml \
+            --ref "${GITHUB_REF_NAME}" \
+            -f version="${GITHUB_REF_NAME}" \
+            -f source_ref="${GITHUB_REF_NAME}"

@@ -1,6 +1,8 @@
 name: npm release
 
 on:
+  release:
+    types: [published]
   workflow_dispatch:
     inputs:
       version:
@@ -8,14 +10,23 @@ on:
         required: true
         type: string
       source_ref:
-        description: Source ref to build from. Defaults to main for already-tagged releases.
+        description: Source ref to build from. Defaults to the version tag.
         required: false
-        default: main
+        default: ''
         type: string
+      allow_ref_mismatch:
+        description: Allow source_ref to differ from the version tag. Use only for explicit backfills.
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
   id-token: write
+
+concurrency:
+  group: npm-release-${{ github.event.release.tag_name || inputs.version || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
   npm:
@@ -23,10 +34,64 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Resolve release inputs
+        id: release
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_SOURCE_REF: ${{ inputs.source_ref }}
+          INPUT_ALLOW_REF_MISMATCH: ${{ inputs.allow_ref_mismatch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "release" ]]; then
+            version="$RELEASE_TAG"
+            source_ref="$RELEASE_TAG"
+            allow_ref_mismatch=false
+          else
+            version="$INPUT_VERSION"
+            source_ref="$INPUT_SOURCE_REF"
+            if [[ -z "$source_ref" ]]; then
+              source_ref="$version"
+            fi
+            allow_ref_mismatch="${INPUT_ALLOW_REF_MISMATCH:-false}"
+          fi
+
+          [[ "$version" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
+          npm_version="${version#v}"
+
+          {
+            echo "version=$version"
+            echo "source_ref=$source_ref"
+            echo "allow_ref_mismatch=$allow_ref_mismatch"
+            echo "npm_version=$npm_version"
+          } >>"$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          ref: ${{ inputs.source_ref }}
+          ref: ${{ steps.release.outputs.source_ref }}
+
+      - name: Validate release source
+        env:
+          VERSION: ${{ steps.release.outputs.version }}
+          SOURCE_REF: ${{ steps.release.outputs.source_ref }}
+          ALLOW_REF_MISMATCH: ${{ steps.release.outputs.allow_ref_mismatch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --force --tags origin "refs/tags/${VERSION}:refs/tags/${VERSION}"
+
+          tag_commit="$(git rev-list -n 1 "$VERSION")"
+          head_commit="$(git rev-parse HEAD)"
+
+          if [[ "$head_commit" != "$tag_commit" && "$ALLOW_REF_MISMATCH" != "true" ]]; then
+            echo "::error title=Release source mismatch::${SOURCE_REF} resolves to ${head_commit}, but ${VERSION} resolves to ${tag_commit}."
+            echo "Use the version tag as source_ref, or set allow_ref_mismatch=true only for an intentional backfill."
+            exit 1
+          fi
 
       - uses: actions/setup-go@v6
         with:
@@ -39,26 +104,53 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
 
-      - name: Validate version
+      - name: Install current npm CLI
+        run: npm install -g npm@latest
+
+      - name: Check npm version availability
+        env:
+          NPM_VERSION: ${{ steps.release.outputs.npm_version }}
         shell: bash
         run: |
           set -euo pipefail
-          [[ "${{ inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
+          npm ping --registry https://registry.npmjs.org
+
+          packages=(
+            newsjack-linux-arm64
+            newsjack-linux-x64
+            newsjack-darwin-arm64
+            newsjack-darwin-x64
+            newsjack
+          )
+
+          published=()
+          for package in "${packages[@]}"; do
+            if npm view "${package}@${NPM_VERSION}" version --registry https://registry.npmjs.org >/dev/null 2>&1; then
+              published+=("${package}@${NPM_VERSION}")
+            fi
+          done
+
+          if ((${#published[@]} > 0)); then
+            printf '::error title=Already published::These versions already exist on npm: %s\n' "${published[*]}"
+            exit 1
+          fi
 
       - name: Run CLI tests
         working-directory: apps/cli
         run: go test ./...
 
       - name: Build npm packages
-        run: NEWSJACK_VERSION="${{ inputs.version }}" NEWSJACK_NPM_DIST=.tmp/newsjack-npm node scripts/build-npm-packages.mjs
+        run: NEWSJACK_VERSION="${{ steps.release.outputs.version }}" NEWSJACK_NPM_DIST=.tmp/newsjack-npm node scripts/build-npm-packages.mjs
+
+      - name: Verify npm package contents
+        run: node scripts/verify-npm-packages.mjs .tmp/newsjack-npm "${{ steps.release.outputs.version }}"
 
       - name: Publish npm packages
         env:
-          NEWSJACK_VERSION: ${{ inputs.version }}
+          NEWSJACK_VERSION: ${{ steps.release.outputs.version }}
         shell: bash
         run: |
           set -euo pipefail
-          npm install -g npm@latest
 
           npm_tag=latest
           if [[ "${NEWSJACK_VERSION}" == *-* ]]; then
@@ -77,3 +169,22 @@ jobs:
           publish .tmp/newsjack-npm/newsjack-darwin-arm64
           publish .tmp/newsjack-npm/newsjack-darwin-x64
           publish .tmp/newsjack-npm/newsjack
+
+      - name: Verify published versions
+        env:
+          NPM_VERSION: ${{ steps.release.outputs.npm_version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          packages=(
+            newsjack-linux-arm64
+            newsjack-linux-x64
+            newsjack-darwin-arm64
+            newsjack-darwin-x64
+            newsjack
+          )
+
+          for package in "${packages[@]}"; do
+            published="$(npm view "${package}@${NPM_VERSION}" version --registry https://registry.npmjs.org)"
+            test "$published" = "$NPM_VERSION"
+          done

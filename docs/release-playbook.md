@@ -51,6 +51,7 @@ Required gates:
 - The repo has been audited for secrets/private artifacts.
 - The repo is public before validating unauthenticated release downloads.
 - You have permission to push tags and create GitHub Releases.
+- GitHub Actions can dispatch workflows with the repository `GITHUB_TOKEN`.
 - The local tree is clean:
 
 ```bash
@@ -67,7 +68,38 @@ NEWSJACK_VERSION=v0.1.0-test NEWSJACK_RELEASE_DIST=.tmp/newsjack-release-test \
   node scripts/build-release-dist.mjs
 NEWSJACK_VERSION=v0.1.0-test NEWSJACK_NPM_DIST=.tmp/newsjack-npm-test \
   node scripts/build-npm-packages.mjs
+node scripts/verify-npm-packages.mjs .tmp/newsjack-npm-test v0.1.0-test
 ```
+
+## Required npm Setup
+
+The npm workflow uses trusted publishing only. Do not add an `NPM_TOKEN` for
+normal releases.
+
+Trusted publishing must be configured on npm for:
+
+```text
+newsjack
+newsjack-linux-arm64
+newsjack-linux-x64
+newsjack-darwin-arm64
+newsjack-darwin-x64
+```
+
+Each package should trust:
+
+```text
+Publisher: GitHub Actions
+Owner: elvisun
+Repository: newsjack
+Workflow filename: npm-release.yml
+Allowed action: npm publish
+Environment: unset
+```
+
+If npm returns `ENEEDAUTH`, check the trusted publisher fields first. The
+workflow filename must be exactly `npm-release.yml`, and GitHub-hosted runners
+must be used so npm can validate the OIDC token.
 
 ## Local Release Smoke
 
@@ -146,10 +178,13 @@ git tag -a v0.1.0 -m "v0.1.0"
 git push origin v0.1.0
 ```
 
-3. Watch the release workflow:
+3. Watch the release workflow. It builds GitHub Release assets, creates the
+   release, then queues `npm-release.yml` for the same tag:
 
 ```bash
 gh run list --workflow release.yml --limit 5
+gh run watch
+gh run list --workflow npm-release.yml --limit 5
 gh run watch
 ```
 
@@ -172,31 +207,29 @@ newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
 ```
 
-Publish npm packages with the manual npm workflow after the GitHub Release
-assets are published. For a tag that already exists, such as a release cut
-before the npm workflow was added, build from `main` while setting the package
-version to the existing tag:
+The npm workflow publishes the five npm packages after checking that the exact
+version is not already present on npm, running CLI tests, building packages,
+running `npm pack --dry-run`, and smoking the generated `newsjack` wrapper.
+
+For a future tag that somehow was not published to npm, run the npm workflow
+manually from that same tag:
 
 ```bash
-gh workflow run npm-release.yml -f version=v0.1.5 -f source_ref=main
+gh workflow run npm-release.yml --ref v0.1.5 -f version=v0.1.5 -f source_ref=v0.1.5
 gh run watch
 ```
 
-The npm workflow uses trusted publishing only. Do not add an `NPM_TOKEN` for
-normal releases.
+For a historical tag that predates this npm workflow or its verification
+scripts, run from `main` only if you intentionally accept that the package
+provenance points at `main` instead of the original tag:
 
-Trusted publishing is configured on npm for:
-
-```text
-newsjack
-newsjack-linux-arm64
-newsjack-linux-x64
-newsjack-darwin-arm64
-newsjack-darwin-x64
+```bash
+gh workflow run npm-release.yml --ref main \
+  -f version=v0.1.5 \
+  -f source_ref=main \
+  -f allow_ref_mismatch=true
+gh run watch
 ```
-
-Each package trusts GitHub Actions in `elvisun/newsjack` with workflow file
-`npm-release.yml` and `npm publish` permission.
 
 Verify npm:
 
