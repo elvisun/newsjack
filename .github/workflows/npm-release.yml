@@ -184,7 +184,19 @@ jobs:
             newsjack
           )
 
+          # The registry can lag publish by ~15-30s; retry instead of
+          # reporting a false-red release.
           for package in "${packages[@]}"; do
-            published="$(npm view "${package}@${NPM_VERSION}" version --registry https://registry.npmjs.org)"
-            test "$published" = "$NPM_VERSION"
+            for attempt in 1 2 3 4 5 6; do
+              published="$(npm view "${package}@${NPM_VERSION}" version --registry https://registry.npmjs.org 2>/dev/null || true)"
+              if [ "$published" = "$NPM_VERSION" ]; then
+                break
+              fi
+              if [ "$attempt" = "6" ]; then
+                echo "::error title=Not visible on npm::${package}@${NPM_VERSION} not visible after $attempt attempts"
+                exit 1
+              fi
+              sleep 10
+            done
+            echo "verified ${package}@${NPM_VERSION}"
           done
