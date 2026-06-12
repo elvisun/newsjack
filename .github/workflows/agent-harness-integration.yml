@@ -139,6 +139,10 @@ jobs:
             $exe = Join-Path $scratch 'newsjack.exe'
             Copy-Item (Join-Path $dist 'newsjack_windows_amd64.exe') $exe
 
+            # Run from the scratch dir: inside the checkout, newsjackRoot()
+            # resolves to the source tree and setup never bootstraps.
+            Set-Location $scratch
+
             $env:NEWSJACK_HOME = Join-Path $scratch '.newsjack'
             $env:NEWSJACK_RELEASE_BASE = 'http://127.0.0.1:8765'
             $env:NEWSJACK_RUNTIMES = 'claude'
