@@ -205,6 +205,8 @@ newsjack_darwin_amd64.tar.gz
 newsjack_darwin_arm64.tar.gz
 newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
+newsjack_windows_amd64.exe
+newsjack_windows_amd64.tar.gz
 ```
 
 The npm workflow publishes the five npm packages after checking that the exact
@@ -382,3 +384,51 @@ If auto-update does not run:
 - Confirm `NEWSJACK_AUTO_UPDATE` is not `0`.
 - Confirm `NEWSJACK_NO_AUTO_UPDATE` is not `1`.
 - Run `newsjack doctor --json` and inspect `.install`.
+
+## Windows
+
+Windows ships as a bare `newsjack_windows_amd64.exe` release asset plus the
+`newsjack_windows_amd64.tar.gz` bundle. There is no install script: users
+download the exe and run `newsjack setup`, which bootstraps the bundle,
+installs the binary to `%USERPROFILE%\.newsjack\bin`, and installs skills.
+Self-update is native Go (`NEWSJACK_NATIVE_UPDATE` controls it on other
+platforms; Windows always uses it).
+
+The documented install command (for users and agents) is a PowerShell
+one-liner. Launching from a terminal avoids the Explorer SmartScreen dialog,
+and `Unblock-File` strips the Mark-of-the-Web so later launches stay clean —
+the binary is unsigned, so this is the supported path until code signing:
+
+```powershell
+iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
+```
+
+Automated coverage:
+
+- `agent-harness-ci.yml` runs Go tests on `windows-latest`, cross-compile
+  gates on every PR, and the full bootstrap battery
+  (`harness/scripts/run-ci-installer.ps1`): bootstrap, doctor, skills, mock
+  detector, monitor lifecycle, no-Node bridge smoke, no-git leg,
+  spaces-in-profile leg, and the auto-update exe swap.
+- `post-release-smoke.yml` has a `windows-install` job: downloads the
+  released exe, verifies its checksum, bootstraps, and runs a mock detector.
+- `agent-harness-integration.yml` with `os: windows` installs real Claude
+  Code via its native installer and verifies the Medialyst MCP registration;
+  with the `MEDIALYST_API_KEY` secret it also runs a live bridge handshake.
+
+Manual checklist per release (CI cannot cover these):
+
+- Interactive `newsjack setup` prompt flow in Windows Terminal: selection
+  UX, colors, and the launch handoff into Claude Code.
+- SmartScreen / Mark-of-the-Web on a browser-downloaded exe: verify the
+  warning path and document the click-through until code signing lands.
+- One fresh Windows 11 VM run: download the exe from the release page, full
+  setup with Claude Code, one real detector run.
+
+Troubleshooting:
+
+- If bootstrap fails, check `checksums.txt` includes the windows artifacts
+  and that the release is not a prerelease.
+- If auto-update leaves a `newsjack.exe.old` behind, any later `newsjack`
+  command removes it once the old process has exited.
+- Reinstall command on Windows is `newsjack setup` (re-runs bootstrap).

@@ -222,6 +222,27 @@ harness/scripts/run-ci-installer.sh \
 `--env-file`. The script validates that repo-local env files are ignored by git
 and never prints secret values. CI should keep using the default no-token path.
 
+## Native MCP Bridge Smoke (no credentials)
+
+`newsjack mcp-bridge` is a native Go stdio-to-streamable-HTTP proxy; it needs
+no Node/npx on the machine. The CI battery proves this against
+`harness/mock-mcp`, a tiny mock Medialyst MCP server:
+
+```bash
+(cd harness/mock-mcp && go run . --addr 127.0.0.1:8970 --key mock-key) &
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | \
+  MEDIALYST_API_KEY=mock-key \
+  NEWSJACK_MEDIALYST_MCP_URL=http://127.0.0.1:8970/mcp \
+  newsjack mcp-bridge
+```
+
+Expected: the initialize result and a `mock_search` tool listing on stdout,
+exit 0. The same override env var points the bridge at any compatible
+endpoint for debugging.
+
 ## Live Medialyst MCP Check
 
 Use this only when you intentionally want to spend Medialyst credits. It runs one

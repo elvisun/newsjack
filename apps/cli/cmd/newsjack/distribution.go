@@ -27,7 +27,7 @@ func newsjackCLIInvocation() commandInvocation {
 	if npmDistribution() {
 		return commandInvocation{Command: "newsjack"}
 	}
-	return commandInvocation{Command: filepath.Join(newsjackHome(), "bin", "newsjack")}
+	return commandInvocation{Command: installedBinaryPath()}
 }
 
 func (inv commandInvocation) With(args ...string) []string {

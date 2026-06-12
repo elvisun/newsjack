@@ -21,6 +21,7 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 	if len(args) > 0 {
 		cmd = args[0]
 	}
+	cleanupStaleBinary()
 	if code, handled := maybeAutoUpdate(args, stderr); handled {
 		return code
 	}

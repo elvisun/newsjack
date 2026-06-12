@@ -8,11 +8,16 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 )
+
+func goos() string {
+	return runtime.GOOS
+}
 
 func getenv(key, fallback string) string {
 	if v := os.Getenv(key); v != "" {

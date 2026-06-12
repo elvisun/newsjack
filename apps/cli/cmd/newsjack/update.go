@@ -19,10 +19,77 @@ func cmdUpdate(_ []string, stdout, stderr io.Writer) int {
 		printNPMUpdate(stdout)
 		return 0
 	}
+	if useNativeUpdate() {
+		if err := runNativeUpdate(stdout, stderr); err != nil {
+			return fail(stderr, err)
+		}
+		return 0
+	}
 	if err := runHostedInstaller(stdout, stderr); err != nil {
 		return fail(stderr, err)
 	}
 	return 0
+}
+
+// useNativeUpdate selects the in-process update path. Windows always uses
+// it (there is no sh to re-run the hosted installer); other platforms can
+// opt in with NEWSJACK_NATIVE_UPDATE=1 while the hosted path stays default.
+func useNativeUpdate() bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("NEWSJACK_NATIVE_UPDATE"))) {
+	case "1", "true", "on", "yes":
+		return true
+	case "0", "false", "off", "no":
+		return false
+	}
+	return goos() == "windows"
+}
+
+// runNativeUpdate mirrors what the hosted installer does, without a shell:
+// apply the release bundle, swap the managed binary, refresh install state,
+// then reinstall runtime skills and MCP config per the recorded modes.
+func runNativeUpdate(stdout, stderr io.Writer) error {
+	base := releaseBaseForUpdate()
+	newVersion, err := applyReleaseBundle(base, stderr)
+	if err != nil {
+		return err
+	}
+	if err := updateInstalledBinaryFromBundle(); err != nil {
+		return err
+	}
+	state := readInstallStateOrDefault()
+	state.Version = newVersion
+	state.Commit = readTrimmedFile(filepath.Join(managedInstallDir(), "COMMIT"))
+	state.InstalledAt = time.Now().UTC().Format(time.RFC3339)
+	if err := writeInstallStateFile(state); err != nil {
+		return err
+	}
+	if state.SkillsMode == skillsModeExternal {
+		successf(stdout, "updated newsjack to %s (external skills mode: runtime skills untouched)", newVersion)
+		return nil
+	}
+	runtimes := getenv("NEWSJACK_RUNTIMES", state.RuntimesRaw)
+	if strings.TrimSpace(runtimes) == "" {
+		runtimes = "auto"
+	}
+	opts := installOptions{
+		Source:     managedInstallDir(),
+		Runtimes:   runtimes,
+		InstallMCP: state.InstallMCP,
+		Force:      os.Getenv("NEWSJACK_FORCE") == "1",
+		CLI:        newsjackCLIInvocation(),
+		Repo:       getenv("NEWSJACK_REPO", state.Repo),
+		Ref:        getenv("NEWSJACK_REF", defaultRef),
+	}
+	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
+		return err
+	}
+	if opts.InstallMCP {
+		if err := configureMCP(opts, stdout, stderr); err != nil {
+			warn(stderr, "%v", err)
+		}
+	}
+	successf(stdout, "updated newsjack to %s", newVersion)
+	return nil
 }
 
 func maybeAutoUpdate(args []string, stderr io.Writer) (int, bool) {
@@ -44,7 +111,12 @@ func maybeAutoUpdate(args []string, stderr io.Writer) (int, bool) {
 		logf(stderr, "auto-updating from %s to %s", current, latest)
 	}
 
-	if err := runHostedInstaller(os.Stderr, os.Stderr); err != nil {
+	if useNativeUpdate() {
+		if err := runNativeUpdate(os.Stderr, os.Stderr); err != nil {
+			warn(stderr, "auto-update failed: %v", err)
+			return 0, false
+		}
+	} else if err := runHostedInstaller(os.Stderr, os.Stderr); err != nil {
 		warn(stderr, "auto-update failed: %v", err)
 		return 0, false
 	}
@@ -99,16 +171,7 @@ func runningInstalledBinary() bool {
 	if err != nil {
 		return false
 	}
-	want := filepath.Join(newsjackHome(), "bin", "newsjack")
-	exeReal, err := filepath.EvalSymlinks(exe)
-	if err != nil {
-		exeReal = exe
-	}
-	wantReal, err := filepath.EvalSymlinks(want)
-	if err != nil {
-		wantReal = want
-	}
-	return exeReal == wantReal
+	return samePath(exe, installedBinaryPath())
 }
 
 func readInstalledVersion() string {
@@ -197,7 +260,7 @@ func setenv(env []string, key, value string) []string {
 }
 
 func runInstalledBinary(args []string) int {
-	bin := filepath.Join(newsjackHome(), "bin", "newsjack")
+	bin := installedBinaryPath()
 	cmd := exec.Command(bin, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

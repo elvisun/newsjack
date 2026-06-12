@@ -3,8 +3,16 @@ name: Agent Harness Manual
 on:
   workflow_dispatch:
     inputs:
+      os:
+        description: Target environment
+        required: true
+        default: linux
+        type: choice
+        options:
+          - linux
+          - windows
       runtime:
-        description: Runtime install target
+        description: Runtime install target (linux Docker harness only)
         required: true
         default: all
         type: choice
@@ -28,6 +36,7 @@ on:
 jobs:
   installer:
     name: Manual installer harness
+    if: inputs.os == 'linux'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -57,3 +66,117 @@ jobs:
           harness/scripts/run-ci-installer.sh \
             --runtime "${{ inputs.runtime }}" \
             "$source_flag"
+
+  windows-build-dist:
+    name: Build release dist for the Windows harness
+    if: inputs.os == 'windows'
+    # The dist build script is Linux/macOS-only (it resolves Go via sh);
+    # cross-compile here and hand the artifacts to the Windows job.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: apps/cli/go.sum
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Build release dist
+        run: NEWSJACK_VERSION=v0.1.0-manual NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: newsjack-release-dist-manual
+          path: .tmp/newsjack-release
+          retention-days: 1
+
+  windows-claude:
+    name: Manual Windows Claude Code harness
+    if: inputs.os == 'windows'
+    needs: windows-build-dist
+    runs-on: windows-latest
+    timeout-minutes: 45
+    env:
+      # secrets is not available in step-level `if` expressions; surface the
+      # presence check through job env instead.
+      HAS_MEDIALYST_KEY: ${{ secrets.MEDIALYST_API_KEY != '' }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download release dist
+        uses: actions/download-artifact@v6
+        with:
+          name: newsjack-release-dist-manual
+          path: .tmp/newsjack-release
+
+      - name: Install Claude Code via the native Windows installer
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          irm https://claude.ai/install.ps1 | iex
+          $claudeBin = Join-Path $env:USERPROFILE '.local\bin'
+          "$claudeBin" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          & (Join-Path $claudeBin 'claude.exe') --version
+
+      - name: Bootstrap newsjack and verify Claude Code MCP registration
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dist = Resolve-Path .tmp/newsjack-release
+          $server = Start-Process -FilePath 'python' -ArgumentList @('-m', 'http.server', '8765', '--directory', "$dist") -PassThru -NoNewWindow
+          try {
+            for ($i = 0; $i -lt 50; $i++) {
+              try { Invoke-WebRequest -Uri 'http://127.0.0.1:8765/checksums.txt' -TimeoutSec 2 | Out-Null; break } catch { Start-Sleep -Milliseconds 300 }
+            }
+
+            $scratch = Join-Path $env:RUNNER_TEMP 'newsjack-windows-manual'
+            New-Item -ItemType Directory -Path $scratch -Force | Out-Null
+            $exe = Join-Path $scratch 'newsjack.exe'
+            Copy-Item (Join-Path $dist 'newsjack_windows_amd64.exe') $exe
+
+            # Run from the scratch dir: inside the checkout, newsjackRoot()
+            # resolves to the source tree and setup never bootstraps.
+            Set-Location $scratch
+
+            $env:NEWSJACK_HOME = Join-Path $scratch '.newsjack'
+            $env:NEWSJACK_RELEASE_BASE = 'http://127.0.0.1:8765'
+            $env:NEWSJACK_RUNTIMES = 'claude'
+            $env:NEWSJACK_INSTALL_MCP = '1'
+            $env:NEWSJACK_NO_AUTO_UPDATE = '1'
+
+            & $exe setup --json | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw "newsjack setup failed: $LASTEXITCODE" }
+
+            $cli = Join-Path $env:NEWSJACK_HOME 'bin\newsjack.exe'
+            & $cli doctor --json | Out-String | Write-Host
+
+            $mcpList = claude mcp list 2>&1 | Out-String
+            Write-Host $mcpList
+            if ($mcpList -notmatch 'medialyst') { throw 'Claude Code MCP registry has no medialyst entry' }
+            if ($mcpList -notmatch 'mcp-bridge') { throw 'medialyst MCP entry does not point at the newsjack bridge' }
+          } finally {
+            if (-not $server.HasExited) { Stop-Process -Id $server.Id -Force }
+          }
+
+      - name: Live Medialyst query through the bridge (only with secret)
+        if: env.HAS_MEDIALYST_KEY == 'true'
+        shell: pwsh
+        env:
+          MEDIALYST_API_KEY: ${{ secrets.MEDIALYST_API_KEY }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $cli = Join-Path $env:RUNNER_TEMP 'newsjack-windows-manual\.newsjack\bin\newsjack.exe'
+          $env:NEWSJACK_HOME = Join-Path $env:RUNNER_TEMP 'newsjack-windows-manual\.newsjack'
+          $messages = @(
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"windows-manual","version":"0"}}}'
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}'
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+          )
+          $out = $messages | & $cli mcp-bridge
+          if ($LASTEXITCODE -ne 0) { throw "live bridge handshake failed: $LASTEXITCODE" }
+          if (($out -join "`n") -notmatch 'tools') { throw 'live tools/list returned no tools' }

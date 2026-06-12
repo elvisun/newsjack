@@ -224,7 +224,33 @@ newsjack version
 newsjack setup --json | tee /tmp/newsjack-setup.json
 jq -e '.monitors_dir and .agent_prompt and .recommended_runtime and .recommended_scheduler and .agent_command' /tmp/newsjack-setup.json >/dev/null
 newsjack doctor --json | tee /tmp/newsjack-doctor.json
-jq -e '.root_ok == true and .dependencies.npx == true' /tmp/newsjack-doctor.json >/dev/null
+jq -e '.root_ok == true and .mcp_bridge.transport == "native"' /tmp/newsjack-doctor.json >/dev/null
+
+log "running native MCP bridge smoke against mock server"
+(cd /repo/harness/mock-mcp && exec go run . --addr 127.0.0.1:8970 --key mock-key) &
+mock_mcp_pid=$!
+trap 'kill "$mock_mcp_pid" 2>/dev/null || true' EXIT
+for _ in $(seq 1 50); do
+  status="$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8970/mcp || true)"
+  if [ -n "$status" ] && [ "$status" != "000" ]; then
+    break
+  fi
+  sleep 0.2
+done
+
+# Restrict PATH so the smoke proves the bridge needs no Node/npx on the
+# machine; only the installed CLI and core utilities stay visible.
+printf '%s\n' \
+  '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"harness-smoke","version":"0"}}}' \
+  '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' | \
+  env PATH="$HOME/.newsjack/bin:/usr/bin:/bin" \
+    MEDIALYST_API_KEY=mock-key \
+    NEWSJACK_MEDIALYST_MCP_URL=http://127.0.0.1:8970/mcp \
+    "$HOME/.newsjack/bin/newsjack" mcp-bridge > /tmp/newsjack-bridge.out
+grep -q '"protocolVersion"' /tmp/newsjack-bridge.out
+grep -q 'mock_search' /tmp/newsjack-bridge.out
+kill "$mock_mcp_pid" 2>/dev/null || true
 
 log "checking installed runtime skills"
 mapfile -t skill_dirs < <(selected_skill_dirs)
