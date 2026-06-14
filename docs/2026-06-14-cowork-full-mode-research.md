@@ -1,12 +1,27 @@
-# Cowork Full Mode: Runtime Research and Minimal Path
+# Cowork Full Mode: Runtime Research and Shipping Decision
 
-Research note on whether Newsjack's Full Mode can run inside Claude Cowork, and
-the minimal path to get there. Supersedes the current launch stance that treats
-Cowork as Limited Mode only (see README runtime table and
-`docs/2026-06-01-open-source-installation-distribution-spec.md`).
+Research note on whether Newsjack's Full Mode can run inside Claude Cowork.
+It started as a feasibility study and ends as a decision record. Supersedes the
+current launch stance that treats Cowork as Limited Mode only (see README
+runtime table and `docs/2026-06-01-open-source-installation-distribution-spec.md`).
 
-Status: research + proposal. Two empirical checks (marked below) must pass
-before we change the README runtime table or skill runtime-mode guidance.
+**Decision (TL;DR).** A full scheduled/persistent path inside Cowork is
+*technically* possible — it is documented below as evidence — but it is a **P2:
+deprioritized on bandwidth, not killed.** The risk and positioning notes below
+explain why it is low-ROI to build now, not why it is wrong. In the meantime
+Cowork inherits the same **on-demand** experience as claude.ai chat: every skill
+runs in-session at full quality, nothing to install. Persistence and scheduling
+already have good homes — **Claude Code (or any local agent)** and the
+**cloud-hosted Medialyst experience** — so a Cowork-specific build is not on the
+critical path. The one thing that *is* worth prioritizing now is the **Medialyst
+MCP OAuth connector (P0)** — see
+["P0" below](#p0-the-medialyst-mcp-oauth-connector). It is small, standards-based,
+and improves every surface and every MCP client, not just Cowork.
+
+The sections through "The Medialyst credential problem" are the evidence behind
+that call. The reasoning for the call itself is in
+["Why shipping the Cowork scheduled path is risky"](#why-shipping-the-cowork-scheduled-path-is-risky)
+and the sections after it.
 
 ## Background: the original "can't persist" conclusion
 
@@ -68,7 +83,11 @@ Releases at install time. So the npm install path needs only
 `registry.npmjs.org`, which is reachable even in the most restrictive
 "Package managers only" network mode. No GitHub Releases egress required.
 
-## The minimal path to Full Mode in Cowork
+## Feasibility: the path that *would* enable Full Mode in Cowork
+
+This section documents that the scheduled/persistent path is achievable, as the
+evidence behind the decision above. It is **not** a build plan — see
+["Why shipping the Cowork scheduled path is risky"](#why-shipping-the-cowork-scheduled-path-is-risky).
 
 1. **Dedicated persistent working folder** (e.g. `~/Newsjack`) attached to every
    Cowork conversation and to the scheduled task.
@@ -168,21 +187,119 @@ entire Cowork/cloud-routine key problem disappears — connector traffic routes
 through Anthropic and no local key store is needed. That work lives in the
 Medialyst codebase, not here.
 
-## Repo changes this implies (once checks pass)
+## Why shipping the Cowork scheduled path is risky
+
+The feasibility path demos well, but standing it up as a *supported* product
+surface carries cost and risk that the on-demand framing avoids entirely. This is
+the case for leaving it at **P2**:
+
+- **External egress bugs we don't control.** The desktop egress proxy has open
+  reports of not enforcing the allowlist correctly even on "All domains"
+  (anthropics/claude-code#30861, #51400). Direct RSS ingestion rides on that
+  proxy, so a core data source depends on someone else's bug tracker. We can't
+  commit to reliability we don't own.
+- **App-must-be-open scheduling.** Cowork scheduled tasks only fire while the
+  machine is awake and the desktop app is open. A monitor that silently skips
+  runs is worse than no monitor — it erodes trust in freshness.
+- **Working-folder discipline.** The whole path hinges on the user attaching the
+  same persistent folder to every conversation *and* the scheduled task. Miss it
+  once and that session has no state. That is a support-ticket generator.
+- **VirtioFS SQLite is unverified.** Seen-state is SQLite; file locking over a
+  shared VirtioFS mount can be flaky. Low risk for the single-writer case, but
+  unproven, and corruption of seen-state shows up as missed or duplicate alerts.
+- **Per-session binary re-bootstrap.** The VM home is ephemeral, so the path
+  leans on caching the binary to the mount and re-resolving it each session.
+  More moving parts to keep working as Cowork's VM internals change underneath us.
+- **X token still needs manual placement.** X is a direct API call, not a
+  connector, so even with the Medialyst OAuth win the user still hand-places a
+  token on the mount/env for the X trend source.
+- **Positioning cost (the big one).** A free, local, scheduled monitor inside
+  Cowork competes directly with the cloud-hosted Medialyst experience — the tier
+  we actually want engaged users to graduate into — and it does so on Anthropic's
+  least-reliable surface. Building it spends engineering effort to blur a clean
+  product story.
+
+None of these make the path *wrong* — they make it **low-ROI right now**, which
+is why it sits at P2 rather than in the backlog as a committed build.
+
+## Where each need is served
+
+The clean three-surface story makes Cowork's role obvious without a special build:
+
+| If you want… | Use… | Why |
+| --- | --- | --- |
+| Basic, on-demand, no setup | claude.ai chat **or** Cowork | Both are container-backed and run every skill in-session at full quality through the Medialyst OAuth connector. |
+| Scheduled runs + persistence, self-hosted | Claude Code or your own agent | Real local state (`~/.newsjack`) plus routines — the canonical Full Mode. |
+| Full feature, zero setup, always-on | The cloud-hosted Medialyst experience | Persistence and scheduling live server-side; nothing to install, reachable from any surface. |
+
+Cowork does not get its own tier — it **inherits the on-demand tier**. The middle
+and bottom rows are already covered by Claude Code and Medialyst, which is exactly
+why the Cowork-specific scheduled path is P2: it would duplicate, on a riskier
+surface, capability two other surfaces already deliver.
+
+## P0: the Medialyst MCP OAuth connector
+
+The highest-leverage, lowest-cost finding in this whole investigation has nothing
+to do with Cowork's plumbing: **finish the standard MCP OAuth flow on the
+Medialyst MCP server.** It already half-advertises it — the `WWW-Authenticate`
+header points at a `resource_metadata` URL that currently 404s — so the remaining
+work is serving the protected-resource and authorization-server metadata so any
+client can complete the handshake.
+
+Why this is P0:
+
+- **It's the standards-compliant thing to do.** The MCP authorization spec
+  (RFC 9728 / OAuth 2.0 protected resources) is how remote MCP servers are meant
+  to authenticate. Today Medialyst is a static-Bearer endpoint with a cosmetic
+  OAuth header; finishing the flow makes it a well-behaved MCP citizen.
+- **It helps the whole ecosystem, not just Newsjack.** A standards-based
+  connector works in *any* MCP client — Claude chat, Cowork, Claude Code, and
+  third-party agents — with no proprietary `newsjack mcp-bridge` shim in the loop.
+  The open-source skills stay decoupled from a private key-injection helper.
+- **It's a security win for users.** No copy-pasting long-lived `mlst_` API keys
+  into `.env` files or routine secret stores. OAuth tokens are scoped, revocable,
+  and never sit in plaintext config.
+- **It removes setup friction everywhere.** A one-click "connect Medialyst" in
+  the user's account replaces "get a key, run `newsjack login`, configure MCP."
+  This is the difference between on-demand chat/Cowork being a real experience
+  and a degraded one — it is what turns the news-search, story-origin,
+  fact-check, journalist-fit, and media-list skills from best-effort fallback
+  into the full thing.
+- **It is the only path to no-setup persistence for chat.** Connector traffic
+  routes through the user's account, so a future cloud-hosted detector becomes
+  reachable from a plain browser tab with nothing installed.
+
+This work lives in the Medialyst codebase (a commercial cloud substrate), not in
+this open-source repo — `apps/site` here is the `newsjack.sh` install site, not
+the Medialyst backend. But it is the single change that most improves the
+open-source skills' out-of-box experience, so it belongs at the top of the
+cross-repo priority list. Medialyst stays **optional cloud substrate, not a
+signup wall** (consistent with `docs/getting-started.md`); the connector just
+makes the optional upgrade frictionless and standards-based.
+
+## Repo changes this implies
+
+**Now (low cost, supports the on-demand tier):**
 
 - Update skill runtime-mode guidance: the detector/setup skills currently
-  hard-code "Cowork → Limited Mode, never install". Add a workspace-store
-  bootstrap path for the persistent-working-folder case.
-- Add a "workspace store" bootstrap snippet (set `NEWSJACK_HOME` on the mount,
-  npm install once, cache the binary) to the detector and setup skills.
-- Flip the README runtime table: Cowork moves from "Limited only" to Full Mode
-  via the persistent-working-folder path, with the app-open caveat noted and the
-  cloud-routine variant for always-on.
+  hard-code "Cowork → Limited Mode, never install." Reframe Cowork (and chat) as
+  the **on-demand tier** — every skill runs in-session; the news/list skills
+  light up once Medialyst is connected via OAuth. Point users who want scheduled,
+  persistent monitoring to Claude Code or the cloud-hosted Medialyst experience.
+- Update the README runtime table: Cowork is **on-demand (same as chat)**, not
+  "Limited only" and not a Full Mode scheduled surface.
 
-This must stay consistent with the Minimal Memory doctrine in `AGENTS.md`: the
-only durable state introduced is the already-sanctioned set (monitor profiles,
-credentials, schedules, seen/suppression data), now relocated onto a
-user-owned, inspectable, deletable working folder rather than a hidden VM home.
+**Deferred (P2 — only if bandwidth and the positioning case change):**
+
+- The workspace-store bootstrap (set `NEWSJACK_HOME` on the mount, npm install
+  once, cache the binary) for a Cowork-local scheduled monitor, plus the two
+  empirical checks (RSS egress on desktop, SQLite over VirtioFS). Documented in
+  "Feasibility" above; not on the critical path.
+
+Any future build must stay consistent with the Minimal Memory doctrine in
+`AGENTS.md`: the only durable state introduced is the already-sanctioned set
+(monitor profiles, credentials, schedules, seen/suppression data), relocated onto
+a user-owned, inspectable, deletable working folder rather than a hidden VM home.
 
 ## Sources
 
