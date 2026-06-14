@@ -84,15 +84,16 @@ below matches where your agent lives.
 | newsjack-triage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | newsjack-detector | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
 | newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| coverage-tracker | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| coverage-tracker | ❌ | ❌ | ❌ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
 | coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
 **🔧 needs setup** — the skill works on its own, but does its best work with the
 **[Medialyst](https://medialyst.ai) MCP** connected (or, in a chat app, a local
 CLI). It's optional: without it you get a limited form — host web search instead
 of the curated Medialyst news index, a hand-built list instead of a fit-checked
-one, or a one-shot scan instead of a saved, scheduled monitor. The two **setup**
-skills need durable state and a scheduler, so they run only in a local agent.
+one, or a one-shot scan instead of a saved, scheduled monitor. Coverage tracking
+and the two **setup** skills depend on durable state and a scheduler, so they
+need a local agent — ❌ in chat apps.
 
 ### With a local agent (Claude Code, Codex, OpenClaw, Hermes)
 
@@ -158,11 +159,11 @@ and fact-checking against pasted or searchable evidence. Connect the
 [Medialyst](https://medialyst.ai) MCP for the live news index and fit-checked
 media lists (the 🔧 skills above).
 
-The two always-on monitors — **newsjack monitoring** and **coverage tracking** —
-need saved profiles, a schedule, and memory of what they've already flagged, so
-they want a local agent. In a chat app they run as best-effort, one-shot scans
-you trigger by hand. Want them on autopilot? Run Newsjack in a local agent
-(above), or use [Medialyst](https://medialyst.ai) (coming soon).
+The two always-on monitors want a local agent. **Newsjack monitoring** can still
+run as a best-effort, one-shot scan you trigger by hand in chat; **coverage
+tracking** can't — it only flags coverage that's *new since last time*, which
+needs saved seen-state. Want monitoring on autopilot? Run Newsjack in a local
+agent (above), or use [Medialyst](https://medialyst.ai) (coming soon).
 
 For Claude.ai plugin-style setup:
 
