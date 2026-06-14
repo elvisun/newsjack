@@ -107,6 +107,67 @@ runs clone fresh and keep no local disk between runs.
    VirtioFS mount — file locking can be flaky on shared filesystems. Low risk for
    the single-writer scheduled-task case, but verify before documenting.
 
+## The Medialyst credential problem
+
+The persistence path above moves Newsjack's *own* state (profiles, seen-state,
+the binary) onto the host mount. But the live news-search source, hosted media
+lists, and enrichment depend on a **Medialyst credential**, and that credential
+has its own placement problem that the working-folder trick does not fully
+solve for the cloud case.
+
+### How Medialyst auth works today
+
+- Medialyst auth is a **static per-user API key** (`mlst_…`) used as a Bearer
+  token — not an OAuth connector. Each user gets their own key from
+  `medialyst.ai/agents` (300 free credits, then paid), so usage is billed per
+  account.
+- The key is stored locally in `~/.newsjack/credentials.json` (or
+  `MEDIALYST_API_KEY` env / `.env`), per `apps/cli/cmd/newsjack/auth.go`.
+- The MCP server is **remote** (`https://medialyst.ai/api/mcp`), but the key is
+  **injected locally** by the `newsjack` CLI, in one of two modes
+  (`.mcp.json` + `apps/cli/cmd/newsjack/mcp_bridge.go`):
+  1. **stdio bridge** (`newsjack mcp-bridge`) — loads the key, attaches
+     `Authorization: Bearer mlst_…` to each HTTP call.
+  2. **headersHelper** (`newsjack auth headers`) — the harness hits the remote
+     URL directly but calls the local CLI for the auth header.
+- Both modes require the `newsjack` CLI present in the runtime to inject the
+  key. Per `docs/getting-started.md`: "MCP configs do not store the key; they
+  point the runtime at `newsjack mcp-bridge`."
+
+### Can Medialyst be a native claude.ai connector? Not today.
+
+Probing the live endpoint, it *advertises* OAuth:
+
+```
+www-authenticate: Bearer error="invalid_token",
+  resource_metadata="https://medialyst.ai/.well-known/oauth-protected-resource"
+```
+
+…but that advertised discovery URL **returns 404** (as do the
+authorization-server metadata variants). So the OAuth challenge header is
+cosmetic — the actual authorization-server flow a claude.ai remote connector
+needs is not served. Medialyst is a static-token resource, full stop.
+
+### What this means per surface
+
+| Surface | Works? | Where the key lives |
+| --- | --- | --- |
+| **Cowork scheduled task** (local VM) | Yes | `newsjack` CLI is present (per the path above) -> bridge loads the key from `credentials.json` on the persistent working folder (`NEWSJACK_HOME` on the mount). No extra mechanism. |
+| **Cloud routine** (Anthropic cloud) | Only via env-var secret | No local key store survives between runs and Medialyst isn't a connector, so `MEDIALYST_API_KEY` goes in the routine's environment-variable secret store; the setup script installs `newsjack` and the bridge picks it up. Manual, per-user paste. |
+| **Native claude.ai connector** (cleanest) | No | Requires Medialyst to ship a working OAuth flow (serve the resource-metadata + authorization-server docs). This is a Medialyst-side change, not a Newsjack one — and not in this repo (`apps/site` here is the `newsjack.sh` install site, not the Medialyst backend). |
+
+So the working-folder path closes the **Cowork scheduled-task** case cleanly: the
+Medialyst key rides along on the same persistent mount as the rest of
+`NEWSJACK_HOME`. The residual gap is the **always-on cloud-routine** case, where
+the key must be hand-entered as a routine env secret until Medialyst implements
+OAuth.
+
+Highest-leverage fix: if Medialyst served the OAuth protected-resource flow it
+already half-advertises, it becomes a one-click claude.ai connector and the
+entire Cowork/cloud-routine key problem disappears — connector traffic routes
+through Anthropic and no local key store is needed. That work lives in the
+Medialyst codebase, not here.
+
 ## Repo changes this implies (once checks pass)
 
 - Update skill runtime-mode guidance: the detector/setup skills currently
