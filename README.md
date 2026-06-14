@@ -51,24 +51,52 @@ Three problems, separate lanes.
 
 ## Install
 
-Pick the path for the harness you're using.
+Newsjack is a set of **open skills** — plain-Markdown instructions your agent
+reads — plus a small open-source CLI. Most skills run anywhere your agent runs.
+A few reach for a live news index, real journalist contacts, or saved monitoring
+state; those get sharper when you connect [Medialyst](https://medialyst.ai) or
+run a local agent. Nothing is locked behind a runtime — pick whichever row
+below matches where your agent lives.
 
-### Supported runtimes
+### What runs where
 
-| Runtime             | Status       | Experience   | Install path |
-| ------------------- | ------------ | ------------ | ------------ |
-| Claude Code         | Recommended  | Full Mode    | curl, npm, or plugin |
-| Codex               | Recommended  | Full Mode    | curl or npm |
-| OpenClaw            | Recommended  | Full Mode    | curl or npm |
-| Hermes              | Recommended  | Full Mode    | curl or npm |
-| Claude.ai chat      | Limited only | Limited Mode | plugin/upload/manual skills |
-| ChatGPT chat        | Limited only | Limited Mode | manual skills |
-| Claude Cowork       | Limited only | Limited Mode | plugin/upload/manual skills |
+✅ runs out of the box · 🔧 needs setup for full results · 🔜 coming soon · ❌ not available
 
-### Full Mode: Claude Code, Codex, OpenClaw, Hermes
+| Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
+| --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Strategize** | | | | | | | | |
+| pr-strategist | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsworthiness-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Act** | | | | | | | | |
+| angle-generator | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| headline-generator | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| meanest-editor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| crisis-holding | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| reactive-comment | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| fact-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| journalist-fit-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| voice-extractor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| find-journalists | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| **Detect** | | | | | | | | |
+| news-search | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| story-origin-check | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| relevance-coarse-filter | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-triage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-detector | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| coverage-tracker | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
-Use the curl installer when your full agent harness can reach GitHub Release
-assets:
+**🔧 needs setup** — the skill works on its own, but does its best work with the
+**[Medialyst](https://medialyst.ai) MCP** connected (or, in a chat app, a local
+CLI). It's optional: without it you get a limited form — host web search instead
+of the curated Medialyst news index, a hand-built list instead of a fit-checked
+one, or a one-shot scan instead of a saved, scheduled monitor. The two **setup**
+skills need durable state and a scheduler, so they run only in a local agent.
+
+### With a local agent (Claude Code, Codex, OpenClaw, Hermes)
+
+Use the curl installer when your agent can reach GitHub Release assets:
 
 ```bash
 curl -fsSL newsjack.sh | bash
@@ -118,26 +146,23 @@ guided setup as macOS/Linux — including installing Claude Code through its
 own native Windows installer if you don't have it yet. Updates are automatic,
 same as the curl install.
 
-### Limited mode: Running on Claude.ai, ChatGPT, Claude Cowork
+### In a chat app (Claude.ai, ChatGPT, Cowork)
 
-Newsjack needs a local agent for Full Mode. On Claude.ai, ChatGPT, or Claude
-Cowork it automatically falls back to Limited Mode — no install, no CLI, no
-setup. Paste your startup URL or your news and you get a real PR operator on the
-spot.
+No install, no CLI — paste your startup URL or your news and you get a real PR
+operator on the spot.
 
-**Every skill still works.** PR strategy, newsworthiness scoring, story angles,
-pitch drafting and honest critique, journalist-fit reasoning, fit-checked media
-lists, reactive source-query responses, voice fingerprinting, and fact-checking
-against pasted or searchable evidence all run right in the chat — paste what
-you've got and go.
+**Nearly every skill runs right in the chat:** PR strategy, newsworthiness
+scoring, story angles, pitch drafting and honest critique, journalist-fit
+reasoning, media lists, reactive source-query responses, voice fingerprinting,
+and fact-checking against pasted or searchable evidence. Connect the
+[Medialyst](https://medialyst.ai) MCP for the live news index and fit-checked
+media lists (the 🔧 skills above).
 
-The only things that change are the two always-on monitors — **newsjack
-monitoring** (watching your space for newsjacking opportunities) and **coverage
-monitoring** (Google Alerts-style keyword tracking). Without a local agent they
-can't keep saved profiles, run on a schedule, or remember what they've already
-flagged, so they fall back to best-effort, one-shot scans you trigger by hand.
-Want them running on autopilot? Set up Full Mode with the CLI harness and a local
-agent.
+The two always-on monitors — **newsjack monitoring** and **coverage tracking** —
+need saved profiles, a schedule, and memory of what they've already flagged, so
+they want a local agent. In a chat app they run as best-effort, one-shot scans
+you trigger by hand. Want them on autopilot? Run Newsjack in a local agent
+(above), or use [Medialyst](https://medialyst.ai) (coming soon).
 
 For Claude.ai plugin-style setup:
 
