@@ -78,7 +78,7 @@ below matches where your agent lives.
 | voice-extractor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | find-journalists | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | **Detect** | | | | | | | | |
-| news-search | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| news-search | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | story-origin-check | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | relevance-coarse-filter | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | newsjack-triage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
