@@ -195,14 +195,12 @@ func cmdRuntimesDetect(_ []string, stdout, _ io.Writer) int {
 }
 
 type installOptions struct {
-	Source     string
-	Runtimes   string
-	InstallMCP bool
-	Force      bool
-	StrictMCP  bool
-	CLI        commandInvocation
-	Repo       string
-	Ref        string
+	Source   string
+	Runtimes string
+	Force    bool
+	CLI      commandInvocation
+	Repo     string
+	Ref      string
 }
 
 func cmdInstall(args []string, stdout, stderr io.Writer) int {
@@ -218,20 +216,16 @@ func cmdInstall(args []string, stdout, stderr io.Writer) int {
 	source := fs.String("source", rootDefault, "Newsjack source bundle")
 	runtimes := fs.String("runtimes", getenv("NEWSJACK_RUNTIMES", "auto"), "Runtime selection: auto, all, none, codex,claude,openclaw,hermes")
 	force := fs.Bool("force", os.Getenv("NEWSJACK_FORCE") == "1", "Overwrite Newsjack-managed targets and existing user-owned skills")
-	installMCP := fs.Bool("mcp", os.Getenv("NEWSJACK_INSTALL_MCP") != "0", "Configure supported MCP clients")
-	strictMCP := fs.Bool("strict-mcp", false, "Fail instead of warning on MCP setup errors")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
 	opts := installOptions{
-		Source:     expandPath(*source),
-		Runtimes:   *runtimes,
-		InstallMCP: *installMCP,
-		Force:      *force,
-		StrictMCP:  *strictMCP,
-		CLI:        newsjackCLIInvocation(),
-		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
-		Ref:        getenv("NEWSJACK_REF", defaultRef),
+		Source:   expandPath(*source),
+		Runtimes: *runtimes,
+		Force:    *force,
+		CLI:      newsjackCLIInvocation(),
+		Repo:     getenv("NEWSJACK_REPO", defaultRepo),
+		Ref:      getenv("NEWSJACK_REF", defaultRef),
 	}
 	if shouldAdoptBundle(opts.Source) {
 		logf(stdout, "adopting bundle %s into %s", opts.Source, managedInstallDir())
@@ -243,14 +237,6 @@ func cmdInstall(args []string, stdout, stderr io.Writer) int {
 	}
 	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
 		return fail(stderr, err)
-	}
-	if opts.InstallMCP {
-		if err := configureMCP(opts, stdout, stderr); err != nil {
-			if opts.StrictMCP {
-				return fail(stderr, err)
-			}
-			warn(stderr, "%v", err)
-		}
 	}
 	return 0
 }

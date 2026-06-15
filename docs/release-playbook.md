@@ -123,7 +123,6 @@ rm -rf "$HOME"
 curl -fsSL http://127.0.0.1:8765/install.sh | \
   NEWSJACK_RELEASE_BASE=http://127.0.0.1:8765 \
   NEWSJACK_RUNTIMES=codex \
-  NEWSJACK_INSTALL_MCP=0 \
   bash
 
 newsjack version
@@ -141,7 +140,6 @@ rm -rf "$HOME"
 curl -fsSL http://127.0.0.1:8765/install.sh | \
   NEWSJACK_RELEASE_BASE=http://127.0.0.1:8765 \
   NEWSJACK_INSTALL_SKILLS=0 \
-  NEWSJACK_INSTALL_MCP=0 \
   bash
 
 newsjack skills status --json | jq -e '.skills_mode == "external"'
@@ -158,7 +156,6 @@ rm -rf "$HOME"
 curl -fsSL http://127.0.0.1:8765/install.sh | \
   NEWSJACK_RELEASE_BASE=http://127.0.0.1:8765 \
   NEWSJACK_INSTALL_SKILLS=0 \
-  NEWSJACK_INSTALL_MCP=0 \
   sh
 
 newsjack version
@@ -319,7 +316,6 @@ Marketplace-style beta bootstrap:
 curl -fsSL newsjack.sh | \
   NEWSJACK_VERSION=v0.1.0-beta.1 \
   NEWSJACK_INSTALL_SKILLS=0 \
-  NEWSJACK_INSTALL_MCP=0 \
   bash
 ```
 
@@ -343,7 +339,6 @@ base=https://github.com/elvisun/newsjack/releases/download/v0.1.0-test.1
 curl -fsSL "$base/install.sh" | \
   NEWSJACK_RELEASE_BASE="$base" \
   NEWSJACK_INSTALL_SKILLS=0 \
-  NEWSJACK_INSTALL_MCP=0 \
   bash
 ```
 
@@ -426,8 +421,8 @@ Automated coverage:
 - `post-release-smoke.yml` has a `windows-install` job: downloads the
   released exe, verifies its checksum, bootstraps, and runs a mock detector.
 - `agent-harness-integration.yml` with `os: windows` installs real Claude
-  Code via its native installer and verifies the Medialyst MCP registration;
-  with the `MEDIALYST_API_KEY` secret it also runs a live bridge handshake.
+  Code via its native installer and verifies Newsjack's Medialyst REST
+  credential path when `MEDIALYST_API_KEY` is present.
 
 Manual checklist per release (CI cannot cover these):
 

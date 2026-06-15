@@ -140,8 +140,6 @@ func (w *setupWizard) run() error {
 			return err
 		}
 	}
-	w.configureSelectedMCP(skillRuntime, schedulerRuntime)
-
 	agentPrompt := setupAgentPrompt(schedulerRuntime)
 	plan := setupLaunchPlanFor(schedulerRuntime, agentPrompt)
 	command := setupAgentCommand(schedulerRuntime, agentPrompt)
@@ -677,65 +675,14 @@ func installSetupSkills(runtimeRaw string, stdout, stderr io.Writer) error {
 		return err
 	}
 	opts := installOptions{
-		Source:     root,
-		Runtimes:   runtimeRaw,
-		InstallMCP: false,
-		Force:      true,
-		CLI:        newsjackCLIInvocation(),
-		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
-		Ref:        getenv("NEWSJACK_REF", defaultRef),
+		Source:   root,
+		Runtimes: runtimeRaw,
+		Force:    true,
+		CLI:      newsjackCLIInvocation(),
+		Repo:     getenv("NEWSJACK_REPO", defaultRepo),
+		Ref:      getenv("NEWSJACK_REF", defaultRef),
 	}
 	return installRuntimeSkills(opts, stdout, stderr)
-}
-
-func (w *setupWizard) configureSelectedMCP(skillRuntime, schedulerRuntime string) {
-	runtimes := setupMCPRuntimeSelection(skillRuntime, schedulerRuntime)
-	if runtimes == "" {
-		return
-	}
-	fmt.Fprintln(w.stdout)
-	uiSection(w.stdout, "mcp")
-	uiNote(w.stdout, "configuring Medialyst MCP bridge for selected runtimes.")
-	opts := installOptions{
-		Runtimes:   runtimes,
-		InstallMCP: true,
-		CLI:        newsjackCLIInvocation(),
-	}
-	if err := configureMCP(opts, w.stdout, w.stderr); err != nil {
-		warn(w.stderr, "%v", err)
-	}
-}
-
-func setupMCPRuntimeSelection(skillRuntime, schedulerRuntime string) string {
-	seen := map[string]bool{}
-	var out []string
-	add := func(raw string) {
-		if isManualRuntime(raw) {
-			return
-		}
-		if raw == "all" {
-			if !seen[raw] {
-				out = []string{raw}
-				seen = map[string]bool{raw: true}
-			}
-			return
-		}
-		if seen["all"] {
-			return
-		}
-		for _, item := range normalizeRuntimeList(nonManualRuntimeSelection(raw)) {
-			if item == "" || item == "auto" || item == "none" || isManualRuntime(item) || seen[item] {
-				continue
-			}
-			if isSupportedRuntime(item) {
-				seen[item] = true
-				out = append(out, item)
-			}
-		}
-	}
-	add(skillRuntime)
-	add(schedulerRuntime)
-	return strings.Join(out, ",")
 }
 
 func manualSkillInstallInstruction() string {

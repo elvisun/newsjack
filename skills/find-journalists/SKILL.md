@@ -1,6 +1,6 @@
 ---
 name: find-journalists
-description: "Create, inspect, edit, enrich, and share fit-checked media lists for newsjack campaigns. Uses the optional Medialyst MCP server when available, and falls back to a local artifact when the cloud substrate is not configured."
+description: "Create, inspect, edit, enrich, and share fit-checked media lists for newsjack campaigns. Uses the newsjack CLI for Medialyst cloud mode, and falls back to a local artifact when the cloud substrate is not configured."
 when_to_use: "User asks to build, generate, refine, dedupe, inspect, enrich, manage, or share a media list; asks for journalists for a pitch or newsjack angle; asks to add columns, notes, views, or share links to a media list; or another newsjack skill has produced journalist shapes that need real recipient discovery."
 ---
 
@@ -12,7 +12,7 @@ You are not a contact scraper, and you are not a tool for sending mass email. Yo
 
 ## Where You're Running
 
-- **Full Mode:** You're in a capable agent tool such as Claude Code, Codex, OpenClaw, or Hermes — with access to a shell, the file system, the network, the local `newsjack` command, and (optionally) Medialyst's MCP tools. In Full Mode you can log in to Medialyst, sync lists to the cloud, and save lists locally.
+- **Full Mode:** You're in a capable agent tool such as Claude Code, Codex, OpenClaw, or Hermes — with access to a shell, the file system, the network, and the local `newsjack` command. In Full Mode you can log in to Medialyst, sync lists to the cloud, and save lists locally.
 - **Limited Mode:** You're in a chat-only place such as Claude.ai, ChatGPT, or Claude Cowork, with no shell, files, or commands. Don't try to run `curl`, `npm`, `newsjack login`, or any setup. Just build a small, fit-checked list in the chat from evidence the user gives you or that you can search for — and tell the user plainly that the list was not synced to Medialyst or saved anywhere.
 
 Full Mode commands below assume the `newsjack` command is installed and ready to run.
@@ -27,7 +27,7 @@ The hard line: never build big undifferentiated lists, never build "same email t
 
 Use whichever is available:
 
-- **Medialyst (cloud) mode:** If your tools include the `medialyst` MCP server, use it. It can search news, create the list, inspect and edit the table, enrich rows, save views, and make share links — all in the cloud, so the list is saved and shareable.
+- **Medialyst (cloud) mode:** If the `newsjack` CLI is installed and authenticated, use it. It can search news, create the list, inspect and edit the table, enrich journalists, save views, and make share links — all through Medialyst's REST API, so the list is saved and shareable.
 - **Local mode:** If Medialyst isn't connected or you don't have permission, just keep going on your own. Hand back a clear, structured list the user can review, import, or sync to Medialyst later. Never pretend it was saved in Medialyst when it wasn't.
 
 Medialyst is optional. This skill must stay useful even with no Medialyst account and no login.
@@ -45,7 +45,7 @@ Take any of these from the user or from another Newsjack skill:
 - an existing Medialyst list ID, if you're managing a list that already exists
 - any source articles, links, or keywords they've given you
 
-If there's no angle yet, run `angle-generator` first. If the pitch makes factual claims that could be wrong, run `fact-check` before treating the list as ready. If the user names one specific journalist and wants a yes/no, run `journalist-fit-check` on that person.
+If there's no angle yet in a standalone list-building request, run `angle-generator` before you create the list. If you are already inside a multi-workflow `find-journalists` turn, or the user asks you to build a source-article list and suggest pitch angles, do not hand off to `angle-generator` after creating lists; write a few short angles yourself and finish the full `find-journalists` answer for every requested workflow. If you do use another skill, you must still return to this skill and produce the complete media-list summary before ending. If the pitch makes factual claims that could be wrong, run `fact-check` before treating the list as ready. If the user names one specific journalist and wants a yes/no, run `journalist-fit-check` on that person.
 
 ## Keep It Small
 
@@ -58,42 +58,106 @@ A list can grow later, but only when each new segment has:
 - a dated evidence anchor
 - a reason the first wave is insufficient
 
-## Medialyst Tools (Cloud Mode)
+## Medialyst CLI Commands (Cloud Mode)
 
-When the `medialyst` MCP server is available, these are the tools you'll use and what each one is for:
+Start by checking authentication:
 
-| Tool | Use |
-| --- | --- |
-| `search_news` | Search for articles and sources around the angle, topic, company, competitor, or news hook. |
-| `create_media_list` | Create a list from selected articles, URLs, keywords, or an empty start. |
-| `list_media_lists` | Find existing lists when the user names one. |
-| `get_media_list` | Read a list's details and, optionally, its rows. |
-| `inspect_table` | Read a safe preview of the table: health, columns, and a window of rows. |
-| `read_full_values` | Read the exact, full text of a small slice of rows and columns. |
-| `preview_column_render` | Preview a template-driven column before running enrichment on it. |
-| `apply_table_action` | Change columns, rows, cells, and views; add articles; run enrichment. |
-| `create_share_link` | Make a public share link, once the list is reviewed and ready. |
-| `delete_media_list` | Delete only test lists you created, or lists the user explicitly asks to delete. |
+```bash
+newsjack auth status
+newsjack credits balance
+```
 
-For cloud mode to work, the account needs these permissions: `news:search`, `media_lists:read`, and `media_lists:write`.
+Run setup checks directly. `newsjack credits balance` is intentionally concise; do not pipe it through `head`, `tail`, `cat`, or any other command.
 
-If the Medialyst tools aren't there, or they return a login or permission error, say exactly what failed and keep going in local mode.
-
-To log in from Claude Code, tell the user to run:
+If Medialyst is missing, ask the user to run:
 
 ```bash
 newsjack login
 ```
 
-The project's `.mcp.json` then reads that saved login automatically.
+For cloud mode to work, the account needs `news:search` and `media_lists:manage`.
 
-For Codex, OpenClaw, or any tool that can't read the login that way, run this after logging in:
+Use these commands:
+
+| Task | Command |
+| --- | --- |
+| Search news | `newsjack news search --query "AI customer support automation" --limit 10 --tbs qdr:m` |
+| Enrich journalists from article URLs | `newsjack journalists enrich --url https://example.com/story --pitch "why this fits" --wait --poll-timeout-ms 45000` |
+| Revisit an old enrichment job | `newsjack journalists enrich-job <job-id>` |
+| Create a media list from URLs | `newsjack media-lists create --name "AI support automation - first wave" --url https://example.com/story-1 --url https://example.com/story-2` |
+| Create a media list from keywords | `newsjack media-lists create --name "AI support automation - first wave" --keyword "AI customer support automation" --limit 10 --date-range m` |
+| List media lists | `newsjack media-lists list` |
+| Get an existing list for management | `newsjack media-lists get <media-list-id> --include-rows --include-schema > /tmp/newsjack-list.json` |
+| Inspect a table preview | `newsjack media-lists inspect <media-list-id> > /tmp/newsjack-inspect.json` |
+| Read exact cells | `newsjack media-lists full-values <media-list-id> --row-id <row-id> --column-id <column-id>` |
+| Preview a column render | `newsjack media-lists preview-column-render <media-list-id> --row-id <row-id> --column-id <column-id>` |
+| Add article URLs to a list | `newsjack media-lists add-urls <media-list-id> --url https://example.com/story-3` |
+| Add keyword search results to a list | `newsjack media-lists add-keywords <media-list-id> --keyword "fintech Series A" --limit 10 --date-range m` |
+| Apply a management action | `newsjack media-lists action <media-list-id> --json '{"action":"create_column","column":{"name":"Notes"}}'` |
+| Create a share link | `newsjack media-lists share <media-list-id> --view-id <view-id>` |
+| Delete a test list | `newsjack media-lists delete <media-list-id>` |
+
+The REST-backed `newsjack` commands print JSON by default. Do not add `--json` just to request JSON output. In these commands, `--json` and `--json-file` mean "send this exact JSON request body to the API." Use them only when the API body needs exact fields beyond the convenience flags. For `newsjack media-lists action`, the JSON body is passed to Medialyst exactly as written, so use the API field names returned by errors and examples. Table actions are for list management after you know what you want to change, not for forcing first-wave journalist discovery.
+
+When you only need to add rows, prefer the convenience commands over raw action JSON:
 
 ```bash
-newsjack mcp-bridge
+newsjack media-lists add-urls ml_123 --url https://example.com/story-3
+newsjack media-lists add-keywords ml_123 --keyword "fintech Series A funding" --limit 10 --date-range m
 ```
 
-Set that command as the MCP server command. It connects to Medialyst and uses the saved login for you, so the user never has to set an environment variable by hand.
+The journalist enrichment command uses Medialyst's polished public enrich endpoint, `POST /api/v1/journalists/enrich`. It currently works best from source article URLs; if the API returns `UNSUPPORTED_SOURCE_TYPE`, switch to article URLs or local research instead of retrying the same unsupported source. `newsjack journalists enrich --wait` uses `--poll-timeout-ms` as the total foreground wait budget, including the initial enrich request and any follow-up job polling, and returns the final job payload when it completes within that budget. In first-wave workflows, pass exactly one `--url` per foreground enrich command and use `--poll-timeout-ms 45000`; the CLI rejects multi-URL `--wait` calls and longer foreground wait budgets. If it still returns `processing`, keep the job ID as a revisit handle and move on. Do not call `journalists enrich-job` anywhere in the same first-wave turn after an enrich command; that is another status check and counts as polling. Use `enrich-job` only in a later revisit flow when the user gives you an existing job ID and asks you to check it.
+
+Use `journalists enrich` sparingly in first-wave work. It is for the user's source article or a few high-confidence anchor articles, not for batch-enriching every news-search result. Hard cap: run no more than three `journalists enrich --wait` commands in one user turn, including failed, weak, noisy, unresolved, or rejected calls. Once you have used three, stop enriching and mark the remaining rows `research-needed`. Do not run multiple `--wait` enrichment calls in parallel.
+
+If the user gives multiple workflows, segments, or prompts in one turn, complete every one of them before the final answer. Do not emit a final answer after workflow 1 if workflows 2 and 3 are still requested. Budget the three enrichment calls across the whole turn. With three workflows, default to exactly one enrich attempt per workflow until each workflow has been created, inspected, and answered. Do not spend a second enrich call on workflow 1 while workflow 2 or 3 has not had its first pass. Do not run `media-lists add-keywords` or `media-lists add-urls` to expand workflow 1 before every requested workflow has its first create/inspect/answer pass; that is the same count-chasing failure in a different form. A run that spends all three enrich calls on the first workflow, keeps expanding the first workflow while others are unfinished, or gives a final answer before all requested workflows are answered, has failed. If an enrich stays unresolved, keep the job ID as a revisit handle and move to the next workflow.
+
+Before the final answer, do a quick workflow checklist in your own notes. For every requested workflow, confirm that you gathered evidence, created or drafted a list, inspected or reviewed it, summarized fit status, and gave pitch angles or next steps. If any requested workflow is missing, continue working instead of finalizing.
+
+Do not end a multi-workflow turn with a sub-skill's output, a pitch-angle-only answer, or a note that you will now compile the report. The final answer must already be the compiled report across all requested workflows.
+
+Do not pipe `journalists enrich`, `media-lists inspect`, `media-lists get`, `news search`, or other `newsjack` JSON through `head`, `tail`, `cat`, or any other command chain. In these workflows, do not run `head` or `tail` at all; their presence means the run failed. Do not `cat` full Newsjack JSON just to inspect it. If the payload is long, redirect the full JSON into a temp file and run a parser against that file. To learn a shape, print keys, counts, and types instead of truncating raw JSON. Example:
+
+Before every Bash command, scan the literal command string. If it invokes `python3 -c`, `$(python3 -c`, `head`, `tail`, `sleep`, `curl`, `wget`, `grep`, `media-lists action` for workflow columns, or `journalists enrich-job` in the first-wave turn, rewrite the command before running it. A command that uses one of those as a command name, pipe stage, fallback branch, or command substitution is a failed run. Ordinary parser words such as `details`, `headline`, or `tailored` are not the issue; invoking the shell command is.
+
+```bash
+newsjack journalists enrich --url https://example.com/story --pitch "why this fits" --wait --poll-timeout-ms 45000 > /tmp/newsjack-enrich.json
+cat > /tmp/newsjack-parse-enrich.py <<'PY'
+import json, sys
+d = json.load(open(sys.argv[1]))
+print(json.dumps(d.get("result", {}).get("journalists", []), indent=2))
+PY
+python3 /tmp/newsjack-parse-enrich.py /tmp/newsjack-enrich.json
+```
+
+For JSON parsing, write a small temp parser or use a here-doc. Do not use `python3 -c` in this skill; it is too easy to break with shell quoting and too easy to combine with pipes. Do not use command substitution such as `$(python3 -c ...)` to extract a media-list ID or job ID for the next command. Instead, write a temp parser file that prints the ID, read the short parser output, then pass that ID explicitly in the next `newsjack` command. Do not try a "quick" one-line parser for nested JSON, f-strings, quoted strings, or ID extraction; use a temp parser first.
+For `/tmp` scratch files in Claude Code, Codex, OpenClaw, or similar agents, use shell redirection or a here-doc. Do not use editor-style `Write`, `Edit`, or notebook tools for scratch parsers, URL lists, or tiny summaries; some agent editors require reading a file before writing it, and that tool error makes the run non-clean.
+Parsers must be defensive. Treat every field from Medialyst as nullable unless the shape section below says otherwise. Use `.get()` plus type checks before slicing strings, iterating arrays, or indexing nested objects. A parser exception is not a clean run; if a value is absent or a different type, print `research-needed` and continue.
+If an enrichment parser sees no journalists, do not debug by dumping the full payload through `head` or `tail`. Run a small shape parser that prints top-level keys, `status`, `object`, and counts from both `result.journalists` and top-level `journalists`, then continue from that shape.
+
+```bash
+cat > /tmp/newsjack-parse.py <<'PY'
+import json, sys
+d = json.load(open(sys.argv[1]))
+if "media_list" not in d:
+    raise SystemExit(f"expected media_list key, got: {sorted(d.keys())}")
+print(d["media_list"]["id"])
+PY
+python3 /tmp/newsjack-parse.py /tmp/newsjack-create.json
+```
+
+Keep temp parsers input-file neutral. Pass the JSON file as `sys.argv[1]` or stdin; do not hardcode `/tmp/wf1-create.json` inside a parser you might reuse for workflow 2. If you need different parsers, name them per workflow.
+
+Common response shapes:
+
+- `newsjack news search` returns a top-level `news` array. Each story URL is usually `link`, not `url`. Source and date fields are top-level. Publication type is usually in `metadata.publicationType` or `metadata.publication_type`. Byline may be in `metadata.author`, but it may be absent.
+- `newsjack media-lists create` returns `media_list.id`, `media_list.name`, `media_list.article_count`, and source counts such as `source.imported_count` / `source.requested_count`. The key is exactly `media_list` in snake_case. Never use camelCase `mediaList`, and do not expect a flat top-level `id`. If a parser does not see `media_list`, print or raise the top-level keys and stop instead of guessing.
+- `newsjack media-lists inspect` and `get --include-rows --include-schema` return `columns` and `rows`. Depending on pagination, `rows` may be top-level or under `media_list.rows`; columns may be top-level or under `media_list.columns`. Look in both places. Build a column ID-to-name map from that same response before reading row values. Row objects may have `id`, `row_id`, or no row identifier at all; never use direct indexing like `row["id"]` unless you have checked it exists. Use `row.get("row_id") or row.get("id") or f"row_{index}"`. Treat `row.values` as an object keyed by column ID, not as a positional array. Use `cell = values.get(column_id)` after confirming `values` is a dict; never use `values[index]` or infer a cell's position from the column order. Individual cells in `row.values` may be `null`; before reading `display` or `data`, check `isinstance(cell, dict)`. Use `display = cell.get("display") if isinstance(cell, dict) else "research-needed"` and treat non-dict cells as unresolved. Never call `cell.get(...)` directly on a value pulled from `row.values`. Article details usually live under the row value for the `Article` column, often as `values[article_column_id].data`. Some endpoints may also return values in a different display shape; do not spend the first-wave answer reverse-engineering it. If article `author` is null or the row shape is not obvious, mark the row `research-needed`.
+- `newsjack journalists enrich` returns the API payload directly. During `--wait`, you may see either a job wrapper or a completed enrichment batch. For a job wrapper, read top-level `id`, `status`, `progress`, and `result`; do not look for a nested `journalist_enrichment_job` key. Terminal status is usually `complete`, not `completed`; when `status == "complete"`, journalists are under `result.journalists` and supporting fit/research details are usually under `result.research`. For a completed enrichment batch, `status` may be absent and journalists are top-level under `journalists`, with supporting details under top-level `research` and `object` often set to `journalist_enrichment_batch`. Check both `result.journalists` and top-level `journalists` before concluding there are no journalists. Journalist `outlet` is usually a string, not an object. If it is still `processing`, keep the top-level job `id` and move on. If the enriched name is a publication account, shared byline, handle such as `@Outlet`, an author-like string with no person-level evidence, or a sparse object with no clear beat/recent-work/contact context, mark that row `research-needed` instead of treating it as a pitch-ready journalist.
+
+If a command is missing, unauthenticated, forbidden, rate-limited, out of credits, or an async workflow takes too long, say exactly what failed and keep going in local mode or partial cloud mode. Never pretend a list was saved or enriched when the command failed.
+
+Do not poll async work during a first-wave answer. Do not write shell loops around `media-lists inspect`, background wait commands, `sleep`, delayed inspections, scheduled rechecks, or repeated `enrich-job` checks. For first-wave list building, one create call plus one immediate inspection is enough. A second inspection is optional only when it happens right away to confirm row or schema shape; never wait before doing it. If `journalists enrich --wait` still returns `processing`, or if workflow columns are still loading, keep the job ID or list ID as a revisit handle, return the reviewed evidence you have, and mark unresolved rows `research-needed`. Do not scrape the source page with `curl`, `wget`, `grep`, or ad hoc HTML parsing to work around missing bylines; that usually creates huge noisy output and is not fit-checking. Do not describe a next step as "scrape the byline"; say "check the article page or outlet byline manually" or "revisit the enrichment job later." Use the Medialyst evidence you have, a separate news search, or honest `research-needed`. An honest undercount is the right answer when the defensible bylines are not ready yet; do not pad the list with weak names just to hit the requested number. Do not create a share link from an unresolved table.
 
 ## Building A List, Step By Step
 
@@ -101,34 +165,40 @@ Set that command as the MCP server command. It connects to Medialyst and uses th
 
 2. **Gather evidence.**
    - If the user gave you article links, those are your main evidence.
-   - If they gave you a topic or hook, use the `news-search` skill to find articles — that's `search_news` in Medialyst cloud mode, or ordinary web search otherwise. Local search still surfaces bylines; just treat the dates and outlet names as best-effort, not gospel. A `search_news` call looks like this:
-
-     ```json
-     { "query": "AI customer support automation layoffs", "recency_days": 30 }
-     ```
+   - If the user specifically gave one source article and asked you to build a list around it, create the source-article list and generate angles from that source first. In that source-article workflow, do not run `media-lists add-urls` or `media-lists add-keywords` after a pending source-article enrich just to make the list larger. Related news searches may inform pitch angles, but they must not mutate the source-article list unless the user explicitly asked for a broader topic list or you already have a named, defensible journalist shape to expand from.
+   - If they gave you a topic or hook, use `newsjack news search --query "..."` in cloud mode, or the `news-search` skill / ordinary web search otherwise. Local search still surfaces bylines; just treat the dates and outlet names as best-effort, not gospel.
 
    - Favor recent articles written by named journalists on exactly this topic.
-   - Don't use SEO pages, product docs, content-farm articles, old articles, or outlet landing pages as your reason a journalist fits.
+   - In `newsjack news search` results, prefer rows where `publication_type` is `editorial`. Cut or quarantine `brand_content`, `newswire`, vendor blogs, SEO pages, product docs, content-farm articles, old articles, and outlet landing pages unless the user specifically asked for that category.
+   - Keep the article URLs you selected in your own temp file, such as `/tmp/newsjack-wf1-urls.txt`. Use that URL file for `media-lists create`, `media-lists add-urls`, and `journalists enrich`. Do not later reverse-engineer URLs out of a Medialyst table row.
 
 3. **Create or draft the list.**
-   - In cloud mode, use `create_media_list` from the articles, links, keywords, or an empty start, whichever fits. The call you send Medialyst looks like this:
+   - In cloud mode, create the list from articles, links, keywords, or an empty start, whichever fits:
 
-     ```json
-     {
-       "name": "AI support automation - first wave",
-       "from_article_urls": ["https://example.com/story-1", "https://example.com/story-2"]
-     }
+     ```bash
+     newsjack media-lists create \
+       --name "AI support automation - first wave" \
+       --url https://example.com/story-1 \
+       --url https://example.com/story-2
      ```
 
    - Only build from keywords when the keywords are specific and tied to this campaign. Avoid broad words like "AI," "startup," or "funding."
+   - If the user explicitly asks for a list but the company or standing is under-specified, create only a small research shell. Name it as a draft or TEST list, use narrow recent keywords or source articles, mark every row `research-needed`, and say it is not pitch-ready until the user provides the real angle.
    - Only pass a `template_id` if the user specifically wants a saved Medialyst recipe.
-   - Only use `run_initial_enrichment` when there are actual runnable workflow columns after the list is created or a template is applied.
+   - Do not pass `run_initial_enrichment` for ordinary first-wave discovery.
 
-4. **Check the table.** Right away, call `inspect_table` or `get_media_list` against the new list ID. Confirm how many rows there are, what columns exist, the article details, and whether the journalist-name or outlet fields need a human look. The inspect call is just the list ID:
+4. **Check the table.** Right away, inspect the new list ID by redirecting the JSON to a temp file. Confirm how many rows there are, what columns exist, the article details, and whether the journalist-name or outlet fields need a human look.
 
-   ```json
-   { "media_list_id": "ml_123" }
+   ```bash
+   newsjack media-lists inspect ml_123 > /tmp/newsjack-inspect.json
    ```
+
+   In a new first-wave workflow, do not call `media-lists get --include-rows --include-schema` just to recover article URLs or poke at raw row shape. You already have the selected URLs from the evidence step. Use those. For existing-list management, `get --include-rows --include-schema` is fine, but redirect it to a temp file and parse only the fields you need. Column IDs are list-specific. When parsing row values, build an ID map from that list's returned `columns` and key by column name inside that one response; never reuse a column ID from another list. Do not run `sleep` before another inspection. If the first view is unresolved, mark it partial instead of waiting.
+
+   Do not use `newsjack media-lists action` to run workflow columns, force `Journalist Profile`, force `AI Analysis`, or start async table enrichment during first-wave discovery. Avoid action names such as `run_workflow`, `run_column`, or workflow-column variants here. Those are later table-management operations and they lead to waiting. For first-wave journalist discovery, use `journalists enrich --wait` on source article URLs within the three-call cap, then return honest partials for everything still unresolved.
+
+   Do not keep expanding the list with more keywords or related URLs just because the imported rows have null bylines. One narrow search/create/inspect cycle plus one bounded enrich attempt is enough for an under-specified first wave. For a source-article workflow, the source article is the list unless the user asked for broader expansion. A small honest undercount is better than a larger unresolved list.
+   In a new first-wave workflow, treat `media-lists add-keywords` and `media-lists add-urls` as later expansion tools. Use them only when the user explicitly asks to expand an existing list or after every requested workflow already has a first-pass answer. Do not use them to hit a requested count during the initial dogfood pass.
 
 5. **Score the fit of every row.** Each journalist gets one fit status:
    - `fit`: a direct, recent article that ties them to your pitch angle
@@ -140,7 +210,7 @@ Set that command as the MCP server command. It connects to Medialyst and uses th
 
 ## Managing An Existing List
 
-In cloud mode, use `apply_table_action` to change the table. Always grab the IDs that the tool hands back in its response — never guess an ID from a name shown on screen.
+In cloud mode, use `newsjack media-lists action` to change the table. Always grab the IDs that the command returns — never guess an ID from a name shown on screen.
 
 Things you can do:
 
@@ -148,32 +218,33 @@ Things you can do:
 - update cells after a fit review
 - delete weak or duplicate rows
 - reorder columns for easier review
-- add articles by keyword or link
-- start or stop enrichment columns
+- add articles by keyword or link with `newsjack media-lists add-keywords` or `newsjack media-lists add-urls`
+- start or stop enrichment columns during later list maintenance, not first-wave discovery
 - save views such as `First wave`, `Needs research`, `Cut`, `By beat`, or `Ready for review`
 - make share links only after the user asks, or once a reviewed state is worth sharing
 
-Each task is one `apply_table_action` call naming the list, the action, and its details. For example, adding a `Notes` column:
+Each task is one `newsjack media-lists action` call naming the list, the action, and its details. For example, adding a `Notes` column:
 
-```json
-{
-  "media_list_id": "ml_123",
-  "action": "create_column",
-  "column": { "name": "Notes", "type": "text" }
-}
+```bash
+newsjack media-lists action ml_123 --json '{"action":"create_column","column":{"name":"Notes","type":"text"}}'
 ```
 
 And saving a `First wave` view that holds only the rows you want to pitch:
 
-```json
-{
-  "media_list_id": "ml_123",
-  "action": "manage_views",
-  "view": { "name": "First wave", "activate": true }
-}
+```bash
+newsjack media-lists action ml_123 --json '{"action":"manage_views","view":{"name":"First wave","activate":true}}'
 ```
 
-After each change, inspect the part of the table you touched before moving on.
+For row additions, use the wrapper commands unless you need exact API JSON:
+
+```bash
+newsjack media-lists add-urls ml_123 --url https://example.com/story-3
+newsjack media-lists add-keywords ml_123 --keyword "fintech Series A funding" --limit 10 --date-range m
+```
+
+If you do use raw action JSON for row additions, the action names are `add_articles_by_urls` and `add_articles_by_keywords`; do not invent shorter names such as `add_articles`.
+
+After each management change, inspect the part of the table you touched before moving on. Do not wait for every formula, profile, score, recent-articles, or AI-analysis column to finish before answering. Those columns are useful support, not a blocker for a small fit-checked first wave. If most rows are still unresolved, hand back a partial table, the list ID, any enrichment job IDs, and a concrete revisit step instead of inventing contacts.
 
 ## What To Show The User
 
@@ -193,17 +264,19 @@ If a journalist's anchor or identity carries a risk (it's stale, the anchor is w
 
 **The cuts.** A short list of who you removed and the one-line reason for each. Don't hide cuts.
 
-**Tool trail (cloud mode only).** Briefly note which Medialyst tools you used, the list ID and any view IDs you captured, and whether anything failed login or permission checks. In local mode, say plainly that the list was not synced and why.
+**Command trail (cloud mode only).** Briefly note which `newsjack` commands you used, the list ID and any view IDs you captured, and whether anything failed login or permission checks. In local mode, say plainly that the list was not synced and why.
 
-**Next step.** One concrete action: review the first wave, run `journalist-fit-check` on the `research-needed` rows, or create a share link. When you do create a share link, the `create_share_link` call points at the list and (usually) the reviewed view:
+**Partial cloud mode.** If Medialyst saved the list but journalist names, article authors, workflow scores, recent articles, or AI-analysis columns are still unresolved after the first inspection, say that plainly. Include the media list ID and any enrichment job ID, mark those rows `research-needed`, and do not pad the list with weak names just to hit the requested count.
 
-```json
-{ "media_list_id": "ml_123", "view_id": "view_first_wave" }
+**Next step.** One concrete action: review the first wave, run `journalist-fit-check` on the `research-needed` rows, or create a share link. When you do create a share link, point it at the list and usually the reviewed view:
+
+```bash
+newsjack media-lists share ml_123 --view-id view_first_wave
 ```
 
 Never dump the whole list to the user as a raw data object. The table above is what they read.
 
-Note on machine payloads: the actual instructions you send to the Medialyst tools (the tool-call inputs and the IDs they return) are a separate, machine-level thing. Those follow Medialyst's own format — they are not what you show the user.
+Note on machine payloads: the actual instructions you send with `--json` and the IDs Medialyst returns are a separate, machine-level thing. Those follow Medialyst's own API format — they are not what you show the user.
 
 ## Refusals
 
@@ -234,7 +307,7 @@ Result: continue only for non-recency work and mark all recency-sensitive rows `
 
 Fail when the client has no credible reason to comment on the angle.
 
-Result: do not build the list. Send the user to `newsworthiness-check` or `angle-generator`.
+Result: do not produce a pitch-ready list. If the user only asked whether the pitch is ready, send them to `newsworthiness-check` or `angle-generator`. If the user explicitly asked you to build a list anyway, build a small research shell only: save or draft the list, mark rows `research-needed`, and ask for the missing company, angle, geography, and proof points.
 
 #### Gate 3 - No anchor evidence
 
@@ -267,7 +340,7 @@ Score each list 0-2 on each criterion. Hard gates override the score.
 | List size | Volume-first | Slightly broad | Small first wave with clear rationale |
 | Segmentation | None | Basic beat buckets | Distinct segments with distinct angles |
 | Anti-spam compliance | Same-body blast risk | Some weak rows remain | Weak rows cut or marked for research |
-| MCP audit | No sync status | Partial status | Tools used, IDs captured, verification performed |
+| Cloud audit | No sync status | Partial status | Commands used, IDs captured, verification performed |
 | Management hygiene | Columns/views chaotic | Some review fields | Clear columns, statuses, and review views |
 | Next step | Vague | Plausible | Concrete review or sync action |
 
@@ -295,9 +368,9 @@ User asks: "Create a first-wave media list for our angle on AI customer support 
 Good behavior:
 
 1. Confirm the current time and client standing.
-2. Use `search_news` for recent coverage of AI customer support automation, support layoffs, and enterprise AI tooling.
+2. Use `newsjack news search` for recent coverage of AI customer support automation, support layoffs, and enterprise AI tooling.
 3. Select articles with named bylines and relevant publications.
-4. Use `create_media_list` from the selected articles.
+4. Use `newsjack media-lists create` from the selected articles.
 5. Inspect the table.
 6. Add review columns: `Fit`, `Anchor piece`, `Why them`, `Pitch angle`, `Status`.
 7. Create a `First wave` view for rows marked `fit` or `soft-fit`.
@@ -329,11 +402,11 @@ User asks: "Inspect Medialyst list ml_123, add a Notes column, make a First wave
 
 Good behavior:
 
-1. Use `get_media_list` or `inspect_table`.
-2. Use `apply_table_action` with `create_column` for `Notes`.
-3. Use `apply_table_action` with `manage_views` and `activate: true` for `First wave`.
+1. Use `newsjack media-lists get ml_123 --include-rows --include-schema` or `newsjack media-lists inspect ml_123`.
+2. Use `newsjack media-lists action ml_123 --json '{"action":"create_column","column":{"name":"Notes","type":"text"}}'`.
+3. Use `newsjack media-lists action ml_123 --json '{"action":"manage_views","view":{"name":"First wave","activate":true}}'`.
 4. Re-inspect the table slice.
-5. Use `create_share_link` with the view ID.
+5. Use `newsjack media-lists share ml_123 --view-id <view-id>`.
 6. Give the user the share link and a short note of what you changed.
 
 ### Example 4 - Refusing Volume
@@ -343,3 +416,14 @@ User asks: "Give me 250 startup journalists for this generic funding announcemen
 A good response sounds like this:
 
 > I'm not building a 250-person blast list for a generic funding announcement. That's exactly the pattern `skills/WHY-NOT-SPAM.md` rejects: volume before fit. I can build a first wave of 8-12 journalists if you give me the real angle — funding mechanics, customer proof, a category shift, the founder story, or a data point.
+
+### Example 5 - Partial Cloud Mode
+
+User asks: "Find 8 journalists for a developer-focused AI observability launch. Use newsjack."
+
+Good behavior:
+
+1. Run `newsjack auth status`, `newsjack news search`, `newsjack media-lists create`, and `newsjack media-lists inspect`.
+2. If the list is saved but the first inspect still has `author: null` or pending workflow columns, stop waiting.
+3. Return a short table with only defensible anchors. Use `research-needed` for unresolved bylines and say you could not honestly fill all 8 yet.
+4. Include the media list ID and any `journalist_enrichment_job` ID. Do not make a share link until there is a reviewed, useful table.

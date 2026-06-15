@@ -21,7 +21,6 @@ type installState struct {
 	SkillsMode  string   `json:"skills_mode"`
 	Runtimes    []string `json:"runtimes"`
 	RuntimesRaw string   `json:"runtimes_raw"`
-	InstallMCP  bool     `json:"install_mcp"`
 	InstalledAt string   `json:"installed_at"`
 }
 
@@ -50,7 +49,6 @@ func readInstallStateOrDefault() installState {
 }
 
 func normalizeInstallState(state installState) installState {
-	emptyState := state.Version == "" && state.Commit == "" && state.InstalledAt == ""
 	if state.Repo == "" {
 		state.Repo = defaultRepo
 	}
@@ -67,9 +65,6 @@ func normalizeInstallState(state installState) installState {
 	}
 	if state.RuntimesRaw == "" && len(state.Runtimes) > 0 {
 		state.RuntimesRaw = strings.Join(state.Runtimes, ",")
-	}
-	if emptyState {
-		state.InstallMCP = true
 	}
 	return state
 }

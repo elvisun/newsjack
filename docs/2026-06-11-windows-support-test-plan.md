@@ -12,8 +12,7 @@ no-install-script path:
 2. Native bundle-apply in Go: fetch release, verify checksum, unpack, swap.
 3. Self-bootstrap: a bare downloaded exe plus `newsjack setup` produces a full
    install with no shell script, Node, or git.
-4. Go-native Medialyst MCP bridge replacing `npx mcp-remote` (shared across
-   all platforms — the one change that can regress macOS/Linux).
+4. Go-native Medialyst REST client commands (shared across all platforms).
 5. Windows-native self-update, including the running-exe swap.
 6. Per-OS setup wizard behavior (runtime install commands, doctor checks).
 
@@ -93,43 +92,33 @@ tar.gz) from `httptest`. Assert, on both OSes:
   `newsjack.exe.old` on Windows, and the next invocation cleans it up.
 - `runningInstalledBinary()` matches the per-OS binary name.
 
-### Go MCP bridge (with bridge work; runs on all platforms)
+### Medialyst REST client (runs on all platforms)
 
-Contract tests against an in-process fake Medialyst MCP endpoint
-(`httptest`, streamable HTTP):
+Contract tests against in-process fake Medialyst REST endpoints (`httptest`):
 
-- `initialize` handshake round-trips over stdio JSON-RPC framing.
 - `Authorization: Bearer` header present on every upstream request; key
   loaded from `credentials.json` and from `MEDIALYST_API_KEY`, with the
   credentials-file path winning per current precedence.
-- Tool call request/response and SSE server-initiated messages pass through.
-- Upstream 401: bridge exits nonzero with the re-auth hint, not a hang.
-- Upstream connection close: bridge terminates cleanly.
+- Commands forward request bodies exactly when `--json` or `--json-file` is
+  used.
+- Upstream 401: the CLI exits nonzero with the re-auth hint, not a panic.
+- API errors include Medialyst's code, message, and request ID when available.
 
-These replace the implicit trust we currently place in `mcp-remote`.
+These replace the former bridge transport tests.
 
 ## Layer 2: Linux/macOS regression protection (existing harness, surgical changes)
 
 The existing pipeline (`release-installer-smoke`, `no-token-installer` Docker
 battery, `post-release-smoke`) stays as-is and keeps gating every PR. Changes
-only where the shared bridge lands:
+only where the shared REST client lands:
 
-- `run-ci-installer.sh` currently asserts `.dependencies.npx == true` in
-  `doctor --json`. When the Go bridge lands this assertion inverts: doctor
-  should no longer list npx as required, and the battery instead runs a
-  bridge smoke.
-- Bridge smoke (new step in the container battery): start a mock Medialyst
-  MCP server (small Go program under `harness/mock-mcp/`, run with `go run`;
-  the harness image already has Go), point the bridge at it via an
-  endpoint-override env var, drive one `initialize` + one tool call through
-  `newsjack mcp-bridge` stdin/stdout, assert the round trip. This runs
-  no-token and proves the npx-free bridge inside the same containers that
-  gate PRs today.
-- Live gate for the bridge swap: run
-  `harness/scripts/run-live-medialyst-mcp.sh` (all runtimes) once on the
-  branch before merge and once after release. This is the only place the
-  real Medialyst endpoint, real credentials, and real agent runtimes meet
-  the new bridge; it is manual and spends credits, same as today.
+- `doctor --json` should not list Node or npx as required for Medialyst.
+- REST smoke (new step in the container battery): start a mock Medialyst
+  REST endpoint, point the CLI at it via `NEWSJACK_MEDIALYST_API_BASE`, run
+  one news search and one media-list command, and assert request/response
+  handling. This runs no-token by injecting a fake `MEDIALYST_API_KEY`.
+- Live gate for REST commands: run a small credit-spending smoke against the
+  real Medialyst endpoint before merge and once after release.
 - Self-update: macOS/Linux stay on the hosted `curl | sh` update path
   initially (Windows-gated native apply), so the existing auto-update
   observation flow in `harness/README.md` remains valid unchanged. If/when
@@ -175,10 +164,10 @@ Battery steps (each mirrors a named step in `run-ci-installer.sh`):
    rename dance, `newsjack.exe.old` exists then is cleaned by the next
    invocation, stdout stayed valid JSON. This is the only place the real
    Windows file-locking behavior can be tested.
-8. **Bridge smoke, no Node** — for this step strip every Node directory
+8. **REST smoke, no Node** — for this step strip every Node directory
    from `PATH` (runners preinstall Node; customers will not have it), run
-   the same mock-MCP round trip as the Linux battery. This leg is the
-   permanent contract that the Windows path needs no Node.
+   the same mock REST search/list workflow as the Linux battery. This leg
+   is the permanent contract that the Windows path needs no Node.
 9. **No-git leg** — strip git from `PATH`, re-run steps 2–6 in a second
    fresh `NEWSJACK_HOME`. Proves install/setup never silently shells to
    bash/git.
@@ -199,11 +188,10 @@ sibling dispatch workflow):
 - Installs Claude Code on the runner via its native Windows installer
   (`irm https://claude.ai/install.ps1 | iex`), pinned version arg like the
   Docker image pins `CLAUDE_CODE_VERSION`.
-- Runs `newsjack install --runtimes claude`, asserts `claude mcp list`
-  shows `medialyst` pointing at the bridge command with the `.exe` path.
-- With `--with-local-env`-equivalent secrets: one live `news_search` through
-  Claude Code on Windows — the Windows twin of
-  `run-live-medialyst-mcp.sh`. Manual, credit-spending, run before the
+- Runs `newsjack install --runtimes claude`, then checks that the local
+  skills can call `newsjack news search` and `newsjack media-lists`.
+- With `--with-local-env`-equivalent secrets: one live `newsjack news search`
+  through Claude Code on Windows. Manual, credit-spending, run before the
   Windows GA and after bridge changes.
 
 ## Layer 5: post-release smoke
@@ -239,7 +227,7 @@ Layer 3/4 workflows with `gh workflow run` and reading artifacts.
 | Phase | Feature | Tests that land with it |
 | --- | --- | --- |
 | 0 | none (now) | Layer 0 gates; Layer 1 windows `go test` leg + test-infra fixes |
-| 1 | Go MCP bridge | Bridge contract tests; harness mock-MCP smoke (Linux); doctor npx assertion flip; live Medialyst gate before merge |
+| 1 | Medialyst REST client | REST contract tests; harness mock-REST smoke (Linux); doctor no-Node assertion; live Medialyst gate before merge |
 | 2 | Bundle-apply + bootstrap | Bundle/bootstrap unit tests (both OSes); Layer 3 battery steps 1–6, 8–10 |
 | 3 | Windows self-update | Swap unit tests; Layer 3 step 7 |
 | 4 | Release | Layer 5 post-release job; Layer 4 dispatch workflow; manual checklist in release playbook |

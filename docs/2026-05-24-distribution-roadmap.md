@@ -25,7 +25,7 @@ Owns:
 - installing the prebuilt Go `newsjack` binary at `~/.newsjack/bin/newsjack`
 - detecting Codex, Claude Code, OpenClaw, Hermes, or combinations of them
 - generating Limited Mode skills into runtime-specific skill directories
-- configuring optional Medialyst MCP where a noninteractive setup path exists
+- preparing Medialyst REST API commands once the user logs in
 - updating from the latest Vercel production deployment
 - auto-updating installed binaries before normal user-facing commands
 
@@ -34,11 +34,11 @@ Use this channel for:
 - beta users
 - fast iteration
 - latest skill updates
-- dogfooding runtime detection and MCP setup
+- dogfooding runtime detection and REST-backed skill workflows
 
 Do not promise immutable installs on this channel. It follows the latest main deployment by design.
 
-Auto-update is default-on for installed binaries. The CLI checks the hosted channel commit against `~/.newsjack/newsjack/VERSION`; when it differs, the CLI runs the hosted installer and then re-runs the original command on the new binary. It skips installer/update internals and machine-facing auth/MCP bridge commands, and `NEWSJACK_AUTO_UPDATE=0` disables the behavior.
+Auto-update is default-on for installed binaries. The CLI checks the hosted channel commit against `~/.newsjack/newsjack/VERSION`; when it differs, the CLI runs the hosted installer and then re-runs the original command on the new binary. It skips installer/update internals and auth commands, and `NEWSJACK_AUTO_UPDATE=0` disables the behavior.
 
 The public curl path must never require Go on the user's machine. It installs a compiled binary from the hosted artifact. Local source installs may still pass `NEWSJACK_SOURCE_DIR` and `NEWSJACK_CLI_BINARY` while iterating on the installer.
 
@@ -74,7 +74,8 @@ The `newsjack` command should become the stable product interface. Skill docs sh
 newsjack login
 newsjack skills
 newsjack detector run ...
-newsjack mcp-bridge
+newsjack media-lists create ...
+newsjack news search ...
 ```
 
 They should not rely on repo-relative implementation paths. Skill-local helper files can stay near the skills that need them, but they are implementation details. The CLI owns the public contract.
@@ -99,7 +100,7 @@ Before calling the curl channel live:
 - curl/wget requests serve shell from `/install.sh`
 - installer smoke test passes from a clean temporary `$HOME`
 - runtime skill install paths are verified for Codex, Claude Code, OpenClaw, and Hermes
-- MCP setup failures are warnings, not install blockers
+- Medialyst auth/API failures degrade to local mode and do not block install
 - README install instructions match the actual hosted behavior
 
 Before npm:

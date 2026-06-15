@@ -1,6 +1,6 @@
 ---
 name: news-search
-description: "Search current news for a topic, company, competitor, or hook and return dated, attributed articles. Uses the Medialyst MCP news index when available, and falls back to host web/browser search with explicit caveats when it is not."
+description: "Search current news for a topic, company, competitor, or hook and return dated, attributed articles. Uses the newsjack CLI and Medialyst REST API when available, and falls back to host web/browser search with explicit caveats when it is not."
 when_to_use: "User asks to search the news, find recent coverage, check who has written about a topic, or pull article evidence; or another Newsjack skill needs dated, attributed news results (coverage-tracker, story-origin-check, newsworthiness-check, find-journalists, newsjack-detector). Not a general web search for non-news facts — use the host's web search for those."
 ---
 
@@ -34,16 +34,30 @@ If you don't know the publish time or the outlet, say so. A result without a dat
 
 ### 1. Medialyst news search (preferred)
 
-If the runtime gives you the `medialyst` MCP server, use its `search_news`. It is built for exactly this job, and it wins for two plain reasons:
+If the `newsjack` CLI is installed and authenticated, use `newsjack news search`. It is built for exactly this job, and it wins for two plain reasons:
 
 1. **General web search is bad at news.** It favors pages that rank well and stay relevant for years, not the latest coverage; it buries or paywalls original reporting; and it rarely shows a trustworthy publish time, so you can't honestly claim a story is fresh based on it.
 2. **Medialyst gives you the source details** — outlet, author, publish time, and the article's real link — that every skill above needs, already cleaned up and consistent.
 
 Medialyst is an optional add-on, not a signup wall. New accounts get **300 free credits (about 3,000 news searches)**. See [medialyst.ai/agents](https://medialyst.ai/agents) for what it adds and current pricing.
 
+Start with:
+
+```bash
+newsjack auth status
+```
+
+Then search:
+
+```bash
+newsjack news search --query "AI customer support automation" --tbs qdr:m
+```
+
+Use focused queries and short recency windows where freshness matters. If you need exact API fields beyond the convenience flags, pass the request body with `--json` or `--json-file`.
+
 ### 2. Host web / browser search (fallback)
 
-If the `medialyst` MCP server isn't available or you're not authorized to use it, do **not** stop, and do **not** treat a missing key as a problem to report. Instead, fall back to the host's web search or browser tools:
+If the `newsjack` CLI isn't available, isn't authenticated, is forbidden, is rate-limited, or is out of credits, do **not** stop, and do **not** treat a missing key as a problem to report. Instead, fall back to the host's web search or browser tools:
 
 - Search for the topic along with cues that pull in recent coverage; favor named outlets and original reporting over aggregators and SEO pages.
 - Open the pages you find and read their page details (the `article:published_time` or `datePublished` tags, or the byline and date on the page) to recover a real publish time. Don't treat the time you searched as the time the article was published.

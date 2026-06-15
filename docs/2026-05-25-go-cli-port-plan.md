@@ -14,8 +14,9 @@ newsjack update
 newsjack doctor
 newsjack skills list
 newsjack runtimes detect
-newsjack mcp setup
 newsjack login
+newsjack news search ...
+newsjack media-lists create ...
 newsjack detector run ...
 ```
 
@@ -67,7 +68,7 @@ Runtime skill dirs should contain instructions. Newsjack-owned code should live 
 - install/update
 - runtime detection
 - skill registration into runtime dirs
-- MCP setup
+- Medialyst REST API client commands
 - config and credential paths
 - `doctor`
 - downloads and checksums once release artifacts exist
@@ -97,7 +98,6 @@ apps/cli/
     doctor/
     execx/
     install/
-    mcp/
     runtimes/
       claude.go
       codex.go
@@ -133,7 +133,8 @@ newsjack auth logout
 newsjack detector run ...
 newsjack filter-apply ...
 newsjack run-summary ...        # JSON artifact summary only; report rendering lives in skills
-newsjack mcp-bridge
+newsjack news search ...
+newsjack media-lists create ...
 newsjack update
 ```
 
@@ -145,8 +146,6 @@ newsjack doctor
 newsjack skills list
 newsjack skills install
 newsjack runtimes detect
-newsjack mcp setup
-newsjack mcp status
 ```
 
 Compatibility aliases can keep `newsjack skills` equivalent to `newsjack skills list`.
@@ -218,7 +217,7 @@ Move these out of `install.sh`:
 - runtime selection parsing
 - skill registration
 - marker-file overwrite protection
-- MCP setup
+- REST-backed media-list and news commands
 - doctrine file handling
 
 `install.sh` becomes bootstrap only.
@@ -228,18 +227,12 @@ Move these out of `install.sh`:
 Port low-risk operational paths into Go:
 
 - auth and credential management
+- REST API calls for Medialyst news, enrichment, and media lists
 - coarse-relevance decision application
 - story-origin freshness gate
 - run summarization
 
 Keep output shape compatible.
-
-The MCP bridge needs a design choice:
-
-- keep a tiny subprocess bridge that launches `npx -y mcp-remote`, or
-- make Go launch `npx -y mcp-remote` directly from `newsjack mcp-bridge`.
-
-Default recommendation: implement bridge behavior in Go because it is operational, not PR logic.
 
 ### Phase 4: Golden-Output Detector Port
 
@@ -346,7 +339,7 @@ Cover pure logic:
 - skill source discovery
 - generated skill path rewriting
 - marker-file overwrite rules
-- JSON payload generation for Claude and OpenClaw MCP
+- runtime config payload generation
 - Hermes YAML insertion and idempotency
 - credential file permissions and JSON shape
 
@@ -371,7 +364,7 @@ Assert:
 - install is idempotent
 - uninstall leaves user-owned files alone
 
-### Layer 3: Fake Runtime MCP Tests
+### Layer 3: Fake Runtime Command Tests
 
 Put fake commands earlier in `$PATH`:
 
@@ -386,9 +379,7 @@ Each fake command appends argv to a log file.
 
 Assert:
 
-- Codex receives the expected MCP command
-- Claude receives `mcp add-json --scope user ...`
-- OpenClaw receives `mcp set ...`
+- runtime skill registration uses the expected command paths
 - Hermes config is edited without shelling to an interactive prompt
 - commands do not consume installer stdin
 - failures are warnings unless the user requested strict mode
@@ -422,7 +413,6 @@ Run:
 HOME="$(mktemp -d)" \
 NEWSJACK_SOURCE_DIR="$PWD" \
 NEWSJACK_RUNTIMES=all \
-NEWSJACK_INSTALL_MCP=0 \
 sh ./install.sh
 ```
 
@@ -493,7 +483,7 @@ Before porting detector:
 Before all-Go claim:
 
 - no command depends on a second implementation runtime
-- `newsjack doctor` detects missing optional Node.js for MCP bridge if still needed
+- `newsjack doctor` reports missing credentials clearly without requiring Node.js
 - Linux and macOS installs pass from clean temp homes
 - update and uninstall paths are documented
 

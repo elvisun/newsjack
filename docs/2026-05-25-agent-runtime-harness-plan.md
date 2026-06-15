@@ -40,8 +40,8 @@ shell orchestration around `newsjack`.
 - Do not rely on terminal scraping as the primary control plane when ACP is
   available.
 - Do not require browser-based login during automated runs.
-- Do not duplicate detector, auth, MCP, filtering, or summary behavior outside
-  the Go CLI.
+- Do not duplicate detector, auth, REST-client, filtering, or summary behavior
+  outside the Go CLI.
 
 ## Design Summary
 
