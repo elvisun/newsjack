@@ -58,36 +58,28 @@ reads — plus a small open-source CLI. Most skills run anywhere your agent runs
 A few reach for a live news index, a media database, real journalist contacts,
 or locally-saved monitoring state — those work best in a local agent.
 
-**Pick your setup:**
-
-- **[macOS / Linux](#macos--linux)** — one `curl` (or `npm`) command, for any local agent
-- **[Windows](#windows)** — one PowerShell line; no git or Node
-- **[Chat apps](#chat-apps-claudeai-chatgpt-cowork)** — Claude.ai, ChatGPT, Cowork; no install
-- **[Claude.ai plugin](#claudeai-plugin)** — install Newsjack from the marketplace
-- **[Connect Medialyst](#connect-medialyst-optional)** — optional; unlocks the 🔧 skills in any agent
-
 ### What runs where
 
 | Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Strategize** | | | | | | | | |
-| pr-strategist | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| newsworthiness-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Act** | | | | | | | | |
-| angle-generator | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| headline-generator | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| meanest-editor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| crisis-holding | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| reactive-comment | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| fact-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| journalist-fit-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| find-journalists | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | **Detect** | | | | | | | | |
-| news-search | ✅ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| story-origin-check | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| relevance-coarse-filter | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| newsjack-triage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| news-search | ✅ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| story-origin-check | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| relevance-coarse-filter | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-triage | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | newsjack-detector | ⚠️ | ⚠️ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
 | newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
@@ -102,108 +94,87 @@ Legend:
 - **🔜 Coming soon** — not available here yet.
 - **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
 
-### macOS & Linux
+**ChatGPT** is ⚠️ across the board: Skills are in beta for **ChatGPT Business
+and Enterprise** only, so other tiers can't load Newsjack skills natively (you
+paste them by hand), and there's no local CLI or saved state either way.
 
-Works with any local agent — Claude Code, Codex, Hermes, or OpenClaw. Use the
-curl installer when your agent can reach GitHub Release assets:
+**Set up your agent:**
+
+- **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
+- **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst MCP
+- **[ChatGPT](#chatgpt)** — Skills beta (ChatGPT Business / Enterprise)
+
+### Local agents (Claude Code, Codex, Hermes, OpenClaw)
+
+**Easiest — let the agent do it (any OS, including Windows).** Tell your agent:
+
+> help me setup https://newsjack.sh
+
+It fetches the installer, runs it, and wires up the skills. This is the best
+path for non-developers, and the only thing most Windows users need.
+
+**One-liner (developers, macOS / Linux):**
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
-Or review the script before running it:
+Prefer to read it first? `curl -fsSL https://newsjack.sh` prints the exact,
+unminified [`install.sh`](install.sh) this repo ships — `newsjack.sh` serves
+that same file and every release bundles it unchanged. The routing is open too:
+[`apps/site/proxy.ts`](apps/site/proxy.ts) rewrites installer user-agents to
+`install.sh` and 308-redirects everyone else here.
 
-```bash
-curl -fsSL https://newsjack.sh
-```
-
-No surprises: that's the exact, unminified [`install.sh`](install.sh) in this
-repo — `newsjack.sh` serves this file and every release bundles it unchanged, so
-what you read here is what runs. Read it before you pipe it to a shell.
-
-The routing is open too: [`apps/site/proxy.ts`](apps/site/proxy.ts) is the
-Next.js handler behind `newsjack.sh` — it rewrites installer user-agents
-(curl/wget) to `install.sh` and 308-redirects everyone else to this repo.
-
-The installer detects your agent runtime and installs the CLI-backed skills
-automatically.
-
-If shell installers or GitHub Release assets are blocked, use npm instead:
+If shell installers or GitHub Releases are blocked, use npm:
 
 ```bash
 npm i -g newsjack
 newsjack install
 ```
 
-After install, agents and skills should call the CLI as `newsjack`.
+After install, agents and skills call the CLI as `newsjack`. The installer can
+also connect [Medialyst](https://medialyst.ai) (optional) to unlock the 🔧
+skills.
 
-### Windows
-
-No script, no git, no Node. One PowerShell line downloads the CLI and runs
-setup (requires v0.1.10 or later):
+**Windows, by hand (no agent yet).** If you don't have a local agent to prompt,
+one PowerShell line installs the CLI and walks through setup — including
+installing Claude Code for you — and needs v0.1.10 or later:
 
 ```powershell
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
 ```
 
-The TLS line makes the download work on stock Windows PowerShell 5.1 (it's a
-no-op on PowerShell 7).
+The TLS line makes the download work on stock PowerShell 5.1 (a no-op on 7).
 
-`newsjack setup` downloads the skills bundle, verifies its checksum, installs
-the CLI to `%USERPROFILE%\.newsjack\bin`, and walks you through the same
-guided setup as macOS/Linux — including installing Claude Code through its
-own native Windows installer if you don't have it yet. Updates are automatic,
-same as the curl install.
-
-### Chat apps (Claude.ai, ChatGPT, Cowork)
+### Claude.ai & Cowork
 
 No install, no CLI — paste your startup URL or your news and you get a real PR
-operator on the spot.
+operator on the spot. Two steps in the app:
 
-**Nearly every skill runs right in the chat:** PR strategy, newsworthiness
-scoring, story angles, pitch drafting and honest critique, journalist-fit
-reasoning, media lists, reactive source-query responses, voice fingerprinting,
-and fact-checking against pasted or searchable evidence. Want the live news
-index and fit-checked lists (the 🔧 skills)? See [Connect
-Medialyst](#connect-medialyst-optional) below.
+1. **Install the Newsjack plugin.** Open **Customize → Personal plugins → Create
+   plugin → Add marketplace → Add from a repository**, enter `elvisun/newsjack`,
+   then install **`newsjack@newsjack`** from the **`elvisun/newsjack`**
+   marketplace. (A community marketplace plugin, `newsjack@claude-community`, is
+   pending review.)
+2. **Connect Medialyst (optional).** Add the [Medialyst](https://medialyst.ai)
+   MCP and authorize it over **OAuth** to unlock the 🔧 skills — the curated news
+   index, journalist database, and fit-checked, shareable lists. Without it those
+   skills fall back to host web search and hand-built lists.
 
-Both always-on monitors run in chat as ⚠️ Limited Mode — a best-effort, one-shot
-scan you trigger by hand. **Newsjack monitoring** surfaces opportunities but
-can't track them over time, and **coverage tracking** does a one-off check but
-can't suppress repeats or flag only what's *new since last time* without saved
-seen-state. Want them saved, scheduled, and running on autopilot? Use a local
-agent (above), or [Medialyst](https://medialyst.ai) (coming soon).
+The two always-on monitors run here in ⚠️ Limited Mode — a best-effort, one-shot
+scan with nothing saved. **Newsjack monitoring** surfaces opportunities but can't
+track them over time, and **coverage tracking** can't suppress repeats or flag
+only what's *new since last time* without saved seen-state. For saved, scheduled
+monitoring, use a local agent.
 
-### Claude.ai plugin
+### ChatGPT
 
-For Claude.ai plugin-style setup:
-
-1. Open **Customize**.
-2. Go to **Personal plugins**.
-3. Click **Create plugin**.
-4. Choose **Add marketplace**.
-5. Choose **Add from a repository**.
-6. In the repository URL field, enter:
-
-```text
-elvisun/newsjack
-```
-
-Then install the Newsjack plugin from that marketplace:
-
-- Marketplace: `elvisun/newsjack`
-- Plugin: `newsjack@newsjack`
-
-A community marketplace plugin (`newsjack@claude-community`) is pending review
-and will be added soon.
-
-### Connect Medialyst (optional)
-
-Connecting [Medialyst](https://medialyst.ai) unlocks the 🔧 skills — the curated
-news index, the journalist database, and fit-checked, shareable media lists — in
-any chat app or local agent. It connects over **MCP** (no CLI required) or its
-API. Without it, those skills still run, but fall back to host web search and
-hand-built lists.
+ChatGPT runs Newsjack only in a degraded ⚠️ form. Skills aren't available to most
+accounts — *"Skills [are] in beta for ChatGPT Business and Enterprise"* — so on
+those plans you can add Newsjack as a Skill, and on every other tier you paste a
+skill's instructions into the chat by hand. Either way there's no local CLI or
+saved state, so the monitors and persistence-backed skills don't apply. For the
+full toolkit, use a local agent or Claude.ai.
 
 ---
 
