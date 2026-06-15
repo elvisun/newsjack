@@ -53,14 +53,10 @@ Three problems, separate lanes.
 
 Newsjack is a set of **open skills** — plain-Markdown instructions your agent
 reads — plus a small open-source CLI. Most skills run anywhere your agent runs.
-A few reach for a live news index, real journalist contacts, or saved monitoring
-state; those get sharper when you connect [Medialyst](https://medialyst.ai) or
-run a local agent. Nothing is locked behind a runtime — pick whichever row
-below matches where your agent lives.
+A few reach for a live news index, a media database, real journalist contacts,
+or locally-saved monitoring state — those work best in a local agent.
 
 ### What runs where
-
-✅ runs out of the box · 🔧 needs an external API / MCP connection (e.g. the X API, or Medialyst over MCP) · ⚠️ Limited Mode (runs in chat, one-shot, nothing saved) · 🔜 coming soon · ❌ not available
 
 | Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -87,24 +83,14 @@ below matches where your agent lives.
 | coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
-**🔧 needs an external API / MCP connection** — the skill works on its own, but
-does its best work with an external data source connected. That's usually
-**[Medialyst](https://medialyst.ai)** — the curated news index and journalist
-database, available over MCP (no CLI required) — but it can also be a third-party
-API such as the **X API** for social-trend monitoring, with more sources over
-time. It's optional: without it you get a limited form, like host web search
-instead of the Medialyst news index, or a hand-built list instead of a
-fit-checked one.
 
-**⚠️ Limited Mode** — the skill still runs in a chat app, but as a one-shot with
-nothing saved between sessions: `voice-extractor` can't store a reusable voice
-fingerprint, `newsjack-detector` does a best-effort scan instead of canonical
-scheduled monitoring, and `coverage-tracker` does a one-off coverage check with
-no repeat-suppression. Connect a local agent for the saved, scheduled versions.
+Legend:
 
-The two **setup** skills (`newsjack-monitor-setup`, `coverage-tracker-setup`)
-exist only to save a profile or config and schedule it, so they need a local
-agent — ❌ in chat apps.
+- **✅ Runs out of the box** — no setup; works anywhere your agent does.
+- **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API, or the Medialyst API / MCP).
+- **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
+- **🔜 Coming soon** — not available here yet.
+- **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
 
 ### With a local agent (Claude Code, Codex, OpenClaw, Hermes)
 
