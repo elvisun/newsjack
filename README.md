@@ -94,10 +94,6 @@ Legend:
 - **🔜 Coming soon** — not available here yet.
 - **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
 
-**ChatGPT** is ⚠️ across the board: Skills are in beta for **ChatGPT Business
-and Enterprise** only, so other tiers can't load Newsjack skills natively (you
-paste them by hand), and there's no local CLI or saved state either way.
-
 **Set up your agent:**
 
 - **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
@@ -123,9 +119,6 @@ fallback, Windows, credentials — on any platform.
 
 ### Claude.ai & Cowork - Install as a Claude Plugin
 
-No install, no CLI — paste your startup URL or your news and you get a real PR
-operator on the spot.
-
 **Install the Newsjack plugin:**
 
 1. Open **[Customize](https://claude.ai/customize)**.
@@ -139,7 +132,7 @@ operator on the spot.
 8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news index, media database, and get verified journalist contacts. If you don't have an account you can create a free one [here](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
-A community marketplace plugin, `newsjack@claude-community`, is pending review
+Note: A community marketplace plugin, `newsjack@claude-community`, is pending review
 and will be added soon.
 
 The two always-on monitors run here in ⚠️ Limited Mode — a best-effort, one-shot
