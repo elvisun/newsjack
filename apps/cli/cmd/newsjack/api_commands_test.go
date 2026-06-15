@@ -260,77 +260,36 @@ func TestJournalistsEnrichNoWaitDoesNotPoll(t *testing.T) {
 	}
 }
 
-func TestMediaListActionForwardsExactJSON(t *testing.T) {
+func TestJournalistsEnrichNoWaitAllowsCandidateBatch(t *testing.T) {
 	var got capturedAPIRequest
 	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
 		got = decodeCapturedRequest(t, r)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"ok":true}`))
+		w.Write([]byte(`{"id":"jej_batch","object":"journalist_enrichment_job","status":"processing"}`))
 	}, func(_ string) (int, string, string) {
 		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"media-lists", "action", "ml_123", "--json", `{"action":"create_column","column":{"name":"Notes"}}`}, &out, &errBuf)
+		code := runCLI([]string{
+			"journalists", "enrich",
+			"--url", "https://example.com/one",
+			"--url", "https://example.com/two",
+			"--pitch", "screen regional fintech candidates",
+			"--wait=false",
+		}, &out, &errBuf)
 		return code, out.String(), errBuf.String()
 	})
 	if code != 0 {
-		t.Fatalf("media-lists action code=%d stderr=%s", code, stderr)
+		t.Fatalf("journalists enrich batch code=%d stderr=%s", code, stderr)
 	}
-	if got.Method != http.MethodPost || got.Path != "/v1/media-lists/ml_123/actions" {
+	if got.Method != http.MethodPost || got.Path != "/v1/journalists/enrich" {
 		t.Fatalf("request = %s %s", got.Method, got.Path)
 	}
-	if got.Body["action"] != "create_column" {
-		t.Fatalf("body = %#v", got.Body)
+	sources, ok := got.Body["from"].([]any)
+	if !ok || len(sources) != 2 {
+		t.Fatalf("from payload = %#v", got.Body["from"])
 	}
-}
-
-func TestMediaListAddURLsUsesActionShape(t *testing.T) {
-	var got capturedAPIRequest
-	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
-		got = decodeCapturedRequest(t, r)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"ok":true}`))
-	}, func(_ string) (int, string, string) {
-		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"media-lists", "add-urls", "ml_123", "--url", "https://example.com/one", "--url", "https://example.com/two"}, &out, &errBuf)
-		return code, out.String(), errBuf.String()
-	})
-	if code != 0 {
-		t.Fatalf("media-lists add-urls code=%d stderr=%s", code, stderr)
-	}
-	if got.Method != http.MethodPost || got.Path != "/v1/media-lists/ml_123/actions" {
-		t.Fatalf("request = %s %s", got.Method, got.Path)
-	}
-	if got.Body["action"] != "add_articles_by_urls" {
-		t.Fatalf("body = %#v", got.Body)
-	}
-	urls, ok := got.Body["urls"].([]any)
-	if !ok || len(urls) != 2 {
-		t.Fatalf("urls = %#v", got.Body["urls"])
-	}
-}
-
-func TestMediaListAddKeywordsUsesActionShape(t *testing.T) {
-	var got capturedAPIRequest
-	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
-		got = decodeCapturedRequest(t, r)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"ok":true}`))
-	}, func(_ string) (int, string, string) {
-		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"media-lists", "add-keywords", "ml_123", "--keyword", "fintech Series A", "--limit", "8", "--date-range", "w"}, &out, &errBuf)
-		return code, out.String(), errBuf.String()
-	})
-	if code != 0 {
-		t.Fatalf("media-lists add-keywords code=%d stderr=%s", code, stderr)
-	}
-	if got.Method != http.MethodPost || got.Path != "/v1/media-lists/ml_123/actions" {
-		t.Fatalf("request = %s %s", got.Method, got.Path)
-	}
-	if got.Body["action"] != "add_articles_by_keywords" || got.Body["dateRange"] != "w" || got.Body["limit"] != float64(8) {
-		t.Fatalf("body = %#v", got.Body)
-	}
-	keywords, ok := got.Body["keywords"].([]any)
-	if !ok || len(keywords) != 1 || keywords[0] != "fintech Series A" {
-		t.Fatalf("keywords = %#v", got.Body["keywords"])
+	options, _ := got.Body["options"].(map[string]any)
+	if options["wait"] != false {
+		t.Fatalf("options = %#v", options)
 	}
 }
 
@@ -388,7 +347,7 @@ func TestMedialystAPIErrorMessageUsesNestedIssue(t *testing.T) {
 		w.Write([]byte(`{"success":false,"error":{"issues":[{"message":"Invalid discriminator value"}],"name":"ZodError"}}`))
 	}, func(_ string) (int, string, string) {
 		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"media-lists", "action", "ml_123", "--json", `{"action":"add_articles"}`}, &out, &errBuf)
+		code := runCLI([]string{"news", "search", "--json", `{"q":123}`}, &out, &errBuf)
 		return code, out.String(), errBuf.String()
 	})
 	if code != 1 {
@@ -396,6 +355,17 @@ func TestMedialystAPIErrorMessageUsesNestedIssue(t *testing.T) {
 	}
 	if !strings.Contains(stderr, "HTTP 400 HTTP_400: Invalid discriminator value") {
 		t.Fatalf("stderr should include nested issue message without Go map formatting:\n%s", stderr)
+	}
+}
+
+func TestMediaListsCommandIsNotDispatched(t *testing.T) {
+	var out, errBuf bytes.Buffer
+	code := runCLI([]string{"media-lists", "list"}, &out, &errBuf)
+	if code == 0 {
+		t.Fatalf("media-lists command should not be dispatched")
+	}
+	if !strings.Contains(errBuf.String(), "unknown command: media-lists") {
+		t.Fatalf("stderr should explain command removal:\n%s", errBuf.String())
 	}
 }
 

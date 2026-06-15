@@ -115,7 +115,7 @@ only where the shared REST client lands:
 - `doctor --json` should not list Node or npx as required for Medialyst.
 - REST smoke (new step in the container battery): start a mock Medialyst
   REST endpoint, point the CLI at it via `NEWSJACK_MEDIALYST_API_BASE`, run
-  one news search and one media-list command, and assert request/response
+  one news search and one journalist-enrichment command, and assert request/response
   handling. This runs no-token by injecting a fake `MEDIALYST_API_KEY`.
 - Live gate for REST commands: run a small credit-spending smoke against the
   real Medialyst endpoint before merge and once after release.
@@ -189,7 +189,7 @@ sibling dispatch workflow):
   (`irm https://claude.ai/install.ps1 | iex`), pinned version arg like the
   Docker image pins `CLAUDE_CODE_VERSION`.
 - Runs `newsjack install --runtimes claude`, then checks that the local
-  skills can call `newsjack news search` and `newsjack media-lists`.
+  skills can call `newsjack news search` and `newsjack journalists enrich`.
 - With `--with-local-env`-equivalent secrets: one live `newsjack news search`
   through Claude Code on Windows. Manual, credit-spending, run before the
   Windows GA and after bridge changes.

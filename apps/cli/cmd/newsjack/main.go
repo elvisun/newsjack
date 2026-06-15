@@ -86,8 +86,6 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdNews(args[1:], stdout, stderr)
 	case "journalists":
 		return cmdJournalists(args[1:], stdout, stderr)
-	case "media-lists", "media-list":
-		return cmdMediaLists(args[1:], stdout, stderr)
 	case "detector":
 		return cmdDetector(args[1:], stdout, stderr)
 	case "monitor":

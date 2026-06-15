@@ -227,7 +227,6 @@ jq -e '.root_ok == true and .install.skills_mode == "managed" and .install.cli_i
 log "checking REST command help"
 newsjack help news search | grep -F 'POST /api/v1/news/search'
 newsjack help journalists | grep -F 'POST /api/v1/journalists/enrich'
-newsjack help media-lists | grep -F 'POST /api/v1/media-lists'
 
 log "checking installed runtime skills"
 mapfile -t skill_dirs < <(selected_skill_dirs)

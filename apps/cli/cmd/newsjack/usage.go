@@ -26,14 +26,13 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "credits [balance]", "show Medialyst credit balance", "")
 	uiCommand(w, "news search", "search current news through Medialyst", "--query Q")
 	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
-	uiCommand(w, "media-lists create|list...", "manage Medialyst media lists through REST", "")
 	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
 	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
 	fmt.Fprintln(w)
 	uiSection(w, "api setup")
-	uiCommand(w, "auth set-medialyst", "save Medialyst for live news search, media database, find journalists", "--key KEY")
+	uiCommand(w, "auth set-medialyst", "save Medialyst for live news search and journalist enrichment", "--key KEY")
 	uiCommand(w, "auth set-x", "save X bearer token for X News, trends, and post search", "--bearer-token TOKEN")
 	uiKV(w, "Medialyst key", medialystAPIKeyURL)
 	uiKV(w, "X bearer token", xAPIKeyURL)
@@ -115,14 +114,6 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "journalists", "journalists enrich", "journalists enrich-job":
 		printJournalistsHelp(w)
 		return true
-	case "media-lists", "media-list",
-		"media-lists create", "media-lists create-async", "media-lists job",
-		"media-lists list", "media-lists get", "media-lists inspect",
-		"media-lists full-values", "media-lists preview-column-render",
-		"media-lists action", "media-lists add-urls", "media-lists add-keywords",
-		"media-lists share", "media-lists delete":
-		printMediaListsHelp(w)
-		return true
 	default:
 		return false
 	}
@@ -170,35 +161,6 @@ func printJournalistsHelp(w io.Writer) {
 	uiNote(w, "With convenience flags, --wait accepts one --url at a time. Use --wait=false or --json for intentional API-shaped batch jobs.")
 	uiNote(w, "Use enrich for a small number of high-confidence article URLs; do not batch-enrich broad news-search results.")
 	uiNote(w, "If a job is still processing after the bounded wait, keep the job ID and revisit later instead of calling enrich-job immediately or writing your own polling loop.")
-}
-
-func printMediaListsHelp(w io.Writer) {
-	uiProduct(w, "media-lists", "thin Medialyst REST wrapper for hosted media lists.")
-	fmt.Fprintln(w)
-	uiSection(w, "usage")
-	fmt.Fprintln(w, "  newsjack media-lists create --name \"AI observability - first wave\" --url https://example.com/story")
-	fmt.Fprintln(w, "  newsjack media-lists add-urls <media-list-id> --url https://example.com/story")
-	fmt.Fprintln(w, "  newsjack media-lists add-keywords <media-list-id> --keyword \"fintech Series A\" --date-range m")
-	fmt.Fprintln(w, "  newsjack media-lists inspect <media-list-id>")
-	fmt.Fprintln(w, "  newsjack media-lists action <media-list-id> --json '{\"action\":\"create_column\",\"column\":{\"name\":\"Notes\"}}'")
-	fmt.Fprintln(w, "  newsjack media-lists share <media-list-id> [--view-id VIEW]")
-	fmt.Fprintln(w)
-	uiSection(w, "mapping")
-	uiKV(w, "create", "POST /api/v1/media-lists")
-	uiKV(w, "create-async", "POST /api/v1/media-lists:create-async")
-	uiKV(w, "job", "GET /api/v1/jobs/{jobId}")
-	uiKV(w, "list", "GET /api/v1/media-lists")
-	uiKV(w, "get", "GET /api/v1/media-lists/{mediaListId}")
-	uiKV(w, "inspect", "POST /api/v1/media-lists/{mediaListId}/inspect")
-	uiKV(w, "full-values", "POST /api/v1/media-lists/{mediaListId}/full-values")
-	uiKV(w, "preview-column-render", "POST /api/v1/media-lists/{mediaListId}/column-render-preview")
-	uiKV(w, "action", "POST /api/v1/media-lists/{mediaListId}/actions")
-	uiKV(w, "add-urls", "POST /api/v1/media-lists/{mediaListId}/actions (add_articles_by_urls)")
-	uiKV(w, "add-keywords", "POST /api/v1/media-lists/{mediaListId}/actions (add_articles_by_keywords)")
-	uiKV(w, "share", "POST /api/v1/media-lists/{mediaListId}/shares")
-	uiKV(w, "delete", "DELETE /api/v1/media-lists/{mediaListId}")
-	uiNote(w, "Use --json or --json-file whenever you need the exact API request body.")
-	uiNote(w, "Create/inspect responses can include async workflow columns. Keep the returned list/job IDs and mark unresolved rows research-needed instead of polling by default.")
 }
 
 func printDetectorHelp(w io.Writer) {
@@ -259,7 +221,7 @@ func printAuthHelp(w io.Writer) {
 	fmt.Fprintln(w, "  newsjack auth set-x --bearer-token <token>")
 	fmt.Fprintln(w)
 	uiSection(w, "optional apis")
-	uiKV(w, "Medialyst", "live news search, media database, find journalists")
+	uiKV(w, "Medialyst", "live news search and journalist enrichment")
 	uiKV(w, "get key", medialystAPIKeyURL)
 	uiKV(w, "save key", "newsjack auth set-medialyst --key <mlst_...>")
 	uiKV(w, "key storage", "~/.newsjack/credentials.json or MEDIALYST_API_KEY")

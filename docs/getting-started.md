@@ -101,14 +101,14 @@ If the user already knows what they want ("draft a pitch", "is this newsworthy?"
 ## Dependencies — what they unlock, and what they cost
 
 **You can do real work with none of these.** Newsjack's base workflow — strategy,
-angles, fit-checks, drafts, voice, newsworthiness, and a local media-list artifact
+angles, fit-checks, drafts, voice, newsworthiness, and a local journalist-list artifact
 — needs no signup and no keys. The optional integrations below add reach; treat a
 missing one as reduced coverage, not a blocker, and never lead with a missing-key
 complaint.
 
 | Dependency | Unlocks | Without it | Cost |
 | --- | --- | --- | --- |
-| **Medialyst key** | live news search with publication metadata, hosted media lists, enrichment, saved views, share links | news search falls back to host web/browser search (best-effort freshness); media lists return a local artifact you can review or import later | 300 free credits on signup (~3,000 news searches), paid after — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
+| **Medialyst key** | live news search with publication metadata and journalist enrichment from article URLs | news search falls back to host web/browser search (best-effort freshness); journalist lists stay as local agent artifacts with any unresolved rows marked honestly | 300 free credits on signup (~3,000 news searches), paid after — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
 | **X bearer token** | the X/Twitter trend source inside monitoring | that source is simply omitted; RSS and news still run | pay-as-you-go, no free tier — [X API pricing](https://docs.x.com/x-api) |
 
 ### Why Medialyst for news search
@@ -128,8 +128,9 @@ not a signup wall.
 - **Medialyst:** prefer `newsjack setup` or `newsjack login`. Newsjack stores the
   key in `~/.newsjack/credentials.json`, or reads `MEDIALYST_API_KEY` from the
   environment. The CLI calls the Medialyst public REST API directly for news
-  search, enrichment, media-list management, saved views, and share links.
-  Recommended scopes: `news:search`, `media_lists:manage`.
+  search and journalist enrichment. Agents own how they organize the returned
+  journalist data.
+  Recommended scopes: `news:search` and journalist enrichment access.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.
 

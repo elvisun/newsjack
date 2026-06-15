@@ -90,7 +90,7 @@ func TestAuthSetStoresOptionalAPIs(t *testing.T) {
 		if code != 0 {
 			t.Fatalf("auth set code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
-		if !strings.Contains(out.String(), "live news search, media database, find journalists") {
+		if !strings.Contains(out.String(), "live news search and journalist enrichment") {
 			t.Fatalf("auth set should explain Medialyst usage:\n%s", out.String())
 		}
 

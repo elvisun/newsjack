@@ -50,7 +50,7 @@ func TestDoctorReportsMissingXBearerToken(t *testing.T) {
 		if medialystAction["label"] != "Configure Medialyst API (Optional)" ||
 			medialystAction["command"] != "newsjack auth set-medialyst --key <mlst_...>" ||
 			medialystAction["get_key_url"] != "https://medialyst.ai/agents" ||
-			medialystAction["used_for"] != "live news search, media database, find journalists" {
+			medialystAction["used_for"] != "live news search and journalist enrichment" {
 			t.Fatalf("unexpected Medialyst doctor action: %#v", medialystAction)
 		}
 		if xAction["label"] != "Configure X API (Optional)" ||
