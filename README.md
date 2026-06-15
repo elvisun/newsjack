@@ -128,7 +128,7 @@ operator on the spot.
 
 **Install the Newsjack plugin:**
 
-1. Open **Customize**.
+1. Open **[Customize](https://claude.ai/customize)**.
 2. Go to **Personal plugins**.
 3. Click **Create plugin**.
 4. Choose **Add marketplace**.
