@@ -19,6 +19,25 @@ below these notes.
 
 ## Unreleased
 
+### Changed
+
+- **Medialyst now runs through the `newsjack` CLI's public-API wrapper instead
+  of MCP.** The CLI calls Medialyst's public API directly; `find-journalists`
+  and `news-search` use that path, with a local-artifact fallback when
+  Medialyst is not configured. (#47)
+
+### Removed
+
+- The Medialyst MCP integration and its install-time setup, including the
+  `NEWSJACK_INSTALL_MCP` option — no Node/MCP bridge is registered anymore.
+  (#47)
+
+### Docs
+
+- README: added a skills × harness compatibility matrix, reorganized setup by
+  agent platform (local agents / Claude.ai & Cowork / ChatGPT), and clarified
+  ChatGPT support (Skills beta for Business and Enterprise). (#46)
+
 ## v0.1.10 — 2026-06-12
 
 ### Added
