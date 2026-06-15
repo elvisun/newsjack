@@ -136,7 +136,7 @@ operator on the spot.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Create a [Medialyst](https://medialyst.ai) account to unlock the
+8. *(Optional)* Create a [Medialyst](https://medialyst.ai/agents) account to unlock the
    🔧 skills — the curated news index, journalist database, and fit-checked,
    shareable lists.
 9. *(Optional)* Back in Claude, click **Connect** on the Medialyst connector and
