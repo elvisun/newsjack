@@ -44,16 +44,11 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 			"repo":           state.Repo,
 			"runtimes":       state.Runtimes,
 			"runtimes_raw":   state.RuntimesRaw,
-			"install_mcp":    state.InstallMCP,
 		},
 		"auth": map[string]any{
 			"medialyst_configured": key != "",
 			"source":               nullableString(source),
 			"x_api_configured":     xConfigured,
-		},
-		"mcp_bridge": map[string]any{
-			"transport": "native",
-			"endpoint":  medialystMCPEndpoint(),
 		},
 		"sources": map[string]any{
 			"news_search": contains(available, "news_search"),

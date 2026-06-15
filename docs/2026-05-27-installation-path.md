@@ -10,7 +10,7 @@ newsjack setup
 
 The installer owns deterministic machine setup. The agent harness owns the
 judgment-heavy onboarding conversation. The user should never have to manually
-copy skill files, edit MCP JSON, invent an agent routine, or figure out which
+copy skill files, edit agent config, invent an agent routine, or figure out which
 runtime path was detected.
 
 Target end state:
@@ -18,8 +18,8 @@ Target end state:
 - the `newsjack` command is available in the current shell or the installer
   prints one exact current-shell command to make it available
 - Newsjack skills are installed into every detected supported harness
-- optional Medialyst MCP is configured when a runtime exposes a reliable
-  noninteractive setup path
+- Medialyst REST API commands are ready once the user logs in or sets
+  `MEDIALYST_API_KEY`
 - a monitor profile exists at `~/.newsjack/monitors/<slug>/profile.json`
 - an hourly monitor is installed through the selected agent harness scheduler
 - a mock test run has passed
@@ -47,7 +47,6 @@ Required behavior:
 - detect existing runtime installs and configure all supported runtimes unless
   `NEWSJACK_RUNTIMES` narrows the list
 - install only instruction/data files into runtime skill directories
-- configure MCP as best effort; warn instead of failing the install
 - run a quiet `newsjack doctor` equivalent and summarize the result
 - end with one primary next step: `newsjack setup`
 
@@ -57,7 +56,6 @@ Installer controls should mirror current agent CLI conventions:
 curl -fsSL newsjack.sh | sh
 curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=codex,claude sh
 curl -fsSL newsjack.sh | NEWSJACK_RUNTIMES=all sh
-curl -fsSL newsjack.sh | NEWSJACK_INSTALL_MCP=0 sh
 curl -fsSL newsjack.sh | NEWSJACK_VERSION=<version-or-commit> sh
 curl -fsSL newsjack.sh | NEWSJACK_NO_MODIFY_PATH=1 sh
 NEWSJACK_AUTO_UPDATE=0 newsjack doctor
@@ -77,7 +75,6 @@ Detected harnesses:
 Installed:
   CLI      ~/.newsjack/bin/newsjack
   Skills   ~/.claude/skills, ~/.agents/skills
-  MCP      medialyst configured for Codex; Claude Code skipped, login needed
 
 Next:
   newsjack setup
@@ -137,7 +134,7 @@ needs them.
 Prompt timing:
 
 - During `curl -fsSL newsjack.sh | sh`: ask for no secrets. Detect optional
-  tools, install the CLI and skills, configure best-effort MCP, and end with
+  tools, install the CLI and skills, and end with
   `newsjack setup`.
 - During `newsjack setup`: ask for credentials only after the user opts into a
   source or workflow that needs them. Always offer a skip path. X bearer tokens
@@ -154,7 +151,7 @@ Prompt timing:
 Credential rules:
 
 - Medialyst is optional. Ask for `MEDIALYST_API_KEY` during setup, explain that
-  it powers live news search and MCP-backed media-list workflows, link to
+  it powers live news search, enrichment, and media-list workflows, link to
   `https://medialyst.ai/docs`, and allow skip. Save it with `newsjack login`
   semantics in `~/.newsjack/credentials.json` using user-only permissions.
   `MEDIALYST_API_BASE` and `MEDIALYST_NEWS_PATH` are advanced overrides, not
@@ -178,13 +175,10 @@ Dependency classes:
   SQLite binary.
 - Optional live sources with no Newsjack API key: RSS/Atom feeds, public Reddit
   search, and Hacker News search.
-- Optional Medialyst support: `MEDIALYST_API_KEY` for `news_search` and
-  Medialyst MCP/media-list workflows.
+- Optional Medialyst support: `MEDIALYST_API_KEY` for `newsjack news search`,
+  enrichment, and media-list workflows through the public REST API.
 - Optional X support: X bearer-token env vars read by Newsjack, used for X post
   search, X News, and trends through direct API calls.
-- Optional MCP bridge: Node.js with `npx` because `newsjack mcp-bridge`
-  launches `npx -y mcp-remote`. Missing `npx` should disable only the bridge,
-  not the detector or agent scheduler.
 - Optional agent harnesses: Codex, Claude Code, Cursor Agent, OpenCode,
   OpenClaw, Hermes, or other runtimes. If none are detected, install portable
   skills and keep the CLI usable.
@@ -295,7 +289,7 @@ Current agent installer patterns worth copying:
 Agent onboarding patterns to honor:
 
 - Skills are the on-demand workflow layer.
-- MCP is the tool/data-access layer.
+- The `newsjack` CLI is the tool/data-access layer.
 - `AGENTS.md`, `CLAUDE.md`, and runtime rules orient the agent, but should stay
   short and point to deeper skill docs.
 - Scheduled agent features are the v1 recurring path because Newsjack needs the

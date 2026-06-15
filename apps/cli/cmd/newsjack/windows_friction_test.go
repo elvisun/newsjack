@@ -115,25 +115,24 @@ func TestInstallSourceAdoptsPrebuiltBundle(t *testing.T) {
 		"NEWSJACK_HOME":           "",
 		"NEWSJACK_ROOT":           "",
 		"NEWSJACK_RUNTIMES":       "claude",
-		"NEWSJACK_INSTALL_MCP":    "0",
 		"NEWSJACK_NO_AUTO_UPDATE": "1",
 		"NEWSJACK_IGNORE_DOTENV":  "1",
 		"PATH":                    os.TempDir(),
 	}, func() {
 		var out, errBuf bytes.Buffer
-		code := runCLI([]string{"install", "--source", bundleDir, "--runtimes", "claude", "--mcp=false"}, &out, &errBuf)
+		code := runCLI([]string{"install", "--source", bundleDir, "--runtimes", "claude"}, &out, &errBuf)
 		if code != 0 {
 			t.Fatalf("install --source code=%d stderr=%s", code, errBuf.String())
 		}
 
 		// Friction report #9 and #13: the managed root, managed binary,
 		// and install state must all exist after a --source install so
-		// doctor is clean and the registered MCP bridge path is real.
+		// doctor is clean and future updates have a stable target.
 		if got := readTrimmedFile(filepath.Join(managedInstallDir(), "VERSION")); got != "v9.9.9-test" {
 			t.Fatalf("managed root not adopted, VERSION=%q", got)
 		}
 		if !fileExists(installedBinaryPath()) {
-			t.Fatal("managed binary missing after adoption — MCP bridge command would point at nothing")
+			t.Fatal("managed binary missing after adoption")
 		}
 		var state installState
 		data, err := os.ReadFile(installStatePath())
@@ -157,57 +156,6 @@ func TestInstallSourceAdoptsPrebuiltBundle(t *testing.T) {
 		// Re-running against the managed root itself must not re-adopt.
 		if shouldAdoptBundle(managedInstallDir()) {
 			t.Fatal("the managed root must never be adopted into itself")
-		}
-	})
-}
-
-func TestConfigureClaudeMCPRepairsStaleEntry(t *testing.T) {
-	requirePOSIXShell(t)
-	home := t.TempDir()
-	fakeBin := t.TempDir()
-	capture := filepath.Join(t.TempDir(), "claude-args.txt")
-	marker := filepath.Join(t.TempDir(), "existing-entry")
-	if err := os.WriteFile(marker, []byte("1"), 0o644); err != nil {
-		t.Fatal(err)
-	}
-	// Fake claude: add-json fails with "already exists" while the marker
-	// is present; remove deletes the marker; every call is recorded.
-	script := "#!/bin/sh\n" +
-		"printf '%s\\n' \"$*\" >> " + shellQuote(capture) + "\n" +
-		"case \"$2\" in\n" +
-		"add-json) if [ -f " + shellQuote(marker) + " ]; then echo 'MCP server medialyst already exists in user config'; exit 1; fi ;;\n" +
-		"remove) rm -f " + shellQuote(marker) + " ;;\n" +
-		"esac\n" +
-		"exit 0\n"
-	if err := os.WriteFile(filepath.Join(fakeBin, "claude"), []byte(script), 0o755); err != nil {
-		t.Fatal(err)
-	}
-
-	withTempEnv(t, map[string]string{
-		"HOME":          home,
-		"NEWSJACK_HOME": "",
-		"PATH":          testPATH(fakeBin),
-	}, func() {
-		var out, errBuf bytes.Buffer
-		if err := configureClaudeMCP(newsjackCLIInvocation(), &out, &errBuf); err != nil {
-			t.Fatal(err)
-		}
-		calls, err := os.ReadFile(capture)
-		if err != nil {
-			t.Fatal(err)
-		}
-		text := string(calls)
-		if !strings.Contains(text, "mcp remove --scope user medialyst") {
-			t.Fatalf("stale entry should be removed, calls:\n%s", text)
-		}
-		if strings.Count(text, "add-json") != 2 {
-			t.Fatalf("expected add-json retry after remove, calls:\n%s", text)
-		}
-		if !strings.Contains(out.String(), "refreshed Claude Code MCP server") {
-			t.Fatalf("repair should be reported:\n%s", out.String())
-		}
-		if fileExists(marker) {
-			t.Fatal("stale entry marker should be gone")
 		}
 	})
 }

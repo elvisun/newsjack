@@ -33,7 +33,6 @@ jobs:
             NEWSJACK_REPO="${{ github.repository }}" \
             NEWSJACK_RELEASE_BASE="$base" \
             NEWSJACK_RUNTIMES=codex \
-            NEWSJACK_INSTALL_MCP=0 \
             bash
 
           newsjack version
@@ -125,7 +124,6 @@ jobs:
           $env:NEWSJACK_REPO = '${{ github.repository }}'
           if ($version) { $env:NEWSJACK_RELEASE_BASE = $base }
           $env:NEWSJACK_RUNTIMES = 'claude'
-          $env:NEWSJACK_INSTALL_MCP = '0'
           $env:NEWSJACK_NO_AUTO_UPDATE = '1'
           $env:NEWSJACK_NO_PATH_UPDATE = '1'
 
@@ -139,7 +137,6 @@ jobs:
 
           $doctor = & $cli doctor --json | Out-String | ConvertFrom-Json
           if (-not $doctor.root_ok) { throw 'doctor root_ok is false' }
-          if ($doctor.mcp_bridge.transport -ne 'native') { throw 'doctor mcp_bridge.transport is not native' }
           if (-not $doctor.install.cli_installed) { throw 'doctor cli_installed is false' }
 
           $skill = Join-Path $env:USERPROFILE '.claude\skills\newsjack-detector\SKILL.md'

@@ -7,7 +7,6 @@ NEWSJACK_HOME="${NEWSJACK_HOME:-$HOME/.newsjack}"
 NEWSJACK_INSTALL_DIR="${NEWSJACK_INSTALL_DIR:-$NEWSJACK_HOME/newsjack}"
 NEWSJACK_RUNTIMES="${NEWSJACK_RUNTIMES:-auto}"
 NEWSJACK_INSTALL_SKILLS="${NEWSJACK_INSTALL_SKILLS:-1}"
-NEWSJACK_INSTALL_MCP="${NEWSJACK_INSTALL_MCP:-1}"
 NEWSJACK_FORCE="${NEWSJACK_FORCE:-0}"
 NEWSJACK_RUN_SETUP="${NEWSJACK_RUN_SETUP:-auto}"
 
@@ -144,13 +143,6 @@ json_escape() {
 
 json_string() {
   printf '"%s"' "$(json_escape "$1")"
-}
-
-json_bool() {
-  case "$1" in
-    1|true|yes|on) printf 'true' ;;
-    *) printf 'false' ;;
-  esac
 }
 
 runtimes_json() {
@@ -316,10 +308,6 @@ run_go_install() {
     --source "$NEWSJACK_INSTALL_DIR" \
     --runtimes "$NEWSJACK_RUNTIMES"
 
-  if [ "$NEWSJACK_INSTALL_MCP" = "0" ]; then
-    set -- "$@" --mcp=false
-  fi
-
   if [ "$NEWSJACK_FORCE" = "1" ]; then
     set -- "$@" --force
   fi
@@ -352,7 +340,6 @@ write_install_state() {
     printf '  "skills_mode": '; json_string "$skills_mode"; printf ',\n'
     printf '  "runtimes": '; runtimes_json "$NEWSJACK_RUNTIMES"; printf ',\n'
     printf '  "runtimes_raw": '; json_string "$NEWSJACK_RUNTIMES"; printf ',\n'
-    printf '  "install_mcp": '; json_bool "$NEWSJACK_INSTALL_MCP"; printf ',\n'
     printf '  "installed_at": '; json_string "$installed_at"; printf '\n'
     printf '}\n'
   } >"$NEWSJACK_HOME/install.json"

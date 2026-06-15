@@ -26,12 +26,13 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return code
 	}
 	switch cmd {
-	case "help", "--help", "-h":
+	case "help", "usage", "--help", "-h":
 		if len(args) > 1 {
-			if printCommandHelp(stdout, args[1]) {
+			topic := strings.Join(args[1:], " ")
+			if printCommandHelp(stdout, topic) {
 				return 0
 			}
-			return failf(stderr, "unknown help topic: %s", args[1])
+			return failf(stderr, "unknown help topic: %s", topic)
 		}
 		printUsage(stdout)
 		return 0
@@ -79,18 +80,14 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdLogin(args[1:], stdout, stderr)
 	case "auth":
 		return cmdAuth(args[1:], stdout, stderr)
-	case "mcp":
-		if len(args) > 1 {
-			switch args[1] {
-			case "setup":
-				return cmdMCPSetup(args[2:], stdout, stderr)
-			case "status":
-				return cmdMCPStatus(args[2:], stdout, stderr)
-			}
-		}
-		return fail(stderr, errors.New("usage: newsjack mcp setup|status"))
-	case "mcp-bridge":
-		return cmdMCPBridge(args[1:], stdout, stderr)
+	case "credits":
+		return cmdCredits(args[1:], stdout, stderr)
+	case "news":
+		return cmdNews(args[1:], stdout, stderr)
+	case "journalists":
+		return cmdJournalists(args[1:], stdout, stderr)
+	case "media-lists", "media-list":
+		return cmdMediaLists(args[1:], stdout, stderr)
 	case "detector":
 		return cmdDetector(args[1:], stdout, stderr)
 	case "monitor":

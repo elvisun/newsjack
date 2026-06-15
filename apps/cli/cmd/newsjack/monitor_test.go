@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -626,19 +625,19 @@ func TestSetupOpenClawFallsBackToManualPrompt(t *testing.T) {
 			t.Fatalf("setup should print the prompt for OpenClaw:\n%s", text)
 		}
 		args, err := os.ReadFile(capture)
-		if err != nil {
+		if err != nil && !os.IsNotExist(err) {
 			t.Fatal(err)
 		}
 		if strings.Contains(string(args), "Use the newsjack-monitor-setup skill") {
 			t.Fatalf("OpenClaw should not be executed for interactive setup:\n%s", args)
 		}
-		if !strings.Contains(string(args), "mcp\nset\nmedialyst") {
-			t.Fatalf("OpenClaw should be configured for Medialyst MCP:\n%s", args)
+		if strings.Contains(string(args), "mcp") {
+			t.Fatalf("setup should not configure MCP servers:\n%s", args)
 		}
 	})
 }
 
-func TestSetupConfiguresMedialystMCPForSelectedRuntimes(t *testing.T) {
+func TestSetupDoesNotConfigureMCPForSelectedRuntimes(t *testing.T) {
 	requirePOSIXShell(t)
 	repo := repoRootForTest(t)
 	home := t.TempDir()
@@ -673,27 +672,17 @@ func TestSetupConfiguresMedialystMCPForSelectedRuntimes(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		args, err := os.ReadFile(capture)
-		if err != nil {
+		if err != nil && !os.IsNotExist(err) {
 			t.Fatal(err)
 		}
 		text := string(args)
-		if !strings.Contains(text, "codex\tmcp add medialyst -- "+filepath.Join(home, ".newsjack", "bin", "newsjack")+" mcp-bridge") {
-			t.Fatalf("Codex MCP command missing:\n%s", text)
-		}
-		if !strings.Contains(text, "claude\tmcp add-json --scope user medialyst") ||
-			!strings.Contains(text, `"type":"stdio"`) ||
-			!strings.Contains(text, `"args":["mcp-bridge"]`) {
-			t.Fatalf("Claude MCP add-json payload missing:\n%s", text)
-		}
-		if !strings.Contains(text, "openclaw\tmcp set medialyst") ||
-			!strings.Contains(text, `"command":"`+filepath.Join(home, ".newsjack", "bin", "newsjack")+`"`) ||
-			!strings.Contains(text, `"args":["mcp-bridge"]`) {
-			t.Fatalf("OpenClaw MCP payload missing:\n%s", text)
+		if strings.Contains(text, "mcp") || strings.Contains(text, "medialyst") {
+			t.Fatalf("setup should not invoke runtime MCP commands:\n%s", text)
 		}
 	})
 }
 
-func TestSetupConfiguresHermesMCP(t *testing.T) {
+func TestSetupDoesNotWriteHermesMCPConfig(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
 	fakeBin := t.TempDir()
@@ -720,19 +709,11 @@ func TestSetupConfiguresHermesMCP(t *testing.T) {
 			t.Fatalf("setup code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
 		}
 		configPath := filepath.Join(home, ".hermes", "config.yaml")
-		body, err := os.ReadFile(configPath)
-		if err != nil {
-			t.Fatal(err)
-		}
-		text := string(body)
-		// Build the expectation exactly like the product does (%q), so the
-		// per-OS binary name and Windows backslash escaping both match.
-		expectedCommand := fmt.Sprintf("command: %q", filepath.Join(home, ".newsjack", "bin", installedBinaryName()))
-		if !strings.Contains(text, "mcp_servers:") ||
-			!strings.Contains(text, "medialyst:") ||
-			!strings.Contains(text, expectedCommand) ||
-			!strings.Contains(text, `- "mcp-bridge"`) {
-			t.Fatalf("Hermes MCP config missing:\n%s", text)
+		if fileExists(configPath) {
+			body, _ := os.ReadFile(configPath)
+			if strings.Contains(string(body), "mcp") || strings.Contains(string(body), "medialyst") {
+				t.Fatalf("setup should not write Hermes MCP config:\n%s", body)
+			}
 		}
 	})
 }

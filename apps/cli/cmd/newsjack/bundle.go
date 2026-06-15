@@ -43,7 +43,7 @@ func releaseArtifactName() string {
 // bootstrapInstall turns a bare downloaded binary into a full install:
 // fetch the release bundle for this platform, verify its checksum, unpack
 // it, install this binary as the managed CLI, write install state, then
-// run the regular skills and MCP install. No shell, tar, curl, Node, or
+// run the regular skills install. No shell, tar, curl, Node, or
 // git is required on the machine. runtimeSelection comes from setup's
 // --runtime flag; NEWSJACK_RUNTIMES still wins when set.
 func bootstrapInstall(runtimeSelection string, stdout, stderr io.Writer) error {
@@ -57,7 +57,7 @@ func bootstrapInstall(runtimeSelection string, stdout, stderr io.Writer) error {
 }
 
 // finalizeBootstrap is the post-bundle half of first install: managed
-// binary, install state, skills, MCP. Split out so an interrupted
+// binary, install state, skills. Split out so an interrupted
 // bootstrap (bundle applied, rest missing) can be resumed without
 // re-downloading the release. The managed binary comes from the verified
 // bundle, not the running exe: a stale downloaded binary must not become
@@ -75,21 +75,15 @@ func finalizeBootstrap(version, runtimeSelection string, stdout, stderr io.Write
 		return nil
 	}
 	opts := installOptions{
-		Source:     managedInstallDir(),
-		Runtimes:   bootstrapRuntimes(runtimeSelection),
-		InstallMCP: os.Getenv("NEWSJACK_INSTALL_MCP") != "0",
-		Force:      os.Getenv("NEWSJACK_FORCE") == "1",
-		CLI:        newsjackCLIInvocation(),
-		Repo:       getenv("NEWSJACK_REPO", defaultRepo),
-		Ref:        getenv("NEWSJACK_REF", defaultRef),
+		Source:   managedInstallDir(),
+		Runtimes: bootstrapRuntimes(runtimeSelection),
+		Force:    os.Getenv("NEWSJACK_FORCE") == "1",
+		CLI:      newsjackCLIInvocation(),
+		Repo:     getenv("NEWSJACK_REPO", defaultRepo),
+		Ref:      getenv("NEWSJACK_REF", defaultRef),
 	}
 	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
 		return err
-	}
-	if opts.InstallMCP {
-		if err := configureMCP(opts, stdout, stderr); err != nil {
-			warn(stderr, "%v", err)
-		}
 	}
 	successf(stdout, "installed newsjack %s to %s", version, managedInstallDir())
 	return nil
@@ -323,8 +317,8 @@ func untarGz(data []byte, dest string) error {
 // adoptBundle copies a prebuilt source bundle into the managed install
 // root and finishes the managed layout (binary + install state), so a
 // manually downloaded bundle given to `install --source` behaves exactly
-// like a bootstrap install: doctor is clean, update works, and the MCP
-// bridge command points at a binary that exists.
+// like a bootstrap install: doctor is clean, update works, and the managed
+// binary exists.
 func adoptBundle(source, runtimeSelection string, stderr io.Writer) error {
 	if err := os.MkdirAll(newsjackHome(), 0o755); err != nil {
 		return err
@@ -558,7 +552,6 @@ func bootstrapInstallState(version, runtimeSelection string) installState {
 		SkillsMode:  skillsMode,
 		Runtimes:    normalizeRuntimeList(runtimesRaw),
 		RuntimesRaw: runtimesRaw,
-		InstallMCP:  os.Getenv("NEWSJACK_INSTALL_MCP") != "0",
 		InstalledAt: time.Now().UTC().Format(time.RFC3339),
 	})
 }

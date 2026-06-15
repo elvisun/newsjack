@@ -13,6 +13,7 @@ func printUsage(w io.Writer) {
 	fmt.Fprintln(w)
 	uiSection(w, "commands")
 	uiCommand(w, "help", "show this screen", "")
+	uiCommand(w, "usage", "show this screen", "")
 	uiCommand(w, "version", "print the installed version", "")
 	uiCommand(w, "path", "print the install root", "")
 	uiCommand(w, "doctor", "run a system health check", "[--json]")
@@ -22,10 +23,13 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "runtimes detect", "detect supported agent runtimes", "")
 	uiCommand(w, "login", "save an optional Medialyst API key", "[--key KEY]")
 	uiCommand(w, "auth status|set|logout", "inspect, save, or revoke API credentials", "")
+	uiCommand(w, "credits [balance]", "show Medialyst credit balance", "")
+	uiCommand(w, "news search", "search current news through Medialyst", "--query Q")
+	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
+	uiCommand(w, "media-lists create|list...", "manage Medialyst media lists through REST", "")
 	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
 	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
-	uiCommand(w, "mcp setup|status", "configure the MCP bridge", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
 	fmt.Fprintln(w)
 	uiSection(w, "api setup")
@@ -33,7 +37,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "auth set-x", "save X bearer token for X News, trends, and post search", "--bearer-token TOKEN")
 	uiKV(w, "Medialyst key", medialystAPIKeyURL)
 	uiKV(w, "X bearer token", xAPIKeyURL)
-	uiNote(w, "MCP configs point to newsjack mcp-bridge; keys stay in ~/.newsjack/credentials.json or env.")
+	uiNote(w, "Medialyst REST commands load keys from ~/.newsjack/credentials.json or MEDIALYST_API_KEY.")
 	fmt.Fprintln(w)
 	uiSection(w, "pipeline")
 	uiCommand(w, "filter-apply", "apply coarse-relevance decisions to candidates", "--candidates F --decisions F")
@@ -54,10 +58,10 @@ func printCommandHelp(w io.Writer, command string) bool {
 		printAuthHelp(w)
 		return true
 	case "install":
-		uiProduct(w, "install", "install skills and MCP config into agent runtimes.")
+		uiProduct(w, "install", "install skills into agent runtimes.")
 		fmt.Fprintln(w)
 		uiSection(w, "usage")
-		fmt.Fprintln(w, "  newsjack install [--source <bundle-dir>] [--runtimes auto|all|none|codex,claude,openclaw,hermes] [--mcp] [--force]")
+		fmt.Fprintln(w, "  newsjack install [--source <bundle-dir>] [--runtimes auto|all|none|codex,claude,openclaw,hermes] [--force]")
 		fmt.Fprintln(w)
 		uiSection(w, "options")
 		uiCommand(w, "--source", "install from a local bundle dir; prebuilt bundles are adopted as the managed install", "<dir>")
@@ -102,9 +106,99 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "coverage":
 		printCoverageHelp(w)
 		return true
+	case "credits":
+		printCreditsHelp(w)
+		return true
+	case "news", "news search":
+		printNewsHelp(w)
+		return true
+	case "journalists", "journalists enrich", "journalists enrich-job":
+		printJournalistsHelp(w)
+		return true
+	case "media-lists", "media-list",
+		"media-lists create", "media-lists create-async", "media-lists job",
+		"media-lists list", "media-lists get", "media-lists inspect",
+		"media-lists full-values", "media-lists preview-column-render",
+		"media-lists action", "media-lists add-urls", "media-lists add-keywords",
+		"media-lists share", "media-lists delete":
+		printMediaListsHelp(w)
+		return true
 	default:
 		return false
 	}
+}
+
+func printCreditsHelp(w io.Writer) {
+	uiProduct(w, "credits", "thin Medialyst REST wrapper for account credits.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack credits")
+	fmt.Fprintln(w, "  newsjack credits balance")
+	fmt.Fprintln(w)
+	uiKV(w, "endpoint", "GET /api/v1/credits/balance")
+}
+
+func printNewsHelp(w io.Writer) {
+	uiProduct(w, "news", "thin Medialyst REST wrapper for news search.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack news search --query \"AI infrastructure startup funding\" [--page 1] [--limit 10] [--tbs qdr:m]")
+	fmt.Fprintln(w, "  newsjack news search --json '{\"q\":\"AI infrastructure\",\"gl\":\"us\",\"page\":1}'")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "news search", "POST /api/v1/news/search")
+	uiNote(w, "Use --json or --json-file to send the exact API request body.")
+}
+
+func printJournalistsHelp(w io.Writer) {
+	uiProduct(w, "journalists", "thin Medialyst REST wrapper for journalist enrichment.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack journalists enrich --url https://example.com/story --pitch \"why this journalist fits\" [--wait]")
+	fmt.Fprintln(w, "  newsjack journalists enrich --json-file request.json")
+	fmt.Fprintln(w, "  newsjack journalists enrich-job <job-id> [--wait]    # later revisit only")
+	fmt.Fprintln(w)
+	uiSection(w, "wait behavior")
+	uiKV(w, "--wait", "POSTs with API wait=true, then polls the returned job only within the remaining foreground budget")
+	uiKV(w, "--poll-timeout-ms", "total foreground wait budget for enrich jobs; default 45000, max 45000")
+	uiKV(w, "--poll-interval-ms", "CLI polling interval; default 3000")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "enrich", "POST /api/v1/journalists/enrich")
+	uiKV(w, "enrich-job", "GET /api/v1/journalist-enrichment-jobs/{jobId}")
+	uiNote(w, "PR1024's enrich endpoint currently supports article_url sources. Use --json for the exact documented request shape.")
+	uiNote(w, "With convenience flags, --wait accepts one --url at a time. Use --wait=false or --json for intentional API-shaped batch jobs.")
+	uiNote(w, "Use enrich for a small number of high-confidence article URLs; do not batch-enrich broad news-search results.")
+	uiNote(w, "If a job is still processing after the bounded wait, keep the job ID and revisit later instead of calling enrich-job immediately or writing your own polling loop.")
+}
+
+func printMediaListsHelp(w io.Writer) {
+	uiProduct(w, "media-lists", "thin Medialyst REST wrapper for hosted media lists.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack media-lists create --name \"AI observability - first wave\" --url https://example.com/story")
+	fmt.Fprintln(w, "  newsjack media-lists add-urls <media-list-id> --url https://example.com/story")
+	fmt.Fprintln(w, "  newsjack media-lists add-keywords <media-list-id> --keyword \"fintech Series A\" --date-range m")
+	fmt.Fprintln(w, "  newsjack media-lists inspect <media-list-id>")
+	fmt.Fprintln(w, "  newsjack media-lists action <media-list-id> --json '{\"action\":\"create_column\",\"column\":{\"name\":\"Notes\"}}'")
+	fmt.Fprintln(w, "  newsjack media-lists share <media-list-id> [--view-id VIEW]")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "create", "POST /api/v1/media-lists")
+	uiKV(w, "create-async", "POST /api/v1/media-lists:create-async")
+	uiKV(w, "job", "GET /api/v1/jobs/{jobId}")
+	uiKV(w, "list", "GET /api/v1/media-lists")
+	uiKV(w, "get", "GET /api/v1/media-lists/{mediaListId}")
+	uiKV(w, "inspect", "POST /api/v1/media-lists/{mediaListId}/inspect")
+	uiKV(w, "full-values", "POST /api/v1/media-lists/{mediaListId}/full-values")
+	uiKV(w, "preview-column-render", "POST /api/v1/media-lists/{mediaListId}/column-render-preview")
+	uiKV(w, "action", "POST /api/v1/media-lists/{mediaListId}/actions")
+	uiKV(w, "add-urls", "POST /api/v1/media-lists/{mediaListId}/actions (add_articles_by_urls)")
+	uiKV(w, "add-keywords", "POST /api/v1/media-lists/{mediaListId}/actions (add_articles_by_keywords)")
+	uiKV(w, "share", "POST /api/v1/media-lists/{mediaListId}/shares")
+	uiKV(w, "delete", "DELETE /api/v1/media-lists/{mediaListId}")
+	uiNote(w, "Use --json or --json-file whenever you need the exact API request body.")
+	uiNote(w, "Create/inspect responses can include async workflow columns. Keep the returned list/job IDs and mark unresolved rows research-needed instead of polling by default.")
 }
 
 func printDetectorHelp(w io.Writer) {
@@ -168,7 +262,7 @@ func printAuthHelp(w io.Writer) {
 	uiKV(w, "Medialyst", "live news search, media database, find journalists")
 	uiKV(w, "get key", medialystAPIKeyURL)
 	uiKV(w, "save key", "newsjack auth set-medialyst --key <mlst_...>")
-	uiKV(w, "MCP", "configs use newsjack mcp-bridge; the key stays in credentials.json or env")
+	uiKV(w, "key storage", "~/.newsjack/credentials.json or MEDIALYST_API_KEY")
 	uiKV(w, "X API", "X News, X trends, and X post search")
 	uiKV(w, "get token", xAPIKeyURL)
 	uiKV(w, "save token", "newsjack auth set-x --bearer-token <token>")

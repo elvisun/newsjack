@@ -10,7 +10,6 @@ const (
 	defaultInstallURL       = "https://newsjack.sh"
 	defaultMinQueuePriority = 40.0
 	defaultMinMajorNews     = 0.55
-	medialystMCPURL         = "https://medialyst.ai/api/mcp"
 	envMedialystKey         = "MEDIALYST_API_KEY"
 	envXBearerToken         = "X_BEARER_TOKEN"
 )

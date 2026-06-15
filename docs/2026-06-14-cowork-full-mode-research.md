@@ -13,10 +13,10 @@ Cowork inherits the same **on-demand** experience as claude.ai chat: every skill
 runs in-session at full quality, nothing to install. Persistence and scheduling
 already have good homes — **Claude Code (or any local agent)** and the
 **cloud-hosted Medialyst experience** — so a Cowork-specific build is not on the
-critical path. The one thing that *is* worth prioritizing now is the **Medialyst
-MCP OAuth connector (P0)** — see
-["P0" below](#p0-the-medialyst-mcp-oauth-connector). It is small, standards-based,
-and improves every surface and every MCP client, not just Cowork.
+critical path. The one thing that *is* worth prioritizing outside the CLI is a
+**native Medialyst account connector (P0)** — see
+["P0" below](#p0-the-medialyst-account-connector). It is small, standards-based,
+and improves browser and cloud-agent surfaces where a local CLI is unavailable.
 
 The sections through "The Medialyst credential problem" are the evidence behind
 that call. The reasoning for the call itself is in
@@ -47,7 +47,8 @@ but narrower than we thought, and a viable Full Mode path exists.
 - **Cloud routines** (`claude.ai/code/routines`, research preview) are **full
   Claude Code cloud sessions** on Anthropic infra: shell commands, a cached
   setup script for installing tools, env vars for secrets, configurable network
-  (custom allowlist or Full), MCP connectors, and schedule/API/GitHub triggers.
+  (custom allowlist or Full), external connectors, and schedule/API/GitHub
+  triggers.
   These keep running with the laptop closed, but clone a fresh repo each run and
   keep no local disk between runs.
 
@@ -137,21 +138,14 @@ solve for the cloud case.
 ### How Medialyst auth works today
 
 - Medialyst auth is a **static per-user API key** (`mlst_…`) used as a Bearer
-  token — not an OAuth connector. Each user gets their own key from
+  token. Each user gets their own key from
   `medialyst.ai/agents` (300 free credits, then paid), so usage is billed per
   account.
 - The key is stored locally in `~/.newsjack/credentials.json` (or
   `MEDIALYST_API_KEY` env / `.env`), per `apps/cli/cmd/newsjack/auth.go`.
-- The MCP server is **remote** (`https://medialyst.ai/api/mcp`), but the key is
-  **injected locally** by the `newsjack` CLI, in one of two modes
-  (`.mcp.json` + `apps/cli/cmd/newsjack/mcp_bridge.go`):
-  1. **stdio bridge** (`newsjack mcp-bridge`) — loads the key, attaches
-     `Authorization: Bearer mlst_…` to each HTTP call.
-  2. **headersHelper** (`newsjack auth headers`) — the harness hits the remote
-     URL directly but calls the local CLI for the auth header.
-- Both modes require the `newsjack` CLI present in the runtime to inject the
-  key. Per `docs/getting-started.md`: "MCP configs do not store the key; they
-  point the runtime at `newsjack mcp-bridge`."
+- The `newsjack` CLI calls Medialyst's public REST API directly and attaches
+  `Authorization: Bearer mlst_…` on each request. This is the supported Full
+  Mode path for local agents.
 
 ### Can Medialyst be a native claude.ai connector? Not today.
 
@@ -237,30 +231,25 @@ and bottom rows are already covered by Claude Code and Medialyst, which is exact
 why the Cowork-specific scheduled path is P2: it would duplicate, on a riskier
 surface, capability two other surfaces already deliver.
 
-## P0: the Medialyst MCP OAuth connector
+## P0: the Medialyst account connector
 
 The highest-leverage, lowest-cost finding in this whole investigation has nothing
-to do with Cowork's plumbing: **finish the standard MCP OAuth flow on the
-Medialyst MCP server.** It already half-advertises it — the `WWW-Authenticate`
-header points at a `resource_metadata` URL that currently 404s — so the remaining
-work is serving the protected-resource and authorization-server metadata so any
-client can complete the handshake.
+to do with Cowork's plumbing: **ship a native Medialyst account connector for
+browser and cloud-agent surfaces.** The local CLI path is now REST-first, so this
+connector is about making no-local-shell environments productive without asking
+users to copy API keys.
 
 Why this is P0:
 
-- **It's the standards-compliant thing to do.** The MCP authorization spec
-  (RFC 9728 / OAuth 2.0 protected resources) is how remote MCP servers are meant
-  to authenticate. Today Medialyst is a static-Bearer endpoint with a cosmetic
-  OAuth header; finishing the flow makes it a well-behaved MCP citizen.
-- **It helps the whole ecosystem, not just Newsjack.** A standards-based
-  connector works in *any* MCP client — Claude chat, Cowork, Claude Code, and
-  third-party agents — with no proprietary `newsjack mcp-bridge` shim in the loop.
-  The open-source skills stay decoupled from a private key-injection helper.
+- **It helps the whole ecosystem, not just Newsjack.** A standards-based account
+  connection can work in Claude chat, Cowork, and third-party cloud agents
+  without a local key-injection helper.
 - **It's a security win for users.** No copy-pasting long-lived `mlst_` API keys
   into `.env` files or routine secret stores. OAuth tokens are scoped, revocable,
   and never sit in plaintext config.
 - **It removes setup friction everywhere.** A one-click "connect Medialyst" in
-  the user's account replaces "get a key, run `newsjack login`, configure MCP."
+  the user's account replaces "get a key, run `newsjack login`, configure the
+  local environment."
   This is the difference between on-demand chat/Cowork being a real experience
   and a degraded one — it is what turns the news-search, story-origin,
   fact-check, journalist-fit, and media-list skills from best-effort fallback

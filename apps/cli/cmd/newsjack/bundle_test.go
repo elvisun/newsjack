@@ -86,7 +86,6 @@ func bootstrapEnv(home, releaseBase string) map[string]string {
 		"NEWSJACK_ROOT":           "",
 		"NEWSJACK_RELEASE_BASE":   releaseBase,
 		"NEWSJACK_RUNTIMES":       "claude",
-		"NEWSJACK_INSTALL_MCP":    "0",
 		"NEWSJACK_NO_AUTO_UPDATE": "1",
 		"NEWSJACK_IGNORE_DOTENV":  "1",
 		"PATH":                    os.TempDir(),

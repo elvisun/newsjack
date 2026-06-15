@@ -89,7 +89,7 @@ or locally-saved monitoring state — those work best in a local agent.
 Legend:
 
 - **✅ Runs out of the box** — no setup; works anywhere your agent does.
-- **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API, or the Medialyst API / MCP).
+- **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API or the Medialyst API).
 - **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
 - **🔜 Coming soon** — not available here yet.
 - **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
@@ -97,7 +97,7 @@ Legend:
 **Set up your agent:**
 
 - **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
-- **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst MCP
+- **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst connector
 - **[ChatGPT](#chatgpt)** — Skills beta (ChatGPT Business / Enterprise)
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)

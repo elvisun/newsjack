@@ -162,7 +162,7 @@ func saveMedialystAPIKey(apiKey string, stdout, stderr io.Writer) int {
 	}
 	uiSuccess(stdout, "saved Medialyst credentials to %s", path)
 	uiNote(stdout, "used for: live news search, media database, find journalists")
-	uiNote(stdout, "MCP-compatible runtimes can now use newsjack mcp-bridge without MEDIALYST_API_KEY exports.")
+	uiNote(stdout, "newsjack REST commands now use the saved key without MEDIALYST_API_KEY exports.")
 	return 0
 }
 

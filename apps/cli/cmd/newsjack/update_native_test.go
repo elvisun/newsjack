@@ -84,7 +84,6 @@ func TestRunNativeUpdateAppliesBundleAndPreservesState(t *testing.T) {
 			RuntimesRaw: "claude",
 			Runtimes:    []string{"claude"},
 			SkillsMode:  skillsModeManaged,
-			InstallMCP:  false,
 		})); err != nil {
 			t.Fatal(err)
 		}
@@ -123,8 +122,8 @@ func TestRunNativeUpdateAppliesBundleAndPreservesState(t *testing.T) {
 		if state.Version != "v2.0.0-test" || state.Commit != "deadbeef" {
 			t.Fatalf("state version/commit = %q/%q", state.Version, state.Commit)
 		}
-		if state.RuntimesRaw != "claude" || state.InstallMCP != false {
-			t.Fatalf("update must preserve recorded runtimes/mcp: %+v", state)
+		if state.RuntimesRaw != "claude" {
+			t.Fatalf("update must preserve recorded runtimes: %+v", state)
 		}
 		if !fileExists(filepath.Join(home, ".claude", "skills", "newsjack-detector", "SKILL.md")) {
 			t.Fatal("update should refresh runtime skills for the recorded runtimes")

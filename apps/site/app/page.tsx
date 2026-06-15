@@ -72,7 +72,7 @@ export default function Home() {
               </p>
               <p className="text-zinc-500">resolving agent runtime...</p>
               <p className="text-zinc-500">syncing pr operator skills...</p>
-              <p className="text-zinc-500">configuring optional mcp...</p>
+              <p className="text-zinc-500">readying REST api commands...</p>
               <p className="text-zinc-100">ready</p>
             </div>
           </div>

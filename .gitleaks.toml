@@ -22,8 +22,9 @@ title = "newsjack gitleaks config"
 useDefault = true
 
 [allowlist]
-description = "Generated eval-study run artifacts (model-authored verdicts and write-ups, not source)."
+description = "Generated eval artifacts: model-authored eval outputs and dogfood stream transcripts, not source."
 paths = [
   '''eval/[^/]+/runs/.*\.json$''',
   '''eval/[^/]+/runs/.*\.md$''',
+  '''^eval/.*\.stream\.jsonl$''',
 ]

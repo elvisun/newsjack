@@ -10,9 +10,7 @@ import (
 
 // hiddenCommands are dispatched on purpose but intentionally not advertised in
 // `newsjack help` (internal plumbing, not a user-facing command).
-var hiddenCommands = map[string]bool{
-	"mcp-bridge": true,
-}
+var hiddenCommands = map[string]bool{}
 
 // topLevelCaseRe matches the top-level dispatch cases in runCLIWithIO: lines
 // indented exactly one tab (nested sub-command switches are indented deeper).
@@ -68,6 +66,20 @@ func TestHelpPipelineCommandsPresent(t *testing.T) {
 	}
 }
 
+func TestUsageAliasExitsZero(t *testing.T) {
+	var out, err bytes.Buffer
+	code := runCLI([]string{"usage"}, &out, &err)
+	if code != 0 {
+		t.Fatalf("newsjack usage exited %d: %s", code, err.String())
+	}
+	if err.Len() != 0 {
+		t.Fatalf("newsjack usage wrote stderr: %s", err.String())
+	}
+	if !strings.Contains(out.String(), "USAGE") {
+		t.Fatalf("newsjack usage did not print top-level help:\n%s", out.String())
+	}
+}
+
 func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 	var help bytes.Buffer
 	printUsage(&help)
@@ -77,7 +89,9 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"auth set-x",
 		"https://medialyst.ai/agents",
 		"live news search, media database, find journalists",
-		"newsjack mcp-bridge",
+		"news search",
+		"journalists enrich",
+		"media-lists create",
 		"~/.newsjack/credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
@@ -95,10 +109,56 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack auth set-x --bearer-token <token>",
 		"https://medialyst.ai/agents",
 		"credentials.json",
-		"newsjack mcp-bridge",
 	} {
 		if !strings.Contains(help.String(), want) {
 			t.Fatalf("newsjack help auth missing %q:\n%s", want, help.String())
+		}
+	}
+}
+
+func TestHelpShowsRESTCommandMappings(t *testing.T) {
+	for _, topic := range []string{"news", "journalists", "media-lists", "credits"} {
+		var help bytes.Buffer
+		if !printCommandHelp(&help, topic) {
+			t.Fatalf("%s help topic was not handled", topic)
+		}
+		if !strings.Contains(help.String(), "/api/v1/") {
+			t.Fatalf("%s help should include endpoint mapping:\n%s", topic, help.String())
+		}
+	}
+}
+
+func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
+	for _, args := range [][]string{
+		{"help", "journalists enrich"},
+		{"help", "journalists", "enrich"},
+		{"help", "media-lists action"},
+		{"help", "media-lists", "action"},
+		{"help", "news search"},
+		{"help", "news", "search"},
+	} {
+		var out, err bytes.Buffer
+		if code := runCLI(args, &out, &err); code != 0 {
+			t.Fatalf("newsjack %v exited %d: %s", args, code, err.String())
+		}
+		if !strings.Contains(out.String(), "/api/v1/") {
+			t.Fatalf("newsjack %v should include endpoint mapping:\n%s", args, out.String())
+		}
+	}
+}
+
+func TestRESTSubcommandHelpExitsZero(t *testing.T) {
+	for _, args := range [][]string{
+		{"journalists", "enrich", "--help"},
+		{"journalists", "enrich-job", "--help"},
+		{"media-lists", "create", "--help"},
+	} {
+		var out, err bytes.Buffer
+		if code := runCLI(args, &out, &err); code != 0 {
+			t.Fatalf("newsjack %v exited %d: %s", args, code, err.String())
+		}
+		if !strings.Contains(out.String(), "/api/v1/") {
+			t.Fatalf("newsjack %v should include endpoint mapping:\n%s", args, out.String())
 		}
 	}
 }

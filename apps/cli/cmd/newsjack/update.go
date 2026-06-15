@@ -46,7 +46,7 @@ func useNativeUpdate() bool {
 
 // runNativeUpdate mirrors what the hosted installer does, without a shell:
 // apply the release bundle, swap the managed binary, refresh install state,
-// then reinstall runtime skills and MCP config per the recorded modes.
+// then reinstall runtime skills per the recorded modes.
 func runNativeUpdate(stdout, stderr io.Writer) error {
 	base := releaseBaseForUpdate()
 	newVersion, err := applyReleaseBundle(base, stderr)
@@ -72,21 +72,15 @@ func runNativeUpdate(stdout, stderr io.Writer) error {
 		runtimes = "auto"
 	}
 	opts := installOptions{
-		Source:     managedInstallDir(),
-		Runtimes:   runtimes,
-		InstallMCP: state.InstallMCP,
-		Force:      os.Getenv("NEWSJACK_FORCE") == "1",
-		CLI:        newsjackCLIInvocation(),
-		Repo:       getenv("NEWSJACK_REPO", state.Repo),
-		Ref:        getenv("NEWSJACK_REF", defaultRef),
+		Source:   managedInstallDir(),
+		Runtimes: runtimes,
+		Force:    os.Getenv("NEWSJACK_FORCE") == "1",
+		CLI:      newsjackCLIInvocation(),
+		Repo:     getenv("NEWSJACK_REPO", state.Repo),
+		Ref:      getenv("NEWSJACK_REF", defaultRef),
 	}
 	if err := installRuntimeSkills(opts, stdout, stderr); err != nil {
 		return err
-	}
-	if opts.InstallMCP {
-		if err := configureMCP(opts, stdout, stderr); err != nil {
-			warn(stderr, "%v", err)
-		}
 	}
 	successf(stdout, "updated newsjack to %s", newVersion)
 	return nil
@@ -143,7 +137,7 @@ func shouldAutoUpdate(args []string) bool {
 		cmd = args[0]
 	}
 	switch cmd {
-	case "help", "--help", "-h", "version", "--version", "install", "update", "auth", "mcp-bridge":
+	case "help", "--help", "-h", "version", "--version", "install", "update", "auth":
 		return false
 	}
 	return true
@@ -241,9 +235,6 @@ func installerEnv(env []string, state installState) []string {
 		env = setenv(env, "NEWSJACK_INSTALL_SKILLS", "0")
 	} else if state.SkillsMode == skillsModeManaged {
 		env = setenv(env, "NEWSJACK_INSTALL_SKILLS", "1")
-	}
-	if !state.InstallMCP {
-		env = setenv(env, "NEWSJACK_INSTALL_MCP", "0")
 	}
 	return env
 }

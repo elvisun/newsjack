@@ -86,14 +86,12 @@ func TestInstallerEnvPreservesExternalSkillMode(t *testing.T) {
 		Repo:        "elvisun/newsjack",
 		SkillsMode:  skillsModeExternal,
 		RuntimesRaw: "codex,claude",
-		InstallMCP:  false,
 	}
 	env := installerEnv([]string{"NEWSJACK_INSTALL_SKILLS=1", "OTHER=value"}, state)
 	joined := "\n" + strings.Join(env, "\n") + "\n"
 	for _, want := range []string{
 		"\nNEWSJACK_AUTO_UPDATE_RUNNING=1\n",
 		"\nNEWSJACK_INSTALL_SKILLS=0\n",
-		"\nNEWSJACK_INSTALL_MCP=0\n",
 		"\nNEWSJACK_RUNTIMES=codex,claude\n",
 		"\nNEWSJACK_REPO=elvisun/newsjack\n",
 		"\nOTHER=value\n",

@@ -8,7 +8,7 @@ public release distribution.
 
 - `curl -fsSL newsjack.sh | bash` is a first-class install path and must install
   the full product by default: CLI, managed bundle, skills, and best-effort
-  runtime/MCP setup.
+  runtime skill setup.
 - GitHub Releases are the canonical source for versioned CLI artifacts.
 - Agent skill marketplaces are first-class discovery/install surfaces for the
   skill layer.
@@ -44,8 +44,8 @@ By default this installs the complete stack:
 - `~/.newsjack/bin/newsjack`
 - `~/.newsjack/newsjack`
 - Newsjack-managed skill folders in detected runtimes
-- optional Medialyst MCP configuration where the runtime has a reliable
-  noninteractive setup path
+- local CLI support for Medialyst REST API commands once the user runs
+  `newsjack login` or sets `MEDIALYST_API_KEY`
 
 Default ownership mode:
 
@@ -151,7 +151,6 @@ NEWSJACK_REPO             GitHub owner/repo override
 NEWSJACK_HOME             install home, default ~/.newsjack
 NEWSJACK_RUNTIMES         auto, all, none, codex, claude, openclaw, hermes
 NEWSJACK_INSTALL_SKILLS   1 by default; 0 for marketplace CLI bootstrap
-NEWSJACK_INSTALL_MCP      1 by default; 0 to skip MCP configuration
 NEWSJACK_FORCE            0 by default; 1 to overwrite user-owned conflicts
 NEWSJACK_AUTO_UPDATE      1 by default; 0 to disable CLI auto-update
 ```
@@ -175,7 +174,6 @@ Example full-domain install:
   "install_url": "https://newsjack.sh",
   "skills_mode": "managed",
   "runtimes": ["codex", "claude"],
-  "install_mcp": true,
   "installed_at": "2026-06-01T00:00:00Z"
 }
 ```
@@ -191,7 +189,6 @@ Example marketplace CLI bootstrap:
   "install_url": "https://newsjack.sh",
   "skills_mode": "external",
   "runtimes": [],
-  "install_mcp": false,
   "installed_at": "2026-06-01T00:00:00Z"
 }
 ```
@@ -230,7 +227,6 @@ machine-facing plumbing, including:
 - `install`
 - `update`
 - `auth`
-- `mcp-bridge`
 
 `NEWSJACK_AUTO_UPDATE=0` disables the behavior for CI and debugging.
 
@@ -277,7 +273,7 @@ If the CLI is missing in a Full Mode harness, the skill may ask for explicit
 user permission before running:
 
 ```bash
-curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 NEWSJACK_INSTALL_MCP=0 bash
+curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 bash
 ```
 
 This creates `skills_mode=external` and installs only the CLI plus managed bundle.
@@ -336,7 +332,8 @@ Marketplace skills must:
 - degrade to Limited Mode when network, shell, or CLI access is unavailable
 - clearly mark CLI-backed steps as requiring local execution
 - never ask for API keys in the pipe installer path
-- continue local artifact fallback behavior when MCP is unavailable
+- continue local artifact fallback behavior when the CLI, network, auth, credits,
+  or Medialyst permissions are unavailable
 
 CLI-backed skills should include a short dependency section:
 
@@ -348,7 +345,7 @@ such as Claude Code, Codex, OpenClaw, or Hermes.
 
 If the CLI is missing in a Full Mode harness, ask before installing it:
 
-`curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 NEWSJACK_INSTALL_MCP=0 bash`
+`curl -fsSL newsjack.sh | NEWSJACK_INSTALL_SKILLS=0 bash`
 
 If running in Claude.ai chat, ChatGPT chat, Claude Cowork, or another restricted
 chat surface, use Limited Mode instead of attempting a CLI install.
@@ -384,7 +381,7 @@ Required GitHub Actions:
 - Signed releases or provenance attestations should be added before enterprise
   positioning.
 - Marketplace skills must never hide external install behavior.
-- MCP setup is best effort and must not block CLI or skill installation.
+- Runtime skill setup is best effort and must not block CLI installation.
 - Existing non-Newsjack user skill files are never overwritten unless
   `NEWSJACK_FORCE=1` is set.
 
