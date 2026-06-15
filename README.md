@@ -106,14 +106,6 @@ paste them by hand), and there's no local CLI or saved state either way.
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)
 
-**Not technical? Let the agent set it up — on any platform.** Tell your agent:
-
-> help me setup https://newsjack.sh
-
-It reads that page, installs the CLI, and wires up the skills — handling the
-platform details (Windows included) for you. This is the path for non-technical
-users.
-
 **Technical? Use the one-liner (the default on macOS / Linux):**
 
 ```bash
@@ -136,6 +128,13 @@ newsjack install
 After install, agents and skills call the CLI as `newsjack`. The installer can
 also connect [Medialyst](https://medialyst.ai) (optional) to unlock the 🔧
 skills.
+
+**Not technical? Let the agent set it up — on any platform.** Tell your agent:
+
+> help me setup https://newsjack.sh
+
+It reads that page, installs the CLI, and wires up the skills — handling the
+platform details (Windows included) for you.
 
 ### Claude.ai & Cowork
 
