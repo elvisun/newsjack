@@ -10,7 +10,13 @@ curl -fsSL newsjack.sh | bash
 
 **Are you an agent?** Check out **[Getting started](docs/getting-started.md)**
 
-**Are you a human?** Jump to **[platform-specific setup](#install)** below.
+**Are you a human?** 📋 Copy this prompt to any AI:
+
+```text
+help me setup https://newsjack.sh
+```
+
+Jump to **[platform-specific setup](#install)** below for per platform breakdown.
 
 ---
 
