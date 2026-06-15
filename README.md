@@ -106,14 +106,15 @@ paste them by hand), and there's no local CLI or saved state either way.
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)
 
-**Easiest — let the agent do it (any OS, including Windows).** Tell your agent:
+**Not technical? Let the agent set it up — on any platform.** Tell your agent:
 
 > help me setup https://newsjack.sh
 
-It fetches the installer, runs it, and wires up the skills. This is the best
-path for non-developers, and the only thing most Windows users need.
+It reads that page, installs the CLI, and wires up the skills — handling the
+platform details (Windows included) for you. This is the path for non-technical
+users.
 
-**One-liner (developers, macOS / Linux):**
+**Technical? Use the one-liner (the default on macOS / Linux):**
 
 ```bash
 curl -fsSL newsjack.sh | bash
@@ -135,16 +136,6 @@ newsjack install
 After install, agents and skills call the CLI as `newsjack`. The installer can
 also connect [Medialyst](https://medialyst.ai) (optional) to unlock the 🔧
 skills.
-
-**Windows, by hand (no agent yet).** If you don't have a local agent to prompt,
-one PowerShell line installs the CLI and walks through setup — including
-installing Claude Code for you — and needs v0.1.10 or later:
-
-```powershell
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
-```
-
-The TLS line makes the download work on stock PowerShell 5.1 (a no-op on 7).
 
 ### Claude.ai & Cowork
 
@@ -186,20 +177,17 @@ full toolkit, use a local agent or Claude.ai.
 └── newsjack/             # managed bundle
 
 skills installed to your detected runtime(s):
-  newsjack-monitor-setup  create a company monitoring profile
-  newsjack-detector       find newsworthy moments before the wave breaks
   newsworthiness-check    score whether your news clears the bar
-  angle-generator         turn one update into ten pitchable hooks
   headline-generator      headlines and subject lines from raw story facts
   find-journalists        build small, fit-checked media lists
-  …and more
+  ...and more
 ```
 
 The npm package bundles the same CLI and skills, with the `newsjack` command installed on `PATH`.
 
 Curl-installed Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
 
-Npm-installed Newsjack uses npm for CLI updates:
+You can also install the CLI byitself using npm:
 
 ```bash
 npm i -g newsjack@latest
