@@ -106,35 +106,20 @@ paste them by hand), and there's no local CLI or saved state either way.
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)
 
-**Technical? Use the one-liner (the default on macOS / Linux):**
+**Technical?** One line on macOS / Linux (review [`install.sh`](install.sh) first if you like):
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
-Prefer to read it first? `curl -fsSL https://newsjack.sh` prints the exact,
-unminified [`install.sh`](install.sh) this repo ships — `newsjack.sh` serves
-that same file and every release bundles it unchanged. The routing is open too:
-[`apps/site/proxy.ts`](apps/site/proxy.ts) rewrites installer user-agents to
-`install.sh` and 308-redirects everyone else here.
+**Not technical?** 📋 **Copy this prompt to your agent:**
 
-If shell installers or GitHub Releases are blocked, use npm:
-
-```bash
-npm i -g newsjack
-newsjack install
+```text
+help me setup https://newsjack.sh
 ```
 
-After install, agents and skills call the CLI as `newsjack`. The installer can
-also connect [Medialyst](https://medialyst.ai) (optional) to unlock the 🔧
-skills.
-
-**Not technical? Let the agent set it up — on any platform.** Tell your agent:
-
-> help me setup https://newsjack.sh
-
-It reads that page, installs the CLI, and wires up the skills — handling the
-platform details (Windows included) for you.
+It reads the [guide](docs/getting-started.md) and handles the rest — npm
+fallback, Windows, credentials — on any platform.
 
 ### Claude.ai & Cowork
 
