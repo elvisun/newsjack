@@ -10,6 +10,8 @@ curl -fsSL newsjack.sh | bash
 
 **Are you an agent?** Check out **[Getting started](docs/getting-started.md)**
 
+**Are you a human?** Jump to **[platform-specific setup](#install)** below.
+
 ---
 
 ## What your agent can do once newsjack is installed
@@ -51,114 +53,113 @@ Three problems, separate lanes.
 
 ## Install
 
-Pick the path for the harness you're using.
+Newsjack is a set of **open skills** — plain-Markdown instructions your agent
+reads — plus a small open-source CLI. Most skills run anywhere your agent runs.
+A few reach for a live news index, a media database, real journalist contacts,
+or locally-saved monitoring state — those work best in a local agent.
 
-### Supported runtimes
+### What runs where
 
-| Runtime             | Status       | Experience   | Install path |
-| ------------------- | ------------ | ------------ | ------------ |
-| Claude Code         | Recommended  | Full Mode    | curl, npm, or plugin |
-| Codex               | Recommended  | Full Mode    | curl or npm |
-| OpenClaw            | Recommended  | Full Mode    | curl or npm |
-| Hermes              | Recommended  | Full Mode    | curl or npm |
-| Claude.ai chat      | Limited only | Limited Mode | plugin/upload/manual skills |
-| ChatGPT chat        | Limited only | Limited Mode | manual skills |
-| Claude Cowork       | Limited only | Limited Mode | plugin/upload/manual skills |
+| Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
+| --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Strategize** | | | | | | | | |
+| pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Act** | | | | | | | | |
+| angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| **Detect** | | | | | | | | |
+| news-search | ✅ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| story-origin-check | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| relevance-coarse-filter | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-triage | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-detector | ⚠️ | ⚠️ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
-### Full Mode: Claude Code, Codex, OpenClaw, Hermes
 
-Use the curl installer when your full agent harness can reach GitHub Release
-assets:
+Legend:
+
+- **✅ Runs out of the box** — no setup; works anywhere your agent does.
+- **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API, or the Medialyst API / MCP).
+- **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
+- **🔜 Coming soon** — not available here yet.
+- **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
+
+**ChatGPT** is ⚠️ across the board: Skills are in beta for **ChatGPT Business
+and Enterprise** only, so other tiers can't load Newsjack skills natively (you
+paste them by hand), and there's no local CLI or saved state either way.
+
+**Set up your agent:**
+
+- **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
+- **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst MCP
+- **[ChatGPT](#chatgpt)** — Skills beta (ChatGPT Business / Enterprise)
+
+### Local agents (Claude Code, Codex, Hermes, OpenClaw)
+
+**Technical?** One line on macOS / Linux (review [`install.sh`](install.sh) first if you like):
 
 ```bash
 curl -fsSL newsjack.sh | bash
 ```
 
-Or review the script before running it:
+**Not technical?** 📋 **Copy this prompt to any AI:**
 
-```bash
-curl -fsSL https://newsjack.sh
+```text
+help me setup https://newsjack.sh
 ```
 
-No surprises: that's the exact, unminified [`install.sh`](install.sh) in this
-repo — `newsjack.sh` serves this file and every release bundles it unchanged, so
-what you read here is what runs. Read it before you pipe it to a shell.
+It reads the [guide](docs/getting-started.md) and handles the rest — npm
+fallback, Windows, credentials — on any platform.
 
-The routing is open too: [`apps/site/proxy.ts`](apps/site/proxy.ts) is the
-Next.js handler behind `newsjack.sh` — it rewrites installer user-agents
-(curl/wget) to `install.sh` and 308-redirects everyone else to this repo.
+### Claude.ai & Cowork - Install as a Claude Plugin
 
-The installer detects your agent runtime and installs the CLI-backed skills
-automatically.
+No install, no CLI — paste your startup URL or your news and you get a real PR
+operator on the spot.
 
-If shell installers or GitHub Release assets are blocked, use npm instead:
+**Install the Newsjack plugin:**
 
-```bash
-npm i -g newsjack
-newsjack install
-```
-
-After install, agents and skills should call the CLI as `newsjack`.
-
-### Windows
-
-No script, no git, no Node. One PowerShell line downloads the CLI and runs
-setup (requires v0.1.10 or later):
-
-```powershell
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
-```
-
-The TLS line makes the download work on stock Windows PowerShell 5.1 (it's a
-no-op on PowerShell 7).
-
-`newsjack setup` downloads the skills bundle, verifies its checksum, installs
-the CLI to `%USERPROFILE%\.newsjack\bin`, and walks you through the same
-guided setup as macOS/Linux — including installing Claude Code through its
-own native Windows installer if you don't have it yet. Updates are automatic,
-same as the curl install.
-
-### Limited mode: Running on Claude.ai, ChatGPT, Claude Cowork
-
-Newsjack needs a local agent for Full Mode. On Claude.ai, ChatGPT, or Claude
-Cowork it automatically falls back to Limited Mode — no install, no CLI, no
-setup. Paste your startup URL or your news and you get a real PR operator on the
-spot.
-
-**Every skill still works.** PR strategy, newsworthiness scoring, story angles,
-pitch drafting and honest critique, journalist-fit reasoning, fit-checked media
-lists, reactive source-query responses, voice fingerprinting, and fact-checking
-against pasted or searchable evidence all run right in the chat — paste what
-you've got and go.
-
-The only things that change are the two always-on monitors — **newsjack
-monitoring** (watching your space for newsjacking opportunities) and **coverage
-monitoring** (Google Alerts-style keyword tracking). Without a local agent they
-can't keep saved profiles, run on a schedule, or remember what they've already
-flagged, so they fall back to best-effort, one-shot scans you trigger by hand.
-Want them running on autopilot? Set up Full Mode with the CLI harness and a local
-agent.
-
-For Claude.ai plugin-style setup:
-
-1. Open **Customize**.
+1. Open **[Customize](https://claude.ai/customize)**.
 2. Go to **Personal plugins**.
 3. Click **Create plugin**.
 4. Choose **Add marketplace**.
 5. Choose **Add from a repository**.
-6. In the repository URL field, enter:
+6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
+7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
+   plugin, and click **Install**.
+8. *(Optional)* Create a [Medialyst](https://medialyst.ai) account to unlock the
+   🔧 skills — the curated news index, journalist database, and fit-checked,
+   shareable lists.
+9. *(Optional)* Back in Claude, click **Connect** on the Medialyst connector and
+   authorize it over **OAuth**. Without it, those skills fall back to host web
+   search and hand-built lists.
 
-```text
-elvisun/newsjack
-```
-
-Then install the Newsjack plugin from that marketplace:
-
-- Marketplace: `elvisun/newsjack`
-- Plugin: `newsjack@newsjack`
-
-A community marketplace plugin (`newsjack@claude-community`) is pending review
+A community marketplace plugin, `newsjack@claude-community`, is pending review
 and will be added soon.
+
+The two always-on monitors run here in ⚠️ Limited Mode — a best-effort, one-shot
+scan with nothing saved. **Newsjack monitoring** surfaces opportunities but can't
+track them over time, and **coverage tracking** can't suppress repeats or flag
+only what's *new since last time* without saved seen-state. For saved, scheduled
+monitoring, use a local agent.
+
+### ChatGPT
+
+ChatGPT runs Newsjack only in a degraded ⚠️ form. Skills aren't available to most
+accounts — *"Skills [are] in beta for ChatGPT Business and Enterprise"* — so on
+those plans you can add Newsjack as a Skill, and on every other tier you paste a
+skill's instructions into the chat by hand. Either way there's no local CLI or
+saved state, so the monitors and persistence-backed skills don't apply. For the
+full toolkit, use a local agent or Claude.ai.
 
 ---
 
@@ -170,20 +171,17 @@ and will be added soon.
 └── newsjack/             # managed bundle
 
 skills installed to your detected runtime(s):
-  newsjack-monitor-setup  create a company monitoring profile
-  newsjack-detector       find newsworthy moments before the wave breaks
   newsworthiness-check    score whether your news clears the bar
-  angle-generator         turn one update into ten pitchable hooks
   headline-generator      headlines and subject lines from raw story facts
   find-journalists        build small, fit-checked media lists
-  …and more
+  ...and more
 ```
 
 The npm package bundles the same CLI and skills, with the `newsjack` command installed on `PATH`.
 
 Curl-installed Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
 
-Npm-installed Newsjack uses npm for CLI updates:
+You can also install the CLI byitself using npm:
 
 ```bash
 npm i -g newsjack@latest

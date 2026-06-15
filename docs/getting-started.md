@@ -46,6 +46,18 @@ npm i -g newsjack
 newsjack install
 ```
 
+On Windows there is no `curl | bash`. When the user is on Windows, download and
+run the setup binary instead (requires v0.1.10 or later):
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://github.com/elvisun/newsjack/releases/latest/download/newsjack_windows_amd64.exe -OutFile newsjack.exe; Unblock-File newsjack.exe; .\newsjack.exe setup
+```
+
+`newsjack setup` fetches the skills bundle, verifies its checksum, installs the
+CLI to `%USERPROFILE%\.newsjack\bin`, and runs the same guided setup as
+macOS/Linux — including installing Claude Code via its native Windows installer
+if it is missing.
+
 Skill instructions assume the command is available as `newsjack` only in Full
 Mode. In Limited Mode, do not try to install the CLI inside chat; use the
 Limited Mode workflow and label detector-style output as reduced coverage.
