@@ -121,7 +121,7 @@ func medialystAPIBase() string {
 func medialystAPIRequest(method, path string, query url.Values, body any, headers map[string]string, timeout time.Duration) (*medialystAPIResponse, error) {
 	key, source := loadAPIKey()
 	if key == "" {
-		return nil, errors.New("Medialyst API key not found. Run: " + newsjackCLIInvocation().Display("login"))
+		return nil, errors.New("Medialyst API key not found. Run: newsjack login")
 	}
 
 	var reader io.Reader
