@@ -60,7 +60,7 @@ below matches where your agent lives.
 
 ### What runs where
 
-✅ runs out of the box · 🔧 needs setup for full results · 🔜 coming soon · ❌ not available
+✅ runs out of the box · 🔧 needs an external API / MCP connection (e.g. the X API, or Medialyst over MCP) · ⚠️ Limited Mode (runs in chat, one-shot, nothing saved) · 🔜 coming soon · ❌ not available
 
 | Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -75,25 +75,36 @@ below matches where your agent lives.
 | reactive-comment | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | fact-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | journalist-fit-check | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| voice-extractor | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| voice-extractor | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | find-journalists | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | **Detect** | | | | | | | | |
-| news-search | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| news-search | ✅ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | story-origin-check | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | relevance-coarse-filter | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | newsjack-triage | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| newsjack-detector | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| newsjack-detector | ⚠️ | ⚠️ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
 | newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| coverage-tracker | ❌ | ❌ | ❌ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
-**🔧 needs setup** — the skill works on its own, but does its best work with the
-**[Medialyst](https://medialyst.ai) MCP** connected (or, in a chat app, a local
-CLI). It's optional: without it you get a limited form — host web search instead
-of the curated Medialyst news index, a hand-built list instead of a fit-checked
-one, or a one-shot scan instead of a saved, scheduled monitor. Coverage tracking
-and the two **setup** skills depend on durable state and a scheduler, so they
-need a local agent — ❌ in chat apps.
+**🔧 needs an external API / MCP connection** — the skill works on its own, but
+does its best work with an external data source connected. That's usually
+**[Medialyst](https://medialyst.ai)** — the curated news index and journalist
+database, available over MCP (no CLI required) — but it can also be a third-party
+API such as the **X API** for social-trend monitoring, with more sources over
+time. It's optional: without it you get a limited form, like host web search
+instead of the Medialyst news index, or a hand-built list instead of a
+fit-checked one.
+
+**⚠️ Limited Mode** — the skill still runs in a chat app, but as a one-shot with
+nothing saved between sessions: `voice-extractor` can't store a reusable voice
+fingerprint, `newsjack-detector` does a best-effort scan instead of canonical
+scheduled monitoring, and `coverage-tracker` does a one-off coverage check with
+no repeat-suppression. Connect a local agent for the saved, scheduled versions.
+
+The two **setup** skills (`newsjack-monitor-setup`, `coverage-tracker-setup`)
+exist only to save a profile or config and schedule it, so they need a local
+agent — ❌ in chat apps.
 
 ### With a local agent (Claude Code, Codex, OpenClaw, Hermes)
 
@@ -159,11 +170,12 @@ and fact-checking against pasted or searchable evidence. Connect the
 [Medialyst](https://medialyst.ai) MCP for the live news index and fit-checked
 media lists (the 🔧 skills above).
 
-The two always-on monitors want a local agent. **Newsjack monitoring** can still
-run as a best-effort, one-shot scan you trigger by hand in chat; **coverage
-tracking** can't — it only flags coverage that's *new since last time*, which
-needs saved seen-state. Want monitoring on autopilot? Run Newsjack in a local
-agent (above), or use [Medialyst](https://medialyst.ai) (coming soon).
+Both always-on monitors run in chat as ⚠️ Limited Mode — a best-effort, one-shot
+scan you trigger by hand. **Newsjack monitoring** surfaces opportunities but
+can't track them over time, and **coverage tracking** does a one-off check but
+can't suppress repeats or flag only what's *new since last time* without saved
+seen-state. Want them saved, scheduled, and running on autopilot? Use a local
+agent (above), or [Medialyst](https://medialyst.ai) (coming soon).
 
 For Claude.ai plugin-style setup:
 
