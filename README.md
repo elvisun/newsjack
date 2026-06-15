@@ -136,30 +136,19 @@ operator on the spot.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Create a [Medialyst](https://medialyst.ai/agents) account to unlock the
-   🔧 skills — the curated news index, journalist database, and fit-checked,
-   shareable lists.
-9. *(Optional)* Back in Claude, click **Connect** on the Medialyst connector and
-   authorize it over **OAuth**. Without it, those skills fall back to host web
-   search and hand-built lists.
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news index, media database, and get verified journalist contacts. If you don't have an account you can create a free one [here](https://medialyst.ai/agents).
+9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 A community marketplace plugin, `newsjack@claude-community`, is pending review
 and will be added soon.
 
 The two always-on monitors run here in ⚠️ Limited Mode — a best-effort, one-shot
-scan with nothing saved. **Newsjack monitoring** surfaces opportunities but can't
-track them over time, and **coverage tracking** can't suppress repeats or flag
-only what's *new since last time* without saved seen-state. For saved, scheduled
-monitoring, use a local agent.
+scan with nothing saved. For saved, scheduled monitoring, use a local agent.
 
 ### ChatGPT
 
-ChatGPT runs Newsjack only in a degraded ⚠️ form. Skills aren't available to most
-accounts — *"Skills [are] in beta for ChatGPT Business and Enterprise"* — so on
-those plans you can add Newsjack as a Skill, and on every other tier you paste a
-skill's instructions into the chat by hand. Either way there's no local CLI or
-saved state, so the monitors and persistence-backed skills don't apply. For the
-full toolkit, use a local agent or Claude.ai.
+ChatGPT runs Newsjack only in a degraded ⚠️ form. Skills aren't available to
+accounts that are not on ChatGPT Business or Enterprise. For the full toolkit, use OpenAI's Codex.
 
 ---
 
