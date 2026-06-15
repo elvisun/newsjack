@@ -6,17 +6,15 @@
 # Usage (from repo root, pwsh):
 #   harness/scripts/run-ci-installer.ps1 -DistDir .tmp/newsjack-release
 #
-# Requires: the release dist (with the windows artifacts), python, go.
+# Requires: the release dist (with the windows artifacts) and python.
 
 [CmdletBinding()]
 param(
   [Parameter(Mandatory = $true)][string]$DistDir,
-  [int]$ServePort = 8765,
-  [int]$MockMCPPort = 8970
+  [int]$ServePort = 8765
 )
 
 $ErrorActionPreference = 'Stop'
-$repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..' '..')
 $DistDir = Resolve-Path $DistDir
 
 function Log([string]$message) {
@@ -60,7 +58,6 @@ function Test-SetupAndDoctor([string]$cli) {
   }
   $doctor = Invoke-CLI $cli @('doctor', '--json') | Out-String | ConvertFrom-Json
   Assert ($doctor.root_ok -eq $true) 'doctor root_ok'
-  Assert ($doctor.mcp_bridge.transport -eq 'native') 'doctor mcp_bridge.transport native'
   Assert ($doctor.install.skills_mode -eq 'managed') 'doctor skills_mode managed'
 }
 
@@ -121,49 +118,6 @@ function Test-MonitorLifecycle([string]$cli, [string]$scratch) {
   Assert ($status.run_count -eq 1) 'monitor status run_count'
 }
 
-function Test-BridgeSmokeWithoutNode([string]$cli) {
-  $mock = Start-Process -FilePath 'go' -ArgumentList @('run', '.', '--addr', "127.0.0.1:$MockMCPPort", '--key', 'mock-key') `
-    -WorkingDirectory (Join-Path $repoRoot 'harness\mock-mcp') -PassThru -NoNewWindow
-  try {
-    $ready = $false
-    for ($i = 0; $i -lt 100; $i++) {
-      try {
-        $response = Invoke-WebRequest -Uri "http://127.0.0.1:$MockMCPPort/mcp" -Method Get -SkipHttpErrorCheck -TimeoutSec 2
-        if ($response.StatusCode -gt 0) { $ready = $true; break }
-      } catch {
-        Start-Sleep -Milliseconds 300
-      }
-    }
-    Assert $ready 'mock MCP server became ready'
-
-    $savedPath = $env:PATH
-    $savedKey = $env:MEDIALYST_API_KEY
-    $savedURL = $env:NEWSJACK_MEDIALYST_MCP_URL
-    try {
-      # Prove the bridge needs no Node: strip node/npm dirs from PATH.
-      $env:PATH = Remove-PathEntries 'node|npm'
-      $env:MEDIALYST_API_KEY = 'mock-key'
-      $env:NEWSJACK_MEDIALYST_MCP_URL = "http://127.0.0.1:$MockMCPPort/mcp"
-      $messages = @(
-        '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"harness-smoke","version":"0"}}}'
-        '{"jsonrpc":"2.0","method":"notifications/initialized"}'
-        '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
-      )
-      $bridgeOut = $messages | & $cli mcp-bridge
-      if ($LASTEXITCODE -ne 0) { throw "mcp-bridge exited $LASTEXITCODE" }
-      $joined = $bridgeOut -join "`n"
-      Assert ($joined -match 'protocolVersion') 'bridge relayed the initialize result'
-      Assert ($joined -match 'mock_search') 'bridge relayed the SSE tool list'
-    } finally {
-      $env:PATH = $savedPath
-      $env:MEDIALYST_API_KEY = $savedKey
-      $env:NEWSJACK_MEDIALYST_MCP_URL = $savedURL
-    }
-  } finally {
-    if (-not $mock.HasExited) { Stop-Process -Id $mock.Id -Force }
-  }
-}
-
 function Test-AutoUpdateSwapsRunningExe([string]$cli, [string]$newsjackHome) {
   # Stale the recorded version, run a user-facing command, and assert the
   # binary updated itself in place: the one scenario only a real Windows
@@ -217,7 +171,6 @@ function Invoke-BootstrapLeg {
     NEWSJACK_HOME           = $env:NEWSJACK_HOME
     NEWSJACK_RELEASE_BASE   = $env:NEWSJACK_RELEASE_BASE
     NEWSJACK_RUNTIMES       = $env:NEWSJACK_RUNTIMES
-    NEWSJACK_INSTALL_MCP    = $env:NEWSJACK_INSTALL_MCP
     NEWSJACK_NO_AUTO_UPDATE = $env:NEWSJACK_NO_AUTO_UPDATE
     NEWSJACK_NO_PATH_UPDATE = $env:NEWSJACK_NO_PATH_UPDATE
     USERPROFILE             = $env:USERPROFILE
@@ -232,7 +185,6 @@ function Invoke-BootstrapLeg {
     $env:NEWSJACK_HOME = $NewsjackHome
     $env:NEWSJACK_RELEASE_BASE = "http://127.0.0.1:$ServePort"
     $env:NEWSJACK_RUNTIMES = 'claude'
-    $env:NEWSJACK_INSTALL_MCP = '0'
     $env:NEWSJACK_NO_AUTO_UPDATE = '1'
     # Keep the runner's HKCU PATH untouched.
     $env:NEWSJACK_NO_PATH_UPDATE = '1'
@@ -255,7 +207,6 @@ function Invoke-BootstrapLeg {
     if ($FullBattery) {
       Test-MockDetector $installedCli
       Test-MonitorLifecycle $installedCli $scratch
-      Test-BridgeSmokeWithoutNode $installedCli
       Test-AutoUpdateSwapsRunningExe $installedCli $NewsjackHome
     }
     Log "leg passed: $LegName"

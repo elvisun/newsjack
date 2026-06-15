@@ -21,16 +21,10 @@ title = "newsjack gitleaks config"
 [extend]
 useDefault = true
 
-[[allowlists]]
-description = "Generated eval-study run artifacts (model-authored verdicts and write-ups, not source)."
+[allowlist]
+description = "Generated eval artifacts: model-authored eval outputs and dogfood stream transcripts, not source."
 paths = [
   '''eval/[^/]+/runs/.*\.json$''',
   '''eval/[^/]+/runs/.*\.md$''',
-]
-
-[[allowlists]]
-targetRules = ["linkedin-client-id"]
-description = "Dogfood eval stream transcripts can contain public LinkedIn contact evidence, not secrets."
-paths = [
   '''^eval/.*\.stream\.jsonl$''',
 ]

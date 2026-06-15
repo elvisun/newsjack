@@ -82,7 +82,6 @@ jobs:
 
           curl -fsSL http://127.0.0.1:8765/install.sh | \
             NEWSJACK_RUNTIMES=codex \
-            NEWSJACK_INSTALL_MCP=0 \
             bash
 
           newsjack version | grep -F 'v0.1.0-ci'
@@ -106,12 +105,11 @@ jobs:
 
           curl -fsSL http://127.0.0.1:8766/install.sh | \
             NEWSJACK_INSTALL_SKILLS=0 \
-            NEWSJACK_INSTALL_MCP=0 \
             bash
 
           newsjack version | grep -F 'v0.1.0-ci'
           test ! -e "$HOME/.agents/skills/newsjack-detector/SKILL.md"
-          jq -e '.skills_mode == "external" and .install_mcp == false' "$HOME/.newsjack/install.json"
+          jq -e '.skills_mode == "external"' "$HOME/.newsjack/install.json"
 
       - name: Smoke POSIX sh compatibility
         shell: bash
@@ -129,11 +127,10 @@ jobs:
 
           curl -fsSL http://127.0.0.1:8767/install.sh | \
             NEWSJACK_INSTALL_SKILLS=0 \
-            NEWSJACK_INSTALL_MCP=0 \
             sh
 
           newsjack version | grep -F 'v0.1.0-ci'
-          jq -e '.skills_mode == "external" and .install_mcp == false' "$HOME/.newsjack/install.json"
+          jq -e '.skills_mode == "external"' "$HOME/.newsjack/install.json"
 
   windows-installer:
     name: Windows bootstrap battery
