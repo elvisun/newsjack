@@ -25,6 +25,9 @@ below these notes.
   of MCP.** The CLI calls Medialyst's public API directly; `find-journalists`
   and `news-search` use that path, with a local-artifact fallback when
   Medialyst is not configured. (#47)
+- The Claude plugin manifests (`.claude-plugin/plugin.json` and
+  `marketplace.json`) now track the release version; a release-workflow gate and
+  a unit test keep them in sync with the tag.
 
 ### Removed
 
