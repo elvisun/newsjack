@@ -1,6 +1,6 @@
 ---
 name: find-journalists
-description: "Create, inspect, edit, enrich, and share fit-checked media lists for newsjack campaigns. Uses the newsjack CLI for Medialyst cloud mode, and falls back to a local artifact when the cloud substrate is not configured."
+description: "Create, inspect, edit, enrich, and share fit-checked media lists for newsjack campaigns. Uses the newsjack CLI for Medialyst cloud mode, tries direct Medialyst MCP tools if the CLI is missing, and falls back to a local artifact only when no cloud substrate is available."
 when_to_use: "User asks to build, generate, refine, dedupe, inspect, enrich, manage, or share a media list; asks for journalists for a pitch or newsjack angle; asks to add columns, notes, views, or share links to a media list; or another newsjack skill has produced journalist shapes that need real recipient discovery."
 ---
 
@@ -12,10 +12,10 @@ You are not a contact scraper, and you are not a tool for sending mass email. Yo
 
 ## Where You're Running
 
-- **Full Mode:** You're in a capable agent tool such as Claude Code, Codex, OpenClaw, or Hermes — with access to a shell, the file system, the network, and the local `newsjack` command. In Full Mode you can log in to Medialyst, sync lists to the cloud, and save lists locally.
+- **Full Mode:** You're in a capable agent tool such as Claude Code, Codex, OpenClaw, or Hermes — with access to a shell, the file system, the network, and usually the local `newsjack` command or direct Medialyst MCP tools. In Full Mode you can log in to Medialyst, sync lists to the cloud, and save lists locally.
 - **Limited Mode:** You're in a chat-only place such as Claude.ai, ChatGPT, or Claude Cowork, with no shell, files, or commands. Don't try to run `curl`, `npm`, `newsjack login`, or any setup. Just build a small, fit-checked list in the chat from evidence the user gives you or that you can search for — and tell the user plainly that the list was not synced to Medialyst or saved anywhere.
 
-Full Mode commands below assume the `newsjack` command is installed and ready to run.
+Full Mode commands below assume the `newsjack` command is installed and ready to run. If it is missing, try the direct Medialyst MCP tools exposed by the runtime before falling back to local mode.
 
 ## Ground Rules
 
@@ -27,8 +27,8 @@ The hard line: never build big undifferentiated lists, never build "same email t
 
 Use whichever is available:
 
-- **Medialyst (cloud) mode:** If the `newsjack` CLI is installed and authenticated, use it. It can search news, create the list, inspect and edit the table, enrich journalists, save views, and make share links — all through Medialyst's REST API, so the list is saved and shareable.
-- **Local mode:** If Medialyst isn't connected or you don't have permission, just keep going on your own. Hand back a clear, structured list the user can review, import, or sync to Medialyst later. Never pretend it was saved in Medialyst when it wasn't.
+- **Medialyst (cloud) mode:** Prefer the `newsjack` CLI when it is installed and authenticated. If the CLI is missing but direct Medialyst MCP tools are available in the runtime, use those tools instead. Both paths can search news, create the list, inspect and edit the table, enrich journalists, save views, and make share links, so the list is saved and shareable.
+- **Local mode:** Use this only when neither `newsjack` nor direct Medialyst MCP tools are available or usable. Hand back a clear, structured list the user can review, import, or sync to Medialyst later. Never pretend it was saved in Medialyst when it wasn't.
 
 Medialyst is optional. This skill must stay useful even with no Medialyst account and no login.
 
@@ -76,6 +76,23 @@ newsjack login
 ```
 
 For cloud mode to work, the account needs `news:search` and `media_lists:manage`.
+
+If `newsjack` is missing, do not stop and do not try to set up MCP yourself. Check whether the runtime already exposes direct Medialyst MCP tools. If it does, use them as the cloud-mode adapter for the same operations:
+
+| Task | Direct Medialyst MCP tool |
+| --- | --- |
+| Search news | `search_news` |
+| Create a media list | `create_media_list` |
+| List media lists | `list_media_lists` |
+| Read a media list | `get_media_list` |
+| Inspect a table preview | `inspect_table` |
+| Read exact cells | `read_full_values` |
+| Preview a column render | `preview_column_render` |
+| Apply a management action | `apply_table_action` |
+| Create a share link | `create_share_link` |
+| Delete a test list | `delete_media_list` |
+
+Use local mode only when the CLI is missing and those MCP tools are not available, unauthenticated, forbidden, rate-limited, or out of credits.
 
 Use these commands:
 
@@ -155,7 +172,7 @@ Common response shapes:
 - `newsjack media-lists inspect` and `get --include-rows --include-schema` return `columns` and `rows`. Depending on pagination, `rows` may be top-level or under `media_list.rows`; columns may be top-level or under `media_list.columns`. Look in both places. Build a column ID-to-name map from that same response before reading row values. Row objects may have `id`, `row_id`, or no row identifier at all; never use direct indexing like `row["id"]` unless you have checked it exists. Use `row.get("row_id") or row.get("id") or f"row_{index}"`. Treat `row.values` as an object keyed by column ID, not as a positional array. Use `cell = values.get(column_id)` after confirming `values` is a dict; never use `values[index]` or infer a cell's position from the column order. Individual cells in `row.values` may be `null`; before reading `display` or `data`, check `isinstance(cell, dict)`. Use `display = cell.get("display") if isinstance(cell, dict) else "research-needed"` and treat non-dict cells as unresolved. Never call `cell.get(...)` directly on a value pulled from `row.values`. Article details usually live under the row value for the `Article` column, often as `values[article_column_id].data`. Some endpoints may also return values in a different display shape; do not spend the first-wave answer reverse-engineering it. If article `author` is null or the row shape is not obvious, mark the row `research-needed`.
 - `newsjack journalists enrich` returns the API payload directly. During `--wait`, you may see either a job wrapper or a completed enrichment batch. For a job wrapper, read top-level `id`, `status`, `progress`, and `result`; do not look for a nested `journalist_enrichment_job` key. Terminal status is usually `complete`, not `completed`; when `status == "complete"`, journalists are under `result.journalists` and supporting fit/research details are usually under `result.research`. For a completed enrichment batch, `status` may be absent and journalists are top-level under `journalists`, with supporting details under top-level `research` and `object` often set to `journalist_enrichment_batch`. Check both `result.journalists` and top-level `journalists` before concluding there are no journalists. Journalist `outlet` is usually a string, not an object. If it is still `processing`, keep the top-level job `id` and move on. If the enriched name is a publication account, shared byline, handle such as `@Outlet`, an author-like string with no person-level evidence, or a sparse object with no clear beat/recent-work/contact context, mark that row `research-needed` instead of treating it as a pitch-ready journalist.
 
-If a command is missing, unauthenticated, forbidden, rate-limited, out of credits, or an async workflow takes too long, say exactly what failed and keep going in local mode or partial cloud mode. Never pretend a list was saved or enriched when the command failed.
+If a `newsjack` command is missing, first try direct Medialyst MCP tools if the runtime provides them. If the CLI and MCP path are both unavailable, unauthenticated, forbidden, rate-limited, out of credits, or an async workflow takes too long, say exactly what failed and keep going in local mode or partial cloud mode. Never pretend a list was saved or enriched when the cloud operation failed.
 
 Do not poll async work during a first-wave answer. Do not write shell loops around `media-lists inspect`, background wait commands, `sleep`, delayed inspections, scheduled rechecks, or repeated `enrich-job` checks. For first-wave list building, one create call plus one immediate inspection is enough. A second inspection is optional only when it happens right away to confirm row or schema shape; never wait before doing it. If `journalists enrich --wait` still returns `processing`, or if workflow columns are still loading, keep the job ID or list ID as a revisit handle, return the reviewed evidence you have, and mark unresolved rows `research-needed`. Do not scrape the source page with `curl`, `wget`, `grep`, or ad hoc HTML parsing to work around missing bylines; that usually creates huge noisy output and is not fit-checking. Do not describe a next step as "scrape the byline"; say "check the article page or outlet byline manually" or "revisit the enrichment job later." Use the Medialyst evidence you have, a separate news search, or honest `research-needed`. An honest undercount is the right answer when the defensible bylines are not ready yet; do not pad the list with weak names just to hit the requested number. Do not create a share link from an unresolved table.
 
@@ -166,7 +183,7 @@ Do not poll async work during a first-wave answer. Do not write shell loops arou
 2. **Gather evidence.**
    - If the user gave you article links, those are your main evidence.
    - If the user specifically gave one source article and asked you to build a list around it, create the source-article list and generate angles from that source first. In that source-article workflow, do not run `media-lists add-urls` or `media-lists add-keywords` after a pending source-article enrich just to make the list larger. Related news searches may inform pitch angles, but they must not mutate the source-article list unless the user explicitly asked for a broader topic list or you already have a named, defensible journalist shape to expand from.
-   - If they gave you a topic or hook, use `newsjack news search --query "..."` in cloud mode, or the `news-search` skill / ordinary web search otherwise. Local search still surfaces bylines; just treat the dates and outlet names as best-effort, not gospel.
+   - If they gave you a topic or hook, use `newsjack news search --query "..."` in CLI cloud mode, `search_news` in direct MCP cloud mode, or the `news-search` skill / ordinary web search otherwise. Local search still surfaces bylines; just treat the dates and outlet names as best-effort, not gospel.
 
    - Favor recent articles written by named journalists on exactly this topic.
    - In `newsjack news search` results, prefer rows where `publication_type` is `editorial`. Cut or quarantine `brand_content`, `newswire`, vendor blogs, SEO pages, product docs, content-farm articles, old articles, and outlet landing pages unless the user specifically asked for that category.
@@ -264,7 +281,7 @@ If a journalist's anchor or identity carries a risk (it's stale, the anchor is w
 
 **The cuts.** A short list of who you removed and the one-line reason for each. Don't hide cuts.
 
-**Command trail (cloud mode only).** Briefly note which `newsjack` commands you used, the list ID and any view IDs you captured, and whether anything failed login or permission checks. In local mode, say plainly that the list was not synced and why.
+**Command/tool trail (cloud mode only).** Briefly note which `newsjack` commands or Medialyst MCP tools you used, the list ID and any view IDs you captured, and whether anything failed login or permission checks. In local mode, say plainly that the list was not synced and why.
 
 **Partial cloud mode.** If Medialyst saved the list but journalist names, article authors, workflow scores, recent articles, or AI-analysis columns are still unresolved after the first inspection, say that plainly. Include the media list ID and any enrichment job ID, mark those rows `research-needed`, and do not pad the list with weak names just to hit the requested count.
 
