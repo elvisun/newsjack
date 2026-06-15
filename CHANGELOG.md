@@ -19,12 +19,19 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.11 — 2026-06-15
+
 ### Changed
 
 - **Medialyst now runs through the `newsjack` CLI's public-API wrapper instead
   of MCP.** The CLI calls Medialyst's public API directly; `find-journalists`
   and `news-search` use that path, with a local-artifact fallback when
   Medialyst is not configured. (#47)
+- **`find-journalists` now treats `newsjack` as a news and enrichment data
+  layer, not a hosted media-list manager.** Agents own list organization and
+  final fit judgment; the final outreach list stays small and relevant, while
+  larger candidate enrichment is allowed when screening multiple regions,
+  angles, beats, or ambiguous bylines. (#48)
 - The Claude plugin manifests (`.claude-plugin/plugin.json` and
   `marketplace.json`) now track the release version; a release-workflow gate and
   a unit test keep them in sync with the tag.
@@ -34,12 +41,16 @@ below these notes.
 - The Medialyst MCP integration and its install-time setup, including the
   `NEWSJACK_INSTALL_MCP` option — no Node/MCP bridge is registered anymore.
   (#47)
+- The `newsjack media-lists ...` command family. The CLI no longer creates,
+  inspects, updates, shares, stores, or manages hosted media lists. (#48)
 
 ### Docs
 
 - README: added a skills × harness compatibility matrix, reorganized setup by
   agent platform (local agents / Claude.ai & Cowork / ChatGPT), and clarified
   ChatGPT support (Skills beta for Business and Enterprise). (#46)
+- Added Medialyst agent-native media-list and enrichment API handoff notes.
+  (#48)
 
 ## v0.1.10 — 2026-06-12
 
