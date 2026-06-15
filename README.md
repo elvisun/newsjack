@@ -136,14 +136,15 @@ operator on the spot.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
+8. *(Optional)* Create a [Medialyst](https://medialyst.ai) account to unlock the
+   🔧 skills — the curated news index, journalist database, and fit-checked,
+   shareable lists.
+9. *(Optional)* Back in Claude, click **Connect** on the Medialyst connector and
+   authorize it over **OAuth**. Without it, those skills fall back to host web
+   search and hand-built lists.
 
 A community marketplace plugin, `newsjack@claude-community`, is pending review
 and will be added soon.
-
-**Connect Medialyst (optional):** Add the [Medialyst](https://medialyst.ai) MCP
-and authorize it over **OAuth** to unlock the 🔧 skills — the curated news index,
-journalist database, and fit-checked, shareable lists. Without it those skills
-fall back to host web search and hand-built lists.
 
 The two always-on monitors run here in ⚠️ Limited Mode — a best-effort, one-shot
 scan with nothing saved. **Newsjack monitoring** surfaces opportunities but can't
