@@ -55,7 +55,7 @@ Three problems, separate lanes.
 
 Newsjack is a set of **open skills** — plain-Markdown instructions your agent
 reads — plus a small open-source CLI. Most skills run anywhere your agent runs.
-A few reach for a live news index, a media database, real journalist contacts,
+A few reach for a live news index, journalist enrichment,
 or locally-saved monitoring state — those work best in a local agent.
 
 ### What runs where
@@ -129,7 +129,7 @@ fallback, Windows, credentials — on any platform.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news index, media database, and get verified journalist contacts. If you don't have an account you can create a free one [here](https://medialyst.ai/agents).
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search and journalist enrichment. If you don't have an account you can create a free one [here](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 Note: A community marketplace plugin, `newsjack@claude-community`, is pending review
@@ -155,7 +155,7 @@ accounts that are not on ChatGPT Business or Enterprise. For the full toolkit, u
 skills installed to your detected runtime(s):
   newsworthiness-check    score whether your news clears the bar
   headline-generator      headlines and subject lines from raw story facts
-  find-journalists        build small, fit-checked media lists
+  find-journalists        build small, fit-checked journalist lists
   ...and more
 ```
 

@@ -88,10 +88,9 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"auth set-medialyst",
 		"auth set-x",
 		"https://medialyst.ai/agents",
-		"live news search, media database, find journalists",
+		"live news search and journalist enrichment",
 		"news search",
 		"journalists enrich",
-		"media-lists create",
 		"~/.newsjack/credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
@@ -117,7 +116,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 }
 
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "journalists", "media-lists", "credits"} {
+	for _, topic := range []string{"news", "journalists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
@@ -132,8 +131,6 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 	for _, args := range [][]string{
 		{"help", "journalists enrich"},
 		{"help", "journalists", "enrich"},
-		{"help", "media-lists action"},
-		{"help", "media-lists", "action"},
 		{"help", "news search"},
 		{"help", "news", "search"},
 	} {
@@ -151,7 +148,6 @@ func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 	for _, args := range [][]string{
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
-		{"media-lists", "create", "--help"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {

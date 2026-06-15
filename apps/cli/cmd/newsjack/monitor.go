@@ -323,7 +323,7 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 	}
 	fmt.Fprintln(w.stdout)
 	uiSectionExact(w.stdout, "Configure Medialyst API (Optional)")
-	uiKV(w.stdout, "used for", "live news search, media database, find journalists")
+	uiKV(w.stdout, "used for", "live news search and journalist enrichment")
 	uiKV(w.stdout, "stored in", "~/.newsjack/credentials.json")
 	uiKV(w.stdout, "get one", medialystAPIKeyURL)
 	value := strings.TrimSpace(w.prompt("Medialyst API key (press Enter to skip)", ""))
