@@ -112,7 +112,7 @@ paste them by hand), and there's no local CLI or saved state either way.
 curl -fsSL newsjack.sh | bash
 ```
 
-**Not technical?** 📋 **Copy this prompt to your agent:**
+**Not technical?** 📋 **Copy this prompt to any AI:**
 
 ```text
 help me setup https://newsjack.sh
