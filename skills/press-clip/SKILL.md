@@ -21,7 +21,7 @@ Optional: whether to keep the **whole article** or **just the client's section**
 
 ## How it works
 
-The skill ships with a clipper script, `clip.mjs`, that drives a real browser: it loads the page, removes the clutter, optionally isolates one section, highlights the client, and prints a PDF that looks like the live article. You run it; you also use judgment around it, because no two publication templates are identical.
+The skill ships with a clipper script, `clip.mjs`, that drives a real browser: it loads the page, removes the clutter, optionally isolates one section, highlights the client, and prints a PDF that looks like the live article. It also stamps a **header band** across the top carrying the single most important trust signal — the **outlet's logo** — alongside the outlet name, publish date, and the source link. The script auto-detects the logo (and the date) before stripping anything, then re-injects the logo into that band, so it survives even when the publication's masthead gets removed with the rest of the chrome. If no logo image can be found, it falls back to the outlet name as a wordmark. You run it; you also use judgment around it, because no two publication templates are identical — check the preview and confirm the logo and date came through.
 
 ### One-time setup
 

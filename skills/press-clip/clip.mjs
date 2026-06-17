@@ -81,6 +81,27 @@ const JUNK = [
   await page.waitForTimeout(1500);
 
   await page.evaluate(({ JUNK, client, section, keep, drop }) => {
+    // --- capture outlet identity BEFORE we remove anything (logo often lives in a header we strip) ---
+    const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); return e ? (e.getAttribute(attr) || '').trim() : ''; };
+    const outlet = meta('meta[property="og:site_name"]')
+      || document.title.replace(/.*[-|–—]\s*/, '').trim()
+      || location.hostname.replace(/^www\./, '');
+    let dateStr = '';
+    const dateRaw = meta('meta[property="article:published_time"]') || meta('meta[itemprop="datePublished"]')
+      || meta('time[datetime]', 'datetime');
+    if (dateRaw) { const d = new Date(dateRaw); if (!isNaN(d)) dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
+    // find the masthead logo: a real <img> logo near the top, else a wordmark/og:logo/icon
+    let logoSrc = '';
+    const cands = [...document.querySelectorAll(
+      '[class*="site-logo" i] img, [class*="navbar-brand" i] img, [class*="logo" i] img, #logo img, header img, a[href="/"] img, a[href="' + location.origin + '/"] img'
+    )];
+    for (const img of cands) {
+      const s = img.currentSrc || img.src || '';
+      const r = img.getBoundingClientRect();
+      if (s && !/sprite|emoji|avatar|gravatar|icon-/i.test(s) && r.top < 700) { logoSrc = s; break; }
+    }
+    if (!logoSrc) logoSrc = meta('meta[property="og:logo"]') || meta('link[rel*="icon"]', 'href');
+
     const keepSel = (keep || '').split(',').map(s => s.trim()).filter(Boolean);
     const protectedEls = new Set();
     keepSel.forEach(sel => document.querySelectorAll(sel).forEach(n => protectedEls.add(n)));
@@ -89,8 +110,9 @@ const JUNK = [
 
     JUNK.forEach(kill);
     (drop || '').split(',').map(s => s.trim()).filter(Boolean).forEach(kill);
-    // common layout chrome: sidebar, footer, sticky bars
-    kill('[class*="sidebar" i], aside, [class*="footer" i], footer, [class*="sticky" i], [class*="affix" i], nav [class*="menu" i]');
+    // common layout chrome: sidebar, footer, sticky bars, and the site's top nav menu
+    // (safe — we already captured the logo above and re-inject it in the clip header band)
+    kill('[class*="sidebar" i], aside, [class*="footer" i], footer, [class*="sticky" i], [class*="affix" i], nav, [role="navigation"], [class*="menu-wrap" i], [class*="header-menu" i]');
 
     // widen the main column once the sidebar is gone
     document.querySelectorAll('[class*="span8"], [class*="main-content"], [class*="content-area"]')
@@ -134,13 +156,23 @@ const JUNK = [
       });
     }
 
-    // --- slim ribbon so it reads as a clip, with outlet + date ---
-    const outlet = (document.querySelector('meta[property="og:site_name"]') || {}).content
-      || document.title.replace(/.*[-|–]\s*/, '').trim() || location.hostname.replace(/^www\./, '');
-    const ribbon = document.createElement('div');
-    const label = [client && ('CLIP · ' + client), outlet, location.href].filter(Boolean).join('  ·  ');
-    ribbon.innerHTML = '<div style="font:600 12px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;color:#334155;background:#f1f5f9;border-bottom:1px solid #cbd5e1;padding:7px 14px;word-break:break-all">' + label + '</div>';
-    document.body.prepend(ribbon);
+    // --- clip header band: the outlet LOGO (the key trust signal) + outlet name, date, source link ---
+    const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    const logoImg = logoSrc
+      ? '<img src="' + esc(logoSrc) + '" alt="' + esc(outlet) + '" style="height:40px;max-width:260px;width:auto;object-fit:contain;display:block">'
+      : '<span style="font:700 22px/1 Georgia,serif;color:#111">' + esc(outlet) + '</span>';
+    const meta2 = [
+      client && ('<b style="color:#0f172a">PRESS CLIP — ' + esc(client) + '</b>'),
+      esc(outlet),
+      dateStr && ('Published ' + esc(dateStr)),
+      '<a href="' + esc(location.href) + '" style="color:#475569;text-decoration:none">' + esc(location.href) + '</a>',
+    ].filter(Boolean).join(' &nbsp;·&nbsp; ');
+    const band = document.createElement('div');
+    band.style.cssText = 'background:#fff;border-bottom:2px solid #0f172a;padding:14px 18px 12px;margin:0 0 10px;display:flex;align-items:center;gap:16px';
+    band.innerHTML =
+      '<div style="flex:0 0 auto">' + logoImg + '</div>' +
+      '<div style="font:500 11.5px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#475569;word-break:break-word;border-left:1px solid #cbd5e1;padding-left:16px">' + meta2 + '</div>';
+    document.body.prepend(band);
   }, { JUNK, client, section, keep, drop });
 
   await page.waitForTimeout(600);
