@@ -1,9 +1,14 @@
 #!/usr/bin/env node
 // press-clip clipper — render a live article to a high-fidelity PDF press clip.
 //
-// Keeps the publication's real look (logo, fonts, photos, layout) and removes
-// the ad/chrome clutter. Optionally isolates one section (the client's) in a
-// per-item roundup, and highlights the client's mentions.
+// Keeps the publication's real look (logo, fonts, photos, layout). Isolates the
+// article STRUCTURALLY — keep the article and its ancestor chain, drop everything
+// that is a sibling of that chain (header, nav, sidebar, footer, recirc) — so no
+// site-specific class names are baked in. Per-publisher junk that lives INSIDE the
+// article (ads, sponsored rails, newsletter boxes, comment embeds) is removed at
+// runtime via --drop, which the caller supplies after inspecting the page.
+// Optionally isolates one section (the client's) in a roundup, and highlights the
+// client's mentions. Contains no per-site logic by design.
 //
 // Usage:
 //   node clip.mjs --url <URL> --out <file.pdf> [options]
@@ -50,24 +55,6 @@ const CHROME = args.chrome
   || process.env.PRESS_CLIP_CHROME
   || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
-// Generic clutter that is never part of the article. Safe across sites; a
-// selector that matches nothing is simply ignored.
-const JUNK = [
-  'iframe', 'ins.adsbygoogle', '.adsbygoogle', 'amp-ad',
-  '[id^="div-gpt"]', '[id*="google_ads"]', '[id*="-ad-"]', '[class^="ad-"]', '[class*=" ad-"]',
-  '.td-a-rec', '[class*="td-a-rec"]', '.td-a-ad',                       // tagDiv (WordPress) ad recs
-  '[class*="advert"]', '[data-ad]', '[aria-label*="advertisement" i]',
-  '[id*="cookie" i]', '[class*="cookie" i]', '[class*="consent" i]', '[id*="consent" i]',
-  '[class*="newsletter" i]', '[class*="subscribe" i]', '[class*="signup" i]',
-  '[class*="related" i]', '[class*="more-from" i]', '[class*="recirc" i]',
-  '[class*="share" i]', '[class*="social" i]', '[class*="sharing" i]',
-  '#comments', '.comments-area', '[class*="comment" i]',
-  // overlays — target real dialogs/interstitials, NOT click-to-zoom image links (e.g. a.td-modal-image)
-  '[role="dialog"]', '[aria-modal="true"]', '[class*="lightbox" i]', '[class*="-popup" i]', '[class*="popup-" i]', '[class*="paywall" i]',
-  // in-article table of contents — lists sections we may have removed, so drop it on a clip
-  '[class*="ez-toc" i]', '[class*="table-of-contents" i]', 'nav[class*="toc" i]', '#toc',
-];
-
 (async () => {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
   const page = await browser.newPage({ viewport: { width: 1180, height: 1600 }, deviceScaleFactor: 2 });
@@ -80,7 +67,7 @@ const JUNK = [
   });
   await page.waitForTimeout(1500);
 
-  await page.evaluate(({ JUNK, client, section, keep, drop }) => {
+  await page.evaluate(({ client, section, keep, drop }) => {
     // --- capture outlet identity BEFORE we remove anything (logo often lives in a header we strip) ---
     const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); return e ? (e.getAttribute(attr) || '').trim() : ''; };
     const outlet = meta('meta[property="og:site_name"]')
@@ -90,37 +77,77 @@ const JUNK = [
     const dateRaw = meta('meta[property="article:published_time"]') || meta('meta[itemprop="datePublished"]')
       || meta('time[datetime]', 'datetime');
     if (dateRaw) { const d = new Date(dateRaw); if (!isNaN(d)) dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
-    // find the masthead logo: a real <img> logo near the top, else a wordmark/og:logo/icon
-    let logoSrc = '';
-    const cands = [...document.querySelectorAll(
-      '[class*="site-logo" i] img, [class*="navbar-brand" i] img, [class*="logo" i] img, #logo img, header img, a[href="/"] img, a[href="' + location.origin + '/"] img'
-    )];
-    for (const img of cands) {
-      const s = img.currentSrc || img.src || '';
-      const r = img.getBoundingClientRect();
-      if (s && !/sprite|emoji|avatar|gravatar|icon-/i.test(s) && r.top < 700) { logoSrc = s; break; }
+    // find the masthead logo (the key trust signal): prefer the homepage-linking logo near the top.
+    // support inline <svg> wordmarks as well as <img> logos; exclude article thumbnails/icons.
+    let logoSrc = '', logoSvg = '';
+    const badImg = /sprite|emoji|avatar|gravatar|icon-|\/thumbs?\/|uploads\/sites/i;
+    const originRe = new RegExp('^' + location.origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\/?$');
+    const brandCands = [
+      ...[...document.querySelectorAll('a')].filter(a => {
+        const href = a.getAttribute('href') || ''; const r = a.getBoundingClientRect();
+        return (href === '/' || originRe.test(href)) && r.top < 300 && r.width > 60;
+      }),
+      ...document.querySelectorAll('[class*="site-logo" i], [class*="masthead" i], [class*="navbar-brand" i], [class*="logo" i]'),
+    ];
+    for (const c of brandCands) {
+      const img = c.matches('img') ? c : c.querySelector('img');
+      if (img) { const s = img.currentSrc || img.src || ''; if (s && !badImg.test(s)) { logoSrc = s; break; } }
+      const svg = c.matches('svg') ? c : c.querySelector('svg');
+      if (svg && svg.getBoundingClientRect().width >= 60) { logoSvg = svg.outerHTML; break; }
     }
-    if (!logoSrc) logoSrc = meta('meta[property="og:logo"]') || meta('link[rel*="icon"]', 'href');
+    if (!logoSrc && !logoSvg) logoSrc = meta('meta[property="og:logo"]') || meta('link[rel*="icon"]', 'href');
+
+    // The article body and the wrappers it sits inside must never be deleted, even if a
+    // wrapper's class happens to contain a junk word (e.g. a "recirc" container around the article).
+    // Pick by priority and by most text — not document order — so a page-level <main> wrapper or a
+    // teaser-card <article> in the header strip can't win over the real story body.
+    const articleRoot = (() => {
+      const arts = [...document.querySelectorAll('article')];
+      if (arts.length) return arts.sort((a, b) => b.innerText.length - a.innerText.length)[0];
+      for (const s of ['[class*="article-body" i]', '[class*="article-content" i]', '[class*="post-content" i]', '[class*="entry-content" i]', 'main']) {
+        const el = document.querySelector(s);
+        if (el) return el;
+      }
+      return document.body;
+    })();
 
     const keepSel = (keep || '').split(',').map(s => s.trim()).filter(Boolean);
     const protectedEls = new Set();
     keepSel.forEach(sel => document.querySelectorAll(sel).forEach(n => protectedEls.add(n)));
     const isProtected = n => { for (let p = n; p; p = p.parentElement) if (protectedEls.has(p)) return true; return false; };
-    const kill = sel => document.querySelectorAll(sel).forEach(n => { if (!isProtected(n)) n.remove(); });
 
-    JUNK.forEach(kill);
-    (drop || '').split(',').map(s => s.trim()).filter(Boolean).forEach(kill);
-    // common layout chrome: sidebar, footer, sticky bars, and the site's top nav menu
-    // (safe — we already captured the logo above and re-inject it in the clip header band)
-    kill('[class*="sidebar" i], aside, [class*="footer" i], footer, [class*="sticky" i], [class*="affix" i], nav, [role="navigation"], [class*="menu-wrap" i], [class*="header-menu" i]');
+    // Isolate the story WITHOUT guessing class names: hide everything that is not on the path from
+    // <body> down to the article. The site header, nav, sidebars, footer, and recirculation rails
+    // are all siblings of the article's ancestor chain, so they fall away — while legitimate layout
+    // wrappers around the body (even ones classed "...--has-sidebar") are on the path and survive.
+    // This avoids the brittle "[class*=sidebar]" substring match that deletes real content on some
+    // templates. (Broad class-keyword removal does not generalize; isolation by structure does.)
+    for (let node = articleRoot; node && node.parentElement && node !== document.body; node = node.parentElement) {
+      for (const sib of [...node.parentElement.children]) {
+        if (sib === node || sib.contains(articleRoot) || isProtected(sib)) continue;
+        if (sib.tagName === 'STYLE' || sib.tagName === 'SCRIPT' || sib.tagName === 'LINK') continue;
+        sib.remove();
+      }
+    }
 
-    // widen the main column once the sidebar is gone
+    // Inside the article, remove only high-confidence junk (never broad layout words): ad slots and
+    // embeds, consent/overlay dialogs, in-article newsletter sign-ups and tables of contents.
+    const HARD_JUNK = [
+      'iframe', 'ins.adsbygoogle', '.adsbygoogle', 'amp-ad', '[id^="div-gpt"]', '[id*="google_ads"]',
+      '[data-ad]', '[aria-label*="advertisement" i]', '[role="dialog"]', '[aria-modal="true"]',
+      '[class*="newsletter" i]', '[class*="ez-toc" i]', '[class*="table-of-contents" i]',
+    ];
+    [...HARD_JUNK, ...(drop || '').split(',').map(s => s.trim()).filter(Boolean)].forEach(sel => {
+      document.querySelectorAll(sel).forEach(n => { if (!n.contains(articleRoot) && !isProtected(n)) n.remove(); });
+    });
+
+    // widen the main column in case a removed sidebar left the article in a narrow grid track
     document.querySelectorAll('[class*="span8"], [class*="main-content"], [class*="content-area"]')
       .forEach(n => { n.style.width = '100%'; n.style.maxWidth = '100%'; n.style.flex = '0 0 100%'; });
 
     // --- isolate one roundup section, if asked ---
     if (section) {
-      const content = document.querySelector('[class*="post-content" i], [class*="entry-content" i], article, main') || document.body;
+      const content = articleRoot;
       const heads = [...content.querySelectorAll('h1,h2,h3,h4')];
       const norm = s => (s || '').trim().toLowerCase();
       const target = norm(section).slice(0, 8);
@@ -142,7 +169,7 @@ const JUNK = [
     // --- highlight client mentions ---
     if (client) {
       const rx = new RegExp('(' + client.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'g');
-      const root = document.querySelector('[class*="post-content" i], [class*="entry-content" i], article, main') || document.body;
+      const root = articleRoot;
       const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
       const hits = [];
       while (walker.nextNode()) {
@@ -158,7 +185,16 @@ const JUNK = [
 
     // --- clip header band: the outlet LOGO (the key trust signal) + outlet name, date, source link ---
     const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
-    const logoImg = logoSrc
+    const sizer = document.createElement('style');
+    sizer.textContent = '.pc-logo svg{height:40px !important;width:auto !important}';
+    document.head && document.head.appendChild(sizer);
+    // header logos are often white (for a dark masthead); recolor white fills so they show on our band
+    const logoSvgDark = logoSvg
+      .replace(/fill\s*=\s*"(#fff(fff)?|#ffffff|white)"/gi, 'fill="#111"')
+      .replace(/fill\s*:\s*(#fff(fff)?|#ffffff|white)/gi, 'fill:#111');
+    const logoImg = logoSvg
+      ? '<span class="pc-logo" style="display:inline-block;height:40px;line-height:0;color:#111">' + logoSvgDark + '</span>'
+      : logoSrc
       ? '<img src="' + esc(logoSrc) + '" alt="' + esc(outlet) + '" style="height:40px;max-width:260px;width:auto;object-fit:contain;display:block">'
       : '<span style="font:700 22px/1 Georgia,serif;color:#111">' + esc(outlet) + '</span>';
     const meta2 = [
@@ -173,7 +209,7 @@ const JUNK = [
       '<div style="flex:0 0 auto">' + logoImg + '</div>' +
       '<div style="font:500 11.5px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#475569;word-break:break-word;border-left:1px solid #cbd5e1;padding-left:16px">' + meta2 + '</div>';
     document.body.prepend(band);
-  }, { JUNK, client, section, keep, drop });
+  }, { client, section, keep, drop });
 
   await page.waitForTimeout(600);
   if (preview) await page.screenshot({ path: preview, fullPage: true });
