@@ -49,19 +49,24 @@ node clip.mjs --url "<URL>" --client "<Client Name>" \
 
 For a **roundup** where the client is one entry among many, add `--section "<Client Name>"` to keep only their part.
 
-The script will: load the page, isolate the article structurally, detect and recolor the outlet logo, stamp a header band (logo · outlet · publish date · source link), highlight the client, and write the PDF plus a preview PNG.
+The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, detect and recolor the outlet logo, stamp a header band (logo · outlet · publish date · source link), highlight the client, and write the PDF plus a preview PNG.
 
-### 2. Look at the preview — always
+### 2. Review with a separate agent — required, not optional
 
-The preview PNG is how you catch what the baseline missed. Read it and ask:
+Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (header band + logo, headline, byline, the article's own photos, body text, client highlight — nothing else).
 
-- Did the **logo, headline, byline, and photos** come through? (Trust signals present?)
-- Is the **whole story body** there, or did something clip it short?
-- What **junk remains inside the article** — ad slots, a sponsored block, a newsletter box, a "more from around the web" grid, a comments embed, an empty video player?
+The reviewer must follow two rules, both learned the hard way:
 
-### 3. Inspect the page and tailor the removal
+- **Verify every selector against the live DOM, never from the picture alone.** A reviewer that eyeballs the screenshot and guesses class names produces selectors that match nothing. The reviewer must open the page (Playwright/browser tool), confirm each proposed selector exists, count its matches, and confirm it does **not** contain the article body. Return only verified selectors.
+- **Distinguish editorial from junk.** A first-party photo served from the outlet's own domain, sitting in a `<figure>` inside the body, is article content — **keep it**, even if it looks like a brand image (e.g. a fashion photo). Only flag true ads/recirc/sponsored/comments. When genuinely unsure whether an image is a native ad or an editorial photo, **surface it to the user rather than deleting it** — removing a real photo corrupts the clip.
 
-For anything still junky, find its selector and pass it to `--drop`. A quick way to inspect: open the page in the browser tools you have (or a throwaway Playwright snippet) and look at the offending block's `class`/`id`. Useful moves:
+Have the reviewer return a verdict (`clean` / `has_junk`) and a verified, body-safe `--drop` string.
+
+### 3. Apply the drops, re-render, and re-review until clean
+
+Pass the reviewer's `--drop` selectors, re-render, and **send the new preview back to the reviewer**. Repeat until the verdict is `clean` or only user-judgment items (like an ambiguous image) remain. Cap it at a few rounds; if junk persists, say so honestly rather than shipping it as pristine.
+
+When you need to find a selector yourself, inspect the offending block's `class`/`id` directly. Useful moves:
 
 - Find the article container the script will pick: the `<article>` with the most text, else `[class*="article-content"]` / `[class*="entry-content"]` / `main`.
 - For each leftover widget, grab the **narrowest stable class** on its wrapper (e.g. `.zergnet-widget`, `.nyp-video-player`, `aside.single__inline-module`). Prefer a class that names the widget, not a layout grid.

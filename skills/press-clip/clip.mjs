@@ -55,9 +55,19 @@ const CHROME = args.chrome
   || process.env.PRESS_CLIP_CHROME
   || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
+// Ad / recirculation / comment / video-widget networks. Blocking them at the request level stops
+// the whole class of lazy-injected junk (display ads, sponsored rails, "around the web", comment
+// embeds, autoplay video) from ever loading — generically, by domain, with no per-site selectors.
+// The article's own text and images are first-party and load normally.
+const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-analytics|googletagmanager|adservice\.google|amazon-adsystem|adsystem|taboola|outbrain|zergnet|connatix|spot\.im|openweb|disqus|criteo|pubmatic|rubiconproject|adnxs|moatads|scorecardresearch|zemanta|sharethrough|teads|indexww|casalemedia|3lift|districtm|smartadserver|yieldmo|sailthru|piano\.io|permutive|chartbeat|parsely|nativo|bidswitch|adlightning|confiant)\./i;
+
 (async () => {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
   const page = await browser.newPage({ viewport: { width: 1180, height: 1600 }, deviceScaleFactor: 2 });
+  await page.route('**/*', route => {
+    try { return BLOCK_HOSTS.test(new URL(route.request().url()).hostname) ? route.abort() : route.continue(); }
+    catch { return route.continue(); }
+  });
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForTimeout(3500);
   // nudge lazy-loaded images into view, then return to top
