@@ -22,12 +22,12 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 
 	root, rootErr := newsjackRoot()
 	state := readInstallStateOrDefault()
-	key, source := loadAPIKey()
+	medialystStatus := loadMedialystAuthStatus()
 	config := configFromEnv()
 	xConfigured := bearerToken(config) != ""
 	available := availableSources(config, []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
-	warnings := doctorWarnings(rootErr, key != "", xConfigured)
-	actions := doctorActions(rootErr, key != "", xConfigured)
+	warnings := doctorWarnings(rootErr, medialystStatus.Configured, xConfigured)
+	actions := doctorActions(rootErr, medialystStatus.Configured, xConfigured)
 	cli := newsjackCLIInvocation()
 	payload := map[string]any{
 		"version":       version,
@@ -46,9 +46,12 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 			"runtimes_raw":   state.RuntimesRaw,
 		},
 		"auth": map[string]any{
-			"medialyst_configured": key != "",
-			"source":               nullableString(source),
-			"x_api_configured":     xConfigured,
+			"medialyst_configured":         medialystStatus.Configured,
+			"medialyst_oauth_configured":   medialystStatus.OAuthConfigured,
+			"medialyst_api_key_configured": medialystStatus.APIKeyConfigured,
+			"source":                       nullableString(medialystStatus.Source),
+			"auth_type":                    nullableString(medialystStatus.Kind),
+			"x_api_configured":             xConfigured,
 		},
 		"sources": map[string]any{
 			"news_search": contains(available, "news_search"),
@@ -66,7 +69,7 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 		writeJSON(stdout, payload)
 		return 0
 	}
-	printDoctor(stdout, root, rootErr, key != "", source, xConfigured, available, warnings, actions)
+	printDoctor(stdout, root, rootErr, medialystStatus.Configured, medialystStatus.Source, xConfigured, available, warnings, actions)
 	return 0
 }
 
@@ -122,6 +125,9 @@ func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bo
 			if getKey := action["get_key_url"]; getKey != "" {
 				uiKV(w, "get key", getKey)
 			}
+			if fallback := action["fallback"]; fallback != "" {
+				uiKV(w, "fallback", fallback)
+			}
 		}
 	}
 }
@@ -149,7 +155,7 @@ func doctorWarnings(rootErr error, medialystConfigured, xConfigured bool) []stri
 		warnings = append(warnings, rootErr.Error())
 	}
 	if !medialystConfigured {
-		warnings = append(warnings, "Medialyst API key is not configured; live news search and journalist enrichment will be unavailable. Get one at "+medialystAPIKeyURL+", then run: newsjack auth set-medialyst --key <mlst_...>.")
+		warnings = append(warnings, "Medialyst is not connected; live news search and journalist enrichment will be unavailable. Run: newsjack login. For API-key automation, use: newsjack auth set-medialyst --key <mlst_...>.")
 	}
 	if !xConfigured {
 		warnings = append(warnings, "X bearer token is not configured; x_news, x_trends, and X post search will be unavailable. Run: newsjack auth set-x --bearer-token <token>. This writes X_BEARER_TOKEN to ~/.newsjack/.env.")
@@ -169,10 +175,11 @@ func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[s
 	if !medialystConfigured {
 		actions = append(actions, map[string]string{
 			"id":          "configure_medialyst",
-			"label":       "Configure Medialyst API (Optional)",
+			"label":       "Connect Medialyst (Optional)",
 			"used_for":    "live news search and journalist enrichment",
 			"get_key_url": medialystAPIKeyURL,
-			"command":     "newsjack auth set-medialyst --key <mlst_...>",
+			"command":     "newsjack login",
+			"fallback":    "newsjack auth set-medialyst --key <mlst_...>",
 		})
 	}
 	if !xConfigured {

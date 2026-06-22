@@ -47,6 +47,14 @@ Start with:
 newsjack auth status
 ```
 
+If the CLI is installed but unauthenticated and the user wants the Medialyst upgrade, run:
+
+```bash
+newsjack login
+```
+
+Tell the user to open the printed Medialyst link and approve `newsjack CLI`. This is the default interactive path; do not ask them to paste a `mlst_...` API key unless they specifically need CI or automation setup.
+
 Then search:
 
 ```bash
@@ -57,7 +65,7 @@ Use focused queries and short recency windows where freshness matters. If you ne
 
 ### 2. Host web / browser search (fallback)
 
-Use host web or browser search only when both cloud paths are unavailable or unusable: the `newsjack` CLI is missing, unauthenticated, forbidden, rate-limited, or out of credits, and direct Medialyst MCP tools are not available or also fail. Do **not** stop, and do **not** treat a missing key as a problem to report. Instead, fall back to the host's web search or browser tools:
+Use host web or browser search only when both cloud paths are unavailable or unusable: the `newsjack` CLI is missing, the user declines login, Medialyst is forbidden, rate-limited, or out of credits, and direct Medialyst MCP tools are not available or also fail. Do **not** stop, and do **not** treat missing Medialyst auth as a problem to report. Instead, fall back to the host's web search or browser tools:
 
 - Search for the topic along with cues that pull in recent coverage; favor named outlets and original reporting over aggregators and SEO pages.
 - Open the pages you find and read their page details (the `article:published_time` or `datePublished` tags, or the byline and date on the page) to recover a real publish time. Don't treat the time you searched as the time the article was published.

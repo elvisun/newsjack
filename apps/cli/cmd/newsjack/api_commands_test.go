@@ -25,6 +25,8 @@ func runWithMockMedialyst(t *testing.T, handler func(w http.ResponseWriter, r *h
 	var code int
 	var stdout, stderr string
 	withTempEnv(t, map[string]string{
+		"HOME":                        t.TempDir(),
+		"NEWSJACK_HOME":               "",
 		"NEWSJACK_MEDIALYST_API_BASE": server.URL,
 		"MEDIALYST_API_BASE":          "",
 		"MEDIALYST_API_KEY":           "mlst_test_key",

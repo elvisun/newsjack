@@ -318,17 +318,19 @@ func (w *setupWizard) promptForXAPIKey() error {
 func (w *setupWizard) promptForMedialystAPIKey() error {
 	if medialystConfigured() {
 		fmt.Fprintln(w.stdout)
-		uiSuccess(w.stdout, "Medialyst API key already configured.")
+		uiSuccess(w.stdout, "Medialyst already configured.")
 		return nil
 	}
 	fmt.Fprintln(w.stdout)
-	uiSectionExact(w.stdout, "Configure Medialyst API (Optional)")
+	uiSectionExact(w.stdout, "Connect Medialyst (Optional)")
 	uiKV(w.stdout, "used for", "live news search and journalist enrichment")
-	uiKV(w.stdout, "stored in", "~/.newsjack/credentials.json")
-	uiKV(w.stdout, "get one", medialystAPIKeyURL)
-	value := strings.TrimSpace(w.prompt("Medialyst API key (press Enter to skip)", ""))
+	uiKV(w.stdout, "recommended", "newsjack login")
+	uiKV(w.stdout, "browser approval", "opens a Medialyst link and stores OAuth in ~/.newsjack/credentials.json")
+	uiKV(w.stdout, "api key fallback", "newsjack auth set-medialyst --key <mlst_...>")
+	uiKV(w.stdout, "get API key", medialystAPIKeyURL)
+	value := strings.TrimSpace(w.prompt("Medialyst API key fallback (press Enter to skip)", ""))
 	if isSkipValue(value) {
-		uiNote(w.stdout, "skipped Medialyst API key.")
+		uiNote(w.stdout, "skipped Medialyst API key. Run newsjack login when you want live Medialyst access.")
 		return nil
 	}
 	if err := validateAPIKey(value); err != nil {
@@ -911,8 +913,7 @@ func runtimeInstallCommandEnv(key string) string {
 }
 
 func medialystConfigured() bool {
-	key, _ := loadAPIKey()
-	return key != ""
+	return loadMedialystAuthStatus().Configured
 }
 
 func cmdMonitor(args []string, stdout, stderr io.Writer) int {

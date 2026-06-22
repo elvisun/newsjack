@@ -19,22 +19,21 @@ import (
 )
 
 func searchNews(query, fromDate, toDate string, limit int, config map[string]string) ([]map[string]any, string) {
-	apiKey := config["MEDIALYST_API_KEY"]
-	if apiKey == "" {
+	if config["MEDIALYST_API_KEY"] == "" {
 		return nil, ""
-	}
-	base := config["MEDIALYST_API_BASE"]
-	if base == "" {
-		base = "https://medialyst.ai/api"
 	}
 	path := config["MEDIALYST_NEWS_PATH"]
 	if path == "" {
 		path = "/v1/news/search"
 	}
 	body := map[string]any{"q": query, "num": limit, "gl": "us", "hl": "en", "tbs": tbsForRange(fromDate, toDate)}
-	payload, err := httpJSON("POST", strings.TrimRight(base, "/")+path, map[string]string{"Authorization": "Bearer " + apiKey}, body, 30*time.Second)
+	resp, err := medialystAPIRequest(http.MethodPost, path, nil, body, nil, 30*time.Second)
 	if err != nil {
 		return nil, err.Error()
+	}
+	payload, ok := resp.Payload.(map[string]any)
+	if !ok {
+		return nil, "Medialyst returned an unexpected response"
 	}
 	return parseNewsResponse(payload), ""
 }

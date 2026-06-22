@@ -47,8 +47,9 @@ func TestDoctorReportsMissingXBearerToken(t *testing.T) {
 		}
 		medialystAction := valueOrEmptyMap(actions[0])
 		xAction := valueOrEmptyMap(actions[1])
-		if medialystAction["label"] != "Configure Medialyst API (Optional)" ||
-			medialystAction["command"] != "newsjack auth set-medialyst --key <mlst_...>" ||
+		if medialystAction["label"] != "Connect Medialyst (Optional)" ||
+			medialystAction["command"] != "newsjack login" ||
+			medialystAction["fallback"] != "newsjack auth set-medialyst --key <mlst_...>" ||
 			medialystAction["get_key_url"] != "https://medialyst.ai/agents" ||
 			medialystAction["used_for"] != "live news search and journalist enrichment" {
 			t.Fatalf("unexpected Medialyst doctor action: %#v", medialystAction)
@@ -126,6 +127,7 @@ func TestDoctorDefaultOutputIsHumanReadable(t *testing.T) {
 			"WARNINGS",
 			"NEXT ACTIONS",
 			"X_BEARER_TOKEN",
+			"newsjack login",
 			"newsjack auth set-medialyst --key <mlst_...>",
 			"newsjack auth set-x --bearer-token <token>",
 			"https://medialyst.ai/agents",

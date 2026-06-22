@@ -6,6 +6,7 @@ Do not duplicate the CLI surface in this file. Agents should discover current co
 
 ```bash
 newsjack help
+newsjack help login
 newsjack help detector
 newsjack detector run --help
 newsjack doctor
@@ -15,6 +16,7 @@ In this repo, prefer the source shim:
 
 ```bash
 ./bin/newsjack help detector
+./bin/newsjack help login
 ./bin/newsjack detector run --help
 ```
 

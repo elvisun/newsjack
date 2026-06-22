@@ -108,7 +108,7 @@ complaint.
 
 | Dependency | Unlocks | Without it | Cost |
 | --- | --- | --- | --- |
-| **Medialyst key** | live news search with publication metadata and journalist enrichment from article URLs | news search falls back to host web/browser search (best-effort freshness); journalist lists stay as local agent artifacts with any unresolved rows marked honestly | 300 free credits on signup (~3,000 news searches), paid after — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
+| **Medialyst login** | live news search with publication metadata and journalist enrichment from article URLs | news search falls back to host web/browser search (best-effort freshness); journalist lists stay as local agent artifacts with any unresolved rows marked honestly | 300 free credits on signup (~3,000 news searches), paid after — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
 | **X bearer token** | the X/Twitter trend source inside monitoring | that source is simply omitted; RSS and news still run | pay-as-you-go, no free tier — [X API pricing](https://docs.x.com/x-api) |
 
 ### Why Medialyst for news search
@@ -125,12 +125,16 @@ not a signup wall.
 
 ## Setting up credentials (only when the user wants the upgrade)
 
-- **Medialyst:** prefer `newsjack setup` or `newsjack login`. Newsjack stores the
-  key in `~/.newsjack/credentials.json`, or reads `MEDIALYST_API_KEY` from the
-  environment. The CLI calls the Medialyst public REST API directly for news
-  search and journalist enrichment. Agents own how they organize the returned
-  journalist data.
-  Recommended scopes: `news:search` and journalist enrichment access.
+- **Medialyst:** prefer `newsjack login` for interactive setup. The command
+  prints a Medialyst approval link, opens it in the browser when possible, and
+  stores OAuth credentials in `~/.newsjack/credentials.json`. Tell the user to
+  open the link and approve `newsjack CLI`; do not ask non-technical users to
+  paste API keys.
+  API keys still work for CI and power users through `MEDIALYST_API_KEY` or
+  `newsjack auth set-medialyst --key <mlst_...>`. The CLI calls the Medialyst
+  public REST API directly for news search and journalist enrichment. Agents
+  own how they organize the returned journalist data.
+  Default scopes: `news:search media_lists:manage`.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.
 

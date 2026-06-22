@@ -85,6 +85,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 	printUsage(&help)
 	for _, want := range []string{
 		"API SETUP",
+		"newsjack login",
 		"auth set-medialyst",
 		"auth set-x",
 		"https://medialyst.ai/agents",
@@ -103,15 +104,44 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		t.Fatal("auth help topic was not handled")
 	}
 	for _, want := range []string{
+		"newsjack login [--no-browser]",
 		"newsjack auth set --medialyst-key <mlst_...> --x-bearer-token <token>",
 		"newsjack auth set-medialyst --key <mlst_...>",
 		"newsjack auth set-x --bearer-token <token>",
+		"recommended login",
 		"https://medialyst.ai/agents",
 		"credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
 			t.Fatalf("newsjack help auth missing %q:\n%s", want, help.String())
 		}
+	}
+
+	help.Reset()
+	if !printCommandHelp(&help, "login") {
+		t.Fatal("login help topic was not handled")
+	}
+	for _, want := range []string{
+		"newsjack login [--no-browser]",
+		"newsjack login --key <mlst_...>",
+		"newsjack-cli",
+		"news:search media_lists:manage",
+		"Agents should use this path for interactive setup",
+	} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("newsjack help login missing %q:\n%s", want, help.String())
+		}
+	}
+
+	help.Reset()
+	var err bytes.Buffer
+	code := runCLI([]string{"login", "--help"}, &help, &err)
+	if code != 0 {
+		t.Fatalf("newsjack login --help exited %d: %s", code, err.String())
+	}
+	if !strings.Contains(help.String(), "newsjack login [--no-browser]") ||
+		!strings.Contains(help.String(), "newsjack-cli") {
+		t.Fatalf("newsjack login --help missing OAuth guidance:\n%s", help.String())
 	}
 }
 

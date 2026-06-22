@@ -4,15 +4,23 @@ The Go CLI is a thin client for Medialyst news search and journalist enrichment 
 
 ## Auth
 
-Run:
+For interactive users and agents, run:
 
 ```bash
 newsjack login
 ```
 
-The CLI loads the API key from `MEDIALYST_API_KEY` or `~/.newsjack/credentials.json`. `NEWSJACK_MEDIALYST_API_BASE` or `MEDIALYST_API_BASE` can point commands at another compatible API base; the default is `https://medialyst.ai/api`.
+`newsjack login` starts the Medialyst OAuth device flow for the public `newsjack-cli` client. The CLI prints a Medialyst approval link, opens it in the browser when possible, then stores OAuth tokens in `~/.newsjack/credentials.json`.
 
-Recommended scopes are `news:search` and journalist enrichment access.
+API keys still work for CI and power users:
+
+```bash
+newsjack auth set-medialyst --key <mlst_...>
+```
+
+The CLI prefers saved OAuth, then API keys from `~/.newsjack/credentials.json` or `MEDIALYST_API_KEY`. `NEWSJACK_MEDIALYST_API_BASE` or `MEDIALYST_API_BASE` can point commands at another compatible API base; the default is `https://medialyst.ai/api`.
+
+Default OAuth scopes are `news:search media_lists:manage`.
 
 ## REST Command Mapping
 
