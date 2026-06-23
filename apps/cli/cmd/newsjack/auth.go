@@ -13,25 +13,33 @@ import (
 )
 
 func cmdLogin(args []string, stdout, stderr io.Writer) int {
+	if restHelpRequested(args) {
+		printCommandHelp(stdout, "login")
+		return 0
+	}
 	fs := flag.NewFlagSet("login", flag.ContinueOnError)
 	fs.SetOutput(stderr)
-	key := fs.String("key", "", "Medialyst API key")
+	key := fs.String("key", "", "Save a Medialyst API key instead of using browser login")
+	scope := fs.String("scope", medialystOAuthDefaultScope, "OAuth scopes for browser login")
+	baseURL := fs.String("base-url", "", "Medialyst base URL for OAuth login")
+	noBrowser := fs.Bool("no-browser", false, "Print the login URL without opening a browser")
+	timeoutSeconds := fs.Int("timeout", 600, "OAuth login timeout in seconds")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
 	apiKey := strings.TrimSpace(*key)
-	if apiKey == "" {
-		fmt.Fprintf(stderr, "%s Medialyst API key: ", uiQuestion(stderr))
-		var line string
-		if _, err := fmt.Fscanln(os.Stdin, &line); err != nil {
-			return fail(stderr, err)
+	if apiKey != "" {
+		if err := validateAPIKey(apiKey); err != nil {
+			return failf(stderr, "invalid key: %v", err)
 		}
-		apiKey = strings.TrimSpace(line)
+		return saveMedialystAPIKey(apiKey, stdout, stderr)
 	}
-	if err := validateAPIKey(apiKey); err != nil {
-		return failf(stderr, "invalid key: %v", err)
-	}
-	return saveMedialystAPIKey(apiKey, stdout, stderr)
+	return runMedialystDeviceLogin(oauthLoginOptions{
+		BaseURL:   strings.TrimSpace(*baseURL),
+		Scope:     strings.TrimSpace(*scope),
+		NoBrowser: *noBrowser,
+		Timeout:   time.Duration(*timeoutSeconds) * time.Second,
+	}, stdout, stderr)
 }
 
 func cmdAuth(args []string, stdout, stderr io.Writer) int {
@@ -44,20 +52,25 @@ func cmdAuth(args []string, stdout, stderr io.Writer) int {
 		printAuthHelp(stdout)
 		return 0
 	case "status":
-		key, source := loadAPIKey()
+		medialystStatus := loadMedialystAuthStatus()
 		xToken, xSource := loadXBearerToken()
 		payload := map[string]any{
-			"configured":             key != "" || xToken != "",
-			"medialyst_configured":   key != "",
-			"medialyst_source":       nullableString(source),
-			"x_api_configured":       xToken != "",
-			"x_bearer_token_source":  nullableString(xSource),
-			"medialyst_get_key_url":  medialystAPIKeyURL,
-			"medialyst_set_command":  "newsjack auth set-medialyst --key <mlst_...>",
-			"x_bearer_token_command": "newsjack auth set-x --bearer-token <token>",
+			"configured":                    medialystStatus.Configured || xToken != "",
+			"medialyst_configured":          medialystStatus.Configured,
+			"medialyst_oauth_configured":    medialystStatus.OAuthConfigured,
+			"medialyst_api_key_configured":  medialystStatus.APIKeyConfigured,
+			"medialyst_source":              nullableString(medialystStatus.Source),
+			"medialyst_auth_type":           nullableString(medialystStatus.Kind),
+			"x_api_configured":              xToken != "",
+			"x_bearer_token_source":         nullableString(xSource),
+			"medialyst_get_key_url":         medialystAPIKeyURL,
+			"medialyst_login_command":       "newsjack login",
+			"medialyst_set_command":         "newsjack login",
+			"medialyst_api_key_set_command": "newsjack auth set-medialyst --key <mlst_...>",
+			"x_bearer_token_command":        "newsjack auth set-x --bearer-token <token>",
 		}
 		writeJSON(stdout, payload)
-		if key == "" && xToken == "" {
+		if !medialystStatus.Configured && xToken == "" {
 			return 1
 		}
 		return 0
@@ -68,15 +81,15 @@ func cmdAuth(args []string, stdout, stderr io.Writer) int {
 	case "set-x":
 		return cmdAuthSetX(args[1:], stdout, stderr)
 	case "headers":
-		key, source := loadAPIKey()
-		if key == "" {
-			fmt.Fprintln(stderr, "Medialyst API key not found. Get one: "+medialystAPIKeyURL)
-			fmt.Fprintln(stderr, "Then run: newsjack auth set-medialyst --key <mlst_...>")
+		cred, credErr := loadMedialystBearerCredential()
+		if credErr != nil || cred.Token == "" {
+			fmt.Fprintln(stderr, "Medialyst credentials not found. Run: newsjack login")
+			fmt.Fprintln(stderr, "For API-key automation, run: newsjack auth set-medialyst --key <mlst_...>")
 			return 1
 		}
-		writeJSONCompact(stdout, map[string]string{"Authorization": "Bearer " + key})
+		writeJSONCompact(stdout, map[string]string{"Authorization": "Bearer " + cred.Token})
 		if os.Getenv("NEWSJACK_AUTH_DEBUG") != "" {
-			fmt.Fprintf(stderr, "Loaded Medialyst API key from %s\n", source)
+			fmt.Fprintf(stderr, "Loaded Medialyst %s credentials from %s\n", cred.Kind, cred.Source)
 		}
 		return 0
 	case "logout":
@@ -278,20 +291,16 @@ func validateAPIKey(key string) error {
 }
 
 func writeCredentials(apiKey string) (string, error) {
-	path := credentialsPath()
-	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+	creds, err := readCredentialsFileForWrite()
+	if err != nil {
 		return "", err
 	}
-	payload := map[string]any{
-		"medialyst": map[string]any{
-			"api_key":    apiKey,
-			"created_at": time.Now().UTC().Format(time.RFC3339Nano),
-			"source":     "newsjack-local-login",
-		},
+	now := time.Now().UTC()
+	creds.Medialyst.APIKey = apiKey
+	creds.Medialyst.OAuth = nil
+	if creds.Medialyst.CreatedAt == "" {
+		creds.Medialyst.CreatedAt = now.Format(time.RFC3339Nano)
 	}
-	data, _ := json.MarshalIndent(payload, "", "  ")
-	if err := os.WriteFile(path, append(data, '\n'), 0o600); err != nil {
-		return "", err
-	}
-	return path, nil
+	creds.Medialyst.Source = "newsjack-local-login"
+	return writeCredentialsFile(creds)
 }

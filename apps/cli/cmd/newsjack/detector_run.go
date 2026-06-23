@@ -52,7 +52,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 			sources = availableSources(config, querySources)
 		}
 		if len(sources) == 0 {
-			return errors.New("No requested sources are available. Configure MEDIALYST_API_KEY or X_BEARER_TOKEN, choose RSS/public sources, or rerun with --mock.")
+			return errors.New("No requested sources are available. Run newsjack login, configure X_BEARER_TOKEN, choose RSS/public sources, or rerun with --mock.")
 		}
 	}
 	now := time.Now().UTC()
@@ -385,9 +385,9 @@ func configFromEnv() map[string]string {
 		}
 		return fileEnv[key]
 	}
-	medialystKey, _ := loadAPIKey()
-	if medialystKey == "" {
-		medialystKey = get("MEDIALYST_API_KEY")
+	medialystKey := get("MEDIALYST_API_KEY")
+	if medialystKey == "" && loadMedialystAuthStatus().Configured {
+		medialystKey = "configured"
 	}
 	return map[string]string{
 		"MEDIALYST_API_KEY":        medialystKey,

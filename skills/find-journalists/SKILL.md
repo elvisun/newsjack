@@ -32,7 +32,7 @@ Newsjack reaches the same Medialyst backend three ways. Try them in this order a
 
 1. **CLI mode (preferred).** Use the `newsjack` CLI when it is installed and authenticated. It wraps the public Medialyst API and can run `news search`, `journalists enrich`, and `journalists enrich-job`.
 2. **MCP mode (fallback).** If the `newsjack` CLI is not installed or not on PATH but the `medialyst` MCP server is connected, use the MCP tools. They mirror the same public API endpoints one-to-one, so the request fields and response shapes are the same as the CLI — only the transport differs. See "MCP Mode Commands" below.
-3. **Local mode (last resort, best effort).** Use this only when neither the CLI nor the MCP is available, or when the live path is unauthenticated, forbidden, rate-limited, or out of credits. Before you build a local list, **first ask the user whether they want to connect Medialyst** (the `medialyst` MCP or the `newsjack` CLI) — connecting unlocks verified journalist contacts and richer per-journalist data (deliverability-checked emails, recent bylines, pitch-aware fit), which makes a materially better list. Only if they decline or want to proceed without it, build the list from user-provided links, host web/news search, and your own fit judgment, and close with the local-mode contact notice (see below).
+3. **Local mode (last resort, best effort).** Use this only when neither the CLI nor the MCP is available, or when the live path is unauthenticated, forbidden, rate-limited, or out of credits. Before you build a local list, **first ask the user whether they want to connect Medialyst** (the `medialyst` MCP or the `newsjack` CLI) — connecting unlocks verified journalist contacts and richer per-journalist data (deliverability-checked emails, recent bylines, pitch-aware fit), which makes a materially better list. If the CLI is present but unauthenticated, the default interactive fix is `newsjack login`: run it, then tell the user to open the printed Medialyst link and approve `newsjack CLI`. Only if they decline or want to proceed without it, build the list from user-provided links, host web/news search, and your own fit judgment, and close with the local-mode contact notice (see below).
 
 Do not fall back to `curl`, `wget`, or ad hoc scraping to bypass missing enrichment. The MCP is the only sanctioned non-CLI path to the API.
 
@@ -82,11 +82,13 @@ newsjack auth status
 newsjack credits balance
 ```
 
-If the `newsjack` CLI is not installed or not on PATH, drop to MCP mode (see "MCP Mode Commands"). If the CLI is present but unauthenticated, ask the user to run:
+If the `newsjack` CLI is not installed or not on PATH, drop to MCP mode (see "MCP Mode Commands"). If the CLI is present but unauthenticated and you have shell access, run:
 
 ```bash
 newsjack login
 ```
+
+When you run `newsjack login`, the CLI prints a Medialyst approval link and opens it in the browser when possible. Tell the user to approve `newsjack CLI` there. Do not ask non-technical users to paste a `mlst_...` API key unless they specifically need CI or automation setup.
 
 Useful commands:
 

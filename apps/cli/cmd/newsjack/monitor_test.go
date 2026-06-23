@@ -489,11 +489,14 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 		if !strings.Contains(text, "Configure X API (Optional)") {
 			t.Fatalf("setup should title the X API section plainly:\n%s", text)
 		}
-		if !strings.Contains(text, "Configure Medialyst API (Optional)") {
-			t.Fatalf("setup should title the Medialyst API section plainly:\n%s", text)
+		if !strings.Contains(text, "Connect Medialyst (Optional)") {
+			t.Fatalf("setup should title the Medialyst connection section plainly:\n%s", text)
 		}
 		if !strings.Contains(text, "live news search and journalist enrichment") {
 			t.Fatalf("setup should explain Medialyst usage plainly:\n%s", text)
+		}
+		if !strings.Contains(text, "newsjack login") {
+			t.Fatalf("setup should recommend browser OAuth login:\n%s", text)
 		}
 		if !strings.Contains(text, "https://medialyst.ai/agents") {
 			t.Fatalf("setup should link to Medialyst agent API key page:\n%s", text)

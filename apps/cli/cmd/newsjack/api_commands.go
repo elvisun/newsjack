@@ -118,18 +118,25 @@ func medialystAPIBase() string {
 }
 
 func medialystAPIRequest(method, path string, query url.Values, body any, headers map[string]string, timeout time.Duration) (*medialystAPIResponse, error) {
-	key, source := loadAPIKey()
-	if key == "" {
-		return nil, errors.New("Medialyst API key not found. Run: newsjack login")
+	cred, err := loadMedialystBearerCredential()
+	if err != nil {
+		return nil, err
 	}
-
-	var reader io.Reader
-	if body != nil {
-		data, err := json.Marshal(body)
-		if err != nil {
-			return nil, err
+	resp, err := medialystAPIRequestWithBearer(cred, method, path, query, body, headers, timeout)
+	if apiErr, ok := err.(*medialystAPIError); ok && apiErr.StatusCode == http.StatusUnauthorized && cred.Kind == "oauth" {
+		refreshed, refreshErr := refreshStoredMedialystOAuth()
+		if refreshErr == nil {
+			return medialystAPIRequestWithBearer(refreshed, method, path, query, body, headers, timeout)
 		}
-		reader = bytes.NewReader(data)
+		return nil, fmt.Errorf("%w; OAuth refresh also failed: %v. Run: newsjack login", err, refreshErr)
+	}
+	return resp, err
+}
+
+func medialystAPIRequestWithBearer(cred medialystBearerCredential, method, path string, query url.Values, body any, headers map[string]string, timeout time.Duration) (*medialystAPIResponse, error) {
+	reader, err := cloneRequestBody(body)
+	if err != nil {
+		return nil, err
 	}
 
 	rawURL := medialystAPIBase() + path
@@ -140,7 +147,7 @@ func medialystAPIRequest(method, path string, query url.Values, body any, header
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Authorization", "Bearer "+key)
+	req.Header.Set("Authorization", "Bearer "+cred.Token)
 	req.Header.Set("Accept", "application/json")
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
@@ -151,7 +158,7 @@ func medialystAPIRequest(method, path string, query url.Values, body any, header
 		}
 	}
 	if os.Getenv("NEWSJACK_AUTH_DEBUG") != "" {
-		fmt.Fprintf(os.Stderr, "Loaded Medialyst API key from %s\n", source)
+		fmt.Fprintf(os.Stderr, "Loaded Medialyst %s credentials from %s\n", cred.Kind, cred.Source)
 	}
 
 	client := &http.Client{Timeout: timeout}
