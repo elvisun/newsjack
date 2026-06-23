@@ -19,6 +19,26 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- **`press-clip` skill:** turn a live article URL into a branded press-clip
+  PDF, preserving the outlet's logo and layout while stripping ads and
+  clutter. This is local-agent only because it drives a real browser.
+- **Medialyst OAuth device login:** `newsjack login` now guides local agents
+  through a browser-based Medialyst authorization flow and stores refreshable
+  credentials for news search and journalist enrichment.
+
+### Changed
+
+- README and getting-started docs now explain the AI-prompt setup path and
+  show `press-clip` in the skills compatibility matrix.
+- `find-journalists` and `news-search` copy now points agents toward the
+  refreshed Medialyst public-API path.
+
+### Fixed
+
+- `press-clip` now closes its browser process even when clipping fails.
+
 ## v0.1.11 — 2026-06-15
 
 ### Changed
