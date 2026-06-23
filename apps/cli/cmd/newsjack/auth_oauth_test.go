@@ -33,6 +33,30 @@ func withOAuthHooks(t *testing.T, open func(string) error, sleep func(time.Durat
 	})
 }
 
+func TestPrintDeviceLoginInstructionsFallbackUsesCompleteURL(t *testing.T) {
+	var opened []string
+	withOAuthHooks(t, func(rawURL string) error {
+		opened = append(opened, rawURL)
+		return errors.New("browser unavailable")
+	}, nil, nil)
+
+	var out bytes.Buffer
+	err := printDeviceLoginInstructions(oauthDeviceResponse{
+		UserCode:                "ABCD-EFGH",
+		VerificationURIComplete: "https://medialyst.example/device?user_code=ABCD-EFGH",
+		ExpiresIn:               600,
+	}, oauthLoginOptions{}, &out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(opened) != 1 || opened[0] != "https://medialyst.example/device?user_code=ABCD-EFGH" {
+		t.Fatalf("opened=%v", opened)
+	}
+	if !strings.Contains(out.String(), "Open https://medialyst.example/device?user_code=ABCD-EFGH and enter ABCD-EFGH") {
+		t.Fatalf("fallback should include complete URL:\n%s", out.String())
+	}
+}
+
 func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 	home := t.TempDir()
 	var deviceForm, tokenForm map[string]string
@@ -133,6 +157,7 @@ func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 			creds.Medialyst.OAuth.AccessToken != "mcp_at_test" ||
 			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_test" ||
 			creds.Medialyst.OAuth.ClientID != medialystOAuthClientID ||
+			creds.Medialyst.OAuth.BaseURL != server.URL ||
 			creds.Medialyst.Source != medialystOAuthSource {
 			t.Fatalf("unexpected credentials: %#v", creds.Medialyst)
 		}
@@ -204,6 +229,55 @@ func TestDevicePollHandlesPendingSlowDownAndTerminalErrors(t *testing.T) {
 	}
 }
 
+func TestDevicePollRetriesTransientTransportError(t *testing.T) {
+	var sleeps []time.Duration
+	withOAuthHooks(t, nil, func(d time.Duration) { sleeps = append(sleeps, d) }, func() time.Time {
+		return time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
+	})
+	tokenCalls := 0
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/oauth/token" {
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+		tokenCalls++
+		if tokenCalls == 1 {
+			hijacker, ok := w.(http.Hijacker)
+			if !ok {
+				t.Fatal("response writer cannot hijack")
+			}
+			conn, _, err := hijacker.Hijack()
+			if err != nil {
+				t.Fatal(err)
+			}
+			_ = conn.Close()
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new","scope":"news:search media_lists:manage"}`))
+	}))
+	defer server.Close()
+
+	token, err := pollMedialystDeviceToken(server.URL, oauthDeviceResponse{DeviceCode: "mcp_dc_test", ExpiresIn: 600, Interval: 1}, 10*time.Minute)
+	if err != nil {
+		t.Fatalf("poll returned error: %v", err)
+	}
+	if token.AccessToken != "mcp_at_new" || token.RefreshToken != "mcp_rt_new" {
+		t.Fatalf("token=%#v", token)
+	}
+	if tokenCalls != 2 {
+		t.Fatalf("tokenCalls=%d, want 2", tokenCalls)
+	}
+	wantSleeps := []time.Duration{time.Second, time.Second}
+	if len(sleeps) != len(wantSleeps) {
+		t.Fatalf("sleeps=%v, want %v", sleeps, wantSleeps)
+	}
+	for i := range wantSleeps {
+		if sleeps[i] != wantSleeps[i] {
+			t.Fatalf("sleeps=%v, want %v", sleeps, wantSleeps)
+		}
+	}
+}
+
 func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 	home := t.TempDir()
 	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
@@ -230,7 +304,10 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 		"NEWSJACK_HOME":                "",
 		"NEWSJACK_IGNORE_DOTENV":       "1",
 		"MEDIALYST_API_KEY":            "",
-		"NEWSJACK_MEDIALYST_AUTH_BASE": server.URL,
+		"NEWSJACK_MEDIALYST_AUTH_BASE": "",
+		"MEDIALYST_AUTH_BASE":          "",
+		"NEWSJACK_MEDIALYST_API_BASE":  "",
+		"MEDIALYST_API_BASE":           "",
 	}, func() {
 		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{
 			APIKey: "mlst_" + strings.Repeat("a", 12),
@@ -241,6 +318,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 				ExpiresAt:    now.Add(-time.Hour).Format(time.RFC3339),
 				Scope:        medialystOAuthDefaultScope,
 				ClientID:     medialystOAuthClientID,
+				BaseURL:      server.URL,
 			},
 			CreatedAt: now.Add(-2 * time.Hour).Format(time.RFC3339),
 			Source:    medialystOAuthSource,
@@ -258,7 +336,9 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if creds.Medialyst.APIKey == "" || creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" {
+		if creds.Medialyst.APIKey == "" ||
+			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" ||
+			creds.Medialyst.OAuth.BaseURL != server.URL {
 			t.Fatalf("credentials after refresh=%#v", creds.Medialyst)
 		}
 	})
@@ -303,7 +383,8 @@ func TestMedialystAPIRefreshesOAuthAfterUnauthorizedAndRetries(t *testing.T) {
 		"NEWSJACK_IGNORE_DOTENV":       "1",
 		"MEDIALYST_API_KEY":            "",
 		"NEWSJACK_MEDIALYST_API_BASE":  server.URL,
-		"NEWSJACK_MEDIALYST_AUTH_BASE": server.URL,
+		"NEWSJACK_MEDIALYST_AUTH_BASE": "",
+		"MEDIALYST_AUTH_BASE":          "",
 	}, func() {
 		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{
 			OAuth: &medialystOAuthCredentials{
@@ -313,6 +394,7 @@ func TestMedialystAPIRefreshesOAuthAfterUnauthorizedAndRetries(t *testing.T) {
 				ExpiresAt:    now.Add(time.Hour).Format(time.RFC3339),
 				Scope:        medialystOAuthDefaultScope,
 				ClientID:     medialystOAuthClientID,
+				BaseURL:      server.URL,
 			},
 			CreatedAt: now.Add(-time.Hour).Format(time.RFC3339),
 			Source:    medialystOAuthSource,
@@ -425,9 +507,8 @@ func TestOAuthCredentialsJSONShape(t *testing.T) {
 			t.Fatal(err)
 		}
 		if creds.Medialyst.APIKey != "mlst_"+strings.Repeat("b", 12) ||
-			creds.Medialyst.OAuth == nil ||
-			creds.Medialyst.OAuth.AccessToken != "mcp_at_saved" {
-			t.Fatalf("API-key save should preserve OAuth: %#v", creds.Medialyst)
+			creds.Medialyst.OAuth != nil {
+			t.Fatalf("API-key save should clear OAuth: %#v", creds.Medialyst)
 		}
 	})
 }

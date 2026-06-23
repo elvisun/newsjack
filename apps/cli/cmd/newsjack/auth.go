@@ -291,12 +291,13 @@ func validateAPIKey(key string) error {
 }
 
 func writeCredentials(apiKey string) (string, error) {
-	creds, _, err := readCredentialsFile()
+	creds, err := readCredentialsFileForWrite()
 	if err != nil {
 		return "", err
 	}
 	now := time.Now().UTC()
 	creds.Medialyst.APIKey = apiKey
+	creds.Medialyst.OAuth = nil
 	if creds.Medialyst.CreatedAt == "" {
 		creds.Medialyst.CreatedAt = now.Format(time.RFC3339Nano)
 	}

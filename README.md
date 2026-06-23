@@ -135,7 +135,7 @@ fallback, Windows, credentials — on any platform.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search and journalist enrichment. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one [here](https://medialyst.ai/agents).
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search and journalist enrichment. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 Note: A community marketplace plugin, `newsjack@claude-community`, is pending review

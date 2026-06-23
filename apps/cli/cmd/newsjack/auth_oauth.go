@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -49,6 +50,7 @@ type medialystOAuthCredentials struct {
 	ExpiresAt    string `json:"expires_at,omitempty"`
 	Scope        string `json:"scope,omitempty"`
 	ClientID     string `json:"client_id,omitempty"`
+	BaseURL      string `json:"base_url,omitempty"`
 }
 
 type medialystBearerCredential struct {
@@ -112,7 +114,7 @@ func runMedialystDeviceLogin(opts oauthLoginOptions, stdout, stderr io.Writer) i
 	if err != nil {
 		return failf(stderr, "Medialyst login failed: %v", err)
 	}
-	path, err := writeOAuthCredentials(token)
+	path, err := writeOAuthCredentialsForBaseURL(token, opts.BaseURL)
 	if err != nil {
 		return fail(stderr, err)
 	}
@@ -139,7 +141,7 @@ func printDeviceLoginInstructions(device oauthDeviceResponse, opts oauthLoginOpt
 		return nil
 	}
 	if err := openBrowserURL(completeURL); err != nil {
-		uiNote(stdout, "Could not open a browser automatically. Open %s and enter %s.", device.VerificationURI, device.UserCode)
+		uiNote(stdout, "Could not open a browser automatically. Open %s and enter %s.", completeURL, device.UserCode)
 		return nil
 	}
 	uiNote(stdout, "Opened the Medialyst authorization page in your browser.")
@@ -194,6 +196,9 @@ func pollMedialystDeviceToken(baseURL string, device oauthDeviceResponse, timeou
 		}
 		var oauthErr *oauthEndpointError
 		if !errors.As(err, &oauthErr) {
+			if retryableOAuthPollError(err) {
+				continue
+			}
 			return oauthTokenResponse{}, err
 		}
 		switch oauthErr.Code {
@@ -269,11 +274,12 @@ func refreshStoredMedialystOAuth() (medialystBearerCredential, error) {
 	if !ok || creds.Medialyst.OAuth == nil || strings.TrimSpace(creds.Medialyst.OAuth.RefreshToken) == "" {
 		return medialystBearerCredential{}, errors.New("no Medialyst OAuth refresh token is saved")
 	}
-	token, err := refreshMedialystOAuthToken("", creds.Medialyst.OAuth.RefreshToken)
+	baseURL := strings.TrimSpace(creds.Medialyst.OAuth.BaseURL)
+	token, err := refreshMedialystOAuthToken(baseURL, creds.Medialyst.OAuth.RefreshToken)
 	if err != nil {
 		return medialystBearerCredential{}, err
 	}
-	if _, err := writeOAuthCredentials(token); err != nil {
+	if _, err := writeOAuthCredentialsForBaseURL(token, baseURL); err != nil {
 		return medialystBearerCredential{}, err
 	}
 	return medialystBearerCredential{
@@ -394,7 +400,11 @@ func loadMedialystAuthStatus() medialystAuthStatus {
 }
 
 func writeOAuthCredentials(token oauthTokenResponse) (string, error) {
-	creds, _, err := readCredentialsFile()
+	return writeOAuthCredentialsForBaseURL(token, "")
+}
+
+func writeOAuthCredentialsForBaseURL(token oauthTokenResponse, baseURL string) (string, error) {
+	creds, err := readCredentialsFileForWrite()
 	if err != nil {
 		return "", err
 	}
@@ -414,12 +424,36 @@ func writeOAuthCredentials(token oauthTokenResponse) (string, error) {
 		ExpiresAt:    now.Add(time.Duration(expiresIn) * time.Second).Format(time.RFC3339),
 		Scope:        strings.TrimSpace(token.Scope),
 		ClientID:     medialystOAuthClientID,
+		BaseURL:      storedOAuthBaseURL(baseURL),
 	}
 	if creds.Medialyst.CreatedAt == "" {
 		creds.Medialyst.CreatedAt = now.Format(time.RFC3339Nano)
 	}
 	creds.Medialyst.Source = medialystOAuthSource
 	return writeCredentialsFile(creds)
+}
+
+func readCredentialsFileForWrite() (credentialsFile, error) {
+	creds, _, err := readCredentialsFile()
+	if err == nil {
+		return creds, nil
+	}
+	if isCorruptCredentialsError(err) {
+		return credentialsFile{}, nil
+	}
+	return credentialsFile{}, err
+}
+
+func isCorruptCredentialsError(err error) bool {
+	if errors.Is(err, io.EOF) || errors.Is(err, io.ErrUnexpectedEOF) {
+		return true
+	}
+	var syntaxErr *json.SyntaxError
+	if errors.As(err, &syntaxErr) {
+		return true
+	}
+	var typeErr *json.UnmarshalTypeError
+	return errors.As(err, &typeErr)
 }
 
 func readCredentialsFile() (credentialsFile, bool, error) {
@@ -451,6 +485,10 @@ func writeCredentialsFile(creds credentialsFile) (string, error) {
 }
 
 func medialystOAuthEndpoint(baseURL, path string) string {
+	return medialystOAuthBaseURL(baseURL) + path
+}
+
+func medialystOAuthBaseURL(baseURL string) string {
 	base := strings.TrimSpace(baseURL)
 	if base == "" {
 		base = strings.TrimSpace(os.Getenv("NEWSJACK_MEDIALYST_AUTH_BASE"))
@@ -471,7 +509,31 @@ func medialystOAuthEndpoint(baseURL, path string) string {
 	if strings.HasSuffix(base, "/api") {
 		base = strings.TrimSuffix(base, "/api")
 	}
-	return base + path
+	return base
+}
+
+func storedOAuthBaseURL(baseURL string) string {
+	base := medialystOAuthBaseURL(baseURL)
+	if base == medialystDefaultBase {
+		return ""
+	}
+	return base
+}
+
+func retryableOAuthPollError(err error) bool {
+	var oauthErr *oauthEndpointError
+	if errors.As(err, &oauthErr) {
+		return false
+	}
+	if errors.Is(err, io.EOF) || errors.Is(err, io.ErrUnexpectedEOF) {
+		return true
+	}
+	var urlErr *url.Error
+	if errors.As(err, &urlErr) {
+		return true
+	}
+	var netErr net.Error
+	return errors.As(err, &netErr)
 }
 
 func openBrowserURLDefault(rawURL string) error {

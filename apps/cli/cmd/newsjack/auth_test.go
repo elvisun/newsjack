@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -123,6 +124,35 @@ func TestAuthSetStoresOptionalAPIs(t *testing.T) {
 		}
 		if status["medialyst_configured"] != true || status["x_api_configured"] != true {
 			t.Fatalf("auth status should report both APIs configured: %s", out.String())
+		}
+	})
+}
+
+func TestLoginKeyOverwritesCorruptCredentialsFile(t *testing.T) {
+	withTempEnv(t, map[string]string{
+		"HOME":              t.TempDir(),
+		"NEWSJACK_HOME":     "",
+		"MEDIALYST_API_KEY": "",
+	}, func() {
+		if err := os.MkdirAll(filepath.Dir(credentialsPath()), 0o700); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(credentialsPath(), []byte(`{"medialyst":`), 0o600); err != nil {
+			t.Fatal(err)
+		}
+
+		var out, errBuf bytes.Buffer
+		testKey := "mlst_" + strings.Repeat("c", 12)
+		code := runCLI([]string{"login", "--key", testKey}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("login --key code=%d stderr=%s stdout=%s", code, errBuf.String(), out.String())
+		}
+		creds, ok, err := readCredentialsFile()
+		if err != nil || !ok {
+			t.Fatalf("read credentials ok=%v err=%v", ok, err)
+		}
+		if creds.Medialyst.APIKey != testKey || creds.Medialyst.OAuth != nil {
+			t.Fatalf("credentials=%#v", creds.Medialyst)
 		}
 	})
 }
