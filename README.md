@@ -13,7 +13,7 @@ curl -fsSL newsjack.sh | bash
 **Are you a human?** 📋 Copy this prompt to any AI:
 
 ```text
-help me setup https://newsjack.sh
+help me install https://newsjack.sh from the github repo and setup a daily newsjack monitoring for my company.
 ```
 
 Jump to **[platform-specific setup](#install)** below for per platform breakdown.
@@ -122,11 +122,6 @@ help me setup https://newsjack.sh
 
 It reads the [guide](docs/getting-started.md) and handles the rest — npm
 fallback, Windows, credentials — on any platform.
-
-When live Medialyst access is useful, your local agent should run `newsjack login`.
-Newsjack prints a Medialyst approval link, opens it in the browser when possible,
-and stores OAuth credentials locally. API keys remain available for CI and
-automation, but they are not the default interactive setup path.
 
 ### Claude.ai & Cowork - Install as a Claude Plugin
 

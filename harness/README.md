@@ -222,6 +222,13 @@ harness/scripts/run-ci-installer.sh \
 `--env-file`. The script validates that repo-local env files are ignored by git
 and never prints secret values. CI should keep using the default no-token path.
 
+## Model Eval Scenarios
+
+Manual model/runtime dogfood scenarios live in
+[`harness/eval-scenarios.md`](eval-scenarios.md). They are prompts plus
+expected behavior, not a prescribed runner. The agent or reviewer running an
+eval owns the harness, model, mock services, and transcript assertions.
+
 ## Native MCP Bridge Smoke (no credentials)
 
 `newsjack mcp-bridge` is a native Go stdio-to-streamable-HTTP proxy; it needs
