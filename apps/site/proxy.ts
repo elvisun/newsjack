@@ -7,6 +7,7 @@ import {
   recordTrafficEvent,
   type TrafficEventType,
 } from "./lib/install-telemetry";
+import { applySecurityHeaders } from "./lib/security-headers";
 
 const repoURL = "https://github.com/elvisun/newsjack";
 
@@ -18,11 +19,15 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
     const url = request.nextUrl.clone();
     url.pathname = "/install.sh";
     recordRequest(event, request, "install_request", installerKind);
-    return NextResponse.rewrite(url);
+    const response = NextResponse.rewrite(url);
+    applySecurityHeaders(response.headers);
+    return response;
   }
 
   recordRequest(event, request, "site_visit", getClientKind(userAgent));
-  return NextResponse.redirect(repoURL, 308);
+  const response = NextResponse.redirect(repoURL, 308);
+  applySecurityHeaders(response.headers);
+  return response;
 }
 
 function recordRequest(

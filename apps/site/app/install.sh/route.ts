@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import { applySecurityHeaders } from "@/lib/security-headers";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -22,5 +24,5 @@ export async function GET() {
     "content-type": "text/x-shellscript; charset=utf-8",
   });
 
-  return new Response(body, { headers });
+  return new Response(body, { headers: applySecurityHeaders(headers) });
 }
