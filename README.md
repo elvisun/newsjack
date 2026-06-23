@@ -40,6 +40,7 @@ Three problems, separate lanes.
 - ✅ **Fact-check before you send** — extract claims, verify each, flag the shaky ones
 - 🗣️ **Keep drafts in your voice** — fingerprint your real writing, kill the AI tells
 - 📋 **Build a fit-checked media list** — targeted reporters, not scraped contact dumps
+- 📰 **Clip the coverage** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
 
 ### 🧭 Strategize — figure out what your story even is
 
@@ -81,6 +82,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| press-clip | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | **Detect** | | | | | | | | |
 | news-search | ✅ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | story-origin-check | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
@@ -98,7 +100,7 @@ Legend:
 - **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API or the Medialyst API).
 - **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
 - **🔜 Coming soon** — not available here yet.
-- **❌ Not supported** — the two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it, so they need a local agent.
+- **❌ Not supported here** — needs a local agent. The two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it; `press-clip` drives a real Chrome/Edge browser via Playwright to render and clip the live page, which chat apps can't do.
 
 **Set up your agent:**
 

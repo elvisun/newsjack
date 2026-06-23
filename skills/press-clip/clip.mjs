@@ -63,6 +63,7 @@ const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-ana
 
 (async () => {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
+  try {
   const page = await browser.newPage({ viewport: { width: 1180, height: 1600 }, deviceScaleFactor: 2 });
   await page.route('**/*', route => {
     try { return BLOCK_HOSTS.test(new URL(route.request().url()).hostname) ? route.abort() : route.continue(); }
@@ -224,6 +225,8 @@ const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-ana
   await page.waitForTimeout(600);
   if (preview) await page.screenshot({ path: preview, fullPage: true });
   await page.pdf({ path: out, format: 'A4', printBackground: true, margin: { top: '10mm', bottom: '12mm', left: '8mm', right: '8mm' } });
-  await browser.close();
   console.log('clip written:', out);
+  } finally {
+    await browser.close();
+  }
 })().catch(e => { console.error('ERR', e.message); process.exit(1); });
