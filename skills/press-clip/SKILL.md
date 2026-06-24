@@ -49,13 +49,15 @@ node clip.mjs --url "<URL>" \
 
 For a **roundup** where the client is one entry among many, add `--section "<Client Name>"` to keep only their part.
 
-The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, **resolve the outlet logo**, recolor it, stamp it large at the top of the clip, and write the PDF plus a preview PNG.
+The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, **pick the article container structurally** (the tightest element that holds the `<h1>` and most of the page text, never one nested in `header`/`nav`/`footer`/`aside`), isolate it, sweep out **empty placeholder boxes** left behind by the network blocking (a dead ad slot or emptied embed that still takes height but holds no text, media, or caption — logged, never deleted silently), force a **white page background** so no off-white site color bleeds into the last page, **resolve the outlet logo**, recolor it, stamp it large at the top, and write the PDF plus a preview PNG. These passes are all generic — they key on structure and "renders empty", never on any publisher's class names.
 
 **Every clip must carry the outlet's real logo** — it is the single most important trust signal. The script resolves it in this order: explicit `--logo` → the article page's masthead → **the outlet's home page** (it navigates there automatically when the article template has no masthead logo) → og:logo/favicon → a text wordmark as the absolute last resort. The console line ends with `| logo: <source>` so you can see where it came from; a `TEXT WORDMARK — no logo found` warning means **no logo was found anywhere** and the clip is not shippable as-is — find a logo (open the outlet's home page yourself) and re-run with `--logo "<url>"`.
 
 ### 2. Review with a separate agent — required, not optional
 
-Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview *and to confirm the outlet logo is present*. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (the outlet logo large at the top, headline, byline, the article's own photos, body text — nothing else).
+Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered clip *and to confirm the outlet logo is present*. Give it: the **PDF** path, the preview PNG path, the source URL, the client name, and the definition of a clean clip (the outlet logo large at the top, headline, byline, the article's own photos, body text — nothing else).
+
+**Review the rendered PDF, not just the preview PNG.** Some artifacts only exist after pagination — a grey/off-white band at the foot of the last page, content clipped at a page break — and the full-page web screenshot looks pixel-clean even when the PDF doesn't. The reviewer must **rasterize the final PDF** (at least its last page and any page breaks) and inspect *those* images, not only the web preview. Otherwise trailing-band and page-break problems sail through review.
 
 **The logo is a required check, not a nice-to-have.** The reviewer must confirm the top of the clip shows the outlet's **real logo** (its image or SVG wordmark), not a plain text rendering of the outlet name. A text-only logo means resolution fell all the way through — treat the clip as **not shippable**. When the logo is missing or is only text:
 
@@ -77,7 +79,7 @@ Pass the reviewer's `--drop` selectors (and `--logo` if it returned `no_logo`), 
 
 When you need to find a selector yourself, inspect the offending block's `class`/`id` directly. Useful moves:
 
-- Find the article container the script will pick: the `<article>` with the most text, else `[class*="article-content"]` / `[class*="entry-content"]` / `main`.
+- Find the article container the script will pick: the tightest of `<article>` / `[class*="article-content"]` / `[class*="entry-content"]` / WordPress `.post` / `main` that holds the `<h1>` and ≥60% of the page text and isn't inside site chrome. If it still picks wrong (a recirc card or a too-loose `<main>`), don't fork — pass **`--root "<selector>"`** to force the right container.
 - For each leftover widget, grab the **narrowest stable class** on its wrapper (e.g. `.zergnet-widget`, `.nyp-video-player`, `aside.single__inline-module`). Prefer a class that names the widget, not a layout grid.
 - **Never** drop a class that also wraps the body. If the body sits in `layout__item--main`, target the *other* columns (`.layout__item:not(.layout__item--main)`), not the shared grid.
 
@@ -92,9 +94,14 @@ node clip.mjs --url "<URL>" \
 
 `--drop` removes extra selectors; `--keep` protects anything the isolation or a drop would otherwise take (a gallery, a pull-quote, a hero image). Repeat until the preview is clean.
 
-### 4. When the page fights you, write a tailored script
+### 4. When the page fights you, tailor at runtime — then, only if needed, write a script
 
-Some pages need more than `--drop`: a paywalled or lazy body, a section boundary the heading walk can't infer, an SVG logo built from sprite references, content injected late by JavaScript. When that happens, **write a small site-specific Playwright script** for that page (or use a browser/computer-use tool to drive it), reusing the same shape as `clip.mjs` — goto, wait, surgery, `page.pdf(...)`. The bundled script is a starting scaffold, not a limit. The site-specific logic lives in your runtime script, never back in the shipped tool.
+Reach for the runtime flags first; they cover most fights without forking. `--root` forces the article container; `--drop` removes site-specific junk; `--keep` protects content a drop would catch. Two failure patterns from real runs, both now handled generically by the script but worth recognizing:
+
+- **A recirc widget steals the root** on templates with no `<article>` — a tiny "more from us" card classed `post-content` outscores the real body under naive first-match. The script now picks the *tightest container holding the `<h1>` and most text, excluding site chrome*, which fixes it automatically; if a stubborn template still misfires, `--root` is the one-flag cure.
+- **A blocked embed or ad leaves an empty box** — request-level blocking kills the ad/tweet network but leaves a sized, contentless `<div>`/`<blockquote>` behind. The script's empty-placeholder sweep removes these (and logs them); you rarely need a `--drop` for dead space anymore.
+
+Some pages still need more — a paywalled or lazy body, a section boundary the heading walk can't infer, an SVG logo built from sprite references, content injected late by JavaScript. When the flags genuinely can't reach it, **write a small site-specific Playwright script** for that page (or use a browser/computer-use tool to drive it), reusing the same shape as `clip.mjs` — goto, wait, surgery, `page.pdf(...)`. The bundled script is a starting scaffold, not a limit. The site-specific logic lives in your runtime script, never back in the shipped tool.
 
 ## Scope: whole article vs the client's section
 

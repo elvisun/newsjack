@@ -21,6 +21,9 @@
 //   --chrome <path>        Browser executable (defaults to system Chrome/Chromium).
 //   --keep "<sel,sel>"     Extra CSS selectors to force-keep (never remove).
 //   --drop "<sel,sel>"     Extra CSS selectors to remove (site-specific junk).
+//   --root "<selector>"    Force the article container instead of auto-detecting it.
+//                          Escape hatch for templates the heuristic picks wrong —
+//                          tailor at runtime here rather than forking the script.
 //   --logo "<url>"         Outlet logo image URL to stamp at the top of the clip.
 //                          Overrides auto-detection — pass it when the article page
 //                          has no masthead logo (grab one from the outlet's home page).
@@ -55,7 +58,7 @@ for (let i = 2; i < process.argv.length; i++) {
   const a = process.argv[i];
   if (a.startsWith('--')) args[a.slice(2)] = process.argv[++i];
 }
-const { url, out, section, preview, keep, drop, logo: logoArg } = args;
+const { url, out, section, preview, keep, drop, root, logo: logoArg } = args;
 if (!url || !out) { console.error('need --url and --out'); process.exit(1); }
 
 const CHROME = args.chrome
@@ -145,7 +148,7 @@ function detectLogoFallback(pg) {
   if (!logoSrc && !logoSvg) { logoSrc = await detectLogoFallback(page); if (logoSrc) logoFrom = 'og:logo/favicon fallback'; }
   if (!logoSrc && !logoSvg) logoFrom = 'TEXT WORDMARK — no logo found';
 
-  await page.evaluate(({ section, keep, drop, logoSrc, logoSvg }) => {
+  const stripped = await page.evaluate(({ section, keep, drop, root, logoSrc, logoSvg }) => {
     // --- capture the outlet name BEFORE we remove anything (used only as logo alt / text fallback) ---
     const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); return e ? (e.getAttribute(attr) || '').trim() : ''; };
     const outlet = meta('meta[property="og:site_name"]')
@@ -155,18 +158,29 @@ function detectLogoFallback(pg) {
     // surgery ran — from the article masthead, the home page, or an explicit --logo — so the
     // header below always has a real logo to stamp, even on templates that render none.
 
-    // The article body and the wrappers it sits inside must never be deleted, even if a
-    // wrapper's class happens to contain a junk word (e.g. a "recirc" container around the article).
-    // Pick by priority and by most text — not document order — so a page-level <main> wrapper or a
-    // teaser-card <article> in the header strip can't win over the real story body.
+    // Choose the article container STRUCTURALLY, never by first-match — first-match let a
+    // 115-char footer recirc card classed "post-content" beat the 2,257-char real body. Gather
+    // every plausible candidate, drop any that lives inside site chrome (header/nav/footer/aside
+    // is by definition not the story — pure structure, no class guessing), then pick the TIGHTEST
+    // container that still holds the headline and most of the page text. That beats both a small
+    // teaser (fails the text bar) and a loose <main> (drags nav/comments back in). All generic.
     const articleRoot = (() => {
-      const arts = [...document.querySelectorAll('article')];
-      if (arts.length) return arts.sort((a, b) => b.innerText.length - a.innerText.length)[0];
-      for (const s of ['[class*="article-body" i]', '[class*="article-content" i]', '[class*="post-content" i]', '[class*="entry-content" i]', 'main']) {
-        const el = document.querySelector(s);
-        if (el) return el;
-      }
-      return document.body;
+      // explicit override wins — the --root escape hatch, same runtime-tailoring rule as --drop/--keep
+      if (root) { const el = document.querySelector(root); if (el) return el; }
+      // include WordPress post wrappers ([id^=post-], class token "post") — a huge slice of the web
+      // whose ideal root (the .post div holding headline + byline + body) none of the others match.
+      const SEL = ['article', '[class*="article-body" i]', '[class*="article-content" i]',
+        '[class*="post-content" i]', '[class*="entry-content" i]', '[id^="post-" i]', '[class~="post"]', 'main'];
+      let cands = [];
+      SEL.forEach(s => { try { document.querySelectorAll(s).forEach(el => cands.push(el)); } catch {} });
+      cands = [...new Set(cands)].filter(el => !el.closest('header, nav, footer, aside'));
+      if (!cands.length) return document.body;
+      const txt = el => (el.innerText || '').trim().length;
+      const maxText = Math.max(...cands.map(txt));
+      const h1 = document.querySelector('h1');
+      const solid = cands.filter(el => txt(el) >= 0.6 * maxText && (!h1 || el.contains(h1)));
+      if (solid.length) return solid.sort((a, b) => txt(a) - txt(b))[0];   // tightest that qualifies
+      return cands.sort((a, b) => txt(b) - txt(a))[0];                     // fallback: most text
     })();
 
     const keepSel = (keep || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -224,6 +238,24 @@ function detectLogoFallback(pg) {
       }
     }
 
+    // Sweep visual dead space left by request-level blocking: a blocked ad slot or emptied embed
+    // (e.g. a removed tweet <blockquote>) becomes an empty box that still takes height. Remove
+    // elements INSIDE the article that render with size but carry no text, no media, and no caption.
+    // This is generic — it keys on "renders empty", not on any publisher's class names. A genuinely
+    // failed first-party image still has its <img>/<figure> in the DOM, so it counts as media and is
+    // kept; we also log everything stripped so a real photo can never vanish silently.
+    const stripped = [];
+    const MEDIA = 'img, picture, video, svg, iframe, embed, object, figcaption, [class*="caption" i]';
+    [...articleRoot.querySelectorAll('div, aside, section, blockquote, ins, figure')].forEach(el => {
+      if (!el.isConnected || isProtected(el)) return;        // already gone with an ancestor, or kept
+      const r = el.getBoundingClientRect();
+      if (r.height < 8 || r.width < 8) return;               // not occupying visible space
+      if ((el.innerText || '').trim().length || el.querySelector(MEDIA)) return;  // has real content
+      const cls = (typeof el.className === 'string' && el.className.trim()) ? '.' + el.className.trim().split(/\s+/).join('.') : '';
+      stripped.push(el.tagName.toLowerCase() + cls + ' [' + Math.round(r.width) + '×' + Math.round(r.height) + ']');
+      el.remove();
+    });
+
     // --- clip header: the outlet LOGO only (the key trust signal), shown large above the article ---
     const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
     const LOGO_H = 64;
@@ -243,12 +275,19 @@ function detectLogoFallback(pg) {
     header.style.cssText = 'background:#fff;padding:4px 4px 16px;margin:0 0 14px';
     header.innerHTML = logoImg;
     document.body.prepend(header);
-  }, { section, keep, drop, logoSrc, logoSvg });
+    return stripped;
+  }, { section, keep, drop, root, logoSrc, logoSvg });
+
+  // Force a white page background so Chromium doesn't paint the below-content area of the final
+  // A4 page with a site's off-white/grey body color (a common trailing-band artifact). Injected
+  // last so it wins the cascade even against the site's own !important html/body background.
+  await page.addStyleTag({ content: 'html,body{background:#fff !important}@media print{html,body{background:#fff !important}}' });
 
   await page.waitForTimeout(600);
   if (preview) await page.screenshot({ path: preview, fullPage: true });
   await page.pdf({ path: out, format: 'A4', printBackground: true, margin: { top: '10mm', bottom: '12mm', left: '8mm', right: '8mm' } });
   console.log('clip written:', out, '| logo:', logoFrom);
+  if (stripped && stripped.length) console.log('swept ' + stripped.length + ' empty placeholder(s):\n  - ' + stripped.join('\n  - '));
   if (logoFrom.startsWith('TEXT')) console.warn('WARNING: no outlet logo found on the article OR home page — clip fell back to a text wordmark. Find a logo and re-run with --logo "<url>".');
   } finally {
     await browser.close();
