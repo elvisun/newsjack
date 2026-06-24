@@ -49,22 +49,31 @@ node clip.mjs --url "<URL>" --client "<Client Name>" \
 
 For a **roundup** where the client is one entry among many, add `--section "<Client Name>"` to keep only their part.
 
-The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, detect and recolor the outlet logo, stamp a header band (logo · outlet · publish date · source link), highlight the client, and write the PDF plus a preview PNG.
+The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, **resolve the outlet logo**, recolor it, stamp a header band (logo · outlet · publish date · source link), highlight the client, and write the PDF plus a preview PNG.
+
+**Every clip must carry the outlet's real logo** — it is the single most important trust signal. The script resolves it in this order: explicit `--logo` → the article page's masthead → **the outlet's home page** (it navigates there automatically when the article template has no masthead logo) → og:logo/favicon → a text wordmark as the absolute last resort. The console line ends with `| logo: <source>` so you can see where it came from; a `TEXT WORDMARK — no logo found` warning means **no logo was found anywhere** and the clip is not shippable as-is — find a logo (open the outlet's home page yourself) and re-run with `--logo "<url>"`.
 
 ### 2. Review with a separate agent — required, not optional
 
-Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (header band + logo, headline, byline, the article's own photos, body text, client highlight — nothing else).
+Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview *and to confirm the outlet logo is present*. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (header band + logo, headline, byline, the article's own photos, body text, client highlight — nothing else).
 
-The reviewer must follow two rules, both learned the hard way:
+**The logo is a required check, not a nice-to-have.** The reviewer must confirm the header band shows the outlet's **real logo** (its image or SVG wordmark), not a plain text rendering of the outlet name. A text-only band means logo resolution fell all the way through — treat the clip as **not shippable**. When the logo is missing or is only text:
+
+1. **Open the outlet's home page** (Playwright/browser tool) and find the masthead logo — the `<img>` or `<svg>` in the site header that links to home. Grab its absolute image URL.
+2. Re-run the clip with `--logo "<that url>"`, which stamps it into the band, then review the new preview.
+
+(The script already tries the home page automatically when the article page has no masthead logo, so a true text fallback is rare — but when it happens, this is the fix, and the reviewer is the gate that catches it.)
+
+Beyond the logo, the reviewer must follow two rules, both learned the hard way:
 
 - **Verify every selector against the live DOM, never from the picture alone.** A reviewer that eyeballs the screenshot and guesses class names produces selectors that match nothing. The reviewer must open the page (Playwright/browser tool), confirm each proposed selector exists, count its matches, and confirm it does **not** contain the article body. Return only verified selectors.
 - **Distinguish editorial from junk.** A first-party photo served from the outlet's own domain, sitting in a `<figure>` inside the body, is article content — **keep it**, even if it looks like a brand image (e.g. a fashion photo). Only flag true ads/recirc/sponsored/comments. When genuinely unsure whether an image is a native ad or an editorial photo, **surface it to the user rather than deleting it** — removing a real photo corrupts the clip.
 
-Have the reviewer return a verdict (`clean` / `has_junk`) and a verified, body-safe `--drop` string.
+Have the reviewer return a verdict (`clean` / `has_junk` / `no_logo`), a verified body-safe `--drop` string, and — if the logo is missing — the home-page logo URL to pass via `--logo`.
 
 ### 3. Apply the drops, re-render, and re-review until clean
 
-Pass the reviewer's `--drop` selectors, re-render, and **send the new preview back to the reviewer**. Repeat until the verdict is `clean` or only user-judgment items (like an ambiguous image) remain. Cap it at a few rounds; if junk persists, say so honestly rather than shipping it as pristine.
+Pass the reviewer's `--drop` selectors (and `--logo` if it returned `no_logo`), re-render, and **send the new preview back to the reviewer**. Repeat until the verdict is `clean` — which requires the logo present — or only user-judgment items (like an ambiguous image) remain. Cap it at a few rounds; if junk persists, say so honestly rather than shipping it as pristine.
 
 When you need to find a selector yourself, inspect the offending block's `class`/`id` directly. Useful moves:
 

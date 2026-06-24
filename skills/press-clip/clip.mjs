@@ -22,6 +22,14 @@
 //   --chrome <path>        Browser executable (defaults to system Chrome/Chromium).
 //   --keep "<sel,sel>"     Extra CSS selectors to force-keep (never remove).
 //   --drop "<sel,sel>"     Extra CSS selectors to remove (site-specific junk).
+//   --logo "<url>"         Outlet logo image URL to stamp in the header band.
+//                          Overrides auto-detection — pass it when the article page
+//                          has no masthead logo (grab one from the outlet's home page).
+//
+// Every clip carries the outlet logo: it is the key trust signal. When the article
+// page has no masthead logo, the script automatically opens the home page to find
+// one; --logo lets the caller supply it explicitly. The console line reports which
+// source the logo came from so a reviewer can confirm a real logo (not a text fallback).
 //
 // Requires a Chromium-based browser on the machine and the `playwright-core`
 // npm package (npm i playwright-core). Edge works as the browser too.
@@ -48,7 +56,7 @@ for (let i = 2; i < process.argv.length; i++) {
   const a = process.argv[i];
   if (a.startsWith('--')) args[a.slice(2)] = process.argv[++i];
 }
-const { url, out, client, section, preview, keep, drop } = args;
+const { url, out, client, section, preview, keep, drop, logo: logoArg } = args;
 if (!url || !out) { console.error('need --url and --out'); process.exit(1); }
 
 const CHROME = args.chrome
@@ -60,6 +68,41 @@ const CHROME = args.chrome
 // embeds, autoplay video) from ever loading — generically, by domain, with no per-site selectors.
 // The article's own text and images are first-party and load normally.
 const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-analytics|googletagmanager|adservice\.google|amazon-adsystem|adsystem|taboola|outbrain|zergnet|connatix|spot\.im|openweb|disqus|criteo|pubmatic|rubiconproject|adnxs|moatads|scorecardresearch|zemanta|sharethrough|teads|indexww|casalemedia|3lift|districtm|smartadserver|yieldmo|sailthru|piano\.io|permutive|chartbeat|parsely|nativo|bidswitch|adlightning|confiant)\./i;
+
+// Find the masthead logo (the key trust signal) on whatever page is loaded — the
+// article page first, the home page as a fallback. Prefers the homepage-linking logo
+// near the top; supports inline <svg> wordmarks as well as <img> logos; excludes
+// article thumbnails/icons. Returns {logoSrc, logoSvg}; never a favicon (see fallback).
+function detectMastheadLogo(pg) {
+  return pg.evaluate(() => {
+    let logoSrc = '', logoSvg = '';
+    const badImg = /sprite|emoji|avatar|gravatar|icon-|\/thumbs?\/|uploads\/sites/i;
+    const originRe = new RegExp('^' + location.origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\/?$');
+    const brandCands = [
+      ...[...document.querySelectorAll('a')].filter(a => {
+        const href = a.getAttribute('href') || ''; const r = a.getBoundingClientRect();
+        return (href === '/' || originRe.test(href)) && r.top < 300 && r.width > 60;
+      }),
+      ...document.querySelectorAll('[class*="site-logo" i], [class*="masthead" i], [class*="navbar-brand" i], [class*="logo" i]'),
+    ];
+    for (const c of brandCands) {
+      const img = c.matches('img') ? c : c.querySelector('img');
+      if (img) { const s = img.currentSrc || img.src || ''; if (s && !badImg.test(s)) { logoSrc = s; break; } }
+      const svg = c.matches('svg') ? c : c.querySelector('svg');
+      if (svg && svg.getBoundingClientRect().width >= 60) { logoSvg = svg.outerHTML; break; }
+    }
+    return { logoSrc, logoSvg };
+  });
+}
+
+// Last-resort logo: og:logo or the site icon. Lower fidelity than a masthead, but
+// still the outlet's own mark — better than a text wordmark. Returns an absolute URL.
+function detectLogoFallback(pg) {
+  return pg.evaluate(() => {
+    const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); if (!e) return ''; const v = (e.getAttribute(attr) || '').trim(); return v ? new URL(v, location.href).href : ''; };
+    return meta('meta[property="og:logo"]') || meta('link[rel*="icon"]', 'href');
+  });
+}
 
 (async () => {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
@@ -78,7 +121,32 @@ const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-ana
   });
   await page.waitForTimeout(1500);
 
-  await page.evaluate(({ client, section, keep, drop }) => {
+  // --- resolve the outlet logo BEFORE surgery: every clip must carry one (it is the
+  // key trust signal). Priority: explicit --logo > article masthead > HOME-PAGE masthead
+  // > og:logo/favicon > text wordmark. The home-page step exists because some article
+  // templates render no masthead logo at all; we navigate to the home page to grab one. ---
+  let logoSrc = '', logoSvg = '', logoFrom = '';
+  if (logoArg) { logoSrc = logoArg; logoFrom = 'explicit (--logo)'; }
+  else { ({ logoSrc, logoSvg } = await detectMastheadLogo(page)); if (logoSrc || logoSvg) logoFrom = 'article page'; }
+  if (!logoSrc && !logoSvg) {
+    try {
+      const origin = new URL(url).origin;
+      const home = await browser.newPage({ viewport: { width: 1180, height: 1600 }, deviceScaleFactor: 2 });
+      await home.route('**/*', route => {
+        try { return BLOCK_HOSTS.test(new URL(route.request().url()).hostname) ? route.abort() : route.continue(); }
+        catch { return route.continue(); }
+      });
+      await home.goto(origin, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await home.waitForTimeout(2000);
+      ({ logoSrc, logoSvg } = await detectMastheadLogo(home));
+      if (logoSrc || logoSvg) logoFrom = 'home page';
+      await home.close();
+    } catch { /* home-page fetch is best-effort */ }
+  }
+  if (!logoSrc && !logoSvg) { logoSrc = await detectLogoFallback(page); if (logoSrc) logoFrom = 'og:logo/favicon fallback'; }
+  if (!logoSrc && !logoSvg) logoFrom = 'TEXT WORDMARK — no logo found';
+
+  await page.evaluate(({ client, section, keep, drop, logoSrc, logoSvg }) => {
     // --- capture outlet identity BEFORE we remove anything (logo often lives in a header we strip) ---
     const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); return e ? (e.getAttribute(attr) || '').trim() : ''; };
     const outlet = meta('meta[property="og:site_name"]')
@@ -88,25 +156,9 @@ const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-ana
     const dateRaw = meta('meta[property="article:published_time"]') || meta('meta[itemprop="datePublished"]')
       || meta('time[datetime]', 'datetime');
     if (dateRaw) { const d = new Date(dateRaw); if (!isNaN(d)) dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
-    // find the masthead logo (the key trust signal): prefer the homepage-linking logo near the top.
-    // support inline <svg> wordmarks as well as <img> logos; exclude article thumbnails/icons.
-    let logoSrc = '', logoSvg = '';
-    const badImg = /sprite|emoji|avatar|gravatar|icon-|\/thumbs?\/|uploads\/sites/i;
-    const originRe = new RegExp('^' + location.origin.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\/?$');
-    const brandCands = [
-      ...[...document.querySelectorAll('a')].filter(a => {
-        const href = a.getAttribute('href') || ''; const r = a.getBoundingClientRect();
-        return (href === '/' || originRe.test(href)) && r.top < 300 && r.width > 60;
-      }),
-      ...document.querySelectorAll('[class*="site-logo" i], [class*="masthead" i], [class*="navbar-brand" i], [class*="logo" i]'),
-    ];
-    for (const c of brandCands) {
-      const img = c.matches('img') ? c : c.querySelector('img');
-      if (img) { const s = img.currentSrc || img.src || ''; if (s && !badImg.test(s)) { logoSrc = s; break; } }
-      const svg = c.matches('svg') ? c : c.querySelector('svg');
-      if (svg && svg.getBoundingClientRect().width >= 60) { logoSvg = svg.outerHTML; break; }
-    }
-    if (!logoSrc && !logoSvg) logoSrc = meta('meta[property="og:logo"]') || meta('link[rel*="icon"]', 'href');
+    // The outlet logo (logoSrc / logoSvg, the key trust signal) was resolved before this
+    // surgery ran — from the article masthead, the home page, or an explicit --logo — so the
+    // header band below always has a real logo to stamp, even on templates that render none.
 
     // The article body and the wrappers it sits inside must never be deleted, even if a
     // wrapper's class happens to contain a junk word (e.g. a "recirc" container around the article).
@@ -220,12 +272,13 @@ const BLOCK_HOSTS = /(doubleclick|googlesyndication|googletagservices|google-ana
       '<div style="flex:0 0 auto">' + logoImg + '</div>' +
       '<div style="font:500 11.5px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#475569;word-break:break-word;border-left:1px solid #cbd5e1;padding-left:16px">' + meta2 + '</div>';
     document.body.prepend(band);
-  }, { client, section, keep, drop });
+  }, { client, section, keep, drop, logoSrc, logoSvg });
 
   await page.waitForTimeout(600);
   if (preview) await page.screenshot({ path: preview, fullPage: true });
   await page.pdf({ path: out, format: 'A4', printBackground: true, margin: { top: '10mm', bottom: '12mm', left: '8mm', right: '8mm' } });
-  console.log('clip written:', out);
+  console.log('clip written:', out, '| logo:', logoFrom);
+  if (logoFrom.startsWith('TEXT')) console.warn('WARNING: no outlet logo found on the article OR home page — clip fell back to a text wordmark. Find a logo and re-run with --logo "<url>".');
   } finally {
     await browser.close();
   }
