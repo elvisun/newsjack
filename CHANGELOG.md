@@ -19,6 +19,24 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.14 — 2026-06-24
+
+### Changed
+
+- `press-clip` now presents the outlet logo as a large centered trust signal
+  above the clipped article instead of a metadata header band, and no longer
+  highlights client mentions in whole-article clips.
+- `press-clip` now supports `--root` as a runtime escape hatch for templates
+  where the generic article-container heuristic picks the wrong element.
+
+### Fixed
+
+- `press-clip` now picks the article container by structure: the tightest
+  candidate that holds the headline and most of the story text, excluding site
+  chrome.
+- `press-clip` now sweeps empty ad/embed placeholders left behind by blocked
+  networks and forces a white print background to avoid trailing page bands.
+
 ## v0.1.13 — 2026-06-24
 
 ### Fixed
