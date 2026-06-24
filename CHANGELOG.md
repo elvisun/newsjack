@@ -19,6 +19,14 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.13 — 2026-06-24
+
+### Fixed
+
+- `press-clip` now treats the outlet logo as a required trust signal: it tries
+  the article masthead, then the outlet home page, then logo metadata, and
+  reports where the logo came from so reviewers can catch text-only fallbacks.
+
 ## v0.1.12 — 2026-06-24
 
 ### Added
