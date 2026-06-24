@@ -19,6 +19,8 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.12 — 2026-06-24
+
 ### Added
 
 - **`press-clip` skill:** turn a live article URL into a branded press-clip
