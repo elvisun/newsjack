@@ -7,14 +7,13 @@
 // site-specific class names are baked in. Per-publisher junk that lives INSIDE the
 // article (ads, sponsored rails, newsletter boxes, comment embeds) is removed at
 // runtime via --drop, which the caller supplies after inspecting the page.
-// Optionally isolates one section (the client's) in a roundup, and highlights the
-// client's mentions. Contains no per-site logic by design.
+// Optionally isolates one section (the client's) in a roundup. Stamps the outlet's
+// logo at the top as the trust signal. Contains no per-site logic by design.
 //
 // Usage:
 //   node clip.mjs --url <URL> --out <file.pdf> [options]
 //
 // Options:
-//   --client "<Name>"      Highlight this brand/name wherever it appears.
 //   --section "<Heading>"  Isolate the roundup section whose heading names this
 //                          client: keep the lead + that section, drop the rest.
 //                          Omit for single-subject articles (keep whole article).
@@ -22,7 +21,7 @@
 //   --chrome <path>        Browser executable (defaults to system Chrome/Chromium).
 //   --keep "<sel,sel>"     Extra CSS selectors to force-keep (never remove).
 //   --drop "<sel,sel>"     Extra CSS selectors to remove (site-specific junk).
-//   --logo "<url>"         Outlet logo image URL to stamp in the header band.
+//   --logo "<url>"         Outlet logo image URL to stamp at the top of the clip.
 //                          Overrides auto-detection — pass it when the article page
 //                          has no masthead logo (grab one from the outlet's home page).
 //
@@ -56,7 +55,7 @@ for (let i = 2; i < process.argv.length; i++) {
   const a = process.argv[i];
   if (a.startsWith('--')) args[a.slice(2)] = process.argv[++i];
 }
-const { url, out, client, section, preview, keep, drop, logo: logoArg } = args;
+const { url, out, section, preview, keep, drop, logo: logoArg } = args;
 if (!url || !out) { console.error('need --url and --out'); process.exit(1); }
 
 const CHROME = args.chrome
@@ -146,19 +145,15 @@ function detectLogoFallback(pg) {
   if (!logoSrc && !logoSvg) { logoSrc = await detectLogoFallback(page); if (logoSrc) logoFrom = 'og:logo/favicon fallback'; }
   if (!logoSrc && !logoSvg) logoFrom = 'TEXT WORDMARK — no logo found';
 
-  await page.evaluate(({ client, section, keep, drop, logoSrc, logoSvg }) => {
-    // --- capture outlet identity BEFORE we remove anything (logo often lives in a header we strip) ---
+  await page.evaluate(({ section, keep, drop, logoSrc, logoSvg }) => {
+    // --- capture the outlet name BEFORE we remove anything (used only as logo alt / text fallback) ---
     const meta = (sel, attr = 'content') => { const e = document.querySelector(sel); return e ? (e.getAttribute(attr) || '').trim() : ''; };
     const outlet = meta('meta[property="og:site_name"]')
       || document.title.replace(/.*[-|–—]\s*/, '').trim()
       || location.hostname.replace(/^www\./, '');
-    let dateStr = '';
-    const dateRaw = meta('meta[property="article:published_time"]') || meta('meta[itemprop="datePublished"]')
-      || meta('time[datetime]', 'datetime');
-    if (dateRaw) { const d = new Date(dateRaw); if (!isNaN(d)) dateStr = d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
     // The outlet logo (logoSrc / logoSvg, the key trust signal) was resolved before this
     // surgery ran — from the article masthead, the home page, or an explicit --logo — so the
-    // header band below always has a real logo to stamp, even on templates that render none.
+    // header below always has a real logo to stamp, even on templates that render none.
 
     // The article body and the wrappers it sits inside must never be deleted, even if a
     // wrapper's class happens to contain a junk word (e.g. a "recirc" container around the article).
@@ -229,50 +224,26 @@ function detectLogoFallback(pg) {
       }
     }
 
-    // --- highlight client mentions ---
-    if (client) {
-      const rx = new RegExp('(' + client.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'g');
-      const root = articleRoot;
-      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-      const hits = [];
-      while (walker.nextNode()) {
-        const t = walker.currentNode;
-        if (rx.test(t.nodeValue) && t.parentElement && !['SCRIPT', 'STYLE', 'MARK'].includes(t.parentElement.tagName)) hits.push(t);
-      }
-      hits.forEach(t => {
-        const span = document.createElement('span');
-        span.innerHTML = t.nodeValue.replace(rx, '<mark style="background:#fde68a;padding:0 .08em;border-radius:2px">$1</mark>');
-        t.replaceWith(span);
-      });
-    }
-
-    // --- clip header band: the outlet LOGO (the key trust signal) + outlet name, date, source link ---
+    // --- clip header: the outlet LOGO only (the key trust signal), shown large above the article ---
     const esc = s => (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+    const LOGO_H = 64;
     const sizer = document.createElement('style');
-    sizer.textContent = '.pc-logo svg{height:40px !important;width:auto !important}';
+    sizer.textContent = '.pc-logo svg{height:' + LOGO_H + 'px !important;width:auto !important}';
     document.head && document.head.appendChild(sizer);
-    // header logos are often white (for a dark masthead); recolor white fills so they show on our band
+    // header logos are often white (for a dark masthead); recolor white fills so they show on the clip
     const logoSvgDark = logoSvg
       .replace(/fill\s*=\s*"(#fff(fff)?|#ffffff|white)"/gi, 'fill="#111"')
       .replace(/fill\s*:\s*(#fff(fff)?|#ffffff|white)/gi, 'fill:#111');
     const logoImg = logoSvg
-      ? '<span class="pc-logo" style="display:inline-block;height:40px;line-height:0;color:#111">' + logoSvgDark + '</span>'
+      ? '<span class="pc-logo" style="display:inline-block;height:' + LOGO_H + 'px;line-height:0;color:#111">' + logoSvgDark + '</span>'
       : logoSrc
-      ? '<img src="' + esc(logoSrc) + '" alt="' + esc(outlet) + '" style="height:40px;max-width:260px;width:auto;object-fit:contain;display:block">'
-      : '<span style="font:700 22px/1 Georgia,serif;color:#111">' + esc(outlet) + '</span>';
-    const meta2 = [
-      client && ('<b style="color:#0f172a">PRESS CLIP — ' + esc(client) + '</b>'),
-      esc(outlet),
-      dateStr && ('Published ' + esc(dateStr)),
-      '<a href="' + esc(location.href) + '" style="color:#475569;text-decoration:none">' + esc(location.href) + '</a>',
-    ].filter(Boolean).join(' &nbsp;·&nbsp; ');
-    const band = document.createElement('div');
-    band.style.cssText = 'background:#fff;border-bottom:2px solid #0f172a;padding:14px 18px 12px;margin:0 0 10px;display:flex;align-items:center;gap:16px';
-    band.innerHTML =
-      '<div style="flex:0 0 auto">' + logoImg + '</div>' +
-      '<div style="font:500 11.5px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#475569;word-break:break-word;border-left:1px solid #cbd5e1;padding-left:16px">' + meta2 + '</div>';
-    document.body.prepend(band);
-  }, { client, section, keep, drop, logoSrc, logoSvg });
+      ? '<img src="' + esc(logoSrc) + '" alt="' + esc(outlet) + '" style="height:' + LOGO_H + 'px;max-width:420px;width:auto;object-fit:contain;display:block">'
+      : '<span style="font:700 30px/1 Georgia,serif;color:#111">' + esc(outlet) + '</span>';
+    const header = document.createElement('div');
+    header.style.cssText = 'background:#fff;padding:4px 4px 16px;margin:0 0 14px';
+    header.innerHTML = logoImg;
+    document.body.prepend(header);
+  }, { section, keep, drop, logoSrc, logoSvg });
 
   await page.waitForTimeout(600);
   if (preview) await page.screenshot({ path: preview, fullPage: true });

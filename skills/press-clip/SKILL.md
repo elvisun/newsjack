@@ -1,6 +1,6 @@
 ---
 name: press-clip
-description: "Turn a live article URL into a press clip that looks like the real coverage — the publication's own logo, fonts, photos and layout kept intact, the ads and clutter removed, and (for a roundup) just the client's section, with their mentions highlighted. Renders to PDF. You inspect each site and tailor the removal; the bundled script carries no site-specific logic."
+description: "Turn a live article URL into a press clip that looks like the real coverage — the publication's own logo, fonts, photos and layout kept intact, the ads and clutter removed, and (for a roundup) just the client's section. Renders to PDF. You inspect each site and tailor the removal; the bundled script carries no site-specific logic."
 when_to_use: "User wants to clip coverage, save an article as a PDF for a client, make a press clip, pull the part of a roundup that mentions their brand, or turn a cluttered article page into a clean shareable record of a mention. Also when another skill (coverage-tracker, newsjack-detector) surfaces real coverage the user wants to package for a client."
 ---
 
@@ -8,7 +8,7 @@ when_to_use: "User wants to clip coverage, save an article as a PDF for a client
 
 You are **press-clip**, the Newsjack skill that turns a live article into the artifact a PR agency hands a client: proof their coverage ran, in a form the client trusts on sight.
 
-Understand this first, because it's the mistake that ruins clips: **a press clip must look like the publication it came from.** The outlet's logo, masthead, real fonts, the article's photos, the familiar layout — those are not decoration, they are the *trust signals* that tell a client "yes, this really ran in this outlet." A clip rebuilt as plain text reads like a memo and convinces no one. So you do **not** rebuild the page. You take the **real, rendered page** and operate on it: isolate the article, strip the ads and clutter, highlight the client's mention — and leave every trust signal intact.
+Understand this first, because it's the mistake that ruins clips: **a press clip must look like the publication it came from.** The outlet's logo, masthead, real fonts, the article's photos, the familiar layout — those are not decoration, they are the *trust signals* that tell a client "yes, this really ran in this outlet." A clip rebuilt as plain text reads like a memo and convinces no one. So you do **not** rebuild the page. You take the **real, rendered page** and operate on it: isolate the article, strip the ads and clutter, stamp the outlet's logo on top — and leave every trust signal intact.
 
 A clip is also **evidence**. The journalist's words and the outlet's branding are reproduced as they are. You select and present; you never rewrite the reporting or fake the source.
 
@@ -24,7 +24,7 @@ If you ever feel the urge to hardcode a publisher's selector into the script, do
 ## What you need
 
 - **The article URL.**
-- **The client** — the brand, product, person, or company the clip is *for*. You'll highlight it, and in a roundup you'll narrow to its section.
+- **The client** — the brand, product, person, or company the clip is *for*. In a roundup you'll narrow to its section.
 
 Optional: whole article vs the client's section (see Scope), and where to save (defaults to `press-clips/`).
 
@@ -43,24 +43,24 @@ If the browser isn't at the default path, pass `--chrome "/path/to/Chrome"` or s
 ### 1. Run the baseline clip
 
 ```bash
-node clip.mjs --url "<URL>" --client "<Client Name>" \
+node clip.mjs --url "<URL>" \
   --out "press-clips/<outlet>-<slug>.pdf" --preview "press-clips/<outlet>-<slug>.png"
 ```
 
 For a **roundup** where the client is one entry among many, add `--section "<Client Name>"` to keep only their part.
 
-The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, **resolve the outlet logo**, recolor it, stamp a header band (logo · outlet · publish date · source link), highlight the client, and write the PDF plus a preview PNG.
+The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, isolate the article structurally, **resolve the outlet logo**, recolor it, stamp it large at the top of the clip, and write the PDF plus a preview PNG.
 
 **Every clip must carry the outlet's real logo** — it is the single most important trust signal. The script resolves it in this order: explicit `--logo` → the article page's masthead → **the outlet's home page** (it navigates there automatically when the article template has no masthead logo) → og:logo/favicon → a text wordmark as the absolute last resort. The console line ends with `| logo: <source>` so you can see where it came from; a `TEXT WORDMARK — no logo found` warning means **no logo was found anywhere** and the clip is not shippable as-is — find a logo (open the outlet's home page yourself) and re-run with `--logo "<url>"`.
 
 ### 2. Review with a separate agent — required, not optional
 
-Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview *and to confirm the outlet logo is present*. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (header band + logo, headline, byline, the article's own photos, body text, client highlight — nothing else).
+Do not trust your own "looks fine." A clip that reaches a client with a stray ad or a comments box in it is a credibility problem. **Spawn a separate reviewer agent** whose only job is to find leftover junk in the rendered preview *and to confirm the outlet logo is present*. Give it: the preview PNG path, the source URL, the client name, and the definition of a clean clip (the outlet logo large at the top, headline, byline, the article's own photos, body text — nothing else).
 
-**The logo is a required check, not a nice-to-have.** The reviewer must confirm the header band shows the outlet's **real logo** (its image or SVG wordmark), not a plain text rendering of the outlet name. A text-only band means logo resolution fell all the way through — treat the clip as **not shippable**. When the logo is missing or is only text:
+**The logo is a required check, not a nice-to-have.** The reviewer must confirm the top of the clip shows the outlet's **real logo** (its image or SVG wordmark), not a plain text rendering of the outlet name. A text-only logo means resolution fell all the way through — treat the clip as **not shippable**. When the logo is missing or is only text:
 
 1. **Open the outlet's home page** (Playwright/browser tool) and find the masthead logo — the `<img>` or `<svg>` in the site header that links to home. Grab its absolute image URL.
-2. Re-run the clip with `--logo "<that url>"`, which stamps it into the band, then review the new preview.
+2. Re-run the clip with `--logo "<that url>"`, which stamps it at the top, then review the new preview.
 
 (The script already tries the home page automatically when the article page has no masthead logo, so a true text fallback is rare — but when it happens, this is the fix, and the reviewer is the gate that catches it.)
 
@@ -84,7 +84,7 @@ When you need to find a selector yourself, inspect the offending block's `class`
 Then re-run with, for example:
 
 ```bash
-node clip.mjs --url "<URL>" --client "<Client Name>" \
+node clip.mjs --url "<URL>" \
   --drop ".zergnet-widget, .nyp-video-player, aside.single__inline-module, [class*=taboola i]" \
   --keep ".gallery, figure.hero" \
   --out "press-clips/<outlet>-<slug>.pdf" --preview "press-clips/<outlet>-<slug>.png"
@@ -100,8 +100,8 @@ Some pages need more than `--drop`: a paywalled or lazy body, a section boundary
 
 | Scope | Use it when | Flag |
 | --- | --- | --- |
-| **Whole article**, mention highlighted | The piece is about the client, or short | `--client` only |
-| **Client's section only** | A roundup where the client is one of many entries | `--client` + `--section` |
+| **Whole article** | The piece is about the client, or short | _(no extra flag)_ |
+| **Client's section only** | A roundup where the client is one of many entries | `--section "<Heading>"` |
 
 In a long roundup, the section scope is almost always what the client wants. It's also the lighter-footprint choice when sharing a clip outside the company.
 
@@ -112,8 +112,7 @@ Tell the user, in plain language: the outlet, headline, and publish date; where 
 ## Honesty and rights
 
 - **Never fabricate** a date, byline, quote, headline, reach figure, or any wording. The clip is the real page; don't add to it. Missing is fine and honest — say so.
-- **Don't alter the reporting or the branding.** You isolate, de-clutter, and highlight; you do not change the journalist's words, swap the outlet's identity, or stage a mention that isn't there.
-- **Highlight, don't editorialize.** The mark shows where the client appears; it adds no claim.
+- **Don't alter the reporting or the branding.** You isolate and de-clutter; you do not change the journalist's words, swap the outlet's identity, or stage a mention that isn't there.
 - **If the client isn't actually in the article, stop and say so.** Don't stretch an adjacent reference into a clip.
 - **Rights awareness.** Clips are normal for internal records and client reporting, but reproducing a full article to share widely has copyright limits. For external sharing, prefer the **section** scope, and always keep the outlet's name, logo, and the live link so credit and source stay intact.
 - Follow `skills/ETHICS.md`.
