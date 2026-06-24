@@ -272,7 +272,7 @@ function detectLogoFallback(pg) {
       ? '<img src="' + esc(logoSrc) + '" alt="' + esc(outlet) + '" style="height:' + LOGO_H + 'px;max-width:420px;width:auto;object-fit:contain;display:block">'
       : '<span style="font:700 30px/1 Georgia,serif;color:#111">' + esc(outlet) + '</span>';
     const header = document.createElement('div');
-    header.style.cssText = 'background:#fff;padding:4px 4px 16px;margin:0 0 14px';
+    header.style.cssText = 'background:#fff;padding:4px 4px 16px;margin:0 0 14px;display:flex;justify-content:center;align-items:center';
     header.innerHTML = logoImg;
     document.body.prepend(header);
     return stripped;
