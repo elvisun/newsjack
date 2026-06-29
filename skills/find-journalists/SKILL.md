@@ -22,7 +22,9 @@ If the user asks you to manage an existing hosted media list, explain that Newsj
 
 Before doing anything, check whether `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md` exist. If they do, follow them. This skill works with journalist lists, so the anti-spam rules are not optional here.
 
-Never build big undifferentiated lists, never build "same email to everyone" blast lists, and never add a name without a specific reason that name fits. If someone asks for volume before they have shown the pitch actually fits these journalists, push back and build the smallest credible first wave instead.
+Read those rules for what they actually constrain: the **send**. How many people you email, whether each one has a real anchor, whether the body fits the recipient. They do **not** cap how widely you research. Reading 100 articles to find the 10 journalists who genuinely fit is the opposite of spam — it is the work that earns a tight, relevant send. Do not let "smallest credible list" leak backward and turn into a shallow search.
+
+The goal is that **every journalist on the final list is relevant — not that the list hits a target size.** A list fails two ways: too big (padded with weak fits, the spam pattern) or too small (a shallow net missed real fits). Size is an output of how many real fits exist, not a number you aim for. So: never build big undifferentiated lists, never build "same email to everyone" blast lists, and never add a name without a specific reason it fits — but equally, never stop researching just because you have hit a round number. If someone asks for raw volume before the pitch has been shown to fit, push back. If the net has been shallow, widen it.
 
 Medialyst is optional. This skill must stay useful with no Medialyst account and no login.
 
@@ -50,28 +52,65 @@ Take any of these from the user or from another Newsjack skill:
 
 If there is no angle yet in a standalone list-building request, run `angle-generator` before building the list. If the pitch makes factual claims that could be wrong, run `fact-check` before treating the list as ready. If the user names one specific journalist and wants a yes/no, run `journalist-fit-check` on that person.
 
-## Keep Final Outreach Tight
+## The Workflow: Wide Net, Then Tight Send
 
-"Small" applies to the final outreach wave, not to the evidence-gathering step. It is okay to enrich a larger candidate pool first when you need to find the real fits.
+Finding journalists is two stages with opposite instincts: **research wide** to find every real fit, then **send tight** to only those who actually fit. Do not collapse them — restraint belongs to the send, not the search. Work the steps in order.
 
-Use larger candidate enrichment when it is justified by:
+### 1. Get clear on the campaign
 
-- multiple regions
-- multiple angles or proof hooks
-- distinct outlet tiers or beats
-- ambiguous bylines that need person-level enrichment
-- a user request to screen a broad but still relevant source set
+Pin down the story, the proof behind it, how long it stays fresh, and the kind of journalist who would want it. Do not start from a vague category like "tech reporters." (If there is no angle or the facts are shaky, handle that before building the list — see "What You Need To Start".)
 
-Do not treat enrichment as permission to pitch everyone. The goal is that every journalist you recommend is relevant, not that the final list hits a hard number across the board.
+### 2. Research wide — pull the thread
 
-For one narrow angle, 5-15 journalists is usually enough for a first wave. For multi-region or multi-angle work, build small first waves per segment. A 4-person Europe fintech-policy segment and a 6-person US fintech-funding segment can both be right if each journalist has a real fit.
+Cast a broad net to *find* the real fits. Under-doing this is the common failure: one search, ten skimmed results, a five-name list that missed half the beat.
 
-A final list can grow only when each new segment has:
+**Pull the thread — this is the core method.** Do not just fire the queries you can think of up front; those only surface the obvious names. Search the topic, *read* the coverage, and harvest the specific terms the stories themselves use — named people, companies, agencies and regulators, programs, bills, products, events, quoted sources, recurring phrases. Then search those terms, read what comes back, and harvest again. Each good article is worth two or three new searches; the reporters and angles you are missing usually live two or three hops in: a competitor's name, a regulator, or a quoted expert that becomes your next query.
 
-- a distinct journalist shape
-- a specific angle or proof hook
-- a dated evidence anchor
-- a reason the first wave is insufficient
+Run the obvious breadth queries too, so a slice you never happened to read about is not missed: the core topic, its sub-angles, the proof hook, competitor coverage, and each region or outlet-tier variant. One query only finds one slice of the beat.
+
+- If the user gave article links, treat them as a starting point, not the whole net — search outward from them.
+- Search with `newsjack news search` (CLI mode), `mcp__medialyst__search_news` (MCP mode), or the `news-search` skill / web search (local mode).
+- **To land ~10 strong fits, plan to review on the order of 100 candidate articles/bylines.** Real fits are sparse — expect roughly one keeper per ten, and adjust to the topic's density. If you have only looked at 15 articles, you have not searched yet.
+- Favor recent articles by named journalists on exactly this topic. Pull freelancers and newsletter/Substack writers, not just staff bylines.
+- Prefer rows where publication type is `editorial`. Quarantine `brand_content`, `newswire`, vendor blogs, SEO pages, product docs, content-farm and stale articles, and outlet landing pages unless the user specifically asked for that category.
+
+### 3. Assemble the candidate pool
+
+Collect the on-topic article URLs into one list (your notes or a temp file). Drop the junk you quarantined above; keep all the real editorial coverage. Do not pre-narrow to a few "best" anchors — ranking comes after enrichment, not before it.
+
+### 4. Enrich the whole pool in one call, then rank
+
+Enrichment is the hinge between the two stages: it returns a verified, deliverability-checked contact and recent articles per journalist, and that recent work is how you judge fit instead of guessing from an outlet logo. Do not pre-filter the pool to a handful first — enrich broadly, then let the returned evidence pick the winners.
+
+- **Invite the user to enrich the whole pool.** It is their credits, and one pass is what makes honest ranking possible.
+- **One call, not separate batches.** A single enrich call accepts up to 500 article URLs. Pass the entire on-topic pool in one `--wait=false` call, keep the one job ID, and read it back once when it completes (a large pool can take minutes). Do not split the pool or write a polling loop. See "CLI Commands" / "MCP Mode Commands" for the exact call.
+- **Then rank.** With contacts and recent work in hand, rank by fit — beat overlap, recent coverage of the exact angle, anchor strength — and let the ranking set the tiers: who goes in the first wave, who waits, who gets cut. Treat the returned data as evidence, not an automatic list. Enrich a lot; send few.
+
+### 5. Score each row
+
+Give every journalist one status — `fit`, `soft-fit`, `research-needed`, or `cut` (defined under "Row Status Rules"). If a name is unresolved or comes back without person-level evidence, mark it `research-needed`, not pitch-ready (see "JSON Handling" for the account/handle cases). The ranking decides which wave a `fit` falls into.
+
+### 6. Send tight
+
+Now narrow to who actually fits. This is where the anti-spam doctrine binds.
+
+- Every journalist you recommend must be relevant; the list is never padded to hit a number.
+- For one narrow angle a first wave is **usually** 5-15 journalists — but that is how many tend to fit, not a cap. If 22 genuinely fit one live angle, recommend 22 and say why. If only 4 do, recommend 4 and say the net came back thin.
+- For multi-region or multi-angle work, build small first waves per segment. A 4-person Europe fintech-policy segment and a 6-person US fintech-funding segment can both be right if each journalist has a real fit. A segment earns its place when it has a distinct journalist shape, a specific angle or proof hook, a dated evidence anchor, and a reason the existing waves do not already cover it.
+- Do not treat Stage-2 breadth as permission to pitch everyone you enriched. Most candidates get cut.
+
+### 7. Prune, then self-audit to saturation
+
+Remove weak rows or label them as cuts — do not bury risk in a note and leave a weak name as pitch-ready. Then step back and ask what a rival's list would have that yours does not:
+
+- a region, language market, or outlet tier you never searched
+- an angle or proof hook that would pull a different set of bylines
+- competitors or adjacent companies whose coverage names relevant reporters
+- freelancers and newsletter/Substack writers, not just staff bylines
+- very recent breaking coverage that post-dates your first search
+- ambiguous or shared bylines you marked `research-needed` but never chased
+
+If any is an obvious gap, run another search/enrich round and fold in what you find, then audit again. **Stop when a fresh round surfaces no new real fits — coverage saturation — not when you hit a number.** Tell the user in the summary how wide you searched and where you stopped, so they can judge whether the net was wide enough.
 
 ## CLI Commands
 
@@ -96,20 +135,18 @@ Useful commands:
 | --- | --- |
 | Search news | `newsjack news search --query "AI customer support automation" --limit 10 --tbs qdr:m` |
 | Enrich journalists from article URLs | `newsjack journalists enrich --url https://example.com/story --pitch "why this fits" --wait --poll-timeout-ms 45000` |
-| Enrich a candidate pool asynchronously | `newsjack journalists enrich --url https://example.com/story-1 --url https://example.com/story-2 --pitch "why these candidates fit" --wait=false` |
+| Enrich the whole pool in one call (up to 500 URLs) | `newsjack journalists enrich --url https://example.com/story-1 --url https://example.com/story-2 --pitch "why these candidates fit" --wait=false` |
 | Revisit an old enrichment job | `newsjack journalists enrich-job <job-id>` |
 
 The REST-backed `newsjack` commands print JSON by default. Do not add `--json` just to request JSON output. In these commands, `--json` and `--json-file` mean "send this exact JSON request body to the API." Use them only when the API body needs exact fields beyond the convenience flags.
 
 The journalist enrichment command wraps `POST /api/v1/journalists/enrich`. It currently works best from source article URLs. If the API returns `UNSUPPORTED_SOURCE_TYPE`, switch to article URLs or local research instead of retrying the same unsupported source.
 
-`newsjack journalists enrich --wait` uses `--poll-timeout-ms` as the total foreground wait budget, including the initial enrich request and any follow-up job polling. In first-wave workflows, pass exactly one `--url` per foreground enrich command and use `--poll-timeout-ms 45000`. If it still returns `processing`, keep the job ID as a revisit handle and move on.
+The enrichment flow itself — one `--wait=false` call over the whole on-topic pool (up to 500 URLs), keep the one job ID, read it back once with `journalists enrich-job <id>` — is step 4 of the workflow. Three CLI-specific notes:
 
-Use enrichment deliberately. It is for selected candidate articles, not every broad news-search result. For a single narrow angle, a few foreground `--wait` enrich calls may be enough. For multi-region, multi-angle, or screening work, it is fine to enrich a larger candidate pool first; prefer `--wait=false` for batches, keep the returned job ID, and use the completed results to choose the final fit-checked rows.
-
-If the user gives multiple workflows, regions, segments, or prompts in one turn, complete every one before the final answer. Do not spend all enrichment and attention on the first workflow while the others have no evidence. Group candidate enrichment by segment when that makes the final fit judgment clearer.
-
-Do not write polling loops around enrichment jobs. A single `journalists enrich-job --wait` check is acceptable when you are deliberately revisiting a batch candidate-screening job or the user gave you an existing job ID. If it is still processing, keep the job ID and move on.
+- Foreground `--wait` (with `--poll-timeout-ms 45000`) is only for a quick check on a single URL, not the main flow.
+- If the user gives multiple genuinely distinct campaigns (different pitches) in one turn, give each its own enrich call with its own `--pitch` — that is separate pools, not batching, and you still enrich each pool in one call. Complete every campaign before the final answer.
+- Do not write polling loops. A single `journalists enrich-job --wait` check is acceptable only when revisiting an existing job ID; if it is still `processing`, keep the ID and move on.
 
 ## MCP Mode Commands
 
@@ -135,9 +172,7 @@ Use only these four API-mirroring tools. Do not use `create_media_list`, `get_me
 
 ## JSON Handling
 
-Do not pipe `journalists enrich`, `news search`, or other `newsjack` JSON through `head`, `tail`, `cat`, or command chains. Redirect long JSON to a temp file and parse only the fields you need.
-
-Before every Bash command, scan the literal command string. If it invokes `head`, `tail`, `sleep`, `curl`, `wget`, `grep`, or repeated `journalists enrich-job` polling, rewrite the command before running it.
+Do not pipe `journalists enrich`, `news search`, or other `newsjack` JSON through `head`, `tail`, `cat`, `grep`, or command chains — redirect long JSON to a temp file and parse only the fields you need. Before running any Bash command, scan the literal string; if it invokes `head`, `tail`, `sleep`, `curl`, `wget`, `grep`, or repeated `journalists enrich-job` polling, rewrite it first.
 
 For JSON parsing, write a small temp parser or use the host's structured tooling. Parsers must be defensive. Treat every field from Medialyst as nullable unless the shape section below says otherwise. A parser exception is not a clean run; if a value is absent or a different type, print `research-needed` and continue.
 
@@ -150,35 +185,13 @@ Common response shapes:
 
 If the enriched name is a publication account, shared byline, handle such as `@Outlet`, an author-like string with no person-level evidence, or a sparse object with no clear beat/recent-work/contact context, mark that row `research-needed` instead of treating it as pitch-ready.
 
-## Building A List, Step By Step
-
-1. **Get clear on the campaign.** Pin down the story, the proof behind it, how long the story stays fresh, and the kind of journalist who would want it. Do not start from a vague category like "tech reporters."
-
-2. **Gather evidence.**
-   - If the user gave article links, those are your main evidence.
-   - If they gave a topic or hook, use `newsjack news search --query "..."` in CLI mode (or `mcp__medialyst__search_news` in MCP mode), or the `news-search` skill / ordinary web search in local mode.
-   - Favor recent articles written by named journalists on exactly this topic.
-   - In `newsjack news search` results, prefer rows where publication type is `editorial`. Cut or quarantine `brand_content`, `newswire`, vendor blogs, SEO pages, product docs, content-farm articles, stale articles, and outlet landing pages unless the user specifically asked for that category.
-
-3. **Select anchor articles.** Choose a small set of articles that map to the target journalist shapes. Keep the URLs in your own notes or a temp file if needed. Do not reverse-engineer organization from a hosted table.
-
-4. **Enrich deliberately.** Run `journalists enrich` on the source article, the highest-confidence anchors, or a larger candidate pool when screening is justified by multiple regions, angles, beats, or ambiguous bylines. Use the returned data as evidence, not as an automatic list. If enrichment is unresolved, keep the job ID and mark that row `research-needed`.
-
-5. **Score each row.** Each journalist gets one status:
-   - `fit`: direct, recent article that ties them to the pitch angle
-   - `soft-fit`: nearby beat; usable, but the pitch needs one specific tweak
-   - `research-needed`: identity, current role, anchor, or contact context is unresolved
-   - `cut`: wrong beat, stale, unsafe, duplicate, or weak evidence
-
-6. **Prune before returning.** Remove weak rows or label them as cuts. Do not bury risk in a note and leave a weak name as pitch-ready.
-
 ## What To Show The User
 
 Show the list as readable Markdown, not as raw data. Lead with a short plain-language summary, then the table, then cuts and next steps.
 
 Include these parts:
 
-**A short summary.** A few plain sentences: who the client is, the angle, why they have standing to comment, the beats and region, and how many journalists are in the first wave. If enrichment was not available, say so plainly.
+**A short summary.** A few plain sentences: who the client is, the angle, why they have standing to comment, the beats and region, how wide you searched (roughly how many articles/bylines you reviewed and across which angles/regions), where you stopped, and how many journalists are in the first wave. If the net came back thin, say so. If enrichment was not available, say so plainly.
 
 **The list, as a table.**
 
@@ -259,16 +272,16 @@ Score each list 0-2 on each criterion. Hard gates override the score.
 | Journalist shape | Outlet category only | Beat described but loose | Specific beat, format, and story type |
 | Anchor evidence | Missing or stale | Present but indirect | Recent, dated, URL-pointed, relevant |
 | Fit reasoning | Vibes or database tag | Plausible but thin | Specific bridge from anchor to angle |
-| List size | Volume-first | Slightly broad | Small first wave with clear rationale |
+| Right-sizing | Padded with weak fits, or capped at a number while the net stayed shallow | Roughly right but one side under-checked | Every recommended name fits; nothing padded and nothing cut just to hit a number |
 | Segmentation | None | Basic beat buckets | Distinct segments with distinct angles |
 | Anti-spam compliance | Same-body blast risk | Some weak rows remain | Weak rows cut or marked for research |
-| Evidence trail | No method shown | Partial commands/sources | Commands or sources used, unresolved IDs captured |
+| Evidence trail & breadth | One narrow search, method not shown | Several upfront queries, but leads in the coverage not followed | Pulled the thread from the coverage, wide net audited for gaps to saturation; commands/sources shown, unresolved IDs captured |
 | Next step | Vague | Plausible | Concrete review, revisit, or fit-check action |
 
 ### Verdicts
 
-- `ready-for-review`: 16-18 points, no hard gates, and all first-wave rows have anchors.
-- `needs-research`: 10-15 points or several rows lack anchors.
+- `ready-for-review`: 16-18 points, no hard gates, all first-wave rows have anchors, and the coverage self-audit surfaced no obvious gaps.
+- `needs-research`: 10-15 points, several rows lack anchors, or the net was too shallow to trust.
 - `not-list-ready`: under 10 points, standing missing, angle unclear, or spray pattern present.
 
 ### Row Status Rules
