@@ -1,0 +1,33 @@
+                 LOOP ENGINEERING
+          humans set the goal. agents run the loop.
+
+
+   ┌──────────────────────────────────────────┐
+   │   CODEX  writes & fixes the code           │ ◀───┐
+   └─────────────────────┬──────────────────────┘     │
+                         │                            │
+                         ▼                            │
+   ┌──────────────────────────────────────────┐       │
+   │   DOCKER  fresh throwaway box per run —     │    │
+   │   installs the REAL product, no laptop state│    │
+   └─────────────────────┬──────────────────────┘     │
+                         │                            │
+                         ▼                            │
+   ╔════════════════════════════════════════════╗     │
+   ║   THE TEST FLEET                           ║     │
+   ║   real agents drive the real product       ║     │
+   ║                                            ║     │
+   ║   CLAUDE CODE  ·  CODEX  ·  HERMES  · OPENCLAW║     │
+   ║                                            ║     │
+   ║   install ▶ set up ▶ run ▶ check           ║     │
+   ╚═════════════════════╤══════════════════════╝     │
+                         │                            │
+                         ▼                            │
+   ┌──────────────────────────────────────────┐       │
+   │   what broke + why                       │  ─────┘
+   │   (usually: confidently doing the wrong  │
+   │    reasonable thing — never a crash)     │
+   └──────────────────────────────────────────┘
+
+          no humans in the inner loop.
+       agents build it, agents break it, repeat.
