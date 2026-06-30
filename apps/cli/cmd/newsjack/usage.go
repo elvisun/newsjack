@@ -25,6 +25,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "auth status|set|logout", "inspect, save, or revoke API credentials", "")
 	uiCommand(w, "credits [balance]", "show Medialyst credit balance", "")
 	uiCommand(w, "news search", "search current news through Medialyst", "--query Q")
+	uiCommand(w, "pr-calendar query", "query source-backed upcoming PR moments", "--from DATE --to DATE")
 	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
 	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
 	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
@@ -129,6 +130,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "news", "news search":
 		printNewsHelp(w)
 		return true
+	case "pr-calendar", "pr-calendar query":
+		printPRCalendarHelp(w)
+		return true
 	case "journalists", "journalists enrich", "journalists enrich-job":
 		printJournalistsHelp(w)
 		return true
@@ -157,6 +161,24 @@ func printNewsHelp(w io.Writer) {
 	uiSection(w, "mapping")
 	uiKV(w, "news search", "POST /api/v1/news/search")
 	uiNote(w, "Use --json or --json-file to send the exact API request body.")
+}
+
+func printPRCalendarHelp(w io.Writer) {
+	uiProduct(w, "pr-calendar", "thin Medialyst REST wrapper for source-backed PR calendar moments.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack pr-calendar query --from 2026-06-30 --to 2026-12-30 --industry tech --query \"software\" --limit 100")
+	fmt.Fprintln(w, "  newsjack pr-calendar query --json '{\"industries\":[\"tech\"],\"start_date\":\"2026-06-30\",\"end_date\":\"2026-12-30\",\"limit\":100}'")
+	fmt.Fprintln(w)
+	uiSection(w, "filters")
+	uiKV(w, "--industry", "repeat or comma-separate: tech, fin, health, retail, media, food")
+	uiKV(w, "--type, --tag, --audience, --country-code", "repeat or comma-separate optional API filters")
+	uiKV(w, "--from / --to", "sent as start_date / end_date")
+	uiKV(w, "--pitch-start-before / --pitch-deadline-after", "optional pitch-window filters")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "calendar query", "POST /api/v1/pr-calendar/query")
+	uiNote(w, "Use --json or --json-file to send the exact API request body. The skill owns brand-fit, standing, safety, and lead-time judgment.")
 }
 
 func printJournalistsHelp(w io.Writer) {

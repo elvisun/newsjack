@@ -94,6 +94,98 @@ func TestNewsSearchBareJSONFlagExplainsOutputDefault(t *testing.T) {
 	}
 }
 
+func TestPRCalendarQueryCallsPublicRESTAPI(t *testing.T) {
+	var got capturedAPIRequest
+	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		got = decodeCapturedRequest(t, r)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"calendar":{"returned_count":1},"opportunities":[{"title":"Dreamforce 2026"}]}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{
+			"pr-calendar", "query",
+			"--query", "software",
+			"--industry", "tech,media",
+			"--type", "Developer Conference",
+			"--tag", "AI",
+			"--audience", "Developer tools reporters",
+			"--country-code", "US",
+			"--from", "2026-06-30",
+			"--to", "2026-12-30",
+			"--pitch-start-before", "2026-08-01",
+			"--pitch-deadline-after", "2026-06-30",
+			"--limit", "100",
+			"--cursor", "next",
+		}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("pr-calendar query code=%d stderr=%s", code, stderr)
+	}
+	if got.Method != http.MethodPost || got.Path != "/v1/pr-calendar/query" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	if got.Auth != "Bearer mlst_test_key" {
+		t.Fatalf("auth header = %q", got.Auth)
+	}
+	if got.Body["q"] != "software" ||
+		got.Body["start_date"] != "2026-06-30" ||
+		got.Body["end_date"] != "2026-12-30" ||
+		got.Body["pitch_start_before"] != "2026-08-01" ||
+		got.Body["pitch_deadline_after"] != "2026-06-30" ||
+		got.Body["limit"] != float64(100) ||
+		got.Body["cursor"] != "next" {
+		t.Fatalf("unexpected scalar body: %#v", got.Body)
+	}
+	industries, ok := got.Body["industries"].([]any)
+	if !ok || len(industries) != 2 || industries[0] != "tech" || industries[1] != "media" {
+		t.Fatalf("industries = %#v", got.Body["industries"])
+	}
+	types, ok := got.Body["types"].([]any)
+	if !ok || len(types) != 1 || types[0] != "Developer Conference" {
+		t.Fatalf("types = %#v", got.Body["types"])
+	}
+	if !strings.Contains(stdout, "Dreamforce 2026") {
+		t.Fatalf("stdout should contain API response JSON: %s", stdout)
+	}
+}
+
+func TestPRCalendarQueryAcceptsExactJSON(t *testing.T) {
+	var got capturedAPIRequest
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		got = decodeCapturedRequest(t, r)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"calendar":{"returned_count":0},"opportunities":[]}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"pr-calendar", "query", "--json", `{"industries":["tech"],"limit":12}`}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("pr-calendar query --json code=%d stderr=%s", code, stderr)
+	}
+	if got.Method != http.MethodPost || got.Path != "/v1/pr-calendar/query" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	if _, ok := got.Body["start_date"]; ok {
+		t.Fatalf("exact JSON mode should not add convenience fields: %#v", got.Body)
+	}
+	if got.Body["limit"] != float64(12) {
+		t.Fatalf("body = %#v", got.Body)
+	}
+}
+
+func TestPRCalendarBareJSONFlagExplainsOutputDefault(t *testing.T) {
+	var out, errBuf bytes.Buffer
+	code := runCLI([]string{"pr-calendar", "query", "--json"}, &out, &errBuf)
+	if code == 0 {
+		t.Fatalf("pr-calendar query --json without body should fail")
+	}
+	if !strings.Contains(errBuf.String(), "prints JSON by default") || !strings.Contains(errBuf.String(), "--json expects an exact JSON request body") {
+		t.Fatalf("stderr should explain --json semantics, got: %s", errBuf.String())
+	}
+}
+
 func TestJournalistsEnrichUsesPR1024Shape(t *testing.T) {
 	var got capturedAPIRequest
 	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {

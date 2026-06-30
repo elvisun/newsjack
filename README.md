@@ -45,6 +45,7 @@ Three problems, separate lanes.
 ### 🧭 Strategize — figure out what your story even is
 
 - 🗺️ **Get a PR strategy** — opinionated walkthrough if you're not PR-fluent yet: audience first, positioning second, news pegs third, drumbeat over big-bang
+- 📅 **Build a PR calendar** — plan six months of source-backed upcoming hooks, with prior-year coverage patterns for angle inspiration
 - 📊 **Score newsworthiness** — cold read on whether it clears the bar before you act
 
 ---
@@ -71,6 +72,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Strategize** | | | | | | | | |
 | pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| pr-calendar | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Act** | | | | | | | | |
 | angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -97,10 +99,12 @@ or locally-saved monitoring state — those work best in a local agent.
 Legend:
 
 - **✅ Runs out of the box** — no setup; works anywhere your agent does.
-- **🔧 May need an external connection** — works on its own, but does its best work with an external data source connected (e.g. the X API or the Medialyst API).
+- **🔧 May need an external connection** — requires or does its best work with an external data source connected (e.g. the X API or the Medialyst API).
 - **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
 - **🔜 Coming soon** — not available here yet.
 - **❌ Not supported here** — needs a local agent. The two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it; `press-clip` drives a real Chrome/Edge browser via Playwright to render and clip the live page, which chat apps can't do.
+
+`pr-calendar` is setup-required but portable: it works anywhere the agent can use the `newsjack` CLI or a connected Medialyst MCP/connector. The calendar endpoint is free; login is required only to prevent abuse. ChatGPT is the exception for now because of the same skill-loading limitation called out above.
 
 **Set up your agent:**
 
@@ -137,7 +141,7 @@ fallback, Windows, credentials — on any platform.
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search and journalist enrichment. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, and journalist enrichment. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 Note: A community marketplace plugin, `newsjack@claude-community`, is pending review

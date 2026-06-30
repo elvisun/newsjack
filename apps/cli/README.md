@@ -1,6 +1,6 @@
 # Newsjack CLI
 
-The Go CLI is a thin client for Medialyst news search and journalist enrichment plus local install, auth, update, skills, and monitor plumbing. It does not run or configure an MCP server, and it does not manage hosted media lists.
+The Go CLI is a thin client for Medialyst news search, PR calendar lookup, and journalist enrichment plus local install, auth, update, skills, and monitor plumbing. It does not run or configure an MCP server, and it does not manage hosted media lists.
 
 ## Auth
 
@@ -30,6 +30,7 @@ Commands preserve the public Newsjack UX where possible and forward requests to 
 | --- | --- |
 | `newsjack credits balance` | `GET /api/v1/credits/balance` |
 | `newsjack news search` | `POST /api/v1/news/search` |
+| `newsjack pr-calendar query` | `POST /api/v1/pr-calendar/query` |
 | `newsjack journalists enrich` | `POST /api/v1/journalists/enrich` |
 | `newsjack journalists enrich-job <job-id>` | `GET /api/v1/journalist-enrichment-jobs/{jobId}` |
 
