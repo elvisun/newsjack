@@ -19,6 +19,37 @@ below these notes.
 
 ## Unreleased
 
+### Changed
+
+- **`find-journalists` now casts a wider research net before narrowing.** The
+  skill separates two stages with opposite instincts — research wide (review on
+  the order of ~100 articles/bylines across multiple queries, angles, regions,
+  and outlet tiers to find ~10 real fits), then send tight — and clarifies that
+  the anti-spam doctrine governs the send, not how widely you research. List
+  size is now framed as an output of how many journalists genuinely fit, not a
+  target to hit; the wave can be larger or smaller than 5-15 when the evidence
+  says so.
+- **`find-journalists` now self-audits for coverage gaps before returning.**
+  A new step checks for obvious misses (unsearched regions/tiers, untried
+  angles, competitor coverage, freelancers/newsletters, breaking coverage,
+  unchased ambiguous bylines) and loops until a fresh round surfaces no new
+  fits — coverage saturation — rather than stopping at a number. The summary
+  now reports how wide the search went and where it stopped.
+- **`find-journalists` now enriches the whole candidate pool in one call, then
+  ranks.** The skill invites the user to enrich the entire on-topic pool — one
+  enrich call takes up to 500 article URLs, so it passes the whole pool in a
+  single call instead of hand-splitting batches. Enrichment returns each
+  journalist's verified contact and recent articles, and that evidence is then
+  ranked to set the send waves/tiers (enrich a lot, send few) rather than
+  pre-narrowing to a few anchors before enriching.
+- **`find-journalists` now teaches the "pull the thread" research method.**
+  Instead of only firing queries thought up in advance, the skill searches a
+  topic, reads the coverage, harvests the named entities and phrases inside it
+  (people, companies, regulators, programs, events, quoted sources), and
+  searches those in turn — repeating until new threads stop surfacing new
+  coverage. This is how the non-obvious bylines, which usually sit two or three
+  hops in, get found.
+
 ## v0.1.14 — 2026-06-24
 
 ### Changed

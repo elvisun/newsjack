@@ -464,6 +464,120 @@ func cmdNewsSearch(args []string, stdout, stderr io.Writer) int {
 	return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/news/search", nil, body, nil, 45*time.Second)
 }
 
+func cmdPRCalendar(args []string, stdout, stderr io.Writer) int {
+	if len(args) == 0 || args[0] == "--help" || args[0] == "-h" || args[0] == "help" {
+		printPRCalendarHelp(stdout)
+		return 0
+	}
+	switch args[0] {
+	case "query", "search":
+		return cmdPRCalendarQuery(args[1:], stdout, stderr)
+	default:
+		return failf(stderr, "unknown pr-calendar command: %s", args[0])
+	}
+}
+
+func cmdPRCalendarQuery(args []string, stdout, stderr io.Writer) int {
+	if restHelpRequested(args) {
+		printPRCalendarHelp(stdout)
+		return 0
+	}
+	fs := flag.NewFlagSet("pr-calendar query", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	query := fs.String("query", "", "Calendar query")
+	q := fs.String("q", "", "Alias for --query")
+	from := fs.String("from", "", "Start date YYYY-MM-DD, sent as start_date")
+	startDate := fs.String("start-date", "", "Alias for --from")
+	to := fs.String("to", "", "End date YYYY-MM-DD, sent as end_date")
+	endDate := fs.String("end-date", "", "Alias for --to")
+	pitchStartBefore := fs.String("pitch-start-before", "", "Only include moments whose pitch window opens before YYYY-MM-DD")
+	pitchDeadlineAfter := fs.String("pitch-deadline-after", "", "Only include moments whose pitch deadline is after YYYY-MM-DD")
+	limit := fs.Int("limit", 25, "Result limit, max 100")
+	cursor := fs.String("cursor", "", "Pagination cursor from the previous response")
+	var industries repeatedString
+	var types repeatedString
+	var tags repeatedString
+	var audiences repeatedString
+	var countryCodes repeatedString
+	fs.Var(&industries, "industry", "Industry filter; repeat or comma-separate")
+	fs.Var(&industries, "industries", "Alias for --industry")
+	fs.Var(&types, "type", "Moment type filter; repeat or comma-separate")
+	fs.Var(&types, "types", "Alias for --type")
+	fs.Var(&tags, "tag", "Tag filter; repeat or comma-separate")
+	fs.Var(&tags, "tags", "Alias for --tag")
+	fs.Var(&audiences, "audience", "Audience filter; repeat or comma-separate")
+	fs.Var(&audiences, "audiences", "Alias for --audience")
+	fs.Var(&countryCodes, "country-code", "Country code filter; repeat or comma-separate")
+	fs.Var(&countryCodes, "country-codes", "Alias for --country-code")
+	jsonInline := fs.String("json", "", "Exact JSON request body")
+	jsonFile := fs.String("json-file", "", "Read exact JSON request body from file, or - for stdin")
+	if bareJSONFlag(args) {
+		return fail(stderr, bareJSONFlagError("pr-calendar query"))
+	}
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	if body, ok, err := parseJSONFlag(*jsonInline, *jsonFile, "pr-calendar query"); err != nil {
+		return fail(stderr, err)
+	} else if ok {
+		return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/pr-calendar/query", nil, body, nil, 45*time.Second)
+	}
+	body := map[string]any{}
+	if value := strings.TrimSpace(firstString(*query, *q)); value != "" {
+		body["q"] = value
+	}
+	if values := cleanCommaStrings(industries); len(values) > 0 {
+		body["industries"] = values
+	}
+	if values := cleanCommaStrings(types); len(values) > 0 {
+		body["types"] = values
+	}
+	if values := cleanCommaStrings(tags); len(values) > 0 {
+		body["tags"] = values
+	}
+	if values := cleanCommaStrings(audiences); len(values) > 0 {
+		body["audiences"] = values
+	}
+	if values := cleanCommaStrings(countryCodes); len(values) > 0 {
+		body["country_codes"] = values
+	}
+	if value := strings.TrimSpace(firstString(*from, *startDate)); value != "" {
+		body["start_date"] = value
+	}
+	if value := strings.TrimSpace(firstString(*to, *endDate)); value != "" {
+		body["end_date"] = value
+	}
+	if strings.TrimSpace(*pitchStartBefore) != "" {
+		body["pitch_start_before"] = strings.TrimSpace(*pitchStartBefore)
+	}
+	if strings.TrimSpace(*pitchDeadlineAfter) != "" {
+		body["pitch_deadline_after"] = strings.TrimSpace(*pitchDeadlineAfter)
+	}
+	if *limit > 0 {
+		body["limit"] = *limit
+	}
+	if strings.TrimSpace(*cursor) != "" {
+		body["cursor"] = strings.TrimSpace(*cursor)
+	}
+	return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/pr-calendar/query", nil, body, nil, 45*time.Second)
+}
+
+func cleanCommaStrings(values []string) []string {
+	out := []string{}
+	seen := map[string]bool{}
+	for _, value := range values {
+		for _, part := range strings.Split(value, ",") {
+			part = strings.TrimSpace(part)
+			if part == "" || seen[part] {
+				continue
+			}
+			seen[part] = true
+			out = append(out, part)
+		}
+	}
+	return out
+}
+
 func cmdJournalists(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 || args[0] == "--help" || args[0] == "-h" || args[0] == "help" {
 		printJournalistsHelp(stdout)

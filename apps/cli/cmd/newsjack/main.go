@@ -84,6 +84,8 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdCredits(args[1:], stdout, stderr)
 	case "news":
 		return cmdNews(args[1:], stdout, stderr)
+	case "pr-calendar":
+		return cmdPRCalendar(args[1:], stdout, stderr)
 	case "journalists":
 		return cmdJournalists(args[1:], stdout, stderr)
 	case "detector":

@@ -146,7 +146,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 }
 
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "journalists", "credits"} {
+	for _, topic := range []string{"news", "pr-calendar", "journalists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
@@ -163,6 +163,8 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 		{"help", "journalists", "enrich"},
 		{"help", "news search"},
 		{"help", "news", "search"},
+		{"help", "pr-calendar query"},
+		{"help", "pr-calendar", "query"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {
@@ -176,6 +178,7 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 
 func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 	for _, args := range [][]string{
+		{"pr-calendar", "query", "--help"},
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
 	} {
