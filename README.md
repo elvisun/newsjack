@@ -129,6 +129,8 @@ help me setup https://newsjack.sh
 It reads the [guide](docs/getting-started.md) and handles the rest — npm
 fallback, Windows, credentials — on any platform.
 
+Prefer a video? Watch the [Newsjack installation walkthrough](https://www.youtube.com/watch?v=1tg6E6ZYGCk).
+
 ### Claude.ai & Cowork - Install as a Claude Plugin
 
 **Install the Newsjack plugin:**
