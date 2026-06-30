@@ -11,7 +11,7 @@
       "source": "./",
       "displayName": "Newsjack",
       "description": "Open-source skills that turn your coding agent into a PR operator — strategize positioning, detect newsjackable stories in your space, and react with on-brand pitches and comments.",
-      "version": "0.1.14",
+      "version": "0.1.15",
       "author": {
         "name": "Elvis Sun"
       },

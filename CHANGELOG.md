@@ -19,6 +19,20 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.15 — 2026-06-30
+
+### Added
+
+- **`pr-calendar` now builds planned PR calendars from Medialyst's live PR
+  calendar API.** The new skill pulls source-backed upcoming moments through
+  `newsjack pr-calendar query` or the Medialyst MCP fallback, keeps only the
+  moments where the brand has real standing, researches prior-year coverage
+  patterns with `news-search`, and turns the result into a six-month,
+  lead-time-aware plan.
+- **The CLI now wraps `POST /api/v1/pr-calendar/query`.** Agents can query
+  source-backed awareness days, seasonal hooks, conferences, retail moments,
+  and cultural moments with convenience filters or an exact JSON API body.
+
 ### Changed
 
 - **`find-journalists` now casts a wider research net before narrowing.** The
