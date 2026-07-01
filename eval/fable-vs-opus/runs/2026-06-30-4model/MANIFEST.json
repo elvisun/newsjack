@@ -1,0 +1,24 @@
+{
+  "run": "2026-06-30-4model",
+  "study": "4-model story-angle quality round-robin — Opus 4.8 vs Fable 5 vs Sonnet 5 vs Sonnet 4.6, GPT-5.5 (meanest-editor) blind judge",
+  "date_generated": "2026-06-30",
+  "models": [
+    { "slug": "opus",  "label": "Opus 4.8",    "exact_id": "claude-opus-4-8", "source": "reused from 2026-06-09-full (angle-generator subagent apparatus)" },
+    { "slug": "fable", "label": "Fable 5",     "exact_id": "claude-fable-5",  "source": "reused from 2026-06-09-full (Fable is disabled; cannot be regenerated)" },
+    { "slug": "s5",    "label": "Sonnet 5",    "exact_id": "claude-sonnet-5", "source": "generated 2026-06-30 via generate.sh (headless claude -p, tools off, skill inlined)" },
+    { "slug": "s46",   "label": "Sonnet 4.6",  "exact_id": "claude-sonnet-4-6", "source": "generated 2026-06-30 via generate.sh (headless claude -p, tools off, skill inlined)" }
+  ],
+  "notes": {
+    "sonnet_4_7": "There is no accessible Sonnet 4.7 in this account/timeline (claude-sonnet-4-7 does not resolve; base Sonnet 4 retired 2026-06-15). Sonnet 4.6 (claude-sonnet-4-6) is the latest pre-5 Sonnet and is used as the previous-generation Sonnet slot, matching eval/newsworthiness-check.",
+    "mechanism_caveat": "opus/fable angle sets were produced by the original Workflow-subagent apparatus (2026-06-09); the two Sonnet sets were produced by headless claude -p with the same generator role + angle-generator skill + ETHICS + WHY-NOT-SPAM inlined and all tools disabled. The dominant variable is the model; the generation harness differs slightly and is disclosed.",
+    "judge": "Unchanged from 2026-06-09-full: codex exec GPT-5.5, meanest-editor persona, both orderings, schema-validated. This keeps the 100 reused opus<->fable verdicts directly comparable.",
+    "pairs": "Full round-robin C(4,2)=6. opus<->fable reused (100 verdicts). 5 new pairs x 50 brands x 2 orderings = 500 new judgments. Total 600."
+  },
+  "apparatus_sha256": {
+    "skills/angle-generator/SKILL.md": "644896fc277172a47e7c1db14b8b52a082745f6cb0c1bd7d29c675e307e91503",
+    "skills/meanest-editor/SKILL.md": "1c4039174ea3247fe6c218e03bc61232c95fe8d51f5ed14135fea8ad1154eac2",
+    "skills/ETHICS.md": "897f4fd0be30902dedb5af51ba2ecf40181f2ad017827bd3ef55b749302dddd4",
+    "skills/WHY-NOT-SPAM.md": "414a00ab97b951394a241ec4f01ea90ac1919e9af7a6ec6db7a428dd5d726842"
+  },
+  "tooling": { "claude_cli": "2.1.197 (Claude Code)", "codex_cli": "codex-cli 0.142.3" }
+}

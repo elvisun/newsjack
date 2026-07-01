@@ -36,6 +36,14 @@ for f in "$JUDGE_MD" "$SCHEMA" "$SKILL" "$UPDATE_FILE" "$A_FILE" "$B_FILE"; do
   [ -f "$f" ] || { echo "judge.sh: missing file: $f" >&2; exit 2; }
 done
 
+# Resume: if OUT_FILE is already a valid verdict (winner+scores), keep it and skip
+# the codex call. This only skips completed work — it does not change how any
+# judgment is produced, so the method stays reproducible.
+if [ -s "$OUT_FILE" ] && python3 -c "import json,sys; d=json.load(open('$OUT_FILE')); sys.exit(0 if ('winner' in d and 'scores' in d) else 1)" 2>/dev/null; then
+  echo "judge.sh: skip (valid verdict exists) $OUT_FILE" >&2
+  exit 0
+fi
+
 PROMPT_FILE="$(mktemp -t fable-judge-prompt.XXXXXX)"
 trap 'rm -f "$PROMPT_FILE"' EXIT
 

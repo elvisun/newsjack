@@ -125,6 +125,23 @@ evidentiary restraint, which earned its tied `proof_rigor`.
 | robust wins (both orderings) | **24/50** | 7/50 | |
 | meanest-editor `publishable` | 78/100 | 54/100 | |
 
+### `runs/2026-06-30-4model/` — 4-model round-robin (Sonnet 5 added)
+
+Extends the study to **Opus 4.8 · Fable 5 · Sonnet 5 · Sonnet 4.6** — a full
+C(4,2)=6-pair round-robin, 600 judgments (the opus↔fable pair reused; the 5
+Sonnet pairs judged fresh). Uses `scripts/generate.sh` (headless `claude -p` by
+exact model id, since the Workflow model alias can't address a specific prior
+Sonnet), `scripts/run-4model.sh` (round-robin driver), `aggregate-nmodel.py`
+(N-model per-dim means + win matrix + robust wins), and `make_figures.py`
+(grouped bars + win matrix + heatmap + big-stats, one command from `summary.json`).
+
+**Result: Fable 5 › Opus 4.8 › Sonnet 5 › Sonnet 4.6** (overall 4.65 / 4.46 /
+4.13 / 4.04). Fable led all 7 dimensions and won every head-to-head; Sonnet 5
+beat Sonnet 4.6 (13–5 robust) but both Sonnets trailed on `grounding`. The reused
+opus↔fable pair reproduced 2026-06-09 exactly (24–7 robust; position bias 0.687).
+There is **no accessible Sonnet 4.7** (retired); 4.6 is the latest pre-5 Sonnet.
+Full writeup: [`runs/2026-06-30-4model/verdict.md`](runs/2026-06-30-4model/verdict.md).
+
 ## Discipline
 
 This study **measures the models; it does not tune the skill to move a number.**
