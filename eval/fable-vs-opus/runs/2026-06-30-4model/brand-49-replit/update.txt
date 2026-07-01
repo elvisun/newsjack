@@ -1,0 +1,4 @@
+Company: Replit
+Current time: 2026-06-09T16:00:00Z
+
+Replit is launching an AI agent that builds and deploys full applications from a plain-English description. Facts: the agent writes code, sets up a database, and deploys a working app without the user writing code; Replit is a browser-based coding platform used heavily in education; the company says it has tens of millions of users; it is privately held; it positions the agent for non-engineers and 'vibe coders'; reliability and how often generated apps work without fixes are not disclosed; pricing is usage-based on top of subscriptions.

@@ -1,0 +1,4 @@
+Company: Databricks
+Current time: 2026-06-09T16:00:00Z
+
+Databricks is open-sourcing a new foundation model and says it crossed $3B in annualized revenue. Facts: the model is released under an open license for enterprises to fine-tune on their own data; Databricks says revenue grew over 60% year over year; the company is privately held and last valued at $62B; it positions the model as an alternative to closed APIs for regulated enterprises; benchmark numbers are the company's own; the company has signaled an eventual IPO without a date.
