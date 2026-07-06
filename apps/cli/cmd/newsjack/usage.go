@@ -73,6 +73,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "auth":
 		printAuthHelp(w)
 		return true
+	case "mcp-bridge":
+		printMCPBridgeHelp(w)
+		return true
 	case "install":
 		uiProduct(w, "install", "install skills into agent runtimes.")
 		fmt.Fprintln(w)

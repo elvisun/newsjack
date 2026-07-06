@@ -10,7 +10,7 @@ import (
 
 // hiddenCommands are dispatched on purpose but intentionally not advertised in
 // `newsjack help` (internal plumbing, not a user-facing command).
-var hiddenCommands = map[string]bool{}
+var hiddenCommands = map[string]bool{"mcp-bridge": true}
 
 // topLevelCaseRe matches the top-level dispatch cases in runCLIWithIO: lines
 // indented exactly one tab (nested sub-command switches are indented deeper).

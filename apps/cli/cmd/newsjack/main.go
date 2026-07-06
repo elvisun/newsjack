@@ -80,6 +80,8 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdLogin(args[1:], stdout, stderr)
 	case "auth":
 		return cmdAuth(args[1:], stdout, stderr)
+	case "mcp-bridge":
+		return cmdMCPBridge(args[1:], stdin, stdout, stderr)
 	case "credits":
 		return cmdCredits(args[1:], stdout, stderr)
 	case "news":
