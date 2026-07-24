@@ -35,6 +35,7 @@ Three problems, separate lanes.
 
 - 🎯 **Generate story angles** — turn one update into hooks framed for different beats
 - 🤝 **Fit-check a journalist** — will *this* reporter actually care, or are you spamming?
+- 🥇 **Pick who to pitch first at one outlet** — rank colleagues at the same publication and send to one, instead of spraying the masthead
 - 🎙️ **Respond to source queries** — triage inbound HARO-style requests, draft only the real fits
 - 🥊 **Roast your pitch** — honest critique against the rubric editors actually use
 - ✅ **Fact-check before you send** — extract claims, verify each, flag the shaky ones
@@ -82,6 +83,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | press-clip | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
