@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate the 4-model study figures from summary.json (aggregate-nmodel.py).
+"""Generate N-model study figures from summary.json (aggregate-nmodel.py).
 
-Emits one standalone HTML (figures/four-model.html) using the eval design system
+Emits one standalone HTML using the eval design system
 ("the chart room"): grouped bars (per-dimension mean, winner in vermilion + the
-other three in graded warm-grey by overall rank), a 4x4 head-to-head win matrix,
+other models in graded warm-grey by overall rank), a head-to-head win matrix,
 a model x dimension heatmap, and big-stat callouts. Geometry is computed from the
 data so the figure is reproducible. Validate/screenshot with design-system
 scripts/validate.mjs afterward.
@@ -20,7 +20,7 @@ DIM_LABEL = {
     "journalist_shape": "SHAPE", "grounding": "GROUNDING",
     "anti_slop": "ANTI-SLOP", "proof_rigor": "PROOF", "usefulness": "USEFUL",
 }
-SHORT = {"opus": "OP", "fable": "FB", "s5": "S5", "s46": "S46"}
+SHORT = {"o5": "O5", "opus": "OP", "fable": "FB", "s5": "S5", "s46": "S46"}
 # warm-grey shades for overall ranks 2,3,4 (dark -> light); rank 1 is accent
 GREY = ["#9E988C", "#C0BAAE", "#DED9CF"]
 ACCENT = "#E05A47"
@@ -33,6 +33,7 @@ def esc(s):
 def grouped_bars(summary):
     dims = summary["dims"]
     models = summary["models"]            # already ranked by overall desc
+    n_models = len(models)
     n = summary["n_judgments"]
     # geometry
     ML, MR = 96, 40
@@ -42,8 +43,8 @@ def grouped_bars(summary):
     plotW = W - ML - MR
     pitch = plotW / len(dims)
     ig = 8
-    clusterW = min(0.74 * pitch, 4 * 34 + 3 * ig)
-    bw = (clusterW - 3 * ig) / 4.0
+    clusterW = min(0.74 * pitch, n_models * 34 + (n_models - 1) * ig)
+    bw = (clusterW - (n_models - 1) * ig) / n_models
 
     def fill_for(rank):
         return ACCENT if rank == 0 else GREY[rank - 1]
@@ -98,7 +99,7 @@ def grouped_bars(summary):
            f'+{lead:.2f}.')
     return f'''  <div class="fig">
     <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">GROUPED BARS</span></div>
-    <h3>Four models, seven dimensions</h3>
+    <h3>{n_models} models, seven dimensions</h3>
     <p class="cap">{cap}</p>
     <div class="plot">
 {os.linesep.join("      " + s for s in svg)}
@@ -182,15 +183,16 @@ def big_stats(summary):
     m = summary["models"]
     top, second = m[0], m[1]
     pb = summary.get("position_bias_slotA")
-    pub_top = top["verdicts"].get("publishable", 0)
-    total_top = sum(top["verdicts"].values())
+    pub_model = max(m, key=lambda x: x["verdicts"].get("publishable", 0))
+    pub_count = pub_model["verdicts"].get("publishable", 0)
+    pub_total = sum(pub_model["verdicts"].values())
     cards = [
         ("TOP OVERALL MEAN", f'<span class="accent">{top["overall"]:.2f}</span>',
          f'{esc(top["label"])} on the judge’s 1–5 scale, both orderings averaged.'),
         ("LEAD OVER 2ND", f'<span class="accent">+{top["overall"]-second["overall"]:.2f}</span>',
          f'{esc(top["label"])} vs {esc(second["label"])} on overall mean.'),
-        ("TOP ‘PUBLISHABLE’", f'{pub_top}<span class="accent">/{total_top}</span>',
-         f'Meanest-editor {esc(top["label"])} sets rated publishable.'),
+        ("MOST ‘PUBLISHABLE’", f'{pub_count}<span class="accent">/{pub_total}</span>',
+         f'Meanest-editor {esc(pub_model["label"])} sets rated publishable.'),
         ("POSITION BIAS", f'{pb:.2f}' if pb is not None else "—",
          'Slot-A decisive win-rate across all pairs (0.50 = unbiased); cancelled by both-orderings.'),
     ]
@@ -215,13 +217,15 @@ def main(summary_path, out_path=None):
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
 
     models = summary["models"]
+    n_models = len(models)
+    model_word = {3: "Three", 4: "Four"}.get(n_models, str(n_models))
     order = " › ".join(m["label"] for m in models)
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Four-model angle study — {run}</title>
+<title>{model_word}-model angle study — {run}</title>
 <!--
   Built with eval/design-system ("the chart room") by make_figures.py.
   Data: eval/fable-vs-opus/runs/{run}/summary.json (aggregate-nmodel.py).
@@ -271,7 +275,7 @@ def main(summary_path, out_path=None):
 
   <footer class="colophon">
     <span class="c">NEWSJACK.SH — <b>THE EVAL DESK</b></span>
-    <span class="c">4-MODEL ANGLE STUDY · <b>{run}</b></span>
+    <span class="c">{n_models}-MODEL ANGLE STUDY · <b>{run}</b></span>
     <span class="c">$ <b>curl newsjack.sh | sh</b></span>
   </footer>
 </div>

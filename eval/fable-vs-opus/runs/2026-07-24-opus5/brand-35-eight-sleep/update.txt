@@ -1,0 +1,4 @@
+Company: Eight Sleep
+Current time: 2026-06-09T16:00:00Z
+
+Eight Sleep is launching blood-oxygen and snoring detection on its smart mattress cover and partnering with a sleep-medicine clinic on a study. Facts: the new sensors track SpO2 and snoring overnight and adjust the bed's temperature automatically; the features are software-gated behind the top subscription tier; Eight Sleep is privately held and sells a premium product costing several thousand dollars; the clinical study with a named sleep clinic is ongoing with no results yet; the company markets to athletes and biohackers; the features are wellness, not FDA-cleared diagnostics.

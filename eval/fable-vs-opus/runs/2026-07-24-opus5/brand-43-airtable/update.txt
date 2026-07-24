@@ -1,0 +1,4 @@
+Company: Airtable
+Current time: 2026-06-09T16:00:00Z
+
+Airtable is repositioning as an AI app-building platform and launching agents that act on a company's data. Facts: users can build internal apps and now deploy AI agents that read records and take actions like updating statuses or drafting emails; Airtable is shifting its messaging from 'spreadsheet-database' to 'AI-native app platform'; the company is privately held and was last valued at $11B, down from a higher peak; it serves many enterprise teams; named customers and agent-reliability data not disclosed; pricing for the agent features not finalized.

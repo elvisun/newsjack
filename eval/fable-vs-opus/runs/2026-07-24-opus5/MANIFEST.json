@@ -1,0 +1,42 @@
+{
+  "run": "2026-07-24-opus5",
+  "study": "3-model story-angle quality round-robin — Opus 5 vs Fable 5 vs Opus 4.8, GPT-5.5 (meanest-editor) blind judge",
+  "judge_model": "gpt-5.5",
+  "date_generated": "2026-07-24",
+  "models": [
+    {
+      "slug": "o5",
+      "label": "Opus 5",
+      "exact_id": "claude-opus-5",
+      "source": "generated 2026-07-24 via generate.sh (headless Claude Code CLI, tools off, skill inlined)"
+    },
+    {
+      "slug": "fable",
+      "label": "Fable 5",
+      "exact_id": "claude-fable-5",
+      "source": "reused from 2026-06-09-full (frozen original benchmark output)"
+    },
+    {
+      "slug": "opus",
+      "label": "Opus 4.8",
+      "exact_id": "claude-opus-4-8",
+      "source": "reused from 2026-06-09-full (frozen original benchmark output)"
+    }
+  ],
+  "notes": {
+    "generation": "Opus 5 is invoked by exact model id through claude -p. Fable 5 and Opus 4.8 are the frozen outputs from the original benchmark so their existing head-to-head remains identical.",
+    "judge": "Unchanged independent GPT-5.5 judge via codex exec, meanest-editor persona, both orderings, schema-validated.",
+    "pairs": "Full 3-model round-robin. The 100 Fable 5 vs Opus 4.8 judgments are reused; the two Opus 5 pairs add 200 fresh judgments. Total: 300.",
+    "fixed_case_time": "2026-06-09T16:00:00Z"
+  },
+  "apparatus_sha256": {
+    "skills/angle-generator/SKILL.md": "644896fc277172a47e7c1db14b8b52a082745f6cb0c1bd7d29c675e307e91503",
+    "skills/meanest-editor/SKILL.md": "1c4039174ea3247fe6c218e03bc61232c95fe8d51f5ed14135fea8ad1154eac2",
+    "skills/ETHICS.md": "897f4fd0be30902dedb5af51ba2ecf40181f2ad017827bd3ef55b749302dddd4",
+    "skills/WHY-NOT-SPAM.md": "414a00ab97b951394a241ec4f01ea90ac1919e9af7a6ec6db7a428dd5d726842"
+  },
+  "tooling": {
+    "claude_cli": "2.1.219 (Claude Code)",
+    "codex_cli": "codex-cli 0.144.6"
+  }
+}

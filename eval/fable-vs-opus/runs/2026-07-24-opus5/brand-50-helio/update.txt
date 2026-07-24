@@ -1,0 +1,4 @@
+Company: Helio
+Current time: 2026-06-09T16:00:00Z
+
+Helio, an 11-person startup, raised a $7M seed round to launch small satellites that detect wildfires within minutes. Facts: the round was led by a deep-tech seed fund with two climate angels participating; the satellites carry infrared sensors to spot ignitions and alert agencies faster than current systems; the company has a memorandum of understanding with one state fire agency; founders are ex-SpaceX and ex-Planet Labs; no satellite is in orbit yet and there are no operational results; revenue, named agency customer, and launch date not disclosed.

@@ -24,7 +24,7 @@ from itertools import combinations
 DIMS = ["news_value", "distinctness", "journalist_shape", "grounding",
         "anti_slop", "proof_rigor", "usefulness"]
 
-LABELS = {"opus": "Opus 4.8", "fable": "Fable 5",
+LABELS = {"o5": "Opus 5", "opus": "Opus 4.8", "fable": "Fable 5",
           "s5": "Sonnet 5", "s46": "Sonnet 4.6"}
 
 

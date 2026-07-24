@@ -1,0 +1,4 @@
+Company: Airbnb
+Current time: 2026-06-09T16:00:00Z
+
+Airbnb is launching Airbnb for Teams, a business-travel product. Facts: company travel managers get a central dashboard, consolidated billing, and direct integration with Concur and Ramp for expenses; hosts can opt into a 'business-ready' badge requiring fast wifi, a dedicated workspace, and 24-hour check-in support; Airbnb says business trips are its fastest-growing segment, up 71% year over year off a small base; the feature is free for travelers; rollout starts in the US and UK.

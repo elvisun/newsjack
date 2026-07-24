@@ -142,6 +142,19 @@ opus↔fable pair reproduced 2026-06-09 exactly (24–7 robust; position bias 0.
 There is **no accessible Sonnet 4.7** (retired); 4.6 is the latest pre-5 Sonnet.
 Full writeup: [`runs/2026-06-30-4model/verdict.md`](runs/2026-06-30-4model/verdict.md).
 
+### `runs/2026-07-24-opus5/` — Opus 5 added
+
+Reuses the frozen Fable 5 and Opus 4.8 outputs and their 100 existing judgments,
+generates only **Opus 5** through headless Claude Code CLI with exact model ID
+`claude-opus-5`, then judges the two new pairs in both orderings.
+
+**Result: Opus 5 ≈ Fable 5 > Opus 4.8.** Opus 5 ranks first on balanced
+round-robin mean (4.52 vs Fable 4.47 and Opus 4.8 4.30), beats Fable 15–9 on
+robust brands, and beats Opus 4.8 20–4. The Opus-5 edge over Fable is not
+decisive, however: 26/50 brands split by position, Fable leads grounding by
+0.47, and Fable earns more `publishable` ratings (145/200 vs 117/200). Full writeup:
+[`runs/2026-07-24-opus5/verdict.md`](runs/2026-07-24-opus5/verdict.md).
+
 ## Discipline
 
 This study **measures the models; it does not tune the skill to move a number.**
