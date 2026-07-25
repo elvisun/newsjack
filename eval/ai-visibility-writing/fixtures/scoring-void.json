@@ -1,0 +1,17 @@
+{
+  "mode": "dev",
+  "components": {
+    "audit_factor_f1": 1.0,
+    "blind_quality_win_rate": 1.0,
+    "paired_citation_selection_win_rate": 1.0,
+    "readability_pass_rate": 1.0
+  },
+  "hard_gates": {
+    "zero_invented_facts": false,
+    "schema_complete": true,
+    "no_forbidden_claim": true,
+    "no_clear_stratum_regression": true,
+    "stage0_green": true,
+    "ledger_reconciled": true
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "protocol_id": "ai-visibility-serper-feasibility-v1",
+  "frozen_at": "2026-07-22T05:20:00Z",
+  "status": "preregistered",
+  "objective": "Test whether Serper Search is a stable, economical source of Google organic controls for the existing Google AI Overview and ChatGPT citation observations.",
+  "causal_boundary": "This is an instrumentation experiment. It does not publish or edit pages and cannot estimate whether any writing lever changes retrieval, mention, citation, rank, or traffic.",
+  "eligibility_preflight": {
+    "owned_target": "https://newsjack.sh",
+    "result": "ineligible_for_publishing_experiment",
+    "reason": "The root serves an install script to command-line clients and redirects browser clients to GitHub; robots.txt and sitemap.xml return 404 pages. There is no crawlable owned-page treatment/control pool.",
+    "external_mutation": "No push, deployment, page edit, or indexing request is authorized or performed."
+  },
+  "inputs": {
+    "manifest_phases": ["calibration", "main", "repeats", "fresh"],
+    "query_rule": "Deduplicate exact query strings across phases, retain first-seen metadata, then order each wave by SHA-256(protocol_id|wave|query).",
+    "expected_unique_queries": 138,
+    "existing_ai_observations": 448,
+    "blinding": "not used; the user explicitly waived blinding for this large instrumentation dataset"
+  },
+  "serper_request": {
+    "endpoint": "https://google.serper.dev/search",
+    "country": "us",
+    "language": "en",
+    "organic_depth": 10,
+    "waves": 2,
+    "planned_successful_requests": 276,
+    "hard_successful_request_cap": 300
+  },
+  "preregistered_outcomes": {
+    "operational": [
+      "successful response rate",
+      "malformed response count",
+      "median organic results per response"
+    ],
+    "stability": [
+      "within-Serper top-10 URL Jaccard between waves",
+      "within-Serper top-10 domain Jaccard between waves",
+      "Serper versus DataForSEO top-10 organic URL and domain Jaccard"
+    ],
+    "ai_join": [
+      "Google AI Overview citation URL and domain recall in Serper top 10",
+      "ChatGPT citation URL and domain recall in Serper top 10",
+      "rate of explicit AI-answer or AI-citation fields in Serper responses"
+    ]
+  },
+  "decision_rules": {
+    "operational_pass": "success rate >= 0.99, malformed count = 0, and median organic count >= 8",
+    "stable_organic_control_pass": "operational pass plus median within-Serper URL Jaccard >= 0.70 and median Serper-versus-DataForSEO URL Jaccard >= 0.50",
+    "direct_ai_instrument_pass": "an explicit AI answer object and its citations are present in every response used for AI scoring",
+    "lever_claim": "No lever may be promoted, demoted, or called efficient from this experiment because there is no randomized published treatment."
+  },
+  "budget": {
+    "approved_total_usd_cap": 25.0,
+    "incremental_dataforseo_usd_cap": 0.0,
+    "serper_cash_purchase_allowed": false,
+    "serper_successful_request_cap": 300,
+    "serper_starter_reference_usd_per_1000_queries": 1.0,
+    "maximum_replacement_value_usd": 0.3,
+    "rule": "Stop at the preregistered sample; the approved cap is a ceiling, not a spending target. Existing free credits may be used, but no credit purchase is authorized."
+  },
+  "artifacts": {
+    "transient": "runs/serper-25/ (ignored by git)",
+    "committed": [
+      "serper-experiment-protocol.json",
+      "scripts/serper_experiment.py",
+      "serper-experiment-analysis.json",
+      "serper-experiment-report.md"
+    ]
+  }
+}

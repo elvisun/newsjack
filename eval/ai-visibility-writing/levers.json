@@ -1,0 +1,568 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "status": "final_inconclusive",
+  "efficiency_formula": "mean(citation_selection_lift_pp, accurate_answer_use_lift_pp) * 0.10 / max(median_changed_token_fraction, 0.10)",
+  "winner": null,
+  "winner_reason": "no supported efficiency winner; overall gates and fresh generalization did not pass",
+  "levers": [
+    {
+      "rank": 1,
+      "id": "L4",
+      "lever": "Descriptive coherent structure",
+      "intervention": "Give each section one job and replace vague headings with subject-specific headings.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "procedural"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article"
+      ],
+      "hypothesis": "H5",
+      "disposition": "atomic leader; not supported overall",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 25.0,
+      "accurate_answer_use_lift_pp": 25.0,
+      "human_quality_delta": 0.125,
+      "fact_fidelity_delta": 0.0,
+      "median_changed_token_fraction": 0.15642701525054464,
+      "evidence_burden": "low",
+      "missing_input": null,
+      "executor_consistency": {
+        "same_nonnegative_direction": true,
+        "codex": {
+          "citation_lift_pp": 50.0,
+          "accurate_use_lift_pp": 50.0
+        },
+        "claude": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        }
+      },
+      "efficiency_index": 15.98189415041783,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": -7.32681641352157,
+        "n": 677,
+        "interval": [
+          -18.513497352852177,
+          3.8598645258090354
+        ]
+      },
+      "google_fresh": {
+        "estimate": -21.8838517107315,
+        "n": 303,
+        "interval": [
+          -40.31413744218465,
+          -3.453565979278345
+        ],
+        "p_value": 0.019950615794251805,
+        "fdr_q_value": 0.11970369476551082
+      }
+    },
+    {
+      "rank": 2,
+      "id": "L5",
+      "lever": "Neutral qualified specificity",
+      "intervention": "Replace unsupported promotion with the exact supported outcome, scope, and limitation.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "evaluative"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "H8",
+      "disposition": "atomic promising; not supported overall",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 12.5,
+      "accurate_answer_use_lift_pp": 12.5,
+      "human_quality_delta": 0.625,
+      "fact_fidelity_delta": 0.0,
+      "median_changed_token_fraction": 0.0,
+      "evidence_burden": "low",
+      "missing_input": "Proof if the absolute claim must remain",
+      "executor_consistency": {
+        "same_nonnegative_direction": true,
+        "codex": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        },
+        "claude": {
+          "citation_lift_pp": 25.0,
+          "accurate_use_lift_pp": 25.0
+        }
+      },
+      "efficiency_index": 12.5,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": -1.6619758622817602,
+        "n": 677,
+        "interval": [
+          -7.389689668114839,
+          4.065737943551319
+        ]
+      },
+      "google_fresh": {
+        "estimate": -0.696535457264421,
+        "n": 303,
+        "interval": [
+          -7.470837559277377,
+          6.077766644748536
+        ],
+        "p_value": 0.8402859751904019,
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "rank": 3,
+      "id": "L6",
+      "lever": "Remove keyword repetition and checklist padding",
+      "intervention": "Delete redundant terms, FAQs, headings, and summaries that add no reader value.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "procedural",
+        "evaluative",
+        "freshness"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "H15",
+      "disposition": "insufficient",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 0.0,
+      "accurate_answer_use_lift_pp": 12.5,
+      "human_quality_delta": 0.25,
+      "fact_fidelity_delta": 0.0,
+      "median_changed_token_fraction": 0.09867256637168142,
+      "evidence_burden": "low",
+      "missing_input": null,
+      "executor_consistency": {
+        "same_nonnegative_direction": false,
+        "codex": {
+          "citation_lift_pp": -25.0,
+          "accurate_use_lift_pp": 0.0
+        },
+        "claude": {
+          "citation_lift_pp": 25.0,
+          "accurate_use_lift_pp": 25.0
+        }
+      },
+      "efficiency_index": 6.25,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": 2.7574663124958,
+        "n": 677,
+        "interval": [
+          -3.7539727556129594,
+          9.26890538060456
+        ]
+      },
+      "google_fresh": {
+        "estimate": 4.88744282609801,
+        "n": 303,
+        "interval": [
+          -7.359716976487847,
+          17.134602628683865
+        ],
+        "p_value": 0.4341133793459035,
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "rank": 4,
+      "id": "L1",
+      "lever": "Direct scoped answer",
+      "intervention": "Move an already-supported answer beside its descriptive heading; preserve caveats.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "procedural"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "H1",
+      "disposition": "insufficient",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 0.0,
+      "accurate_answer_use_lift_pp": 0.0,
+      "human_quality_delta": 0.5,
+      "fact_fidelity_delta": 0.0,
+      "median_changed_token_fraction": 0.1925,
+      "evidence_burden": "low",
+      "missing_input": "A supported answer and its scope",
+      "executor_consistency": {
+        "same_nonnegative_direction": true,
+        "codex": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        },
+        "claude": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        }
+      },
+      "efficiency_index": 0.0,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": -1.3922423456324517,
+        "n": 677,
+        "interval": [
+          -8.427389532411036,
+          5.642904841146133
+        ]
+      },
+      "google_fresh": {
+        "estimate": -0.8162182042267154,
+        "n": 303,
+        "interval": [
+          -13.32353025182213,
+          11.6910938433687
+        ],
+        "p_value": 0.8982216274223771,
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "rank": 5,
+      "id": "L2",
+      "lever": "Evidence context and attribution",
+      "intervention": "Attach supplied source, date, method/population, and scope to the exact claim.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "evaluative",
+        "freshness"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "H2",
+      "disposition": "insufficient",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 0.0,
+      "accurate_answer_use_lift_pp": 0.0,
+      "human_quality_delta": 0.0,
+      "fact_fidelity_delta": -0.125,
+      "median_changed_token_fraction": 0.10320512820512823,
+      "evidence_burden": "medium",
+      "missing_input": "Primary evidence or approved attribution",
+      "executor_consistency": {
+        "same_nonnegative_direction": true,
+        "codex": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        },
+        "claude": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        }
+      },
+      "efficiency_index": 0.0,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": 4.554248767446097,
+        "n": 677,
+        "interval": [
+          -2.242879179119129,
+          11.351376714011325
+        ]
+      },
+      "google_fresh": {
+        "estimate": -1.6096790343722345,
+        "n": 303,
+        "interval": [
+          -11.491773264149286,
+          8.272415195404816
+        ],
+        "p_value": 0.7495283259929811,
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "rank": 6,
+      "id": "L3",
+      "lever": "Unique verifiable information",
+      "intervention": "Add supplied firsthand data, method, analysis, or experience not present in commodity summaries.",
+      "intents": [
+        "comparative",
+        "evaluative",
+        "freshness"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "H3",
+      "disposition": "insufficient",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": 0.0,
+      "accurate_answer_use_lift_pp": 0.0,
+      "human_quality_delta": 0.0,
+      "fact_fidelity_delta": 0.0,
+      "median_changed_token_fraction": 0.0,
+      "evidence_burden": "high",
+      "missing_input": "Firsthand evidence and method",
+      "executor_consistency": {
+        "same_nonnegative_direction": true,
+        "codex": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        },
+        "claude": {
+          "citation_lift_pp": 0.0,
+          "accurate_use_lift_pp": 0.0
+        }
+      },
+      "efficiency_index": 0.0,
+      "limitations": "Eight constructed post-retrieval pairs, including one null; this is not live retrieval or citation lift.",
+      "google_development": {
+        "estimate": 1.4113440975055367,
+        "n": 677,
+        "interval": [
+          -5.794010636696922,
+          8.616698831707994
+        ]
+      },
+      "google_fresh": {
+        "estimate": 0.7035103219197308,
+        "n": 303,
+        "interval": [
+          -9.560078261372412,
+          10.967098905211875
+        ],
+        "p_value": 0.8931283515824338,
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "rank": 7,
+      "id": "L7",
+      "lever": "Clarify ambiguous entities",
+      "intervention": "Disambiguate the first reference to an organization, product, person, place, or acronym.",
+      "intents": [
+        "explanatory",
+        "comparative",
+        "evaluative"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "exploratory",
+      "disposition": "not atomically tested",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": null,
+      "accurate_answer_use_lift_pp": null,
+      "human_quality_delta": null,
+      "fact_fidelity_delta": null,
+      "median_changed_token_fraction": null,
+      "evidence_burden": "low",
+      "missing_input": "Canonical entity identity when unclear",
+      "executor_consistency": null,
+      "efficiency_index": null,
+      "limitations": "Not a preregistered one-lever ablation.",
+      "google_development": {
+        "estimate": -0.5422327835860549,
+        "n": 677,
+        "interval": [
+          -5.281532205741307,
+          4.197066638569198
+        ]
+      },
+      "google_fresh": {
+        "estimate": -1.5978669533873293,
+        "n": 303,
+        "interval": [
+          -10.988483375515253,
+          7.792749468740594
+        ],
+        "p_value": 0.7387529792990475,
+        "fdr_q_value": null
+      }
+    },
+    {
+      "rank": 8,
+      "id": "L8",
+      "lever": "Use intent-fit table, list, or steps",
+      "intervention": "Convert only a genuine comparison or procedure to its natural structured format.",
+      "intents": [
+        "comparative",
+        "procedural"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article"
+      ],
+      "hypothesis": "exploratory",
+      "disposition": "not atomically tested",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": null,
+      "accurate_answer_use_lift_pp": null,
+      "human_quality_delta": null,
+      "fact_fidelity_delta": null,
+      "median_changed_token_fraction": null,
+      "evidence_burden": "low",
+      "missing_input": null,
+      "executor_consistency": null,
+      "efficiency_index": null,
+      "limitations": "Observational only in this pilot; fake FAQs are prohibited.",
+      "google_development": {
+        "estimate": 16.464233823964687,
+        "n": 677,
+        "interval": [
+          6.9543247770879475,
+          25.974142870841433
+        ]
+      },
+      "google_fresh": {
+        "estimate": -11.748771940295802,
+        "n": 303,
+        "interval": [
+          -31.858730740854966,
+          8.361186860263365
+        ],
+        "p_value": 0.2521743433264936,
+        "fdr_q_value": null
+      }
+    },
+    {
+      "rank": 9,
+      "id": "L9",
+      "lever": "Expose a legitimate date",
+      "intervention": "Place a supplied measurement, effective, published, or update date beside time-sensitive information.",
+      "intents": [
+        "freshness"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "exploratory",
+      "disposition": "not atomically tested",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": null,
+      "accurate_answer_use_lift_pp": null,
+      "human_quality_delta": null,
+      "fact_fidelity_delta": null,
+      "median_changed_token_fraction": null,
+      "evidence_burden": "low",
+      "missing_input": "A real date and what changed",
+      "executor_consistency": null,
+      "efficiency_index": null,
+      "limitations": "Observational only; evergreen content may not benefit.",
+      "google_development": {
+        "estimate": -2.8767746998929487,
+        "n": 677,
+        "interval": [
+          -10.304999787897291,
+          4.551450388111393
+        ]
+      },
+      "google_fresh": {
+        "estimate": -6.893740975522243,
+        "n": 303,
+        "interval": [
+          -12.888897002557655,
+          -0.8985849484868309
+        ],
+        "p_value": 0.02421033118517756,
+        "fdr_q_value": null
+      }
+    },
+    {
+      "rank": 10,
+      "id": "L10",
+      "lever": "Preserve specialist precision while clarifying syntax",
+      "intervention": "Shorten or split opaque sentences without replacing necessary terms or removing qualifications.",
+      "intents": [
+        "explanatory",
+        "procedural",
+        "evaluative"
+      ],
+      "document_types": [
+        "blog",
+        "contributed_article",
+        "press_release"
+      ],
+      "hypothesis": "guard",
+      "disposition": "not atomically tested",
+      "chatgpt": {
+        "status": "unestimable",
+        "reason": "no retrieved-but-rejected risk set"
+      },
+      "citation_selection_lift_pp": null,
+      "accurate_answer_use_lift_pp": null,
+      "human_quality_delta": null,
+      "fact_fidelity_delta": null,
+      "median_changed_token_fraction": null,
+      "evidence_burden": "low",
+      "missing_input": "Audience register",
+      "executor_consistency": null,
+      "efficiency_index": null,
+      "limitations": "Human-quality guard, not a preregistered visibility intervention.",
+      "google_development": {
+        "estimate": -0.23671729109899067,
+        "n": 677,
+        "interval": [
+          -5.0187913104049,
+          4.545356728206918
+        ]
+      },
+      "google_fresh": {
+        "estimate": 3.8061875121095747,
+        "n": 303,
+        "interval": [
+          -3.0439712718880982,
+          10.656346296107246
+        ],
+        "p_value": 0.27613427689955694,
+        "fdr_q_value": null
+      }
+    }
+  ],
+  "atomic_simulation_leader": "L4"
+}

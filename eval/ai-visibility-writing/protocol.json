@@ -1,0 +1,126 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "version": "1.0.27",
+  "created_at": "2026-07-21T00:00:00-04:00",
+  "status": "complete_inconclusive",
+  "decision": ["SCALE", "DO_NOT_SCALE", "INCONCLUSIVE"],
+  "causal_boundary": "DataForSEO observations and post-retrieval simulations do not measure live crawl, index, rank, retrieval, citation, or traffic lift from a published edit.",
+  "surfaces": {
+    "google": {
+      "endpoint": "serp/google/organic",
+      "priority": "normal",
+      "location_code": 2840,
+      "language_code": "en",
+      "device": "desktop",
+      "os": "windows",
+      "depth": 10,
+      "load_async_ai_overview": true
+    },
+    "chatgpt": {
+      "endpoint": "ai_optimization/chat_gpt/llm_responses/live",
+      "model_policy": "gpt-5-chat-latest, resolved as the latest supported non-reasoning model at calibration; web_search and force_web_search required",
+      "web_search": true,
+      "force_web_search": true,
+      "web_search_country_iso_code": "US",
+      "max_output_tokens": 700
+    }
+  },
+  "sampling": {
+    "rng": "Python random.Random with SHA-256-derived integer seed",
+    "main_seed_material": "ai-visibility-writing-pilot-v1|main|2026-07-21",
+    "main_query_as_of": "2026-07-21",
+    "fresh_seed_policy": "Generate 256 bits from the operating system only after the skill and apparatus are frozen; append the seed and timestamp before requests; never redraw for outcome quality.",
+    "topic_families": {
+      "workplace_technology": ["password managers", "project management software", "video conferencing", "knowledge bases", "expense management software", "human resources information systems"],
+      "consumer_finance": ["high-yield savings accounts", "credit freezes", "renters insurance", "exchange-traded fund fees", "credit card interest", "emergency funds"],
+      "home_energy": ["heat pumps", "induction cooktops", "home insulation", "solar batteries", "smart thermostats", "home electric-vehicle chargers"],
+      "health_literacy": ["sleep apnea", "vitamin D", "strength training", "migraines", "seasonal allergies", "hearing protection"],
+      "travel_planning": ["airline carry-on rules", "travel insurance", "rail passes", "airport transfers", "travel eSIMs", "hotel cancellation policies"],
+      "climate_logistics": ["cold-chain logistics", "fleet electrification", "carbon accounting", "last-mile delivery", "grid-scale batteries", "sustainable aviation fuel"]
+    },
+    "intents": {
+      "explanatory": "What is {topic}, and how does it work?",
+      "comparative": "Compare the main {topic} options for a typical U.S. buyer in {year}.",
+      "procedural": "How should someone evaluate or set up {topic}?",
+      "evaluative": "What are the best {topic} options, and which tradeoffs matter?",
+      "freshness": "What changed recently about {topic} in the United States as of {month_year}?"
+    },
+    "main_pairs_target": 120,
+    "main_pairs_minimum": 120,
+    "main_topic_families": ["health_literacy", "home_energy", "travel_planning", "workplace_technology"],
+    "main_family_selection_seed_material": "ai-visibility-writing-pilot-v1|main|2026-07-21|budget-family-selection",
+    "per_family_minimum": 25,
+    "per_intent_minimum": 30,
+    "repeat_pairs_target": 49,
+    "fresh_pairs_target": 49,
+    "fresh_draw_limit": 2
+  },
+  "labels": [
+    "answer_mentioned_and_cited",
+    "inline_cited_not_named",
+    "source_panel_only",
+    "organic_not_ai_cited",
+    "no_ai_answer",
+    "ai_answer_no_citations",
+    "unobservable_retrieval"
+  ],
+  "controls": ["query", "topic_family", "intent", "publisher_domain", "organic_position", "document_type", "publication_age_days", "content_length"],
+  "feature_measurement": {
+    "scope": "Visible prose and HTML structure only; each heuristic is a preregistered proxy, not a semantic ground truth.",
+    "F1": "numeric/method/firsthand-language density, capped to [0,1]",
+    "F2": "query-term coverage in the first 120 visible words",
+    "F3": "attribution/source/method language plus outbound-link and date signals",
+    "F4": "defined-acronym and repeated full-name signal",
+    "F5": "descriptive heading density with a penalty for generic headings",
+    "F6": "list/table presence only for comparative or procedural intent",
+    "F7": "parseable visible or metadata date only for freshness intent",
+    "F8": "one minus promotional/superlative token rate",
+    "F9": "sentence-length clarity band without rewarding indiscriminate simplification",
+    "F10": "one minus excess non-stopword repetition"
+  },
+  "hypotheses": ["H0", "H1", "H2", "H3", "H5", "H8", "H11", "H15"],
+  "ablation_levers": ["L1", "L2", "L3", "L4", "L5", "L6"],
+  "minimum_ablation_pairs_per_lever": 8,
+  "budget_usd": {
+    "calibration": 1.0,
+    "main": 4.82,
+    "repeats": 2.0,
+    "fresh": 2.0,
+    "reserve": 0.18,
+    "total": 10.0,
+    "precalibration_projection_ceiling": {"google": 0.0012, "chatgpt": 0.04},
+    "provider_safety_modes": ["verified_daily_cap_at_most_10", "user_confirmed_free_credit_only_no_payment_method"],
+    "cost_variance_transfer": {
+      "from": "reserve",
+      "to": "main",
+      "usd": 0.82,
+      "reason": "Calibration p95 was $0.038919 for ChatGPT and $0.0012 for Google; 120 paired units project to $4.81428.",
+      "underpowered_limits": ["24 per intent is below the preregistered 30", "49 repeats is below 60", "49 fresh pairs is below 60"]
+    }
+  },
+  "model_invocation_cap": 450,
+  "simulation": {
+    "cases_minimum": 24,
+    "conditions": ["bare", "editorial", "skill", "single_lever"],
+    "executors": ["codex", "claude"],
+    "judge_orderings": 2,
+    "citation_experiment_label": "post-retrieval simulation"
+  },
+  "scorer": {
+    "version": "1.0.0",
+    "weights": {"audit_factor_f1": 0.35, "blind_quality_win_rate": 0.30, "paired_citation_selection_win_rate": 0.25, "readability_pass_rate": 0.10},
+    "pilot_bars": {"composite": 65.0, "audit_factor_f1": 0.70, "blind_quality_win_rate": 0.60, "paired_citation_selection_win_rate": 0.55, "readability_pass_rate": 0.90}
+  },
+  "disposition": {
+    "alpha": 0.05,
+    "fdr_method": "Benjamini-Hochberg",
+    "fdr_q": 0.10,
+    "supported_requires": ["adjusted direction retained", "FDR passed", "more than one topic family or document type", "no material human-quality harm"]
+  },
+  "capacity": {"skill_lines": 500, "actionable_factors": 12, "inline_examples": 6, "regex_or_keyword_entries_per_list": 20, "skill_reference_files": 2, "model_invocations": 450},
+  "fresh_freeze": {
+    "skill_commit": "703ea15e7d5a0d7c2240d3038184f7959941355c",
+    "apparatus_commit": "b3a7cf85d3d5db68f9828d0b2f172aba89e86493",
+    "calls_used": 1
+  }
+}

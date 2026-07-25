@@ -1,0 +1,32 @@
+{
+  "version": "0.1.mock",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "cost": 0.012,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [{
+    "id": "mock-chatgpt-1",
+    "status_code": 20000,
+    "status_message": "Ok.",
+    "cost": 0.012,
+    "result_count": 1,
+    "result": [{
+      "model_name": "gpt-mock-2026-01-01",
+      "input_tokens": 210,
+      "output_tokens": 80,
+      "reasoning_tokens": 0,
+      "web_search": true,
+      "money_spent": 0.0114,
+      "datetime": "2026-07-21 12:00:00 +00:00",
+      "items": [{
+        "type": "message",
+        "sections": [{
+          "type": "text",
+          "text": "Evidence Example reports a scoped result.",
+          "annotations": [{"title": "Evidence Example", "url": "https://evidence.example/report#finding"}]
+        }]
+      }]
+    }]
+  }]
+}
