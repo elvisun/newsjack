@@ -112,7 +112,7 @@ Cover the evidence-supported range across:
 - buyer job;
 - information act: explain, diagnose, plan/generate, compare, recommend, verify, navigate, buy, implement, troubleshoot;
 - journey: problem identification, exploration, requirements building, supplier selection, adoption, post-purchase;
-- proximity: B0 direct brand/product, B1 comparison/purchase, B2 category, B3 problem/need, B4 job/goal, B5 broad discovery/story;
+- proximity: Brand (`B0`), Shortlist (`B1`), Category (`B2`), Problem (`B3`), Goal (`B4`), Market (`B5`);
 - aided state: target-aided, competitor-aided, category-aided, or unaided; plus a separate campaign-exposed flag;
 - role/persona, locale/language, material constraint, expected answer kind;
 - concise, contextual, imperfect, and evidence-supported follow-up style;
@@ -138,6 +138,15 @@ Create `panel_report.md` with:
 8. **Human gates** — approvals made, approvals pending, and exactly what would change the panel.
 
 Do not hide the exact prompts behind a methodology summary. The user asked for a list they can track.
+
+Write it in the reader's language, not the schema's. Open with a short "How to read this"
+section defining the six prompt groups (Brand, Shortlist, Category, Problem, Goal,
+Market), prompted versus unprompted, the four sets, and the ways of asking. Then use those
+names throughout. Never print a bare `B0`–`B5` code, a bare partition or lane enum, or the
+word "estimand" in a human document; keep the codes in the machine artifacts and show them
+only as a small traceability annotation beside the name. The mapping is fixed in "Display
+names" in `references/artifact-contracts.md` — use it verbatim rather than inventing
+synonyms per run.
 
 ## Machine artifacts
 

@@ -42,14 +42,25 @@ Use journey states `problem_identification`, `exploration`, `requirements_buildi
 
 ## Assign proximity
 
-| Band | Structure | Default aided status |
-| --- | --- | --- |
-| `B0_direct_brand_product` | Names target brand/product; asks about facts, fit, use, reputation, support, or implementation | `target_aided` |
-| `B1_comparison_purchase` | Shortlist, recommendation, alternatives, pricing, requirements, or comparison | `unaided`; `competitor_aided` when only competitors are supplied; `target_aided` for a declared target-vs-competitor comparison |
-| `B2_category` | Names an accepted solution category, not the target | `category_aided` |
-| `B3_problem_need` | Describes pain, risk, trigger, or constraint without category/target | `unaided` |
-| `B4_job_goal` | Asks for progress/outcome without supplying a solution category | `unaided` |
-| `B5_broad_discovery_story` | Trend, event, regulation, practice, or narrative connected to the job | `unaided` |
+| Band | Name | Structure | Default aided status |
+| --- | --- | --- | --- |
+| `B0_direct_brand_product` | Brand | Names target brand/product; asks about facts, fit, use, reputation, support, or implementation | `target_aided` |
+| `B1_comparison_purchase` | Shortlist | Shortlist, recommendation, alternatives, pricing, requirements, or comparison | `unaided`; `competitor_aided` when only competitors are supplied; `target_aided` for a declared target-vs-competitor comparison |
+| `B2_category` | Category | Names an accepted solution category, not the target | `category_aided` |
+| `B3_problem_need` | Problem | Describes pain, risk, trigger, or constraint without category/target | `unaided` |
+| `B4_job_goal` | Goal | Asks for progress/outcome without supplying a solution category | `unaided` |
+| `B5_broad_discovery_story` | Market | Trend, event, regulation, practice, or narrative connected to the job | `unaided` |
+
+Use the code in `prompt_architecture.json` and the name in every Markdown summary. The
+band codes are labels for structurally different prompts, not points on a scale: do not
+write "B4" in prose, do not order or average them, and do not describe one band as
+further along than another. See "Display names" in
+`../build-ai-visibility-panel/references/artifact-contracts.md`.
+
+Bands and aided status are correlated by construction — Brand is always `target_aided`,
+Category always `category_aided`, and Problem, Goal and Market are always `unaided`, so
+only Shortlist splits. Report the two together rather than as if they were independent
+findings, and do not present a band breakdown that merely restates the prompted split.
 
 `campaign_exposed` is an independent flag. Never combine target-aided, competitor-aided, category-aided, unaided, or campaign-exposed cells in one denominator.
 

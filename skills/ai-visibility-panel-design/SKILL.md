@@ -34,7 +34,8 @@ Allocate across:
 - ICP/role and locale/language;
 - evidence grade/source type;
 - measurement lane and surface;
-- `core`, `rotating`, `sentinel`, `control`, and `aided` partitions.
+- `core` (tracked set), `rotating` (discovery set), `sentinel` (tripwire), `control`
+  (false-positive check), and `aided` (prompted set) partitions.
 
 Select within a stratum by evidence strength, language authenticity, decision relevance, and diversity. Preserve declared minimums or emit a waiver. Do not select by current target strength, weakness, gap size, or campaign desirability.
 
@@ -131,6 +132,12 @@ Never rename rung 1 revenue attribution.
 ## Output
 
 Give the human `tracking_plan.md` first: charter, coverage, exact prompts, lanes, weights, cadence, uncertainty, limitations, waivers, and Gate 4 decisions.
+
+Write it in the reader's language. Use the fixed names in "Display names" in
+`../build-ai-visibility-panel/references/artifact-contracts.md`: the six prompt groups,
+prompted versus unprompted, tracked set / discovery set / tripwire / false-positive check,
+and no web access / with web search / the real app. Codes belong in `panel.yaml`, not in
+prose.
 
 Write `panel.yaml` as the machine handoff using the contract in `../build-ai-visibility-panel/references/artifact-contracts.md`. Also emit `run_manifest_template.json` and `panel_change_ledger.json`.
 

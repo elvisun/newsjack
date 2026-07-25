@@ -76,12 +76,14 @@ Do not assign observed frequency to a generated prompt. `llm_expanded` remains e
 
 ## Band rules
 
-- B0 names the supplied target alias and stays `target_aided`.
-- B1 may ask compare/recommend/buy only when the job evidence supports that act.
-- B2 may name only an accepted evidence-supported category.
-- B3 supplies the problem/need, not the category.
-- B4 supplies the outcome/job, not a product or category.
-- B5 needs a fresh evidence ID and a review-by date.
+- Brand (`B0`) names the supplied target alias and stays `target_aided`.
+- Shortlist (`B1`) may ask compare/recommend/buy only when the job evidence supports that act.
+- Category (`B2`) may name only an accepted evidence-supported category.
+- Problem (`B3`) supplies the problem/need, not the category.
+- Goal (`B4`) supplies the outcome/job, not a product or category.
+- Market (`B5`) needs a fresh evidence ID and a review-by date.
+
+Use the codes in `prompt_universe.json` and the names in the Markdown generation summary.
 
 Never:
 

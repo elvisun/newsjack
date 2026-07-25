@@ -12,8 +12,9 @@ Read this file before creating or validating a panel run.
 6. Canonical prompt record
 7. QA and panel
 8. Human prompt-table columns
-9. Run manifest
-10. Completion checklist
+9. Display names
+10. Run manifest
+11. Completion checklist
 
 ## Common envelope
 
@@ -281,10 +282,10 @@ The comprehensive table in `panel_report.md` uses:
 | --- | --- |
 | Prompt ID | Stable candidate ID |
 | Exact prompt | Trackable string |
-| Variant | Observed-language, paraphrase, or sensitivity |
-| Partition | Core, rotating, sentinel, control, aided |
-| Band | B0–B5 |
-| Aided state | Target, competitor, category, unaided |
+| Variant | Their words, reworded, or wording test |
+| Partition | Tracked set, discovery set, tripwire, false-positive check, prompted set |
+| Group | Brand, Shortlist, Category, Problem, Goal, Market — never the bare band code |
+| Prompted state | We're named, competitors named, category named, unprompted |
 | Campaign-exposed | Boolean |
 | Buyer job | Stable job ID plus short label |
 | Information act | Enum |
@@ -300,6 +301,71 @@ The comprehensive table in `panel_report.md` uses:
 | Transformation | Provenance enum |
 | Weight status | Exposure and priority basis, never one ambiguous score |
 | QA | Decision and rule/review note |
+
+## Display names
+
+Machine artifacts always use the enum codes above. Human documents — `panel_report.md`,
+`tracking_plan.md`, and any Markdown summary an atom prints — always lead with these
+names instead. The codes are the contract; the names are what the reader understands.
+
+Proximity band:
+
+| Code | Name | Gloss |
+| --- | --- | --- |
+| `B0_direct_brand_product` | Brand | "they typed our name" |
+| `B1_comparison_purchase` | Shortlist | "who should I go with" |
+| `B2_category` | Category | "best [thing]" |
+| `B3_problem_need` | Problem | "something isn't working" |
+| `B4_job_goal` | Goal | "here's what I want" |
+| `B5_broad_discovery_story` | Market | "what's going on out there" |
+
+Aided status — the same distinction as prompted and unprompted brand awareness in
+ordinary brand tracking:
+
+| Code | Name |
+| --- | --- |
+| `unaided` | unprompted |
+| `target_aided` | we're named |
+| `category_aided` | category named |
+| `competitor_aided` | competitors named |
+
+Partition:
+
+| Code | Name | What it is for |
+| --- | --- | --- |
+| `core` | tracked set | the standing panel, reported every wave |
+| `rotating` | discovery set | rotates in and out, looking for unknown prompts |
+| `sentinel` | tripwire | stable prompts run extra times to size run-to-run wobble |
+| `control` | false-positive check | prompts the target should never appear in |
+| `aided` | prompted set | every cell whose prompt hands over a name |
+
+Lane:
+
+| Code | Name |
+| --- | --- |
+| `closed_model` | no web access |
+| `retrieval` | with web search |
+| `consumer_surface` | the real app |
+| `campaign_experiment` | campaign test |
+
+Variant role: `observed_language` is "their words", `natural_paraphrase` is "reworded",
+`sensitivity` is "wording test". Turn form: `single_turn` is "one question",
+`scripted_multi_turn` is "follow-up thread". `estimand` is "metric", `journey_state` is
+"buying stage", `information_act` is "what they're asking for", and a canonical intent
+cell is a "question slot".
+
+Rules:
+
+- Never write a bare band code in a human document. `B4` tells a reader nothing, and the
+  B0–B5 numbering invites false ordinal comparisons such as "we are weak at B4" — the
+  bands are not points on a scale.
+- Show the code once alongside the name where traceability matters, as
+  `**Problem** <sub>`B3_problem_need`</sub>`, not instead of the name.
+- `panel_report.md` carries a short "How to read this" section defining the six group
+  names, prompted versus unprompted, the four sets, and the ways of asking, before the
+  first table that uses them.
+- Never rename the enum values themselves. The eval gold, fixtures and prior frozen runs
+  assert on the codes.
 
 ## Run manifest
 
