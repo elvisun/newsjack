@@ -1,0 +1,30 @@
+{
+  "apparatus_sha256": "7dcd0f30422c0131fb6ebfb680db3da5935841c7bac94c8e7cbc82143bf65a58",
+  "artifact_sha256": {
+    "blind_design_brief.json": "c91a11234745d9a512f1c2d7f34e2d7e80689868f93d17a846f6171e34409175",
+    "buyer_jobs.json": "7b4d83d291f543f3d2f854a5324a4279ae679e47364ba00d41d2b541b43ad019",
+    "contamination_register.yaml": "a1be73fe71ea0d056b77052d293fc587223b37e00f37e15c0e8237334ea279a4",
+    "icp_hypotheses.json": "ab6d427e6e922d3c494e4a65280540de62561037d2f336093d11da1c9c73e910",
+    "measurement_charter.json": "bd55ba25334ae84b6d061826151ac62d929bd803032e885bc18fde5125d9b52e",
+    "panel.yaml": "9020385d551f5ebc6d6637f016bb152b943c37313c10dda97102f6c78e07553e",
+    "panel_change_ledger.json": "f243ca7019cdfea3892fbd152b09d98ab908db660d42e8cf860e5d08cfa8b447",
+    "panel_report.md": "78ba83fc7acb31ff7f0549266dd25b16d67dea22563ef0b1923c58c2d44cfa30",
+    "prompt_architecture.json": "bbc6049f5137873d63e61dab04e01892a7ad2f4fd937f2133871c1dc05cd3dcc",
+    "prompt_qa.json": "73a196e97b664f4289585e64663f2fbb8ea324ad1da6456f7f47b5389542e2ab",
+    "prompt_universe.json": "ba0030d72fa018cd52f9b93140be252c466e5183239d571761b44a865ac14273",
+    "run_manifest_template.json": "ab90622878be29c0d63c6e282ec3e98203abca17ae9d140edeb9ccde2cc971bb",
+    "source_manifest.json": "06157d64ecc434c6c2637e9d70b948981215619abbc4a162d232f435f832217c",
+    "tracking_plan.md": "cb88850ef08ba02c4765022c7c02432653913e3f9a2e12be69b44ace6e3863c6"
+  },
+  "claude_exit_code": 1,
+  "claude_subtype": "error_max_budget_usd",
+  "claude_terminal_reason": "budget_exhausted",
+  "completed_at": "2026-07-25T17:32:16Z",
+  "executor_prompt_sha256": "b06095e4d54fcb28a64e8707998fc261e6047900ec8f868a412cee919d12021e",
+  "input_sha256": "9063c97947c6b38041cf73b6fcacc36b55d14f1f83b7a1fd1fad6586ab6306d7",
+  "model": "claude-opus-5",
+  "schema_version": "1.0.0",
+  "status": "artifacts_complete_budget_exhausted",
+  "stream_sha256": "9de741fb427954f3c54febc1a7941cc3cbd95a0d954d95a5f39192119739a06e",
+  "total_cost_usd": 8.0611445
+}

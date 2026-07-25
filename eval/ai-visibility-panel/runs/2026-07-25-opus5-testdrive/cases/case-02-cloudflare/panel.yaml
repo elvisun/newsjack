@@ -1,0 +1,176 @@
+schema_version: "1.0.0"
+artifact_id: panel-cloudflare-2026-07-25
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:ai-visibility-panel-design"
+source_manifest_hash: "sha256:unavailable"
+warnings:
+  - "STATUS IS provisional_directional. This is a candidate panel, not a frozen measurement panel. No human has approved any of the four gates, no variance pilot has run, and no exposure-weight evidence exists."
+  - "No hashing runtime was available. Every hash field is 'sha256:unavailable'. The panel cannot be frozen until content hashes and a randomization seed are generated."
+  - "Nothing in this panel is representative of AI users. The sampling unit is a canonical intent cell chosen by evidence judgement, not a probability sample."
+  - "Do not compare rates across aided statuses or lanes. Each has its own denominator by construction."
+
+panel_id: panel-cloudflare-network-platform
+version: "0.1.0"
+status: provisional_directional
+charter_id: charter-cloudflare-2026-07-25
+architecture_id: architecture-cloudflare-2026-07-25
+universe_id: universe-cloudflare-2026-07-25
+qa_id: qa-cloudflare-2026-07-25
+source_manifest_id: sources-cloudflare-2026-07-25
+contamination_register_version: "1.0.0"
+
+estimands_and_denominators:
+  - estimand_id: est-unaided-presence
+    denominator_definition: "Valid observations from cells with aided_status=unaided AND partition IN (core, sentinel), within one lane, one surface, one locale, one wave."
+    denominator_cell_count: 26
+    denominator_cell_ids: [cell-001, cell-002, cell-003, cell-004, cell-005, cell-006, cell-007, cell-008, cell-009, cell-010, cell-011, cell-012, cell-013, cell-020, cell-021, cell-024, cell-025, cell-032, cell-033, cell-034, cell-036, cell-037, cell-039, cell-040, cell-041, cell-050]
+    note: "cell-035, cell-046 and cell-047 are unaided but rotating/quarantined and are excluded. Control cells are excluded and reported separately."
+  - estimand_id: est-category-presence
+    denominator_definition: "Valid observations from cells with aided_status=category_aided. Separate denominator."
+    denominator_cell_count: 7
+    denominator_cell_ids: [cell-014, cell-015, cell-016, cell-017, cell-019, cell-038, cell-042]
+  - estimand_id: est-mention-share
+    denominator_definition: "Observations in the unaided and category-aided cell sets that name at least one vendor; reported per vendor and per aided status, never pooled."
+    reporting_rule: "The category-aided stratum has only 7 distinct cells, which is below the 20-30 threshold. Report counts and example answers for it, not a percentage leaderboard."
+  - estimand_id: est-citation-presence
+    denominator_definition: "Valid retrieval and consumer_surface observations where retrieval ran and citations were exposed."
+    denominator_cell_count: 44
+  - estimand_id: est-answer-framing
+    denominator_definition: "Per framing code, within one cell set, lane, surface and wave."
+    status: blocked_pending_codebook
+  - estimand_id: est-aided-knowledge
+    denominator_definition: "Valid observations from cells with aided_status=target_aided only."
+    denominator_cell_count: 7
+    denominator_cell_ids: [cell-026, cell-027, cell-028, cell-029, cell-030, cell-031, cell-051]
+
+canonical_cells_by_partition:
+  core: [cell-001, cell-002, cell-003, cell-004, cell-005, cell-006, cell-007, cell-008, cell-009, cell-010, cell-011, cell-012, cell-013, cell-014, cell-015, cell-016, cell-017, cell-019, cell-020, cell-021, cell-024, cell-025, cell-032, cell-033, cell-050]
+  sentinel: [cell-034, cell-036, cell-037, cell-038, cell-039, cell-040, cell-041, cell-042]
+  rotating: [cell-018, cell-035, cell-044, cell-045, cell-046, cell-047]
+  control: [cell-048, cell-049]
+  aided: [cell-022, cell-023, cell-026, cell-027, cell-028, cell-029, cell-030, cell-031, cell-051]
+
+selected_candidates:
+  accepted_count: 86
+  accepted_ids_ref: "prompt_qa.json#accepted_candidate_ids"
+  variants_per_cell: "2 for core, sentinel and aided cells; 1 for control cells"
+  rotating_cells_with_zero_accepted: [cell-018, cell-035, cell-044, cell-045, cell-046, cell-047]
+  rotating_note: "All six rotating cells are currently quarantined or awaiting revision, so the rotating partition contributes no observations in wave 1. This is a coverage gap, recorded rather than papered over."
+
+lanes_and_surfaces:
+  closed_model:
+    surfaces: [surf-api-a, surf-api-b]
+    policy: "No search, tools, files, RAG or conversation history. Fixed system prompt (empty developer message), declared model and version, temperature 0 where the provider exposes it, top_p default recorded, fresh session per observation."
+  retrieval:
+    surfaces: [surf-rag-a, surf-rag-b]
+    policy: "Retrieval state recorded as required/allowed/unavailable. Record whether retrieval actually ran, generated queries when exposed, live-versus-cached state, and full citation metadata."
+  consumer_surface:
+    surfaces: [surf-cons-a, surf-cons-b]
+    policy: "Clean archetype only in v0.1.0: new account, no memory, no personalisation, declared device, en-US locale, incognito-equivalent session. Never rolled up with API lanes."
+  campaign_experiment:
+    surfaces: []
+    policy: "Defined but not instantiated. No campaign exists."
+locales: [en-US]
+locale_gaps: [en-GB (quarantined probe), de-DE, ja-JP, pt-BR]
+
+model_search_session_policy:
+  fresh_session: required for every observation, including each scripted multi-turn cell at TURN 1
+  session_reuse: prohibited across cells
+  account_state: clean archetype only
+  system_prompt: fixed and recorded per lane
+  sampling: temperature and top_p recorded per observation; provider defaults recorded when not settable
+
+repetitions:
+  wave_repeats_per_candidate: 3
+  sentinel_pilot_repeats: 6
+  unstable_cell_repeats: "5-8, to be set after the variance pilot"
+randomization:
+  seed: null
+  seed_status: "not_generated (no runtime available); must be generated and frozen before wave 1"
+  order: "Randomize cell order within each surface-lane block; randomize which variant runs first within a cell."
+controls:
+  matched_unaffected: [cell-048, cell-049]
+  purpose: "Detect model drift and spurious target mentions in adjacent operational questions where the target has no capability standing."
+
+weight:
+  exposure:
+    method: equal_within_stratum
+    value_per_cell: null
+    factors: []
+    status: no_evidence
+    limitation: "No audience, intent, locale or surface prevalence evidence exists in source_manifest.json. Equal weighting is a conditional convention, NOT a claim that these intents occur equally often. Exposure-weighted figures may not be described as market share, audience reach, awareness or share of users."
+  priority:
+    method: equal_within_stratum
+    value_per_cell: null
+    factors: []
+    status: pending_human_gate_4
+    limitation: "Strategic priority is a human judgement. Until an approver sets it, all cells carry equal priority and no priority-weighted rollup should be published."
+  separation_rule: "Exposure-weighted and priority-weighted results are computed and reported separately. They are never blended into a single visibility score."
+
+uncertainty:
+  method_unweighted_binary: wilson_interval
+  method_weighted_aggregate: stratified_cluster_bootstrap
+  cluster_unit: canonical_cell
+  paired_comparison: "Pair unchanged cells across waves; a version comparison reports overlap-only change plus both full-version levels."
+  effective_sample_size: report_per_stratum
+  pilot_status: not_started
+  interval_caveat: "Intervals quantify run and sampling variability conditional on this panel. They do not repair coverage bias and do not license a population claim."
+
+variance_pilot:
+  status: not_started
+  design:
+    cells: [cell-034, cell-036, cell-037, cell-038, cell-039, cell-040, cell-041, cell-042, cell-003, cell-014, cell-020, cell-032]
+    cell_count: 12
+    repeats: 6
+    time_blocks: 2
+    lanes: [closed_model, retrieval]
+    estimates: [between_cell, within_cell, variant, day_time_block, model_surface, invalid_parser]
+  decision_rule: "High within-cell correlation favours more unique cells; high run-to-run variance favours more repeats. Reallocate the wave budget after the pilot, then reissue as version 0.2.0."
+
+run_budget:
+  planned_observations_per_wave: 1590
+  ceiling: 2000
+  derivation: "86 accepted candidates in fully lane-eligible partitions x 3 repeats x 6 surface-lane combinations = 1548, plus 2 control candidates x 3 repeats x 6 = 36 already included, plus headroom for retries. Rotating candidates contribute 0 in wave 1 because all are quarantined."
+  budget_status: within_budget
+
+refresh_policy:
+  evidence_intake: monthly
+  panel_review: quarterly
+  target_mix_at_review: "70-80% core, 15-25% rotating, 5-10% sentinel and control"
+  event_triggers: [product change, category shift, locale addition, regulatory change, model or surface change, B5 evidence expiry]
+  b5_decay:
+    cell-032: {review_by: "2026-09-15", rule: retire_or_rerender_after_effective_date}
+    cell-033: {review_by: "2026-09-15", rule: retire_or_rerender_after_effective_date}
+    cell-051: {review_by: "2026-09-15", rule: retire_or_rerender_after_effective_date}
+    cell-034: {review_by: "2026-09-30", rule: refresh_counts_or_retire}
+    cell-035: {review_by: "2026-08-31", rule: aging_story_demote_or_retire}
+  next_review: "2026-08-25"
+  charter_review: "2027-07-25"
+
+limitations:
+  - "Provisional and directional. Not frozen, not representative, not statistically powered, not causal."
+  - "No grade-A evidence exists anywhere in the run. The strongest evidence is dated independent reporting and public forum comments with permalinks."
+  - "Blinding was procedural, not architectural: no fresh subagent or separate session was available, so one context enforced the boundary by working only from blind_design_brief.json during the unaided pass."
+  - "Five sources (src-010, src-011, src-012, src-013, src-015) were reached only through search-result summaries. Two intended buyer-language sources returned HTTP 403 and contributed nothing."
+  - "Embedding-based duplicate detection was not run; no fixed embedding model was available."
+  - "Equal weights are a convention, not prevalence."
+  - "The rotating partition contributes zero observations in wave 1."
+  - "Non-English locales are entirely absent; the single en-GB probe is quarantined pending market-competent review."
+  - "'Edge compute' appears in the user's description but is supported only by company assertion; its two cells are quarantined."
+
+approvals:
+  gate_1_icp: {status: pending, approver: null, resumable_from: icp_hypotheses.json}
+  gate_2_jobs: {status: pending, approver: null, resumable_from: buyer_jobs.json}
+  gate_3_partitions: {status: pending, approver: null, resumable_from: "prompt_qa.json#summary.gate_3_disputed_decisions"}
+  gate_4_weights_and_version: {status: pending, approver: null, resumable_from: panel.yaml}
+
+waivers:
+  - {id: waiver-01, subject: "information acts 'generate' and 'navigate' absent", reason: "no job evidence entails either act", evidence_needed: "support tickets, on-site search, or a permitted AI-conversation corpus"}
+  - {id: waiver-02, subject: "no locale beyond en-US in core", reason: "no locale evidence and no market-competent reviewer", evidence_needed: "locale-specific buyer evidence plus a native reviewer"}
+  - {id: waiver-03, subject: "no grade-A cells", reason: "no first-party behavioural corpus supplied", evidence_needed: "interviews, call transcripts, on-site search logs or permitted AI-conversation data"}
+  - {id: waiver-04, subject: "campaign_experiment lane empty", reason: "no campaign supplied", evidence_needed: "campaign definition, dates, treatment/control assignment, pre-registration"}
+  - {id: waiver-05, subject: "randomization seed not generated", reason: "no runtime available", evidence_needed: "generate and freeze a seed before wave 1"}
+  - {id: waiver-06, subject: "edge compute / developer platform under-covered relative to the user's description", reason: "company-asserted capability with zero buyer-behaviour evidence", evidence_needed: "developer survey, community threads, or on-site search queries"}
+
+change_ledger_ref: panel_change_ledger.json
+run_manifest_template_ref: run_manifest_template.json

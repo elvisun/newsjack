@@ -1,0 +1,239 @@
+schema_version: "1.0.0"
+artifact_id: panel-zocdoc-20260725
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:claude-opus-5/ai-visibility-panel-design"
+source_manifest_hash: null
+warnings:
+  - "status is provisional_directional. No human has approved any gate. This is NOT a frozen panel."
+  - "All content hashes are null (no hashing runtime). Freezing is blocked until they are computed."
+  - "28 unaided canonical cells is below the 30-48 diagnostic-tier floor after QA attrition. See waiver-002b."
+  - "No variance pilot has been run. No precision target, interval width or effective sample size can be stated yet."
+  - "Both weight components are equal-weight. That is a stated limitation, not a prevalence estimate."
+
+panel_id: panel-zocdoc-us-booking
+version: "0.1.0-provisional"
+status: provisional_directional
+charter_id: charter-zocdoc-20260725
+architecture_id: architecture-zocdoc-20260725
+universe_id: universe-zocdoc-20260725
+qa_id: qa-zocdoc-20260725
+change_ledger: panel_change_ledger.json
+
+estimands:
+  - id: est-001
+    name: unaided_brand_presence
+    numerator: "valid observations naming the target brand"
+    denominator: "valid observations from unaided cells only (core + rotating + sentinel), split by lane x surface x locale x wave"
+    denominator_cells: 28
+    denominator_candidates: 56
+  - id: est-002
+    name: competitive_mention_share
+    numerator: "target mentions among provider-discovery / patient-acquisition brands named"
+    denominator: "all distinct such brand mentions within the same unaided observations"
+    denominator_cells: 28
+  - id: est-003
+    name: citation_presence
+    numerator: "valid retrieval-lane observations whose exposed citations include a target-owned domain"
+    denominator: "valid retrieval-lane observations where retrieval ran AND citations were exposed"
+    denominator_cells: 35
+    lane_restriction: retrieval
+  - id: est-004
+    name: aided_brand_knowledge
+    numerator: "B0 observations materially accurate on the four declared checkable facts"
+    denominator: "valid B0 target-aided observations only"
+    denominator_cells: 4
+    denominator_candidates: 8
+    note: "4 cells is far below any threshold for a percentage leaderboard. Report as counts plus response excerpts."
+  - id: est-005
+    name: answer_framing
+    numerator: "observations mentioning the target coded into declared frame categories"
+    denominator: "observations mentioning the target, reported separately per aided status and lane"
+
+denominator_separation_rule: >
+  unaided (est-001, est-002), category_aided, competitor_aided and target_aided observations
+  never share a denominator. Lanes never share a denominator. API and consumer-surface
+  observations never roll up together.
+
+canonical_cells_by_partition:
+  core: [cell-001, cell-002, cell-003, cell-004, cell-005, cell-006, cell-007, cell-008, cell-009,
+         cell-010, cell-011, cell-012, cell-013, cell-014, cell-015, cell-016, cell-017, cell-018, cell-019]
+  rotating: [cell-020, cell-021, cell-022]
+  sentinel: [cell-025, cell-026, cell-027, cell-028, cell-029, cell-030]
+  control: []
+  aided: [cell-031, cell-032, cell-033, cell-034, cell-035, cell-036, cell-037]
+  quarantined_not_in_panel: [cell-023, cell-024]
+
+cell_counts:
+  core: 19
+  rotating: 3
+  sentinel: 6
+  control: 0
+  aided: 7
+  total_in_panel: 35
+  unaided_in_panel: 28
+
+selected_candidates:
+  count: 70
+  by_partition: {core: 34, rotating: 6, sentinel: 16, aided: 14}
+  by_variant_role: {observed_language: 33, natural_paraphrase: 31, sensitivity: 6}
+  by_evidence_grade: {A: 6, B: 44, C: 20, D: 0}
+  ids_source: "prompt_qa.json accepted_candidate_ids"
+  cells_with_only_one_accepted_variant: [cell-004, cell-010, cell-015, cell-016]
+
+lanes:
+  closed_model:
+    surfaces: [srf-api-a, srf-api-b]
+    policy: "tools off, no search, no files, no history, fixed system prompt, fixed model/version, fixed sampling, fresh session per observation"
+    excluded_cells: [cell-020, cell-021, cell-030]
+    exclusion_reason: "B5 cells depend on 2026 event knowledge that may postdate training"
+    candidates_eligible: 64
+  retrieval:
+    surfaces: [srf-ret-a, srf-ret-b]
+    policy: "search allowed; record retrieval required/allowed/unavailable, whether it ran, generated queries and citation metadata where exposed, live vs cached"
+    candidates_eligible: 70
+  consumer_surface:
+    surfaces: [srf-con-a, srf-con-b]
+    policy: "clean logged-out archetype only in wave 1; device and locale fixed; never merged into an API rollup"
+    candidates_eligible: 70
+  campaign_experiment:
+    status: ineligible
+    reason: "no registered campaign; control partition intentionally empty"
+
+locales: [en-US]
+locale_gaps: [es-US]
+languages: [en]
+
+repetitions:
+  core: 3
+  rotating: 3
+  aided: 3
+  sentinel: 6
+  rationale: "Starting points from the diagnostic tier. They are provisional until the variance pilot reports."
+
+planned_observations_per_wave:
+  closed_model: 468
+  retrieval: 516
+  consumer_surface: 516
+  total: 1500
+
+randomization:
+  seed: 20260725
+  scheme: "candidate presentation order randomized within surface x wave; surface order randomized within wave; time-of-day blocks balanced across at least two blocks"
+  fresh_session: "one new session per observation; no history carryover; multi-turn scripts run inside a single session"
+
+controls:
+  fresh_session_control: enabled
+  retrieval_state_control: "recorded per observation, not assumed"
+  parser_version_control: "recorded per observation"
+  campaign_control_cells: 0
+
+weight:
+  exposure:
+    method: equal_within_strata
+    factors: []
+    source_ids: []
+    confidence: none
+    limitation: >
+      No credible exposure evidence exists. There is no query-volume data, no AI-conversation
+      prevalence data and no locale or surface prevalence data for this category in this run.
+      Equal weighting is a stated convention conditional on this panel. It is NOT prevalence,
+      market share, audience reach, awareness or share of users.
+  priority:
+    method: equal_within_strata
+    status: provisional_pending_gate_4
+    factors: []
+    source_ids: []
+    confidence: none
+    limitation: "No human has assigned strategic priority. Equal priority is a placeholder, not a decision."
+  normalization: "each component normalized within its declared rollup; the two are reported separately and never combined into one score"
+  effective_sample_size_warning: "not computable until the variance pilot runs"
+
+uncertainty:
+  method_simple_strata: "Wilson interval, unweighted binary, within a single lane and aided status"
+  method_aggregate: "stratified cluster bootstrap with the canonical cell as the cluster unit"
+  cluster_unit: canonical_cell
+  pilot_status: not_run
+  pilot_design:
+    sentinel_cells: [cell-025, cell-026, cell-027, cell-028, cell-029, cell-030]
+    borrowed_core_cells: [cell-002, cell-005, cell-010, cell-013, cell-016, cell-018]
+    total_pilot_cells: 12
+    repeats: 8
+    time_blocks: 2
+    variance_components_to_estimate: [between_cell, within_cell, variant, day_time, model_surface, invalid_parser]
+  reporting_rule: >
+    Any reporting subgroup with fewer than 20-30 distinct canonical cells is published as counts
+    and response excerpts, never as a percentage leaderboard. Under this panel that applies to the
+    care-seeker subgroup (16 unaided cells), the practice subgroup (12 unaided cells), the B0 aided
+    subgroup (4 cells) and every per-band split.
+  non_probability_statement: "Intervals quantify conditional run and sampling variability under this configuration. They do not repair coverage bias and do not generalise to all AI users."
+
+refresh_policy:
+  evidence_intake: monthly
+  panel_review: quarterly
+  target_mix_at_review: {core: "70-80%", rotating: "15-25%", sentinel_and_control: "5-10%"}
+  current_mix: {core: "54%", rotating: "9%", sentinel: "17%", aided: "20%"}
+  current_mix_note: "Core share is below the 70-80% target because aided cells are counted in the same total. Within the unaided panel only, core is 68%, rotating 11% and sentinel 21%, which is close to target."
+  event_triggers: [product_change, pricing_change, category_shift, locale_addition, regulatory_change, model_version_change, surface_change]
+  b5_review_dates:
+    cell-020: "2026-09-24"
+    cell-021: "2026-10-21"
+    cell-030: "2026-09-24"
+  charter_approval: annual
+  next_review: "2026-10-25"
+
+limitations:
+  - "Non-probability panel. Results are conditional on these 35 cells, 70 strings, six surfaces and this configuration, and generalise to nothing else."
+  - "No causal claim is available. No campaign, treatment, control or counterfactual exists."
+  - "The target homepage returned HTTP 403 to the research agent. Target standing rests on two reachable target-owned pages plus a tertiary independent source."
+  - "The richest provider-side sources are published by competing vendors; fee figures are treated as claims, not facts."
+  - "The strongest care-seeker language source is dated 2021 and has decayed."
+  - "The only prevalence figures about AI use in this category come from a target-commissioned survey."
+  - "Blinding was same-context, not fresh-subagent. One contamination leak was caught and rejected; residual risk is medium."
+  - "Semantic near-duplicate detection was not machine-run; no fixed embedding model was declared."
+  - "Equal weights are a convention, not evidence."
+  - "28 unaided cells is below the diagnostic floor and several subgroups are far below any leaderboard threshold."
+
+approvals:
+  gate_1_icp: {status: pending, approver: null, date: null}
+  gate_2_jobs: {status: pending, approver: null, date: null}
+  gate_3_partitions: {status: pending, approver: null, date: null}
+  gate_4_weights: {status: pending, approver: null, date: null}
+  resumable: true
+  resume_note: "Every gate decision is recoverable from icp_hypotheses.json, buyer_jobs.json, prompt_qa.json disputed_decisions_for_gate_3, and this file. No gate was silently self-approved."
+
+waivers:
+  - id: waiver-001
+    subject: "control partition empty"
+    reason: "no registered campaign"
+    accepted_by: null
+  - id: waiver-002
+    subject: "sentinel partition of 6 is below the 12-20 pilot recommendation"
+    resolution: "pilot borrows 6 core cells; documented deviation"
+    accepted_by: null
+  - id: waiver-002b
+    subject: "28 unaided cells is below the 30-48 diagnostic floor"
+    reason: "two rotating cells were quarantined at QA for insufficient evidence"
+    resolution: "either promote icp-005/job-007 with new evidence, or add 2-4 new evidence-backed unaided cells before wave 1"
+    accepted_by: null
+  - id: waiver-003
+    subject: "es-US locale absent"
+    reason: "no Spanish-language evidence and no native reviewer; machine translation prohibited"
+    accepted_by: null
+  - id: waiver-004
+    subject: "information acts buy and generate absent"
+    reason: "not entailed by any job"
+    accepted_by: null
+  - id: waiver-005
+    subject: "four core cells carry a single accepted variant"
+    reason: "QA rejections and revisions on prompt-004b, prompt-010b, prompt-015b, prompt-016b"
+    resolution: "regenerate paraphrases from the blind brief before wave 1"
+    accepted_by: null
+
+claims_permitted:
+  - "Under this panel and configuration, the target was named in N of M unaided observations."
+  - "In B0 observations, the answer was materially accurate on K of 4 declared facts."
+claims_prohibited:
+  - "market share, audience reach, consumer awareness, share of users"
+  - "any single 'AI visibility score'"
+  - "any causal or attribution claim from a before/after change"
+  - "any statement that this panel is frozen, representative or statistically significant"

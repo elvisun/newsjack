@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "blindbrief-20260725-a1",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5/build-ai-visibility-panel",
+  "source_manifest_hash": null,
+  "warnings": [
+    "This brief is the ONLY evidence input permitted to the unaided generation pass. It contains no brand, product, domain, person, slogan, proprietary category, campaign term, flattering claim, current answer, ranking, citation, content gap or desired page.",
+    "The category is described in generic nouns only. Do not introduce a solution category that does not appear in category_vocabulary_allowed.",
+    "source_manifest_hash is null; no hashing runtime was available."
+  ],
+  "domain_description": "A US market in which individuals must locate a healthcare professional constrained simultaneously by their insurance plan network, geography and appointment availability, and in which independent clinical practices pay third parties for each new individual who books with them.",
+  "locales": [
+    {"locale": "en-US", "language": "en", "review_status": "not_required", "core_eligible": true}
+  ],
+  "locale_gaps": [
+    {"locale": "es-US", "reason": "No Spanish-language evidence and no native reviewer available. Do not machine-translate any cell into this locale.", "core_eligible": false}
+  ],
+  "anonymized_roles": [
+    {"persona_id": "role-001", "label": "Insured individual arranging care for themselves", "context_permitted": "has a specific insurance plan; needs a provider that is genuinely covered, reachable, and available soon", "evidence_grade": "B", "source_ids": ["source-004", "source-005", "source-011", "source-013"]},
+    {"persona_id": "role-002", "label": "Individual arranging care without usable insurance coverage", "context_permitted": "pays out of pocket; needs a price before committing", "evidence_grade": "C", "source_ids": ["source-013", "source-004"], "note": "Weakly supported. Rotating discovery only."},
+    {"persona_id": "role-003", "label": "Owner-clinician of a small independent practice", "context_permitted": "has unfilled schedule capacity; pays per newly acquired individual; judges channels on blended cost per acquisition", "evidence_grade": "B", "source_ids": ["source-006", "source-007", "source-008"]},
+    {"persona_id": "role-004", "label": "Operations or front-office manager at a clinical practice", "context_permitted": "runs the schedule, handles inbound scheduling contact, disputes incorrect acquisition charges", "evidence_grade": "B", "source_ids": ["source-001", "source-004", "source-002"]}
+  ],
+  "approved_jobs": [
+    {"job_id": "job-001", "statement": "When I need a new provider in an unfamiliar area or after a plan change, help me get an appointment on the calendar with someone my plan actually covers, near enough to reach, and soon enough to matter.", "acts": ["plan", "navigate", "recommend", "troubleshoot"], "journeys": ["exploration", "supplier_selection", "post_purchase"], "evidence_grade": "B", "source_ids": ["source-005", "source-013", "source-004", "source-011"]},
+    {"job_id": "job-002", "statement": "When a listing says a provider takes my plan, help me confirm that is actually true before the visit, so I am not handed an out-of-network bill afterwards.", "acts": ["verify", "explain", "plan"], "journeys": ["requirements_building", "supplier_selection"], "evidence_grade": "B", "source_ids": ["source-004", "source-011"]},
+    {"job_id": "job-003", "statement": "When every mental-health provider on my plan's list is full, unreachable, or no longer in network, help me actually reach one who will take me, without spending my working day on follow-up calls.", "acts": ["diagnose", "plan", "troubleshoot", "compare", "recommend"], "journeys": ["problem_identification", "exploration", "supplier_selection"], "evidence_grade": "A", "source_ids": ["source-011", "source-012"]},
+    {"job_id": "job-004", "statement": "When something needs attention today and my usual provider is booked out, help me find a route to being seen quickly without a referral I do not have and without an unknown price.", "acts": ["troubleshoot", "plan", "recommend", "navigate"], "journeys": ["problem_identification", "supplier_selection"], "evidence_grade": "B", "source_ids": ["source-013"]},
+    {"job_id": "job-005", "statement": "When my schedule has unfilled capacity, help me decide which channels are worth paying for and what a newly acquired individual can cost me before the arithmetic stops working.", "acts": ["compare", "verify", "plan", "recommend", "explain"], "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection"], "evidence_grade": "B", "source_ids": ["source-006", "source-007", "source-008"]},
+    {"job_id": "job-006", "statement": "When acquisition charges land for appointments that never happened or for people we already treated, help me get them corrected and stop the monthly total from running away from me.", "acts": ["troubleshoot", "explain", "implement", "diagnose"], "journeys": ["adoption", "post_purchase"], "evidence_grade": "B", "source_ids": ["source-001", "source-004", "source-006"]},
+    {"job_id": "job-007", "statement": "When inbound scheduling contact exceeds what staff can answer, including outside business hours, help me stop losing bookings to hold times and voicemail.", "acts": ["plan", "implement", "compare"], "journeys": ["requirements_building", "adoption"], "evidence_grade": "C", "source_ids": ["source-002"], "note": "Weakly supported. Rotating discovery only; may not be rendered as a core cell."},
+    {"job_id": "job-008", "statement": "When people increasingly consult AI assistants before and instead of contacting a practice, help me understand what that changes about how care is found, chosen and booked this year.", "acts": ["explain"], "journeys": ["problem_identification", "exploration"], "evidence_grade": "C", "source_ids": ["source-009", "source-010"], "note": "Broad-discovery only. Every rendering must carry a review-by date."}
+  ],
+  "material_constraints_permitted": [
+    "must be covered under a specific insurance plan",
+    "publicly funded coverage (Medicaid) specifically",
+    "no referral in hand",
+    "paying out of pocket",
+    "needs to be seen the same day",
+    "video/remote visits only",
+    "limited ability to make calls during business hours",
+    "small or rural local population",
+    "existing versus newly acquired individual, for billing purposes",
+    "short dispute window on an incorrect charge",
+    "monthly spend must be capped"
+  ],
+  "safe_language_fragments": [
+    {"fragment": "either full or have these weird ass times", "source_id": "source-012", "evidence_grade": "A", "note": "Verbatim public forum language, 2021-07-19. Decayed; usable for register and rhythm."},
+    {"fragment": "portals just dont have updated contact details", "source_id": "source-012", "evidence_grade": "A"},
+    {"fragment": "don't return the call and have full voicemails", "source_id": "source-012", "evidence_grade": "A"},
+    {"fragment": "unable to find a free moment to make these constant follow up calls", "source_id": "source-012", "evidence_grade": "A"},
+    {"fragment": "said they were in my network when they are not", "source_id": "source-004", "evidence_grade": "B", "note": "Paraphrased to remove the brand name from the original complaint wording."},
+    {"fragment": "cancelled, giving no reason", "source_id": "source-004", "evidence_grade": "B"},
+    {"fragment": "should not charge a fee for their mistake", "source_id": "source-004", "evidence_grade": "B"},
+    {"fragment": "quicker appointment times", "source_id": "source-005", "evidence_grade": "B"},
+    {"fragment": "easy to book, reschedule, or cancel", "source_id": "source-005", "evidence_grade": "B"},
+    {"fragment": "lowest blended cost per new patient", "source_id": "source-007", "evidence_grade": "C"},
+    {"fragment": "what is your average new-patient lifetime value", "source_id": "source-007", "evidence_grade": "C"},
+    {"fragment": "how much capacity do you actually have to fill", "source_id": "source-007", "evidence_grade": "C"},
+    {"fragment": "whether or not the client arrives or doesn't", "source_id": "source-006", "evidence_grade": "B"},
+    {"fragment": "not a one and done solution to filling your practice", "source_id": "source-006", "evidence_grade": "B"}
+  ],
+  "category_vocabulary_allowed": [
+    "online appointment booking site",
+    "doctor appointment booking app",
+    "provider directory",
+    "insurance plan directory",
+    "patient acquisition marketplace",
+    "practice scheduling software",
+    "telehealth visit"
+  ],
+  "category_vocabulary_prohibited_reason": "Any category noun not in the list above is unsupported by the job evidence and must not be introduced. In particular, no branded or proprietary category naming is permitted anywhere in an unaided cell.",
+  "required_strata": {
+    "proximity_bands": ["B1_comparison_purchase", "B2_category", "B3_problem_need", "B4_job_goal", "B5_broad_discovery_story"],
+    "b0_note": "B0 is generated in a separate aided pass that is not part of this brief.",
+    "aided_states_in_this_brief": ["unaided"],
+    "information_acts": ["explain", "diagnose", "plan", "compare", "recommend", "verify", "navigate", "implement", "troubleshoot"],
+    "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection", "adoption", "post_purchase"],
+    "turn_forms": ["single_turn", "scripted_multi_turn"],
+    "styles_required": ["concise", "contextual", "imperfect_but_intelligible", "natural_follow_up"],
+    "variants_per_cell": 2,
+    "sensitivity_variants": "one additional terse/imperfect variant on sentinel cells only"
+  },
+  "generation_rules": [
+    "Preserve the canonical intent cell exactly: job, act, journey, constraints, role, locale, band and expected answer kind are fixed inputs, not choices.",
+    "Do not append a tool, app or platform question to a problem or goal prompt.",
+    "Do not convert 'how do I solve this' into 'what should I buy'.",
+    "B3 supplies the problem, never the category. B4 supplies the outcome, never the category or a product.",
+    "B5 must carry a fresh evidence ID and a review-by date.",
+    "Record exactly one transformation per candidate.",
+    "Do not assign observed frequency to any generated string."
+  ],
+  "prohibited_inputs_confirmed_absent": [
+    "target brand, product, domain, person, slogan",
+    "proprietary category terms",
+    "campaign wording",
+    "flattering claims or scale figures",
+    "current assistant answers, rankings, mention rates, citations",
+    "target content gaps or preferred landing pages",
+    "the contamination register itself"
+  ]
+}

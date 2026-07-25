@@ -1,0 +1,49 @@
+{
+  "fixture_id": "expected-ledgerlift",
+  "required_jobs": [
+    "Reduce receipt chasing and close reimbursable expenses within five working days",
+    "Evaluate expense controls without duplicating project-accounting work",
+    "Map approved expense data into the ERP after purchase"
+  ],
+  "required_roles": [
+    "controller or finance champion",
+    "practice-lead approver",
+    "implementation administrator"
+  ],
+  "required_bands": [
+    "B0_direct_brand_product",
+    "B1_comparison_purchase",
+    "B2_category",
+    "B3_problem_need",
+    "B4_job_goal",
+    "B5_broad_discovery_story"
+  ],
+  "required_information_acts": [
+    "diagnose",
+    "compare",
+    "verify",
+    "implement",
+    "troubleshoot"
+  ],
+  "required_journeys": [
+    "problem_identification",
+    "requirements_building",
+    "supplier_selection",
+    "adoption",
+    "post_purchase"
+  ],
+  "invariants": [
+    "Close by Friday is campaign-exposed and never appears in unaided core.",
+    "The five-working-day outcome may appear unaided because source ll-call-controller predates the campaign.",
+    "Coastline Spend prompts are competitor_aided, never unaided.",
+    "Website capability claims remain company_asserted grade C unless independently supported.",
+    "The very-small-firm segment remains excluded or counterevidence, not silently discarded.",
+    "The B5 cell cites ll-b5-distributed-work and has a review date.",
+    "Post-purchase implementation is not labeled purchase awareness."
+  ],
+  "unsupported_or_waived": [
+    "French-language Canadian core: no evidence-supported buyer language was supplied.",
+    "Campaign causality: no treatment, matched control, or preregistration was supplied.",
+    "Population prevalence weights: the fixture supplies no representative market frame."
+  ]
+}

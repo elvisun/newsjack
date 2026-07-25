@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "ledger-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:ai-visibility-panel-design",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "append_only: entries are never edited or removed; a correction is a new entry",
+    "no_prior_version: this is the first version of panel-travel-esim-marketplace, so there is no overlap bridge to a predecessor"
+  ],
+  "panel_id": "panel-travel-esim-marketplace",
+  "current_version": "0.1.0",
+  "prior_version": null,
+  "overlap_bridge": null,
+  "changes": [
+    {
+      "change_id": "chg-001",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:build-ai-visibility-panel",
+      "type": "create",
+      "summary": "Created the first provisional panel from a public URL and a one-line description, with no user-supplied charter, customer corpus, competitor list, budget or approver.",
+      "detail": "14 sources, 6 supported ICPs (one hypothesis_only), 9 buyer jobs (two hypothesis_only), 34 canonical cells, 68 candidates, 61 accepted, 32 cells selected.",
+      "affects": ["measurement_charter.json", "source_manifest.json", "icp_hypotheses.json", "buyer_jobs.json", "contamination_register.yaml", "blind_design_brief.json", "prompt_architecture.json", "prompt_universe.json", "prompt_qa.json", "panel.yaml"]
+    },
+    {
+      "change_id": "chg-002",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "reject",
+      "summary": "Rejected prompt-001c for recommendation forcing inside an unaided B3 cell.",
+      "detail": "The draft converted a problem statement into a supplier-selection request. cell-003 and cell-017 already measure that act.",
+      "affects": ["prompt_universe.json", "prompt_qa.json"]
+    },
+    {
+      "change_id": "chg-003",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "reject",
+      "summary": "Rejected prompt-014c for a target-brand token inside an unaided core cell.",
+      "detail": "Hard contamination failure. The equivalent aided intent is measured by cell-028 under allowed exception exc-001.",
+      "affects": ["prompt_universe.json", "prompt_qa.json"]
+    },
+    {
+      "change_id": "chg-004",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "quarantine",
+      "summary": "Quarantined prompt-022a and excluded cell-022 from the panel because its B5 story evidence is decayed.",
+      "detail": "source-009 is dated 2026-03-25 and describes an event whose final was 2026-07-19, six days before this run. A B5 cell needs fresh dated evidence, so no live-trend claim is made.",
+      "affects": ["prompt_universe.json", "prompt_qa.json", "panel.yaml"]
+    },
+    {
+      "change_id": "chg-005",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "quarantine",
+      "summary": "Quarantined prompt-024a and prompt-024b and excluded cell-024, leaving en-CA unmeasured.",
+      "detail": "en-CA locale review is pending and only company-asserted CAD price rendering distinguishes the locale. prompt-024b is additionally grade D.",
+      "affects": ["prompt_universe.json", "prompt_qa.json", "panel.yaml"]
+    },
+    {
+      "change_id": "chg-006",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "quarantine",
+      "summary": "Quarantined prompt-021c as an unsupported grade-D expansion.",
+      "detail": "No source supports the operator-revenue framing. Retained rather than deleted so the discovery option survives if industry evidence is added.",
+      "affects": ["prompt_universe.json", "prompt_qa.json"]
+    },
+    {
+      "change_id": "chg-007",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-set-qa",
+      "type": "revise",
+      "summary": "Routed prompt-007c back to generation for asking two concepts at once and forcing a provider answer.",
+      "detail": "Repairable by dropping the appended cheapest-provider clause; the sizing intent is already covered by prompt-007a.",
+      "affects": ["prompt_universe.json", "prompt_qa.json"]
+    },
+    {
+      "change_id": "chg-008",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:prompt-proximity-architecture",
+      "type": "waiver",
+      "summary": "Recorded waivers W-001 through W-007 rather than padding the panel to the diagnostic default.",
+      "detail": "Unaided cell count is 25 against a 30-48 default. Partner, loyalty, non-English locale and global-package coverage are explicitly excluded with the evidence each would need.",
+      "affects": ["prompt_architecture.json", "panel.yaml"]
+    },
+    {
+      "change_id": "chg-009",
+      "at": "2026-07-25T20:00:00Z",
+      "version": "0.1.0",
+      "actor": "agent:build-ai-visibility-panel",
+      "type": "limitation",
+      "summary": "Recorded blocked-evidence limitation for review, community and app-store sources.",
+      "detail": "Trustpilot returned HTTP 403, Reddit and travel.stackexchange could not be fetched, both app-store listings returned 404, one GSMA page returned 403 and one buying guide was behind a membership wall. Only source-006 is direct buyer-written language.",
+      "affects": ["source_manifest.json", "panel.yaml", "panel_report.md"]
+    }
+  ],
+  "pending_decisions": [
+    {"decision_id": "pend-001", "gate": "gate_3_partitions", "question": "Do cell-007, cell-012 and cell-013 stay in core on grade-C evidence, or move to rotating?"},
+    {"decision_id": "pend-002", "gate": "gate_3_partitions", "question": "Is the en-CA locale worth a market-competent reviewer, or is cell-024 dropped?"},
+    {"decision_id": "pend-003", "gate": "gate_4_panel", "question": "Are equal exposure weights accepted for the first waves, and is any priority weighting authorised?"},
+    {"decision_id": "pend-004", "gate": "gate_4_panel", "question": "Which concrete providers and surfaces fill surface-closed-a, surface-closed-b, surface-retrieval-a and surface-consumer-clean?"},
+    {"decision_id": "pend-005", "gate": "gate_1_icp", "question": "Should the partner and reseller area be researched further, or stay excluded under W-002?"},
+    {"decision_id": "pend-006", "gate": "gate_4_panel", "question": "Is the variance pilot funded before the first reporting wave?"}
+  ]
+}

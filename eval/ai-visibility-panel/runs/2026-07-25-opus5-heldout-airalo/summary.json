@@ -1,0 +1,277 @@
+{
+  "aggregated_at": "2026-07-25T18:13:31Z",
+  "grading_sha256": "8c813b616de1e3f14cb4bccd5015d4576f7d99a690f16610fb8f9a79d65ee4e9",
+  "records": [
+    {
+      "case_id": "case-06-airalo",
+      "case_name": "case-06-airalo",
+      "case_slug": "case-06-airalo",
+      "counts": {
+        "accepted_candidates": 61,
+        "candidates": 68,
+        "canonical_cells": 34,
+        "sources": 14
+      },
+      "deterministic_passed": true,
+      "failed_checks": [],
+      "judge": {
+        "anti_pattern_results": [
+          {
+            "evidence": "Device-related cells ask verification questions and declare verification/eligibility answer kinds rather than asserting compatibility: prompt-010a 'How do I check whether my phone can use a foreign mobile line before I buy one?', prompt-011b Hong Kong device origin, prompt-027a 'Does Airalo work on my phone? I have a Samsung I bought in Taiwan' with expected_answer_kind 'eligibility_answer'; panel.yaml refresh rule requires re-verifying device lists before scoring aided_brand_knowledge.",
+            "id": "airalo-ap-01",
+            "triggered": false
+          },
+          {
+            "evidence": "measurement_charter.json products list keeps local/regional/global as separate areas with global marked coverage_status 'partial' plus gap_note; cell-033 prompts contrast regional and global explicitly; icp-002 constraint states 'Regional and global packages cover defined country lists, not everywhere' and the 137-country figure is flagged stale in panel.yaml.",
+            "id": "airalo-ap-02",
+            "triggered": false
+          },
+          {
+            "evidence": "Only cells 003, 006, 017, 024, 029, 030 are purchase/shortlist shaped; post-purchase is well represented by cell-014 (no service on arrival), cell-015 (expiry/top-up), cell-020 sentinel, cell-028 aided multi-turn troubleshooting with an escalation turn ('Do I need to change the APN, or should I contact support?'), and journey-state coverage shows post_purchase 4 cells plus adoption 1.",
+            "id": "airalo-ap-03",
+            "triggered": false
+          },
+          {
+            "evidence": "panel.yaml refresh_policy states 'Never embed a price in a prompt' and no accepted prompt contains a package price; source_manifest.json warns 'geo_dependent_pricing' for the CAD rendering; aided_brand_knowledge 'does_not_prove' explicitly says the model's stated facts may not be currently true and must be re-verified against a dated source. The only figures in prompt text are user-side context ('$12 a day' home-carrier fee, 'Is 5GB enough', '10GB plan').",
+            "id": "airalo-ap-04",
+            "triggered": false
+          },
+          {
+            "evidence": "prompt_qa.json contamination_summary target_brand_hits_in_unaided = 1, the single hit being prompt-014c which is rejected (chg-003); B3/B4 unaided prompts deliberately use 'mobile data', 'internet on my phone', 'a foreign mobile line' instead of product language, and prompt-008a records the competitor brand being stripped from the observed source phrasing.",
+            "id": "airalo-ap-05",
+            "triggered": false
+          }
+        ],
+        "case_id": "case-06-airalo",
+        "critical_failures": [],
+        "hard_gates": {
+          "artifact_contract_and_resumability": {
+            "evidence": "All fourteen canonical snake_case artifacts are present and parse (contamination_register.yaml holds JSON, which is valid YAML). Four gates are pending in panel.yaml approvals and mirrored in panel_change_ledger.json pending_decisions pend-001…pend-006; rejections/quarantines/revisions are logged as chg-002…chg-007 and retained in prompt_universe.json; waivers W-001…W-007 carry expiry dates. Hashes are null everywhere with explicit 'freeze blocker' warnings and no fabricated digests.",
+            "status": "pass"
+          },
+          "comprehensive_or_waived_dimensions": {
+            "evidence": "panel_report.md §5 tabulates bands B0–B5 (34 cells), aided states (unaided 25 / category 4 / competitor 2 / target 3, campaign_exposed 0 waived), partitions core/sentinel/rotating/control/aided, acts (buy folded, navigate+generate waived as gap-004), all six journey states, four roles with economic_buyer/procurement waived (gap-003), locales (en-CA quarantined, non-English waived W-004), turn forms (2 scripted_multi_turn cells), lanes (consumer_surface sentinel-only W-006) and evidence grades. Unaided cell shortfall (25 vs 30–48) is waived as W-001 with the evidence needed, not padded.",
+            "status": "pass"
+          },
+          "evidence_source_mix": {
+            "evidence": "source_manifest.json holds 14 sources beyond the target: company_asserted 3 (source-001/002/003), independent 6 (source-004 Freaking Nomads review, source-005 Wise comparison, source-008, source-009, source-010, source-014), buyer_behavior 1 (source-006 FlyerTalk thread titles), search_proxy 4 (source-007, 011, 012, 013), llm_hypothesis 0. Blocked evidence (Trustpilot 403, Reddit, app stores 404, membership wall) is recorded as a manifest warning and as limitation 2 in panel.yaml rather than papered over.",
+            "status": "pass"
+          },
+          "measurement_and_claim_honesty": {
+            "evidence": "measurement_charter.json and tracking_plan.md §1 give four separate aided denominators (unaided, category_aided, competitor_aided reported separately, target_aided), never pool closed_model/retrieval/consumer_surface, and keep cell-025 control out of unaided_brand_presence. panel.yaml weight block keeps exposure 'equal_within_declared_strata' (explicitly 'a conditional convention, not a prevalence estimate') apart from priority 'withheld_pending_human_approval'. Status is provisional_directional with limitations 1, 4, 8 and 12 disclaiming representativeness, market share and causality.",
+            "status": "pass"
+          },
+          "prompt_provenance_traceability": {
+            "evidence": "Every accepted candidate in prompt_universe.json carries canonical_cell_id → cell_spec_id (spec-001…spec-034 in prompt_architecture.json) → job_id → source_ids; e.g. prompt-011b → cell-011 → spec-011 → job-004 → source-005 (device-origin limitation), which exists in source_manifest.json. panel.yaml selected_candidate_ids (61) matches prompt_qa.json accepted_candidate_ids exactly. One cosmetic mismatch: panel_report.md row prompt-001a cites 'source-010, source-004' while prompt_universe.json lists ['source-010','source-007'].",
+            "status": "pass"
+          },
+          "unaided_contamination_and_blinding": {
+            "evidence": "prompt_qa.json contamination_summary records exactly one target-brand hit in an unaided cell (prompt-014c, 'My Airalo eSIM isn't working…') and it is rejected with chg-003 in panel_change_ledger.json; no accepted core/sentinel/rotating/control prompt contains 'Airalo' or a competitor name. B0 target-aided cells 026–028 sit in the aided partition under exception exc-001. blind_design_brief.json contains no brand, domain, slogan or performance data and honestly warns 'no_fresh_subagent' plus 'b0_pass_separate'. prompt-008a shows the competitor brand stripped from the source phrasing 'Is Holafly really unlimited?'.",
+            "status": "pass"
+          },
+          "usable_exact_prompt_output": {
+            "evidence": "panel_report.md §4 lists all 68 candidates as exact strings (I counted 68 rows, prompt-001a through prompt-034b) with variant, partition, band, aided state, job, act, journey, role, locale, constraints, expected answer, turn form, lanes, evidence IDs, transformation, weight status and QA outcome per row; multi-turn text is encoded 'Turn 1: … || Turn 2: …' with a split rule in run_manifest_template.json multi_turn_policy.",
+            "status": "pass"
+          }
+        },
+        "must_have_results": [
+          {
+            "evidence": "blind_design_brief.json material_constraints encode con-destination-bound, con-validity-window, con-data-only (no voice/SMS/local number), con-fair-use-throttle, con-tethering, con-single-device, con-device-support, con-carrier-lock, con-device-origin, con-install-needs-internet and con-topup, and each is attached to specific cells in prompt_architecture.json (e.g. spec-011 carrier-lock + device-origin, spec-034 fair-use + validity). Trip length appears in prompt text ('10 day trip to Japan', 'a month', 'six weeks'); scope is split local (cell-003/026), regional (cell-006/016/033) and global (cell-033, flagged partial under W-007).",
+            "id": "airalo-mh-01",
+            "status": "pass"
+          },
+          {
+            "evidence": "buyer_jobs.json cleanly separates comparison (job-001/002), sizing (job-003), device compatibility (job-004), dual-line/data settings (job-005, implement/adoption, cells 012–013), top-up/extension (job-007, cell-015) and post-landing troubleshooting (job-006, cells 014/020/028). But installation and activation timing is not a distinct job or cell: it survives only as constraint con-install-needs-internet and one clause in prompt-002b ('What do I need to sort out before I go?'), despite source-002 listing two install questions among popular help topics and source-003 stating 'Install as soon as you'd like'.",
+            "id": "airalo-mh-02",
+            "status": "partial"
+          },
+          {
+            "evidence": "cell-026/027/028 are B0 target_aided in the aided partition (prompt-026a 'Is Airalo reliable in Japan?', prompt-027a device eligibility, prompt-028a/b multi-turn 'My Airalo eSIM says no service after landing') and feed only aided_brand_knowledge; panel.yaml partitions.core excludes them and prompt_qa.json rule 'denominator-separation' is recorded per aided candidate. Unaided travel-connectivity (cells 001–020), category (031–034) and competitor comparison (029–030) sit in three other denominators.",
+            "id": "airalo-mh-03",
+            "status": "pass"
+          },
+          {
+            "evidence": "panel.yaml refresh_policy.dated_and_mutable_claim_rules give per-class review-by dates for price/package (source-001/003, 'Never embed a price in a prompt'), fair-use threshold (source-004, 2026-10-25), coverage counts ('the 137-country figure is dated 2025-09-12 and is stale for scoring'), device lists and registration rules; no accepted prompt embeds a price. Destination specificity is carried in prompt text (Japan, Osaka, Bangkok, Italy, Spain/France/Italy/Greece) and every cell has retrieval in lane_eligibility, with cell-021 retrieval-only.",
+            "id": "airalo-mh-04",
+            "status": "pass"
+          },
+          {
+            "evidence": "icp_hypotheses.json describes contexts, triggers, constraints, disqualifiers, counterevidence_source_ids, confidence and open_questions with no biography, names, ages or invented firmographics; icp-006 is marked hypothesis_only and excluded (W-002). buyer_jobs.json warnings state 'counts of sources are not counts of buyers', and panel_report.md §3 explicitly refuses to invent an economic buyer/approver role. Job-002 constraints keep coverage lists finite rather than assuming one package fits every trip.",
+            "id": "airalo-mh-05",
+            "status": "pass"
+          },
+          {
+            "evidence": "source-004 (independent review, 2026-07-02) supplies throttling ~1 Mbps after ~3 GB/day, carrier lock as 'the most common complaint from new users', no local number and non-transferable line; source-007 preserves slow support response and rural-coverage complaints; source-006 supplies traveller thread titles. Generalisation is resisted: panel.yaml refresh rule calls the fair-use figure a 'Single independent observation… Re-verify per package', and panel_report.md §2 keeps the homepage 'affordable, flexible coverage' claim in conflict with the throttling report rather than smoothing it.",
+            "id": "airalo-mh-06",
+            "status": "pass"
+          }
+        ],
+        "overall_score": 4.25,
+        "recommended_changes": [
+          {
+            "change": "Add a distinct installation/activation-timing job (install before departure vs on arrival, what happens on landing, QR/eSIM setup order) anchored on source-002's two install help questions and source-003's 'Install as soon as you'd like - just make sure you have stable internet connection', then give it at least one unaided B3/B4 cell so activation timing is not carried only as constraint con-install-needs-internet.",
+            "owner": "buyer-job-intent-analysis"
+          },
+          {
+            "change": "Re-grade source-007: it is a third-party page characterising Reddit phrasing, yet it is graded B and is the provenance for the 'observed_language' candidates prompt-003a and prompt-026a. Either downgrade those two variant_roles to natural_paraphrase with a secondary-provenance note, or downgrade the source to C, so observed-language claims rest on first-party buyer writing.",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Create at least one unaided cell for the global multi-region package intent and one for country-list/coverage verification (currently W-007 leaves global covered only by category-aided cell-033), or record explicitly that global intent is unmeasurable unaided until forum/review language is retrieved.",
+            "owner": "prompt-proximity-architecture"
+          },
+          {
+            "change": "Fix two cross-artifact inconsistencies before Gate 3: panel_report.md row prompt-001a cites source-010/source-004 while prompt_universe.json lists source-010/source-007; measurement_charter.json declares locales ['en-US','en-CA'] and markets 'measured from en-US and en-CA prompting contexts' while panel.yaml locales is ['en-US'] and en-CA is unmeasured.",
+            "owner": "artifact-validator"
+          },
+          {
+            "change": "Produce accepted sensitivity variants: all four sensitivity drafts were rejected or quarantined, so selected_variants.sensitivity is empty and the wording-sensitivity axis is unmeasured. Add clean sensitivity pairs on the four sentinel cells (length, specificity, question form) that carry evidence IDs and no brand token.",
+            "owner": "realistic-prompt-generation"
+          },
+          {
+            "change": "Extend contamination_register.yaml beyond source-001/002/003/005 to the destination and help sub-pages before any freeze, since the register itself warns that 'a term absent here is not certified absent from the target's copy' while the scan is used to certify 61 prompts as clean.",
+            "owner": "prompt-set-qa"
+          },
+          {
+            "change": "Resolve the freeze blockers: compute source_manifest_hash, content_hash, prompt_hash, blind_brief_hash and configuration hashes (or declare the external hashing procedure and who runs it), since exact-duplicate detection currently degrades to NFKC string comparison per prompt_qa.json warning.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Take Gate 3 first: decide core membership for cell-007, cell-012 and cell-013 (all title-only grade-C support) and whether en-CA gets a market-competent reviewer, because those decisions change the core denominator that every unaided rate depends on.",
+            "owner": "human-gate"
+          }
+        ],
+        "scores": {
+          "artifact_usability_integrity": 4,
+          "contamination_qa": 5,
+          "evidence_quality": 4,
+          "icp_market_model": 4,
+          "job_intent_architecture": 4,
+          "panel_measurement_design": 5,
+          "prompt_coverage_traceability": 4,
+          "prompt_realism_cell_discipline": 4
+        },
+        "strengths": [
+          "Denominator and lane discipline is exemplary: four separate aided denominators, a control cell (cell-025) that never enters unaided_brand_presence, retrieval-only handling for the B5 cell, and search_policy recorded separately from retrieval_used.",
+          "Honest limitation accounting rather than padding — W-001 records 25 unaided cells against the 30–48 default, only 2 of 61 candidates are observed language, and the blocked Trustpilot/Reddit/app-store evidence is stated as the single most important limitation.",
+          "Contamination handling is complete and auditable: register with allowed exceptions exc-001/002, generic category vocabulary deliberately excluded from the target-term list with a stated rationale, one hard brand hit caught and rejected, and duplicate pairs split with named protected differences.",
+          "Decay is treated as a first-class risk: cell-022 quarantined because its World Cup anchor concluded 2026-07-19, and per-claim-class review-by dates for price, fair-use threshold, coverage counts, device lists and registration rules.",
+          "Counterevidence preserved rather than smoothed — homepage 'affordable, flexible coverage' held against the ~1 Mbps/3 GB throttling report, and affiliate-density in source-013 recorded as a bias on competitive_mention_share.",
+          "Internal arithmetic is consistent across artifacts: 34 cells / 68 candidates / 61 accepted / 32 selected cells reconcile between panel_report.md §5, prompt_qa.json counts and panel.yaml selected_candidate_ids."
+        ],
+        "summary": "A disciplined, evidence-bound panel that is safe to track as a provisional instrument. All fourteen artifacts exist, parse and reconcile numerically (34 cells, 68 candidates, 61 accepted, 32 selected), and panel_report.md §4 exposes every exact prompt string with the dimensions needed to run it. Evidence goes well beyond the target site with correctly classified company/independent/buyer-behaviour/search-proxy sources, no grade-A inflation, calibrated grades for title-only sources, retained conflicts (homepage 'affordable, flexible coverage' vs the ~1 Mbps/3 GB fair-use report) and an unusually honest account of blocked review platforms. Domain boundaries are respected: destination, device support, carrier lock, device origin, validity, data-only, single-device and top-up are all material constraints; local/regional/global are kept distinct with global explicitly partial under W-007; no price is embedded in any prompt and mutable facts carry review-by dates. Contamination and measurement design are the strongest dimensions — one target-brand leak caught and rejected, B0 quarantined into the aided partition, four separate aided denominators, an off-category control, fresh-session and retrieval-state separation, two independent weight systems with an honest equal-weight convention, and provisional/non-representative/non-causal framing throughout. Weaknesses are real but repairable: installation and activation timing is not a distinct job or cell despite direct source support (mh-02 partial); the two 'observed_language' candidates trace to a secondary characterisation of Reddit rather than first-party buyer writing; no sensitivity variant survived QA; unaided breadth is 25 cells against the 30–48 default (waived); all hashes are null; and two small cross-artifact inconsistencies (prompt-001a evidence IDs, charter vs panel locale lists) need cleanup. Mean 4.25, no hard-gate failure, no triggered anti-pattern.",
+        "verdict": "pass"
+      },
+      "split": null,
+      "tags": []
+    }
+  ],
+  "run": "2026-07-25-opus5-heldout-airalo",
+  "schema_version": "1.0.0",
+  "slices": {},
+  "summary": {
+    "cases": 1,
+    "deterministic": {
+      "failed": 0,
+      "pass_rate": 1.0,
+      "passed": 1
+    },
+    "joint_pass": {
+      "count": 1,
+      "definition": "deterministic contract pass AND semantic judge verdict pass",
+      "rate": 1.0
+    },
+    "judge": {
+      "anti_patterns": {
+        "not_triggered": 5
+      },
+      "completed": 1,
+      "critical_failures": [],
+      "dimension_means": {
+        "artifact_usability_integrity": 4.0,
+        "contamination_qa": 5.0,
+        "evidence_quality": 4.0,
+        "icp_market_model": 4.0,
+        "job_intent_architecture": 4.0,
+        "panel_measurement_design": 5.0,
+        "prompt_coverage_traceability": 4.0,
+        "prompt_realism_cell_discipline": 4.0
+      },
+      "hard_gates": {
+        "artifact_contract_and_resumability": {
+          "pass": 1
+        },
+        "comprehensive_or_waived_dimensions": {
+          "pass": 1
+        },
+        "evidence_source_mix": {
+          "pass": 1
+        },
+        "measurement_and_claim_honesty": {
+          "pass": 1
+        },
+        "prompt_provenance_traceability": {
+          "pass": 1
+        },
+        "unaided_contamination_and_blinding": {
+          "pass": 1
+        },
+        "usable_exact_prompt_output": {
+          "pass": 1
+        }
+      },
+      "must_have_statuses": {
+        "partial": 1,
+        "pass": 5
+      },
+      "overall_mean": 4.25,
+      "pass_rate": 1.0,
+      "verdicts": {
+        "pass": 1
+      }
+    },
+    "top_recommended_changes": [
+      {
+        "change": "Add a distinct installation/activation-timing job (install before departure vs on arrival, what happens on landing, QR/eSIM setup order) anchored on source-002's two install help questions and source-003's 'Install as soon as you'd like - just make sure you have stable internet connection', then give it at least one unaided B3/B4 cell so activation timing is not carried only as constraint con-install-needs-internet.",
+        "count": 1,
+        "owner": "buyer-job-intent-analysis"
+      },
+      {
+        "change": "Re-grade source-007: it is a third-party page characterising Reddit phrasing, yet it is graded B and is the provenance for the 'observed_language' candidates prompt-003a and prompt-026a. Either downgrade those two variant_roles to natural_paraphrase with a secondary-provenance note, or downgrade the source to C, so observed-language claims rest on first-party buyer writing.",
+        "count": 1,
+        "owner": "icp-evidence-analysis"
+      },
+      {
+        "change": "Create at least one unaided cell for the global multi-region package intent and one for country-list/coverage verification (currently W-007 leaves global covered only by category-aided cell-033), or record explicitly that global intent is unmeasurable unaided until forum/review language is retrieved.",
+        "count": 1,
+        "owner": "prompt-proximity-architecture"
+      },
+      {
+        "change": "Fix two cross-artifact inconsistencies before Gate 3: panel_report.md row prompt-001a cites source-010/source-004 while prompt_universe.json lists source-010/source-007; measurement_charter.json declares locales ['en-US','en-CA'] and markets 'measured from en-US and en-CA prompting contexts' while panel.yaml locales is ['en-US'] and en-CA is unmeasured.",
+        "count": 1,
+        "owner": "artifact-validator"
+      },
+      {
+        "change": "Produce accepted sensitivity variants: all four sensitivity drafts were rejected or quarantined, so selected_variants.sensitivity is empty and the wording-sensitivity axis is unmeasured. Add clean sensitivity pairs on the four sentinel cells (length, specificity, question form) that carry evidence IDs and no brand token.",
+        "count": 1,
+        "owner": "realistic-prompt-generation"
+      },
+      {
+        "change": "Extend contamination_register.yaml beyond source-001/002/003/005 to the destination and help sub-pages before any freeze, since the register itself warns that 'a term absent here is not certified absent from the target's copy' while the scan is used to certify 61 prompts as clean.",
+        "count": 1,
+        "owner": "prompt-set-qa"
+      },
+      {
+        "change": "Resolve the freeze blockers: compute source_manifest_hash, content_hash, prompt_hash, blind_brief_hash and configuration hashes (or declare the external hashing procedure and who runs it), since exact-duplicate detection currently degrades to NFKC string comparison per prompt_qa.json warning.",
+        "count": 1,
+        "owner": "build-ai-visibility-panel"
+      },
+      {
+        "change": "Take Gate 3 first: decide core membership for cell-007, cell-012 and cell-013 (all title-only grade-C support) and whether en-CA gets a market-competent reviewer, because those decisions change the core denominator that every unaided rate depends on.",
+        "count": 1,
+        "owner": "human-gate"
+      }
+    ]
+  },
+  "top_deterministic_failures": []
+}

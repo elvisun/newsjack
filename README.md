@@ -49,6 +49,11 @@ Three problems, separate lanes.
 - 📅 **Build a PR calendar** — plan six months of source-backed upcoming hooks, with prior-year coverage patterns for angle inspiration
 - 📊 **Score newsworthiness** — cold read on whether it clears the bar before you act
 
+### 🔬 Research — build an AI-visibility measurement panel
+
+- 🧭 **Map the buyer prompt space** — start with any public URL and description, research buyer jobs and language, and produce an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
+- 🧪 **Keep the measurement honest** — separate aided and unaided denominators, quarantine unsupported prompts, preserve source provenance, and return a provisional panel with explicit human gates instead of a made-up “AI visibility score”
+
 ---
 
 ## Who this is for
@@ -75,6 +80,14 @@ or locally-saved monitoring state — those work best in a local agent.
 | pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | pr-calendar | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Research / Measure** | | | | | | | | |
+| build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| icp-evidence-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| buyer-job-intent-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| prompt-proximity-architecture | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| realistic-prompt-generation | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| prompt-set-qa | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ai-visibility-panel-design | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Act** | | | | | | | | |
 | angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |

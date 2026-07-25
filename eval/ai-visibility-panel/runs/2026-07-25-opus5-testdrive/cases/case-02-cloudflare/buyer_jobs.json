@@ -1,0 +1,387 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "jobs-cloudflare-2026-07-25",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:buyer-job-intent-analysis",
+  "source_manifest_hash": "sha256:unavailable",
+  "warnings": [
+    "There is NO grade-A evidence in this run. No lawfully collected AI conversations, interviews, on-site search logs, support tickets or paid-search exports were supplied. The best available evidence is grade B: public forum comments with permalinks, dated independent reporting, and search-result-shape proxies.",
+    "Language samples below are short public spans or faithful paraphrases. Counts inside a source are counts within that source and are never relabelled as market frequency.",
+    "No job below asserts prevalence. 'Recurring' means recurring across the retrieved sources, not across the market.",
+    "job-011 is a measurement construct for control cells, not a demand finding."
+  ],
+  "gate_status": "ready_for_human_review",
+  "jobs": [
+    {
+      "job_id": "job-001",
+      "icp_ids": ["icp-001"],
+      "statement": "When automated clients consume a site's content at a scale that raises hosting cost without returning readers, help the site operator regain control over which automated clients may access the content while keeping human and search discoverability intact.",
+      "struggling_moment": "Server load and bandwidth cost rise while human readership stays flat; the operator cannot tell how much of the traffic is automated or which parts to allow.",
+      "desired_progress": "A defensible, selective access policy: search crawlers allowed, training/agent crawlers governed, humans unaffected.",
+      "workarounds": [
+        {"text": "robots.txt disallow entries per named crawler", "source_ids": ["src-003", "src-007"]},
+        {"text": "Server-level blocking, rate limiting and IP/UA bans when directives are ignored", "source_ids": ["src-007"]},
+        {"text": "Blocking entire countries in extreme cases", "source_ids": ["src-007"]}
+      ],
+      "forces": {
+        "push": [{"text": "Crawler-driven hosting cost and instability", "source_ids": ["src-003", "src-007"]}],
+        "pull": [{"text": "Emerging option to be paid rather than merely scraped", "source_ids": ["src-004"]}],
+        "anxiety": [{"text": "Losing search traffic by blocking too broadly", "source_ids": ["src-004", "src-003"]}],
+        "habit": [{"text": "robots.txt is the familiar lever even though a rising share of requests ignore it", "source_ids": ["src-003"]}]
+      },
+      "information_acts": ["diagnose", "explain", "plan", "implement", "verify"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "adoption"],
+      "criteria": [
+        {"text": "Distinguishes search indexing from training/agent use", "source_ids": ["src-004"]},
+        {"text": "Works when robots.txt is ignored", "source_ids": ["src-003"]}
+      ],
+      "constraints": [
+        {"text": "Search discoverability must be preserved", "source_ids": ["src-004"]},
+        {"text": "Ad-bearing pages are treated differently under the 2026-09-15 default change", "source_ids": ["src-004"]}
+      ],
+      "roles": ["site/content operator"],
+      "language_samples": [
+        {"text": "added GPTBot to the disallow list in their robots.txt file", "source_id": "src-003", "span": "robots.txt disallow count paragraph", "locale": null, "evidence_grade": "B"},
+        {"text": "want their content to be discoverable via search and through AI services as well, but ... protections against having their intellectual property given away for free", "source_id": "src-004", "span": "rationale paragraph", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-003", "src-004", "src-007"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-002",
+      "icp_ids": ["icp-002"],
+      "statement": "When a business-critical website is unreachable under a flood of requests, help an operator without security staff restore availability now and stop it recurring.",
+      "struggling_moment": "Site is down or timing out; the host attributes it to request volume; the operator does not know whether it is an attack or organic and has no playbook.",
+      "desired_progress": "Site back up within the hour, with a durable setting or service that prevents the next occurrence.",
+      "workarounds": [
+        {"text": "Call the host and ask them to mitigate", "source_ids": ["src-014"]},
+        {"text": "Turn on stricter protection settings reactively", "source_ids": ["src-014"]}
+      ],
+      "forces": {
+        "push": [{"text": "Downtime during peak hours is a direct revenue and trust loss", "source_ids": ["src-014"]}],
+        "pull": [{"text": "Packaged protection bundled with delivery is presented as the low-effort fix", "source_ids": ["src-014", "src-008"]}],
+        "anxiety": [{"text": "Fear of breaking the site further while under load", "source_ids": ["src-014"]}],
+        "habit": [{"text": "Defaults to the hosting provider as first responder", "source_ids": ["src-014"]}]
+      },
+      "information_acts": ["troubleshoot", "diagnose", "plan", "recommend"],
+      "journey_states": ["problem_identification", "exploration", "supplier_selection"],
+      "criteria": [
+        {"text": "Time to mitigation", "source_ids": ["src-014"]},
+        {"text": "Operable without a security specialist", "source_ids": ["src-014", "src-008"]}
+      ],
+      "constraints": [
+        {"text": "No dedicated security staff", "source_ids": ["src-014"]},
+        {"text": "Budget in the low tens-to-hundreds per month band", "source_ids": ["src-002"]}
+      ],
+      "roles": ["small business site owner-operator"],
+      "language_samples": [
+        {"text": "confirm that your website is experiencing a DDoS attack by monitoring traffic patterns", "source_id": "src-014", "span": "immediate-response step list", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-014", "src-008", "src-002"],
+      "counterevidence_source_ids": ["src-011"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-003",
+      "icp_ids": ["icp-002", "icp-003"],
+      "statement": "When content delivery, egress and bandwidth become a leading infrastructure cost, help the responsible engineer or operator reduce that cost without breaking dynamic and API traffic.",
+      "struggling_moment": "Recurring overage or egress charges with no clear picture of which requests drive them.",
+      "desired_progress": "A measurable reduction in origin traffic and transfer cost with no functional regression.",
+      "workarounds": [
+        {"text": "Longer TTLs on static assets and microcaching of dynamic output", "source_ids": ["src-008"]},
+        {"text": "Bandwidth-alliance style peering arrangements and cheaper origin storage", "source_ids": ["src-008"]},
+        {"text": "Splitting media onto a second provider or a higher tier", "source_ids": ["src-005"]}
+      ],
+      "forces": {
+        "push": [{"text": "Transfer-out cost dominating the bill", "source_ids": ["src-008", "src-005"]}],
+        "pull": [{"text": "Cache offload of 80-90% of requests presented as achievable", "source_ids": ["src-008"]}],
+        "anxiety": [{"text": "Caching aggressively may break dynamic behaviour", "source_ids": ["src-005"]}],
+        "habit": [{"text": "Accepting usage-based billing as unavoidable", "source_ids": ["src-006"]}]
+      },
+      "information_acts": ["explain", "plan", "compare", "recommend", "diagnose"],
+      "journey_states": ["problem_identification", "requirements_building", "exploration"],
+      "criteria": [
+        {"text": "Preserves WebSocket and gRPC behaviour", "source_ids": ["src-005"]},
+        {"text": "Predictable rather than per-request billing", "source_ids": ["src-006"]}
+      ],
+      "constraints": [
+        {"text": "Cannot re-architect the application", "source_ids": ["src-008"]}
+      ],
+      "roles": ["platform / SRE engineer", "small business site owner-operator"],
+      "language_samples": [
+        {"text": "doesn't support WebSockets, can't proxy GRPC", "source_id": "src-005", "span": "HN objectID 27448935", "locale": null, "evidence_grade": "B"},
+        {"text": "if you have non-text content, you can front it with [another vendor] or pay [incumbent] something enterprisey", "source_id": "src-005", "span": "HN objectID 41595179, vendor names redacted here", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-005", "src-006", "src-008"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-004",
+      "icp_ids": ["icp-002", "icp-003"],
+      "statement": "When selecting or re-selecting a provider to sit in front of a web property, help the responsible team compare candidates against reliability history, dynamic-traffic support, billing predictability and compliance evidence before committing.",
+      "struggling_moment": "Vendor marketing does not answer the questions that actually decide the contract: how it behaves under failure, how it bills, what it is certified for, and whether the team can operate it.",
+      "desired_progress": "A defensible shortlist with the differences stated in operational terms.",
+      "workarounds": [
+        {"text": "Head-to-head third-party comparison articles and peer review aggregators", "source_ids": ["src-010", "src-015"]},
+        {"text": "Reseller quotes for comparable coverage", "source_ids": ["src-006"]}
+      ],
+      "forces": {
+        "push": [{"text": "Reliability disappointment with an incumbent", "source_ids": ["src-006", "src-013"]}],
+        "pull": [{"text": "Integrated platform with rapid onboarding versus deeper specialist stacks", "source_ids": ["src-010"]}],
+        "anxiety": [{"text": "Compliance blockers such as cloud-specific certifications and data residency", "source_ids": ["src-009", "src-010"]}],
+        "habit": [{"text": "Staying with the hyperscaler already in use", "source_ids": ["src-006"]}]
+      },
+      "information_acts": ["compare", "recommend", "verify", "buy", "explain"],
+      "journey_states": ["exploration", "requirements_building", "supplier_selection"],
+      "criteria": [
+        {"text": "Availability track record and incident handling", "source_ids": ["src-006", "src-013"]},
+        {"text": "Flat-rate versus usage-based billing", "source_ids": ["src-006"]},
+        {"text": "Certification scope and data residency", "source_ids": ["src-009", "src-010"]},
+        {"text": "Internal engineering capacity required to operate it", "source_ids": ["src-010"]}
+      ],
+      "constraints": [
+        {"text": "Small platform team; low operational headroom", "source_ids": ["src-006", "src-010"]}
+      ],
+      "roles": ["platform / SRE engineer", "engineering budget owner", "compliance reviewer"],
+      "language_samples": [
+        {"text": "better uptime with [hyperscaler WAF] ... than we've had in the last 1.5 years of [incumbent]", "source_id": "src-006", "span": "HN objectID 45981893, vendor names redacted here", "locale": null, "evidence_grade": "B"},
+        {"text": "organisations favour flat-rate billing over usage-based pricing despite potentially better technical alternatives", "source_id": "src-006", "span": "HN objectID 46160621, paraphrase", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-005", "src-006", "src-009", "src-010", "src-013"],
+      "counterevidence_source_ids": ["src-006"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-005",
+      "icp_ids": ["icp-003"],
+      "statement": "When a single upstream provider's failure takes an entire stack offline, help the architecture owner find and reduce that dependency without duplicating every system.",
+      "struggling_moment": "An outage in one external provider cascaded through services that were assumed independent; nobody has a map of where else that assumption holds.",
+      "desired_progress": "A dependency map and a proportionate fallback for the highest-impact paths.",
+      "workarounds": [
+        {"text": "Second-vendor quotes and partial multi-provider setups", "source_ids": ["src-006"]}
+      ],
+      "forces": {
+        "push": [{"text": "A four-hour network-wide provider outage on 2025-11-18 with cascading internal dependencies", "source_ids": ["src-013"]}],
+        "pull": [{"text": "Hyperscaler-bundled protection with fewer moving parts", "source_ids": ["src-006"]}],
+        "anxiety": [{"text": "Running two of everything is unaffordable", "source_ids": ["src-006"]}],
+        "habit": [{"text": "Architectures implicitly assume the provider is always there", "source_ids": ["src-013"]}]
+      },
+      "information_acts": ["diagnose", "plan", "explain"],
+      "journey_states": ["post_purchase", "requirements_building"],
+      "criteria": [
+        {"text": "Impact-weighted, not blanket, redundancy", "source_ids": ["src-006", "src-013"]}
+      ],
+      "constraints": [
+        {"text": "Cannot double operational cost", "source_ids": ["src-006"]}
+      ],
+      "roles": ["platform / SRE engineer", "engineering budget owner"],
+      "language_samples": [
+        {"text": "if an architecture assumes the provider is always there, the provider is by definition a single point of failure", "source_id": "src-013", "span": "independent commentary, paraphrase", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-013", "src-006"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-006",
+      "icp_ids": ["icp-004"],
+      "statement": "When remote staff, contractors and automated build systems still reach internal applications through a legacy VPN, help the IT or security engineer provide per-request verified access without requiring a persistent client on every machine.",
+      "struggling_moment": "The VPN is slow, grants network-wide access after a single node compromise, and cannot be installed on ephemeral CI compute.",
+      "desired_progress": "Identity- and posture-verified access per request, covering human and non-human clients.",
+      "workarounds": [
+        {"text": "Mesh VPN overlays, which still grant tailnet-wide access on node compromise", "source_ids": ["src-006"]},
+        {"text": "Self-hosted access proxies that consume engineering time", "source_ids": ["src-006"]}
+      ],
+      "forces": {
+        "push": [{"text": "Over-permissive network-level access and CI clients that cannot run an agent", "source_ids": ["src-006"]}],
+        "pull": [{"text": "Continuous verification instead of login-time-only checks", "source_ids": ["src-009", "src-006"]}],
+        "anxiety": [{"text": "Migration risk and per-user pricing at scale", "source_ids": ["src-002"]}],
+        "habit": [{"text": "VPN remains the default because it already exists", "source_ids": ["src-006"]}]
+      },
+      "information_acts": ["explain", "compare", "plan", "implement"],
+      "journey_states": ["exploration", "requirements_building", "adoption", "supplier_selection"],
+      "criteria": [
+        {"text": "Per-request rather than per-session authorisation", "source_ids": ["src-006"]},
+        {"text": "Agentless paths for unmanaged and ephemeral clients", "source_ids": ["src-006"]},
+        {"text": "Packaging thresholds at 50 users", "source_ids": ["src-002"]}
+      ],
+      "constraints": [
+        {"text": "Cannot install a client on ephemeral CI runners", "source_ids": ["src-006"]}
+      ],
+      "roles": ["IT / security engineer", "employee or contractor end user"],
+      "language_samples": [
+        {"text": "VPN model grants network-wide access if a node is compromised; true zero-trust requires per-request evaluation", "source_id": "src-006", "span": "HN objectID 43273448, paraphrase", "locale": null, "evidence_grade": "B"},
+        {"text": "configuring access clients on ephemeral compute (CI/CD) is impractical", "source_id": "src-006", "span": "HN objectID 44852206, paraphrase", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-006", "src-002", "src-009", "src-015"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-007",
+      "icp_ids": ["icp-004"],
+      "statement": "When a security team must run a formal evaluation of converged network-security services, help them write criteria that separate natively built capability from third-party-integrated capability.",
+      "struggling_moment": "Vendor answers claim full coverage; the team cannot tell which services are native, which are OEM'd, and which apply only to a narrow traffic subset.",
+      "desired_progress": "A scoring matrix that survives procurement review.",
+      "workarounds": [
+        {"text": "Public RFP templates and vendor-published checklists", "source_ids": ["src-009"]}
+      ],
+      "forces": {
+        "push": [{"text": "Uneven depth across FWaaS, SWG, CASB, ZTNA and DLP", "source_ids": ["src-009"]}],
+        "pull": [],
+        "anxiety": [{"text": "Discovering after signature that DLP covers only a few cloud apps", "source_ids": ["src-009"]}],
+        "habit": []
+      },
+      "information_acts": ["plan", "compare", "verify"],
+      "journey_states": ["requirements_building", "supplier_selection"],
+      "criteria": [
+        {"text": "Native vs integrated engine per service", "source_ids": ["src-009"]},
+        {"text": "Continuous session verification", "source_ids": ["src-009"]},
+        {"text": "Data residency and log retention", "source_ids": ["src-009"]}
+      ],
+      "constraints": [],
+      "roles": ["compliance reviewer", "IT / security engineer"],
+      "language_samples": [
+        {"text": "describe whether it is built natively into the platform or integrated from a third-party engine", "source_id": "src-009", "span": "recurring RFP question across surfaced checklists", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-009"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only"
+    },
+    {
+      "job_id": "job-008",
+      "icp_ids": ["icp-002", "icp-003"],
+      "statement": "When an existing customer hits a support delay or discovers a needed capability is gated to a higher tier, help them resolve the issue or decide whether to change plan or provider.",
+      "struggling_moment": "A production issue is open, support has not responded, and the fix appears to require an upgrade.",
+      "desired_progress": "Either resolution on the current plan or a clear-eyed upgrade/switch decision.",
+      "workarounds": [
+        {"text": "Public community forums and third-party review sites", "source_ids": ["src-011", "src-015"]}
+      ],
+      "forces": {
+        "push": [{"text": "Multi-day support response times reported at paid tiers", "source_ids": ["src-011"]}],
+        "pull": [],
+        "anxiety": [{"text": "Upgrading may not fix the underlying problem", "source_ids": ["src-011"]}],
+        "habit": []
+      },
+      "information_acts": ["troubleshoot", "verify", "compare"],
+      "journey_states": ["post_purchase"],
+      "criteria": [
+        {"text": "Time to first useful response", "source_ids": ["src-011"]},
+        {"text": "Which capabilities are plan-gated", "source_ids": ["src-011", "src-002"]}
+      ],
+      "constraints": [],
+      "roles": ["small business site owner-operator", "platform / SRE engineer"],
+      "language_samples": [
+        {"text": "wait times over a week for replies even though direct support is included in paid plans", "source_id": "src-011", "span": "review snippet paraphrase", "locale": null, "evidence_grade": "C"}
+      ],
+      "supporting_source_ids": ["src-011", "src-002"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only"
+    },
+    {
+      "job_id": "job-009",
+      "icp_ids": ["icp-001"],
+      "statement": "When a platform-level default is about to change what automated clients may do on monetised pages, help a site owner work out what changes for them and what to decide before the effective date.",
+      "struggling_moment": "A dated default change lands on 2026-09-15 and applies automatically to new sites and existing free-tier sites; the operator does not know whether action is required.",
+      "desired_progress": "A decision made deliberately before the date rather than discovered afterwards.",
+      "workarounds": [],
+      "forces": {
+        "push": [{"text": "Automatic application to new customers, new sites and existing free customers", "source_ids": ["src-004"]}],
+        "pull": [{"text": "A pay-per-use model that may return revenue for content", "source_ids": ["src-004"]}],
+        "anxiety": [{"text": "Breaking search indexing while blocking training crawlers", "source_ids": ["src-004"]}],
+        "habit": []
+      },
+      "information_acts": ["explain", "plan", "verify"],
+      "journey_states": ["problem_identification", "requirements_building"],
+      "criteria": [
+        {"text": "Whether the site hosts ads and therefore falls in scope", "source_ids": ["src-004"]}
+      ],
+      "constraints": [
+        {"text": "Effective date 2026-09-15", "source_ids": ["src-004"]}
+      ],
+      "roles": ["site/content operator"],
+      "language_samples": [
+        {"text": "Starting on September 15, 2026 ... default settings will block 'mixed-use' crawlers from any pages that host ads", "source_id": "src-004", "span": "policy paragraph", "locale": null, "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["src-004", "src-003"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported",
+      "decay": {
+        "evidence_published_at": "2026-07-01",
+        "age_at_run_days": 24,
+        "review_by": "2026-09-15",
+        "rule": "Re-verify on or before the effective date. If the date slips, changes scope or is superseded, retire or re-render every cell citing job-009 and open a new version."
+      }
+    },
+    {
+      "job_id": "job-010",
+      "icp_ids": ["icp-005"],
+      "statement": "When a small team wants code and data to run close to users without managing servers, help them decide what belongs at the edge and what belongs in a region.",
+      "struggling_moment": null,
+      "desired_progress": null,
+      "workarounds": [],
+      "forces": {"push": [], "pull": [], "anxiety": [], "habit": []},
+      "information_acts": ["plan", "compare"],
+      "journey_states": ["exploration"],
+      "criteria": [],
+      "constraints": [],
+      "roles": ["platform / SRE engineer"],
+      "language_samples": [],
+      "supporting_source_ids": ["src-001", "src-016"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "gap_note": "This job is derived from a company-asserted capability plus model expansion. Its struggling moment and desired progress are deliberately null because no source supplies them. Cells derived from it are rotating discovery only and one of them is graded D."
+    },
+    {
+      "job_id": "job-011",
+      "icp_ids": ["icp-002"],
+      "statement": "CONTROL CONSTRUCT: When a small operator's business-critical system fails during peak hours in a domain where the panel target has no capability standing, help them restore service with limited in-house expertise.",
+      "struggling_moment": "Structurally analogous to job-002 but deliberately outside the target's product surface.",
+      "desired_progress": "Detect model drift and spurious target mentions in adjacent operational questions.",
+      "workarounds": [],
+      "forces": {"push": [], "pull": [], "anxiety": [], "habit": []},
+      "information_acts": ["troubleshoot", "recommend"],
+      "journey_states": ["problem_identification", "supplier_selection"],
+      "criteria": [],
+      "constraints": [],
+      "roles": ["small business site owner-operator"],
+      "language_samples": [],
+      "supporting_source_ids": ["src-014"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "gap_note": "Not a demand finding. Exists only to give control cells a declared job so that every prompt still resolves to a job record."
+    }
+  ],
+  "missing_coverage": {
+    "information_acts_with_no_evidence": ["generate", "navigate"],
+    "acts_note": "No source in this manifest shows anyone asking an assistant to generate an artefact in this category, or asking a navigational question. Forcing those acts would manufacture demand. Evidence needed: on-site search logs, support tickets, or a permitted AI-conversation corpus.",
+    "locales_with_no_evidence": ["de-DE", "ja-JP", "pt-BR", "fr-FR", "es-ES"],
+    "roles_with_no_evidence": ["CFO or finance approver", "procurement officer as a distinct persona", "channel/reseller partner", "end-employee as an independent information seeker"],
+    "journey_states_thin": ["adoption", "post_purchase"],
+    "journey_note": "Adoption and post-purchase rest on src-011 (snippet-only reviews) and src-006. Both are thinner than the pre-purchase evidence. Direct review-site and community access would fix this."
+  }
+}

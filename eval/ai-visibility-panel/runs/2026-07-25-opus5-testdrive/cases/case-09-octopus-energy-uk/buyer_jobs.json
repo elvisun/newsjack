@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "jobs-octopus-energy-uk-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5 (buyer-job-intent-analysis)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: no hashing tool in this runtime; sha256 fields are null rather than fabricated.",
+    "no_human_gate_2: no human approved these jobs. gate_status is ready_for_human_review.",
+    "grade_ceiling_b: with no first-party conversation, interview or support corpus, the best available language evidence is public forum text and search-result shape. No job carries grade A.",
+    "counts_are_corpus_counts: the number of sources behind a job says nothing about how often that job occurs in the GB population or among AI-assistant users.",
+    "decay: job-002 rests mainly on a March 2024 thread; job-004 rests on a search-summary reading of one thread plus unverified grant guidance."
+  ],
+  "gate_status": "ready_for_human_review",
+  "jobs": [
+    {
+      "job_id": "job-001",
+      "icp_ids": ["icp-001"],
+      "statement": "When the capped default rate moves and the bill changes, help a household bill payer choose between locking a price and staying flexible while they cannot absorb an unpredictable bill and do not trust a comparison they cannot check.",
+      "struggling_moment": "The bill or monthly payment changes after a cap change and the household does not know whether acting or waiting costs them more (source-004, source-005, source-013).",
+      "desired_progress": "A defensible decision to fix, move to a wholesale-linked deal, or stay, with a way to check the arithmetic for their own usage and region.",
+      "workarounds": ["reading publisher best-buy tables (source-012)", "doing nothing and remaining on the default rate (source-005)"],
+      "forces": {
+        "push": ["a 13% cap rise from 1 July 2026 (source-004)", "visible unit rate and standing charge increases (source-005)"],
+        "pull": ["deals advertised several percent below the cap (source-012)", "predictability of a fixed price (source-012)"],
+        "anxiety": ["fixing just before prices fall (source-012)", "exit fees and deal length (source-012)"],
+        "habit": ["staying on the default tariff (source-005)"]
+      },
+      "information_acts": ["explain", "compare", "plan", "recommend", "verify"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection", "post_purchase"],
+      "criteria": ["total annual cost for my usage and region (source-005, source-012)", "risk of future increases (source-012)", "exit fees (source-012)", "service quality when something goes wrong (source-006, source-007)"],
+      "constraints": ["regional cap variation (source-005)", "already-fixed customers are unaffected (source-005)"],
+      "roles": ["household bill payer"],
+      "language_samples": [
+        {"text": "Is it time to fix your energy or stay on the Price Cap?", "source_id": "source-012", "span": "section heading, updated 24 July 2026", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "Prices have risen - is it worth fixing?", "source_id": "source-012", "span": "section heading", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "is it worth switching energy supplier", "source_id": "source-013", "span": "query string used to retrieve the result set", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-004", "source-005", "source-012", "source-013"],
+      "counterevidence_source_ids": ["source-016"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-002",
+      "icp_ids": ["icp-002"],
+      "statement": "When home charging becomes the largest part of the electricity bill, help an EV driver get the cheapest reliable charging cost while their car or charger limits which smart tariffs work and an existing export arrangement must survive the change.",
+      "struggling_moment": "An owner with an EV, solar, a battery and a controllable charger cannot tell whether a half-hourly wholesale rate would beat the fixed overnight window they already have (source-008).",
+      "desired_progress": "The lowest realistic cost per charge without losing control, predictability, or a compatible export deal.",
+      "workarounds": ["manually comparing the share of hours below their current rate (source-008)", "leaving the existing overnight tariff alone (source-008)"],
+      "forces": {
+        "push": ["charging cost visible on the bill (source-008, source-017)"],
+        "pull": ["a materially cheaper overnight window (source-017)"],
+        "anxiety": ["charger or vehicle incompatibility (source-017)", "breaking export tariff compatibility (source-008)", "battery round-trip losses (source-008)"],
+        "habit": ["staying on a known working tariff (source-008)"]
+      },
+      "information_acts": ["compare", "plan", "recommend", "verify", "implement", "troubleshoot"],
+      "journey_states": ["exploration", "requirements_building", "supplier_selection", "adoption", "post_purchase"],
+      "criteria": ["effective cost per kWh charged (source-008)", "hardware compatibility (source-017)", "compatibility with export payments (source-008)", "number and timing of cheap hours (source-017)"],
+      "constraints": ["controllable charger or supported vehicle required (source-017)", "solar, battery and export interactions (source-008)"],
+      "roles": ["EV driver and home charge point owner"],
+      "language_samples": [
+        {"text": "Anyone with similar installation using [half-hourly] instead of [fixed overnight] seeing advantage over the above?", "source_id": "source-008", "span": "opening post, target product names removed", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "is [it] compatible with the [export] tariff", "source_id": "source-008", "span": "opening post, target product names removed", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-008", "source-017", "source-001"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-003",
+      "icp_ids": ["icp-003"],
+      "statement": "When a solar owner suspects their export payments are below market, help them work out whether moving to metered export beats a guaranteed legacy payment while metering, eligibility and a physical install stand in the way.",
+      "struggling_moment": "A legacy feed-in-tariff holder with no export smart meter asks whether they could do better, how to calculate the difference, and whether providers differ (source-009).",
+      "desired_progress": "A confident, reversible-enough decision on export payment route, with an arithmetic method they can apply to their own generation.",
+      "workarounds": ["staying on the guaranteed deemed payment (source-009)", "asking a forum to sanity-check the comparison (source-009)"],
+      "forces": {
+        "push": ["suspicion that a fixed legacy rate is now poor value (source-009)"],
+        "pull": ["visible per-unit export rates and provider differences (source-009, source-002)"],
+        "anxiety": ["losing a guaranteed annual payment (source-009)", "an application process described as restrictive (source-009)", "meter access limitations (source-009)"],
+        "habit": ["annual statements arriving without action (source-009)"]
+      },
+      "information_acts": ["explain", "compare", "plan", "verify"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection"],
+      "criteria": ["pence per exported unit (source-002, source-009)", "whether payments are metered or deemed (source-009)", "whether the switch is reversible (source-009)", "metering prerequisites (source-002)"],
+      "constraints": ["half-hourly-capable export metering (source-002)", "export MPAN from the network operator (source-002)", "recent feed-in-tariff starters excluded from at least one product (source-002)", "must also be an import customer (source-002)"],
+      "roles": ["solar owner receiving export payments"],
+      "language_samples": [
+        {"text": "Could I do better though by switching to Smart Export Tariff?", "source_id": "source-009", "span": "opening post", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "is there a way I can calculate the difference between the two tariffs?", "source_id": "source-009", "span": "opening post", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "is there a difference in SEG payments between providers?", "source_id": "source-009", "span": "opening post", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-009", "source-002", "source-010"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-004",
+      "icp_ids": ["icp-004"],
+      "statement": "When a boiler is near the end of its life and a grant is available, help an owner-occupier decide whether low-carbon heating will actually work in their house and what it will really cost to run, while the whole-system cost and disruption are unclear.",
+      "struggling_moment": "Homeowners itemise cylinder, radiator, pipework, electrics and insulation costs, and ask openly whether to delay and hope prices fall (source-014).",
+      "desired_progress": "A clear read on suitability, total installed cost after grant, and honest running cost against the alternative of another boiler.",
+      "workarounds": ["delaying the decision (source-014)", "replacing like for like with another boiler (source-014)"],
+      "forces": {
+        "push": ["a boiler near replacement (source-014)", "grant availability framing a window (source-003, source-015)"],
+        "pull": ["lower running cost on a matched heating tariff (source-003)"],
+        "anxiety": ["whether an older or larger house is suitable (source-014)", "radiator and cylinder upgrades (source-014)", "running cost being worse than a boiler (source-003 qualifies its own savings claim)"],
+        "habit": ["defaulting to gas (source-014)"]
+      },
+      "information_acts": ["diagnose", "explain", "compare", "plan", "verify"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection"],
+      "criteria": ["suitability for the specific property (source-014)", "installed cost after grant (source-003, source-015)", "running cost on a heating tariff (source-003)", "disruption and radiator or cylinder work (source-014)"],
+      "constraints": ["property fabric and insulation (source-014, source-015)", "space for a hot water cylinder (source-014)", "grant eligibility conditions (source-015, low confidence)"],
+      "roles": ["homeowner and occupant"],
+      "language_samples": [
+        {"text": "should I delay and hope costs fall", "source_id": "source-014", "span": "thread title", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-003", "source-014", "source-015"],
+      "counterevidence_source_ids": ["source-015"],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only"
+    },
+    {
+      "job_id": "job-005",
+      "icp_ids": ["icp-005"],
+      "statement": "When a household wants a cheaper time-of-use or export rate but does not have the metering for it, help them decide whether accepting a smart meter is worth it while they distrust the technology and fear it will not work.",
+      "struggling_moment": "A household with an EV and legacy solar says it is 'still skeptical' about smart meters while weighing whether one would unlock cheaper rates (source-010).",
+      "desired_progress": "A decision on metering that is justified by the tariffs and payments it actually unlocks, with the install risks understood.",
+      "workarounds": ["keeping the mechanical meter and manual readings (source-010)"],
+      "forces": {
+        "push": ["time-of-use and metered export require half-hourly data (source-002, source-004)"],
+        "pull": ["discounted rates available to smart-meter customers (source-004)"],
+        "anxiety": ["general distrust (source-010)", "connectivity failure after install (source-010)"],
+        "habit": ["deferring the appointment (source-010)"]
+      },
+      "information_acts": ["explain", "verify", "plan", "troubleshoot"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "adoption"],
+      "criteria": ["what tariffs it unlocks (source-002, source-004)", "reliability of readings (source-010)", "whether it can be refused or reversed (source-010)"],
+      "constraints": ["meter generation and half-hourly export capability (source-002)", "signal and connectivity (source-010)"],
+      "roles": ["household bill payer"],
+      "language_samples": [
+        {"text": "I'm still skeptical about them", "source_id": "source-010", "span": "opening post", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "smart meter, is it worth it", "source_id": "source-010", "span": "thread title", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "about 5% cannot connect and send data", "source_id": "source-010", "span": "reply", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-010", "source-002", "source-004"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-006",
+      "icp_ids": ["icp-006"],
+      "statement": "When a monthly energy payment rises although the account is in credit, help an existing account holder work out whether the increase is justified and how to stop overpaying, while the supplier controls the forecast and the balance.",
+      "struggling_moment": "Account holders repeatedly post that a direct debit was increased despite a credit balance, or that the account is perpetually in credit (source-011).",
+      "desired_progress": "A payment level and method that matches real usage, plus a route to challenge it if it does not.",
+      "workarounds": ["arguing with the supplier by phone or chat (source-011)", "cancelling or lowering the direct debit unilaterally (source-011)"],
+      "forces": {
+        "push": ["an unexplained payment increase (source-011)", "the July cap rise flowing into forecasts (source-004)"],
+        "pull": ["direct debit associated with a lower unit cost (source-004)"],
+        "anxiety": ["losing the cheaper payment method by objecting (source-004, source-011)"],
+        "habit": ["accepting the supplier's forecast (source-011)"]
+      },
+      "information_acts": ["diagnose", "explain", "troubleshoot", "navigate", "compare"],
+      "journey_states": ["problem_identification", "post_purchase"],
+      "criteria": ["whether the forecast matches usage (source-011)", "unit cost by payment method (source-004)", "escalation route (source-004)"],
+      "constraints": ["seasonal credit build-up is expected behaviour (source-011)"],
+      "roles": ["existing account holder"],
+      "language_samples": [
+        {"text": "Direct Debit Increase BUT in credit", "source_id": "source-011", "span": "user-written thread title", "locale": "en-GB", "evidence_grade": "B"},
+        {"text": "Energy accounts perpetually in credit", "source_id": "source-011", "span": "user-written thread title", "locale": "en-GB", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-011", "source-004"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    }
+  ],
+  "missing_roles_locales_acts": [
+    "Roles: no evidence for landlord, letting agent, installer-as-influencer, SME procurement, or employer benefits buyer. Buying-committee structure is absent by design, not simplified.",
+    "Locales: only en-GB is evidenced. Welsh-language (cy-GB) demand is plausible for a GB supplier but unevidenced; machine translation would not make it a valid locale cell.",
+    "Acts: no evidence supports a 'generate' act (for example asking an assistant to draft a complaint or a switching letter) or a 'buy' act completed inside an assistant. Both are omitted rather than assumed.",
+    "Contexts: prepayment, arrears, Warm Home Discount, park homes, flats and rented property are all unresearched."
+  ],
+  "post_purchase_and_negative_cases": [
+    "job-006 and parts of job-002 and job-005 are post-purchase or adoption jobs, not acquisition jobs. A brand-named support question is post-purchase, not bottom-of-funnel.",
+    "Negative case for the fix decision: the regulator states that already-fixed customers are unaffected by cap changes, so a share of the population has no job here at all (source-005).",
+    "Negative case for export: households without export-capable metering cannot act at all until metering changes (source-002)."
+  ]
+}

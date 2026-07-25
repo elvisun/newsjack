@@ -1,0 +1,16 @@
+{
+  "current_time": "2026-07-25T16:00:00-04:00",
+  "description": "Zocdoc is a US patient and provider healthcare-booking marketplace organized around insurance, location, and availability.",
+  "id": "case-04-zocdoc",
+  "output_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/eval/ai-visibility-panel/runs/2026-07-25-opus5-retest-zocdoc/cases/case-04-zocdoc",
+  "skill_paths": [
+    "skills/build-ai-visibility-panel/SKILL.md",
+    "skills/icp-evidence-analysis/SKILL.md",
+    "skills/buyer-job-intent-analysis/SKILL.md",
+    "skills/prompt-proximity-architecture/SKILL.md",
+    "skills/realistic-prompt-generation/SKILL.md",
+    "skills/prompt-set-qa/SKILL.md",
+    "skills/ai-visibility-panel-design/SKILL.md"
+  ],
+  "url": "https://www.zocdoc.com/"
+}

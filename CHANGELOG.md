@@ -19,6 +19,16 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- **`build-ai-visibility-panel` turns any public URL and description into an
+  evidence-bound prompt panel for AI-answer tracking.** Six composable atoms
+  research ICPs and buyer jobs, design B0–B5 intent coverage, generate blinded
+  prompt variants, run contamination and duplicate QA, and produce a
+  provisional measurement plan with explicit denominators, sources, gaps, and
+  human approval gates. Synthetic fixtures and a ten-case public-URL eval
+  exercise the workflow without private client data.
+
 ## v0.1.15 — 2026-06-30
 
 ### Added

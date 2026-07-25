@@ -1,0 +1,1143 @@
+{
+  "cases": [
+    {
+      "artifact_sha256": {
+        "blind_design_brief.json": "dc7741649b18299f17529dbc20ad2e3e2aa0219ef9e3efb811ceeb7f37c96311",
+        "buyer_jobs.json": "4c9fdd65296ee56881b6db06ba5443ad1a2000de4cf555f0095b9708a9d3a7f5",
+        "contamination_register.yaml": "e36b8e0bc4c3b81bad133bbd75bcd43d715eb23719304fe94747bc8f2466b520",
+        "icp_hypotheses.json": "5b139772ac9f0a680a1035479fcd3a9fee7629ca078e10589ec1be085464361c",
+        "measurement_charter.json": "328cbe67e8c7df57336509ddabcd9b4a26738394e3eefccf0ca8af5e0273a7df",
+        "panel.yaml": "4b2c3996baf727854c941954a7b3bcba5c824825a68836e6f9b242263c062615",
+        "panel_change_ledger.json": "75c5b095bcc90e492d4766a22d537c7e4655c26170b1f44eab44beefe04c7e0f",
+        "panel_report.md": "57d525bb0d16c7f23ca20e1dd6f3cbc374403f3a22863a371b1e897f00d7f7bf",
+        "prompt_architecture.json": "8807912637e647db4521602faa1ad1fa2e743c65a8e8b14e1c2be11605984467",
+        "prompt_qa.json": "454a7614782d7db3969da15981a6eb22cd31dfbd009cc5c7fcd9ad8879a33af4",
+        "prompt_universe.json": "6c45cf3236b279bd29bb7636de0d973ff947cb1c816beb6ba2174f652550f802",
+        "run_manifest_template.json": "3838db95dedb53567557f8fdd7b35cac6e5c39f855de89220aa0e5c2df473dbb",
+        "source_manifest.json": "fb61bc8a2702c408be2cf099676f5fa6e5b0e145698a79362a658ec3d16c6beb",
+        "tracking_plan.md": "4c387fe3813b6e09ab48d9da9d68cfd38b8725380aee75d62d1bb8490837beb3"
+      },
+      "case_id": "case-06-airalo",
+      "case_name": "case-06-airalo",
+      "case_slug": "case-06-airalo",
+      "checks": [
+        {
+          "evidence": "14 artifacts",
+          "id": "required_artifacts_parse",
+          "passed": true,
+          "severity": "critical",
+          "text": "required artifacts parse"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:measurement charter.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:measurement charter.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:measurement charter.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:measurement_charter.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:measurement charter.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "provisional_charter: the user supplied only a URL and a description; business decision, estimand priorities, markets, competitors, surfaces, budget and approver are agent-proposed assumptions and are not human-approved",
+            "no_precision_target: directional_only until the variance pilot runs",
+            "campaign_response_excluded: no campaign was supplied, so campaign_response is not an estimand in this version and no campaign_experiment lane cells exist"
+          ],
+          "id": "source_hash_warning:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:measurement charter.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:measurement charter.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:source manifest.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:source manifest.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:source manifest.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:source_manifest.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:source manifest.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "content_hash_not_computed: no content hashing available in this runtime; every content_hash is null and is a freeze blocker",
+            "published_at_normalized: where a page published only a calendar date, published_at is normalized to 00:00:00Z and the stated date is repeated in the span",
+            "title_only_sources: source-011, source-012 and source-014 were observed as search-result titles only; their page bodies were not retrieved and they carry evidence_grade C with low confidence",
+            "blocked_evidence: Trustpilot (HTTP 403), Reddit (fetch blocked), travel.stackexchange.com (fetch blocked), Apple App Store and Google Play listings (HTTP 404), GSMA resource page (HTTP 403) and one TechRadar buying guide (membership wall) could not be retrieved; first-party review-platform and native community language is therefore missing from this manifest",
+            "geo_dependent_pricing: source-001 and source-003 rendered prices in CAD at access time; all price and package facts are mutable and carry refresh rules"
+          ],
+          "id": "source_hash_warning:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:source manifest.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:source manifest.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:icp hypotheses.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:icp hypotheses.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:icp hypotheses.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:icp_hypotheses.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:icp hypotheses.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "no_customer_corpus: no interviews, win/loss, on-site search or authorised conversation data was supplied; every ICP is a public-evidence hypothesis",
+            "one_first_party_behavioural_source: only source-006 is direct buyer-written language; review-platform and community sources were blocked at access time",
+            "no_human_approval: Gate 1 is pending; no ICP has been promoted by a human"
+          ],
+          "id": "source_hash_warning:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:icp hypotheses.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:icp hypotheses.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:buyer jobs.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:buyer jobs.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:buyer jobs.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:buyer_jobs.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:buyer jobs.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "no_prevalence: counts of sources are not counts of buyers; no job carries an observed market frequency",
+            "language_samples_are_source_language: quoted fragments are language from the cited source, including one secondary characterisation of forum discussion (source-007), not a measured distribution of how travellers phrase things",
+            "no_human_approval: Gate 2 is pending",
+            "roles_defined: role-001 first-time travel-data buyer; role-002 experienced multi-country traveller; role-003 heavy-data remote worker; role-004 traveller in destination with a failing or expiring line"
+          ],
+          "id": "source_hash_warning:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:buyer jobs.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:buyer jobs.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:blind design brief.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:blind design brief.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:blind design brief.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:blind_design_brief.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:blind design brief.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "blind_brief_hash_not_computed: compute blind_brief_hash before freeze",
+            "no_fresh_subagent: unaided generation ran in the same session; the operator worked only from this brief and prompt_architecture.json during that pass and did not consult target pages, the contamination register, or any current-answer material",
+            "b0_pass_separate: B0 target-aided prompts were written in a separate, explicitly aided pass that received only the target alias, and are excluded from this brief"
+          ],
+          "id": "source_hash_warning:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:blind design brief.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:blind design brief.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt architecture.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt architecture.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt architecture.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_architecture.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt architecture.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "allocation_below_diagnostic_default: 25 unaided cells against the 30-48 diagnostic default. The shortfall is deliberate; the retrieved evidence does not support more distinct unaided intents without padding personas, locales or acts. See allocation.budget_status and the waivers in panel.yaml.",
+            "grade_c_in_core: cell-007, cell-012 and cell-013 sit in core on grade-C evidence and require Gate 3 approval or demotion to rotating.",
+            "b5_decay: cell-022 is anchored to an event that concluded on 2026-07-19, six days before this run. It is retained as a decay-flagged rotating cell and must not be treated as fresh.",
+            "campaign_lane_empty: no campaign_experiment cells exist because no campaign was supplied. campaign_exposed is false on every cell."
+          ],
+          "id": "source_hash_warning:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt architecture.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt architecture.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt universe.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt universe.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt universe.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_universe.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt universe.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute all hashes before freeze",
+            "blind_brief_hash_not_computed: compute blind_brief_hash before freeze",
+            "prompt_hash_not_computed: every candidate prompt_hash is null; this is a freeze blocker",
+            "observed_language_is_thin: only prompt-003a and prompt-026a are observed language. Trustpilot, Reddit, the app stores and travel.stackexchange were unreachable at access time, so most candidates are natural paraphrases written from evidence rather than verbatim buyer strings.",
+            "scripted_multi_turn_encoding: multi-turn candidates encode turns as 'Turn 1: ... || Turn 2: ...' in a single text field; the runner must split on ' || ' and send the turns sequentially in one session.",
+            "rejected_and_quarantined_retained: prompt-001c, prompt-007c, prompt-014c, prompt-021c, prompt-022a, prompt-024a and prompt-024b are retained here so their QA decisions resolve."
+          ],
+          "id": "source_hash_warning:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt universe.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt universe.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt qa.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt qa.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt qa.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_qa.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt qa.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "no_embedding_model: no fixed embedding model/version was available, so semantic duplicate review was manual lexical-plus-judgment; no candidate was auto-deleted",
+            "disputed_for_gate_3: the grade-C core cells (cell-007, cell-012, cell-013) and the en-CA locale cell (cell-024) are disputed decisions reserved for human Gate 3",
+            "exact_hash_check_degraded: prompt_hash values are null in this runtime, so exact-duplicate detection ran on Unicode-NFKC casefolded, punctuation-stripped, whitespace-collapsed strings instead of hashes"
+          ],
+          "id": "source_hash_warning:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt qa.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt qa.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:run manifest template.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:run manifest template.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:run manifest template.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:run_manifest_template.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:run manifest template.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "template_only: no observations have been collected; every value below is a placeholder contract, not data",
+            "hashes_null_until_run: configuration_hash, response_payload_hash and citation_payload_hash must be real SHA-256 values at run time; null is permitted only in this uncollected template",
+            "no_silent_rollup: consumer_surface observations must never be pooled with closed_model or retrieval API observations in any denominator"
+          ],
+          "id": "source_hash_warning:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:run manifest template.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:run manifest template.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel change ledger.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel change ledger.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel change ledger.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:panel_change_ledger.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:panel change ledger.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "append_only: entries are never edited or removed; a correction is a new entry",
+            "no_prior_version: this is the first version of panel-travel-esim-marketplace, so there is no overlap bridge to a predecessor"
+          ],
+          "id": "source_hash_warning:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:panel change ledger.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel change ledger.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:contamination register.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:contamination register.yaml"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:contamination register.yaml"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:contamination_register.yaml",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:contamination register.yaml"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "register_version_1: this register was built from source-001, source-002, source-003 and source-005 only; a term absent here is not certified absent from the target's copy",
+            "generic_terms_excluded: 'eSIM', 'travel eSIM', 'local eSIM', 'regional eSIM', 'global eSIM', 'data plan' and 'roaming' are generic category vocabulary and are deliberately NOT listed as target terms; banning them would make B1 and B2 cells impossible to write"
+          ],
+          "id": "source_hash_warning:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:contamination register.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:contamination register.yaml"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel.yaml"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel.yaml"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:panel.yaml",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:panel.yaml"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "prompt_hash_not_computed: candidate prompt hashes are null; freeze blocker",
+            "configuration_hash_not_computed: run configuration hashes are null until the first wave is configured",
+            "no_variance_pilot: repetition counts are defaults, not pilot-derived",
+            "no_human_approval: all four gates are pending; this panel is provisional_directional and must not be described as frozen, representative, significant or causal"
+          ],
+          "id": "source_hash_warning:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:panel.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel.yaml"
+        },
+        {
+          "evidence": {
+            "artifacts": {},
+            "distinct_hashes": []
+          },
+          "id": "source_manifest_hash_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "source manifest hash consistent"
+        },
+        {
+          "evidence": "14 sources",
+          "id": "source_records_valid",
+          "passed": true,
+          "severity": "error",
+          "text": "source records valid"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 1,
+            "company_asserted": 3,
+            "independent": 6,
+            "search_proxy": 4
+          },
+          "id": "source_mix_target",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix target"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 1,
+            "company_asserted": 3,
+            "independent": 6,
+            "search_proxy": 4
+          },
+          "id": "source_mix_independent",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix independent"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 1,
+            "company_asserted": 3,
+            "independent": 6,
+            "search_proxy": 4
+          },
+          "id": "source_mix_buyer_language",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix buyer language"
+        },
+        {
+          "evidence": {
+            "count": 6,
+            "records": 6,
+            "unique": 6
+          },
+          "id": "unique:icp_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:icp id"
+        },
+        {
+          "evidence": {
+            "count": 9,
+            "records": 9,
+            "unique": 9
+          },
+          "id": "unique:job_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:job id"
+        },
+        {
+          "evidence": {
+            "count": 34,
+            "records": 34,
+            "unique": 34
+          },
+          "id": "unique:cell_spec_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:cell spec id"
+        },
+        {
+          "evidence": {
+            "count": 34,
+            "records": 34,
+            "unique": 34
+          },
+          "id": "unique:canonical_cell_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:canonical cell id"
+        },
+        {
+          "evidence": {
+            "count": 68,
+            "records": 68,
+            "unique": 68
+          },
+          "id": "unique:candidate_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:candidate id"
+        },
+        {
+          "evidence": "14 references",
+          "id": "source_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "source references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "job_icp_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "job icp references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "architecture_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "architecture job references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_spec_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe spec references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe job references resolve"
+        },
+        {
+          "evidence": {
+            "missing": [],
+            "unknown": []
+          },
+          "id": "qa_one_decision_per_candidate",
+          "passed": true,
+          "severity": "error",
+          "text": "qa one decision per candidate"
+        },
+        {
+          "evidence": "resolved",
+          "id": "qa_accepted_ids_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted ids resolve"
+        },
+        {
+          "evidence": "all pass",
+          "id": "qa_accepted_are_pass",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted are pass"
+        },
+        {
+          "evidence": {
+            "accepted": 61,
+            "pass": 61,
+            "quarantine": 4,
+            "reject": 2,
+            "revise": 1,
+            "total_candidates": 68
+          },
+          "id": "qa_counts_reconcile",
+          "passed": true,
+          "severity": "error",
+          "text": "qa counts reconcile"
+        },
+        {
+          "evidence": true,
+          "id": "qa_baseline_blinded",
+          "passed": true,
+          "severity": "error",
+          "text": "qa baseline blinded"
+        },
+        {
+          "evidence": "complete",
+          "id": "canonical_cell_fields_complete",
+          "passed": true,
+          "severity": "error",
+          "text": "canonical cell fields complete"
+        },
+        {
+          "evidence": "complete",
+          "id": "candidate_fields_complete",
+          "passed": true,
+          "severity": "error",
+          "text": "candidate fields complete"
+        },
+        {
+          "evidence": "valid",
+          "id": "prompt_enums_valid",
+          "passed": true,
+          "severity": "error",
+          "text": "prompt enums valid"
+        },
+        {
+          "evidence": "consistent",
+          "id": "band_aided_partition_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "band aided partition consistent"
+        },
+        {
+          "evidence": "unique",
+          "id": "accepted_prompts_exact_unique",
+          "passed": true,
+          "severity": "error",
+          "text": "accepted prompts exact unique"
+        },
+        {
+          "evidence": "none",
+          "id": "no_unpromoted_grade_d_core",
+          "passed": true,
+          "severity": "error",
+          "text": "no unpromoted grade d core"
+        },
+        {
+          "evidence": "zero leaks",
+          "id": "accepted_prompt_contamination_zero",
+          "passed": true,
+          "severity": "error",
+          "text": "accepted prompt contamination zero"
+        },
+        {
+          "evidence": "target-free",
+          "id": "blind_brief_target_free",
+          "passed": true,
+          "severity": "error",
+          "text": "blind brief target free"
+        },
+        {
+          "evidence": {
+            "exposure": {
+              "factors": [],
+              "method": "equal_within_declared_strata",
+              "normalized_within": "partition x aided_status x lane x surface x locale x wave",
+              "rationale": "No credible audience, intent, locale or surface prevalence evidence exists for AI-assistant travel-connectivity questions. Equal weighting is a conditional convention, not a prevalence estimate."
+            },
+            "priority": {
+              "factors": [],
+              "method": "withheld_pending_human_approval",
+              "rationale": "Strategic priority is a human judgement. No priority weight is applied and no priority-weighted number may be published until Gate 4."
+            }
+          },
+          "id": "weights_exposure_priority_separate",
+          "passed": true,
+          "severity": "error",
+          "text": "weights exposure priority separate"
+        },
+        {
+          "evidence": [
+            "prompt-001a",
+            "prompt-001b",
+            "prompt-002a",
+            "prompt-002b",
+            "prompt-003a",
+            "prompt-003b",
+            "prompt-004a",
+            "prompt-004b",
+            "prompt-005a",
+            "prompt-005b",
+            "prompt-006a",
+            "prompt-006b",
+            "prompt-007a",
+            "prompt-007b",
+            "prompt-008a",
+            "prompt-008b",
+            "prompt-009a",
+            "prompt-009b",
+            "prompt-010a",
+            "prompt-010b",
+            "prompt-011a",
+            "prompt-011b",
+            "prompt-012a",
+            "prompt-012b",
+            "prompt-013a",
+            "prompt-013b",
+            "prompt-014a",
+            "prompt-014b",
+            "prompt-015a",
+            "prompt-015b",
+            "prompt-016a",
+            "prompt-016b",
+            "prompt-017a",
+            "prompt-017b",
+            "prompt-018a",
+            "prompt-018b",
+            "prompt-019a",
+            "prompt-019b",
+            "prompt-020a",
+            "prompt-020b",
+            "prompt-021a",
+            "prompt-023a",
+            "prompt-025a",
+            "prompt-026a",
+            "prompt-026b",
+            "prompt-027a",
+            "prompt-027b",
+            "prompt-028a",
+            "prompt-028b",
+            "prompt-029a",
+            "prompt-029b",
+            "prompt-030a",
+            "prompt-030b",
+            "prompt-031a",
+            "prompt-031b",
+            "prompt-032a",
+            "prompt-032b",
+            "prompt-033a",
+            "prompt-033b",
+            "prompt-034a",
+            "prompt-034b"
+          ],
+          "id": "panel_selected_candidates_present",
+          "passed": true,
+          "severity": "error",
+          "text": "panel selected candidates present"
+        },
+        {
+          "evidence": [],
+          "id": "panel_selected_candidates_qa_approved",
+          "passed": true,
+          "severity": "error",
+          "text": "panel selected candidates qa approved"
+        },
+        {
+          "evidence": "phrase present",
+          "id": "conditional_panel_language",
+          "passed": true,
+          "severity": "error",
+          "text": "conditional panel language"
+        },
+        {
+          "evidence": "61 accepted IDs present",
+          "id": "report_lists_accepted_prompts",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists accepted prompts"
+        },
+        {
+          "evidence": "61 exact prompt texts present",
+          "id": "report_lists_exact_prompt_text",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists exact prompt text"
+        },
+        {
+          "evidence": {
+            "approvals_pending": true,
+            "status": "provisional_directional"
+          },
+          "id": "pending_gates_not_frozen",
+          "passed": true,
+          "severity": "error",
+          "text": "pending gates not frozen"
+        }
+      ],
+      "counts": {
+        "accepted_candidates": 61,
+        "candidates": 68,
+        "canonical_cells": 34,
+        "sources": 14
+      },
+      "judge_verdict": {
+        "anti_pattern_results": [
+          {
+            "evidence": "Device-related cells ask verification questions and declare verification/eligibility answer kinds rather than asserting compatibility: prompt-010a 'How do I check whether my phone can use a foreign mobile line before I buy one?', prompt-011b Hong Kong device origin, prompt-027a 'Does Airalo work on my phone? I have a Samsung I bought in Taiwan' with expected_answer_kind 'eligibility_answer'; panel.yaml refresh rule requires re-verifying device lists before scoring aided_brand_knowledge.",
+            "id": "airalo-ap-01",
+            "triggered": false
+          },
+          {
+            "evidence": "measurement_charter.json products list keeps local/regional/global as separate areas with global marked coverage_status 'partial' plus gap_note; cell-033 prompts contrast regional and global explicitly; icp-002 constraint states 'Regional and global packages cover defined country lists, not everywhere' and the 137-country figure is flagged stale in panel.yaml.",
+            "id": "airalo-ap-02",
+            "triggered": false
+          },
+          {
+            "evidence": "Only cells 003, 006, 017, 024, 029, 030 are purchase/shortlist shaped; post-purchase is well represented by cell-014 (no service on arrival), cell-015 (expiry/top-up), cell-020 sentinel, cell-028 aided multi-turn troubleshooting with an escalation turn ('Do I need to change the APN, or should I contact support?'), and journey-state coverage shows post_purchase 4 cells plus adoption 1.",
+            "id": "airalo-ap-03",
+            "triggered": false
+          },
+          {
+            "evidence": "panel.yaml refresh_policy states 'Never embed a price in a prompt' and no accepted prompt contains a package price; source_manifest.json warns 'geo_dependent_pricing' for the CAD rendering; aided_brand_knowledge 'does_not_prove' explicitly says the model's stated facts may not be currently true and must be re-verified against a dated source. The only figures in prompt text are user-side context ('$12 a day' home-carrier fee, 'Is 5GB enough', '10GB plan').",
+            "id": "airalo-ap-04",
+            "triggered": false
+          },
+          {
+            "evidence": "prompt_qa.json contamination_summary target_brand_hits_in_unaided = 1, the single hit being prompt-014c which is rejected (chg-003); B3/B4 unaided prompts deliberately use 'mobile data', 'internet on my phone', 'a foreign mobile line' instead of product language, and prompt-008a records the competitor brand being stripped from the observed source phrasing.",
+            "id": "airalo-ap-05",
+            "triggered": false
+          }
+        ],
+        "case_id": "case-06-airalo",
+        "critical_failures": [],
+        "hard_gates": {
+          "artifact_contract_and_resumability": {
+            "evidence": "All fourteen canonical snake_case artifacts are present and parse (contamination_register.yaml holds JSON, which is valid YAML). Four gates are pending in panel.yaml approvals and mirrored in panel_change_ledger.json pending_decisions pend-001…pend-006; rejections/quarantines/revisions are logged as chg-002…chg-007 and retained in prompt_universe.json; waivers W-001…W-007 carry expiry dates. Hashes are null everywhere with explicit 'freeze blocker' warnings and no fabricated digests.",
+            "status": "pass"
+          },
+          "comprehensive_or_waived_dimensions": {
+            "evidence": "panel_report.md §5 tabulates bands B0–B5 (34 cells), aided states (unaided 25 / category 4 / competitor 2 / target 3, campaign_exposed 0 waived), partitions core/sentinel/rotating/control/aided, acts (buy folded, navigate+generate waived as gap-004), all six journey states, four roles with economic_buyer/procurement waived (gap-003), locales (en-CA quarantined, non-English waived W-004), turn forms (2 scripted_multi_turn cells), lanes (consumer_surface sentinel-only W-006) and evidence grades. Unaided cell shortfall (25 vs 30–48) is waived as W-001 with the evidence needed, not padded.",
+            "status": "pass"
+          },
+          "evidence_source_mix": {
+            "evidence": "source_manifest.json holds 14 sources beyond the target: company_asserted 3 (source-001/002/003), independent 6 (source-004 Freaking Nomads review, source-005 Wise comparison, source-008, source-009, source-010, source-014), buyer_behavior 1 (source-006 FlyerTalk thread titles), search_proxy 4 (source-007, 011, 012, 013), llm_hypothesis 0. Blocked evidence (Trustpilot 403, Reddit, app stores 404, membership wall) is recorded as a manifest warning and as limitation 2 in panel.yaml rather than papered over.",
+            "status": "pass"
+          },
+          "measurement_and_claim_honesty": {
+            "evidence": "measurement_charter.json and tracking_plan.md §1 give four separate aided denominators (unaided, category_aided, competitor_aided reported separately, target_aided), never pool closed_model/retrieval/consumer_surface, and keep cell-025 control out of unaided_brand_presence. panel.yaml weight block keeps exposure 'equal_within_declared_strata' (explicitly 'a conditional convention, not a prevalence estimate') apart from priority 'withheld_pending_human_approval'. Status is provisional_directional with limitations 1, 4, 8 and 12 disclaiming representativeness, market share and causality.",
+            "status": "pass"
+          },
+          "prompt_provenance_traceability": {
+            "evidence": "Every accepted candidate in prompt_universe.json carries canonical_cell_id → cell_spec_id (spec-001…spec-034 in prompt_architecture.json) → job_id → source_ids; e.g. prompt-011b → cell-011 → spec-011 → job-004 → source-005 (device-origin limitation), which exists in source_manifest.json. panel.yaml selected_candidate_ids (61) matches prompt_qa.json accepted_candidate_ids exactly. One cosmetic mismatch: panel_report.md row prompt-001a cites 'source-010, source-004' while prompt_universe.json lists ['source-010','source-007'].",
+            "status": "pass"
+          },
+          "unaided_contamination_and_blinding": {
+            "evidence": "prompt_qa.json contamination_summary records exactly one target-brand hit in an unaided cell (prompt-014c, 'My Airalo eSIM isn't working…') and it is rejected with chg-003 in panel_change_ledger.json; no accepted core/sentinel/rotating/control prompt contains 'Airalo' or a competitor name. B0 target-aided cells 026–028 sit in the aided partition under exception exc-001. blind_design_brief.json contains no brand, domain, slogan or performance data and honestly warns 'no_fresh_subagent' plus 'b0_pass_separate'. prompt-008a shows the competitor brand stripped from the source phrasing 'Is Holafly really unlimited?'.",
+            "status": "pass"
+          },
+          "usable_exact_prompt_output": {
+            "evidence": "panel_report.md §4 lists all 68 candidates as exact strings (I counted 68 rows, prompt-001a through prompt-034b) with variant, partition, band, aided state, job, act, journey, role, locale, constraints, expected answer, turn form, lanes, evidence IDs, transformation, weight status and QA outcome per row; multi-turn text is encoded 'Turn 1: … || Turn 2: …' with a split rule in run_manifest_template.json multi_turn_policy.",
+            "status": "pass"
+          }
+        },
+        "must_have_results": [
+          {
+            "evidence": "blind_design_brief.json material_constraints encode con-destination-bound, con-validity-window, con-data-only (no voice/SMS/local number), con-fair-use-throttle, con-tethering, con-single-device, con-device-support, con-carrier-lock, con-device-origin, con-install-needs-internet and con-topup, and each is attached to specific cells in prompt_architecture.json (e.g. spec-011 carrier-lock + device-origin, spec-034 fair-use + validity). Trip length appears in prompt text ('10 day trip to Japan', 'a month', 'six weeks'); scope is split local (cell-003/026), regional (cell-006/016/033) and global (cell-033, flagged partial under W-007).",
+            "id": "airalo-mh-01",
+            "status": "pass"
+          },
+          {
+            "evidence": "buyer_jobs.json cleanly separates comparison (job-001/002), sizing (job-003), device compatibility (job-004), dual-line/data settings (job-005, implement/adoption, cells 012–013), top-up/extension (job-007, cell-015) and post-landing troubleshooting (job-006, cells 014/020/028). But installation and activation timing is not a distinct job or cell: it survives only as constraint con-install-needs-internet and one clause in prompt-002b ('What do I need to sort out before I go?'), despite source-002 listing two install questions among popular help topics and source-003 stating 'Install as soon as you'd like'.",
+            "id": "airalo-mh-02",
+            "status": "partial"
+          },
+          {
+            "evidence": "cell-026/027/028 are B0 target_aided in the aided partition (prompt-026a 'Is Airalo reliable in Japan?', prompt-027a device eligibility, prompt-028a/b multi-turn 'My Airalo eSIM says no service after landing') and feed only aided_brand_knowledge; panel.yaml partitions.core excludes them and prompt_qa.json rule 'denominator-separation' is recorded per aided candidate. Unaided travel-connectivity (cells 001–020), category (031–034) and competitor comparison (029–030) sit in three other denominators.",
+            "id": "airalo-mh-03",
+            "status": "pass"
+          },
+          {
+            "evidence": "panel.yaml refresh_policy.dated_and_mutable_claim_rules give per-class review-by dates for price/package (source-001/003, 'Never embed a price in a prompt'), fair-use threshold (source-004, 2026-10-25), coverage counts ('the 137-country figure is dated 2025-09-12 and is stale for scoring'), device lists and registration rules; no accepted prompt embeds a price. Destination specificity is carried in prompt text (Japan, Osaka, Bangkok, Italy, Spain/France/Italy/Greece) and every cell has retrieval in lane_eligibility, with cell-021 retrieval-only.",
+            "id": "airalo-mh-04",
+            "status": "pass"
+          },
+          {
+            "evidence": "icp_hypotheses.json describes contexts, triggers, constraints, disqualifiers, counterevidence_source_ids, confidence and open_questions with no biography, names, ages or invented firmographics; icp-006 is marked hypothesis_only and excluded (W-002). buyer_jobs.json warnings state 'counts of sources are not counts of buyers', and panel_report.md §3 explicitly refuses to invent an economic buyer/approver role. Job-002 constraints keep coverage lists finite rather than assuming one package fits every trip.",
+            "id": "airalo-mh-05",
+            "status": "pass"
+          },
+          {
+            "evidence": "source-004 (independent review, 2026-07-02) supplies throttling ~1 Mbps after ~3 GB/day, carrier lock as 'the most common complaint from new users', no local number and non-transferable line; source-007 preserves slow support response and rural-coverage complaints; source-006 supplies traveller thread titles. Generalisation is resisted: panel.yaml refresh rule calls the fair-use figure a 'Single independent observation… Re-verify per package', and panel_report.md §2 keeps the homepage 'affordable, flexible coverage' claim in conflict with the throttling report rather than smoothing it.",
+            "id": "airalo-mh-06",
+            "status": "pass"
+          }
+        ],
+        "overall_score": 4.25,
+        "recommended_changes": [
+          {
+            "change": "Add a distinct installation/activation-timing job (install before departure vs on arrival, what happens on landing, QR/eSIM setup order) anchored on source-002's two install help questions and source-003's 'Install as soon as you'd like - just make sure you have stable internet connection', then give it at least one unaided B3/B4 cell so activation timing is not carried only as constraint con-install-needs-internet.",
+            "owner": "buyer-job-intent-analysis"
+          },
+          {
+            "change": "Re-grade source-007: it is a third-party page characterising Reddit phrasing, yet it is graded B and is the provenance for the 'observed_language' candidates prompt-003a and prompt-026a. Either downgrade those two variant_roles to natural_paraphrase with a secondary-provenance note, or downgrade the source to C, so observed-language claims rest on first-party buyer writing.",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Create at least one unaided cell for the global multi-region package intent and one for country-list/coverage verification (currently W-007 leaves global covered only by category-aided cell-033), or record explicitly that global intent is unmeasurable unaided until forum/review language is retrieved.",
+            "owner": "prompt-proximity-architecture"
+          },
+          {
+            "change": "Fix two cross-artifact inconsistencies before Gate 3: panel_report.md row prompt-001a cites source-010/source-004 while prompt_universe.json lists source-010/source-007; measurement_charter.json declares locales ['en-US','en-CA'] and markets 'measured from en-US and en-CA prompting contexts' while panel.yaml locales is ['en-US'] and en-CA is unmeasured.",
+            "owner": "artifact-validator"
+          },
+          {
+            "change": "Produce accepted sensitivity variants: all four sensitivity drafts were rejected or quarantined, so selected_variants.sensitivity is empty and the wording-sensitivity axis is unmeasured. Add clean sensitivity pairs on the four sentinel cells (length, specificity, question form) that carry evidence IDs and no brand token.",
+            "owner": "realistic-prompt-generation"
+          },
+          {
+            "change": "Extend contamination_register.yaml beyond source-001/002/003/005 to the destination and help sub-pages before any freeze, since the register itself warns that 'a term absent here is not certified absent from the target's copy' while the scan is used to certify 61 prompts as clean.",
+            "owner": "prompt-set-qa"
+          },
+          {
+            "change": "Resolve the freeze blockers: compute source_manifest_hash, content_hash, prompt_hash, blind_brief_hash and configuration hashes (or declare the external hashing procedure and who runs it), since exact-duplicate detection currently degrades to NFKC string comparison per prompt_qa.json warning.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Take Gate 3 first: decide core membership for cell-007, cell-012 and cell-013 (all title-only grade-C support) and whether en-CA gets a market-competent reviewer, because those decisions change the core denominator that every unaided rate depends on.",
+            "owner": "human-gate"
+          }
+        ],
+        "scores": {
+          "artifact_usability_integrity": 4,
+          "contamination_qa": 5,
+          "evidence_quality": 4,
+          "icp_market_model": 4,
+          "job_intent_architecture": 4,
+          "panel_measurement_design": 5,
+          "prompt_coverage_traceability": 4,
+          "prompt_realism_cell_discipline": 4
+        },
+        "strengths": [
+          "Denominator and lane discipline is exemplary: four separate aided denominators, a control cell (cell-025) that never enters unaided_brand_presence, retrieval-only handling for the B5 cell, and search_policy recorded separately from retrieval_used.",
+          "Honest limitation accounting rather than padding — W-001 records 25 unaided cells against the 30–48 default, only 2 of 61 candidates are observed language, and the blocked Trustpilot/Reddit/app-store evidence is stated as the single most important limitation.",
+          "Contamination handling is complete and auditable: register with allowed exceptions exc-001/002, generic category vocabulary deliberately excluded from the target-term list with a stated rationale, one hard brand hit caught and rejected, and duplicate pairs split with named protected differences.",
+          "Decay is treated as a first-class risk: cell-022 quarantined because its World Cup anchor concluded 2026-07-19, and per-claim-class review-by dates for price, fair-use threshold, coverage counts, device lists and registration rules.",
+          "Counterevidence preserved rather than smoothed — homepage 'affordable, flexible coverage' held against the ~1 Mbps/3 GB throttling report, and affiliate-density in source-013 recorded as a bias on competitive_mention_share.",
+          "Internal arithmetic is consistent across artifacts: 34 cells / 68 candidates / 61 accepted / 32 selected cells reconcile between panel_report.md §5, prompt_qa.json counts and panel.yaml selected_candidate_ids."
+        ],
+        "summary": "A disciplined, evidence-bound panel that is safe to track as a provisional instrument. All fourteen artifacts exist, parse and reconcile numerically (34 cells, 68 candidates, 61 accepted, 32 selected), and panel_report.md §4 exposes every exact prompt string with the dimensions needed to run it. Evidence goes well beyond the target site with correctly classified company/independent/buyer-behaviour/search-proxy sources, no grade-A inflation, calibrated grades for title-only sources, retained conflicts (homepage 'affordable, flexible coverage' vs the ~1 Mbps/3 GB fair-use report) and an unusually honest account of blocked review platforms. Domain boundaries are respected: destination, device support, carrier lock, device origin, validity, data-only, single-device and top-up are all material constraints; local/regional/global are kept distinct with global explicitly partial under W-007; no price is embedded in any prompt and mutable facts carry review-by dates. Contamination and measurement design are the strongest dimensions — one target-brand leak caught and rejected, B0 quarantined into the aided partition, four separate aided denominators, an off-category control, fresh-session and retrieval-state separation, two independent weight systems with an honest equal-weight convention, and provisional/non-representative/non-causal framing throughout. Weaknesses are real but repairable: installation and activation timing is not a distinct job or cell despite direct source support (mh-02 partial); the two 'observed_language' candidates trace to a secondary characterisation of Reddit rather than first-party buyer writing; no sensitivity variant survived QA; unaided breadth is 25 cells against the 30–48 default (waived); all hashes are null; and two small cross-artifact inconsistencies (prompt-001a evidence IDs, charter vs panel locale lists) need cleanup. Mean 4.25, no hard-gate failure, no triggered anti-pattern.",
+        "verdict": "pass"
+      },
+      "passed": true,
+      "pending_judgment_assertions": [],
+      "split": null,
+      "tags": []
+    }
+  ],
+  "cases_sha256": "7f58dc91d070d8b54db0b178d93021b5399f6769846b80d32836fb4c0a8f78ac",
+  "gold_sha256": "17d60dc8c5a0228c8d6d33a85bf85600055bc3dcbdbfa92bd297ffd4e2804057",
+  "graded_at": "2026-07-25T18:13:31Z",
+  "run": "2026-07-25-opus5-heldout-airalo",
+  "schema_version": "1.0.0",
+  "summary": {
+    "cases": 1,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 1,
+    "top_failed_checks": []
+  }
+}

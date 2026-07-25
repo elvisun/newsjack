@@ -1,0 +1,54 @@
+{
+  "fixture_id": "expected-harborheat",
+  "required_jobs": [
+    "Decide whether a cold-climate heat pump can reliably replace an aging gas furnace in an older Ontario home",
+    "Understand electrical, envelope, duct, backup-heat, and installer requirements before selection",
+    "Recognize normal defrost behavior and know when to request post-installation service"
+  ],
+  "required_roles": [
+    "homeowner decision maker",
+    "licensed installer verifier",
+    "post-purchase system user"
+  ],
+  "required_bands": [
+    "B0_direct_brand_product",
+    "B1_comparison_purchase",
+    "B2_category",
+    "B3_problem_need",
+    "B4_job_goal",
+    "B5_broad_discovery_story"
+  ],
+  "required_information_acts": [
+    "explain",
+    "diagnose",
+    "compare",
+    "verify",
+    "implement",
+    "troubleshoot"
+  ],
+  "required_journeys": [
+    "problem_identification",
+    "exploration",
+    "requirements_building",
+    "supplier_selection",
+    "post_purchase"
+  ],
+  "required_locales": [
+    "en-CA",
+    "fr-CA"
+  ],
+  "invariants": [
+    "A cold-upstairs B3 cell may be urgent without being mechanically labeled BOFU.",
+    "French Canadian prompts use source-backed Ontario terminology and require approved market-competent review before core.",
+    "A United States translation is a different or excluded cell because incentives, codes, currency, and availability differ.",
+    "Northern Comfort prompts are competitor_aided, never unaided.",
+    "Rebate B5 cells cite fresh source hh-b5-policy-change or hh-rebate-current and have a review date.",
+    "Exact rebate amounts are not invented.",
+    "Rural-service counterevidence remains visible even though HarborHeat's claimed service area is urban."
+  ],
+  "unsupported_or_waived": [
+    "Markets outside Ontario.",
+    "Campaign response: no campaign or experimental design was supplied.",
+    "Population prevalence weights: the fixture supplies no representative homeowner frame."
+  ]
+}

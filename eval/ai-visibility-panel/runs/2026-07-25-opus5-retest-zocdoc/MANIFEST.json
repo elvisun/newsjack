@@ -1,0 +1,47 @@
+{
+  "apparatus_combined_sha256": "7dcd0f30422c0131fb6ebfb680db3da5935841c7bac94c8e7cbc82143bf65a58",
+  "apparatus_sha256": {
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/ETHICS.md": "897f4fd0be30902dedb5af51ba2ecf40181f2ad017827bd3ef55b749302dddd4",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/ai-visibility-panel-design/SKILL.md": "153fb4465142d4fd3b5335b7cc27987dda85b6986908850eddcc9f1a0346d9e3",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/build-ai-visibility-panel/SKILL.md": "e629e12c41226fdaf7d1b15227ceb9bbda614e5806c96c6d597d84b3e466fd2d",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/build-ai-visibility-panel/references/artifact-contracts.md": "c96c6e214a2785901b2e661c3d6bfb93a8acc7426104b2d0d0971719ca3b8d12",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/buyer-job-intent-analysis/SKILL.md": "4400d2fd0aa3867044ba508269af66a0e95ec449899070ad0c4942d123fe9566",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/icp-evidence-analysis/SKILL.md": "930ee757dc8eb976e547800cc66d05db543bead24336281819c9284d19d89fc6",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/prompt-proximity-architecture/SKILL.md": "3d5ed4060f18912e95c5c47fc120e029020371b155cb274370deea7330a49b99",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/prompt-set-qa/SKILL.md": "4fb39440b35046056ca74ed82219e534303052c3017009239c703f185d1dd971",
+    "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/skills/realistic-prompt-generation/SKILL.md": "ae64bdded5c7e436cd3122e66f8a9527b43c489c0d1e018b2fdd8c7e0159afb2"
+  },
+  "cases_file": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/eval/ai-visibility-panel/cases.json",
+  "cases_sha256": "7f58dc91d070d8b54db0b178d93021b5399f6769846b80d32836fb4c0a8f78ac",
+  "completed_case_count": 1,
+  "config": {
+    "chrome": false,
+    "concurrency": 1,
+    "effort": "high",
+    "executor_instructions_sha256": "3df41fe79adc8cf4857843e99623a79153cdf9652a618dffa1e088724ab3d6f6",
+    "max_budget_usd_per_case": 8.0,
+    "mcp_servers": [],
+    "safe_mode": true,
+    "session_persistence": false,
+    "slash_commands": false,
+    "tools": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch",
+      "Write",
+      "Edit"
+    ]
+  },
+  "created_at": "2026-07-25T17:02:36Z",
+  "kind": "ai_visibility_panel_executor_eval",
+  "model": "claude-opus-5",
+  "schema_version": "1.0.0",
+  "selected_case_ids": [
+    "case-04-zocdoc"
+  ],
+  "selected_case_slugs": [
+    "case-04-zocdoc"
+  ]
+}

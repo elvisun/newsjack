@@ -1,0 +1,275 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "icp-octopus-energy-uk-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5 (icp-evidence-analysis)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: no hashing tool in this runtime; sha256 fields are null rather than fabricated.",
+    "no_human_gate_1: no human reviewed or promoted these hypotheses. gate_status is ready_for_human_review and every ICP remains provisional.",
+    "standing_only_from_company_copy: the target's own pages establish that it offers standard and dynamic tariffs, export tariffs, EV, solar, battery, heat pump, metering and payment products. They do not establish that any household is looking for them.",
+    "no_customer_corpus: no first-party customer, prospect, support or call evidence was supplied, so no ICP reaches high confidence.",
+    "segment_not_prevalence: forum and search evidence shows that these contexts exist and how they are described. It does not show how common each context is among GB households or among AI-assistant users."
+  ],
+  "gate_status": "ready_for_human_review",
+  "factual_perimeter": {
+    "target_market_scope": "Great Britain domestic energy supply plus adjacent home-energy hardware and services (source-001, source-002, source-003).",
+    "capabilities_asserted": [
+      "standard variable and fixed domestic supply (source-001, source-003)",
+      "wholesale-linked daily and half-hourly dynamic import tariffs (source-001)",
+      "smart EV charging tariffs requiring a compatible vehicle or charger (source-001)",
+      "solar and battery time-of-use tariff (source-001)",
+      "three export tariff variants with half-hourly export metering and export MPAN requirements (source-002)",
+      "heat pump supply and installation with Boiler Upgrade Scheme applied and a dedicated heating tariff (source-003)",
+      "smart metering as a precondition for time-of-use and metered export products (source-002, source-004)",
+      "business energy and salary-sacrifice EV offers (source-001)"
+    ],
+    "limitations_recorded": [
+      "export tariffs require an import relationship, a compatible smart meter, an export MPAN, and exclude recent feed-in-tariff starters (source-002)",
+      "heat pump savings are stated to vary with system design, tariff, insulation and use; no property-suitability preconditions are published on the explore page (source-003)",
+      "independent service evidence is mixed rather than uniformly leading: rank 4 at 3.67/5 in the Citizens Advice Q1 2026 table (source-006) alongside a 79% Which? customer score and ninth-year Recommended Provider status (source-007)"
+    ],
+    "permission_status": "All sources are public pages retrieved without authentication. No personal data beyond public forum handles is retained, and reviewer or staff names shown on the target home page were deliberately excluded.",
+    "geography": "Great Britain (England, Scotland, Wales). Northern Ireland and non-GB markets are excluded: no evidence was gathered for domestic supply there, and the Ofgem price cap evidence (source-004, source-005) covers GB only."
+  },
+  "icps": [
+    {
+      "icp_id": "icp-001",
+      "label": "GB dual-fuel household sitting on the capped standard variable rate after a cap change, deciding whether to fix, move to a wholesale-linked deal, or do nothing",
+      "context": {
+        "unit": "household bill payer",
+        "situation": "on a default variable tariff when the cap moved on 1 July 2026 (13% up, GBP 1,663 typical dual fuel)",
+        "market": "GB",
+        "decision_horizon": "weeks; next cap period is published by 26 August 2026"
+      },
+      "triggers": [
+        {"text": "Cap rise takes effect and the monthly bill or direct debit visibly changes", "source_ids": ["source-004", "source-005"]},
+        {"text": "Publisher and comparison pages actively frame a fix-or-stay decision in July 2026", "source_ids": ["source-012", "source-013"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "household bill payer", "source_ids": ["source-011", "source-013"]},
+        {"role": "economic_buyer", "label": "same person; no committee evidence", "source_ids": ["source-013"]}
+      ],
+      "constraints": [
+        "cannot absorb an unpredictable bill; risk tolerance is the real variable (source-012)",
+        "regional unit rates and standing charges differ across GB cap regions (source-005)",
+        "exit fees and deal length matter to the comparison (source-012)"
+      ],
+      "disqualifiers": [
+        "already on a fixed deal, which the regulator states is unaffected by cap changes (source-005)"
+      ],
+      "standing_claim_ids": ["claim-001", "claim-002"],
+      "supporting_source_ids": ["source-004", "source-005", "source-012", "source-013"],
+      "counterevidence_source_ids": ["source-016"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "What share of GB households on the default tariff actually consult an AI assistant for this decision? No evidence.",
+        "Is the claim that 33 million accounts remain on standard variable tariffs accurate? It appeared only in an aggregator summary and was not verified."
+      ]
+    },
+    {
+      "icp_id": "icp-002",
+      "label": "GB household charging an EV at home, choosing between a fixed cheap overnight window and a half-hourly wholesale-linked rate, constrained by charger and vehicle compatibility",
+      "context": {
+        "unit": "household with an EV and a home charge point",
+        "situation": "wants the lowest charging cost without losing control or predictability",
+        "market": "GB",
+        "hardware_dependency": "smart charger or vehicle that the supplier can control"
+      },
+      "triggers": [
+        {"text": "Owner with EV, solar, battery and controllable charger asks whether the half-hourly tariff would beat their fixed overnight rate", "source_ids": ["source-008"]},
+        {"text": "Charging at home raises the electricity bill enough to prompt tariff research", "source_ids": ["source-008", "source-017"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "EV driver and home charge point owner", "source_ids": ["source-008"]},
+        {"role": "post_purchase_user", "label": "same household optimising an existing setup", "source_ids": ["source-008"]}
+      ],
+      "constraints": [
+        "vehicle or charger must be supported by the smart tariff (source-017)",
+        "tariff must be compatible with an existing export arrangement (source-008)",
+        "battery round-trip losses change the arithmetic (source-008)"
+      ],
+      "disqualifiers": ["no off-street charging; the evidence gathered assumes home charging"],
+      "standing_claim_ids": ["claim-003"],
+      "supporting_source_ids": ["source-008", "source-017", "source-001"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "The strongest behavioural source is dated March 2024; do 2026 buyers still frame the choice as fixed-window versus half-hourly?",
+        "No evidence on fleet, company-car or salary-sacrifice buyers as a distinct context."
+      ]
+    },
+    {
+      "icp_id": "icp-003",
+      "label": "GB rooftop solar owner deciding how to be paid for exported electricity, often holding a legacy guaranteed payment they do not want to lose",
+      "context": {
+        "unit": "owner-occupier with existing solar, sometimes with a battery",
+        "situation": "comparing a legacy deemed or feed-in payment against metered export",
+        "market": "GB",
+        "metering_dependency": "smart meter capable of half-hourly export data plus an export MPAN"
+      },
+      "triggers": [
+        {"text": "Legacy feed-in-tariff holder asks whether they could do better on a metered export tariff and how to calculate the difference", "source_ids": ["source-009"]},
+        {"text": "Awareness that export rates differ materially between suppliers", "source_ids": ["source-009"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "solar owner receiving export payments", "source_ids": ["source-009"]},
+        {"role": "blocker", "label": "existing scheme obligation or metering gap", "source_ids": ["source-002", "source-009"]}
+      ],
+      "constraints": [
+        "losing a guaranteed annual payment is the central anxiety (source-009)",
+        "metered export needs a compatible smart meter and a second MPAN (source-002)",
+        "recent feed-in-tariff starters are excluded from at least one export product (source-002)",
+        "physical or accessibility limits can block meter work (source-009)"
+      ],
+      "disqualifiers": ["no export capability or no exportable generation"],
+      "standing_claim_ids": ["claim-004"],
+      "supporting_source_ids": ["source-009", "source-002", "source-010"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "How many such households are actively reconsidering export in 2026 rather than leaving legacy payments alone? Unknown.",
+        "No evidence on new-build or new-install solar owners choosing export for the first time."
+      ]
+    },
+    {
+      "icp_id": "icp-004",
+      "label": "GB owner-occupier weighing a heat pump against another gas or oil boiler, unsure about property suitability, disruption and real running cost",
+      "context": {
+        "unit": "owner-occupier of an existing, often older, home",
+        "situation": "boiler nearing replacement, grant available, uncertain whether the house is suitable",
+        "market": "England and Wales for the grant evidence; Scotland has separate schemes not evidenced here"
+      },
+      "triggers": [
+        {"text": "Homeowners itemise cylinder, radiator, pipework, electrics and insulation costs and openly ask whether to delay and hope costs fall", "source_ids": ["source-014"]},
+        {"text": "Grant availability frames the decision window", "source_ids": ["source-003", "source-015"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "homeowner and occupant", "source_ids": ["source-014"]},
+        {"role": "approver", "label": "second household decision maker; role exists but is not evidenced in detail", "source_ids": []},
+        {"role": "blocker", "label": "property fabric, radiator sizing and space for a cylinder", "source_ids": ["source-014"]}
+      ],
+      "constraints": [
+        "whole-system cost, not just the unit (source-014)",
+        "running cost depends on tariff, insulation and system design, as the target itself states (source-003)",
+        "grant eligibility conditions including EPC insulation recommendations (source-015, low confidence)"
+      ],
+      "disqualifiers": ["renters and most flats; no evidence gathered for either context"],
+      "standing_claim_ids": ["claim-005"],
+      "supporting_source_ids": ["source-003", "source-014", "source-015"],
+      "counterevidence_source_ids": ["source-015"],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "The only behavioural source was read through a search summary, and the grant change claim is unverified. Direct forum and gov.uk retrieval is needed before this ICP supports core cells beyond the two strongest jobs.",
+        "No independent evidence on realised running costs for this supplier's installations."
+      ]
+    },
+    {
+      "icp_id": "icp-005",
+      "label": "GB household without a half-hourly-capable meter deciding whether to accept a smart meter, where metering is the gate to time-of-use and export products",
+      "context": {
+        "unit": "household with a legacy or mechanical meter",
+        "situation": "sceptical about smart metering while wanting cheaper time-of-use or export rates",
+        "market": "GB"
+      },
+      "triggers": [
+        {"text": "Household with EV and legacy solar says it is still sceptical about smart meters while weighing cheaper EV and export rates", "source_ids": ["source-010"]},
+        {"text": "Regulator notes smart-meter customers may access discounted weekend electricity rates", "source_ids": ["source-004"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "household bill payer", "source_ids": ["source-010"]},
+        {"role": "blocker", "label": "own scepticism plus installation and connectivity risk", "source_ids": ["source-010"]}
+      ],
+      "constraints": [
+        "connectivity failure risk raised in the thread (source-010)",
+        "half-hourly export data capability is required for metered export (source-002)"
+      ],
+      "disqualifiers": ["already on a working half-hourly-capable smart meter"],
+      "standing_claim_ids": ["claim-006"],
+      "supporting_source_ids": ["source-010", "source-002", "source-004"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Prepayment and vulnerable-customer metering concerns are widely reported but were not evidenced in this run; treat as unresearched, not absent."
+      ]
+    },
+    {
+      "icp_id": "icp-006",
+      "label": "GB account holder challenging a monthly direct debit increase while the account is in credit, or choosing a payment method that costs less",
+      "context": {
+        "unit": "existing supply account holder",
+        "situation": "payment amount rises or credit accumulates; wants to stop overpaying",
+        "market": "GB"
+      },
+      "triggers": [
+        {"text": "Recurring user-written threads titled around direct debit increases while in credit and accounts perpetually in credit", "source_ids": ["source-011"]},
+        {"text": "Regulator states direct debit can save about GBP 143 a year and urges struggling customers to contact their supplier", "source_ids": ["source-004"]}
+      ],
+      "roles": [
+        {"role": "post_purchase_user", "label": "existing account holder", "source_ids": ["source-011"]}
+      ],
+      "constraints": [
+        "seasonal credit build-up is normal and disputed at the same time (source-011)",
+        "payment method changes the unit price (source-004)"
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-007"],
+      "supporting_source_ids": ["source-011", "source-004"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Thread titles were read from a search index rather than the threads themselves. Direct retrieval would upgrade the language evidence.",
+        "No evidence gathered on prepayment, arrears or Warm Home Discount contexts."
+      ]
+    },
+    {
+      "icp_id": "icp-007",
+      "label": "UK SME or employer buying business supply or an employee EV salary-sacrifice scheme",
+      "context": {
+        "unit": "small or medium business or employer",
+        "situation": "unknown; no buyer-side evidence gathered",
+        "market": "UK"
+      },
+      "triggers": [],
+      "roles": [],
+      "constraints": [],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-008"],
+      "supporting_source_ids": ["source-001"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "Only the target's own navigation supports this context. Company copy establishes standing, not demand, so no panel cell was created for it.",
+        "Needed before promotion: procurement or RFP language, business review or forum evidence, and at least one independent source on SME energy buying or salary-sacrifice decision making."
+      ]
+    }
+  ],
+  "standing_claims": [
+    {"claim_id": "claim-001", "text": "Offers a standard variable tariff described as flexible plus fixed and wholesale-linked alternatives", "source_ids": ["source-001", "source-003", "source-012"], "assertion_class": "company_asserted_corroborated"},
+    {"claim_id": "claim-002", "text": "Independent reviewers rate its service above the market average while not placing it first on every table", "source_ids": ["source-006", "source-007"], "assertion_class": "independent"},
+    {"claim_id": "claim-003", "text": "Offers smart EV charging tariffs dependent on vehicle or charger compatibility", "source_ids": ["source-001", "source-017"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-004", "text": "Offers three export tariff variants with stated metering and eligibility conditions", "source_ids": ["source-002"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-005", "text": "Sells and installs heat pumps with the Boiler Upgrade Scheme applied and a matching heating tariff", "source_ids": ["source-003"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-006", "text": "Time-of-use and metered export products depend on smart metering the supplier can read half-hourly", "source_ids": ["source-002", "source-004"], "assertion_class": "company_asserted_corroborated"},
+    {"claim_id": "claim-007", "text": "Offers payment options including direct debit, which the regulator links to lower unit costs", "source_ids": ["source-001", "source-004"], "assertion_class": "company_asserted_corroborated"},
+    {"claim_id": "claim-008", "text": "Offers business energy and EV salary sacrifice", "source_ids": ["source-001"], "assertion_class": "company_asserted"}
+  ],
+  "exclusions": [
+    "Northern Ireland and non-GB markets: no evidence of domestic supply gathered; cap evidence is GB-only.",
+    "Renters and most flats for the heat pump context: no evidence gathered.",
+    "Prepayment, arrears and vulnerable-customer contexts: not researched in this run; recorded as a gap, not as a negative finding.",
+    "Business and salary-sacrifice buyers: website-only standing, so excluded from all panel cells until buyer evidence exists."
+  ],
+  "flattering_claims_not_adopted": [
+    "'most awarded energy supplier' (source-001): promotional, unverifiable as stated.",
+    "'Rated 4.8 stars' from a review platform (source-001): platform-conditional and not independently audited here.",
+    "'save around GBP 370 a year' on heat pumps and 'cut electricity bills by 90%' with solar and battery (source-001): conditional savings claims the target itself qualifies elsewhere (source-003)."
+  ]
+}

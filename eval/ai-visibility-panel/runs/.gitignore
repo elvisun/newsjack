@@ -1,0 +1,7 @@
+**/*.part
+**/*.log
+**/*.stream.jsonl
+**/*_prompt.txt
+**/judge.raw.json
+**/_attempts/
+**/spec001_patch.txt
