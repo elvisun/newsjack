@@ -1,0 +1,276 @@
+{
+  "aggregated_at": "2026-07-25T18:13:30Z",
+  "grading_sha256": "d93588b99b3db001f319ae714db61e18d543cd7f709568748375289eebbf3fe9",
+  "records": [
+    {
+      "case_id": "case-04-zocdoc",
+      "case_name": "case-04-zocdoc",
+      "case_slug": "case-04-zocdoc",
+      "counts": {
+        "accepted_candidates": 78,
+        "candidates": 86,
+        "canonical_cells": 44,
+        "sources": 17
+      },
+      "deterministic_passed": true,
+      "failed_checks": [],
+      "judge": {
+        "anti_pattern_results": [
+          {
+            "evidence": "No diagnosis, treatment or medical-suitability prompt appears. The two symptom-bearing candidates (prompt-005a sore throat/fever, prompt-005b UTI) ask for care-setting options, are typed expected_answer_kind 'care_setting_triage_options', and clinical correctness is explicitly outside the estimands ('not medical correctness'); icp-002 disqualifies emergency-severity symptoms. Flagged as the closest boundary in the set: 'or wait?' invites an urgency judgement and no answer-coding rule yet quarantines triage content.",
+            "id": "zocdoc-ap-01",
+            "triggered": false
+          },
+          {
+            "evidence": "The artifacts assert the opposite of a guarantee: source-003 is recorded as fact_type 'limitation' ('an appointment may appear in-network at booking and the office may later determine it is not'), claim-002 states the non-guarantee, and cell-025 exists to test whether models repeat the guarantee ('is the visit guaranteed to be covered?'). aided_brand_knowledge counts only 'materially correct, source-checkable' facts such as insurance-matching limits. No prompt or field asserts network status, availability or cost as guaranteed.",
+            "id": "zocdoc-ap-02",
+            "triggered": false
+          },
+          {
+            "evidence": "No merged persona: icp-001..003 vs icp-004..005, jobs 001–006 vs 007–010, personas role-001/002 vs role-003/004, single-valued persona_id per cell. Residual risk rather than a trigger: unaided_brand_presence is defined over 'all valid observations in the declared unaided partition (core or sentinel), for one lane, surface, locale, and wave', so patient and practice cells share that stratum unless persona_id — a declared reporting_stratum with minimum_subgroup_for_percentages 20 — is added to the key.",
+            "id": "zocdoc-ap-03",
+            "triggered": false
+          },
+          {
+            "evidence": "Charter exclusion: 'Any prompt requiring or eliciting personal health information about a real identifiable person.' All source permissions are 'public' and report §2 records 'No personal data beyond short public complaint phrasings was retained; no long excerpts.' Retained spans are short and de-identified ('a completely different person than I expected'); symptom detail in prompt-005a/005b is synthetic scenario context, not third-party health data.",
+            "id": "zocdoc-ap-04",
+            "triggered": false
+          },
+          {
+            "evidence": "Ranking and reviews are objects of scrutiny, not quality proof: job-009 asks whether 'placement and reviews on a discovery surface can be trusted'; prompt-015a asks '…or do providers pay to show up higher?'; counterevidence retains source-007's Verified Reviews complaint and source-013's 'secret caste system' allegation; source-014 records a zero-review listing so 'no aggregated satisfaction corpus exists there'. No artifact infers clinical quality from search order, rating or availability.",
+            "id": "zocdoc-ap-05",
+            "triggered": false
+          }
+        ],
+        "case_id": "case-04-zocdoc",
+        "critical_failures": [],
+        "hard_gates": {
+          "artifact_contract_and_resumability": {
+            "evidence": "All fourteen canonical snake_case files are present (panel_report.md, tracking_plan.md, measurement_charter.json, source_manifest.json, icp_hypotheses.json, buyer_jobs.json, contamination_register.yaml, blind_design_brief.json, prompt_architecture.json, prompt_universe.json, prompt_qa.json, panel.yaml, run_manifest_template.json, panel_change_ledger.json). All four gates are recorded pending in the charter, panel.yaml pending_approvals and report §8; rejection/revision history is preserved in prompt_qa.json decisions and chg-0002; waiver-001..006 and version_history.freeze_blockers are explicit; hashes are null with 'Never write a placeholder digest'. Minor defect: contamination_register.yaml holds JSON rather than idiomatic YAML (valid YAML 1.2, so it still parses).",
+            "status": "pass"
+          },
+          "comprehensive_or_waived_dimensions": {
+            "evidence": "12 jobs; 8 of 11 information acts used with generate/buy/navigate waived (gap-001 plus the report waiver table); 6 journey states including post_purchase (8 cells) and adoption; B0–B5 all present; four aided states present (unaided; target_aided cell-025..029; competitor_aided cell-030; category_aided cell-031/032); five partitions including control cell-043/044 and sentinel cell-038..042; three lanes with campaign_experiment waived (waiver-001); es-US built then excluded (waiver-003, gap-004); scripted multi-turn waived (waiver-006, gap-003); grades A–D represented. Every gap in prompt_architecture.json coverage_gaps and panel.yaml waivers carries an explicit evidence_needed.",
+            "status": "pass"
+          },
+          "evidence_source_mix": {
+            "evidence": "source_manifest.json carries 17 sources across five declared classes and mostly off-target domains: company_asserted (002,003,004,005,016), buyer_behavior (BBB 007 grade A, ComplaintsBoard 008, physician blog 010, Capterra 014), independent (Wikipedia 001, TechTarget 006, Emitrr 009, Boston Globe 012, Parrella Health Law 013), search_proxy (011,015), llm_hypothesis (017, grade D, url null). Counts in panel_report.md §2 reconcile exactly (5/4/5/2/1; A×1,B×7,C×8,D×1). Deduction: source-009 is a competing vendor's blog yet classed 'independent' (bias stated only inside the span), and source-011 is also a competitor-published page relied on as the primary patient-language proxy with no commercial-interest note.",
+            "status": "pass"
+          },
+          "measurement_and_claim_honesty": {
+            "evidence": "measurement_charter.json and panel.yaml define six estimands each with its own numerator/denominator and a 'does_not_prove' clause; control_false_positive_rate has a dedicated denominator excluding all core/sentinel/rotating/aided observations; citation_presence reports aided and unaided separately. Weights are two separate components — exposure 'equal_within_declared_strata, factors: []' justified as 'a conditional analytic choice, not a prevalence estimate' — and priority 'withheld_pending_human_approval'. tracking_plan.md §10.9 licenses no causal language and places wave-over-wave mention change at 'rung 1' of an evidence ladder; status is provisional_directional with explicit 'not frozen' and 'not a probability sample' statements.",
+            "status": "pass"
+          },
+          "prompt_provenance_traceability": {
+            "evidence": "Every candidate resolves prompt → canonical_cell_id → cell_spec_id → job_id → icp_ids → source_ids. Spot checks: prompt-013a → cell-013 → spec-013 → job-006 → icp-003 → source-012 ('39 of 50 children's providers unreachable'); prompt-019a → cell-019 → spec-019 → job-007 → source-013 (OIG advisory opinions). All cited source IDs fall inside source-001…source-017 and all cell/spec IDs exist. panel.yaml selected_candidate_ids (78) equals prompt_qa.json accepted_candidate_ids exactly, and selected_variants (13 observed / 63 paraphrase / 2 sensitivity) reconciles with prompt_universe.json minus the three excluded cells.",
+            "status": "pass"
+          },
+          "unaided_contamination_and_blinding": {
+            "evidence": "The only unaided target-token candidate, prompt-011c ('Zocdoc said the doctor took my insurance…'), is rejected under rule no-target-term-unaided and routed to realistic-prompt-generation; contamination_failures_by_class shows brands 1, all other classes 0. All B0 target-named cells sit in a separate 'aided' partition with allowed_exceptions scoped by band/aided_status/cell. blind_design_brief.json is target-free: segments/roles anonymised, and the source-004 B5 entry states 'the brand of the booking provider is withheld from this brief'; two brand-bearing FAQ fragments are logged in excluded_language_fragments. All six grade-D candidates (004c, 011c, 014b, 017c, 023c, 037a) are rejected, revised or quarantined — none reached core. Residual, self-disclosed weakness: warning 'blind_pass_ran_in_same_session', so blinding is procedural (sanitised brief) rather than a fresh context.",
+            "status": "pass"
+          },
+          "usable_exact_prompt_output": {
+            "evidence": "panel_report.md §4 exposes all 86 exact candidate strings (prompt-001a … prompt-044a, counted) in one table with prompt ID, variant, partition, band, aided status, job, act, journey, role, locale, constraints, expected answer kind, lanes, evidence grade/source IDs, transformation and QA decision; weight status is stated once for the whole panel.",
+            "status": "pass"
+          }
+        },
+        "must_have_results": [
+          {
+            "evidence": "Patient and practice sides are separate ICP and job families: icp-001/002/003 (patient, caregiver) vs icp-004/005 (practice owner, office manager) plus icp-006 payer, each with different roles (icp-004 economic_buyer 'practice-owner-clinician', blocker 'compliance concern about paying per federal-program patient'), different criteria (patient 'confirmed in-network for my exact plan variant' vs practice 'cost per new patient versus patient lifetime value') and different post-purchase jobs (job-005 patient billing dispute vs job-008 practice fee dispute and spend caps). buyer_jobs.json personas role-001..role-005 keep the sides distinct and prompt_architecture persona_id is single-valued per cell (28 role-001, 3 role-002, 5 role-003, 7 role-004, 1 role-005).",
+            "id": "zocdoc-mh-01",
+            "status": "pass"
+          },
+          {
+            "evidence": "Constraints carry type of care (prompt-014a pediatrician, prompt-039a dermatologist, prompt-013a child therapist, prompt-027b dental vs primary care), location (prompt-002b relocation; source-015 'doctors accepting new patients near me'), insurance (blind brief constraint 'must be in network for a specific plan variant (HMO/PPO/EPO, employer versus marketplace)') and availability (24–72h spec-006, after-school spec-014, 'within the next week' prompt-039a). It does not become diagnosis: charter exclusions include 'Clinical or diagnostic accuracy of any AI answer; this panel measures brand/category presence and framing, not medical correctness', and icp-002 disqualifies emergency-severity symptoms. Boundary noted: prompt-005a/005b state symptoms and ask 'Should I go to urgent care, do a video visit, or wait?' under expected_answer_kind care_setting_triage_options, with no coding rule yet ring-fencing triage content.",
+            "id": "zocdoc-mh-02",
+            "status": "pass"
+          },
+          {
+            "evidence": "Verification is its own cell family: spec-003 / prompt-003a ('How do I confirm a doctor is actually in-network before I show up, so I don't get a surprise bill?'), prompt-003b, plus aided cell-025 ('Does Zocdoc actually verify my insurance, or can I still end up out of network?' and 'is the visit guaranteed to be covered?'). The caveat is evidence-bound: source-003 fact_type 'limitation' — 'verification does not guarantee in-network coverage … final in-network status is confirmed by the insurer and the provider office' — carried as claim-002, as icp counterevidence, in report §2 ('qualifies the marketplace's core promise'), and as the coded answer_framing category 'warns that online insurance matching is not a coverage guarantee'. Cost is covered (prompt-011a out-of-network bill; source-008 '$75 copay'). Medical-suitability disclaiming is thinner, appearing only as a charter scope exclusion rather than a prompt-level or coding caveat.",
+            "id": "zocdoc-mh-03",
+            "status": "pass"
+          },
+          {
+            "evidence": "Provider-side coverage is broad and each element is tied to provider evidence: economics (job-007, prompt-017a/017b from source-010 'only 6% became repeat patients over a year'), pricing-model fit (prompt-018a/018b from source-009 + source-002), billing/workflow disputes (job-008, prompt-020a/020b from grade-A source-007 'charged me 3 times for clients I couldn't see'), spend configuration (prompt-021a/021b from source-002 spend caps and per-provider pause), listing/reputation trust (job-009 with source-007 Verified Reviews complaint and source-013 'secret caste system'), and compliance fit (prompt-019a/019b from source-013 OIG/AKS record). Unevidenced areas are not invented: job-010 phone bottleneck is hypothesis_only, grade C, rotating-only (cell-035), and practice-side adoption is waived in gap-002.",
+            "id": "zocdoc-mh-04",
+            "status": "pass"
+          },
+          {
+            "evidence": "The panel does not stop at selection: 8 post_purchase cells. Booking/adoption (spec-009 / prompt-009a 'Do I need an account … what information will they ask for?'), preparation (prompt-009b 'What do I need ready, and what happens after I book?', preparation_checklist), cancellation on both sides (prompt-012b 'My appointment was cancelled an hour before, then the same slot showed as available again'; prompt-020b 'Getting billed for no-shows and cancellations we had no control over'), and provider management (prompt-021b per-provider pause, prompt-028b removing providers). Gap noted: no patient-initiated reschedule/cancel-policy cell exists in either the unaided or aided partition, and it is not listed among coverage_gaps or waivers.",
+            "id": "zocdoc-mh-05",
+            "status": "pass"
+          },
+          {
+            "evidence": "Charter markets ['United States'] with exclusion 'Non-US markets and non-US healthcare systems; the described service is US-only (source-001)'; locales en-US with es-US built and excluded (waiver-003). Current facts are treated as retrieval/surface dependent: lanes are never pooled (panel.yaml estimand 'excludes' clauses; run_manifest_template.rollup_rule), retrieval observations record retrieval_used, generated_queries, live-versus-cached state and citations, B5 cells (cell-022/023/024) are restricted to retrieval + consumer_surface, and refresh_policy.mutable_claim_review_by dates the per-booking fee range, 24–72 hour availability, payer/partner integrations and spend-control features to 2026-10-25 with event triggers for pricing/policy change and directory regulation.",
+            "id": "zocdoc-mh-06",
+            "status": "pass"
+          }
+        ],
+        "overall_score": 4.25,
+        "recommended_changes": [
+          {
+            "change": "Recompute panel_report.md §5 from prompt_architecture.json: the acts row sums to 53, journeys to 48, roles to 47 and bands to 46 against 44 cells, and grade counts (A 4 / B 26 / C 13) contradict the specs (A 3 = spec-012/020/028; C 10; B 30). Also reconcile 'unaided cells: 31' with the five rotating cells that are also aided_status unaided.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Add persona_id (or an explicit market_side field) to the stratification key of unaided_brand_presence, competitive_mention_share and answer_framing so patient and practice cells can never share one denominator, and print per-side cell counts beside each rate.",
+            "owner": "ai-visibility-panel-design"
+          },
+          {
+            "change": "Add a patient-initiated reschedule/cancel cell (cancellation policy, no-show fee, moving an appointment) with an aided B0 counterpart, or record it as an explicit coverage gap with an evidence need; it is currently absent from both partitions and from the waiver list.",
+            "owner": "prompt-proximity-architecture"
+          },
+          {
+            "change": "Add a clinical-boundary rule for the acute-access cells (cell-005, cell-039): triage or urgency content in an answer is coded only as answer_framing and never scored as marketplace correctness, and no prompt may request a medical-suitability judgement. Attach the same medical-suitability caveat to the aided capability-limit cells (cell-025).",
+            "owner": "prompt-set-qa"
+          },
+          {
+            "change": "Reclassify source-009 out of 'independent' (competitor-published) and add a commercial-interest note to source-011, which is also a competitor page and is the sole cited support for many patient-side prompts (prompt-004b, 006b, 007a/b, 008b, 031a/b, 039a, 040a/b).",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Before freeze, regenerate the unaided pass in a fresh context (the warning 'blind_pass_ran_in_same_session' makes blinding procedural rather than structural) and compute source_manifest_hash, blind_brief_hash and every prompt_hash.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Correct the wave budget: cell-022/023/024 are retrieval + consumer_surface only, so core is not 48 prompts × 3 surfaces; the honest figure is roughly 624 scored observations, and the report's '78 prompts × 3 repeats across three declared surfaces' shorthand should be replaced by the per-lane table.",
+            "owner": "ai-visibility-panel-design"
+          },
+          {
+            "change": "Strengthen or waive B2: only two category cells exist (cell-031 patient, cell-032 practice), too thin to support category-level competitive_mention_share — add evidence-supported category cells or declare the thinness as a coverage gap with an evidence need.",
+            "owner": "prompt-proximity-architecture"
+          }
+        ],
+        "scores": {
+          "artifact_usability_integrity": 3,
+          "contamination_qa": 4,
+          "evidence_quality": 4,
+          "icp_market_model": 5,
+          "job_intent_architecture": 5,
+          "panel_measurement_design": 5,
+          "prompt_coverage_traceability": 4,
+          "prompt_realism_cell_discipline": 4
+        },
+        "strengths": [
+          "Measurement design is the strongest element: six estimands each with its own denominator and a 'does_not_prove' clause, a dedicated control false-positive denominator (cell-043/044), separate exposure and priority weight systems with an honest equal-weight justification, Wilson plus cell-clustered bootstrap, a 20-cell floor before percentages, and an explicit non-causal evidence ladder in tracking_plan.md §10.9.",
+          "The two-sided market is modelled as genuinely different buyers rather than one marketplace persona, down to distinct roles, criteria, disqualifiers and separate post-purchase jobs (job-005 patient billing vs job-008 practice fee dispute and spend caps).",
+          "Counterevidence is kept rather than smoothed: the target's own non-guarantee limit (source-003), a practice owner's ~3× no-show rate and 6% one-year repeat rate (source-010), a zero-review directory (source-014), and a competitor-published pricing figure graded C with its bias stated.",
+          "Contamination control is complete and auditable: a register spanning brands, products, domains, people, slogans, proprietary categories, empty-by-evidence campaign terms and flattering claims, a short-token rule for 'Zo', band-scoped allowed exceptions, and the single hard failure (prompt-011c) rejected rather than quietly rewritten.",
+          "Grade-D and locale material is quarantined instead of laundered: all six grade-D candidates and both es-US translations stay outside the panel under waiver-003/004 with evidence needs, and six disputed decisions are routed to human Gate 3.",
+          "Honest freeze discipline: null hashes are listed as freeze blockers with 'Never write a placeholder digest', the same-session blind pass is disclosed as a warning, and the report closes with the five inputs that would most change the panel."
+        ],
+        "summary": "A strong, unusually honest URL-only panel. All fourteen artifacts are present and cross-consistent at the machine level (panel.yaml selected_candidate_ids == prompt_qa accepted_candidate_ids == 78; 41 of 44 cells selected; variant counts reconcile), and panel_report.md §4 exposes all 86 exact prompts with the dimensions needed to track them. All seven hard gates pass. Evidence goes well beyond the target site across five correctly separated classes, retains the target's own non-guarantee limit plus three pieces of hostile counterevidence, and refuses to launder prevalence ('no source measures prompt prevalence'). The gold's domain boundaries are respected: patients and practices are distinct ICP/job families with distinct criteria and separate post-purchase jobs; specialty, location, insurance and availability are constraints rather than diagnosis; insurance matching is repeatedly framed as not a coverage guarantee, including a purpose-built aided cell (cell-025) that tests whether models repeat the guarantee; provider-side economics, fee disputes, spend controls, listing trust and AKS compliance are each tied to provider evidence, with the unevidenced phone-bottleneck job held at grade C and rotating-only; the panel is US-scoped with mutable facts dated and lanes never pooled. No anti-pattern is triggered, and the single contamination hard failure (prompt-011c) was caught and rejected rather than repaired. The measurement design — six estimands with private denominators, a control false-positive rate, two separate weight systems with an honest equal-weight limitation, and an explicit non-causal evidence ladder — is exemplary. What holds the score down is report integrity rather than method: the §5 coverage matrix is miscomputed across acts, journeys, roles, bands and grades (every row over-sums the 44 cells), the wave budget is slightly overstated, blinding was procedural rather than structural (same-session blind pass, self-disclosed), the primary unaided denominator can still pool patient and practice cells unless persona_id joins the stratification key, and there is no patient-initiated reschedule/cancel cell in either partition and no waiver for it. Mean 4.25; verdict pass, with the coverage-matrix arithmetic and the side-specific denominator as the two repairs to make before Gate 3.",
+        "verdict": "pass"
+      },
+      "split": null,
+      "tags": []
+    }
+  ],
+  "run": "2026-07-25-opus5-retest-zocdoc",
+  "schema_version": "1.0.0",
+  "slices": {},
+  "summary": {
+    "cases": 1,
+    "deterministic": {
+      "failed": 0,
+      "pass_rate": 1.0,
+      "passed": 1
+    },
+    "joint_pass": {
+      "count": 1,
+      "definition": "deterministic contract pass AND semantic judge verdict pass",
+      "rate": 1.0
+    },
+    "judge": {
+      "anti_patterns": {
+        "not_triggered": 5
+      },
+      "completed": 1,
+      "critical_failures": [],
+      "dimension_means": {
+        "artifact_usability_integrity": 3.0,
+        "contamination_qa": 4.0,
+        "evidence_quality": 4.0,
+        "icp_market_model": 5.0,
+        "job_intent_architecture": 5.0,
+        "panel_measurement_design": 5.0,
+        "prompt_coverage_traceability": 4.0,
+        "prompt_realism_cell_discipline": 4.0
+      },
+      "hard_gates": {
+        "artifact_contract_and_resumability": {
+          "pass": 1
+        },
+        "comprehensive_or_waived_dimensions": {
+          "pass": 1
+        },
+        "evidence_source_mix": {
+          "pass": 1
+        },
+        "measurement_and_claim_honesty": {
+          "pass": 1
+        },
+        "prompt_provenance_traceability": {
+          "pass": 1
+        },
+        "unaided_contamination_and_blinding": {
+          "pass": 1
+        },
+        "usable_exact_prompt_output": {
+          "pass": 1
+        }
+      },
+      "must_have_statuses": {
+        "pass": 6
+      },
+      "overall_mean": 4.25,
+      "pass_rate": 1.0,
+      "verdicts": {
+        "pass": 1
+      }
+    },
+    "top_recommended_changes": [
+      {
+        "change": "Recompute panel_report.md §5 from prompt_architecture.json: the acts row sums to 53, journeys to 48, roles to 47 and bands to 46 against 44 cells, and grade counts (A 4 / B 26 / C 13) contradict the specs (A 3 = spec-012/020/028; C 10; B 30). Also reconcile 'unaided cells: 31' with the five rotating cells that are also aided_status unaided.",
+        "count": 1,
+        "owner": "build-ai-visibility-panel"
+      },
+      {
+        "change": "Add persona_id (or an explicit market_side field) to the stratification key of unaided_brand_presence, competitive_mention_share and answer_framing so patient and practice cells can never share one denominator, and print per-side cell counts beside each rate.",
+        "count": 1,
+        "owner": "ai-visibility-panel-design"
+      },
+      {
+        "change": "Add a patient-initiated reschedule/cancel cell (cancellation policy, no-show fee, moving an appointment) with an aided B0 counterpart, or record it as an explicit coverage gap with an evidence need; it is currently absent from both partitions and from the waiver list.",
+        "count": 1,
+        "owner": "prompt-proximity-architecture"
+      },
+      {
+        "change": "Add a clinical-boundary rule for the acute-access cells (cell-005, cell-039): triage or urgency content in an answer is coded only as answer_framing and never scored as marketplace correctness, and no prompt may request a medical-suitability judgement. Attach the same medical-suitability caveat to the aided capability-limit cells (cell-025).",
+        "count": 1,
+        "owner": "prompt-set-qa"
+      },
+      {
+        "change": "Reclassify source-009 out of 'independent' (competitor-published) and add a commercial-interest note to source-011, which is also a competitor page and is the sole cited support for many patient-side prompts (prompt-004b, 006b, 007a/b, 008b, 031a/b, 039a, 040a/b).",
+        "count": 1,
+        "owner": "icp-evidence-analysis"
+      },
+      {
+        "change": "Before freeze, regenerate the unaided pass in a fresh context (the warning 'blind_pass_ran_in_same_session' makes blinding procedural rather than structural) and compute source_manifest_hash, blind_brief_hash and every prompt_hash.",
+        "count": 1,
+        "owner": "build-ai-visibility-panel"
+      },
+      {
+        "change": "Correct the wave budget: cell-022/023/024 are retrieval + consumer_surface only, so core is not 48 prompts × 3 surfaces; the honest figure is roughly 624 scored observations, and the report's '78 prompts × 3 repeats across three declared surfaces' shorthand should be replaced by the per-lane table.",
+        "count": 1,
+        "owner": "ai-visibility-panel-design"
+      },
+      {
+        "change": "Strengthen or waive B2: only two category cells exist (cell-031 patient, cell-032 practice), too thin to support category-level competitive_mention_share — add evidence-supported category cells or declare the thinness as a coverage gap with an evidence need.",
+        "count": 1,
+        "owner": "prompt-proximity-architecture"
+      }
+    ]
+  },
+  "top_deterministic_failures": []
+}

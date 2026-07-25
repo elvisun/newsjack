@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "fixture-request-harborheat",
+  "created_at": "2026-07-25T12:00:00Z",
+  "created_by": "newsjack-fixture",
+  "source_manifest_hash": "sha256:6c2934094fc4e14b5a8e1c0672eaf66dfba13bd21d66cb8a99781921b9b31847",
+  "warnings": [
+    "Synthetic fixture: all names, URLs, quotations, and evidence records are invented."
+  ],
+  "starting_url": "https://harborheat.example/",
+  "description": "HarborHeat is a synthetic licensed heat-pump design, installation, and support service operating in Ontario.",
+  "business_decision": "Design an Ontario prompt panel that distinguishes early heating-problem discovery, system requirements, installer selection, brand verification, and post-installation support.",
+  "estimands": [
+    "unaided_brand_presence",
+    "aided_brand_knowledge",
+    "competitive_mention_share",
+    "citation_presence",
+    "answer_framing"
+  ],
+  "target_population": "Ontario homeowners in older urban and suburban homes who are investigating a heating-system change or supporting an installed cold-climate heat pump.",
+  "exclusions": [
+    "Homes outside Ontario",
+    "Commercial buildings",
+    "New construction",
+    "Prompts that assume a rebate amount without current public evidence"
+  ],
+  "markets": [
+    "Ontario, Canada"
+  ],
+  "locales": [
+    "en-CA",
+    "fr-CA"
+  ],
+  "lanes": [
+    "closed_model",
+    "retrieval",
+    "consumer_surface"
+  ],
+  "run_budget": {
+    "canonical_cells": 60,
+    "variants_per_core_cell": 2,
+    "repetitions_per_wave": 3
+  },
+  "review_budget": {
+    "human_hours": 8,
+    "locale_reviewers": 1
+  },
+  "precision_status": "directional_only",
+  "approval_status": "pending",
+  "locale_requirement": "French Canadian core candidates require a market-competent human review and Ontario-specific terminology.",
+  "campaign_context": null
+}

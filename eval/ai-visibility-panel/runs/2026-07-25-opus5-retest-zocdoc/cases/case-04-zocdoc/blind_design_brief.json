@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "blindbrief-2026-07-25-a",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:build-ai-visibility-panel (claude-opus-5)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash and blind_brief_hash before freeze",
+    "blind_pass_ran_in_same_session: no fresh subagent was available, so the unaided generation pass worked only from this sanitized brief; a fresh-context regeneration is recommended before freeze"
+  ],
+  "brief_scope": "Unaided generation only. B0 and other aided cells are generated in a separate pass that receives target aliases.",
+  "prohibited_inputs_confirmed_absent": [
+    "target brand, product, domain, people, slogan, proprietary category, campaign copy, flattering claims",
+    "current AI answers, rankings, mention rates, citations, or content gaps",
+    "desired target landing pages or any answer-derived wording",
+    "the contamination register itself"
+  ],
+  "market_context": "United States consumer healthcare access and independent-practice patient acquisition. English (en-US) default; one secondary locale (es-US) is required but must be marked for native review.",
+  "anonymized_segments": [
+    {"segment_id": "seg-A", "label": "Insured adult seeking a clinician who is genuinely in network and accepting new patients", "confidence": "medium"},
+    {"segment_id": "seg-B", "label": "Adult with an acute problem needing care within hours to a few days", "confidence": "medium"},
+    {"segment_id": "seg-C", "label": "Caregiver arranging care for a dependent", "confidence": "medium"},
+    {"segment_id": "seg-D", "label": "Owner or manager of a small independent clinical practice buying new-patient volume", "confidence": "high"},
+    {"segment_id": "seg-E", "label": "Front-office lead losing inbound appointment requests to phone capacity", "confidence": "low"},
+    {"segment_id": "seg-F", "label": "Insurance-plan digital experience lead responsible for member access", "confidence": "low"}
+  ],
+  "anonymized_roles": [
+    {"persona_id": "role-001", "label": "person booking for themselves"},
+    {"persona_id": "role-002", "label": "person booking for a dependent"},
+    {"persona_id": "role-003", "label": "owner-clinician of a small practice"},
+    {"persona_id": "role-004", "label": "practice office/billing manager"},
+    {"persona_id": "role-005", "label": "insurance-plan digital lead"}
+  ],
+  "approved_jobs": [
+    {"job_id": "job-001", "statement": "Reach a clinician who is genuinely in network and accepting new patients when the plan directory does not work", "acts": ["diagnose", "plan", "navigate", "verify", "recommend"], "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-002", "statement": "Decide where to go and secure a slot within hours or a few days for an acute problem", "acts": ["diagnose", "plan", "compare", "navigate"], "journeys": ["problem_identification", "exploration", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-003", "statement": "Choose between the available routes to an appointment", "acts": ["compare", "recommend", "explain"], "journeys": ["exploration", "requirements_building", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-004", "statement": "Complete a booking without a phone call and know what the office will need", "acts": ["implement", "navigate", "explain", "troubleshoot"], "journeys": ["exploration", "adoption"], "grade": "B"},
+    {"job_id": "job-005", "statement": "Resolve a booking that went wrong: coverage mismatch, swapped clinician, or late cancellation", "acts": ["troubleshoot", "verify", "explain"], "journeys": ["post_purchase"], "grade": "A"},
+    {"job_id": "job-006", "statement": "Find in-network, schedule-compatible care for a dependent", "acts": ["diagnose", "plan", "navigate", "recommend"], "journeys": ["problem_identification", "requirements_building", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-007", "statement": "Decide what a new patient is worth and which acquisition model to pay for", "acts": ["diagnose", "plan", "compare", "verify", "recommend"], "journeys": ["problem_identification", "requirements_building", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-008", "statement": "Dispute charges for unusable bookings and cap or pause acquisition spend", "acts": ["troubleshoot", "implement", "verify"], "journeys": ["post_purchase"], "grade": "A"},
+    {"job_id": "job-009", "statement": "Judge whether listings, ranking, and ratings on a discovery surface can be trusted", "acts": ["verify", "explain"], "journeys": ["exploration", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-010", "statement": "Stop losing inbound appointment requests to hold time and voicemail", "acts": ["diagnose", "plan"], "journeys": ["problem_identification", "requirements_building"], "grade": "C"},
+    {"job_id": "job-011", "statement": "Let plan members book in-network care from the plan's own surface", "acts": ["plan", "implement"], "journeys": ["requirements_building", "adoption"], "grade": "C"},
+    {"job_id": "job-012", "statement": "Contest or understand a denied claim or a post-visit bill (declared out-of-perimeter control job)", "acts": ["plan", "explain", "troubleshoot"], "journeys": ["post_purchase"], "grade": "B"}
+  ],
+  "material_constraints_catalog": [
+    "must be in network for a specific plan variant (HMO/PPO/EPO, employer versus marketplace)",
+    "must be accepting new patients",
+    "needs an appointment within 24-72 hours",
+    "wants to avoid phone calls entirely",
+    "after-school or working-hours availability for a dependent",
+    "dependent is a child; or dependent is on a Medicare plan",
+    "small-practice budget with unpredictable per-booking cost",
+    "practice treats federally funded program patients",
+    "already incurred an unexpected charge"
+  ],
+  "safe_language_fragments": [
+    {"fragment_id": "frag-001", "text": "How do I find doctors that take my insurance?", "source_id": "source-011", "grade": "B", "type": "search_proxy_question"},
+    {"fragment_id": "frag-002", "text": "doctors accepting new patients near me", "source_id": "source-015", "grade": "B", "type": "query_pattern"},
+    {"fragment_id": "frag-003", "text": "Can I book a doctor online the same day?", "source_id": "source-011", "grade": "B", "type": "search_proxy_question"},
+    {"fragment_id": "frag-004", "text": "Do I need an account to book an appointment online?", "source_id": "source-011", "grade": "B", "type": "search_proxy_question"},
+    {"fragment_id": "frag-005", "text": "spent 10 to 20 hours calling 60 clinicians", "source_id": "source-012", "grade": "B", "type": "reported_behavior"},
+    {"fragment_id": "frag-006", "text": "listed as in-network but charged out-of-network fees", "source_id": "source-008", "grade": "B", "type": "complaint_language"},
+    {"fragment_id": "frag-007", "text": "a completely different person than I expected", "source_id": "source-007", "grade": "A", "type": "complaint_language"},
+    {"fragment_id": "frag-008", "text": "charged me 3 times for clients I couldn't see", "source_id": "source-007", "grade": "A", "type": "complaint_language"},
+    {"fragment_id": "frag-009", "text": "fee jump of over 200%", "source_id": "source-007", "grade": "A", "type": "complaint_language"},
+    {"fragment_id": "frag-010", "text": "only 6% became repeat patients over a year", "source_id": "source-010", "grade": "B", "type": "reported_metric"},
+    {"fragment_id": "frag-011", "text": "39 of 50 providers for children were unreachable or wouldn't make an appointment", "source_id": "source-012", "grade": "B", "type": "reported_behavior"},
+    {"fragment_id": "frag-012", "text": "provider won't be available, then available again all within a minute", "source_id": "source-007", "grade": "A", "type": "complaint_language"}
+  ],
+  "sanitization_note": "Two observed fragments from source-011 were withheld because they contain brand terms. Their intent is represented in the aided pass only, and their absence is recorded in the contamination register.",
+  "required_strata": {
+    "proximity_bands": ["B1_comparison_purchase", "B3_problem_need", "B4_job_goal", "B5_broad_discovery_story"],
+    "aided_status": ["unaided"],
+    "locales": ["en-US", "es-US"],
+    "turn_forms": ["single_turn"],
+    "styles": ["concise", "contextual", "imperfect_but_intelligible", "natural_follow_up"],
+    "variants_per_cell": 2,
+    "b5_rule": "Every B5 cell must carry a dated public evidence ID and a review-by date. Do not write a B5 prompt about an event that is not in the supplied dated-evidence list."
+  },
+  "dated_evidence_for_b5": [
+    {"evidence_id": "source-012", "published_at": "2026-05-17", "topic": "Press coverage of inaccurate insurer behavioral-health directories and weak state enforcement", "review_by": "2026-10-25"},
+    {"evidence_id": "source-005", "published_at": "2026-03-24", "topic": "Published survey reporting that about a quarter of US adults have asked AI health questions and many do not tell their clinician", "review_by": "2026-10-25", "caveat": "vendor-commissioned survey"},
+    {"evidence_id": "source-004", "published_at": "2026-04-21", "topic": "A major consumer review app added real-time appointment booking, including inside its AI assistant", "review_by": "2026-10-25", "caveat": "vendor press release; the brand of the booking provider is withheld from this brief"}
+  ],
+  "style_guidance": [
+    "Write what a real person would type to get a useful answer. No persona exposition, no job titles, no company-size framing.",
+    "Do not append a tool, platform, or vendor question to a problem prompt.",
+    "Do not convert 'how do I solve this' into 'what should I buy'.",
+    "Keep one concept per prompt; a follow-up belongs in a scripted multi-turn cell, and none are approved in this brief.",
+    "Any es-US candidate must be flagged locale_review_status: pending and kept out of core."
+  ]
+}

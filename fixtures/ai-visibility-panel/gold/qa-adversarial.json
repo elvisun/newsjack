@@ -1,0 +1,649 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "gold-ai-panel-qa-v1",
+  "created_at": "2026-07-25T12:00:00Z",
+  "created_by": "newsjack-fixture",
+  "source_manifest_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "warnings": [
+    "Synthetic predeclared gold set. Do not change labels while tuning a QA implementation."
+  ],
+  "evaluation_instructions": {
+    "input_contract": "Treat each case as one prompt-universe candidate joined to its architecture cell and safe evidence. Apply the contamination register only during QA.",
+    "output_contract": "Write one prompt_qa.json decision for every candidate_id, using the expected rule IDs when that rule applies.",
+    "baseline_fields_blinded": true
+  },
+  "contamination_register": {
+    "target_terms": {
+      "brands": [
+        "LedgerLift",
+        "HarborHeat"
+      ],
+      "products": [
+        "LedgerLift Capture",
+        "HarborHeat Home"
+      ],
+      "domains": [
+        "ledgerlift.example",
+        "harborheat.example"
+      ],
+      "people": [
+        "Mara Ledger"
+      ],
+      "slogans": [
+        "Close by Friday",
+        "Winter without worry"
+      ],
+      "proprietary_categories": [
+        "receipt calm platform"
+      ],
+      "campaign_terms": [
+        "Close by Friday",
+        "Winter without worry"
+      ],
+      "flattering_claims": [
+        "effortless close accelerator",
+        "Ontario's most trusted heat-pump team"
+      ]
+    },
+    "competitor_terms": [
+      "Coastline Spend",
+      "Northern Comfort"
+    ],
+    "allowed_exceptions": [
+      {
+        "band": "B0_direct_brand_product",
+        "term_classes": [
+          "brands",
+          "products",
+          "domains"
+        ]
+      }
+    ]
+  },
+  "safe_sources": [
+    {
+      "source_id": "gold-call-close",
+      "evidence_grade": "A",
+      "span": "We still miss the five-working-day close because receipts arrive late.",
+      "predates_campaign": true
+    },
+    {
+      "source_id": "gold-call-cold",
+      "evidence_grade": "A",
+      "span": "The upstairs stays cold and the gas furnace is near end of life.",
+      "predates_campaign": true
+    },
+    {
+      "source_id": "gold-electrical",
+      "evidence_grade": "A",
+      "span": "We have a 100-amp panel and need to understand the upgrade.",
+      "predates_campaign": true
+    },
+    {
+      "source_id": "gold-fr-language",
+      "evidence_grade": "A",
+      "span": "Une thermopompe pour climat froid peut-elle remplacer ma fournaise au gaz?",
+      "predates_campaign": true
+    },
+    {
+      "source_id": "gold-model-only",
+      "evidence_grade": "D",
+      "span": "Unsupported generated hypothesis.",
+      "predates_campaign": false
+    }
+  ],
+  "cases": [
+    {
+      "candidate_id": "gold-lexical-target",
+      "category": "lexical_leakage",
+      "text": "Which LedgerLift plan is best for a 120-person consulting firm?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-lexical-target",
+        "job_id": "gold-job-close",
+        "proximity_band": "B1_comparison_purchase",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "recommend",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "human_written",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "no-target-term-unaided": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    },
+    {
+      "candidate_id": "gold-lexical-campaign",
+      "category": "lexical_leakage",
+      "text": "What platform can help my finance team Close by Friday?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-lexical-campaign",
+        "job_id": "gold-job-close",
+        "proximity_band": "B4_job_goal",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "plan",
+        "journey_state": "exploration",
+        "locale": "en-CA",
+        "transformation": "human_written",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "no-campaign-term-evergreen": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    },
+    {
+      "candidate_id": "gold-semantic-slogan",
+      "category": "semantic_leakage",
+      "text": "Which expense app will get our books wrapped up before the weekend?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-semantic-slogan",
+        "job_id": "gold-job-close",
+        "proximity_band": "B1_comparison_purchase",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "recommend",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "quarantine",
+        "rule_results": {
+          "semantic-campaign-contamination": "review"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "human_gate_3"
+      }
+    },
+    {
+      "candidate_id": "gold-legitimate-shared-concept",
+      "category": "semantic_leakage",
+      "text": "How can finance close employee expenses within five working days without adding headcount?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-legitimate-shared",
+        "job_id": "gold-job-close",
+        "proximity_band": "B4_job_goal",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "plan",
+        "journey_state": "exploration",
+        "locale": "en-CA",
+        "transformation": "lightly_normalized",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "pass",
+        "rule_results": {
+          "semantic-campaign-contamination": "pass",
+          "job-entailment": "pass"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-exact-original",
+      "category": "exact_duplicate",
+      "text": "How can finance stop chasing receipts at month end?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-exact-original",
+        "job_id": "gold-job-close",
+        "proximity_band": "B3_problem_need",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "diagnose",
+        "journey_state": "problem_identification",
+        "locale": "en-CA",
+        "transformation": "lightly_normalized",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "pass",
+        "rule_results": {
+          "exact-duplicate": "pass"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-exact-copy",
+      "category": "exact_duplicate",
+      "text": "  How can finance stop chasing receipts at month end?! ",
+      "cell": {
+        "canonical_cell_id": "gold-cell-exact-copy",
+        "job_id": "gold-job-close",
+        "proximity_band": "B3_problem_need",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "diagnose",
+        "journey_state": "problem_identification",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "exact-duplicate": "fail"
+        },
+        "duplicate_action": "merge_exact",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-semantic-original",
+      "category": "semantic_duplicate",
+      "text": "What should an older Toronto homeowner check before replacing a gas furnace with a heat pump?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-semantic-original",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "plan",
+        "journey_state": "requirements_building",
+        "locale": "en-CA",
+        "transformation": "human_written",
+        "source_ids": [
+          "gold-call-cold",
+          "gold-electrical"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "pass",
+        "rule_results": {
+          "semantic-duplicate": "pass"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-semantic-copy",
+      "category": "semantic_duplicate",
+      "text": "Before swapping an old Toronto gas furnace for a heat pump, what does a homeowner need to assess?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-semantic-copy",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "plan",
+        "journey_state": "requirements_building",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-cold",
+          "gold-electrical"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "semantic-duplicate": "fail"
+        },
+        "duplicate_action": "merge_semantic",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-material-constraint",
+      "category": "protected_difference",
+      "text": "Can a cold-climate heat pump and backup heat work with a 100-amp panel in a 1970s Toronto semi?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-material-constraint",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "verify",
+        "journey_state": "requirements_building",
+        "locale": "en-CA",
+        "transformation": "lightly_normalized",
+        "source_ids": [
+          "gold-electrical"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "pass",
+        "rule_results": {
+          "material-constraint-protection": "pass"
+        },
+        "duplicate_action": "split",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-recommendation-forcing",
+      "category": "recommendation_forcing",
+      "text": "Which expense platform should I buy?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-recommendation-forcing",
+        "job_id": "gold-job-receipt-howto",
+        "proximity_band": "B1_comparison_purchase",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "recommend",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required",
+        "source_information_act": "implement",
+        "source_language": "How can I collect receipts?"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "no-recommendation-forcing": "fail",
+          "job-entailment": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    },
+    {
+      "candidate_id": "gold-answer-derived",
+      "category": "answer_leakage",
+      "text": "Is receipt calm software the best way to stop missing expenses?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-answer-derived",
+        "job_id": "gold-job-close",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "rotating",
+        "information_act": "recommend",
+        "journey_state": "exploration",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-model-only"
+        ],
+        "evidence_grade": "D",
+        "locale_review_status": "not_required",
+        "answer_derived": true
+      },
+      "expected": {
+        "status": "quarantine",
+        "rule_results": {
+          "no-answer-derived-core": "review",
+          "independent-validation-required": "review"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "buyer-job-intent-analysis"
+      }
+    },
+    {
+      "candidate_id": "gold-competitor-mislabel",
+      "category": "aided_mislabel",
+      "text": "What alternatives to Coastline Spend work for project-based consulting firms?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-competitor-mislabel",
+        "job_id": "gold-job-close",
+        "proximity_band": "B1_comparison_purchase",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "compare",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "human_written",
+        "source_ids": [
+          "gold-call-close"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "revise",
+        "rule_results": {
+          "aided-status-consistency": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "prompt-proximity-architecture"
+      }
+    },
+    {
+      "candidate_id": "gold-b0-mislabel",
+      "category": "aided_mislabel",
+      "text": "Is HarborHeat licensed to install cold-climate heat pumps in Toronto?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-b0-mislabel",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B0_direct_brand_product",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "aided",
+        "information_act": "verify",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "human_written",
+        "source_ids": [
+          "gold-call-cold"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "revise",
+        "rule_results": {
+          "aided-status-consistency": "fail",
+          "band-aided-consistency": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "prompt-proximity-architecture"
+      }
+    },
+    {
+      "candidate_id": "gold-grade-d-core",
+      "category": "grade_d_core",
+      "text": "How are finance leaders reinventing expense governance for autonomous work?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-grade-d-core",
+        "job_id": "gold-job-generated-trend",
+        "proximity_band": "B5_broad_discovery_story",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "explain",
+        "journey_state": "exploration",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-model-only"
+        ],
+        "evidence_grade": "D",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "quarantine",
+        "rule_results": {
+          "grade-d-outside-core": "fail",
+          "fresh-b5-evidence": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "buyer-job-intent-analysis"
+      }
+    },
+    {
+      "candidate_id": "gold-locale-pending",
+      "category": "locale_review",
+      "text": "Une pompe à chaleur peut-elle remplacer ma chaudière au gaz dans une maison de Toronto?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-locale-pending",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "verify",
+        "journey_state": "requirements_building",
+        "locale": "fr-CA",
+        "transformation": "translated",
+        "source_ids": [
+          "gold-fr-language"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "pending"
+      },
+      "expected": {
+        "status": "quarantine",
+        "rule_results": {
+          "locale-transcreation-review": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    },
+    {
+      "candidate_id": "gold-locale-approved",
+      "category": "locale_review",
+      "text": "Une thermopompe pour climat froid peut-elle remplacer ma fournaise au gaz sans laisser l'étage trop froid en janvier?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-locale-approved",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B2_category",
+        "aided_status": "category_aided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "verify",
+        "journey_state": "requirements_building",
+        "locale": "fr-CA",
+        "transformation": "locale_transcreated",
+        "source_ids": [
+          "gold-fr-language"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "approved"
+      },
+      "expected": {
+        "status": "pass",
+        "rule_results": {
+          "locale-transcreation-review": "pass",
+          "job-entailment": "pass"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": null
+      }
+    },
+    {
+      "candidate_id": "gold-category-in-b4",
+      "category": "architecture_consistency",
+      "text": "How can a heat pump help me lower home emissions without sacrificing winter comfort?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-category-in-b4",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B4_job_goal",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "explain",
+        "journey_state": "exploration",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-cold"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "proximity-band-consistency": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    },
+    {
+      "candidate_id": "gold-flattering-adversarial",
+      "category": "lexical_leakage",
+      "text": "Which company is Ontario's most trusted heat-pump team for older homes?",
+      "cell": {
+        "canonical_cell_id": "gold-cell-flattering-adversarial",
+        "job_id": "gold-job-heating",
+        "proximity_band": "B1_comparison_purchase",
+        "aided_status": "unaided",
+        "campaign_exposed": false,
+        "partition": "core",
+        "information_act": "recommend",
+        "journey_state": "supplier_selection",
+        "locale": "en-CA",
+        "transformation": "llm_expanded",
+        "source_ids": [
+          "gold-call-cold"
+        ],
+        "evidence_grade": "A",
+        "locale_review_status": "not_required"
+      },
+      "expected": {
+        "status": "reject",
+        "rule_results": {
+          "no-flattering-claim-unaided": "fail",
+          "no-leading-commercial-wording": "fail"
+        },
+        "duplicate_action": "retain_variant",
+        "route_to": "realistic-prompt-generation"
+      }
+    }
+  ]
+}

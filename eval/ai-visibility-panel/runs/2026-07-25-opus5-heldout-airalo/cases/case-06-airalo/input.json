@@ -1,0 +1,16 @@
+{
+  "current_time": "2026-07-25T16:00:00-04:00",
+  "description": "Airalo is a travel eSIM marketplace with local, regional, and global packages constrained by destination, device, and plan.",
+  "id": "case-06-airalo",
+  "output_dir": "/Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/eval/ai-visibility-panel/runs/2026-07-25-opus5-heldout-airalo/cases/case-06-airalo",
+  "skill_paths": [
+    "skills/build-ai-visibility-panel/SKILL.md",
+    "skills/icp-evidence-analysis/SKILL.md",
+    "skills/buyer-job-intent-analysis/SKILL.md",
+    "skills/prompt-proximity-architecture/SKILL.md",
+    "skills/realistic-prompt-generation/SKILL.md",
+    "skills/prompt-set-qa/SKILL.md",
+    "skills/ai-visibility-panel-design/SKILL.md"
+  ],
+  "url": "https://www.airalo.com/"
+}

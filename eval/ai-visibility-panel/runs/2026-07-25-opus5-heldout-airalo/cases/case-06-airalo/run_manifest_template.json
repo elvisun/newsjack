@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "runmanifest-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:ai-visibility-panel-design",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "template_only: no observations have been collected; every value below is a placeholder contract, not data",
+    "hashes_null_until_run: configuration_hash, response_payload_hash and citation_payload_hash must be real SHA-256 values at run time; null is permitted only in this uncollected template",
+    "no_silent_rollup: consumer_surface observations must never be pooled with closed_model or retrieval API observations in any denominator"
+  ],
+  "panel_id": "panel-travel-esim-marketplace",
+  "panel_version": "0.1.0",
+  "wave_id": "wave-001",
+  "randomization_seed": 20260725,
+  "observation_template": {
+    "observation_id": "obs-<wave>-<candidate>-<surface>-<repeat>",
+    "canonical_cell_id": "cell-001",
+    "candidate_id": "prompt-001a",
+    "exact_prompt": "I'm flying to Japan next month and my carrier wants $12 a day to use my phone there. What are my options?",
+    "prompt_hash": null,
+    "configuration_hash": null,
+    "provider": "declared-provider",
+    "model": "declared-model-and-version-string-as-exposed",
+    "surface": "surface-closed-a",
+    "lane": "closed_model",
+    "locale": "en-US",
+    "language": "en",
+    "account_state": "logged_out_or_api_no_account",
+    "personalization_state": "none_declared",
+    "device": "not_applicable_for_api",
+    "search_policy": "disabled",
+    "retrieval_used": false,
+    "generated_queries": [],
+    "citation_metadata": [],
+    "temperature": null,
+    "sampling_controls": {"top_p": null, "max_tokens": null, "seed": null},
+    "system_prompt": "fixed-minimal-declared-verbatim",
+    "developer_prompt": null,
+    "session_state": "fresh",
+    "turn_index": 1,
+    "turn_form": "single_turn",
+    "randomized_order_index": null,
+    "time_block": "block-a",
+    "response_payload_hash": null,
+    "citation_payload_hash": null,
+    "timestamp": "RFC3339",
+    "retry_status": "none",
+    "validity_status": "valid",
+    "parser_version": "parser-0.1.0",
+    "scoring": {
+      "target_mentioned": null,
+      "target_mention_positions": [],
+      "supplier_brands_named": [],
+      "target_domain_cited": null,
+      "answer_kind_observed": null,
+      "notes": null
+    }
+  },
+  "field_definitions": {
+    "exact_prompt": "The verbatim UTF-8 string sent, including any scripted multi-turn text split on ' || ' into sequential turns within one session",
+    "configuration_hash": "SHA-256 over the canonicalised configuration object: provider, model, surface, lane, locale, search_policy, system_prompt, developer_prompt, sampling controls and session policy",
+    "provider": "Organisation serving the model",
+    "model": "Model and version string exactly as the provider exposes it; a change opens a new configuration and is recorded as drift",
+    "surface": "Declared surface ID from the charter surface_policies",
+    "lane": "closed_model, retrieval or consumer_surface",
+    "locale": "Requested locale of the observation",
+    "search_policy": "disabled, allowed, required or unavailable",
+    "retrieval_used": "Whether retrieval actually ran for this observation, recorded separately from the policy",
+    "session_state": "fresh or continued; continued is permitted only between the scripted turns of one multi-turn candidate",
+    "response_payload_hash": "SHA-256 of the raw response payload",
+    "citation_payload_hash": "SHA-256 of the raw citation payload, or null when the surface exposes none",
+    "timestamp": "RFC3339 collection time",
+    "retry_status": "none, retried_transport, retried_refusal or retried_parse",
+    "validity_status": "valid, invalid_refusal, invalid_empty, invalid_truncated or invalid_parse",
+    "parser_version": "Version of the mention, brand and citation parser used for scoring"
+  },
+  "multi_turn_policy": {
+    "applies_to_candidates": ["prompt-013a", "prompt-013b", "prompt-028a", "prompt-028b"],
+    "rule": "Split the text on ' || ', send Turn 1, capture the response, then send Turn 2 in the same session. Record one observation row per turn with a shared observation group ID and turn_index 1 or 2. Scoring for the cell uses the declared turn, which is turn 2 for troubleshooting cells and turn 1 for implementation cells; both turns are retained."
+  },
+  "validity_rules": [
+    "A refusal, empty response, truncated response or parse failure is invalid and is excluded from numerators and denominators; the count of invalid runs is published alongside every rate.",
+    "A retry is a new observation row referencing the original observation_id; the original stays in the manifest.",
+    "Never substitute a retry for a failed run silently."
+  ],
+  "denominator_rules": [
+    "Denominators are built from partition, aided_status, lane, surface, locale and wave. Never pool across aided_status. Never pool across lane. Never pool API and consumer_surface observations.",
+    "The control cell cell-025 has its own denominator and is never included in unaided_brand_presence."
+  ]
+}

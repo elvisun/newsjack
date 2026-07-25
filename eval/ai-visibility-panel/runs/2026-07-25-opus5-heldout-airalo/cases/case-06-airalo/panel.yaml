@@ -1,0 +1,256 @@
+schema_version: "1.0.0"
+artifact_id: "panel-travel-esim-marketplace-20260725"
+created_at: "2026-07-25T20:00:00Z"
+created_by: "agent:ai-visibility-panel-design"
+source_manifest_hash: null
+warnings:
+  - "hash_not_computed: compute source_manifest_hash before freeze"
+  - "prompt_hash_not_computed: candidate prompt hashes are null; freeze blocker"
+  - "configuration_hash_not_computed: run configuration hashes are null until the first wave is configured"
+  - "no_variance_pilot: repetition counts are defaults, not pilot-derived"
+  - "no_human_approval: all four gates are pending; this panel is provisional_directional and must not be described as frozen, representative, significant or causal"
+
+panel_id: "panel-travel-esim-marketplace"
+version: "0.1.0"
+status: "provisional_directional"
+charter_id: "charter-travel-esim-marketplace-20260725"
+architecture_id: "architecture-travel-esim-marketplace-20260725"
+universe_id: "universe-travel-esim-marketplace-20260725"
+qa_id: "qa-travel-esim-marketplace-20260725"
+change_ledger_id: "ledger-travel-esim-marketplace-20260725"
+
+estimands:
+  - name: "unaided_brand_presence"
+    numerator: "Valid eligible answers that mention the target brand or a target-owned product name at least once"
+    denominator: "All valid observations where partition is core or sentinel AND aided_status is unaided, within one lane, surface, locale and wave"
+    eligible_partitions: ["core", "sentinel"]
+    eligible_lanes: ["closed_model", "retrieval", "consumer_surface"]
+    does_not_prove: "Market share, awareness, audience reach or revenue attribution"
+  - name: "competitive_mention_share"
+    numerator: "Valid answers naming the target, counted against all supplier brands named across those same answers"
+    denominator: "All valid observations where partition is aided AND aided_status is category_aided, within one lane, surface, locale and wave. competitor_aided observations are reported in a separate denominator and are never pooled here."
+    eligible_partitions: ["aided"]
+    eligible_lanes: ["closed_model", "retrieval"]
+    does_not_prove: "Market share or commercial performance"
+  - name: "citation_presence"
+    numerator: "Valid retrieval-lane answers exposing at least one citation resolving to a target-owned domain"
+    denominator: "All valid retrieval-lane observations where retrieval_used is true, within one partition, aided_status, surface, locale and wave"
+    eligible_partitions: ["core", "sentinel", "rotating", "aided"]
+    eligible_lanes: ["retrieval"]
+    does_not_prove: "Referral traffic, clicks or influence on the answer text"
+  - name: "aided_brand_knowledge"
+    numerator: "Valid answers stating target attributes consistent with dated evidence for destination, device and plan constraints"
+    denominator: "All valid observations where partition is aided AND aided_status is target_aided, within one lane, surface, locale and wave"
+    eligible_partitions: ["aided"]
+    eligible_lanes: ["closed_model", "retrieval"]
+    does_not_prove: "That buyers hold the same beliefs, or that the stated facts are currently true"
+  - name: "answer_framing"
+    numerator: "Valid answers whose structure matches the cell's declared expected_answer_kind"
+    denominator: "All valid observations within one canonical cell, lane, surface, locale and wave"
+    eligible_partitions: ["core", "sentinel", "rotating", "control", "aided"]
+    eligible_lanes: ["closed_model", "retrieval", "consumer_surface"]
+    does_not_prove: "Buyer preference or persuasion"
+
+partitions:
+  core:
+    canonical_cell_ids: ["cell-001", "cell-002", "cell-003", "cell-004", "cell-005", "cell-006", "cell-007", "cell-008", "cell-009", "cell-010", "cell-011", "cell-012", "cell-013", "cell-014", "cell-015", "cell-016"]
+    aided_status: "unaided"
+    note: "Unaided only. cell-007, cell-012 and cell-013 rest on grade-C evidence and are provisional pending Gate 3."
+  sentinel:
+    canonical_cell_ids: ["cell-017", "cell-018", "cell-019", "cell-020"]
+    aided_status: "unaided"
+    note: "Stable evergreen wording, repeated with extra repetitions and carried unchanged across versions as the overlap bridge."
+  rotating:
+    canonical_cell_ids: ["cell-021", "cell-023"]
+    aided_status: "unaided"
+    note: "Discovery cells on grade-C evidence. cell-021 is retrieval-only and decay-reviewed."
+  control:
+    canonical_cell_ids: ["cell-025"]
+    aided_status: "unaided"
+    note: "Off-category matched control. Detects unprompted category and brand injection. Never pooled with core."
+  aided:
+    canonical_cell_ids: ["cell-026", "cell-027", "cell-028", "cell-029", "cell-030", "cell-031", "cell-032", "cell-033", "cell-034"]
+    aided_status: "mixed_target_competitor_category"
+    note: "Three target_aided (cell-026, cell-027, cell-028), two competitor_aided (cell-029, cell-030) and four category_aided (cell-031 to cell-034). The three aided statuses are reported in three separate denominators."
+
+excluded_cells:
+  - canonical_cell_id: "cell-022"
+    reason: "Only candidate quarantined: B5 story evidence is decayed. Excluded from this version; see gap-006."
+  - canonical_cell_id: "cell-024"
+    reason: "Only candidates quarantined: en-CA locale review pending and grade-D variant. Excluded from this version; see gap-002."
+
+selected_candidate_ids: ["prompt-001a", "prompt-001b", "prompt-002a", "prompt-002b", "prompt-003a", "prompt-003b", "prompt-004a", "prompt-004b", "prompt-005a", "prompt-005b", "prompt-006a", "prompt-006b", "prompt-007a", "prompt-007b", "prompt-008a", "prompt-008b", "prompt-009a", "prompt-009b", "prompt-010a", "prompt-010b", "prompt-011a", "prompt-011b", "prompt-012a", "prompt-012b", "prompt-013a", "prompt-013b", "prompt-014a", "prompt-014b", "prompt-015a", "prompt-015b", "prompt-016a", "prompt-016b", "prompt-017a", "prompt-017b", "prompt-018a", "prompt-018b", "prompt-019a", "prompt-019b", "prompt-020a", "prompt-020b", "prompt-021a", "prompt-023a", "prompt-025a", "prompt-026a", "prompt-026b", "prompt-027a", "prompt-027b", "prompt-028a", "prompt-028b", "prompt-029a", "prompt-029b", "prompt-030a", "prompt-030b", "prompt-031a", "prompt-031b", "prompt-032a", "prompt-032b", "prompt-033a", "prompt-033b", "prompt-034a", "prompt-034b"]
+
+selected_variants:
+  observed_language: ["prompt-003a", "prompt-026a"]
+  natural_paraphrase: ["prompt-001a", "prompt-001b", "prompt-002a", "prompt-002b", "prompt-003b", "prompt-004a", "prompt-004b", "prompt-005a", "prompt-005b", "prompt-006a", "prompt-006b", "prompt-007a", "prompt-007b", "prompt-008a", "prompt-008b", "prompt-009a", "prompt-009b", "prompt-010a", "prompt-010b", "prompt-011a", "prompt-011b", "prompt-012a", "prompt-012b", "prompt-013a", "prompt-013b", "prompt-014a", "prompt-014b", "prompt-015a", "prompt-015b", "prompt-016a", "prompt-016b", "prompt-017a", "prompt-017b", "prompt-018a", "prompt-018b", "prompt-019a", "prompt-019b", "prompt-020a", "prompt-020b", "prompt-021a", "prompt-023a", "prompt-025a", "prompt-026b", "prompt-027a", "prompt-027b", "prompt-028a", "prompt-028b", "prompt-029a", "prompt-029b", "prompt-030a", "prompt-030b", "prompt-031a", "prompt-031b", "prompt-032a", "prompt-032b", "prompt-033a", "prompt-033b", "prompt-034a", "prompt-034b"]
+  sensitivity: []
+
+lanes: ["closed_model", "retrieval", "consumer_surface"]
+surfaces: ["surface-closed-a", "surface-closed-b", "surface-retrieval-a", "surface-consumer-clean"]
+locales: ["en-US"]
+languages: ["en"]
+
+model_search_session_policy:
+  model_version_recording: "Record the provider-exposed model and version string on every observation; a version change opens a new configuration and is flagged as drift."
+  search_policy: "closed_model surfaces run with tools and retrieval disabled. surface-retrieval-a runs with retrieval allowed and records retrieval_used, generated queries when exposed, and citation metadata."
+  session_state: "Fresh session per observation. No conversation carry-over except inside a scripted multi-turn candidate, which runs both turns in one session."
+  personalization: "surface-consumer-clean runs logged out or on a declared clean archetype with history cleared. Consumer-surface observations are never rolled up with API observations."
+  system_prompt: "Fixed and minimal, recorded verbatim in the run manifest."
+  sampling: "Temperature and any sampling controls fixed per wave and recorded."
+
+repetitions:
+  core_per_candidate_per_surface: 3
+  sentinel_per_candidate_per_surface: 6
+  rotating_per_candidate_per_surface: 3
+  control_per_candidate_per_surface: 3
+  aided_per_candidate_per_surface: 3
+  basis: "Defaults from the diagnostic tier. They are not pilot-derived and must be revisited after the variance pilot."
+
+randomization:
+  seed: 20260725
+  method: "Randomize candidate order within each wave and interleave surfaces so that time-of-day effects do not align with a partition."
+  time_blocks_per_wave: 2
+
+controls:
+  off_category_control_cell: "cell-025"
+  purpose: "Estimate unprompted category and brand injection when no connectivity need is expressed."
+  fresh_session_control: "Every observation opens a fresh session; a session-reuse arm is not run in this version."
+
+weight:
+  exposure:
+    method: "equal_within_declared_strata"
+    factors: []
+    rationale: "No credible audience, intent, locale or surface prevalence evidence exists for AI-assistant travel-connectivity questions. Equal weighting is a conditional convention, not a prevalence estimate."
+    normalized_within: "partition x aided_status x lane x surface x locale x wave"
+  priority:
+    method: "withheld_pending_human_approval"
+    factors: []
+    rationale: "Strategic priority is a human judgement. No priority weight is applied and no priority-weighted number may be published until Gate 4."
+
+statistics:
+  cluster_unit: "canonical_cell_id"
+  uncertainty_method: "Wilson intervals for simple unweighted binary strata; stratified cluster bootstrap by canonical_cell_id for any aggregate across cells"
+  pilot_status: "pending"
+  variance_pilot:
+    design: "12 diverse cells - the 4 sentinels plus cell-001, cell-003, cell-008, cell-010, cell-014, cell-016, cell-031 and cell-033 - at 6 repeats per candidate across at least 2 time blocks on 2 surfaces"
+    components_to_estimate: ["between_cell", "within_cell_run", "variant_wording", "day_and_time_block", "model_and_surface", "invalid_or_parser"]
+    decision_rule: "High within-cell correlation favours adding unique cells; high run variance favours adding repeats. Do not publish subgroup percentages until the pilot runs."
+  small_subgroup_rule: "Any stratum with fewer than 20 distinct canonical cells is reported as counts and example responses, never as a percentage leaderboard. Every stratum in this version except core is below that threshold."
+
+refresh_policy:
+  evidence_intake: "monthly"
+  panel_review: "quarterly, targeting roughly 70-80 percent core, 15-25 percent rotating and 5-10 percent sentinel plus control"
+  event_triggered_review: ["target product or plan-structure change", "device-compatibility policy change", "destination coverage or network change", "SIM or eSIM registration regulation change", "model or surface version change", "competitor entry or exit visible in the answer set"]
+  charter_review: "annual"
+  dated_and_mutable_claim_rules:
+    - claim_class: "B5 story and trend cells"
+      cell_ids: ["cell-021"]
+      review_by: "2026-10-25"
+      rule: "Re-verify against evidence published within 90 days of the wave, or demote the cell."
+    - claim_class: "price and package facts"
+      source_ids: ["source-001", "source-003"]
+      review_by: "2026-10-25"
+      rule: "Prices rendered in CAD at access time and are geo-dependent. Never embed a price in a prompt; re-verify before any scoring rule references a price."
+    - claim_class: "fair-use throttling threshold"
+      source_ids: ["source-004"]
+      review_by: "2026-10-25"
+      rule: "Single independent observation of roughly 3 GB/day and about 1 Mbps. Re-verify per package before treating it as fact in scoring."
+    - claim_class: "coverage counts and country lists"
+      source_ids: ["source-005"]
+      review_by: "2026-09-25"
+      rule: "The 137-country figure is dated 2025-09-12 and is stale for scoring; re-verify before use."
+    - claim_class: "device compatibility and carrier-lock policy"
+      source_ids: ["source-001", "source-004", "source-005"]
+      review_by: "2026-10-25"
+      rule: "Device lists change with handset releases; re-verify before scoring aided_brand_knowledge."
+    - claim_class: "SIM or eSIM identity-registration rules"
+      source_ids: ["source-008"]
+      review_by: "2026-08-25"
+      rule: "Source is undated and names no country. Replace with a dated jurisdictional source or drop cell-023."
+next_review: "2026-10-25"
+
+limitations:
+  - "Estimates are conditional on this panel and this configuration. They do not represent a probability sample of AI users or of travellers."
+  - "Only one first-party buyer-behaviour source (source-006) was reachable. Trustpilot, Reddit, both app stores and travel.stackexchange were blocked or unavailable at access time, so buyer language is thinner than the design intends."
+  - "Only 2 of 61 selected candidates are observed language; the rest are evidence-grounded paraphrases. Wording effects are therefore a real risk and are the first thing the variance pilot must measure."
+  - "Equal exposure weighting is a convention, not evidence of prevalence. No result may be called market share, audience reach, awareness or share of users."
+  - "No priority weights are applied, so no strategic-importance-weighted number exists in this version."
+  - "The panel has 25 unaided cells against a 30-48 diagnostic default. Coverage is deliberately short rather than padded."
+  - "No non-English locale is measured. en-CA is quarantined pending locale review. Any claim about non-English AI visibility is unsupported."
+  - "No campaign lane exists, so no campaign_response estimand, causal claim or before/after attribution is available."
+  - "No variance pilot has run, so repetition counts, interval widths and effective sample size are unvalidated."
+  - "B5 coverage is one retrieval-only cell on five-month-old evidence; the event-anchored cell was quarantined as decayed."
+  - "Company-asserted facts about plans, prices, coverage and device support are mutable and were captured at one moment from one geography."
+  - "Reported differences between waves are conditional and non-causal unless a pre-registered experiment justifies more."
+
+approvals:
+  - gate: "gate_1_icp"
+    status: "pending"
+    approver: null
+    decided_at: null
+    blocks: "Promotion of icp-006 or of any hypothesis_only ICP into core"
+  - gate: "gate_2_jobs"
+    status: "pending"
+    approver: null
+    decided_at: null
+    blocks: "Promotion of grade-C jobs job-005, job-008 and job-009"
+  - gate: "gate_3_partitions"
+    status: "pending"
+    approver: null
+    decided_at: null
+    blocks: "Core membership of cell-007, cell-012 and cell-013; the quarantine decisions on prompt-022a, prompt-024a and prompt-024b"
+  - gate: "gate_4_panel"
+    status: "pending"
+    approver: null
+    decided_at: null
+    blocks: "Weights, limitations wording, cadence, claim language and any frozen version"
+
+waivers:
+  - waiver_id: "W-001"
+    subject: "Unaided cell count below the diagnostic default"
+    detail: "25 unaided canonical cells against a 30-48 default."
+    reason: "The retrieved evidence does not support more distinct unaided intents. Adding cells would mean inventing personas, locales or information acts."
+    evidence_needed: "Authorised customer conversations, on-site search or query data, or reachable review and community corpora."
+    expires: "2026-10-25"
+  - waiver_id: "W-002"
+    subject: "Partner, reseller and affiliate area excluded"
+    detail: "No cell covers the partner or reseller programme named on the target site."
+    reason: "Company-asserted evidence only (source-001, source-002); no independent or behavioural support."
+    evidence_needed: "Independent partner-side sources or authorised customer evidence."
+    expires: "2026-10-25"
+  - waiver_id: "W-003"
+    subject: "Loyalty, referral and stored-value area excluded"
+    detail: "No cell covers the loyalty, referral or stored-value programme."
+    reason: "Company-asserted only, and campaign-adjacent terms are held out of unaided measurement."
+    evidence_needed: "Buyer-language evidence that these programmes drive an information need."
+    expires: "2026-10-25"
+  - waiver_id: "W-004"
+    subject: "Non-English locales excluded"
+    detail: "No cell exists in any non-English locale."
+    reason: "No non-English buyer-language evidence and no native or market-competent reviewer."
+    evidence_needed: "Locale-specific evidence plus a named reviewer per locale."
+    expires: "2026-10-25"
+  - waiver_id: "W-005"
+    subject: "Grade-C cells inside core"
+    detail: "cell-007, cell-012 and cell-013 sit in core on grade-C evidence."
+    reason: "The underlying intents are well-attested in shape but their sources are title-only proxies or inference."
+    evidence_needed: "A behavioural or independent source per cell, or demotion to rotating at Gate 3."
+    expires: "2026-10-25"
+  - waiver_id: "W-006"
+    subject: "Consumer surface limited to sentinels"
+    detail: "Only the 4 sentinel cells run on surface-consumer-clean."
+    reason: "Manual collection cost."
+    evidence_needed: "An approved collection budget."
+    expires: "2026-10-25"
+  - waiver_id: "W-007"
+    subject: "Global-package area only partially covered"
+    detail: "Global multi-region plans are measured only through cell-033."
+    reason: "No independent or behavioural buyer language specific to global plans."
+    evidence_needed: "Forum or review language from travellers selecting a global plan."
+    expires: "2026-10-25"
+
+budget:
+  observations_per_wave_estimate: 639
+  calculation: "prompt-021a is retrieval-only: 1 surface x 3 repeats = 3. The 8 sentinel candidates run 3 API surfaces x 6 repeats = 144, plus surface-consumer-clean at 3 repeats = 24, so 168. The remaining 52 candidates run 3 API surfaces x 3 repeats = 468. Total 3 + 168 + 468 = 639, before retries."
+  budget_status: "provisional_estimate_not_approved"

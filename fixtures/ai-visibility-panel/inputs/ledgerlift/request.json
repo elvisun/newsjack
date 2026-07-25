@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "fixture-request-ledgerlift",
+  "created_at": "2026-07-25T12:00:00Z",
+  "created_by": "newsjack-fixture",
+  "source_manifest_hash": "sha256:baedcd6a5c07d465e54edfc196380049321be26924b45cdcd02ca77ae2656349",
+  "warnings": [
+    "Synthetic fixture: all names, URLs, quotations, and evidence records are invented."
+  ],
+  "starting_url": "https://ledgerlift.example/",
+  "description": "LedgerLift is a synthetic expense-policy and receipt-collection product for professional-services finance teams.",
+  "business_decision": "Choose a defensible prompt panel for monitoring category discovery, supplier evaluation, product knowledge, and post-purchase support in English-speaking Canada.",
+  "estimands": [
+    "unaided_brand_presence",
+    "aided_brand_knowledge",
+    "competitive_mention_share",
+    "citation_presence"
+  ],
+  "target_population": "Finance staff and buying-committee members at 50-500 person professional-services firms in Canada that use a mid-market ERP and reimburse project expenses.",
+  "exclusions": [
+    "Sole proprietors",
+    "Firms without employee expense reimbursement",
+    "Markets outside Canada",
+    "Prompts derived from current AI answers"
+  ],
+  "markets": [
+    "Canada"
+  ],
+  "locales": [
+    "en-CA"
+  ],
+  "lanes": [
+    "closed_model",
+    "retrieval",
+    "consumer_surface"
+  ],
+  "run_budget": {
+    "canonical_cells": 48,
+    "variants_per_core_cell": 2,
+    "repetitions_per_wave": 3
+  },
+  "review_budget": {
+    "human_hours": 6
+  },
+  "precision_status": "directional_only",
+  "approval_status": "pending",
+  "campaign_context": {
+    "campaign_terms": [
+      "Close by Friday"
+    ],
+    "instruction": "Keep campaign language outside the evergreen unaided core."
+  }
+}

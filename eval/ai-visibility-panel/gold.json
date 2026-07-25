@@ -1,0 +1,613 @@
+{
+  "eval_name": "ai-visibility-panel-public-url",
+  "version": 1,
+  "checked_at": "2026-07-25",
+  "executor_visibility": "forbidden",
+  "description": "Hidden post-generation anchors for judging whether each public URL run captures its important domain structure without contamination or invented certainty. These are semantic requirements, not reference answers or required prompt strings.",
+  "rubric_dimensions": [
+    {
+      "key": "evidence_quality",
+      "description": "Uses diverse, permitted, correctly classified sources with dates, spans, confidence, conflicts, and no prevalence laundering."
+    },
+    {
+      "key": "icp_market_model",
+      "description": "Builds testable ICP contexts, sides and roles, triggers, constraints, standing, counterevidence, confidence, and gaps without persona fiction."
+    },
+    {
+      "key": "job_intent_architecture",
+      "description": "Keeps jobs, information acts, journey, B0-B5 proximity, aided state, role, locale, answer kind, turn form, and funnel rollup independent."
+    },
+    {
+      "key": "prompt_coverage_traceability",
+      "description": "Returns a broad useful list of exact prompts, each traceable through a canonical cell and job to permitted evidence, while disclosing unsupported coverage."
+    },
+    {
+      "key": "prompt_realism_cell_discipline",
+      "description": "Uses natural buyer language and controlled variants that preserve intent, constraints, locale, and expected answer without recommendation forcing."
+    },
+    {
+      "key": "contamination_qa",
+      "description": "Keeps unaided generation target-blind, separates aided prompts, scans lexical and semantic leakage, and records explainable QA and duplicate decisions."
+    },
+    {
+      "key": "panel_measurement_design",
+      "description": "Defines defensible partitions, lanes, surfaces, repetitions, pilots, randomization, weights, uncertainty, refresh, versioning, and causal limits."
+    },
+    {
+      "key": "artifact_usability_integrity",
+      "description": "Produces readable reports and linked machine artifacts with stable IDs, exact denominators, approval status, limitations, rejection history, and actionable next steps."
+    }
+  ],
+  "cases": [
+    {
+      "id": "case-01-rippling",
+      "source_urls": [
+        "https://www.rippling.com/platform",
+        "https://www.gartner.com/reviews/market/workforce-management-applications/vendor/rippling/product/rippling-1139883183",
+        "https://www.techradar.com/reviews/rippling-employee-management",
+        "https://www.reddit.com/r/rippling/comments/1v2rnnq/thinking_about_switching_to_rippling_insight/"
+      ],
+      "must_haves": [
+        {
+          "id": "rippling-mh-01",
+          "text": "Separates materially different HR/people operations, payroll, IT/device/access, and spend jobs instead of treating 'workforce management' as one buyer need."
+        },
+        {
+          "id": "rippling-mh-02",
+          "text": "Represents evidence-supported role differences such as HR or People Ops, payroll/finance, IT/security, managers, and employees without inventing one universal buyer."
+        },
+        {
+          "id": "rippling-mh-03",
+          "text": "Includes selection and requirements prompts about modular scope, integrations, implementation, administrative control, and organizational fit where evidence supports them."
+        },
+        {
+          "id": "rippling-mh-04",
+          "text": "Includes direct-brand adoption or post-purchase questions separately from unaided category, problem, job, comparison, and alternatives questions."
+        },
+        {
+          "id": "rippling-mh-05",
+          "text": "Uses independent/review/community evidence to test company positioning and preserves implementation, service, complexity, or switching concerns as constraints or counterevidence."
+        },
+        {
+          "id": "rippling-mh-06",
+          "text": "Keeps product/module terms out of B3/B4 unaided prompts unless independent buyer-language evidence establishes an accepted category."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "rippling-ap-01",
+          "text": "Collapses all modules and roles into generic prompts such as 'best workforce platform for businesses.'"
+        },
+        {
+          "id": "rippling-ap-02",
+          "text": "Treats Rippling website segments, slogans, or module names as observed buyer demand or prevalence."
+        },
+        {
+          "id": "rippling-ap-03",
+          "text": "Assumes the same user, champion, buyer, approver, and post-purchase operator across HR, payroll, IT, and spend."
+        },
+        {
+          "id": "rippling-ap-04",
+          "text": "Makes unsupported universal claims about price, implementation ease, integration quality, or suitability."
+        },
+        {
+          "id": "rippling-ap-05",
+          "text": "Omits implementation, migration, administration, or support questions and models the journey as acquisition only."
+        }
+      ]
+    },
+    {
+      "id": "case-02-cloudflare",
+      "source_urls": [
+        "https://www.cloudflare.com/plans/",
+        "https://www.gartner.com/reviews/market/cloud-application-platforms/vendor/cloudflare",
+        "https://www.techradar.com/news/best-cdn-providers",
+        "https://www.reddit.com/r/RedditEng/comments/1sx8693/the_zero_trust_odyssey/"
+      ],
+      "must_haves": [
+        {
+          "id": "cloudflare-mh-01",
+          "text": "Separates CDN/performance, application and DDoS security, authoritative DNS, Zero Trust/SASE, and edge-compute jobs where evidence supports them."
+        },
+        {
+          "id": "cloudflare-mh-02",
+          "text": "Models distinct technical and buying roles such as application developers, platform/SRE, security, network/IT, and procurement rather than one generic technical persona."
+        },
+        {
+          "id": "cloudflare-mh-03",
+          "text": "Uses technical constraints and expected answer kinds appropriate to each category; it does not compare a CDN need and a Zero Trust migration as one intent cell."
+        },
+        {
+          "id": "cloudflare-mh-04",
+          "text": "Includes requirements, migration, architecture, verification, implementation, and troubleshooting acts in addition to product comparisons."
+        },
+        {
+          "id": "cloudflare-mh-05",
+          "text": "Keeps current plan, feature, pricing, compatibility, security, and service-status questions retrieval-eligible and time-sensitive rather than timeless model-memory facts."
+        },
+        {
+          "id": "cloudflare-mh-06",
+          "text": "Uses community or independent technical evidence as a check on target claims and keeps unsupported architectural details or prevalence out of core."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "cloudflare-ap-01",
+          "text": "Treats Cloudflare as one category and produces only generic 'best cloud platform' prompts."
+        },
+        {
+          "id": "cloudflare-ap-02",
+          "text": "Mixes CDN, DNS, application security, Zero Trust, and Workers/edge-compute constraints inside one canonical cell."
+        },
+        {
+          "id": "cloudflare-ap-03",
+          "text": "Invents technical guarantees, feature support, threat protection, latency, compliance, or plan entitlements."
+        },
+        {
+          "id": "cloudflare-ap-04",
+          "text": "Assumes developers, SREs, security leaders, network teams, and economic buyers use the same language and journey."
+        },
+        {
+          "id": "cloudflare-ap-05",
+          "text": "Frames all prompts as purchase recommendations and omits implementation or post-purchase operations."
+        }
+      ]
+    },
+    {
+      "id": "case-03-wise",
+      "source_urls": [
+        "https://wise.com/gb/pricing/business",
+        "https://wise.com/help/articles/2978049/where-can-i-use-wise",
+        "https://wise.com/help/articles/2968915/can-i-get-the-wise-card-in-my-country",
+        "https://www.forbes.com/advisor/money-transfer/wise-review/"
+      ],
+      "must_haves": [
+        {
+          "id": "wise-mh-01",
+          "text": "Separates personal transfer/card/holding-money jobs, business payment and account jobs, and embedded/API platform jobs where evidence supports them."
+        },
+        {
+          "id": "wise-mh-02",
+          "text": "Treats source and destination country, currencies/corridor, residency, card availability, and regulatory locale as material constraints rather than cosmetic translations."
+        },
+        {
+          "id": "wise-mh-03",
+          "text": "Includes fee, exchange-rate, transfer-time, limit, availability, and eligibility verification prompts with live-retrieval eligibility and date/locale caveats."
+        },
+        {
+          "id": "wise-mh-04",
+          "text": "Distinguishes the roles and needs of an individual sender/recipient, an SMB finance operator, and an embedded-finance product/developer team when supported."
+        },
+        {
+          "id": "wise-mh-05",
+          "text": "Includes direct-brand setup, use, support, and post-transfer questions separately from unaided problem, category, comparison, and alternatives prompts."
+        },
+        {
+          "id": "wise-mh-06",
+          "text": "Keeps the panel conditional on declared markets and explicitly identifies unsupported corridors/locales rather than extrapolating globally."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "wise-ap-01",
+          "text": "Claims Wise, its card, account features, or a transfer route is available worldwide."
+        },
+        {
+          "id": "wise-ap-02",
+          "text": "Publishes exact fees, rates, delivery times, or eligibility as stable universal facts."
+        },
+        {
+          "id": "wise-ap-03",
+          "text": "Collapses personal, business, and embedded-platform buyers into one generic international-money persona."
+        },
+        {
+          "id": "wise-ap-04",
+          "text": "Treats literal translation as locale coverage while ignoring currency, regulation, residency, and corridor differences."
+        },
+        {
+          "id": "wise-ap-05",
+          "text": "Implies funds, rates, transfer completion, legal status, or financial outcomes are guaranteed."
+        }
+      ]
+    },
+    {
+      "id": "case-04-zocdoc",
+      "source_urls": [
+        "https://www.zocdoc.com/about/how-search-works/",
+        "https://www.zocdoc.com/blog/facts/insurance-matching-and-verification/",
+        "https://www.medicare.gov/health-apps/zocdoc",
+        "https://www.reddit.com/r/therapists/comments/1qqko9r/zocdoc_review/"
+      ],
+      "must_haves": [
+        {
+          "id": "zocdoc-mh-01",
+          "text": "Models the patient and provider sides as distinct ICP/job families with different users, buyers, criteria, and post-purchase workflows."
+        },
+        {
+          "id": "zocdoc-mh-02",
+          "text": "For patient search, treats specialty/type of care, location, insurance information, and appointment availability as constraints without turning the panel into diagnosis."
+        },
+        {
+          "id": "zocdoc-mh-03",
+          "text": "Includes explicit verification prompts and caveats that platform insurance matching or provider listings do not guarantee current network status, eligibility, coverage, cost, or medical suitability."
+        },
+        {
+          "id": "zocdoc-mh-04",
+          "text": "Represents provider-side acquisition, scheduling, listing/reputation, workflow, economics, and fit questions only where provider evidence supports them."
+        },
+        {
+          "id": "zocdoc-mh-05",
+          "text": "Includes booking, rescheduling/cancellation, preparation, and provider-management or other post-purchase/post-booking jobs rather than stopping at selection."
+        },
+        {
+          "id": "zocdoc-mh-06",
+          "text": "Keeps the panel US-specific and treats current provider, availability, insurance, and marketplace facts as retrieval/surface-dependent."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "zocdoc-ap-01",
+          "text": "Generates diagnosis, treatment, urgency, or medical-suitability advice as ordinary marketplace prompts."
+        },
+        {
+          "id": "zocdoc-ap-02",
+          "text": "Guarantees that a listed provider accepts a user's plan, is in network, has an appointment, or will be covered at a stated cost."
+        },
+        {
+          "id": "zocdoc-ap-03",
+          "text": "Collapses patients and provider practices into one two-sided-marketplace persona or denominator."
+        },
+        {
+          "id": "zocdoc-ap-04",
+          "text": "Uses unnecessary health or personal data in artifacts or prompts."
+        },
+        {
+          "id": "zocdoc-ap-05",
+          "text": "Treats search order, reviews, or availability as proof of clinical quality."
+        }
+      ]
+    },
+    {
+      "id": "case-05-taskrabbit",
+      "source_urls": [
+        "https://www.taskrabbit.com/become-a-tasker",
+        "https://www.taskrabbit.com/cost-guides",
+        "https://support.taskrabbit.com/hc/en-gb/articles/46260514951579-Fees-Payments-and-Cancellation-Supplemental-Terms",
+        "https://www.reddit.com/r/TaskRabbit/comments/1rmeuhc/my_first_taskrabbit_experience/"
+      ],
+      "must_haves": [
+        {
+          "id": "taskrabbit-mh-01",
+          "text": "Separates client demand and Tasker supply as distinct sides with different jobs, criteria, economics, support, and post-task journeys."
+        },
+        {
+          "id": "taskrabbit-mh-02",
+          "text": "Treats city/market, task category, scope, timing, Tasker availability, and local supply-demand as material constraints."
+        },
+        {
+          "id": "taskrabbit-mh-03",
+          "text": "Covers multiple service-job families such as assembly, moving, repair, and errands without pretending their risk, scope, pricing, and expected answers are interchangeable."
+        },
+        {
+          "id": "taskrabbit-mh-04",
+          "text": "Includes current price/fee, payment, cancellation, trust/safety, scheduling, and availability questions in retrieval-eligible cells with locale-specific caveats."
+        },
+        {
+          "id": "taskrabbit-mh-05",
+          "text": "Includes Tasker onboarding, category selection, availability, earnings/costs, task execution, dispute/support, and reputation questions where evidence supports them."
+        },
+        {
+          "id": "taskrabbit-mh-06",
+          "text": "Uses public experience evidence as a source of constraints and language, not as a universal rating or market-frequency estimate."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "taskrabbit-ap-01",
+          "text": "Publishes a national or universal task price, fee, availability, quality, or completion-time claim."
+        },
+        {
+          "id": "taskrabbit-ap-02",
+          "text": "Collapses clients and Taskers into one marketplace persona or shared success metric."
+        },
+        {
+          "id": "taskrabbit-ap-03",
+          "text": "Treats all task categories as the same job or uses generic 'best local services app' prompts as the core."
+        },
+        {
+          "id": "taskrabbit-ap-04",
+          "text": "Guarantees Tasker skill, safety, licensing, availability, earnings, or job outcomes."
+        },
+        {
+          "id": "taskrabbit-ap-05",
+          "text": "Ignores market/locale differences or carries UK fee/cancellation terms into a global or US denominator."
+        }
+      ]
+    },
+    {
+      "id": "case-06-airalo",
+      "source_urls": [
+        "https://www.airalo.com/how-airalo-works/device-compatibility",
+        "https://www.airalo.com/regional-esim",
+        "https://www.techradar.com/pro/best-esims-for-europe-in-year",
+        "https://www.reddit.com/r/productreview/comments/1qcwxl3/airalo_review_in_2026_is_it_worth_it_or_not/"
+      ],
+      "must_haves": [
+        {
+          "id": "airalo-mh-01",
+          "text": "Treats destination/route, trip length, data/voice needs, package coverage, local/regional/global scope, device eSIM support, and carrier lock as material selection constraints."
+        },
+        {
+          "id": "airalo-mh-02",
+          "text": "Separates pre-purchase comparison and compatibility jobs from purchase, installation, activation timing, switching/data settings, top-up, and troubleshooting jobs."
+        },
+        {
+          "id": "airalo-mh-03",
+          "text": "Includes direct-brand B0 support prompts separately from unaided travel-connectivity, category, and comparison prompts."
+        },
+        {
+          "id": "airalo-mh-04",
+          "text": "Keeps coverage, network, package, price, and availability claims destination- and time-specific and retrieval-eligible."
+        },
+        {
+          "id": "airalo-mh-05",
+          "text": "Represents evidence-supported traveler contexts without inventing full persona biographies or assuming one package fits every trip."
+        },
+        {
+          "id": "airalo-mh-06",
+          "text": "Uses independent reviews and public experience reports to preserve activation, support, reliability, or value concerns without generalizing one report."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "airalo-ap-01",
+          "text": "Guarantees a device is compatible, unlocked, supported, activated, or covered without device/destination verification."
+        },
+        {
+          "id": "airalo-ap-02",
+          "text": "Treats local, regional, and global packages as interchangeable or globally available."
+        },
+        {
+          "id": "airalo-ap-03",
+          "text": "Generates only 'best eSIM' purchase prompts and omits activation and post-purchase troubleshooting."
+        },
+        {
+          "id": "airalo-ap-04",
+          "text": "States exact prices, networks, speeds, allowance, validity, or coverage as stable universal facts."
+        },
+        {
+          "id": "airalo-ap-05",
+          "text": "Contaminates unaided travel-connectivity prompts with Airalo or its product language."
+        }
+      ]
+    },
+    {
+      "id": "case-07-oura",
+      "source_urls": [
+        "https://ouraring.com/how-it-works",
+        "https://support.ouraring.com/hc/articles/4408961184147-General-FAQs",
+        "https://www.techradar.com/health-fitness/oura-ring-5-review-a-luxury-smart-ring-for-discreet-everyday-wellness-tracking-thats-almost-easy-to-forget-youre-wearing",
+        "https://www.reddit.com/r/ouraring/comments/1qytk94/disappointed_by_product_lifespan_and_support/"
+      ],
+      "must_haves": [
+        {
+          "id": "oura-mh-01",
+          "text": "Frames sleep, activity, readiness/recovery, habit reflection, and wearable convenience as wellness jobs rather than diagnosis or treatment."
+        },
+        {
+          "id": "oura-mh-02",
+          "text": "Separates hardware/ring fit and the membership/service proposition in requirements and comparison prompts."
+        },
+        {
+          "id": "oura-mh-03",
+          "text": "Includes direct-brand setup, sizing, syncing, interpretation-with-limits, battery/product lifespan, membership, support, privacy, and other post-purchase questions where evidenced."
+        },
+        {
+          "id": "oura-mh-04",
+          "text": "Includes unaided job/problem, smart-ring/wearable category, and comparison cells without target leakage or medical recommendation forcing."
+        },
+        {
+          "id": "oura-mh-05",
+          "text": "Preserves independent and community concerns about value, product lifespan, support, or limitations as counterevidence and QA constraints."
+        },
+        {
+          "id": "oura-mh-06",
+          "text": "Marks current device generation, features, membership terms, compatibility, and pricing as time-sensitive retrieval facts."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "oura-ap-01",
+          "text": "Claims the product diagnoses, treats, prevents, or guarantees outcomes for a medical condition."
+        },
+        {
+          "id": "oura-ap-02",
+          "text": "Treats wellness metrics as clinical truth or recommends replacing a clinician or validated medical device."
+        },
+        {
+          "id": "oura-ap-03",
+          "text": "Omits membership cost, hardware lifecycle, sizing, support, or post-purchase jobs."
+        },
+        {
+          "id": "oura-ap-04",
+          "text": "Invents biometric accuracy, battery life, durability, feature, or health-outcome guarantees."
+        },
+        {
+          "id": "oura-ap-05",
+          "text": "Turns a broad health concern into a branded product recommendation solely to elicit Oura."
+        }
+      ]
+    },
+    {
+      "id": "case-08-turbotax",
+      "source_urls": [
+        "https://turbotax.intuit.com/personal-taxes/online/deluxe.jsp",
+        "https://www.irs.gov/file-your-taxes-for-free",
+        "https://www.nerdwallet.com/p/reviews/taxes/turbo-tax",
+        "https://www.reddit.com/r/TurboTax/comments/1saz3gi/turbotax_getting_too_pricey/"
+      ],
+      "must_haves": [
+        {
+          "id": "turbotax-mh-01",
+          "text": "Makes tax year, filing status, forms/income/credits, federal/state situation, filing complexity, and assistance needs explicit constraints rather than one generic taxpayer persona."
+        },
+        {
+          "id": "turbotax-mh-02",
+          "text": "Separates DIY, assisted, and full-service evaluation and use cases, including current eligibility and pricing verification."
+        },
+        {
+          "id": "turbotax-mh-03",
+          "text": "Includes credible alternatives and free-file eligibility, including an IRS-source-backed path, rather than treating TurboTax's free claim as universal."
+        },
+        {
+          "id": "turbotax-mh-04",
+          "text": "Includes direct-brand navigation, import/setup, form handling, filing/state, status, correction/amendment, and support/post-filing jobs where supported."
+        },
+        {
+          "id": "turbotax-mh-05",
+          "text": "Treats law, form support, eligibility, deadlines, pricing, promotions, and product tiers as tax-year-specific retrieval facts with explicit verification limits."
+        },
+        {
+          "id": "turbotax-mh-06",
+          "text": "Uses independent reviews and public price/value concerns as counterevidence without converting them into universal claims."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "turbotax-ap-01",
+          "text": "States or implies TurboTax is free for everyone, supports every form/situation, or has one stable price."
+        },
+        {
+          "id": "turbotax-ap-02",
+          "text": "Reuses rules, eligibility, deadlines, forms, features, or prices across tax years without verification."
+        },
+        {
+          "id": "turbotax-ap-03",
+          "text": "Provides personalized tax/legal conclusions or guarantees a refund, filing result, accuracy outcome, audit result, or eligibility."
+        },
+        {
+          "id": "turbotax-ap-04",
+          "text": "Omits IRS/free alternatives or frames the target website as the sole source of eligibility truth."
+        },
+        {
+          "id": "turbotax-ap-05",
+          "text": "Models the journey as purchase only and omits filing, correction, status, and support/post-filing jobs."
+        }
+      ]
+    },
+    {
+      "id": "case-09-octopus-energy-uk",
+      "source_urls": [
+        "https://octopus.energy/smart/",
+        "https://www.ofgem.gov.uk/information-consumers/energy-advice-households/energy-price-cap-unit-rates-and-standing-charges",
+        "https://www.which.co.uk/reviews/energy-companies/article/energy-company-reviews/octopus-energy-aESDM2a8ISWP",
+        "https://www.reddit.com/r/OctopusEnergy/comments/1un5nqo/should_i_switch_to_agile/"
+      ],
+      "must_haves": [
+        {
+          "id": "octopus-mh-01",
+          "text": "Keeps the panel explicitly UK-specific and distinguishes current Ofgem price-cap context from supplier tariff claims."
+        },
+        {
+          "id": "octopus-mh-02",
+          "text": "Separates standard/fixed and dynamic/time-of-use tariff jobs; dynamic-fit prompts use household load shape, flexibility, smart-meter status, and risk tolerance rather than 'cheapest' alone."
+        },
+        {
+          "id": "octopus-mh-03",
+          "text": "Represents materially different EV charging, solar/battery, export, heat-pump, metering, payment, and ordinary household energy jobs only where evidence supports them."
+        },
+        {
+          "id": "octopus-mh-04",
+          "text": "Includes switching, meter/setup, tariff operation, billing/payment, export, troubleshooting, and other post-purchase jobs in addition to supplier comparison."
+        },
+        {
+          "id": "octopus-mh-05",
+          "text": "Treats tariff availability, half-hourly rates, price-cap levels, regional charges, export terms, and device/meter requirements as current retrieval data."
+        },
+        {
+          "id": "octopus-mh-06",
+          "text": "Uses independent consumer assessment and public Agile experience to preserve service, volatility, complexity, and load-shifting concerns without claiming prevalence."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "octopus-ap-01",
+          "text": "Generalizes UK tariffs, regulation, units, metering, or price-cap rules to other countries."
+        },
+        {
+          "id": "octopus-ap-02",
+          "text": "Calls Agile/dynamic pricing universally cheapest, suitable, greener, or lower risk without a load-shape and current-rate analysis."
+        },
+        {
+          "id": "octopus-ap-03",
+          "text": "Publishes exact rates, standing charges, export payments, savings, or tariff availability as stable national facts."
+        },
+        {
+          "id": "octopus-ap-04",
+          "text": "Collapses EV, solar/battery/export, heat-pump, and ordinary electricity needs into one smart-energy intent cell."
+        },
+        {
+          "id": "octopus-ap-05",
+          "text": "Omits metering, billing, switching, tariff operation, or other post-purchase jobs."
+        }
+      ]
+    },
+    {
+      "id": "case-10-toyota-rav4-2026",
+      "source_urls": [
+        "https://www.toyota.com/rav4/",
+        "https://www.caranddriver.com/toyota/rav4",
+        "https://www.edmunds.com/toyota/rav4/",
+        "https://www.reddit.com/r/rav4club/comments/1qscjha/new_to_the_community_considering_a_2026_rav4/"
+      ],
+      "must_haves": [
+        {
+          "id": "rav4-mh-01",
+          "text": "Pins every factual/product cell to the 2026 model year and prevents older-generation specifications or reviews from silently becoming 2026 facts."
+        },
+        {
+          "id": "rav4-mh-02",
+          "text": "Separates hybrid and plug-in-hybrid powertrain jobs and constraints, including charging questions only for the PHEV."
+        },
+        {
+          "id": "rav4-mh-03",
+          "text": "Treats trim, drivetrain, use case, market, local inventory, dealer offer, price, tax/fee, and delivery timing as material constraints or current retrieval facts."
+        },
+        {
+          "id": "rav4-mh-04",
+          "text": "Separates US and Canada market availability, trim naming, pricing, incentives, and units rather than treating locale as translation."
+        },
+        {
+          "id": "rav4-mh-05",
+          "text": "Includes category/competitor, older-model or powertrain comparison, requirements, test-drive/dealer, purchase, setup, maintenance, support, and ownership/post-purchase jobs where evidenced."
+        },
+        {
+          "id": "rav4-mh-06",
+          "text": "Uses independent automotive sources and owner/shopping language to test manufacturer claims while marking unresolved early-model-year evidence as provisional."
+        }
+      ],
+      "anti_patterns": [
+        {
+          "id": "rav4-ap-01",
+          "text": "Mixes pre-2026 specifications, trims, reviews, powertrains, or ownership facts into the redesigned 2026 model without labeling the difference."
+        },
+        {
+          "id": "rav4-ap-02",
+          "text": "Treats hybrid and plug-in-hybrid as interchangeable or asks a non-PHEV owner about charging."
+        },
+        {
+          "id": "rav4-ap-03",
+          "text": "States national inventory, dealer price, offer, availability, markup, incentive, or delivery timing as guaranteed."
+        },
+        {
+          "id": "rav4-ap-04",
+          "text": "Carries US trims, prices, incentives, or availability into Canada, or vice versa."
+        },
+        {
+          "id": "rav4-ap-05",
+          "text": "Generates only shopping/recommendation prompts and omits dealer, setup, maintenance, troubleshooting, and ownership support."
+        }
+      ]
+    }
+  ]
+}

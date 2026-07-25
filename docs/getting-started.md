@@ -82,6 +82,7 @@ menu:
 > 4. **Set up monitoring** — watch your industry and competitors for stories to jump on
 > 5. **Track coverage** — Google Alerts-style keyword alerts filtered for real features
 > 6. **Find journalists** — build a small, fit-checked media list for a pitch
+> 7. **Build an AI-visibility prompt panel** — research a URL and map the buyer prompts worth tracking
 
 Then let the user pick and go one step at a time. Each starting point maps to a
 skill:
@@ -94,6 +95,7 @@ skill:
 | Set up monitoring | `newsjack-monitor-setup` |
 | Track coverage | `coverage-tracker-setup` |
 | Find journalists | `find-journalists` |
+| Build an AI-visibility prompt panel | `build-ai-visibility-panel` |
 
 If the user already knows what they want ("draft a pitch", "is this newsworthy?",
 "roast this"), skip the menu and route straight to the relevant skill.

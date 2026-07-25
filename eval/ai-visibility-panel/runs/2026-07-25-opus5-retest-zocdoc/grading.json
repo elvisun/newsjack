@@ -1,0 +1,1140 @@
+{
+  "cases": [
+    {
+      "artifact_sha256": {
+        "blind_design_brief.json": "c91a11234745d9a512f1c2d7f34e2d7e80689868f93d17a846f6171e34409175",
+        "buyer_jobs.json": "7b4d83d291f543f3d2f854a5324a4279ae679e47364ba00d41d2b541b43ad019",
+        "contamination_register.yaml": "a1be73fe71ea0d056b77052d293fc587223b37e00f37e15c0e8237334ea279a4",
+        "icp_hypotheses.json": "ab6d427e6e922d3c494e4a65280540de62561037d2f336093d11da1c9c73e910",
+        "measurement_charter.json": "bd55ba25334ae84b6d061826151ac62d929bd803032e885bc18fde5125d9b52e",
+        "panel.yaml": "9020385d551f5ebc6d6637f016bb152b943c37313c10dda97102f6c78e07553e",
+        "panel_change_ledger.json": "f243ca7019cdfea3892fbd152b09d98ab908db660d42e8cf860e5d08cfa8b447",
+        "panel_report.md": "78ba83fc7acb31ff7f0549266dd25b16d67dea22563ef0b1923c58c2d44cfa30",
+        "prompt_architecture.json": "bbc6049f5137873d63e61dab04e01892a7ad2f4fd937f2133871c1dc05cd3dcc",
+        "prompt_qa.json": "73a196e97b664f4289585e64663f2fbb8ea324ad1da6456f7f47b5389542e2ab",
+        "prompt_universe.json": "ba0030d72fa018cd52f9b93140be252c466e5183239d571761b44a865ac14273",
+        "run_manifest_template.json": "ab90622878be29c0d63c6e282ec3e98203abca17ae9d140edeb9ccde2cc971bb",
+        "source_manifest.json": "06157d64ecc434c6c2637e9d70b948981215619abbc4a162d232f435f832217c",
+        "tracking_plan.md": "cb88850ef08ba02c4765022c7c02432653913e3f9a2e12be69b44ace6e3863c6"
+      },
+      "case_id": "case-04-zocdoc",
+      "case_name": "case-04-zocdoc",
+      "case_slug": "case-04-zocdoc",
+      "checks": [
+        {
+          "evidence": "14 artifacts",
+          "id": "required_artifacts_parse",
+          "passed": true,
+          "severity": "critical",
+          "text": "required artifacts parse"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:measurement charter.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:measurement charter.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:measurement charter.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:measurement_charter.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:measurement charter.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "charter_is_provisional: business decision, estimand set, exclusions, and budget were inferred from the supplied URL and description; no human approved them",
+            "no_campaign_supplied: campaign_response estimand and the campaign_experiment lane are excluded until campaign terms, treatment windows, and controls are supplied"
+          ],
+          "id": "source_hash_warning:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:measurement charter.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:measurement charter.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:source manifest.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:source manifest.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:source manifest.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:source_manifest.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:source manifest.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "target_site_partially_blocked: www.zocdoc.com root, /about/, /languages, and /about/news/ returned HTTP 403 to the research agent; target factual standing rests on retrievable /blog/facts/ pages, press releases, and independent coverage",
+            "no_first_party_customer_corpus: no user-supplied interviews, call transcripts, site-search logs, or AI-conversation logs were provided; all buyer language is public proxy evidence",
+            "no_query_volume_evidence: no keyword-volume or AI-prompt-frequency data was available, so no source supports prevalence or exposure weighting"
+          ],
+          "id": "source_hash_warning:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:source manifest.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:source manifest.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:icp hypotheses.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:icp hypotheses.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:icp hypotheses.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:icp_hypotheses.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:icp hypotheses.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "gate_1_not_approved: no human reviewed or promoted these hypotheses"
+          ],
+          "id": "source_hash_warning:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:icp hypotheses.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:icp hypotheses.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:buyer jobs.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:buyer jobs.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:buyer jobs.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:buyer_jobs.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:buyer jobs.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "gate_2_not_approved: no human approved these jobs, roles, or language fragments",
+            "counts_are_corpus_counts: any count refers to this manifest only and is never market frequency"
+          ],
+          "id": "source_hash_warning:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:buyer jobs.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:buyer jobs.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:blind design brief.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:blind design brief.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:blind design brief.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:blind_design_brief.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:blind design brief.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash and blind_brief_hash before freeze",
+            "blind_pass_ran_in_same_session: no fresh subagent was available, so the unaided generation pass worked only from this sanitized brief; a fresh-context regeneration is recommended before freeze"
+          ],
+          "id": "source_hash_warning:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:blind design brief.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:blind design brief.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt architecture.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt architecture.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt architecture.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_architecture.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt architecture.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "charter_provisional: architecture is provisional and unapproved",
+            "b0_pass_separate: aided cells spec-025..spec-032 are generated in a separate aided pass"
+          ],
+          "id": "source_hash_warning:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt architecture.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt architecture.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt universe.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt universe.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt universe.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_universe.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt universe.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute all hashes before freeze",
+            "prompt_hash_not_computed: each candidate prompt_hash is null pending a hashing runtime",
+            "blind_pass_same_session: unaided candidates were written from blind_design_brief.json only; no fresh subagent was available"
+          ],
+          "id": "source_hash_warning:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt universe.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt universe.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt qa.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt qa.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt qa.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:prompt_qa.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:prompt qa.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "semantic_similarity_not_embedding_verified: no fixed embedding model/version was available, so duplicate review was lexical plus human-style semantic reading only"
+          ],
+          "id": "source_hash_warning:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:prompt qa.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt qa.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:run manifest template.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:run manifest template.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:run manifest template.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:run_manifest_template.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:run manifest template.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "template_only: no observations have been collected"
+          ],
+          "id": "source_hash_warning:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:run manifest template.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:run manifest template.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel change ledger.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel change ledger.json"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel change ledger.json"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:panel_change_ledger.json",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:panel change ledger.json"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze"
+          ],
+          "id": "source_hash_warning:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:panel change ledger.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel change ledger.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:contamination register.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:contamination register.yaml"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:contamination register.yaml"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:contamination_register.yaml",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:contamination register.yaml"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "lexicon_incomplete: the target root domain, /about/, and /languages returned HTTP 403, so slogans, campaign terms, and product names may be under-collected; re-scan before freeze"
+          ],
+          "id": "source_hash_warning:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:contamination register.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:contamination register.yaml"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel.yaml"
+        },
+        {
+          "evidence": "2026-07-25T20:00:00Z",
+          "id": "created_at:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel.yaml"
+        },
+        {
+          "evidence": "null; permitted provisionally and required before freeze",
+          "id": "source_hash_shape:panel.yaml",
+          "passed": true,
+          "severity": "warning",
+          "text": "source hash shape:panel.yaml"
+        },
+        {
+          "evidence": [
+            "hash_not_computed: compute source_manifest_hash before freeze",
+            "prompt_hash_not_computed: candidate prompt hashes are null; freeze blocker",
+            "no_variance_pilot: repeats and interval widths are provisional defaults, not pilot-derived",
+            "no_human_approvals: all four gates are pending"
+          ],
+          "id": "source_hash_warning:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "source hash warning:panel.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel.yaml"
+        },
+        {
+          "evidence": {
+            "artifacts": {},
+            "distinct_hashes": []
+          },
+          "id": "source_manifest_hash_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "source manifest hash consistent"
+        },
+        {
+          "evidence": "17 sources",
+          "id": "source_records_valid",
+          "passed": true,
+          "severity": "error",
+          "text": "source records valid"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 4,
+            "company_asserted": 5,
+            "independent": 5,
+            "llm_hypothesis": 1,
+            "search_proxy": 2
+          },
+          "id": "source_mix_target",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix target"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 4,
+            "company_asserted": 5,
+            "independent": 5,
+            "llm_hypothesis": 1,
+            "search_proxy": 2
+          },
+          "id": "source_mix_independent",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix independent"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 4,
+            "company_asserted": 5,
+            "independent": 5,
+            "llm_hypothesis": 1,
+            "search_proxy": 2
+          },
+          "id": "source_mix_buyer_language",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix buyer language"
+        },
+        {
+          "evidence": {
+            "count": 6,
+            "records": 6,
+            "unique": 6
+          },
+          "id": "unique:icp_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:icp id"
+        },
+        {
+          "evidence": {
+            "count": 12,
+            "records": 12,
+            "unique": 12
+          },
+          "id": "unique:job_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:job id"
+        },
+        {
+          "evidence": {
+            "count": 44,
+            "records": 44,
+            "unique": 44
+          },
+          "id": "unique:cell_spec_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:cell spec id"
+        },
+        {
+          "evidence": {
+            "count": 44,
+            "records": 44,
+            "unique": 44
+          },
+          "id": "unique:canonical_cell_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:canonical cell id"
+        },
+        {
+          "evidence": {
+            "count": 86,
+            "records": 86,
+            "unique": 86
+          },
+          "id": "unique:candidate_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:candidate id"
+        },
+        {
+          "evidence": "17 references",
+          "id": "source_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "source references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "job_icp_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "job icp references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "architecture_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "architecture job references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_spec_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe spec references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe job references resolve"
+        },
+        {
+          "evidence": {
+            "missing": [],
+            "unknown": []
+          },
+          "id": "qa_one_decision_per_candidate",
+          "passed": true,
+          "severity": "error",
+          "text": "qa one decision per candidate"
+        },
+        {
+          "evidence": "resolved",
+          "id": "qa_accepted_ids_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted ids resolve"
+        },
+        {
+          "evidence": "all pass",
+          "id": "qa_accepted_are_pass",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted are pass"
+        },
+        {
+          "evidence": {
+            "accepted": 78,
+            "pass": 78,
+            "quarantine": 4,
+            "reject": 3,
+            "revise": 1,
+            "total_candidates": 86
+          },
+          "id": "qa_counts_reconcile",
+          "passed": true,
+          "severity": "error",
+          "text": "qa counts reconcile"
+        },
+        {
+          "evidence": true,
+          "id": "qa_baseline_blinded",
+          "passed": true,
+          "severity": "error",
+          "text": "qa baseline blinded"
+        },
+        {
+          "evidence": "complete",
+          "id": "canonical_cell_fields_complete",
+          "passed": true,
+          "severity": "error",
+          "text": "canonical cell fields complete"
+        },
+        {
+          "evidence": "complete",
+          "id": "candidate_fields_complete",
+          "passed": true,
+          "severity": "error",
+          "text": "candidate fields complete"
+        },
+        {
+          "evidence": "valid",
+          "id": "prompt_enums_valid",
+          "passed": true,
+          "severity": "error",
+          "text": "prompt enums valid"
+        },
+        {
+          "evidence": "consistent",
+          "id": "band_aided_partition_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "band aided partition consistent"
+        },
+        {
+          "evidence": "unique",
+          "id": "accepted_prompts_exact_unique",
+          "passed": true,
+          "severity": "error",
+          "text": "accepted prompts exact unique"
+        },
+        {
+          "evidence": "none",
+          "id": "no_unpromoted_grade_d_core",
+          "passed": true,
+          "severity": "error",
+          "text": "no unpromoted grade d core"
+        },
+        {
+          "evidence": "zero leaks",
+          "id": "accepted_prompt_contamination_zero",
+          "passed": true,
+          "severity": "error",
+          "text": "accepted prompt contamination zero"
+        },
+        {
+          "evidence": "target-free",
+          "id": "blind_brief_target_free",
+          "passed": true,
+          "severity": "error",
+          "text": "blind brief target free"
+        },
+        {
+          "evidence": {
+            "exposure": {
+              "factors": [],
+              "justification": "No credible prevalence evidence exists for AI-prompt exposure in this category. No source in the manifest measures query volume or assistant usage by job. Equal weighting is a conditional analytic choice, not a prevalence estimate.",
+              "method": "equal_within_declared_strata"
+            },
+            "priority": {
+              "factors": [],
+              "justification": "Strategic priority is a human judgment and no approver has been named.",
+              "method": "withheld_pending_human_approval"
+            }
+          },
+          "id": "weights_exposure_priority_separate",
+          "passed": true,
+          "severity": "error",
+          "text": "weights exposure priority separate"
+        },
+        {
+          "evidence": [
+            "prompt-001a",
+            "prompt-001b",
+            "prompt-002a",
+            "prompt-002b",
+            "prompt-003a",
+            "prompt-003b",
+            "prompt-004a",
+            "prompt-004b",
+            "prompt-005a",
+            "prompt-005b",
+            "prompt-006a",
+            "prompt-006b",
+            "prompt-007a",
+            "prompt-007b",
+            "prompt-008a",
+            "prompt-008b",
+            "prompt-009a",
+            "prompt-009b",
+            "prompt-010a",
+            "prompt-010b",
+            "prompt-011a",
+            "prompt-011b",
+            "prompt-012a",
+            "prompt-012b",
+            "prompt-013a",
+            "prompt-013b",
+            "prompt-014a",
+            "prompt-014c",
+            "prompt-015a",
+            "prompt-015b",
+            "prompt-016a",
+            "prompt-016b",
+            "prompt-017a",
+            "prompt-017b",
+            "prompt-018a",
+            "prompt-018b",
+            "prompt-019a",
+            "prompt-019b",
+            "prompt-020a",
+            "prompt-020b",
+            "prompt-021a",
+            "prompt-021b",
+            "prompt-022a",
+            "prompt-022b",
+            "prompt-023a",
+            "prompt-023b",
+            "prompt-024a",
+            "prompt-024b",
+            "prompt-025a",
+            "prompt-025b",
+            "prompt-026a",
+            "prompt-026b",
+            "prompt-027a",
+            "prompt-027b",
+            "prompt-028a",
+            "prompt-028b",
+            "prompt-029a",
+            "prompt-029b",
+            "prompt-030a",
+            "prompt-030b",
+            "prompt-031a",
+            "prompt-031b",
+            "prompt-032a",
+            "prompt-032b",
+            "prompt-035a",
+            "prompt-036a",
+            "prompt-038a",
+            "prompt-038b",
+            "prompt-039a",
+            "prompt-039b",
+            "prompt-040a",
+            "prompt-040b",
+            "prompt-041a",
+            "prompt-041b",
+            "prompt-042a",
+            "prompt-042b",
+            "prompt-043a",
+            "prompt-044a"
+          ],
+          "id": "panel_selected_candidates_present",
+          "passed": true,
+          "severity": "error",
+          "text": "panel selected candidates present"
+        },
+        {
+          "evidence": [],
+          "id": "panel_selected_candidates_qa_approved",
+          "passed": true,
+          "severity": "error",
+          "text": "panel selected candidates qa approved"
+        },
+        {
+          "evidence": "phrase present",
+          "id": "conditional_panel_language",
+          "passed": true,
+          "severity": "error",
+          "text": "conditional panel language"
+        },
+        {
+          "evidence": "78 accepted IDs present",
+          "id": "report_lists_accepted_prompts",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists accepted prompts"
+        },
+        {
+          "evidence": "78 exact prompt texts present",
+          "id": "report_lists_exact_prompt_text",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists exact prompt text"
+        },
+        {
+          "evidence": {
+            "approvals_pending": false,
+            "status": "provisional_directional"
+          },
+          "id": "pending_gates_not_frozen",
+          "passed": true,
+          "severity": "error",
+          "text": "pending gates not frozen"
+        }
+      ],
+      "counts": {
+        "accepted_candidates": 78,
+        "candidates": 86,
+        "canonical_cells": 44,
+        "sources": 17
+      },
+      "judge_verdict": {
+        "anti_pattern_results": [
+          {
+            "evidence": "No diagnosis, treatment or medical-suitability prompt appears. The two symptom-bearing candidates (prompt-005a sore throat/fever, prompt-005b UTI) ask for care-setting options, are typed expected_answer_kind 'care_setting_triage_options', and clinical correctness is explicitly outside the estimands ('not medical correctness'); icp-002 disqualifies emergency-severity symptoms. Flagged as the closest boundary in the set: 'or wait?' invites an urgency judgement and no answer-coding rule yet quarantines triage content.",
+            "id": "zocdoc-ap-01",
+            "triggered": false
+          },
+          {
+            "evidence": "The artifacts assert the opposite of a guarantee: source-003 is recorded as fact_type 'limitation' ('an appointment may appear in-network at booking and the office may later determine it is not'), claim-002 states the non-guarantee, and cell-025 exists to test whether models repeat the guarantee ('is the visit guaranteed to be covered?'). aided_brand_knowledge counts only 'materially correct, source-checkable' facts such as insurance-matching limits. No prompt or field asserts network status, availability or cost as guaranteed.",
+            "id": "zocdoc-ap-02",
+            "triggered": false
+          },
+          {
+            "evidence": "No merged persona: icp-001..003 vs icp-004..005, jobs 001–006 vs 007–010, personas role-001/002 vs role-003/004, single-valued persona_id per cell. Residual risk rather than a trigger: unaided_brand_presence is defined over 'all valid observations in the declared unaided partition (core or sentinel), for one lane, surface, locale, and wave', so patient and practice cells share that stratum unless persona_id — a declared reporting_stratum with minimum_subgroup_for_percentages 20 — is added to the key.",
+            "id": "zocdoc-ap-03",
+            "triggered": false
+          },
+          {
+            "evidence": "Charter exclusion: 'Any prompt requiring or eliciting personal health information about a real identifiable person.' All source permissions are 'public' and report §2 records 'No personal data beyond short public complaint phrasings was retained; no long excerpts.' Retained spans are short and de-identified ('a completely different person than I expected'); symptom detail in prompt-005a/005b is synthetic scenario context, not third-party health data.",
+            "id": "zocdoc-ap-04",
+            "triggered": false
+          },
+          {
+            "evidence": "Ranking and reviews are objects of scrutiny, not quality proof: job-009 asks whether 'placement and reviews on a discovery surface can be trusted'; prompt-015a asks '…or do providers pay to show up higher?'; counterevidence retains source-007's Verified Reviews complaint and source-013's 'secret caste system' allegation; source-014 records a zero-review listing so 'no aggregated satisfaction corpus exists there'. No artifact infers clinical quality from search order, rating or availability.",
+            "id": "zocdoc-ap-05",
+            "triggered": false
+          }
+        ],
+        "case_id": "case-04-zocdoc",
+        "critical_failures": [],
+        "hard_gates": {
+          "artifact_contract_and_resumability": {
+            "evidence": "All fourteen canonical snake_case files are present (panel_report.md, tracking_plan.md, measurement_charter.json, source_manifest.json, icp_hypotheses.json, buyer_jobs.json, contamination_register.yaml, blind_design_brief.json, prompt_architecture.json, prompt_universe.json, prompt_qa.json, panel.yaml, run_manifest_template.json, panel_change_ledger.json). All four gates are recorded pending in the charter, panel.yaml pending_approvals and report §8; rejection/revision history is preserved in prompt_qa.json decisions and chg-0002; waiver-001..006 and version_history.freeze_blockers are explicit; hashes are null with 'Never write a placeholder digest'. Minor defect: contamination_register.yaml holds JSON rather than idiomatic YAML (valid YAML 1.2, so it still parses).",
+            "status": "pass"
+          },
+          "comprehensive_or_waived_dimensions": {
+            "evidence": "12 jobs; 8 of 11 information acts used with generate/buy/navigate waived (gap-001 plus the report waiver table); 6 journey states including post_purchase (8 cells) and adoption; B0–B5 all present; four aided states present (unaided; target_aided cell-025..029; competitor_aided cell-030; category_aided cell-031/032); five partitions including control cell-043/044 and sentinel cell-038..042; three lanes with campaign_experiment waived (waiver-001); es-US built then excluded (waiver-003, gap-004); scripted multi-turn waived (waiver-006, gap-003); grades A–D represented. Every gap in prompt_architecture.json coverage_gaps and panel.yaml waivers carries an explicit evidence_needed.",
+            "status": "pass"
+          },
+          "evidence_source_mix": {
+            "evidence": "source_manifest.json carries 17 sources across five declared classes and mostly off-target domains: company_asserted (002,003,004,005,016), buyer_behavior (BBB 007 grade A, ComplaintsBoard 008, physician blog 010, Capterra 014), independent (Wikipedia 001, TechTarget 006, Emitrr 009, Boston Globe 012, Parrella Health Law 013), search_proxy (011,015), llm_hypothesis (017, grade D, url null). Counts in panel_report.md §2 reconcile exactly (5/4/5/2/1; A×1,B×7,C×8,D×1). Deduction: source-009 is a competing vendor's blog yet classed 'independent' (bias stated only inside the span), and source-011 is also a competitor-published page relied on as the primary patient-language proxy with no commercial-interest note.",
+            "status": "pass"
+          },
+          "measurement_and_claim_honesty": {
+            "evidence": "measurement_charter.json and panel.yaml define six estimands each with its own numerator/denominator and a 'does_not_prove' clause; control_false_positive_rate has a dedicated denominator excluding all core/sentinel/rotating/aided observations; citation_presence reports aided and unaided separately. Weights are two separate components — exposure 'equal_within_declared_strata, factors: []' justified as 'a conditional analytic choice, not a prevalence estimate' — and priority 'withheld_pending_human_approval'. tracking_plan.md §10.9 licenses no causal language and places wave-over-wave mention change at 'rung 1' of an evidence ladder; status is provisional_directional with explicit 'not frozen' and 'not a probability sample' statements.",
+            "status": "pass"
+          },
+          "prompt_provenance_traceability": {
+            "evidence": "Every candidate resolves prompt → canonical_cell_id → cell_spec_id → job_id → icp_ids → source_ids. Spot checks: prompt-013a → cell-013 → spec-013 → job-006 → icp-003 → source-012 ('39 of 50 children's providers unreachable'); prompt-019a → cell-019 → spec-019 → job-007 → source-013 (OIG advisory opinions). All cited source IDs fall inside source-001…source-017 and all cell/spec IDs exist. panel.yaml selected_candidate_ids (78) equals prompt_qa.json accepted_candidate_ids exactly, and selected_variants (13 observed / 63 paraphrase / 2 sensitivity) reconciles with prompt_universe.json minus the three excluded cells.",
+            "status": "pass"
+          },
+          "unaided_contamination_and_blinding": {
+            "evidence": "The only unaided target-token candidate, prompt-011c ('Zocdoc said the doctor took my insurance…'), is rejected under rule no-target-term-unaided and routed to realistic-prompt-generation; contamination_failures_by_class shows brands 1, all other classes 0. All B0 target-named cells sit in a separate 'aided' partition with allowed_exceptions scoped by band/aided_status/cell. blind_design_brief.json is target-free: segments/roles anonymised, and the source-004 B5 entry states 'the brand of the booking provider is withheld from this brief'; two brand-bearing FAQ fragments are logged in excluded_language_fragments. All six grade-D candidates (004c, 011c, 014b, 017c, 023c, 037a) are rejected, revised or quarantined — none reached core. Residual, self-disclosed weakness: warning 'blind_pass_ran_in_same_session', so blinding is procedural (sanitised brief) rather than a fresh context.",
+            "status": "pass"
+          },
+          "usable_exact_prompt_output": {
+            "evidence": "panel_report.md §4 exposes all 86 exact candidate strings (prompt-001a … prompt-044a, counted) in one table with prompt ID, variant, partition, band, aided status, job, act, journey, role, locale, constraints, expected answer kind, lanes, evidence grade/source IDs, transformation and QA decision; weight status is stated once for the whole panel.",
+            "status": "pass"
+          }
+        },
+        "must_have_results": [
+          {
+            "evidence": "Patient and practice sides are separate ICP and job families: icp-001/002/003 (patient, caregiver) vs icp-004/005 (practice owner, office manager) plus icp-006 payer, each with different roles (icp-004 economic_buyer 'practice-owner-clinician', blocker 'compliance concern about paying per federal-program patient'), different criteria (patient 'confirmed in-network for my exact plan variant' vs practice 'cost per new patient versus patient lifetime value') and different post-purchase jobs (job-005 patient billing dispute vs job-008 practice fee dispute and spend caps). buyer_jobs.json personas role-001..role-005 keep the sides distinct and prompt_architecture persona_id is single-valued per cell (28 role-001, 3 role-002, 5 role-003, 7 role-004, 1 role-005).",
+            "id": "zocdoc-mh-01",
+            "status": "pass"
+          },
+          {
+            "evidence": "Constraints carry type of care (prompt-014a pediatrician, prompt-039a dermatologist, prompt-013a child therapist, prompt-027b dental vs primary care), location (prompt-002b relocation; source-015 'doctors accepting new patients near me'), insurance (blind brief constraint 'must be in network for a specific plan variant (HMO/PPO/EPO, employer versus marketplace)') and availability (24–72h spec-006, after-school spec-014, 'within the next week' prompt-039a). It does not become diagnosis: charter exclusions include 'Clinical or diagnostic accuracy of any AI answer; this panel measures brand/category presence and framing, not medical correctness', and icp-002 disqualifies emergency-severity symptoms. Boundary noted: prompt-005a/005b state symptoms and ask 'Should I go to urgent care, do a video visit, or wait?' under expected_answer_kind care_setting_triage_options, with no coding rule yet ring-fencing triage content.",
+            "id": "zocdoc-mh-02",
+            "status": "pass"
+          },
+          {
+            "evidence": "Verification is its own cell family: spec-003 / prompt-003a ('How do I confirm a doctor is actually in-network before I show up, so I don't get a surprise bill?'), prompt-003b, plus aided cell-025 ('Does Zocdoc actually verify my insurance, or can I still end up out of network?' and 'is the visit guaranteed to be covered?'). The caveat is evidence-bound: source-003 fact_type 'limitation' — 'verification does not guarantee in-network coverage … final in-network status is confirmed by the insurer and the provider office' — carried as claim-002, as icp counterevidence, in report §2 ('qualifies the marketplace's core promise'), and as the coded answer_framing category 'warns that online insurance matching is not a coverage guarantee'. Cost is covered (prompt-011a out-of-network bill; source-008 '$75 copay'). Medical-suitability disclaiming is thinner, appearing only as a charter scope exclusion rather than a prompt-level or coding caveat.",
+            "id": "zocdoc-mh-03",
+            "status": "pass"
+          },
+          {
+            "evidence": "Provider-side coverage is broad and each element is tied to provider evidence: economics (job-007, prompt-017a/017b from source-010 'only 6% became repeat patients over a year'), pricing-model fit (prompt-018a/018b from source-009 + source-002), billing/workflow disputes (job-008, prompt-020a/020b from grade-A source-007 'charged me 3 times for clients I couldn't see'), spend configuration (prompt-021a/021b from source-002 spend caps and per-provider pause), listing/reputation trust (job-009 with source-007 Verified Reviews complaint and source-013 'secret caste system'), and compliance fit (prompt-019a/019b from source-013 OIG/AKS record). Unevidenced areas are not invented: job-010 phone bottleneck is hypothesis_only, grade C, rotating-only (cell-035), and practice-side adoption is waived in gap-002.",
+            "id": "zocdoc-mh-04",
+            "status": "pass"
+          },
+          {
+            "evidence": "The panel does not stop at selection: 8 post_purchase cells. Booking/adoption (spec-009 / prompt-009a 'Do I need an account … what information will they ask for?'), preparation (prompt-009b 'What do I need ready, and what happens after I book?', preparation_checklist), cancellation on both sides (prompt-012b 'My appointment was cancelled an hour before, then the same slot showed as available again'; prompt-020b 'Getting billed for no-shows and cancellations we had no control over'), and provider management (prompt-021b per-provider pause, prompt-028b removing providers). Gap noted: no patient-initiated reschedule/cancel-policy cell exists in either the unaided or aided partition, and it is not listed among coverage_gaps or waivers.",
+            "id": "zocdoc-mh-05",
+            "status": "pass"
+          },
+          {
+            "evidence": "Charter markets ['United States'] with exclusion 'Non-US markets and non-US healthcare systems; the described service is US-only (source-001)'; locales en-US with es-US built and excluded (waiver-003). Current facts are treated as retrieval/surface dependent: lanes are never pooled (panel.yaml estimand 'excludes' clauses; run_manifest_template.rollup_rule), retrieval observations record retrieval_used, generated_queries, live-versus-cached state and citations, B5 cells (cell-022/023/024) are restricted to retrieval + consumer_surface, and refresh_policy.mutable_claim_review_by dates the per-booking fee range, 24–72 hour availability, payer/partner integrations and spend-control features to 2026-10-25 with event triggers for pricing/policy change and directory regulation.",
+            "id": "zocdoc-mh-06",
+            "status": "pass"
+          }
+        ],
+        "overall_score": 4.25,
+        "recommended_changes": [
+          {
+            "change": "Recompute panel_report.md §5 from prompt_architecture.json: the acts row sums to 53, journeys to 48, roles to 47 and bands to 46 against 44 cells, and grade counts (A 4 / B 26 / C 13) contradict the specs (A 3 = spec-012/020/028; C 10; B 30). Also reconcile 'unaided cells: 31' with the five rotating cells that are also aided_status unaided.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Add persona_id (or an explicit market_side field) to the stratification key of unaided_brand_presence, competitive_mention_share and answer_framing so patient and practice cells can never share one denominator, and print per-side cell counts beside each rate.",
+            "owner": "ai-visibility-panel-design"
+          },
+          {
+            "change": "Add a patient-initiated reschedule/cancel cell (cancellation policy, no-show fee, moving an appointment) with an aided B0 counterpart, or record it as an explicit coverage gap with an evidence need; it is currently absent from both partitions and from the waiver list.",
+            "owner": "prompt-proximity-architecture"
+          },
+          {
+            "change": "Add a clinical-boundary rule for the acute-access cells (cell-005, cell-039): triage or urgency content in an answer is coded only as answer_framing and never scored as marketplace correctness, and no prompt may request a medical-suitability judgement. Attach the same medical-suitability caveat to the aided capability-limit cells (cell-025).",
+            "owner": "prompt-set-qa"
+          },
+          {
+            "change": "Reclassify source-009 out of 'independent' (competitor-published) and add a commercial-interest note to source-011, which is also a competitor page and is the sole cited support for many patient-side prompts (prompt-004b, 006b, 007a/b, 008b, 031a/b, 039a, 040a/b).",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Before freeze, regenerate the unaided pass in a fresh context (the warning 'blind_pass_ran_in_same_session' makes blinding procedural rather than structural) and compute source_manifest_hash, blind_brief_hash and every prompt_hash.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Correct the wave budget: cell-022/023/024 are retrieval + consumer_surface only, so core is not 48 prompts × 3 surfaces; the honest figure is roughly 624 scored observations, and the report's '78 prompts × 3 repeats across three declared surfaces' shorthand should be replaced by the per-lane table.",
+            "owner": "ai-visibility-panel-design"
+          },
+          {
+            "change": "Strengthen or waive B2: only two category cells exist (cell-031 patient, cell-032 practice), too thin to support category-level competitive_mention_share — add evidence-supported category cells or declare the thinness as a coverage gap with an evidence need.",
+            "owner": "prompt-proximity-architecture"
+          }
+        ],
+        "scores": {
+          "artifact_usability_integrity": 3,
+          "contamination_qa": 4,
+          "evidence_quality": 4,
+          "icp_market_model": 5,
+          "job_intent_architecture": 5,
+          "panel_measurement_design": 5,
+          "prompt_coverage_traceability": 4,
+          "prompt_realism_cell_discipline": 4
+        },
+        "strengths": [
+          "Measurement design is the strongest element: six estimands each with its own denominator and a 'does_not_prove' clause, a dedicated control false-positive denominator (cell-043/044), separate exposure and priority weight systems with an honest equal-weight justification, Wilson plus cell-clustered bootstrap, a 20-cell floor before percentages, and an explicit non-causal evidence ladder in tracking_plan.md §10.9.",
+          "The two-sided market is modelled as genuinely different buyers rather than one marketplace persona, down to distinct roles, criteria, disqualifiers and separate post-purchase jobs (job-005 patient billing vs job-008 practice fee dispute and spend caps).",
+          "Counterevidence is kept rather than smoothed: the target's own non-guarantee limit (source-003), a practice owner's ~3× no-show rate and 6% one-year repeat rate (source-010), a zero-review directory (source-014), and a competitor-published pricing figure graded C with its bias stated.",
+          "Contamination control is complete and auditable: a register spanning brands, products, domains, people, slogans, proprietary categories, empty-by-evidence campaign terms and flattering claims, a short-token rule for 'Zo', band-scoped allowed exceptions, and the single hard failure (prompt-011c) rejected rather than quietly rewritten.",
+          "Grade-D and locale material is quarantined instead of laundered: all six grade-D candidates and both es-US translations stay outside the panel under waiver-003/004 with evidence needs, and six disputed decisions are routed to human Gate 3.",
+          "Honest freeze discipline: null hashes are listed as freeze blockers with 'Never write a placeholder digest', the same-session blind pass is disclosed as a warning, and the report closes with the five inputs that would most change the panel."
+        ],
+        "summary": "A strong, unusually honest URL-only panel. All fourteen artifacts are present and cross-consistent at the machine level (panel.yaml selected_candidate_ids == prompt_qa accepted_candidate_ids == 78; 41 of 44 cells selected; variant counts reconcile), and panel_report.md §4 exposes all 86 exact prompts with the dimensions needed to track them. All seven hard gates pass. Evidence goes well beyond the target site across five correctly separated classes, retains the target's own non-guarantee limit plus three pieces of hostile counterevidence, and refuses to launder prevalence ('no source measures prompt prevalence'). The gold's domain boundaries are respected: patients and practices are distinct ICP/job families with distinct criteria and separate post-purchase jobs; specialty, location, insurance and availability are constraints rather than diagnosis; insurance matching is repeatedly framed as not a coverage guarantee, including a purpose-built aided cell (cell-025) that tests whether models repeat the guarantee; provider-side economics, fee disputes, spend controls, listing trust and AKS compliance are each tied to provider evidence, with the unevidenced phone-bottleneck job held at grade C and rotating-only; the panel is US-scoped with mutable facts dated and lanes never pooled. No anti-pattern is triggered, and the single contamination hard failure (prompt-011c) was caught and rejected rather than repaired. The measurement design — six estimands with private denominators, a control false-positive rate, two separate weight systems with an honest equal-weight limitation, and an explicit non-causal evidence ladder — is exemplary. What holds the score down is report integrity rather than method: the §5 coverage matrix is miscomputed across acts, journeys, roles, bands and grades (every row over-sums the 44 cells), the wave budget is slightly overstated, blinding was procedural rather than structural (same-session blind pass, self-disclosed), the primary unaided denominator can still pool patient and practice cells unless persona_id joins the stratification key, and there is no patient-initiated reschedule/cancel cell in either partition and no waiver for it. Mean 4.25; verdict pass, with the coverage-matrix arithmetic and the side-specific denominator as the two repairs to make before Gate 3.",
+        "verdict": "pass"
+      },
+      "passed": true,
+      "pending_judgment_assertions": [],
+      "split": null,
+      "tags": []
+    }
+  ],
+  "cases_sha256": "7f58dc91d070d8b54db0b178d93021b5399f6769846b80d32836fb4c0a8f78ac",
+  "gold_sha256": "17d60dc8c5a0228c8d6d33a85bf85600055bc3dcbdbfa92bd297ffd4e2804057",
+  "graded_at": "2026-07-25T18:13:30Z",
+  "run": "2026-07-25-opus5-retest-zocdoc",
+  "schema_version": "1.0.0",
+  "summary": {
+    "cases": 1,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "passed": 1,
+    "top_failed_checks": []
+  }
+}

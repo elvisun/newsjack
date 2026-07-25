@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "icp-zocdoc-2026-07-25",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:icp-evidence-analysis (claude-opus-5)",
+  "source_manifest_hash": null,
+  "warnings": ["hash_not_computed: compute source_manifest_hash before freeze", "gate_1_not_approved: no human reviewed or promoted these hypotheses"],
+  "gate_status": "ready_for_human_review",
+  "icps": [
+    {
+      "icp_id": "icp-001",
+      "label": "Insured US adult who needs a new in-network clinician and keeps hitting inaccurate directories and unanswered phones",
+      "context": {"unit": "household/individual", "geography": "United States", "coverage": "commercial, marketplace, or Medicare Advantage plan with a network", "situation": "new plan, new city, new specialty need, or a departing provider", "channel_state": "starts at an insurer directory or a general web/AI search"},
+      "triggers": [
+        {"text": "Insurer directory lists in-network clinicians who are unreachable, not accepting new patients, or out of network in practice", "source_ids": ["source-012", "source-008"]},
+        {"text": "Hours spent calling clinics with no callback", "source_ids": ["source-012", "source-007"]},
+        {"text": "Needs to confirm coverage before the visit to avoid a surprise bill", "source_ids": ["source-003", "source-008"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "patient-self", "source_ids": ["source-011", "source-012"]},
+        {"role": "economic_buyer", "label": "patient-self (out-of-pocket exposure)", "source_ids": ["source-008"]},
+        {"role": "blocker", "label": "provider office front desk / insurer network rules", "source_ids": ["source-003", "source-012"]}
+      ],
+      "constraints": ["must be in-network for a specific named plan variant", "must be accepting new patients", "prefers to avoid phone calls", "location bound"],
+      "disqualifiers": ["uninsured or cash-pay only (no supporting evidence in this manifest)", "non-US"],
+      "standing_claim_ids": ["claim-001", "claim-002"],
+      "supporting_source_ids": ["source-011", "source-012", "source-008", "source-003", "source-015"],
+      "counterevidence_source_ids": ["source-003", "source-008"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": ["What share of these searches begin in an AI assistant rather than an insurer portal? No evidence found.", "Which specialties dominate the unmet-access problem outside mental health?"]
+    },
+    {
+      "icp_id": "icp-002",
+      "label": "US patient with an acute, near-term need choosing a care setting and a bookable slot in the next 24-72 hours",
+      "context": {"unit": "individual", "geography": "United States", "situation": "acute symptom with no near-term opening at their own clinician", "alternatives_considered": "urgent care, walk-in clinic, video visit, waiting"},
+      "triggers": [
+        {"text": "Own clinician has no near-term opening; patient asks where to go today", "source_ids": ["source-011"]},
+        {"text": "Category is organized around same-day and 24-72 hour availability", "source_ids": ["source-004", "source-011"]}
+      ],
+      "roles": [{"role": "user", "label": "patient-self", "source_ids": ["source-011"]}],
+      "constraints": ["time-boxed to hours or days", "cost exposure unknown at decision time", "must still be in-network to avoid a bill"],
+      "disqualifiers": ["emergency-severity symptoms, which belong to emergency care and are out of this panel's scope"],
+      "standing_claim_ids": ["claim-001", "claim-003"],
+      "supporting_source_ids": ["source-011", "source-004"],
+      "counterevidence_source_ids": ["source-014"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": ["How often does this need resolve at a walk-in clinic without any online search? Not measurable from public evidence."]
+    },
+    {
+      "icp_id": "icp-003",
+      "label": "Caregiver booking care for a dependent (child or aging parent), most acutely for pediatric behavioral health",
+      "context": {"unit": "household", "geography": "United States", "situation": "seeking in-network care for someone else, with school/work scheduling constraints"},
+      "triggers": [
+        {"text": "Parent contacted dozens of listed child providers; 39 of 50 were unreachable or would not schedule, and he eventually used an out-of-network provider", "source_ids": ["source-012"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "caregiver", "source_ids": ["source-012"]},
+        {"role": "post_purchase_user", "label": "dependent patient", "source_ids": ["source-012"]}
+      ],
+      "constraints": ["after-school or working-hours-compatible availability", "in-network for the dependent's plan", "pediatric or geriatric scope"],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-001"],
+      "supporting_source_ids": ["source-012", "source-011"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": ["Is the aging-parent/Medicare caregiver variant distinct enough to need its own jobs? Only one weak source touches Medicare members (source-006)."]
+    },
+    {
+      "icp_id": "icp-004",
+      "label": "Owner or office manager of an independent US medical or dental practice evaluating or already paying for per-booking new-patient acquisition",
+      "context": {"unit": "1-10 provider independent practice", "geography": "United States, concentrated in dense metros", "situation": "unfilled schedule slots and unclear cost per acquired patient", "current_spend": "pay-per-booking marketplace fees, paid search, or fixed-fee scheduling software"},
+      "triggers": [
+        {"text": "Charged repeatedly for patients the practice could not actually see", "source_ids": ["source-007"]},
+        {"text": "Per-booking fee increased sharply year over year", "source_ids": ["source-007", "source-009"]},
+        {"text": "Marketplace-sourced patients showed a much higher no-show rate and roughly 6% one-year repeat rate", "source_ids": ["source-010"]},
+        {"text": "Fees are not visible until late in sign-up and vary by specialty and region", "source_ids": ["source-009", "source-002"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "practice-office-manager", "source_ids": ["source-007"]},
+        {"role": "champion", "label": "practice-owner-clinician", "source_ids": ["source-010"]},
+        {"role": "economic_buyer", "label": "practice-owner-clinician", "source_ids": ["source-010", "source-009"]},
+        {"role": "blocker", "label": "compliance concern about paying per federal-program patient", "source_ids": ["source-013"]}
+      ],
+      "constraints": ["predictable monthly cost preferred", "fee must stay below realistic new-patient value", "must not create Anti-Kickback Statute exposure when treating Medicare/Medicaid patients", "needs spend caps and the ability to pause"],
+      "disqualifiers": ["large health systems with their own scheduling stack (no buyer-language evidence in this manifest)"],
+      "standing_claim_ids": ["claim-004", "claim-005", "claim-006"],
+      "supporting_source_ids": ["source-007", "source-008", "source-009", "source-010", "source-002", "source-013"],
+      "counterevidence_source_ids": ["source-014", "source-002"],
+      "confidence": "high",
+      "status": "supported",
+      "open_questions": ["Are dental practices a materially different buyer from primary care given the reported fee spread? Evidence suggests yes but only from a competitor-published source (source-009)."]
+    },
+    {
+      "icp_id": "icp-005",
+      "label": "Practice front-desk / operations lead losing appointment calls to hold time and voicemail",
+      "context": {"unit": "independent practice front office", "geography": "United States", "situation": "phone volume exceeds staffing"},
+      "triggers": [{"text": "Patients report that offices do not pick up or call back", "source_ids": ["source-012", "source-007"]}],
+      "roles": [{"role": "user", "label": "practice-office-manager", "source_ids": ["source-007"]}],
+      "constraints": ["small front-desk staff", "calls arrive outside business hours"],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-007"],
+      "supporting_source_ids": ["source-012", "source-007"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": ["The relevant product announcement page was not retrievable (HTTP 403). No practice-side language about phone bottlenecks was found; the trigger is inferred from the patient side."]
+    },
+    {
+      "icp_id": "icp-006",
+      "label": "Health-plan digital experience owner embedding in-network booking into a member portal",
+      "context": {"unit": "regional health plan", "geography": "United States", "situation": "members rely on plan directories that do not produce appointments"},
+      "triggers": [{"text": "A regional plan embedded third-party booking into its member portal with a 90-day booking window", "source_ids": ["source-006"]}],
+      "roles": [{"role": "champion", "label": "payer-digital-lead", "source_ids": ["source-006"]}],
+      "constraints": ["network integrity and directory accuracy obligations", "member privacy"],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-008"],
+      "supporting_source_ids": ["source-006"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": ["No payer-side buyer language, RFP, or procurement evidence was found. One deal is not a segment."]
+    }
+  ],
+  "standing_claims": [
+    {"claim_id": "claim-001", "text": "The target operates a US patient-facing marketplace to find and book in-person or telemedicine appointments, filtered by insurance, location, specialty, and availability", "source_ids": ["source-001", "source-003"], "assertion_class": "independent_plus_company_asserted"},
+    {"claim_id": "claim-002", "text": "The target performs insurance plan matching and, for supported carriers, active-coverage checks, but states this does not guarantee in-network coverage", "source_ids": ["source-003"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-003", "text": "The target states appointments are typically scheduled within 24-72 hours", "source_ids": ["source-004"], "assertion_class": "company_asserted", "review_by": "2026-10-25"},
+    {"claim_id": "claim-004", "text": "Providers pay a one-time booking fee when a new patient books; there is no upfront or subscription cost; the fee varies by specialty and location and is charged at booking, not on visit outcome", "source_ids": ["source-002"], "assertion_class": "company_asserted", "review_by": "2026-10-25"},
+    {"claim_id": "claim-005", "text": "Third-party sources report per-new-patient fees in a roughly $35-$110 range varying by specialty and region; the publisher of that figure sells a competing product and the target does not publish a fee schedule", "source_ids": ["source-009", "source-007"], "assertion_class": "independent_commercially_interested", "review_by": "2026-10-25"},
+    {"claim_id": "claim-006", "text": "HHS-OIG advisory opinions (2019, 2023) concluded the per-booking fee model implicated but did not violate the Anti-Kickback Statute, and the Second Circuit affirmed dismissal of a whistleblower challenge in 2025", "source_ids": ["source-013"], "assertion_class": "independent"},
+    {"claim_id": "claim-007", "text": "An AI phone assistant product for practices is claimed in the perimeter but its announcement page was not retrievable and no independent source was obtained", "source_ids": [], "assertion_class": "unverified", "review_by": "2026-10-25"},
+    {"claim_id": "claim-008", "text": "A regional health plan embedded the target's booking into its member portal (June 2025)", "source_ids": ["source-006"], "assertion_class": "independent", "review_by": "2026-10-25"}
+  ],
+  "counterevidence": [
+    {"text": "The target's own page states insurance verification does not guarantee in-network coverage, which directly qualifies the marketplace's core promise", "source_ids": ["source-003"]},
+    {"text": "Provider complainants describe fees for bookings that could not be honored, sharp fee increases, and a review-policy dispute", "source_ids": ["source-007"]},
+    {"text": "A first-person practice account reports higher no-shows and a 6% one-year repeat rate, and discontinued use", "source_ids": ["source-010"]},
+    {"text": "A major software review directory carries zero reviews for the product, so no aggregated provider-satisfaction corpus exists there", "source_ids": ["source-014"]}
+  ],
+  "open_research_questions": [
+    "No first-party customer corpus, site-search log, or AI-conversation log was supplied; every buyer-language source here is a public proxy.",
+    "Target root domain, /about/, /languages, and /about/news/ returned HTTP 403, so first-party positioning language is under-sampled and the slogan/flattering-claim lexicon may be incomplete.",
+    "No evidence exists for prompt prevalence in any AI surface, so exposure weighting cannot be sourced.",
+    "Spanish-language demand is asserted only by an indexed page title; no Spanish buyer behavior was found."
+  ]
+}

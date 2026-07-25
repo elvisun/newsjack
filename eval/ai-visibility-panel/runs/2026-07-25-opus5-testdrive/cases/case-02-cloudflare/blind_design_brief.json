@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "blindbrief-2026-07-25-a",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:build-ai-visibility-panel",
+  "source_manifest_hash": "sha256:unavailable",
+  "warnings": [
+    "This brief is the ONLY input permitted to the unaided generation pass, together with prompt_architecture.json (unaided cells only) and the style requirements below.",
+    "No fresh subagent or separate session was available in this run, so the blinding boundary was enforced procedurally by a single context working only from this brief during the unaided pass. That is weaker than a fresh-context generator and is recorded as a limitation in panel_report.md and panel.yaml.",
+    "All language fragments below were redacted before inclusion: every vendor name in the original source spans was replaced with a role token such as [incumbent edge vendor] or [hyperscaler]."
+  ],
+  "self_check": {
+    "contains_target_brand_or_product": false,
+    "contains_target_domain_or_page": false,
+    "contains_target_people_or_slogan": false,
+    "contains_proprietary_category_or_campaign_copy": false,
+    "contains_current_ai_answers_rankings_or_citations": false,
+    "contains_target_performance_or_content_gaps": false,
+    "contains_competitor_names": false,
+    "note": "Competitor names are also excluded from this brief. The two competitor-aided cells are generated in the separate aided pass, not here."
+  },
+  "segments": [
+    {"segment_id": "seg-A", "label": "Operator of an ad- or content-supported website", "evidence_grade": "B", "evidence_ids": ["src-003", "src-004", "src-007"]},
+    {"segment_id": "seg-B", "label": "Owner-operator of a small business website with no security staff", "evidence_grade": "B", "evidence_ids": ["src-008", "src-014"]},
+    {"segment_id": "seg-C", "label": "Platform / reliability engineering team at a mid-market software company", "evidence_grade": "B", "evidence_ids": ["src-005", "src-006", "src-013"]},
+    {"segment_id": "seg-D", "label": "IT / security engineer responsible for workforce and machine access to internal applications", "evidence_grade": "B", "evidence_ids": ["src-006", "src-009"]},
+    {"segment_id": "seg-E", "label": "Low-evidence probe segment: small team considering running code close to users", "evidence_grade": "C", "evidence_ids": ["src-016"]}
+  ],
+  "roles": [
+    {"persona_id": "role-001", "label": "site/content operator", "segment_id": "seg-A", "evidence_ids": ["src-003", "src-007"]},
+    {"persona_id": "role-002", "label": "small business site owner-operator", "segment_id": "seg-B", "evidence_ids": ["src-008", "src-014"]},
+    {"persona_id": "role-003", "label": "platform / reliability engineer", "segment_id": "seg-C", "evidence_ids": ["src-005", "src-006"]},
+    {"persona_id": "role-004", "label": "IT / security engineer for workforce access", "segment_id": "seg-D", "evidence_ids": ["src-006", "src-009"]},
+    {"persona_id": "role-005", "label": "engineering budget owner", "segment_id": "seg-C", "evidence_ids": ["src-006"]},
+    {"persona_id": "role-006", "label": "security / compliance reviewer", "segment_id": "seg-D", "evidence_ids": ["src-009", "src-010"]}
+  ],
+  "approved_jobs": [
+    {"job_id": "job-001", "statement": "When automated clients consume a site's content at a scale that raises hosting cost without returning readers, help the site operator regain control over which automated clients may access the content while keeping human and search discoverability intact.", "evidence_grade": "B"},
+    {"job_id": "job-002", "statement": "When a business-critical website is unreachable under a flood of requests, help an operator without security staff restore availability now and stop it recurring.", "evidence_grade": "B"},
+    {"job_id": "job-003", "statement": "When content delivery, egress and bandwidth become a leading infrastructure cost, help the responsible engineer or operator reduce that cost without breaking dynamic and API traffic.", "evidence_grade": "B"},
+    {"job_id": "job-004", "statement": "When selecting or re-selecting a provider to sit in front of a web property, help the responsible team compare candidates against reliability history, dynamic-traffic support, billing predictability and compliance evidence before committing.", "evidence_grade": "B"},
+    {"job_id": "job-005", "statement": "When a single upstream provider's failure takes an entire stack offline, help the architecture owner find and reduce that dependency without duplicating every system.", "evidence_grade": "B"},
+    {"job_id": "job-006", "statement": "When remote staff, contractors and automated build systems still reach internal applications through a legacy VPN, help the IT or security engineer provide per-request verified access without requiring a persistent client on every machine.", "evidence_grade": "B"},
+    {"job_id": "job-007", "statement": "When a security team must run a formal evaluation of converged network-security services, help them write criteria that separate natively built capability from third-party-integrated capability.", "evidence_grade": "C"},
+    {"job_id": "job-008", "statement": "When an existing customer hits a support delay or discovers a needed capability is gated to a higher tier, help them resolve the issue or decide whether to change plan or provider.", "evidence_grade": "C"},
+    {"job_id": "job-009", "statement": "When a platform-level default is about to change what automated clients may do on monetised pages, help a site owner work out what changes for them and what to decide before the effective date.", "evidence_grade": "B", "dated_context": "An industry default change takes effect 2026-09-15 and applies automatically to new accounts, new sites and existing free-tier sites. It concerns crawlers that combine search indexing with model-training and agent use, on pages that carry advertising. Source: src-004, published 2026-07-01.", "review_by": "2026-09-15"},
+    {"job_id": "job-010", "statement": "When a small team wants code and data to run close to users without managing servers, help them decide what belongs at the edge and what belongs in a region.", "evidence_grade": "C"},
+    {"job_id": "job-011", "statement": "CONTROL: When a small operator's business-critical system fails during peak hours in an operational domain unrelated to web infrastructure, help them restore service with limited in-house expertise.", "evidence_grade": "C"}
+  ],
+  "material_constraints": [
+    {"constraint_id": "con-01", "text": "Must keep traditional search indexing working while restricting training and agent crawlers", "evidence_ids": ["src-004", "src-003"]},
+    {"constraint_id": "con-02", "text": "Directive-based blocking is unreliable; a rising share of automated requests ignore it", "evidence_ids": ["src-003"]},
+    {"constraint_id": "con-03", "text": "No dedicated security or platform staff; must be low-operations", "evidence_ids": ["src-014", "src-008"]},
+    {"constraint_id": "con-04", "text": "Must not break WebSocket, gRPC or other dynamic and API traffic", "evidence_ids": ["src-005"]},
+    {"constraint_id": "con-05", "text": "Predictable flat billing preferred over per-request usage billing", "evidence_ids": ["src-006"]},
+    {"constraint_id": "con-06", "text": "Cannot install a persistent client on ephemeral build compute or unmanaged devices", "evidence_ids": ["src-006"]},
+    {"constraint_id": "con-07", "text": "Cloud-specific certifications and data-residency evidence may block procurement", "evidence_ids": ["src-009", "src-010"]},
+    {"constraint_id": "con-08", "text": "Cannot afford to duplicate every system to survive one provider's failure", "evidence_ids": ["src-006", "src-013"]},
+    {"constraint_id": "con-09", "text": "Packaging and process change materially at a 50-user threshold", "evidence_ids": ["src-002"]},
+    {"constraint_id": "con-10", "text": "Non-text and media-heavy workloads may force a tier or vendor change", "evidence_ids": ["src-005"]}
+  ],
+  "safe_language_fragments": [
+    {"fragment_id": "frag-01", "text": "added the crawler to the disallow list in robots.txt", "evidence_id": "src-003", "grade": "B"},
+    {"fragment_id": "frag-02", "text": "discoverable via search and through AI services, but with protection against the content being given away for free", "evidence_id": "src-004", "grade": "B"},
+    {"fragment_id": "frag-03", "text": "confirm whether this is an attack or an unusual spike by looking at traffic patterns", "evidence_id": "src-014", "grade": "B"},
+    {"fragment_id": "frag-04", "text": "doesn't support WebSockets, can't proxy gRPC", "evidence_id": "src-005", "grade": "B"},
+    {"fragment_id": "frag-05", "text": "we've had better uptime with [hyperscaler] than with [incumbent edge vendor]", "evidence_id": "src-006", "grade": "B"},
+    {"fragment_id": "frag-06", "text": "prefer flat-rate billing over usage-based pricing", "evidence_id": "src-006", "grade": "B"},
+    {"fragment_id": "frag-07", "text": "configuring an access client on ephemeral CI/CD compute is impractical", "evidence_id": "src-006", "grade": "B"},
+    {"fragment_id": "frag-08", "text": "a compromised node grants network-wide access; per-request evaluation is what changes", "evidence_id": "src-006", "grade": "B"},
+    {"fragment_id": "frag-09", "text": "state for each service whether it is built natively or integrated from a third-party engine", "evidence_id": "src-009", "grade": "B"},
+    {"fragment_id": "frag-10", "text": "if the architecture assumes the provider is always there, the provider is a single point of failure", "evidence_id": "src-013", "grade": "B"},
+    {"fragment_id": "frag-11", "text": "offload 80-90% of file requests to cache to cut origin bandwidth", "evidence_id": "src-008", "grade": "B"},
+    {"fragment_id": "frag-12", "text": "support has not replied in over a week and the feature is only on a higher plan", "evidence_id": "src-011", "grade": "C"}
+  ],
+  "required_strata": {
+    "proximity_bands": ["B1_comparison_purchase", "B2_category", "B3_problem_need", "B4_job_goal", "B5_broad_discovery_story"],
+    "b0_note": "B0 is generated in a separate aided pass and is not part of this brief.",
+    "information_acts": ["explain", "diagnose", "plan", "compare", "recommend", "verify", "buy", "implement", "troubleshoot"],
+    "acts_excluded": ["generate", "navigate"],
+    "acts_excluded_reason": "No evidence in the approved job set entails either act. Do not invent them.",
+    "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection", "adoption", "post_purchase"],
+    "locales": [
+      {"locale": "en-US", "language": "en", "review": "not_required"},
+      {"locale": "en-GB", "language": "en", "review": "pending", "note": "One rotating probe only. Keep outside core until a market-competent reviewer signs off."}
+    ],
+    "accepted_solution_categories_for_B2": [
+      "content delivery network / CDN",
+      "web application firewall / WAF",
+      "DDoS mitigation",
+      "bot management / bot mitigation",
+      "zero trust network access / ZTNA",
+      "SASE / SSE"
+    ],
+    "categories_note": "B2 may name only the categories listed above; each is attested in src-005, src-008, src-009, src-010 or src-014 as language buyers themselves use. Do not introduce any other category."
+  },
+  "style_requirements": {
+    "variants_per_core_cell": 2,
+    "variant_roles": ["observed_language", "natural_paraphrase"],
+    "styles_permitted": ["concise", "contextual", "imperfect_but_intelligible", "natural_follow_up"],
+    "styles_forbidden": ["polished persona exposition", "job-title self-introduction", "marketing register"],
+    "turn_form": "single_turn by default; scripted_multi_turn only where the architecture cell requests it and the job evidence shows a two-step journey",
+    "multi_turn_encoding": "TURN 1: <text> || TURN 2: <text>",
+    "hard_rules": [
+      "Never append a 'what tool/platform should I use?' clause to a problem prompt in order to elicit vendor names.",
+      "Never convert 'how do I solve this?' into 'which product should I buy?'.",
+      "Never introduce a product or category not listed in accepted_solution_categories_for_B2.",
+      "B3 supplies the problem, not the category. B4 supplies the outcome, not the solution.",
+      "Every candidate records exactly one transformation enum value.",
+      "Do not assign observed frequency to any generated prompt."
+    ]
+  }
+}
