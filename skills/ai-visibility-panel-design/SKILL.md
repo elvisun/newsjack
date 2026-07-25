@@ -56,7 +56,7 @@ Store two separate components:
 - `exposure`: best available audience, intent, locale, and surface prevalence evidence;
 - `priority`: human-approved strategic importance.
 
-Every factor needs source ID, confidence, and version. Neither may depend on baseline visibility or campaign performance.
+Every factor needs confidence and version plus provenance: a source ID for exposure evidence, or a human-decision artifact ID and approver for priority judgment. Neither may depend on baseline visibility or campaign performance.
 
 If credible exposure weights do not exist, use equal weights within declared strata. Do not label priority-weighted results market share, audience reach, consumer awareness, or share of users.
 
@@ -90,7 +90,7 @@ Publish:
 - interval method, overlap with prior panel, and configuration drift;
 - “conditional on this panel” and non-probability coverage limits.
 
-Use Wilson intervals for simple unweighted binary strata. Use a stratified cluster bootstrap by canonical cell for weighted aggregates. Pair unchanged cells across periods. A panel-version comparison shows overlap-only change and both full-version levels.
+Use Wilson intervals only when a simple unweighted stratum has one independent binary observation per canonical cell. With variants or repeated observations, use a cell-cluster bootstrap or a validated hierarchical method; use a stratified cluster bootstrap by canonical cell for weighted aggregates. Pair unchanged cells across periods. A panel-version comparison shows overlap-only change and both full-version levels.
 
 Intervals quantify conditional run/sampling uncertainty; they do not repair coverage bias.
 
@@ -106,7 +106,7 @@ Freeze:
 Default refresh, unless evidence says otherwise:
 
 - monthly evidence intake;
-- quarterly review with roughly 70–80% core, 15–25% rotating, and 5–10% sentinel/control;
+- quarterly review of disjoint unaided partitions totaling exactly 100%: roughly 70–80% core, 5–10% sentinel/control, and the remainder—normally 10–25%—rotating; aided cells have a separate allocation;
 - event-triggered review for product, category, locale, regulatory, model, or surface change;
 - annual charter approval.
 

@@ -238,7 +238,7 @@ Every rejected or quarantined draft remains in `prompt_universe.json` so its dec
 - selected candidate IDs and variants;
 - lanes, surfaces, locales, model/search/session policy;
 - repetitions, randomization seed, controls;
-- `weight.exposure` and `weight.priority` separately with factor source IDs/confidence;
+- `weight.exposure` and `weight.priority` separately with factor source IDs/confidence; human priority factors also carry a decision artifact ID and approver;
 - uncertainty method, cluster unit, pilot status;
 - refresh policy and next review;
 - limitations, approvals, waivers, change ledger link.
@@ -310,12 +310,19 @@ The comprehensive table in `panel_report.md` uses:
 - surface, lane, locale, account/personalization state;
 - search/tool policy and whether retrieval ran;
 - generated queries and citation metadata when exposed;
-- temperature/sampling controls and fixed system/developer prompts;
-- fresh/session state and randomized order seed;
+- temperature/sampling controls and approved system/developer-prompt IDs and hashes;
+- fresh/session-state metadata and randomized order seed;
 - response/citation payload hashes;
 - timestamp, retry/validity status, parser version.
 
 API and consumer-surface observations never share a silent rollup.
+
+Raw system/developer prompts, provider-hidden instructions, account-linked
+session state, secrets, and PII are denied by default. Apply an explicit
+allowlist and redaction pass before storage; use hashes and non-sensitive
+metadata for unavailable or sensitive content. Any explicitly approved raw
+diagnostic context is access-restricted, records its approval and purpose, and
+expires within 30 days. Never commit it in eval artifacts.
 
 The observation template uses these exact field names: `exact_prompt`, `configuration_hash`, `provider`, `model`, `surface`, `lane`, `locale`, `search_policy`, `retrieval_used`, `session_state`, `response_payload_hash`, `citation_payload_hash`, `timestamp`, `retry_status`, `validity_status`, and `parser_version`. Additional fields are allowed; aliases do not satisfy this contract.
 

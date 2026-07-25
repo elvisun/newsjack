@@ -358,6 +358,9 @@ weight:
   priority:
     value: 0.025
     multiplier: 2.0
+    decision_artifact_id: human-gate-4-2026-07-25
+    approver: marketing-lead
+    confidence: medium
     rationale: "Human-approved expansion segment"
 ```
 
@@ -391,14 +394,16 @@ A panel release receives:
 - campaign registry linkage, if any; and
 - a change ledger.
 
-Every observation records the exact prompt, model and version as exposed by the provider, surface, locale, search/tool policy and invocation, temperature or sampling controls when available, system/developer prompt, session state, response/citation payload hashes, timestamps, retry status, and parser version.
+Every observation records the exact panel prompt, model and version as exposed by the provider, surface, locale, search/tool policy and invocation, temperature or sampling controls when available, approved system/developer-prompt IDs and hashes, session-state metadata, response/citation payload hashes, timestamps, retry status, and parser version.
+
+Do not persist raw system/developer prompts, provider-hidden instructions, account-linked session state, secrets, or PII by default. The observation store needs an explicit field allowlist and redaction pass before writing. Store hashes and non-sensitive metadata when raw content is unavailable or sensitive. If raw diagnostic context is explicitly approved, restrict it to named operators, record the approval and purpose, and delete it within 30 days; committed eval artifacts never contain it.
 
 ### Stage 12: refresh without destroying the time series
 
 Recommended default:
 
 - **monthly intake:** collect new evidence and candidates without changing the core;
-- **quarterly panel review:** retain roughly 70–80% core, rotate 15–25% discovery cells, and keep 5–10% sentinels/controls;
+- **quarterly panel review:** within the unaided panel, use disjoint partitions totaling exactly 100%: retain roughly 70–80% core, keep 5–10% sentinels/controls, and assign the remainder—normally 10–25%—to rotating discovery cells; treat aided cells as a separate allocation;
 - **event-triggered review:** product/category change, new locale, material model or surface change, regulatory event, or demonstrated buyer-language shift;
 - **weekly closed-model and retrieval waves** for normal tracking;
 - **daily or 2–3-times-weekly retrieval waves** only for active fast-moving campaigns or news;
@@ -413,8 +418,8 @@ Prompt proximity measures how much of the answer space the prompt supplies. It i
 | Band | Prompt structure | Aided status | Common journey/funnel mapping | Important exception |
 | --- | --- | --- | --- | --- |
 | `B0_direct_brand_product` | Names the target brand/product and asks about facts, fit, use, reputation, support, or implementation | Aided | Often BOFU, adoption, or post-purchase | “How do I export from Brand X?” is not purchase intent |
-| `B1_comparison_purchase` | Requests shortlist, recommendation, alternatives, pricing, requirements, or comparison; unaided core omits target | Unaided or `competitor_aided` | BOFU; evaluation, requirements, supplier selection | A first-time explorer can ask “best” without being purchase-ready |
-| `B2_category` | Names the accepted solution category but not target | Unaided | MOFU; solution exploration | A knowledgeable urgent buyer may be near transaction |
+| `B1_comparison_purchase` | Requests shortlist, recommendation, alternatives, pricing, requirements, or comparison; unaided core omits target and named competitors | `unaided`, `competitor_aided`, or `target_aided`, according to supplied brands | BOFU; evaluation, requirements, supplier selection | A first-time explorer can ask “best” without being purchase-ready |
+| `B2_category` | Names the accepted solution category but not target | `category_aided` | MOFU; solution exploration | A knowledgeable urgent buyer may be near transaction |
 | `B3_problem_need` | Describes pain, risk, trigger, or constraint without category or target | Unaided | TOFU/MOFU; problem identification and requirements | An acute problem with budget can be BOFU |
 | `B4_job_goal` | Asks for an outcome or progress without supplying the solution category | Unaided | Pre-funnel/TOFU; exploration | Existing users may ask a job-level implementation question |
 | `B5_broad_discovery_story` | Asks about a broader trend, event, regulation, practice, or narrative connected to the job | Unaided | Pre-trigger/TOFU; discovery | Breaking events can create immediate purchase urgency |
@@ -426,10 +431,12 @@ Funnel tags should be derived from evidence and journey context, not mechanicall
 - `target_aided`: target name, product, domain, executive, or unmistakable slogan appears.
 - `competitor_aided`: a named competitor anchors the answer set.
 - `category_aided`: the category is supplied, but no brand is.
-- `unaided`: neither target nor competitor is supplied.
+- `unaided`: no target, competitor, or accepted solution category is supplied.
 - `campaign_exposed`: campaign wording or creative concept appears, whether or not the brand does.
 
-Never combine these into one “visibility” denominator.
+`aided_status` is single-valued across the first four categories.
+`campaign_exposed` is a separate Boolean flag. Never combine aided statuses or
+campaign-exposure strata into one “visibility” denominator.
 
 ## 6. Anti-leading and contamination controls
 
@@ -999,7 +1006,7 @@ Suggested core contract:
 | Non-responsibilities | Generating prompts, estimating unsupported population frequency, running models, interpreting PR angles, or claiming campaign causality without a design. |
 | Inputs | Charter; architecture; QA-approved universe; evidence-backed weight inputs; variance-pilot observations; run budget; prior panel version. |
 | Outputs | Human tracking plan plus `panel.yaml` and deterministic validation requirements. |
-| Dependencies | Deterministic weight/coverage/effective-N calculator, variance decomposition, Wilson interval, stratified cluster bootstrap, schema validator, and version diff. |
+| Dependencies | Deterministic weight/coverage/effective-N calculator, variance decomposition, Wilson interval for one independent binary observation per cell, cell-cluster bootstrap for repeated observations, schema validator, and version diff. |
 | Evidence requirements | Every weight has provenance/confidence; allocation meets declared minima or emits a waiver; interval limits are stated; campaign design identifies treatment/control and pre-registration; core changes have reasons. |
 | Failure modes | Repetitions counted as independent cells; invented precision; full-factorial budget; mixing lanes/aided status; performance-based selection; weights not summing to one; panel refresh overwriting history; causal language from before/after. |
 | Eval fixtures | Equal-weight sparse panel; evidence-weighted panel; dominant weight/effective-N warning; high within-cell variance; high between-cell variance; panel-version overlap; missing subgroup cells; campaign with contaminated controls; parser failure rates. |
@@ -1028,7 +1035,7 @@ lanes:
         search_policy: disabled
     repetitions_per_wave: 3
 statistics:
-  binary_strata_interval: wilson
+  binary_strata_interval: cell_cluster_bootstrap
   aggregate_interval: stratified_cluster_bootstrap
   cluster_unit: canonical_cell_id
   bootstrap_replicates: 2000

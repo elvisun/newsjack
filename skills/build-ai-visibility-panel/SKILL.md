@@ -113,7 +113,7 @@ Cover the evidence-supported range across:
 - information act: explain, diagnose, plan/generate, compare, recommend, verify, navigate, buy, implement, troubleshoot;
 - journey: problem identification, exploration, requirements building, supplier selection, adoption, post-purchase;
 - proximity: B0 direct brand/product, B1 comparison/purchase, B2 category, B3 problem/need, B4 job/goal, B5 broad discovery/story;
-- aided state: target-aided, competitor-aided, category-aided, unaided, campaign-exposed;
+- aided state: target-aided, competitor-aided, category-aided, or unaided; plus a separate campaign-exposed flag;
 - role/persona, locale/language, material constraint, expected answer kind;
 - concise, contextual, imperfect, and evidence-supported follow-up style;
 - single-turn and separately scripted multi-turn;
