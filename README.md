@@ -39,6 +39,7 @@ Three problems, separate lanes.
 - 🎙️ **Respond to source queries** — triage inbound HARO-style requests, draft only the real fits
 - 🥊 **Roast your pitch** — honest critique against the rubric editors actually use
 - ✅ **Fact-check before you send** — extract claims, verify each, flag the shaky ones
+- ✍️ **Make writing easier for AI answers to reuse** — audit or fact-preservingly revise supplied copy without inventing evidence or promising rankings or citations
 - 🗣️ **Keep drafts in your voice** — fingerprint your real writing, kill the AI tells
 - 📋 **Build a fit-checked media list** — targeted reporters, not scraped contact dumps
 - 📰 **Clip the coverage** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
@@ -95,6 +96,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
