@@ -1,0 +1,16 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "note": "Eight preregistered constructed pairs per tested lever. One pair per lever is an explicit no-citation null control and remains in the denominator.",
+  "levers": {
+    "L1": ["workplace-01", "finance-01", "energy-01", "health-04", "travel-01", "logistics-01", "workplace-04", "energy-03"],
+    "L2": ["workplace-01", "finance-03", "energy-04", "health-01", "travel-02", "logistics-03", "workplace-04", "finance-04"],
+    "L3": ["workplace-01", "finance-03", "energy-04", "health-01", "travel-01", "logistics-03", "health-04", "energy-01"],
+    "L4": ["workplace-03", "finance-01", "energy-01", "health-03", "travel-04", "logistics-01", "finance-04", "energy-03"],
+    "L5": ["workplace-02", "finance-02", "energy-02", "health-02", "travel-03", "logistics-02", "workplace-03", "health-03"],
+    "L6": ["workplace-02", "finance-02", "energy-02", "health-02", "travel-03", "logistics-03", "workplace-03", "travel-04"]
+  },
+  "combined_skill_cases": ["workplace-01", "workplace-04", "finance-01", "finance-03", "energy-01", "energy-03", "energy-04", "health-01", "travel-01", "logistics-01", "logistics-03", "logistics-04"],
+  "null_case_index": 7,
+  "selector_assignment": "For each lever/case/generator pair, the target candidate ID and pack order are SHA-256 seeded. Original and rewrite use the same target ID and order; condition calls are interleaved by a separate deterministic schedule.",
+  "human_quality_judging": "Alternate generator by case index within each lever, giving eight cross-provider blind judgments per lever. Duplicate eight globally balanced pairs in the opposite order to estimate position bias."
+}

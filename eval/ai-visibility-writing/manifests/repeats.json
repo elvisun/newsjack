@@ -1,0 +1,942 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "phase": "repeats",
+  "generated_at": "2026-07-22T01:39:05.386155Z",
+  "query_as_of": "2026-07-21",
+  "seed_material": "ai-visibility-writing-pilot-v1|main|2026-07-21|repeats",
+  "seed_sha256": "e3008cbee4bfc7b9621e321423a4ab62f2553ec27ab45839eb95cb586565ceaf",
+  "pair_count": 49,
+  "units": [
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "comparative",
+      "topic": "migraines",
+      "query": "Compare the main migraines options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0001",
+      "repeat_of": "main-0081",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0001-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0001-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "evaluative",
+      "topic": "heat pumps",
+      "query": "What are the best heat pumps options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0002",
+      "repeat_of": "main-0082",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0002-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0002-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "explanatory",
+      "topic": "airline carry-on rules",
+      "query": "What is airline carry-on rules, and how does it work?",
+      "paired_unit_id": "repeats-0003",
+      "repeat_of": "main-0063",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0003-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0003-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "freshness",
+      "topic": "knowledge bases",
+      "query": "What changed recently about knowledge bases in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0004",
+      "repeat_of": "main-0024",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0004-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0004-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "sleep apnea",
+      "query": "How should someone evaluate or set up sleep apnea?",
+      "paired_unit_id": "repeats-0005",
+      "repeat_of": "main-0005",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0005-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0005-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "comparative",
+      "topic": "induction cooktops",
+      "query": "Compare the main induction cooktops options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0006",
+      "repeat_of": "main-0066",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0006-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0006-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "evaluative",
+      "topic": "hotel cancellation policies",
+      "query": "What are the best hotel cancellation policies options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0007",
+      "repeat_of": "main-0087",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0007-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0007-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "video conferencing",
+      "query": "What is video conferencing, and how does it work?",
+      "paired_unit_id": "repeats-0008",
+      "repeat_of": "main-0088",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0008-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0008-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "freshness",
+      "topic": "migraines",
+      "query": "What changed recently about migraines in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0009",
+      "repeat_of": "main-0069",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0009-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0009-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "procedural",
+      "topic": "home electric-vehicle chargers",
+      "query": "How should someone evaluate or set up home electric-vehicle chargers?",
+      "paired_unit_id": "repeats-0010",
+      "repeat_of": "main-0030",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0010-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0010-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "comparative",
+      "topic": "airline carry-on rules",
+      "query": "Compare the main airline carry-on rules options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0011",
+      "repeat_of": "main-0051",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0011-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0011-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "evaluative",
+      "topic": "human resources information systems",
+      "query": "What are the best human resources information systems options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0012",
+      "repeat_of": "main-0072",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0012-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0012-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "explanatory",
+      "topic": "vitamin D",
+      "query": "What is vitamin D, and how does it work?",
+      "paired_unit_id": "repeats-0013",
+      "repeat_of": "main-0013",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0013-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0013-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "freshness",
+      "topic": "smart thermostats",
+      "query": "What changed recently about smart thermostats in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0014",
+      "repeat_of": "main-0094",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0014-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0014-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "procedural",
+      "topic": "rail passes",
+      "query": "How should someone evaluate or set up rail passes?",
+      "paired_unit_id": "repeats-0015",
+      "repeat_of": "main-0075",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0015-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0015-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "comparative",
+      "topic": "expense management software",
+      "query": "Compare the main expense management software options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0016",
+      "repeat_of": "main-0056",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0016-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0016-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "evaluative",
+      "topic": "seasonal allergies",
+      "query": "What are the best seasonal allergies options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0017",
+      "repeat_of": "main-0097",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0017-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0017-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "explanatory",
+      "topic": "induction cooktops",
+      "query": "What is induction cooktops, and how does it work?",
+      "paired_unit_id": "repeats-0018",
+      "repeat_of": "main-0098",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0018-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0018-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "freshness",
+      "topic": "airport transfers",
+      "query": "What changed recently about airport transfers in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0019",
+      "repeat_of": "main-0039",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0019-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0019-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "procedural",
+      "topic": "video conferencing",
+      "query": "How should someone evaluate or set up video conferencing?",
+      "paired_unit_id": "repeats-0020",
+      "repeat_of": "main-0040",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0020-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0020-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "comparative",
+      "topic": "sleep apnea",
+      "query": "Compare the main sleep apnea options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0021",
+      "repeat_of": "main-0021",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0021-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0021-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "evaluative",
+      "topic": "home insulation",
+      "query": "What are the best home insulation options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0022",
+      "repeat_of": "main-0062",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0022-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0022-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "explanatory",
+      "topic": "rail passes",
+      "query": "What is rail passes, and how does it work?",
+      "paired_unit_id": "repeats-0023",
+      "repeat_of": "main-0003",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0023-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0023-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "freshness",
+      "topic": "video conferencing",
+      "query": "What changed recently about video conferencing in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0024",
+      "repeat_of": "main-0064",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0024-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0024-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "seasonal allergies",
+      "query": "How should someone evaluate or set up seasonal allergies?",
+      "paired_unit_id": "repeats-0025",
+      "repeat_of": "main-0045",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0025-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0025-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "comparative",
+      "topic": "home insulation",
+      "query": "Compare the main home insulation options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0026",
+      "repeat_of": "main-0086",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0026-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0026-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "evaluative",
+      "topic": "travel insurance",
+      "query": "What are the best travel insurance options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0027",
+      "repeat_of": "main-0007",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0027-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0027-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "expense management software",
+      "query": "What is expense management software, and how does it work?",
+      "paired_unit_id": "repeats-0028",
+      "repeat_of": "main-0048",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0028-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0028-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "freshness",
+      "topic": "vitamin D",
+      "query": "What changed recently about vitamin D in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0029",
+      "repeat_of": "main-0029",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0029-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0029-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "procedural",
+      "topic": "heat pumps",
+      "query": "How should someone evaluate or set up heat pumps?",
+      "paired_unit_id": "repeats-0030",
+      "repeat_of": "main-0010",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0030-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0030-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "comparative",
+      "topic": "travel insurance",
+      "query": "Compare the main travel insurance options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0031",
+      "repeat_of": "main-0011",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0031-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0031-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "evaluative",
+      "topic": "project management software",
+      "query": "What are the best project management software options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0032",
+      "repeat_of": "main-0032",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0032-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0032-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "explanatory",
+      "topic": "sleep apnea",
+      "query": "What is sleep apnea, and how does it work?",
+      "paired_unit_id": "repeats-0033",
+      "repeat_of": "main-0093",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0033-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0033-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "freshness",
+      "topic": "induction cooktops",
+      "query": "What changed recently about induction cooktops in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0034",
+      "repeat_of": "main-0034",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0034-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0034-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "procedural",
+      "topic": "travel eSIMs",
+      "query": "How should someone evaluate or set up travel eSIMs?",
+      "paired_unit_id": "repeats-0035",
+      "repeat_of": "main-0115",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0035-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0035-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "comparative",
+      "topic": "knowledge bases",
+      "query": "Compare the main knowledge bases options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0036",
+      "repeat_of": "main-0076",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0036-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0036-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "evaluative",
+      "topic": "migraines",
+      "query": "What are the best migraines options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0037",
+      "repeat_of": "main-0037",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0037-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0037-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "explanatory",
+      "topic": "heat pumps",
+      "query": "What is heat pumps, and how does it work?",
+      "paired_unit_id": "repeats-0038",
+      "repeat_of": "main-0038",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0038-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0038-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "freshness",
+      "topic": "airline carry-on rules",
+      "query": "What changed recently about airline carry-on rules in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0039",
+      "repeat_of": "main-0079",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0039-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0039-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "procedural",
+      "topic": "knowledge bases",
+      "query": "How should someone evaluate or set up knowledge bases?",
+      "paired_unit_id": "repeats-0040",
+      "repeat_of": "main-0100",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0040-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0040-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "comparative",
+      "topic": "hearing protection",
+      "query": "Compare the main hearing protection options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0041",
+      "repeat_of": "main-0001",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0041-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0041-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "evaluative",
+      "topic": "smart thermostats",
+      "query": "What are the best smart thermostats options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0042",
+      "repeat_of": "main-0022",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0042-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0042-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "explanatory",
+      "topic": "hotel cancellation policies",
+      "query": "What is hotel cancellation policies, and how does it work?",
+      "paired_unit_id": "repeats-0043",
+      "repeat_of": "main-0023",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0043-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0043-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "freshness",
+      "topic": "password managers",
+      "query": "What changed recently about password managers in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0044",
+      "repeat_of": "main-0084",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0044-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0044-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "strength training",
+      "query": "How should someone evaluate or set up strength training?",
+      "paired_unit_id": "repeats-0045",
+      "repeat_of": "main-0065",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0045-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0045-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "home_energy",
+      "intent": "comparative",
+      "topic": "solar batteries",
+      "query": "Compare the main solar batteries options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "repeats-0046",
+      "repeat_of": "main-0106",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0046-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0046-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "travel_planning",
+      "intent": "evaluative",
+      "topic": "travel eSIMs",
+      "query": "What are the best travel eSIMs options, and which tradeoffs matter?",
+      "paired_unit_id": "repeats-0047",
+      "repeat_of": "main-0027",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0047-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0047-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "project management software",
+      "query": "What is project management software, and how does it work?",
+      "paired_unit_id": "repeats-0048",
+      "repeat_of": "main-0068",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0048-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0048-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "repeats",
+      "topic_family": "health_literacy",
+      "intent": "freshness",
+      "topic": "hearing protection",
+      "query": "What changed recently about hearing protection in the United States as of July 2026?",
+      "paired_unit_id": "repeats-0049",
+      "repeat_of": "main-0089",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "repeats-0049-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "repeats-0049-chatgpt"
+        }
+      ]
+    }
+  ]
+}

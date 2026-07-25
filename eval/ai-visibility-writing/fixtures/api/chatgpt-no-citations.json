@@ -1,0 +1,20 @@
+{
+  "status_code": 20000,
+  "cost": 0.004,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [{
+    "id": "mock-chatgpt-no-citations",
+    "status_code": 20000,
+    "cost": 0.004,
+    "result_count": 1,
+    "result": [{
+      "model_name": "gpt-mock-2026-01-01",
+      "input_tokens": 100,
+      "output_tokens": 30,
+      "web_search": true,
+      "money_spent": 0.0034,
+      "items": [{"type": "message", "sections": [{"type": "text", "text": "A response with no source annotation.", "annotations": []}]}]
+    }]
+  }]
+}

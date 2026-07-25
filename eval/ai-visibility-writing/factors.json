@@ -1,0 +1,300 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "status": "final_inconclusive",
+  "note": "Observational associations are non-causal; none of the six preregistered Google writing factors passed FDR in development or fresh data. ChatGPT adjusted effects are unestimable.",
+  "factors": [
+    {
+      "id": "F1",
+      "name": "unique_verifiable_information",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "H3",
+      "applies_when": [
+        "document can add supplied firsthand data, method, analysis, or experience"
+      ],
+      "does_not_apply_when": [
+        "proof is missing",
+        "page is a commodity announcement with no additional evidence"
+      ],
+      "intervention": "Add only supplied unique evidence and its scope; otherwise ask for proof or recommend an owned analysis page.",
+      "google_development": {
+        "estimate_pp_per_sd": 1.4113440975055367,
+        "interval_95_pp": [
+          -5.794010636696922,
+          8.616698831707994
+        ],
+        "fdr_q_value": 0.7010424082767552
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": 0.7035103219197308,
+        "interval_95_pp": [
+          -9.560078261372412,
+          10.967098905211875
+        ],
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "id": "F2",
+      "name": "direct_scoped_answer",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "H1",
+      "applies_when": [
+        "document can answer a likely query without losing caveats"
+      ],
+      "does_not_apply_when": [
+        "answer would overstate the evidence",
+        "narrative opening is essential"
+      ],
+      "intervention": "Place a concise scoped answer beside the relevant descriptive heading, followed by nuance.",
+      "google_development": {
+        "estimate_pp_per_sd": -1.3922423456324517,
+        "interval_95_pp": [
+          -8.427389532411036,
+          5.642904841146133
+        ],
+        "fdr_q_value": 0.7010424082767552
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -0.8162182042267154,
+        "interval_95_pp": [
+          -13.32353025182213,
+          11.6910938433687
+        ],
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "id": "F3",
+      "name": "evidence_and_attribution",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "H2",
+      "applies_when": [
+        "material claims have supplied evidence or attribution"
+      ],
+      "does_not_apply_when": [
+        "citations would be decorative or unrelated"
+      ],
+      "intervention": "Name source, date, method/population, and supported claim without increasing citation count for its own sake.",
+      "google_development": {
+        "estimate_pp_per_sd": 4.554248767446097,
+        "interval_95_pp": [
+          -2.242879179119129,
+          11.351376714011325
+        ],
+        "fdr_q_value": 0.5977203841296093
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -1.6096790343722345,
+        "interval_95_pp": [
+          -11.491773264149286,
+          8.272415195404816
+        ],
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "id": "F4",
+      "name": "entity_clarity",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "exploratory",
+      "applies_when": [
+        "entity, acronym, product, person, or relationship is ambiguous"
+      ],
+      "does_not_apply_when": [
+        "entity is already unambiguous"
+      ],
+      "intervention": "Disambiguate the first reference once; avoid repeated entity stuffing.",
+      "google_development": {
+        "estimate_pp_per_sd": -0.5422327835860549,
+        "interval_95_pp": [
+          -5.281532205741307,
+          4.197066638569198
+        ],
+        "fdr_q_value": null
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -1.5978669533873293,
+        "interval_95_pp": [
+          -10.988483375515253,
+          7.792749468740594
+        ],
+        "fdr_q_value": null
+      }
+    },
+    {
+      "id": "F5",
+      "name": "descriptive_coherent_structure",
+      "disposition": "conflicting; not supported",
+      "hypothesis": "H5",
+      "applies_when": [
+        "answers are buried or sections mix jobs"
+      ],
+      "does_not_apply_when": [
+        "short announcement is already coherent"
+      ],
+      "intervention": "Use descriptive headings and single-purpose chunks without forcing question headings.",
+      "google_development": {
+        "estimate_pp_per_sd": -7.32681641352157,
+        "interval_95_pp": [
+          -18.513497352852177,
+          3.8598645258090354
+        ],
+        "fdr_q_value": 0.5977203841296093
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -21.8838517107315,
+        "interval_95_pp": [
+          -40.31413744218465,
+          -3.453565979278345
+        ],
+        "fdr_q_value": 0.11970369476551082
+      }
+    },
+    {
+      "id": "F6",
+      "name": "intent_fit_format",
+      "disposition": "exploratory unstable; not supported",
+      "hypothesis": "exploratory",
+      "applies_when": [
+        "real comparison or procedure exists"
+      ],
+      "does_not_apply_when": [
+        "narrative or announcement does not benefit from a table/list"
+      ],
+      "intervention": "Use a table for genuine comparisons or steps for a procedure; never add a fake FAQ.",
+      "google_development": {
+        "estimate_pp_per_sd": 16.464233823964687,
+        "interval_95_pp": [
+          6.9543247770879475,
+          25.974142870841433
+        ],
+        "fdr_q_value": null
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -11.748771940295802,
+        "interval_95_pp": [
+          -31.858730740854966,
+          8.361186860263365
+        ],
+        "fdr_q_value": null
+      }
+    },
+    {
+      "id": "F7",
+      "name": "legitimate_freshness",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "exploratory",
+      "applies_when": [
+        "query is time-sensitive and a real date is supplied"
+      ],
+      "does_not_apply_when": [
+        "evergreen query",
+        "no genuine update"
+      ],
+      "intervention": "Expose the real effective, measured, published, or updated date beside the claim.",
+      "google_development": {
+        "estimate_pp_per_sd": -2.8767746998929487,
+        "interval_95_pp": [
+          -10.304999787897291,
+          4.551450388111393
+        ],
+        "fdr_q_value": null
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -6.893740975522243,
+        "interval_95_pp": [
+          -12.888897002557655,
+          -0.8985849484868309
+        ],
+        "fdr_q_value": null
+      }
+    },
+    {
+      "id": "F8",
+      "name": "neutral_qualified_specificity",
+      "disposition": "insufficient for visibility effect",
+      "hypothesis": "H8",
+      "applies_when": [
+        "draft uses unsupported promotion or absolutes"
+      ],
+      "does_not_apply_when": [
+        "strong claim is fully supported and appropriately scoped"
+      ],
+      "intervention": "Replace promotional abstraction with the supported outcome, scope, and limitation while preserving voice.",
+      "google_development": {
+        "estimate_pp_per_sd": -1.6619758622817602,
+        "interval_95_pp": [
+          -7.389689668114839,
+          4.065737943551319
+        ],
+        "fdr_q_value": 0.7010424082767552
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": -0.696535457264421,
+        "interval_95_pp": [
+          -7.470837559277377,
+          6.077766644748536
+        ],
+        "fdr_q_value": 0.8982216274223771
+      }
+    },
+    {
+      "id": "F9",
+      "name": "human_readability_with_precision",
+      "disposition": "supported human/safety guard; visibility effect insufficient",
+      "hypothesis": "guard",
+      "applies_when": [
+        "syntax obscures meaning"
+      ],
+      "does_not_apply_when": [
+        "simplification would erase necessary terminology or caveats"
+      ],
+      "intervention": "Clarify syntax while preserving the intended register and all qualifications.",
+      "google_development": {
+        "estimate_pp_per_sd": -0.23671729109899067,
+        "interval_95_pp": [
+          -5.0187913104049,
+          4.545356728206918
+        ],
+        "fdr_q_value": null
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": 3.8061875121095747,
+        "interval_95_pp": [
+          -3.0439712718880982,
+          10.656346296107246
+        ],
+        "fdr_q_value": null
+      }
+    },
+    {
+      "id": "F10",
+      "name": "anti_repetition_and_padding",
+      "disposition": "supported human/safety guard; visibility effect insufficient",
+      "hypothesis": "H15",
+      "applies_when": [
+        "keywords, headings, FAQs, or summary blocks repeat without reader value"
+      ],
+      "does_not_apply_when": [
+        "repetition is technically or rhetorically necessary"
+      ],
+      "intervention": "Remove redundant repetition and checklist padding; do not optimize term frequency.",
+      "google_development": {
+        "estimate_pp_per_sd": 2.7574663124958,
+        "interval_95_pp": [
+          -3.7539727556129594,
+          9.26890538060456
+        ],
+        "fdr_q_value": 0.7010424082767552
+      },
+      "google_fresh": {
+        "estimate_pp_per_sd": 4.88744282609801,
+        "interval_95_pp": [
+          -7.359716976487847,
+          17.134602628683865
+        ],
+        "fdr_q_value": 0.8982216274223771
+      }
+    }
+  ]
+}

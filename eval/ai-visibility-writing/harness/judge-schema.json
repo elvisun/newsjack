@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["winner", "quality_A", "quality_B", "fact_fidelity_A", "fact_fidelity_B", "readability_A", "readability_B", "position_concern", "reason"],
+  "properties": {
+    "winner": {"type": "string", "enum": ["A", "B", "tie"]},
+    "quality_A": {"type": "integer", "minimum": 1, "maximum": 5},
+    "quality_B": {"type": "integer", "minimum": 1, "maximum": 5},
+    "fact_fidelity_A": {"type": "boolean"},
+    "fact_fidelity_B": {"type": "boolean"},
+    "readability_A": {"type": "boolean"},
+    "readability_B": {"type": "boolean"},
+    "position_concern": {"type": "boolean"},
+    "reason": {"type": "string"}
+  }
+}

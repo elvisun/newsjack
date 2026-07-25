@@ -1,0 +1,893 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "phase": "fresh",
+  "generated_at": "2026-07-22T04:43:23.418656Z",
+  "query_as_of": "2026-07-22",
+  "seed_material": "3eff18be0a6ee4f0b409c58c9b294f34485e2561ec61b54945d8287177bf12c4",
+  "seed_sha256": "be2018f4fff50daf63747fc4df2602e0e11c8546d51acece6ca03d5c7a8846a0",
+  "pair_count": 49,
+  "units": [
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "comparative",
+      "topic": "fleet electrification",
+      "query": "Compare the main fleet electrification options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0001",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0001-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0001-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "evaluative",
+      "topic": "high-yield savings accounts",
+      "query": "What are the best high-yield savings accounts options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0002",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0002-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0002-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "explanatory",
+      "topic": "seasonal allergies",
+      "query": "What is seasonal allergies, and how does it work?",
+      "paired_unit_id": "fresh-0003",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0003-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0003-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "freshness",
+      "topic": "smart thermostats",
+      "query": "What changed recently about smart thermostats in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0004",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0004-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0004-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "procedural",
+      "topic": "travel eSIMs",
+      "query": "How should someone evaluate or set up travel eSIMs?",
+      "paired_unit_id": "fresh-0005",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0005-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0005-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "comparative",
+      "topic": "knowledge bases",
+      "query": "Compare the main knowledge bases options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0006",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0006-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0006-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "evaluative",
+      "topic": "cold-chain logistics",
+      "query": "What are the best cold-chain logistics options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0007",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0007-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0007-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "explanatory",
+      "topic": "exchange-traded fund fees",
+      "query": "What is exchange-traded fund fees, and how does it work?",
+      "paired_unit_id": "fresh-0008",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0008-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0008-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "freshness",
+      "topic": "migraines",
+      "query": "What changed recently about migraines in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0009",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0009-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0009-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "procedural",
+      "topic": "home electric-vehicle chargers",
+      "query": "How should someone evaluate or set up home electric-vehicle chargers?",
+      "paired_unit_id": "fresh-0010",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0010-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0010-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "comparative",
+      "topic": "airport transfers",
+      "query": "Compare the main airport transfers options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0011",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0011-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0011-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "evaluative",
+      "topic": "project management software",
+      "query": "What are the best project management software options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0012",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0012-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0012-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "explanatory",
+      "topic": "carbon accounting",
+      "query": "What is carbon accounting, and how does it work?",
+      "paired_unit_id": "fresh-0013",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0013-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0013-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "freshness",
+      "topic": "credit freezes",
+      "query": "What changed recently about credit freezes in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0014",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0014-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0014-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "hearing protection",
+      "query": "How should someone evaluate or set up hearing protection?",
+      "paired_unit_id": "fresh-0015",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0015-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0015-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "comparative",
+      "topic": "home insulation",
+      "query": "Compare the main home insulation options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0016",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0016-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0016-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "evaluative",
+      "topic": "rail passes",
+      "query": "What are the best rail passes options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0017",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0017-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0017-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "video conferencing",
+      "query": "What is video conferencing, and how does it work?",
+      "paired_unit_id": "fresh-0018",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0018-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0018-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "freshness",
+      "topic": "carbon accounting",
+      "query": "What changed recently about carbon accounting in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0019",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0019-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0019-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "procedural",
+      "topic": "renters insurance",
+      "query": "How should someone evaluate or set up renters insurance?",
+      "paired_unit_id": "fresh-0020",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0020-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0020-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "comparative",
+      "topic": "hearing protection",
+      "query": "Compare the main hearing protection options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0021",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0021-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0021-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "evaluative",
+      "topic": "smart thermostats",
+      "query": "What are the best smart thermostats options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0022",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0022-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0022-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "explanatory",
+      "topic": "airline carry-on rules",
+      "query": "What is airline carry-on rules, and how does it work?",
+      "paired_unit_id": "fresh-0023",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0023-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0023-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "freshness",
+      "topic": "expense management software",
+      "query": "What changed recently about expense management software in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0024",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0024-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0024-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "procedural",
+      "topic": "sustainable aviation fuel",
+      "query": "How should someone evaluate or set up sustainable aviation fuel?",
+      "paired_unit_id": "fresh-0025",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0025-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0025-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "comparative",
+      "topic": "credit card interest",
+      "query": "Compare the main credit card interest options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0026",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0026-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0026-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "evaluative",
+      "topic": "seasonal allergies",
+      "query": "What are the best seasonal allergies options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0027",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0027-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0027-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "explanatory",
+      "topic": "smart thermostats",
+      "query": "What is smart thermostats, and how does it work?",
+      "paired_unit_id": "fresh-0028",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0028-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0028-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "freshness",
+      "topic": "travel insurance",
+      "query": "What changed recently about travel insurance in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0029",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0029-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0029-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "procedural",
+      "topic": "video conferencing",
+      "query": "How should someone evaluate or set up video conferencing?",
+      "paired_unit_id": "fresh-0030",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0030-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0030-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "comparative",
+      "topic": "cold-chain logistics",
+      "query": "Compare the main cold-chain logistics options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0031",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0031-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0031-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "evaluative",
+      "topic": "renters insurance",
+      "query": "What are the best renters insurance options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0032",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0032-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0032-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "explanatory",
+      "topic": "strength training",
+      "query": "What is strength training, and how does it work?",
+      "paired_unit_id": "fresh-0033",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0033-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0033-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "freshness",
+      "topic": "solar batteries",
+      "query": "What changed recently about solar batteries in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0034",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0034-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0034-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "procedural",
+      "topic": "rail passes",
+      "query": "How should someone evaluate or set up rail passes?",
+      "paired_unit_id": "fresh-0035",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0035-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0035-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "comparative",
+      "topic": "project management software",
+      "query": "Compare the main project management software options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0036",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0036-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0036-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "evaluative",
+      "topic": "last-mile delivery",
+      "query": "What are the best last-mile delivery options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0037",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0037-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0037-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "explanatory",
+      "topic": "renters insurance",
+      "query": "What is renters insurance, and how does it work?",
+      "paired_unit_id": "fresh-0038",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0038-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0038-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "freshness",
+      "topic": "vitamin D",
+      "query": "What changed recently about vitamin D in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0039",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0039-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0039-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "procedural",
+      "topic": "smart thermostats",
+      "query": "How should someone evaluate or set up smart thermostats?",
+      "paired_unit_id": "fresh-0040",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0040-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0040-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "comparative",
+      "topic": "travel insurance",
+      "query": "Compare the main travel insurance options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0041",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0041-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0041-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "evaluative",
+      "topic": "human resources information systems",
+      "query": "What are the best human resources information systems options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0042",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0042-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0042-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "explanatory",
+      "topic": "sustainable aviation fuel",
+      "query": "What is sustainable aviation fuel, and how does it work?",
+      "paired_unit_id": "fresh-0043",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0043-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0043-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "consumer_finance",
+      "intent": "freshness",
+      "topic": "high-yield savings accounts",
+      "query": "What changed recently about high-yield savings accounts in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0044",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0044-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0044-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "migraines",
+      "query": "How should someone evaluate or set up migraines?",
+      "paired_unit_id": "fresh-0045",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0045-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0045-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "home_energy",
+      "intent": "comparative",
+      "topic": "solar batteries",
+      "query": "Compare the main solar batteries options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "fresh-0046",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0046-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0046-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "travel_planning",
+      "intent": "evaluative",
+      "topic": "airline carry-on rules",
+      "query": "What are the best airline carry-on rules options, and which tradeoffs matter?",
+      "paired_unit_id": "fresh-0047",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0047-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0047-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "knowledge bases",
+      "query": "What is knowledge bases, and how does it work?",
+      "paired_unit_id": "fresh-0048",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0048-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0048-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "fresh",
+      "topic_family": "climate_logistics",
+      "intent": "freshness",
+      "topic": "last-mile delivery",
+      "query": "What changed recently about last-mile delivery in the United States as of July 2026?",
+      "paired_unit_id": "fresh-0049",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "fresh-0049-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "fresh-0049-chatgpt"
+        }
+      ]
+    }
+  ]
+}
