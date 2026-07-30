@@ -22,38 +22,52 @@ Jump to **[platform-specific setup](#install)** below for per platform breakdown
 
 ## What your agent can do once newsjack is installed
 
-Three problems, separate lanes.
+Four problems, separate lanes.
+
+Each capability is a skill. Invoke it by name — `/angle-generator`, `/fact-check` —
+or just describe what you want and your agent picks the right one.
 
 ### 🛰️ Detect — surface what matters in your space
 
-- 📡 **Monitor your industry** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks ([see a sample run](docs/example-run.md))
-- 🗞️ **Track your coverage** — Google Alerts-style keyword tracking with LLM filtering for real features
-- 🔭 **Track competitors** — when they launch, raise, or stumble, you know
-- 🔍 **Verify the story is still fresh** — who broke it, who owns it, what oxygen's left
+- ⚙️ **`/newsjack-monitor-setup`** — build the monitoring profile once: your standing, beat topics, competitors, proof assets, spokespeople, feeds *(local agent only)*
+- 📡 **`/newsjack-detector`** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks ([see a sample run](docs/example-run.md))
+- 🔎 **`/news-search`** — dated, attributed articles on a topic, company, or competitor: when they launch, raise, or stumble, you know
+- 🔍 **`/story-origin-check`** — verify the story is still fresh: who broke it, who owns it, what oxygen's left
+- 🧹 **`/relevance-coarse-filter`** — cheap high-recall first pass that throws out obvious junk before anything expensive runs
+- 🚦 **`/newsjack-triage`** — route surviving stories by whether you actually have standing: pitch now, watch, or surface as big news
+- 🔔 **`/coverage-tracker-setup`** — declare the keywords you want watched, and what each one actually means *(local agent only)*
+- 🗞️ **`/coverage-tracker`** — Google Alerts-style keyword tracking with LLM filtering for real features, alerting only on genuinely new coverage
 
 ### 🚀 Act — turn signal into output
 
-- 🎯 **Generate story angles** — turn one update into hooks framed for different beats
-- 🤝 **Fit-check a journalist** — will *this* reporter actually care, or are you spamming?
-- 🥇 **Pick who to pitch first at one outlet** — rank colleagues at the same publication and send to one, instead of spraying the masthead
-- 🎙️ **Respond to source queries** — triage inbound HARO-style requests, draft only the real fits
-- 🥊 **Roast your pitch** — honest critique against the rubric editors actually use
-- ✅ **Fact-check before you send** — extract claims, verify each, flag the shaky ones
-- ✍️ **Make writing easier for AI answers to reuse** — audit or fact-preservingly revise supplied copy without inventing evidence or promising rankings or citations
-- 🗣️ **Keep drafts in your voice** — fingerprint your real writing, kill the AI tells
-- 📋 **Build a fit-checked media list** — targeted reporters, not scraped contact dumps
-- 📰 **Clip the coverage** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
+- 🎯 **`/angle-generator`** — turn one update into hooks framed for different beats
+- 📝 **`/headline-generator`** — headlines and pitch subject lines built from the story's raw facts
+- 🥊 **`/meanest-editor`** — roast your pitch against the rubric editors actually use
+- 🚨 **`/crisis-holding`** — holding statements, journalist Q&A posture, and what *not* to say, with a hard legal-counsel gate
+- 🎙️ **`/reactive-comment`** — triage inbound HARO-style source requests, draft only the real fits
+- ✅ **`/fact-check`** — extract claims, verify each, flag the shaky ones before you send
+- 🤝 **`/journalist-fit-check`** — will *this* reporter actually care, or are you spamming?
+- 🥇 **`/same-outlet-ranker`** — rank colleagues at the same publication and send to one, instead of spraying the masthead
+- 🗣️ **`/voice-extractor`** — fingerprint your real writing, kill the AI tells
+- 📋 **`/find-journalists`** — build a fit-checked media list: targeted reporters, not scraped contact dumps
+- 📰 **`/press-clip`** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
 
 ### 🧭 Strategize — figure out what your story even is
 
-- 🗺️ **Get a PR strategy** — opinionated walkthrough if you're not PR-fluent yet: audience first, positioning second, news pegs third, drumbeat over big-bang
-- 📅 **Build a PR calendar** — plan six months of source-backed upcoming hooks, with prior-year coverage patterns for angle inspiration
-- 📊 **Score newsworthiness** — cold read on whether it clears the bar before you act
+- 🗺️ **`/pr-strategist`** — opinionated walkthrough if you're not PR-fluent yet: audience first, positioning second, news pegs third, drumbeat over big-bang
+- 📅 **`/pr-calendar`** — plan six months of source-backed upcoming hooks, with prior-year coverage patterns for angle inspiration
+- 📊 **`/newsworthiness-check`** — cold read on whether it clears the bar before you act
 
-### 🔬 Research — build an AI-visibility measurement panel
+### 🔬 AI visibility — get your facts into AI answers (AEO/GEO)
 
-- 🧭 **Map the buyer prompt space** — start with any public URL and description, research buyer jobs and language, and produce an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
-- 🧪 **Keep the measurement honest** — separate aided and unaided denominators, quarantine unsupported prompts, preserve source provenance, and return a provisional panel with explicit human gates instead of a made-up “AI visibility score”
+- ✍️ **`/ai-visibility-writing`** — audit or fact-preservingly revise supplied copy so AI answers can reuse it, without inventing evidence or promising rankings or citations
+- 🧭 **`/build-ai-visibility-panel`** — to measure it, run this one first: it drives the six below it in order, turning any public URL and description into an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
+- 👥 **`/icp-evidence-analysis`** — turn a company and market dossier into testable ideal-customer hypotheses, buying roles, triggers, disqualifiers, and named research gaps
+- 🧩 **`/buyer-job-intent-analysis`** — recover the jobs, struggling moments, workarounds, and authentic buyer language from real customer, review, forum, and search evidence
+- 🏗️ **`/prompt-proximity-architecture`** — blueprint which prompt cells are required, optional, and prohibited before anyone writes prompt wording
+- 💬 **`/realistic-prompt-generation`** — write natural prompt variants from a target-blind brief, so the panel isn't quietly written to flatter you
+- 🧪 **`/prompt-set-qa`** — gate the prompt set on provenance, contamination, answer leakage, naturalness, and semantic duplicates, quarantining anything the evidence doesn't support
+- 📐 **`/ai-visibility-panel-design`** — select QA-approved prompts into a versioned tracking panel with partitions, surfaces, locales, repetitions, weights, and refresh rules, keeping aided and unaided denominators separate and gating on a human instead of inventing an “AI visibility score”
 
 ---
 
@@ -75,42 +89,42 @@ or locally-saved monitoring state — those work best in a local agent.
 
 ### What runs where
 
-| Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
-| --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Strategize** | | | | | | | | |
-| pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| pr-calendar | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Research / Measure** | | | | | | | | |
-| build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| icp-evidence-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| buyer-job-intent-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| prompt-proximity-architecture | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| realistic-prompt-generation | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| prompt-set-qa | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| ai-visibility-panel-design | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Act** | | | | | | | | |
-| angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| press-clip | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| **Detect** | | | | | | | | |
-| news-search | ✅ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| story-origin-check | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
-| relevance-coarse-filter | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| newsjack-triage | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| newsjack-detector | ⚠️ | ⚠️ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
-| newsjack-monitor-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| coverage-tracker-setup | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| Skill | [Claude.ai](https://claude.ai) | [ChatGPT](https://chatgpt.com) | [ChatGPT Work](https://openai.com/business) | [Cowork](https://claude.com/product/cowork) | [Claude Code](https://claude.com/claude-code) | [Codex](https://openai.com/codex) | [Hermes](https://hermes-agent.nousresearch.com) | [OpenClaw](https://openclaw.ai) | [Medialyst](https://medialyst.ai) |
+| --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Strategize** | | | | | | | | | |
+| pr-strategist | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| pr-calendar | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **AI visibility** | | | | | | | | | |
+| ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| icp-evidence-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| buyer-job-intent-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| prompt-proximity-architecture | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| realistic-prompt-generation | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| prompt-set-qa | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ai-visibility-panel-design | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Act** | | | | | | | | | |
+| angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| voice-extractor | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| find-journalists | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| press-clip | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| **Detect** | | | | | | | | | |
+| news-search | ✅ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| story-origin-check | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
+| relevance-coarse-filter | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-triage | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| newsjack-detector | ⚠️ | ⚠️ | ⚠️ | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔜 |
+| newsjack-monitor-setup | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| coverage-tracker | ⚠️ | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| coverage-tracker-setup | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 
 
 Legend:
@@ -121,13 +135,14 @@ Legend:
 - **🔜 Coming soon** — not available here yet.
 - **❌ Not supported here** — needs a local agent. The two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it; `press-clip` drives a real Chrome/Edge browser via Playwright to render and clip the live page, which chat apps can't do.
 
-`pr-calendar` is setup-required but portable: it works anywhere the agent can use the `newsjack` CLI or a connected Medialyst MCP/connector. The calendar endpoint is free; login is required only to prevent abuse. ChatGPT is the exception for now because of the same skill-loading limitation called out above.
+`pr-calendar` is setup-required but portable: it works anywhere the agent can use the `newsjack` CLI or a connected Medialyst MCP/connector. The calendar endpoint is free; login is required only to prevent abuse. Consumer ChatGPT is the exception for now because of the same skill-loading limitation called out above.
 
 **Set up your agent:**
 
 - **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
 - **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst connector
-- **[ChatGPT](#chatgpt)** — Skills beta (ChatGPT Business / Enterprise)
+- **[ChatGPT](#chatgpt)** — consumer accounts, no Skills
+- **[ChatGPT Work](#chatgpt-work)** — Skills beta
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)
 
@@ -148,7 +163,7 @@ fallback, Windows, credentials — on any platform.
 
 Prefer a video? Watch the [Newsjack installation walkthrough](https://www.youtube.com/watch?v=1tg6E6ZYGCk).
 
-### Claude.ai & Cowork - Install as a Claude Plugin
+### Claude.ai & Cowork
 
 **Install the Newsjack plugin:**
 
@@ -171,8 +186,14 @@ scan with nothing saved. For saved, scheduled monitoring, use a local agent.
 
 ### ChatGPT
 
-ChatGPT runs Newsjack only in a degraded ⚠️ form. Skills aren't available to
-accounts that are not on ChatGPT Business or Enterprise. For the full toolkit, use OpenAI's Codex.
+ChatGPT runs Newsjack only in a degraded ⚠️ form, because Skills aren't available
+on consumer accounts. For the full toolkit, use ChatGPT Work or OpenAI's Codex.
+
+### ChatGPT Work
+
+ChatGPT Work has the Skills beta, so Newsjack runs there at the same level as
+Cowork: everything except the two setup skills and `press-clip`, which need a
+local agent.
 
 ---
 
@@ -194,7 +215,7 @@ The npm package bundles the same CLI and skills, with the `newsjack` command ins
 
 Curl-installed Newsjack auto-updates from the latest GitHub Release before each run. Set `NEWSJACK_AUTO_UPDATE=0` to disable.
 
-You can also install the CLI byitself using npm:
+You can also install the CLI by itself using npm:
 
 ```bash
 npm i -g newsjack@latest
@@ -202,4 +223,7 @@ npm i -g newsjack@latest
 
 ---
 
-Author: Elvis Sun — [LinkedIn](https://www.linkedin.com/in/elvissun) · [X](https://x.com/elvissun)
+## Contributors
+
+- **Elvis Sun** — [X](https://x.com/elvissun) · [LinkedIn](https://www.linkedin.com/in/elvissun)
+- **Carly Martinetti** — [X](https://x.com/prcarly) · [LinkedIn](https://www.linkedin.com/in/prcarly)
