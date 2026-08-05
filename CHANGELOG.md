@@ -19,6 +19,12 @@ below these notes.
 
 ## Unreleased
 
+### Fixed
+
+- npm package verification now accepts both the array output used by npm 10 and
+  the package-keyed object output used by npm 12 for `npm pack --json`, keeping
+  release publication compatible with the workflow's latest npm CLI.
+
 ## v0.1.16 — 2026-08-05
 
 ### Fixed

@@ -63,8 +63,14 @@ function packDryRun(packageDir) {
     stdio: ["ignore", "pipe", "inherit"],
   });
   const result = JSON.parse(raw);
-  assert(Array.isArray(result) && result.length === 1, `unexpected npm pack output for ${packageDir}`);
-  return new Set(result[0].files.map((file) => file.path));
+  const packs = Array.isArray(result)
+    ? result
+    : result && typeof result === "object"
+      ? Object.values(result)
+      : [];
+  assert(packs.length === 1, `unexpected npm pack output for ${packageDir}`);
+  assert(Array.isArray(packs[0].files), `npm pack output has no files for ${packageDir}`);
+  return new Set(packs[0].files.map((file) => file.path));
 }
 
 function assertCommonMetadata(pkg, packageName, npmVersion) {
