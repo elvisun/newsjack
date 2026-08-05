@@ -41,11 +41,11 @@ jobs:
           set -euo pipefail
           core="${GITHUB_REF_NAME#v}"
           core="${core%%-*}"
-          plugin_ver="$(jq -r '.version' .claude-plugin/plugin.json)"
+          plugin_ver="$(jq -r '.version' plugins/newsjack/.claude-plugin/plugin.json)"
           mkt_ver="$(jq -r '.plugins[] | select(.name == "newsjack") | .version' .claude-plugin/marketplace.json)"
           echo "tag core: ${core}; plugin.json: ${plugin_ver}; marketplace.json: ${mkt_ver}"
           if [[ "${plugin_ver}" != "${core}" || "${mkt_ver}" != "${core}" ]]; then
-            echo "::error::Plugin version mismatch. Bump .claude-plugin/plugin.json and .claude-plugin/marketplace.json to ${core} to match tag ${GITHUB_REF_NAME}."
+            echo "::error::Plugin version mismatch. Bump plugins/newsjack/.claude-plugin/plugin.json and .claude-plugin/marketplace.json to ${core} to match tag ${GITHUB_REF_NAME}."
             exit 1
           fi
 

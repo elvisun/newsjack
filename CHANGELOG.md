@@ -19,6 +19,14 @@ below these notes.
 
 ## Unreleased
 
+### Fixed
+
+- **Claude.ai marketplace sync no longer treats the source-checkout CLI shim as
+  a hosted plugin executable.** The marketplace now packages the dedicated
+  `plugins/newsjack/` directory instead of the repository root, while keeping
+  the canonical skills and Medialyst connector configuration shared with local
+  installs.
+
 ### Added
 
 - **`build-ai-visibility-panel` turns any public URL and description into an
