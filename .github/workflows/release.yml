@@ -35,6 +35,9 @@ jobs:
           test "${GITHUB_REF_TYPE}" = "tag"
           [[ "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]
 
+      - name: Validate Claude hosted plugin package
+        run: node scripts/validate-claude-hosted-plugin.mjs
+
       - name: Verify plugin version matches tag
         shell: bash
         run: |
