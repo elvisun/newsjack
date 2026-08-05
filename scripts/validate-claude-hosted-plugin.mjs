@@ -57,6 +57,11 @@ try {
 
 const manifestPath = join(pluginRoot, ".claude-plugin", "plugin.json");
 const manifest = readJSON(manifestPath, "newsjack plugin manifest");
+if (Object.hasOwn(manifest, "$schema")) {
+  fail(
+    'manifest contains "$schema"; claude.ai strips this unrecognized top-level key',
+  );
+}
 if (manifest.name !== newsjack.name) {
   fail(
     `manifest name ${JSON.stringify(manifest.name)} does not match marketplace name ${JSON.stringify(newsjack.name)}`,

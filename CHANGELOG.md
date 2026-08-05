@@ -28,7 +28,8 @@ below these notes.
   `plugins/newsjack/` directory instead of the repository root, while keeping
   the canonical skills and Medialyst connector configuration shared with local
   installs. CI and the release workflow now reject any regression that would
-  expose a top-level `bin/` through the hosted plugin package.
+  expose a top-level `bin/` through the hosted plugin package or reintroduce
+  unsupported manifest metadata that Claude.ai would strip with a warning.
 
 ### Added
 
