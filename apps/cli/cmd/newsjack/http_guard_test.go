@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -62,6 +63,25 @@ func TestExternalClientRefusesLoopback(t *testing.T) {
 			t.Fatalf("unexpected body %q", body)
 		}
 	})
+}
+
+func TestExternalClientIgnoresEnvironmentProxy(t *testing.T) {
+	// A proxy in the environment must not be used to reach a blocked destination.
+	var proxied int32
+	proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		atomic.AddInt32(&proxied, 1)
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer proxy.Close()
+	withTempEnv(t, map[string]string{"NEWSJACK_ALLOW_PRIVATE_URLS": "", "HTTP_PROXY": proxy.URL, "http_proxy": proxy.URL, "HTTPS_PROXY": proxy.URL, "https_proxy": proxy.URL, "NO_PROXY": "", "no_proxy": ""}, func() {
+		_, err := httpGetRawExternal("http://10.0.0.1/feed.xml", nil, 5*time.Second)
+		if err == nil || !strings.Contains(err.Error(), "non-public address") {
+			t.Fatalf("expected the guard to refuse 10.0.0.1 directly, got %v", err)
+		}
+	})
+	if n := atomic.LoadInt32(&proxied); n != 0 {
+		t.Fatalf("guarded client used the environment proxy (%d requests)", n)
+	}
 }
 
 func TestCollectFeedRefusesPrivateURL(t *testing.T) {

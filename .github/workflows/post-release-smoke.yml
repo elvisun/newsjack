@@ -129,7 +129,7 @@ jobs:
           if ($expected -ne $actual) { throw "checksum mismatch: $expected vs $actual" }
 
           $env:NEWSJACK_HOME = Join-Path $scratch '.newsjack'
-          $env:NEWSJACK_REPO = '${{ github.repository }}'
+          $env:NEWSJACK_REPO = $env:GH_REPOSITORY
           if ($version) { $env:NEWSJACK_RELEASE_BASE = $base }
           $env:NEWSJACK_RUNTIMES = 'claude'
           $env:NEWSJACK_NO_AUTO_UPDATE = '1'

@@ -71,7 +71,9 @@ func externalHTTPClient(timeout time.Duration) *http.Client {
 	}
 	dialer := &net.Dialer{Timeout: 10 * time.Second}
 	transport := &http.Transport{
-		Proxy:               http.ProxyFromEnvironment,
+		// No environment proxy: HTTP(S)_PROXY would let the proxy fetch a private URL on
+		// our behalf and bypass the destination check below.
+		Proxy:               nil,
 		TLSHandshakeTimeout: 10 * time.Second,
 		ForceAttemptHTTP2:   true,
 		DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
