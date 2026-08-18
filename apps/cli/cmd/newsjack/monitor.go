@@ -1212,10 +1212,6 @@ func runMonitor(slug string, mock, test bool, limit int) (map[string]any, error)
 	if err := os.WriteFile(paths["detector_summary"], marshalJSON(summary), 0o644); err != nil {
 		return nil, err
 	}
-	summary = summarizeRunAt(payload, paths["candidates"], 25, summaryGeneratedAt)
-	if err := os.WriteFile(paths["detector_summary"], marshalJSON(summary), 0o644); err != nil {
-		return nil, err
-	}
 	return map[string]any{
 		"slug":          slug,
 		"mock":          mock,

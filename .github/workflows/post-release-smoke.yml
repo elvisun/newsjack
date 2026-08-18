@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Install Newsjack from GitHub Release
         shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          GH_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           export HOME=/tmp/newsjack-release-smoke
@@ -23,14 +26,14 @@ jobs:
           export NEWSJACK_NO_AUTO_UPDATE=1
           rm -rf "$HOME"
 
-          if [ -n "${{ inputs.version }}" ]; then
-            base="https://github.com/${{ github.repository }}/releases/download/${{ inputs.version }}"
+          if [ -n "$INPUT_VERSION" ]; then
+            base="https://github.com/$GH_REPOSITORY/releases/download/$INPUT_VERSION"
           else
-            base="https://github.com/${{ github.repository }}/releases/latest/download"
+            base="https://github.com/$GH_REPOSITORY/releases/latest/download"
           fi
 
           curl -fsSL "$base/install.sh" | \
-            NEWSJACK_REPO="${{ github.repository }}" \
+            NEWSJACK_REPO="$GH_REPOSITORY" \
             NEWSJACK_RELEASE_BASE="$base" \
             NEWSJACK_RUNTIMES=codex \
             bash
@@ -46,9 +49,11 @@ jobs:
     steps:
       - name: Install from newsjack.sh in Docker
         shell: bash
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euo pipefail
-          version="${{ inputs.version }}"
+          version="$INPUT_VERSION"
           env_args=()
           if [ -n "$version" ]; then
             env_args+=(-e "NEWSJACK_VERSION=$version")
@@ -94,13 +99,16 @@ jobs:
     steps:
       - name: Bootstrap from GitHub Release and smoke the CLI
         shell: pwsh
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          GH_REPOSITORY: ${{ github.repository }}
         run: |
           $ErrorActionPreference = 'Stop'
-          $version = '${{ inputs.version }}'
+          $version = $env:INPUT_VERSION
           $base = if ($version) {
-            "https://github.com/${{ github.repository }}/releases/download/$version"
+            "https://github.com/$env:GH_REPOSITORY/releases/download/$version"
           } else {
-            "https://github.com/${{ github.repository }}/releases/latest/download"
+            "https://github.com/$env:GH_REPOSITORY/releases/latest/download"
           }
 
           $scratch = Join-Path $env:RUNNER_TEMP 'newsjack-release-smoke'
