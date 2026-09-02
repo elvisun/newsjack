@@ -1,0 +1,4 @@
+Company: Figma
+Current time: 2026-06-09T16:00:00Z
+
+Figma is launching Figma Make, a tool that turns a design into working front-end code, plus an AI design assistant. Facts: Make exports React and HTML/CSS from a Figma file; the AI assistant generates layouts from a text prompt; pricing adds a new 'Make' seat at $25/user/month on top of existing plans; Figma says it has over 4 million users and is used at most Fortune 500 companies; the launch follows the collapse of its acquisition by Adobe; no IPO timing disclosed.

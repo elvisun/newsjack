@@ -20,9 +20,9 @@ DIM_LABEL = {
     "journalist_shape": "SHAPE", "grounding": "GROUNDING",
     "anti_slop": "ANTI-SLOP", "proof_rigor": "PROOF", "usefulness": "USEFUL",
 }
-SHORT = {"o5": "O5", "opus": "OP", "fable": "FB", "s5": "S5", "s46": "S46"}
+SHORT = {"f51": "F5.1", "o5": "O5", "opus": "OP", "fable": "FB", "s5": "S5", "s46": "S46"}
 # warm-grey shades for overall ranks 2,3,4 (dark -> light); rank 1 is accent
-GREY = ["#9E988C", "#C0BAAE", "#DED9CF"]
+GREY = ["#8E887C", "#A8A296", "#C0BAAE", "#D2CDC2", "#E2DDD3"]
 ACCENT = "#E05A47"
 
 
@@ -38,12 +38,14 @@ def grouped_bars(summary):
     # geometry
     ML, MR = 96, 40
     W = 1650
-    yBase, yTop = 520.0, 140.0            # value 0 .. value 5
+    yBase, yTop = 520.0, 170.0            # value 0 .. value 5 (headroom for labels)
     scale = (yBase - yTop) / 5.0
     plotW = W - ML - MR
     pitch = plotW / len(dims)
     ig = 8
-    clusterW = min(0.74 * pitch, n_models * 34 + (n_models - 1) * ig)
+    clusterW = min(0.80 * pitch, n_models * 34 + (n_models - 1) * ig)
+    levels = 3 if n_models >= 5 else 2   # label stagger levels; 3 keeps six labels apart
+    val_font = ' style="font-size:10px"' if n_models >= 5 else ""
     bw = (clusterW - (n_models - 1) * ig) / n_models
 
     def fill_for(rank):
@@ -62,7 +64,7 @@ def grouped_bars(summary):
 
     for gi, d in enumerate(dims):
         gLeft = ML + gi * pitch + (pitch - clusterW) / 2.0
-        svg.append(f'<text class="t-cat" x="{gLeft + clusterW/2:.1f}" y="108" '
+        svg.append(f'<text class="t-cat" x="{gLeft + clusterW/2:.1f}" y="96" '
                    f'text-anchor="middle">{DIM_LABEL.get(d, d.upper())}</text>')
         for rank, m in enumerate(models):
             v = m["dim_means"][d]
@@ -75,8 +77,8 @@ def grouped_bars(summary):
                        f'width="{bw:.1f}" height="{h:.1f}" />')
             # stagger adjacent value labels vertically so they never collide
             # even when two bars are near-equal height (odd ranks sit higher)
-            lab_y = y - (9 if rank % 2 == 0 else 25)
-            svg.append(f'<text class="t-val" x="{x+bw/2:.1f}" y="{lab_y:.1f}" '
+            lab_y = y - (9 + 14 * (rank % levels))
+            svg.append(f'<text class="t-val"{val_font} x="{x+bw/2:.1f}" y="{lab_y:.1f}" '
                        f'text-anchor="middle">{v:.2f}</text>')
             svg.append(f'<text class="t-series" x="{x+bw/2:.1f}" y="538" '
                        f'text-anchor="middle">{SHORT.get(m["slug"], m["slug"])}</text>')
@@ -218,7 +220,8 @@ def main(summary_path, out_path=None):
 
     models = summary["models"]
     n_models = len(models)
-    model_word = {3: "Three", 4: "Four"}.get(n_models, str(n_models))
+    hm_h = 40 + n_models * 60 + 10          # rows of 54px + 6px gap, plus header
+    model_word = {3: "Three", 4: "Four", 5: "Five", 6: "Six"}.get(n_models, str(n_models))
     order = " › ".join(m["label"] for m in models)
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -255,13 +258,13 @@ def main(summary_path, out_path=None):
       <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">WIN MATRIX</span></div>
       <h3>Who beats whom</h3>
       <p class="cap">Each cell is the row model’s share of decisive judgments against the column model (both orderings, 50 brands per pair). Darker = stronger. The diagonal is blank.</p>
-      <div class="plot"><svg id="winmatrix" class="chart" viewBox="0 0 980 300" role="img" aria-label="Win-rate matrix"></svg></div>
+      <div class="plot"><svg id="winmatrix" class="chart" viewBox="0 0 980 {hm_h}" role="img" aria-label="Win-rate matrix"></svg></div>
     </div>
     <div class="fig">
       <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">HEATMAP</span></div>
       <h3>Mean score, model × dimension</h3>
       <p class="cap">The full evaluation surface. Cell density encodes the 1–5 mean (darker = stronger).</p>
-      <div class="plot"><svg id="dimheat" class="chart" viewBox="0 0 980 340" role="img" aria-label="Model by dimension heatmap"></svg></div>
+      <div class="plot"><svg id="dimheat" class="chart" viewBox="0 0 980 {hm_h}" role="img" aria-label="Model by dimension heatmap"></svg></div>
     </div>
   </section>
 

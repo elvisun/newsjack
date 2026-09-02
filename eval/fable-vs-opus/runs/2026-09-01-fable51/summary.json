@@ -1,0 +1,397 @@
+{
+  "run": "2026-09-01-fable51",
+  "judge_model": "gpt-5.5",
+  "n_judgments": 1500,
+  "dims": [
+    "news_value",
+    "distinctness",
+    "journalist_shape",
+    "grounding",
+    "anti_slop",
+    "proof_rigor",
+    "usefulness"
+  ],
+  "models": [
+    {
+      "slug": "f51",
+      "label": "Fable 5.1",
+      "dim_means": {
+        "news_value": 4.462,
+        "distinctness": 4.82,
+        "journalist_shape": 4.906,
+        "grounding": 4.17,
+        "anti_slop": 4.908,
+        "proof_rigor": 4.928,
+        "usefulness": 4.812
+      },
+      "overall": 4.7151,
+      "verdicts": {
+        "workshopable": 49,
+        "publishable": 451
+      }
+    },
+    {
+      "slug": "o5",
+      "label": "Opus 5",
+      "dim_means": {
+        "news_value": 4.31,
+        "distinctness": 4.71,
+        "journalist_shape": 4.902,
+        "grounding": 3.502,
+        "anti_slop": 4.614,
+        "proof_rigor": 4.948,
+        "usefulness": 4.684
+      },
+      "overall": 4.5243,
+      "verdicts": {
+        "workshopable": 188,
+        "publishable": 312
+      }
+    },
+    {
+      "slug": "fable",
+      "label": "Fable 5",
+      "dim_means": {
+        "news_value": 4.314,
+        "distinctness": 4.642,
+        "journalist_shape": 4.762,
+        "grounding": 3.876,
+        "anti_slop": 4.708,
+        "proof_rigor": 4.686,
+        "usefulness": 4.58
+      },
+      "overall": 4.5097,
+      "verdicts": {
+        "publishable": 372,
+        "workshopable": 128
+      }
+    },
+    {
+      "slug": "opus",
+      "label": "Opus 4.8",
+      "dim_means": {
+        "news_value": 4.078,
+        "distinctness": 4.358,
+        "journalist_shape": 4.558,
+        "grounding": 3.744,
+        "anti_slop": 4.53,
+        "proof_rigor": 4.72,
+        "usefulness": 4.436
+      },
+      "overall": 4.3463,
+      "verdicts": {
+        "workshopable": 201,
+        "publishable": 299
+      }
+    },
+    {
+      "slug": "s5",
+      "label": "Sonnet 5",
+      "dim_means": {
+        "news_value": 3.922,
+        "distinctness": 4.078,
+        "journalist_shape": 4.318,
+        "grounding": 3.262,
+        "anti_slop": 4.146,
+        "proof_rigor": 4.314,
+        "usefulness": 4.084
+      },
+      "overall": 4.0177,
+      "verdicts": {
+        "workshopable": 339,
+        "publishable": 161
+      }
+    },
+    {
+      "slug": "s46",
+      "label": "Sonnet 4.6",
+      "dim_means": {
+        "news_value": 3.888,
+        "distinctness": 4.124,
+        "journalist_shape": 4.338,
+        "grounding": 2.91,
+        "anti_slop": 3.9,
+        "proof_rigor": 4.406,
+        "usefulness": 4.06
+      },
+      "overall": 3.9466,
+      "verdicts": {
+        "workshopable": 395,
+        "publishable": 105
+      }
+    }
+  ],
+  "win_matrix": [
+    {
+      "row": "f51",
+      "col": "o5",
+      "row_wins": 65,
+      "col_wins": 34,
+      "ties": 1,
+      "n": 100,
+      "row_winrate_decisive": 0.6566
+    },
+    {
+      "row": "f51",
+      "col": "fable",
+      "row_wins": 87,
+      "col_wins": 13,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.87
+    },
+    {
+      "row": "f51",
+      "col": "opus",
+      "row_wins": 90,
+      "col_wins": 10,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.9
+    },
+    {
+      "row": "f51",
+      "col": "s5",
+      "row_wins": 98,
+      "col_wins": 2,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.98
+    },
+    {
+      "row": "f51",
+      "col": "s46",
+      "row_wins": 94,
+      "col_wins": 6,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.94
+    },
+    {
+      "row": "o5",
+      "col": "f51",
+      "row_wins": 34,
+      "col_wins": 65,
+      "ties": 1,
+      "n": 100,
+      "row_winrate_decisive": 0.3434
+    },
+    {
+      "row": "o5",
+      "col": "fable",
+      "row_wins": 56,
+      "col_wins": 44,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.56
+    },
+    {
+      "row": "o5",
+      "col": "opus",
+      "row_wins": 66,
+      "col_wins": 34,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.66
+    },
+    {
+      "row": "o5",
+      "col": "s5",
+      "row_wins": 86,
+      "col_wins": 14,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.86
+    },
+    {
+      "row": "o5",
+      "col": "s46",
+      "row_wins": 89,
+      "col_wins": 11,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.89
+    },
+    {
+      "row": "fable",
+      "col": "f51",
+      "row_wins": 13,
+      "col_wins": 87,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.13
+    },
+    {
+      "row": "fable",
+      "col": "o5",
+      "row_wins": 44,
+      "col_wins": 56,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.44
+    },
+    {
+      "row": "fable",
+      "col": "opus",
+      "row_wins": 67,
+      "col_wins": 33,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.67
+    },
+    {
+      "row": "fable",
+      "col": "s5",
+      "row_wins": 80,
+      "col_wins": 20,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.8
+    },
+    {
+      "row": "fable",
+      "col": "s46",
+      "row_wins": 89,
+      "col_wins": 11,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.89
+    },
+    {
+      "row": "opus",
+      "col": "f51",
+      "row_wins": 10,
+      "col_wins": 90,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.1
+    },
+    {
+      "row": "opus",
+      "col": "o5",
+      "row_wins": 34,
+      "col_wins": 66,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.34
+    },
+    {
+      "row": "opus",
+      "col": "fable",
+      "row_wins": 33,
+      "col_wins": 67,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.33
+    },
+    {
+      "row": "opus",
+      "col": "s5",
+      "row_wins": 74,
+      "col_wins": 26,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.74
+    },
+    {
+      "row": "opus",
+      "col": "s46",
+      "row_wins": 78,
+      "col_wins": 22,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.78
+    },
+    {
+      "row": "s5",
+      "col": "f51",
+      "row_wins": 2,
+      "col_wins": 98,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.02
+    },
+    {
+      "row": "s5",
+      "col": "o5",
+      "row_wins": 14,
+      "col_wins": 86,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.14
+    },
+    {
+      "row": "s5",
+      "col": "fable",
+      "row_wins": 20,
+      "col_wins": 80,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.2
+    },
+    {
+      "row": "s5",
+      "col": "opus",
+      "row_wins": 26,
+      "col_wins": 74,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.26
+    },
+    {
+      "row": "s5",
+      "col": "s46",
+      "row_wins": 58,
+      "col_wins": 42,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.58
+    },
+    {
+      "row": "s46",
+      "col": "f51",
+      "row_wins": 6,
+      "col_wins": 94,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.06
+    },
+    {
+      "row": "s46",
+      "col": "o5",
+      "row_wins": 11,
+      "col_wins": 89,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.11
+    },
+    {
+      "row": "s46",
+      "col": "fable",
+      "row_wins": 11,
+      "col_wins": 89,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.11
+    },
+    {
+      "row": "s46",
+      "col": "opus",
+      "row_wins": 22,
+      "col_wins": 78,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.22
+    },
+    {
+      "row": "s46",
+      "col": "s5",
+      "row_wins": 42,
+      "col_wins": 58,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.42
+    }
+  ],
+  "position_bias_slotA": 0.6604
+}

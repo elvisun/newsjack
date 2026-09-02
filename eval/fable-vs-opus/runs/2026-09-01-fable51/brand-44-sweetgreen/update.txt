@@ -1,0 +1,4 @@
+Company: Sweetgreen
+Current time: 2026-06-09T16:00:00Z
+
+Sweetgreen is expanding its Infinite Kitchen automated-assembly system to more locations and shared margin data. Facts: the Infinite Kitchen assembles bowls and salads on a conveyor with minimal staff; the company says automated locations run higher restaurant-level margins and faster throughput than traditional stores; Sweetgreen is publicly traded and not yet net-profitable; it plans to put the system in most new stores and retrofit some existing ones; total locations number in the low hundreds; exact margin figures given as a range, not precise; some worry about reduced staff hours.

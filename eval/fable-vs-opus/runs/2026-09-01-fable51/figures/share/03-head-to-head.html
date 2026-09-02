@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1600, initial-scale=1.0" />
+<title>Fable 5.1 against the field.</title>
+<link rel="stylesheet" href="../../../../../design-system/assets/colors_and_type.css" />
+<link rel="stylesheet" href="../../../../../design-system/charts.css" />
+
+<style>
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { background: var(--nj-page); }
+  .share-frame { width: 1600px; height: 900px; padding: 42px 54px; }
+  .fig.share { width: 100%; height: 100%; padding: 42px 48px 30px; display: grid;
+    grid-template-rows: auto 1fr auto; gap: 22px; }
+  .share-head { display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--nj-border); }
+  .share-kicker { font-family: var(--nj-mono); font-size: 12px; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--nj-accent); margin-bottom: 9px; }
+  .share-head h3 { font-size: 48px; line-height: 0.98; margin: 0; max-width: 1040px; }
+  .share-dek { max-width: 960px; margin-top: 12px; font-family: var(--nj-sans);
+    font-size: 17px; line-height: 1.45; color: var(--nj-fg-3); }
+  .share-meta { min-width: 290px; padding-top: 4px; text-align: right; font-family: var(--nj-mono);
+    font-size: 11px; line-height: 1.8; letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-meta b { color: var(--nj-fg-1); font-weight: 500; }
+  .share-body { min-height: 0; }
+  .share-foot { border-top: 1px solid var(--nj-ink); padding-top: 16px; display: flex; align-items: center;
+    justify-content: space-between; gap: 24px; font-family: var(--nj-mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-foot b { color: var(--nj-fg-1); font-weight: 500; }
+  .accent { color: var(--nj-accent); }
+  .quiet { color: var(--nj-fg-4); }
+  .micro-label { font-family: var(--nj-mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--nj-fg-4); }
+  .callout-strip { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--nj-border); }
+  .callout { padding: 17px 22px; border-right: 1px solid var(--nj-border); }
+  .callout:last-child { border-right: 0; }
+  .callout strong { display: block; margin-top: 4px; font-family: var(--nj-serif); font-size: 27px;
+    line-height: 1.05; font-style: italic; font-weight: 400; color: var(--nj-fg-1); }
+  .callout p { margin-top: 5px; font-size: 12.5px; line-height: 1.35; color: var(--nj-fg-3); }
+  .chart text { font-family: var(--nj-mono); }
+</style>
+
+</head>
+<body data-accent="winner" data-grid="on" data-barstyle="solid">
+  <main class="share-frame">
+    <section class="fig share">
+      <header class="share-head">
+        <div>
+          <div class="share-kicker">NEWSJACK.SH · THE EVAL DESK · 03 / 04</div>
+          <h3>Fable 5.1 against the field.</h3>
+          <p class="share-dek">Raw judgments count both orderings. Robust wins require the same model to win in both slots.</p>
+        </div>
+        <div class="share-meta">
+          <b>50 BRANDS · 6 MODELS</b><br />
+          1500 BLIND JUDGMENTS<br />
+          GPT-5.5 JUDGE
+        </div>
+      </header>
+      <div class="share-body">
+<div style="height:100%; display:grid; grid-template-rows:minmax(0,1fr) auto; gap:8px;">
+  <div><svg class="chart" style="height:415px" viewBox="0 0 1420 500" role="img" aria-label="Head-to-head judgment and robust-win results"><text class="t-axislabel" x="340" y="35">JUDGMENT WINS · BOTH ORDERINGS · FABLE 5.1 LEFT</text><text class="t-cat" x="0" y="87">VS OPUS 5</text><rect class="bar-primary" x="340" y="60" width="656.6" height="44" /><rect class="bar-base" style="fill:#8E887C" x="996.6" y="60" width="343.4" height="44" /><text class="t-val on-bar" x="668.3" y="87" text-anchor="middle">65</text><text class="t-val" x="1168.3" y="87" text-anchor="middle">34</text><text class="t-catsub" x="340" y="126">ROBUST · 19 FABLE 5.1 · 27 SPLIT · 4 OPUS 5</text><text class="t-cat" x="0" y="175">VS FABLE 5</text><rect class="bar-primary" x="340" y="148" width="870.0" height="44" /><rect class="bar-base" style="fill:#A8A296" x="1210.0" y="148" width="130.0" height="44" /><text class="t-val on-bar" x="775.0" y="175" text-anchor="middle">87</text><text class="t-val" x="1275.0" y="175" text-anchor="middle">13</text><text class="t-catsub" x="340" y="214">ROBUST · 38 FABLE 5.1 · 11 SPLIT · 1 FABLE 5</text><text class="t-cat" x="0" y="263">VS OPUS 4.8</text><rect class="bar-primary" x="340" y="236" width="900.0" height="44" /><rect class="bar-base" style="fill:#C0BAAE" x="1240.0" y="236" width="100.0" height="44" /><text class="t-val on-bar" x="790.0" y="263" text-anchor="middle">90</text><text class="t-val" x="1290.0" y="263" text-anchor="middle">10</text><text class="t-catsub" x="340" y="302">ROBUST · 40 FABLE 5.1 · 10 SPLIT · 0 OPUS 4.8</text><text class="t-cat" x="0" y="351">VS SONNET 5</text><rect class="bar-primary" x="340" y="324" width="980.0" height="44" /><rect class="bar-base" style="fill:#D2CDC2" x="1320.0" y="324" width="20.0" height="44" /><text class="t-val on-bar" x="830.0" y="351" text-anchor="middle">98</text><text class="t-val" x="1330.0" y="351" text-anchor="middle">2</text><text class="t-catsub" x="340" y="390">ROBUST · 48 FABLE 5.1 · 2 SPLIT · 0 SONNET 5</text><text class="t-cat" x="0" y="439">VS SONNET 4.6</text><rect class="bar-primary" x="340" y="412" width="940.0" height="44" /><rect class="bar-base" style="fill:#E2DDD3" x="1280.0" y="412" width="60.0" height="44" /><text class="t-val on-bar" x="810.0" y="439" text-anchor="middle">94</text><text class="t-val" x="1310.0" y="439" text-anchor="middle">6</text><text class="t-catsub" x="340" y="478">ROBUST · 44 FABLE 5.1 · 6 SPLIT · 0 SONNET 4.6</text></svg></div>
+  <div class="callout-strip">
+    <div class="callout">
+      <span class="micro-label">FABLE 5.1 VS FABLE 5</span>
+      <strong><span class="accent">38–1 robust</span></strong>
+      <p>Exploratory two-sided exact sign test p<0.001.</p>
+    </div>
+    <div class="callout">
+      <span class="micro-label">FABLE 5.1 VS OPUS 5</span>
+      <strong><span class="accent">19–4 robust</span></strong>
+      <p>Exploratory two-sided exact sign test p=0.003.</p>
+    </div>
+    <div class="callout">
+      <span class="micro-label">POSITION BIAS</span>
+      <strong>Slot A won 66.0%</strong>
+      <p>Both orderings cancel identity bias; robust wins are the cleaner read.</p>
+    </div>
+  </div>
+</div>
+</div>
+      <footer class="share-foot">
+        <span>FABLE 5.1 VIA <b>CLAUDE CODE CLI</b> · FIVE PRIOR MODELS REUSED FROZEN</span>
+        <span>2026-09-01 · <b>NEWSJACK.SH</b></span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
