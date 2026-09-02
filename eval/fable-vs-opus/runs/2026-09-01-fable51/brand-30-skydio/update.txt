@@ -1,0 +1,4 @@
+Company: Skydio
+Current time: 2026-06-09T16:00:00Z
+
+Skydio is launching an autonomous inspection drone that flies utility and infrastructure routes with no pilot. Facts: the drone docks, charges, and runs scheduled inspection flights of power lines and substations, sending defect reports automatically; Skydio exited the consumer-drone market two years ago to focus on enterprise and public-sector customers; the company says it has contracts with several US utilities; Skydio is privately held and US-made, positioning against Chinese drone makers facing import restrictions; no named utility customer is disclosed in the release.

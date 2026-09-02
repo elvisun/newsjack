@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1600, initial-scale=1.0" />
+<title>Sharper than Fable 5. Better grounded than Opus 5.</title>
+<link rel="stylesheet" href="../../../../../design-system/assets/colors_and_type.css" />
+<link rel="stylesheet" href="../../../../../design-system/charts.css" />
+
+<style>
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { background: var(--nj-page); }
+  .share-frame { width: 1600px; height: 900px; padding: 42px 54px; }
+  .fig.share { width: 100%; height: 100%; padding: 42px 48px 30px; display: grid;
+    grid-template-rows: auto 1fr auto; gap: 22px; }
+  .share-head { display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--nj-border); }
+  .share-kicker { font-family: var(--nj-mono); font-size: 12px; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--nj-accent); margin-bottom: 9px; }
+  .share-head h3 { font-size: 48px; line-height: 0.98; margin: 0; max-width: 1040px; }
+  .share-dek { max-width: 960px; margin-top: 12px; font-family: var(--nj-sans);
+    font-size: 17px; line-height: 1.45; color: var(--nj-fg-3); }
+  .share-meta { min-width: 290px; padding-top: 4px; text-align: right; font-family: var(--nj-mono);
+    font-size: 11px; line-height: 1.8; letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-meta b { color: var(--nj-fg-1); font-weight: 500; }
+  .share-body { min-height: 0; }
+  .share-foot { border-top: 1px solid var(--nj-ink); padding-top: 16px; display: flex; align-items: center;
+    justify-content: space-between; gap: 24px; font-family: var(--nj-mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-foot b { color: var(--nj-fg-1); font-weight: 500; }
+  .accent { color: var(--nj-accent); }
+  .quiet { color: var(--nj-fg-4); }
+  .micro-label { font-family: var(--nj-mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--nj-fg-4); }
+  .callout-strip { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--nj-border); }
+  .callout { padding: 17px 22px; border-right: 1px solid var(--nj-border); }
+  .callout:last-child { border-right: 0; }
+  .callout strong { display: block; margin-top: 4px; font-family: var(--nj-serif); font-size: 27px;
+    line-height: 1.05; font-style: italic; font-weight: 400; color: var(--nj-fg-1); }
+  .callout p { margin-top: 5px; font-size: 12.5px; line-height: 1.35; color: var(--nj-fg-3); }
+  .chart text { font-family: var(--nj-mono); }
+</style>
+
+</head>
+<body data-accent="winner" data-grid="on" data-barstyle="solid">
+  <main class="share-frame">
+    <section class="fig share">
+      <header class="share-head">
+        <div>
+          <div class="share-kicker">NEWSJACK.SH · THE EVAL DESK · 04 / 04</div>
+          <h3>Sharper than Fable 5. Better grounded than Opus 5.</h3>
+          <p class="share-dek">Direct pairwise score deltas: what changed between generations, and against the previous leader.</p>
+        </div>
+        <div class="share-meta">
+          <b>50 BRANDS · 6 MODELS</b><br />
+          1500 BLIND JUDGMENTS<br />
+          GPT-5.5 JUDGE
+        </div>
+      </header>
+      <div class="share-body">
+<div style="height:100%; display:grid; grid-template-columns:1fr 1fr .62fr; gap:36px; align-items:center;">
+  <div><div class="micro-label" style="margin-bottom:6px;">DIRECT PAIR · FABLE 5.1 − FABLE 5 · MEAN Δ +0.48</div><svg class="chart" viewBox="0 0 640 460" role="img" aria-label="Fable 5.1 minus Fable 5"><line class="axis" x1="330" y1="34" x2="330" y2="416" /><text class="t-axislabel" x="318" y="18" text-anchor="end">FABLE 5 EDGE</text><text class="t-axislabel" x="342" y="18">FABLE 5.1 EDGE</text><text class="t-cat" x="0" y="82">NEWS VALUE</text><rect class="bar-primary" x="330.0" y="64" width="96.2" height="26" /><text class="t-val" x="436.2" y="83" text-anchor="start">+0.37</text><text class="t-cat" x="0" y="134">DISTINCT</text><rect class="bar-primary" x="330.0" y="116" width="106.6" height="26" /><text class="t-val" x="446.6" y="135" text-anchor="start">+0.41</text><text class="t-cat" x="0" y="186">SHAPE</text><rect class="bar-primary" x="330.0" y="168" width="96.2" height="26" /><text class="t-val" x="436.2" y="187" text-anchor="start">+0.37</text><text class="t-cat" x="0" y="238">GROUNDING</text><rect class="bar-primary" x="330.0" y="220" width="137.8" height="26" /><text class="t-val" x="477.8" y="239" text-anchor="start">+0.53</text><text class="t-cat" x="0" y="290">ANTI-SLOP</text><rect class="bar-primary" x="330.0" y="272" width="119.6" height="26" /><text class="t-val" x="459.6" y="291" text-anchor="start">+0.46</text><text class="t-cat" x="0" y="342">PROOF</text><rect class="bar-primary" x="330.0" y="324" width="148.2" height="26" /><text class="t-val" x="488.2" y="343" text-anchor="start">+0.57</text><text class="t-cat" x="0" y="394">USEFUL</text><rect class="bar-primary" x="330.0" y="376" width="169.0" height="26" /><text class="t-val" x="509.0" y="395" text-anchor="start">+0.65</text></svg></div>
+  <div><div class="micro-label" style="margin-bottom:6px;">DIRECT PAIR · FABLE 5.1 − OPUS 5 · MEAN Δ +0.21</div><svg class="chart" viewBox="0 0 640 460" role="img" aria-label="Fable 5.1 minus Opus 5"><line class="axis" x1="330" y1="34" x2="330" y2="416" /><text class="t-axislabel" x="318" y="18" text-anchor="end">OPUS 5 EDGE</text><text class="t-axislabel" x="342" y="18">FABLE 5.1 EDGE</text><text class="t-cat" x="0" y="82">NEWS VALUE</text><rect class="bar-primary" x="330.0" y="64" width="31.2" height="26" /><text class="t-val" x="371.2" y="83" text-anchor="start">+0.12</text><text class="t-cat" x="0" y="134">DISTINCT</text><rect class="bar-primary" x="330.0" y="116" width="31.2" height="26" /><text class="t-val" x="371.2" y="135" text-anchor="start">+0.12</text><text class="t-cat" x="0" y="186">SHAPE</text><rect class="bar-base" style="fill:#8E887C" x="327.4" y="168" width="2.6" height="26" /><text class="t-val" x="317.4" y="187" text-anchor="end">-0.01</text><text class="t-cat" x="0" y="238">GROUNDING</text><rect class="bar-primary" x="330.0" y="220" width="205.4" height="26" /><text class="t-val" x="545.4" y="239" text-anchor="start">+0.79</text><text class="t-cat" x="0" y="290">ANTI-SLOP</text><rect class="bar-primary" x="330.0" y="272" width="109.2" height="26" /><text class="t-val" x="449.2" y="291" text-anchor="start">+0.42</text><text class="t-cat" x="0" y="342">PROOF</text><rect class="bar-base" style="fill:#8E887C" x="298.8" y="324" width="31.2" height="26" /><text class="t-val" x="288.8" y="343" text-anchor="end">-0.12</text><text class="t-cat" x="0" y="394">USEFUL</text><rect class="bar-primary" x="330.0" y="376" width="39.0" height="26" /><text class="t-val" x="379.0" y="395" text-anchor="start">+0.15</text></svg></div>
+  <aside style="border-left:1px solid var(--nj-border); padding-left:32px;">
+    <div class="micro-label">READ</div>
+    <p style="font-family:var(--nj-serif); font-style:italic; font-size:30px; line-height:1.08; margin:12px 0 20px;">Up on every dimension over Fable 5.<br />Far better grounded than Opus 5.<br /><span class="quiet">Proof rigor: Opus 5 still edges it.</span></p>
+    <div style="background:#F3F1EC; padding:16px 18px;">
+      <div class="micro-label">MEANEST-EDITOR ‘PUBLISHABLE’ · ALL PAIRS</div>
+      <div style="margin-top:6px;"><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-accent);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Fable 5.1</span><span style="font-family:var(--nj-mono); font-size:15px;">451/500</span></div><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-fg-3);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Fable 5</span><span style="font-family:var(--nj-mono); font-size:15px;">372/500</span></div><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-fg-3);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Opus 5</span><span style="font-family:var(--nj-mono); font-size:15px;">312/500</span></div><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-fg-3);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Opus 4.8</span><span style="font-family:var(--nj-mono); font-size:15px;">299/500</span></div><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-fg-3);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Sonnet 5</span><span style="font-family:var(--nj-mono); font-size:15px;">161/500</span></div><div style="display:flex; align-items:baseline; justify-content:space-between; margin-top:3px; color:var(--nj-fg-3);"><span style="font-family:var(--nj-serif); font-style:italic; font-size:19px;">Sonnet 4.6</span><span style="font-family:var(--nj-mono); font-size:15px;">105/500</span></div></div>
+    </div>
+  </aside>
+</div>
+</div>
+      <footer class="share-foot">
+        <span>FABLE 5.1 VIA <b>CLAUDE CODE CLI</b> · FIVE PRIOR MODELS REUSED FROZEN</span>
+        <span>2026-09-01 · <b>NEWSJACK.SH</b></span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

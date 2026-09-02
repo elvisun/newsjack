@@ -155,6 +155,23 @@ decisive, however: 26/50 brands split by position, Fable leads grounding by
 0.47, and Fable earns more `publishable` ratings (145/200 vs 117/200). Full writeup:
 [`runs/2026-07-24-opus5/verdict.md`](runs/2026-07-24-opus5/verdict.md).
 
+### `runs/2026-09-01-fable51/` — Fable 5.1 added (6-model round-robin)
+
+Fable 5.1 launched 2026-09-01. Only Fable 5.1 was generated (`claude -p`,
+exact id `claude-fable-5-1`, frozen ETHICS.md via `ETHICS_FILE`); Opus 5,
+Fable 5, Opus 4.8, Sonnet 5 and Sonnet 4.6 angle sets and their 800 existing
+judgments were reused byte-for-byte. 700 fresh judgments complete the
+C(6,2)=15-pair round-robin (**1500 total**). Driver: `scripts/run-fable51.sh`;
+share cards: `make_fable51_share_graphics.py`.
+
+**Result: Fable 5.1 › Opus 5 › Fable 5 › Opus 4.8 › Sonnet 5 › Sonnet 4.6**
+(overall 4.72 / 4.52 / 4.51 / 4.35 / 4.02 / 3.95). Fable 5.1 leads six of
+seven dimensions (Opus 5 keeps `proof_rigor` by 0.02), beats Opus 5 **19–4**
+robust (p=0.003) and Fable 5 **38–1**, never loses a robust brand to the other
+three, and earns **451/500 `publishable`**. Its grounding mean (4.17) is the
+best in the study by 0.29. Full writeup:
+[`runs/2026-09-01-fable51/verdict.md`](runs/2026-09-01-fable51/verdict.md).
+
 ## Discipline
 
 This study **measures the models; it does not tune the skill to move a number.**
