@@ -1,7 +1,7 @@
 ---
 name: newsjack-monitor-setup
-description: "Set up a newsjack monitoring profile for a company so newsjack-detector can run on a schedule. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, and optional X trend monitoring."
-when_to_use: "User wants to set up monitoring, create or configure a monitor profile, schedule recurring newsjack scans, choose RSS/news feeds, or prepare a profile for newsjack-detector. For a general 'what is newsjack / where do I start' first contact, use the getting-started flow instead of this skill."
+description: "Set up a newsjack monitoring profile for a company so newsjack-detector can run on a schedule. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, optional X trend monitoring, and optional Slack delivery."
+when_to_use: "User wants to set up monitoring, create or configure a monitor profile, schedule recurring newsjack scans, choose RSS/news feeds, configure Slack report delivery, or prepare a profile for newsjack-detector. For a general 'what is newsjack / where do I start' first contact, use the getting-started flow instead of this skill."
 ---
 
 # Newsjack Monitor Setup
@@ -14,7 +14,7 @@ Think of yourself as a friendly setup wizard. Ask a few questions, fill in the p
 
 Two situations:
 
-- **Full Mode:** You're inside a capable tool (Claude Code, Codex, OpenClaw, Hermes, etc.) that has shell, filesystem, network, and the local `newsjack` command. Here you can do everything: save the profile, seed `brief.md`, schedule the monitor, run a quick test, and trigger a real run.
+- **Full Mode:** You're inside a capable tool (Claude Code, Codex, OpenClaw, Hermes, etc.) that has shell, filesystem, network, and the local `newsjack` command. Here you can do everything: save the profile, seed `brief.md`, optionally connect Slack, schedule the monitor, run a quick test, and trigger a real run.
 - **Limited Mode:** You're in a chat-only place (Claude.ai chat, ChatGPT chat, Claude Cowork) with no shell or files. Don't try to run `curl`, `npm`, or install anything. Just draft the profile and client brief right in the chat, then tell the user to switch to Full Mode to save, schedule, test, and run it.
 
 **Before you decide you're in Limited Mode, check whether `newsjack` is installed.** It ships as a prebuilt, bundled binary — you do **not** need Go, a compiler, or any build/install step to run it. Never look for a Go toolchain, and never tell the user the CLI is "missing" or that they need a "Go environment" without running this check first:
@@ -44,15 +44,17 @@ In the full flow, steps that ask the user a question wait for their answer. Step
 
    Only write down what the user actually said. If you have nothing real for a section, leave it as the blank placeholder. Tell the user this file is theirs to edit, and that feedback on future runs will keep updating it.
 
-3. **Set up the schedule.** Run `newsjack monitor schedule <slug> --runtime <runtime> --every "<frequency>"`, where `<frequency>` is one of `8am and 2pm`, `daily 8am`, or `1h`. The CLI automatically spaces out the exact minute per monitor (the "jitter" explained in [Scheduling](#scheduling)).
+3. **Offer Slack delivery.** Ask whether completed monitor reports should also go to Slack, using the choices in [Slack Delivery](#slack-delivery). This is optional and Full Mode only. Configure it after the profile exists and before the first real run.
 
-4. **Quick offline test.** Run `newsjack monitor test <slug> --mock`. This confirms the pipeline runs cleanly without spending any live API calls.
+4. **Set up the schedule.** Run `newsjack monitor schedule <slug> --runtime <runtime> --every "<frequency>"`, where `<frequency>` is one of `8am and 2pm`, `daily 8am`, or `1h`. The CLI automatically spaces out the exact minute per monitor (the "jitter" explained in [Scheduling](#scheduling)).
 
-5. **One real run.** Do this inside the agent tool, not as a bare command. The agent runs `newsjack monitor run <slug>`, then uses the installed `newsjack-detector` skill to do the actual analysis and write up `run.md` from the results. Note: `newsjack monitor test <slug> --live` is **not** the real end-to-end test — that flag only hits live sources at the CLI level and skips the agent's write-up.
+5. **Quick offline test.** Run `newsjack monitor test <slug> --mock`. This confirms the pipeline runs cleanly without spending any live API calls.
 
-6. **Review with the user.** Show them the `run.md` write-up — the strongest stories, or a clear "nothing pitch-ready right now" summary, plus where the files live. Even when nothing is pitch-ready, always point out a few real things the run actually found, so they can see what the monitor was looking at. Then ask if they'd like to change anything: topics, competitors, feeds, proof assets, frequency, or exclusions. If they do, update the profile or schedule, then rerun the offline test and one real run before wrapping up. When their feedback is about **what to pitch or show** (e.g. "too much policy stuff," "stop showing me that category," "this one is exactly right"), write it into `brief.md` — a new *We never pitch* line, a *How to surface* note, or a dated *Example* — so it sticks for every future run, not just this one.
+6. **One real run.** Do this inside the agent tool, not as a bare command. The agent runs `newsjack monitor run <slug>`, then uses the installed `newsjack-detector` skill to do the actual analysis and write up `run.md` from the results. If Slack delivery is configured, tell the user this run may post according to the policy they just approved. Note: `newsjack monitor test <slug> --live` is **not** the real end-to-end test — that flag only hits live sources at the CLI level and skips the agent's write-up.
 
-7. **Offer to star the repo.** Ask if they'd like to support the project. See [Starring](#starring) below.
+7. **Review with the user.** Show them the `run.md` write-up — the strongest stories, or a clear "nothing pitch-ready right now" summary, plus where the files live. Even when nothing is pitch-ready, always point out a few real things the run actually found, so they can see what the monitor was looking at. Then ask if they'd like to change anything: topics, competitors, feeds, proof assets, frequency, Slack policy, or exclusions. If they do, update the profile, delivery setting, or schedule, then rerun the offline test and one real run before wrapping up. When their feedback is about **what to pitch or show** (e.g. "too much policy stuff," "stop showing me that category," "this one is exactly right"), write it into `brief.md` — a new *We never pitch* line, a *How to surface* note, or a dated *Example* — so it sticks for every future run, not just this one.
+
+8. **Offer to star the repo.** Ask if they'd like to support the project. See [Starring](#starring) below.
 
 ## What to ask for
 
@@ -165,6 +167,30 @@ Before saving the schedule, ask the user how often the monitor should run. Use A
 Use the user's local time unless they name a timezone. When you call `newsjack monitor schedule`, pass one of these exact values: `8am and 2pm`, `daily 8am`, or `1h`.
 
 A behind-the-scenes detail (the user doesn't need to hear this): each monitor gets a stable, slightly-offset run minute so everyone's monitors don't all fire at the same instant. Use a fixed random minute between 1 and 59 — never 0 — computed deterministically per monitor as `minute = (fnv32a(slug) % 59) + 1`. Because it's deterministic, re-running setup produces the same schedule and won't stomp on an existing one. Daily and weekly schedules need the same offset: steer clear of crowded times like `0 * * * *`, `0 0 * * *`, and `0 9 * * 1`, and avoid default hours like midnight or Monday 9am unless the user asks for them. This same rule applies to every scheduler — OpenClaw cron, Hermes cron, Claude Code Routine, Codex, and any other. The point is to spread load across the Newsjack/Medialyst backend so nothing spikes at the top of every hour.
+
+## Slack Delivery
+
+After the profile is saved, ask whether the user wants completed reports posted to Slack:
+
+- **Every completed scan (recommended)** — post a short result even when nothing is pitch-ready. Early alerts take time to tune, so seeing the full stream helps the user correct topics, exclusions, and surfacing preferences.
+- **Pitch-ready only** — the quieter option once the monitor is tuned; post only when the finished report contains at least one pitch-ready opportunity.
+- **No Slack** — keep reports in the agent chat and local run folder.
+
+Slack delivery is an optional convenience for teams already working in Slack. Newsjack remains fully useful without it.
+
+Before offering configuration, capability-check the installed CLI with `newsjack help monitor delivery`. If that help topic is unavailable, leave Slack off and explain that updating Newsjack enables it; do not let this interrupt profile creation, scheduling, testing, or the first report. This keeps a newer skill compatible with older Newsjack binaries. A newer binary with an older skill also behaves as before because delivery is opt-in.
+
+If the user chooses Slack:
+
+1. Point them to Slack's official [incoming webhook setup guide](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/). Slack lets them choose the destination channel when creating the webhook.
+2. Explain that enabling a policy authorizes future scheduled reports under that policy; it is not approval for unrelated messages.
+3. Read `newsjack help monitor delivery` immediately before configuring it, then follow the current setup operation and policy values shown there. Never ask the user to paste the webhook into agent chat, put it in a command argument, print it, or copy it into the profile. Have them enter it directly into the CLI's hidden prompt. The CLI saves the secret separately with owner-only permissions; `profile.json`, `brief.md`, and report artifacts stay secret-free.
+4. Use the help-advertised status operation to confirm the redacted configuration.
+5. Explain that the help-advertised test operation posts one real message, and ask before running it. Configuration itself must not send anything.
+
+Use the current help-advertised operations to change the policy or disconnect it. Do not open or parse the delivery credentials file yourself — the CLI owns secret access and posting mechanics.
+
+Limited Mode can explain these steps but cannot safely store or test a webhook. Do not accept the secret in chat; tell the user to finish this optional step in Full Mode.
 
 ## Starring
 

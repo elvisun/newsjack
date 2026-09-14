@@ -145,6 +145,31 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 	}
 }
 
+func TestMonitorHelpDocumentsSlackDeliveryAndSecretHandling(t *testing.T) {
+	var help bytes.Buffer
+	if !printCommandHelp(&help, "monitor delivery") {
+		t.Fatal("monitor delivery help topic was not handled")
+	}
+	for _, want := range []string{
+		"monitor delivery set-slack <slug>",
+		"--notify-on every-run|pitch-ready",
+		"monitor delivery status <slug>",
+		"monitor delivery test <slug>",
+		"--message-file slack.md --run-id <id>",
+		"monitor delivery remove-slack <slug>",
+		"every-run (send every completed report while the monitor is being tuned)",
+		"every_run means every completed report; pitch_ready means pitch-ready only",
+		"never put it in command arguments",
+		"owner-only permissions",
+		"local sent marker",
+		"posts a real test message",
+	} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("newsjack help monitor delivery missing %q:\n%s", want, help.String())
+		}
+	}
+}
+
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
 	for _, topic := range []string{"news", "pr-calendar", "journalists", "media-lists", "credits"} {
 		var help bytes.Buffer

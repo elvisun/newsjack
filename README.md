@@ -29,8 +29,8 @@ or just describe what you want and your agent picks the right one.
 
 ### 🛰️ Detect — surface what matters in your space
 
-- ⚙️ **`/newsjack-monitor-setup`** — build the monitoring profile once: your standing, beat topics, competitors, proof assets, spokespeople, feeds *(local agent only)*
-- 📡 **`/newsjack-detector`** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks ([see a sample run](docs/example-run.md))
+- ⚙️ **`/newsjack-monitor-setup`** — build the monitoring profile once: your standing, beat topics, competitors, proof assets, spokespeople, feeds, and optional Slack delivery *(local agent only)*
+- 📡 **`/newsjack-detector`** — find newsjacking opportunities: fresh stories you have the standing to jump on before the wave breaks, with finished reports optionally delivered to Slack ([see a sample run](docs/example-run.md))
 - 🔎 **`/news-search`** — dated, attributed articles on a topic, company, or competitor: when they launch, raise, or stumble, you know
 - 🔍 **`/story-origin-check`** — verify the story is still fresh: who broke it, who owns it, what oxygen's left
 - 🧹 **`/relevance-coarse-filter`** — cheap high-recall first pass that throws out obvious junk before anything expensive runs

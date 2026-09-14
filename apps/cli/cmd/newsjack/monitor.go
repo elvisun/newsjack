@@ -916,9 +916,9 @@ func medialystConfigured() bool {
 	return loadMedialystAuthStatus().Configured
 }
 
-func cmdMonitor(args []string, stdout, stderr io.Writer) int {
+func cmdMonitor(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open|brief"))
+		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open|brief|delivery"))
 	}
 	switch args[0] {
 	case "init":
@@ -935,6 +935,8 @@ func cmdMonitor(args []string, stdout, stderr io.Writer) int {
 		return cmdMonitorOpen(args[1:], stdout, stderr)
 	case "brief":
 		return cmdMonitorBrief(args[1:], stdout, stderr)
+	case "delivery":
+		return cmdMonitorDelivery(args[1:], stdin, stdout, stderr)
 	default:
 		return failf(stderr, "unknown monitor command: %s", args[0])
 	}
