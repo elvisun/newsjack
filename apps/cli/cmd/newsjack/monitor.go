@@ -323,7 +323,7 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 	}
 	fmt.Fprintln(w.stdout)
 	uiSectionExact(w.stdout, "Connect Medialyst (Optional)")
-	uiKV(w.stdout, "used for", "live news search and journalist enrichment")
+	uiKV(w.stdout, "used for", "live news search, journalist enrichment, and automated media lists")
 	uiKV(w.stdout, "recommended", "newsjack login")
 	uiKV(w.stdout, "browser approval", "opens a Medialyst link and stores OAuth in ~/.newsjack/credentials.json")
 	uiKV(w.stdout, "api key fallback", "newsjack auth set-medialyst --key <mlst_...>")

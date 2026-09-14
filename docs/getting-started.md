@@ -110,7 +110,7 @@ complaint.
 
 | Dependency | Unlocks | Without it | Cost |
 | --- | --- | --- | --- |
-| **Medialyst login** | live news search with publication metadata and journalist enrichment from article URLs | news search falls back to host web/browser search (best-effort freshness); journalist lists stay as local agent artifacts with any unresolved rows marked honestly | 300 free credits on signup (~3,000 news searches), paid after — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
+| **Medialyst login** | live news search plus automated, progressively enriched media lists for a campaign | news search falls back to host web/browser search; journalist lists become best-effort local artifacts with no guessed contacts | 300 free credits on signup; automated lists use normal Medialyst credits after explicit approval — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
 | **X bearer token** | the X/Twitter trend source inside monitoring | that source is simply omitted; RSS and news still run | pay-as-you-go, no free tier — [X API pricing](https://docs.x.com/x-api) |
 
 ### Why Medialyst for news search
@@ -134,8 +134,13 @@ not a signup wall.
   paste API keys.
   API keys still work for CI and power users through `MEDIALYST_API_KEY` or
   `newsjack auth set-medialyst --key <mlst_...>`. The CLI calls the Medialyst
-  public REST API directly for news search and journalist enrichment. Agents
-  own how they organize the returned journalist data.
+  public REST API directly for news search, journalist enrichment, and
+  asynchronous automated media-list creation. The agent must get explicit
+  approval for the exact campaign prompt and calculated research target before
+  starting a credit-bearing list job, then poll and show normalized rows
+  incrementally. For N requested good fits, the skill normally recommends a
+  5x research target and may increase toward 10x for a highly constrained brief;
+  the CLI never applies that multiplier silently.
   Default scopes: `news:search media_lists:manage`.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.

@@ -492,7 +492,7 @@ func TestSetupStoresOptionalCredentials(t *testing.T) {
 		if !strings.Contains(text, "Connect Medialyst (Optional)") {
 			t.Fatalf("setup should title the Medialyst connection section plainly:\n%s", text)
 		}
-		if !strings.Contains(text, "live news search and journalist enrichment") {
+		if !strings.Contains(text, "live news search, journalist enrichment, and automated media lists") {
 			t.Fatalf("setup should explain Medialyst usage plainly:\n%s", text)
 		}
 		if !strings.Contains(text, "newsjack login") {

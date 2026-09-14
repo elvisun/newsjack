@@ -1,5 +1,7 @@
 # Agent-native media lists: drop the MCP, go CLI + local-first
 
+> **Historical note (superseded September 2026):** This design records why Newsjack removed Medialyst's old spreadsheet-oriented agent workflow. The newer automated media-list API now provides bounded campaign creation, idempotent asynchronous jobs, progress counts, and normalized partial rows. Newsjack therefore reintroduced only narrow `media-lists create` and `media-lists job` CLI wrappers; the table CRUD/action surface described below remains intentionally excluded.
+
 _Research note + v1 design. Written after a live test run of the Medialyst MCP through
 the `find-journalists` skill (2026-06-12)._
 

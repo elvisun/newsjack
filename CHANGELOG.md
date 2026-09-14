@@ -19,6 +19,15 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- **Agent-driven automated media lists with incremental results.** The CLI now exposes only the two hosted-list operations agents need: `media-lists create` starts Medialyst's asynchronous campaign workflow after explicit credit approval, and `media-lists job --include-results` reads progress and normalized journalist rows while enrichment is still running. Stable idempotency keys prevent accidental duplicate jobs; the old spreadsheet CRUD/action surface remains removed.
+- **Approval-gated list handoffs in detector reports.** Every pitch-ready opportunity now includes a URL-encoded Medialyst campaign link. It prepares a media-list plan for review and spends no credits until the user approves it in Medialyst; scheduled detectors never call the paid creation API themselves.
+
+### Changed
+
+- **`find-journalists` now prefers Medialyst's automated campaign workflow when available.** The agent prepares the brief, sizes the research pool at 5x the desired good-fit count (up to 10x for constrained briefs), obtains explicit approval for that target and credit exposure, starts one job, polls it, and surfaces journalists incrementally before applying Newsjack's fit and anti-spam judgment. The CLI never applies a hidden multiplier. Medialyst remains optional and the local best-effort path remains available.
+
 ### Fixed
 
 - npm package verification now accepts both the array output used by npm 10 and

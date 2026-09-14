@@ -49,7 +49,7 @@ or just describe what you want and your agent picks the right one.
 - 🤝 **`/journalist-fit-check`** — will *this* reporter actually care, or are you spamming?
 - 🥇 **`/same-outlet-ranker`** — rank colleagues at the same publication and send to one, instead of spraying the masthead
 - 🗣️ **`/voice-extractor`** — fingerprint your real writing, kill the AI tells
-- 📋 **`/find-journalists`** — build a fit-checked media list: targeted reporters, not scraped contact dumps
+- 📋 **`/find-journalists`** — build a fit-checked media list, optionally through Medialyst's approval-gated automated research workflow
 - 📰 **`/press-clip`** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
 
 ### 🧭 Strategize — figure out what your story even is
@@ -84,7 +84,7 @@ or just describe what you want and your agent picks the right one.
 
 Newsjack is a set of **open skills** — plain-Markdown instructions your agent
 reads — plus a small open-source CLI. Most skills run anywhere your agent runs.
-A few reach for a live news index, journalist enrichment,
+A few reach for a live news index, journalist enrichment, automated media lists,
 or locally-saved monitoring state — those work best in a local agent.
 
 ### What runs where
@@ -175,7 +175,7 @@ Prefer a video? Watch the [Newsjack installation walkthrough](https://www.youtub
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, and journalist enrichment. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, journalist enrichment, and approval-gated automated media lists. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 Note: A community marketplace plugin, `newsjack@claude-community`, is pending review

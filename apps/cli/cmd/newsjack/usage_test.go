@@ -89,7 +89,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"auth set-medialyst",
 		"auth set-x",
 		"https://medialyst.ai/agents",
-		"live news search and journalist enrichment",
+		"live news search, journalist enrichment, and automated media lists",
 		"news search",
 		"journalists enrich",
 		"~/.newsjack/credentials.json",
@@ -146,13 +146,25 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 }
 
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "pr-calendar", "journalists", "credits"} {
+	for _, topic := range []string{"news", "pr-calendar", "journalists", "media-lists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
 		}
 		if !strings.Contains(help.String(), "/api/v1/") {
 			t.Fatalf("%s help should include endpoint mapping:\n%s", topic, help.String())
+		}
+	}
+}
+
+func TestMediaListsHelpExplainsResearchSizingWithoutHiddenMultiplier(t *testing.T) {
+	var help bytes.Buffer
+	if !printCommandHelp(&help, "media-lists") {
+		t.Fatal("media-lists help topic was not handled")
+	}
+	for _, want := range []string{"5x N", "up to 10x N", "sends the exact target supplied", "explicit user approval"} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("media-lists help missing %q:\n%s", want, help.String())
 		}
 	}
 }
@@ -165,6 +177,8 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 		{"help", "news", "search"},
 		{"help", "pr-calendar query"},
 		{"help", "pr-calendar", "query"},
+		{"help", "media-lists create"},
+		{"help", "media-lists", "job"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {
@@ -181,6 +195,8 @@ func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 		{"pr-calendar", "query", "--help"},
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
+		{"media-lists", "create", "--help"},
+		{"media-lists", "job", "--help"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {

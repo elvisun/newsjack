@@ -5,17 +5,19 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
 )
 
 type capturedAPIRequest struct {
-	Method string
-	Path   string
-	Query  string
-	Auth   string
-	Body   map[string]any
+	Method         string
+	Path           string
+	Query          string
+	Auth           string
+	IdempotencyKey string
+	Body           map[string]any
 }
 
 func runWithMockMedialyst(t *testing.T, handler func(w http.ResponseWriter, r *http.Request), run func(baseURL string) (int, string, string)) (int, string, string) {
@@ -47,11 +49,12 @@ func decodeCapturedRequest(t *testing.T, r *http.Request) capturedAPIRequest {
 		}
 	}
 	return capturedAPIRequest{
-		Method: r.Method,
-		Path:   r.URL.Path,
-		Query:  r.URL.RawQuery,
-		Auth:   r.Header.Get("Authorization"),
-		Body:   body,
+		Method:         r.Method,
+		Path:           r.URL.Path,
+		Query:          r.URL.RawQuery,
+		Auth:           r.Header.Get("Authorization"),
+		IdempotencyKey: r.Header.Get("Idempotency-Key"),
+		Body:           body,
 	}
 }
 
@@ -452,14 +455,119 @@ func TestMedialystAPIErrorMessageUsesNestedIssue(t *testing.T) {
 	}
 }
 
-func TestMediaListsCommandIsNotDispatched(t *testing.T) {
-	var out, errBuf bytes.Buffer
-	code := runCLI([]string{"media-lists", "list"}, &out, &errBuf)
-	if code == 0 {
-		t.Fatalf("media-lists command should not be dispatched")
+func TestMediaListsCreateCallsAsyncAPIWithExactTarget(t *testing.T) {
+	var got capturedAPIRequest
+	var requestCount int
+	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		requestCount++
+		got = decodeCapturedRequest(t, r)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		w.Write([]byte(`{"job_id":"job_123","status":"pending","target_list_size":20,"status_url":"/api/v1/jobs/job_123"}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{
+			"media-lists", "create",
+			"--prompt", "Find Canadian journalists covering PR technology",
+			"--target-list-size", "20",
+			"--idempotency-key", "campaign-2026-09-14",
+		}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("media-lists create code=%d stderr=%s", code, stderr)
 	}
-	if !strings.Contains(errBuf.String(), "unknown command: media-lists") {
-		t.Fatalf("stderr should explain command removal:\n%s", errBuf.String())
+	if requestCount != 1 {
+		t.Fatalf("create should make exactly one request, got %d", requestCount)
+	}
+	if got.Method != http.MethodPost || got.Path != "/v1/media-lists:create-async" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	if got.Auth != "Bearer mlst_test_key" {
+		t.Fatalf("auth header = %q", got.Auth)
+	}
+	if got.IdempotencyKey != "campaign-2026-09-14" {
+		t.Fatalf("idempotency header = %q", got.IdempotencyKey)
+	}
+	if got.Body["prompt"] != "Find Canadian journalists covering PR technology" || got.Body["target_list_size"] != float64(20) {
+		t.Fatalf("body = %#v", got.Body)
+	}
+	if !strings.Contains(stdout, `"job_id": "job_123"`) || !strings.Contains(stdout, `"target_list_size": 20`) {
+		t.Fatalf("stdout should contain accepted job payload:\n%s", stdout)
+	}
+}
+
+func TestMediaListsCreateRequiresIdempotencyKey(t *testing.T) {
+	var out, errBuf bytes.Buffer
+	code := runCLI([]string{
+		"media-lists", "create",
+		"--prompt", "Find Canadian AI reporters",
+		"--target-list-size", "10",
+	}, &out, &errBuf)
+	if code == 0 {
+		t.Fatal("media-lists create should reject a missing idempotency key")
+	}
+	if !strings.Contains(errBuf.String(), "requires --idempotency-key") {
+		t.Fatalf("stderr should explain safe retry requirement:\n%s", errBuf.String())
+	}
+}
+
+func TestMediaListsCreateValidatesTargetSize(t *testing.T) {
+	for _, value := range []string{"-1", "1001"} {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{
+			"media-lists", "create",
+			"--prompt", "Find Canadian AI reporters",
+			"--target-list-size", value,
+			"--idempotency-key", "size-test-" + value,
+		}, &out, &errBuf)
+		if code == 0 {
+			t.Fatalf("media-lists create should reject target size %s", value)
+		}
+		if !strings.Contains(errBuf.String(), "between 1 and 1000") {
+			t.Fatalf("stderr should explain target range for %s:\n%s", value, errBuf.String())
+		}
+	}
+}
+
+func TestMediaListsJobReadsIncrementalResults(t *testing.T) {
+	var got capturedAPIRequest
+	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		got = capturedAPIRequest{
+			Method: r.Method,
+			Path:   r.URL.Path,
+			Query:  r.URL.RawQuery,
+			Auth:   r.Header.Get("Authorization"),
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"job_id":"job_123","status":"processing","progress":{"stage":"enrichment","percent":72},"result":{"total_rows":20,"ready_rows":7},"rows":[{"journalist":{"name":"Ada Reporter"}}],"page":{"next_cursor":"next_7"}}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{
+			"media-lists", "job", "job_123",
+			"--include-results",
+			"--limit", "7",
+			"--cursor", "cursor_0",
+		}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("media-lists job code=%d stderr=%s", code, stderr)
+	}
+	if got.Method != http.MethodGet || got.Path != "/v1/jobs/job_123" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	values, err := url.ParseQuery(got.Query)
+	if err != nil {
+		t.Fatalf("parse query: %v", err)
+	}
+	if values.Get("include") != "results" || values.Get("limit") != "7" || values.Get("cursor") != "cursor_0" {
+		t.Fatalf("query = %q", got.Query)
+	}
+	for _, want := range []string{`"status": "processing"`, `"ready_rows": 7`, "Ada Reporter", `"next_cursor": "next_7"`} {
+		if !strings.Contains(stdout, want) {
+			t.Fatalf("stdout missing %q:\n%s", want, stdout)
+		}
 	}
 }
 
