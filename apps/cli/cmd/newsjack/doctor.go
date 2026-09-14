@@ -155,7 +155,7 @@ func doctorWarnings(rootErr error, medialystConfigured, xConfigured bool) []stri
 		warnings = append(warnings, rootErr.Error())
 	}
 	if !medialystConfigured {
-		warnings = append(warnings, "Medialyst is not connected; live news search and journalist enrichment will be unavailable. Run: newsjack login. For API-key automation, use: newsjack auth set-medialyst --key <mlst_...>.")
+		warnings = append(warnings, "Medialyst is not connected; live news search, journalist enrichment, and media list research will be unavailable. Run: newsjack login. For API-key automation, use: newsjack auth set-medialyst --key <mlst_...>.")
 	}
 	if !xConfigured {
 		warnings = append(warnings, "X bearer token is not configured; x_news, x_trends, and X post search will be unavailable. Run: newsjack auth set-x --bearer-token <token>. This writes X_BEARER_TOKEN to ~/.newsjack/.env.")
@@ -176,7 +176,7 @@ func doctorActions(rootErr error, medialystConfigured, xConfigured bool) []map[s
 		actions = append(actions, map[string]string{
 			"id":          "configure_medialyst",
 			"label":       "Connect Medialyst (Optional)",
-			"used_for":    "live news search and journalist enrichment",
+			"used_for":    "live news search, journalist enrichment, and media list research",
 			"get_key_url": medialystAPIKeyURL,
 			"command":     "newsjack login",
 			"fallback":    "newsjack auth set-medialyst --key <mlst_...>",

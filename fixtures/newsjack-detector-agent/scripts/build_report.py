@@ -16,6 +16,7 @@ never laundered into the report as established coverage. Usage: build_report.py 
 """
 import json, os, re, sys
 from collections import defaultdict
+from urllib.parse import urlencode
 
 CLIENTS = {"bluebottle": "Blue Bottle Coffee", "clearnym": "Clearnym", "localfalcon": "Local Falcon",
            "nofar-method": "Nofar Method", "property-saviour": "Property Saviour", "simular": "Simular", "slite": "Slite"}
@@ -44,7 +45,10 @@ BAND_LABEL = {"major": "major story", "high": "large story", "moderate": "modera
 
 def load(run, name):
     p = os.path.join(run, name)
-    return json.load(open(p)) if os.path.exists(p) else None
+    if not os.path.exists(p):
+        return None
+    with open(p) as f:
+        return json.load(f)
 
 
 def norm_url(u):
@@ -157,6 +161,66 @@ def angle_lines(run, sid, label="angle-generator angles"):
     return out
 
 
+def viable_angles(run, sid):
+    """Return angle-generator results that cleared the upstream angle gate."""
+    angle_data = load(run, f"angles.{sid[:8]}.json") or {}
+    return angle_data.get("angles") or []
+
+
+def fit_prompt_parts(optional_parts, required_parts, max_length=2000):
+    """Fit optional prose while preserving complete safety and provenance fields."""
+    required = " ".join(required_parts).strip()
+    if len(required) > max_length:
+        raise ValueError("media-list handoff exclusions and source URL exceed 2000 characters")
+
+    remaining = max_length - len(required) - (1 if required and optional_parts else 0)
+    fitted = []
+    for part in optional_parts:
+        separator = 1 if fitted else 0
+        available = remaining - separator
+        if available <= 3:
+            break
+        if len(part) > available:
+            part = part[:available - 3].rstrip() + "..."
+        fitted.append(part)
+        remaining -= len(part) + separator
+
+    return " ".join(fitted + required_parts).strip()
+
+
+def media_list_handoff(run, client, triage, signal, main_source):
+    """Build the approval-gated Medialyst handoff for a pitch-ready story."""
+    sid = triage.get("signal_id", "")
+    angles = viable_angles(run, sid)
+    if not angles:
+        return None, None
+    primary = angles[0]
+    shape = primary.get("journalist_shape") or triage.get("journalist_shape") or {}
+
+    optional_parts = [
+        f"Build a media list for {client} around this fresh story: "
+        f"{triage.get('signal_title') or signal.get('title', '')}.",
+    ]
+    if triage.get("standing_rationale"):
+        optional_parts.append(f"Client standing: {triage['standing_rationale']}.")
+    if primary.get("headline_frame"):
+        optional_parts.append(f"Primary angle: {primary['headline_frame']}.")
+    if shape.get("beat_description"):
+        optional_parts.append(f"Prioritize: {shape['beat_description']}.")
+    if shape.get("why_they_care_now"):
+        optional_parts.append(f"Why they care now: {shape['why_they_care_now']}.")
+
+    required_parts = []
+    if shape.get("do_not_target"):
+        required_parts.append(f"Exclude: {shape['do_not_target']}.")
+    if main_source and main_source.get("url"):
+        required_parts.append(f"Source of record: {main_source['url']}")
+
+    prompt = fit_prompt_parts(optional_parts, required_parts)
+    url = "https://medialyst.ai/app/_/workflow/campaign?" + urlencode({"prompt": prompt})
+    return prompt, url
+
+
 def build(run):
     name = os.path.basename(run).split("_", 1)[1]
     client = CLIENTS.get(name, name)
@@ -177,9 +241,23 @@ def build(run):
         if t.get("tier"):
             return t["tier"]
         return {"advance": "pitch_ready", "drop": "watch"}.get(t.get("gate"), "watch")
-    pitch = [t for t in triaged if tier_of(t) == "pitch_ready"]
+    pitch_candidates = [t for t in triaged if tier_of(t) == "pitch_ready"]
+    pitch = [t for t in pitch_candidates if viable_angles(run, t.get("signal_id", ""))]
     big = [t for t in triaged if tier_of(t) == "big_story"]
     watch_tri = [t for t in triaged if tier_of(t) == "watch"]
+
+    # A pitch-ready label without an angle is internally contradictory. Keep
+    # large stories visible as suggestions; route the rest to Watch.
+    for t in pitch_candidates:
+        if t in pitch:
+            continue
+        downgraded = dict(t)
+        downgraded.setdefault("watch_reason", "no_viable_angle")
+        signal = sel.get(t.get("signal_id"), {})
+        if (signal.get("story_size") or {}).get("band") in ("high", "major"):
+            big.append(downgraded)
+        else:
+            watch_tri.append(downgraded)
 
     # Sort big stories by coverage spread (distinct surfaced outlet count) desc.
     def outlet_count(sid):
@@ -213,9 +291,13 @@ def build(run):
         P.append(freshness_line(s, so))
         P.append(f"- **Standing:** `{t.get('standing')}` — {t.get('standing_rationale','')}"
                  + ("  _(proof-gated — lead with the human ask)_" if t.get("proof_gated") else ""))
+        main_source, _, _ = main_and_related(s, dups, ev_idx, so)
         lines, _ = source_lines(s, dups, ev_idx, so)
         P += lines
         P += angle_lines(run, sid)
+        _, handoff_url = media_list_handoff(run, client, t, s, main_source)
+        P.append(f"- **Build the list:** [Create a media list in Medialyst]({handoff_url}) — "
+                 "review the proposed plan first; credits start only after you approve it in Medialyst.")
         P.append("")
 
     # ── 🔥 Big Stories Worth a Look ─────────────────────────────────
@@ -275,7 +357,8 @@ def build(run):
         P.append("_Nothing gated out this window._")
         P.append("")
 
-    open(os.path.join(run, "final_report.md"), "w").write("\n".join(P))
+    with open(os.path.join(run, "final_report.md"), "w") as report_file:
+        report_file.write("\n".join(P))
     return len(pitch), len(big), len(watch_tri), len(rej)
 
 

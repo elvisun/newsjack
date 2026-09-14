@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -685,4 +686,92 @@ func cmdJournalistsEnrichJob(args []string, stdout, stderr io.Writer) int {
 		*timeoutMS = *pollTimeoutMS
 	}
 	return runJournalistEnrichJob(stdout, stderr, fs.Arg(0), *wait, durationFromMillis(*timeoutMS, 45*time.Second), durationFromMillis(*pollIntervalMS, 3*time.Second))
+}
+
+func cmdMediaLists(args []string, stdout, stderr io.Writer) int {
+	if len(args) == 0 || args[0] == "--help" || args[0] == "-h" || args[0] == "help" {
+		printMediaListsHelp(stdout)
+		return 0
+	}
+	if len(args) > 1 && restHelpRequested(args[1:]) {
+		printMediaListsHelp(stdout)
+		return 0
+	}
+	switch args[0] {
+	case "create", "create-async":
+		return cmdMediaListsCreate(args[1:], stdout, stderr)
+	case "job":
+		return cmdMediaListsJob(args[1:], stdout, stderr)
+	default:
+		return failf(stderr, "unknown media-lists command: %s", args[0])
+	}
+}
+
+func cmdMediaListsCreate(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("media-lists create", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	prompt := fs.String("prompt", "", "Campaign brief, maximum 2000 characters")
+	targetListSize := fs.Int("target-list-size", 0, "Requested research size and credit budget, 1-1000")
+	idempotencyKey := fs.String("idempotency-key", "", "Stable unique key for this logical creation request")
+	jsonInline := fs.String("json", "", "Exact JSON request body")
+	jsonFile := fs.String("json-file", "", "Read exact JSON request body from file, or - for stdin")
+	if bareJSONFlag(args) {
+		return fail(stderr, bareJSONFlagError("media-lists create"))
+	}
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	key := strings.TrimSpace(*idempotencyKey)
+	if key == "" {
+		return fail(stderr, errors.New("media-lists create requires --idempotency-key so retries cannot create duplicate credit-bearing jobs"))
+	}
+	headers := map[string]string{"Idempotency-Key": key}
+	if body, ok, err := parseJSONFlag(*jsonInline, *jsonFile, "media-lists create"); err != nil {
+		return fail(stderr, err)
+	} else if ok {
+		return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/media-lists:create-async", nil, body, headers, 45*time.Second)
+	}
+	brief := strings.TrimSpace(*prompt)
+	if brief == "" || *targetListSize == 0 {
+		return fail(stderr, errors.New("usage: newsjack media-lists create --prompt <campaign-brief> --target-list-size <1-1000> --idempotency-key <key>"))
+	}
+	if len([]rune(brief)) > 2000 {
+		return fail(stderr, errors.New("media-lists create --prompt must be at most 2000 characters"))
+	}
+	if *targetListSize < 1 || *targetListSize > 1000 {
+		return fail(stderr, fmt.Errorf("media-lists create --target-list-size must be between 1 and 1000; got %d", *targetListSize))
+	}
+	body := map[string]any{
+		"prompt":           brief,
+		"target_list_size": *targetListSize,
+	}
+	return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/media-lists:create-async", nil, body, headers, 45*time.Second)
+}
+
+func cmdMediaListsJob(args []string, stdout, stderr io.Writer) int {
+	args = reorderIntermixedFlags(args, map[string]bool{"limit": true, "cursor": true})
+	fs := flag.NewFlagSet("media-lists job", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	includeResults := fs.Bool("include-results", false, "Include currently available normalized journalist rows")
+	limit := fs.Int("limit", 50, "Result rows per page, 1-200")
+	cursor := fs.String("cursor", "", "Pagination cursor from page.next_cursor")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	if fs.NArg() != 1 {
+		return fail(stderr, errors.New("usage: newsjack media-lists job <job-id> [--include-results] [--limit 50] [--cursor <cursor>]"))
+	}
+	query := url.Values{}
+	if *includeResults {
+		if *limit < 1 || *limit > 200 {
+			return fail(stderr, fmt.Errorf("media-lists job --limit must be between 1 and 200; got %d", *limit))
+		}
+		query.Set("include", "results")
+		query.Set("limit", strconv.Itoa(*limit))
+		if value := strings.TrimSpace(*cursor); value != "" {
+			query.Set("cursor", value)
+		}
+	}
+	path := "/v1/jobs/" + url.PathEscape(fs.Arg(0))
+	return runMedialystJSON(stdout, stderr, http.MethodGet, path, query, nil, nil, 45*time.Second)
 }
