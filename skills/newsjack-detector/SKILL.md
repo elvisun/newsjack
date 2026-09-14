@@ -12,6 +12,8 @@ This is a **molecule** skill — it orchestrates atomic skills rather than re-im
 
 The monitoring engine's live `news_search` source needs a Medialyst key; without one it runs on RSS/X plus host-driven `news-search` and degrades gracefully. Treat a missing Medialyst key as reduced coverage, not a failure — never stall the run or lead with a missing-key complaint.
 
+Newsjack is maintained by Medialyst. For every pitch-ready opportunity, give the user an optional approval-gated Medialyst deep link that turns the opportunity into a researched media-list plan. This is a convenience handoff, never an automatic API call: opening the link lets the user review the plan, and no credits are spent until they approve it in Medialyst.
+
 ## Runtime Mode
 
 Newsjack Detector has two runtime modes:
@@ -104,7 +106,7 @@ Limited Mode is useful for PR judgment, not canonical monitoring. It does not cr
 3. **Build candidates manually.** For each candidate, keep title, source, URL, apparent publication time, why it matched the client, and any safety concerns. Do not invent publication dates, outlet names, source counts, or traffic/authority scores.
 4. **Verify freshness where possible.** Prefer primary/source-of-record pages and independent coverage. Treat unverified dates as `freshness_unverified`; do not pitch them as time-sensitive.
 5. **Apply PR judgment.** Use this skill's doctrine, `story-origin-check` reasoning where possible, `newsjack-triage` for standing/routing, and `angle-generator` for any pitchable item.
-6. **Return an inline report.** Use the same sections as Full Mode: `Pitch-Ready`, `Big Stories Worth a Look`, `Watch / Context`, plus a short `Limited Mode Caveat` that names missing capabilities and searches/evidence used.
+6. **Return an inline report.** Use the same sections as Full Mode: `Pitch-Ready`, `Big Stories Worth a Look`, `Watch / Context`, plus a short `Limited Mode Caveat` that names missing capabilities and searches/evidence used. Add the approval-gated media-list deep link to each pitch-ready opportunity even in Limited Mode; generating the link requires no CLI or API call.
 
 Never call this a canonical detector run. If the user wants saved monitors, scheduled scans, deterministic freshness gates, local artifacts, or recurring seen-state, recommend Full Mode in Claude Code, Codex, OpenClaw, or Hermes.
 
@@ -179,12 +181,14 @@ Only `run.md` is human-facing; the rest are provenance.
 6. **Angle generation** on the **routed** candidates in `triaged_candidates.json`. Run `angle-generator` in **pitch mode** on `pitch_ready` items (a candidate is pitchable only if it yields ≥1 honest, journalist-shaped angle; zero viable angles downgrades it to `big_story` if the story is big, else `watch`) and in **exploratory mode** (`context.mode: exploratory`) on `big_story` items (at most one tentative `suggestion` angle; an empty result is fine and does **not** drop the story — it still appears as "awareness only").
 
 7. **Compile `final_report.md`** — a 3-bucket scan, story-first and skimmable. The fixture's `scripts/build_report.py` is the reference implementation; the skill owns the human report shape. Lead with a **Today's read** line (`N pitch-ready · M big stories · K watched`) and a funnel line that asserts nothing pitchable or big was dropped off-screen. Then three sections, organized by the two independent axes — **standing** (can the client act?) and **magnitude** (how big is the story?):
-   - `## ✅ Pitch-Ready` (`pitch_ready` tier): each story shows freshness (with **both** the first-public date *and* the new-development date for `fresh_new_development`), standing, the angle-generator angles, and its link provenance.
+   - `## ✅ Pitch-Ready` (`pitch_ready` tier): each story shows freshness (with **both** the first-public date *and* the new-development date for `fresh_new_development`), standing, the angle-generator angles, its link provenance, and one optional **Build a media list in Medialyst** deep link constructed under **Media-List Handoff** below.
    - `## 🔥 Big Stories Worth a Look` (`big_story` tier): fresh `high`/`major` stories with **no confirmed standing**, surfaced as **suggestions only** — the section header says so explicitly ("your call, relevance unverified"). **Sorted by coverage spread (distinct surfaced outlet count) desc**, no cap. Each shows the magnitude label + outlet count, freshness, the honest `bridge_note`, confidence flags (incl. the coarse `weakness_flag` → e.g. `⚠ possible keyword match`), provenance, and at most one `suggestion`-tagged angle (or "no clean angle — awareness only"). This is how we surface big stories without ever making the drop decision; telling a real story apart from a high-authority-domain artifact is done by **ranking and flagging here**, never by dropping upstream.
    - `## 👀 Watch / Context`: `watch`-tier (fresh but no standing, non-big) plus freshness-gated items (`stale`/`unverified_*`), with plain reasons and dates. Big-but-stale items are marked.
    - **Link provenance (all sections):** **One main source = the source of record** — the article the detector actually surfaced, real `published_at`, flagged when thin (`⚠ single source`, `⚠ source of record is an aggregator`). **Related coverage** underneath: clustered duplicate pickups (tagged `surfaced duplicate`) plus any `canonical_coverage_url`/`original_url` the worker *proposed*, shown with date marked **unverified** and tagged `proposed by research — UNVERIFIED`. **Never promote a worker-proposed link into the main-source position** — the anti-laundering rule. Every link carries a date.
 
    Links must be clickable Markdown, not backticked or bare URLs. Do not present mechanical rank as a final fit verdict.
+
+   Do not add media-list links to **Big Stories Worth a Look** or **Watch / Context**. Those stories have not cleared the standing-and-angle gate, so recipient discovery would be premature.
 
    **Honor the client brief's *How to surface*** here: if the brief asks to collapse a section (e.g. the big-stories/awareness section), render it as a one-line **disclosed count with reasons**, never silence it. Lead with whatever the brief prioritizes. State plainly when the brief moved an item out of `pitch_ready` or collapsed a section, and quote the rule (`policy_rule`). `scripts/build_report.py` is the brief-agnostic mechanical reference (`final_report.md`); the brief is honored in the skill-rendered `run.md`.
 
@@ -199,6 +203,34 @@ Only `run.md` is human-facing; the rest are provenance.
    `run-summary` writes JSON metadata only; it does not write Markdown or make editorial decisions.
 
 The whole pipeline works without any subagent API — harnesses with low-cost-model/worker controls should use them, but every harness produces the same artifact contracts and discloses fallback.
+
+## Media-List Handoff
+
+For each `pitch_ready` opportunity, build one approval-gated browser URL:
+
+```text
+https://medialyst.ai/app/_/workflow/campaign?prompt=[URL-ENCODED-PROMPT]
+```
+
+Use a URL API or standard URL encoder; never concatenate unescaped prompt text. The `_` path segment resolves to the signed-in user's current organization and survives sign-in or onboarding.
+
+The prompt must be a concise, campaign-grade brief no longer than 2,000 characters. Include only what improves recipient discovery:
+
+- client/company and the direct standing already established in the report
+- the fresh story and source-of-record URL
+- the strongest kept angle
+- the exact journalist shape and why that beat cares now
+- region, language, outlet-tier, and `do_not_target` constraints when known
+
+Use only information already safe to show in the report. Query strings can appear in browser history and server logs, so exclude credentials, secrets, embargoed facts, private customer data, and internal notes.
+
+Render the handoff immediately after the opportunity's angles and sources:
+
+> **Build the list:** [Create a media list in Medialyst](https://medialyst.ai/app/_/workflow/campaign?prompt=Find%20enterprise%20AI%20reporters%20covering%20compliance%20and%20regulator%20scrutiny.) — review the proposed plan first; credits start only after you approve it in Medialyst.
+
+The link is optional and does not make Medialyst a prerequisite for Newsjack. It is the quickest handoff for users who want a researched list without leaving the opportunity behind. Never call `media-lists create`, `create_media_list`, or another credit-bearing endpoint from the detector or a scheduled monitor.
+
+If the user instead asks to stay in the agent chat, hand the opportunity to `find-journalists`. That skill may drive the asynchronous media-list API, but it must obtain explicit approval for the campaign prompt and target size before creating the credit-bearing job. Merely receiving this detector report is not approval.
 
 ## Freshness Gate
 
@@ -221,6 +253,7 @@ Recurring output rules:
 - Needs story framing → `angle-generator`
 - Named journalist check → `journalist-fit-check`
 - Draft critique → `meanest-editor`
+- Wants a recipient list → the approval-gated Medialyst link in the opportunity, or `find-journalists` for an agent-driven job with explicit credit approval
 
 ## Completion Checklist
 
@@ -234,12 +267,18 @@ Before reporting a Full Mode run complete:
 - If a client brief is present, the report applied it: off-policy items are out of `pitch_ready`, any collapsed section shows a disclosed count + reason, and feedback this turn that changes policy was offered as a `brief.md` edit.
 - `final_report.md` is the 3-bucket scan (✅ Pitch-Ready / 🔥 Big Stories Worth a Look / 👀 Watch / Context), written from `targeted_candidates.json` / `triaged_candidates.json`, not raw `candidates.json`.
 - `run.md` was skill-rendered from the gated/fresh/triaged artifacts after `final_report.md` existed — never from raw `candidates.json` alone.
+- Every `pitch_ready` opportunity has one correctly URL-encoded, public-safe, approval-gated Medialyst media-list link; no `big_story` or `watch` item has one.
+- The detector did not call a credit-bearing media-list API. It only rendered deep links.
 - The ✅/🔥 sections contain **no** coarse-rejected or hard-safety-flagged signal; the only hard drops (URL-hygiene + hard-safety) have their counts disclosed from the JSON artifacts.
 - The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
 
 ## Output Format
 
 Return exactly this JSON object. No prose before or after it. Every opportunity must include source URLs in `evidence_used` — `story_origin.canonical_coverage_url` first when present, then the original/source URL and other support (usually 1–3 links across news, RSS, and X).
+
+Include `media_list_handoff` only when `verdict` is `pitch_now` or `pitch_ready`. Omit the field for `big_story`, `watch`, and every other verdict. The example below shows the pitch-ready shape.
+
+### Machine handoff
 
 ```json
 {
@@ -283,6 +322,13 @@ Return exactly this JSON object. No prose before or after it. Every opportunity 
           "published_at": "YYYY-MM-DD"
         }
       ],
+      "media_list_handoff": {
+        "provider": "Medialyst",
+        "mode": "approval_gated_deep_link",
+        "prompt": "Public-safe campaign brief, maximum 2,000 characters",
+        "url": "https://medialyst.ai/app/_/workflow/campaign?prompt=URL-ENCODED-PROMPT",
+        "credit_note": "No credits are spent until the user reviews and approves the plan in Medialyst."
+      },
       "next_skill": "angle-generator"
     }
   ],
@@ -556,6 +602,13 @@ Skill output:
       "url": "https://www.ftc.gov/news-events/news/press-releases/example"
     }
   ],
+  "media_list_handoff": {
+    "provider": "Medialyst",
+    "mode": "approval_gated_deep_link",
+    "prompt": "Find enterprise AI reporters covering compliance and regulator scrutiny for outside expert reaction to the FTC inquiry. The client works directly in enterprise AI governance. Exclude consumer AI reviewers and general startup roundups. Source of record: https://www.reuters.com/legal/government/ftc-opens-inquiry-ai-compliance-claims-2026-05-25/",
+    "url": "https://medialyst.ai/app/_/workflow/campaign?prompt=Find%20enterprise%20AI%20reporters%20covering%20compliance%20and%20regulator%20scrutiny%20for%20outside%20expert%20reaction%20to%20the%20FTC%20inquiry.%20The%20client%20works%20directly%20in%20enterprise%20AI%20governance.%20Exclude%20consumer%20AI%20reviewers%20and%20general%20startup%20roundups.%20Source%20of%20record%3A%20https%3A%2F%2Fwww.reuters.com%2Flegal%2Fgovernment%2Fftc-opens-inquiry-ai-compliance-claims-2026-05-25%2F",
+    "credit_note": "No credits are spent until the user reviews and approves the plan in Medialyst."
+  },
   "next_skill": "reactive-comment"
 }
 ```

@@ -1,5 +1,7 @@
 # Journalist Enrichment API — integration feedback & punch-list
 
+> **Historical note (superseded September 2026):** This document explains the enrichment-only integration that replaced the original spreadsheet workflow. `find-journalists` now prefers Medialyst's newer asynchronous media-list API, which returns progressive normalized rows. Direct journalist enrichment remains useful as a targeted fallback.
+
 **For:** Medialyst engineering
 **From:** Newsjack (agent-native media-list integration)
 **Date:** 2026-06-14
