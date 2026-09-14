@@ -19,6 +19,8 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.17 — 2026-09-14
+
 ### Added
 
 - **Opt-in Slack delivery for completed monitor reports.** Monitor setup can now connect a Slack incoming webhook and defaults to every-run notifications so users can see and tune early alert behavior; pitch-ready-only remains the quieter option. The detector writes compact Slack-ready copy only after the canonical report is finished, while the CLI keeps the webhook in a separate owner-only file, validates Slack hosts, refuses redirects, and records per-run sent markers to prevent routine duplicate posts. Older CLIs and skills continue to run without delivery.
