@@ -112,6 +112,7 @@ complaint.
 | --- | --- | --- | --- |
 | **Medialyst login** | live news search plus progressively enriched media-list research for a campaign | news search falls back to host web/browser search; journalist lists become best-effort local artifacts with no guessed contacts | 300 free credits on signup; media-list research uses normal Medialyst credits after explicit approval — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
 | **X bearer token** | the X/Twitter trend source inside monitoring | that source is simply omitted; RSS and news still run | pay-as-you-go, no free tier — [X API pricing](https://docs.x.com/x-api) |
+| **Slack incoming webhook** | optional delivery of finished saved-monitor reports to a chosen channel | reports stay in the agent chat and local run folder | no Newsjack or Medialyst credits; Slack plan rules apply — [Slack webhook guide](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/) |
 
 ### Why Medialyst for news search
 
@@ -144,5 +145,13 @@ not a signup wall.
   Default scopes: `news:search media_lists:manage`.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.
+- **Slack:** configure this only while setting up a saved monitor. The
+  `newsjack-monitor-setup` skill defaults to every completed scan while the
+  alerts are being tuned; users can choose pitch-ready-only delivery or no
+  Slack instead. Create a webhook using
+  Slack's [incoming webhook guide](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/),
+  then enter it directly into `newsjack monitor delivery set-slack <slug>`'s
+  hidden prompt — never paste it into agent chat or put it in a command
+  argument. Newsjack keeps it out of the public profile and report artifacts.
 
 Only bring these up when the user reaches a step that benefits from them.

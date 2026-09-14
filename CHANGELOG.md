@@ -21,6 +21,7 @@ below these notes.
 
 ### Added
 
+- **Opt-in Slack delivery for completed monitor reports.** Monitor setup can now connect a Slack incoming webhook and defaults to every-run notifications so users can see and tune early alert behavior; pitch-ready-only remains the quieter option. The detector writes compact Slack-ready copy only after the canonical report is finished, while the CLI keeps the webhook in a separate owner-only file, validates Slack hosts, refuses redirects, and records per-run sent markers to prevent routine duplicate posts. Older CLIs and skills continue to run without delivery.
 - **Agent-driven media list research with incremental results.** The CLI now exposes only the two hosted-list operations agents need: `media-lists create` starts Medialyst's asynchronous campaign workflow after explicit credit approval, and `media-lists job --include-results` reads progress and normalized journalist rows while enrichment is still running. Stable idempotency keys prevent accidental duplicate jobs; the old spreadsheet CRUD/action surface remains removed.
 - **Approval-gated list handoffs in detector reports.** Every pitch-ready opportunity now includes a URL-encoded Medialyst campaign link. It prepares a media-list plan for review and spends no credits until the user approves it in Medialyst; scheduled detectors never call the paid creation API themselves.
 

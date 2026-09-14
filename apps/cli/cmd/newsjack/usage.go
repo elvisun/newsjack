@@ -28,7 +28,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "pr-calendar query", "query source-backed upcoming PR moments", "--from DATE --to DATE")
 	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
 	uiCommand(w, "media-lists create|job", "start and read Medialyst media-list research jobs", "")
-	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
+	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors and optional Slack delivery", "")
 	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
@@ -122,6 +122,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "detector":
 		printDetectorHelp(w)
 		return true
+	case "monitor", "monitor delivery", "monitor delivery set-slack", "monitor delivery status", "monitor delivery test", "monitor delivery send", "monitor delivery remove-slack":
+		printMonitorHelp(w)
+		return true
 	case "coverage":
 		printCoverageHelp(w)
 		return true
@@ -143,6 +146,34 @@ func printCommandHelp(w io.Writer, command string) bool {
 	default:
 		return false
 	}
+}
+
+func printMonitorHelp(w io.Writer) {
+	uiProduct(w, "monitor", "manage saved newsjacking monitors and optional report delivery.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack monitor init [slug] --profile profile.json")
+	fmt.Fprintln(w, "  newsjack monitor test <slug> --mock|--live")
+	fmt.Fprintln(w, "  newsjack monitor run <slug>")
+	fmt.Fprintln(w, "  newsjack monitor schedule <slug> --runtime <agent-runtime> --every 1h")
+	fmt.Fprintln(w, "  newsjack monitor status <slug>")
+	fmt.Fprintln(w, "  newsjack monitor open <slug>")
+	fmt.Fprintln(w, "  newsjack monitor brief <slug> [--edit|--json]")
+	fmt.Fprintln(w)
+	uiSection(w, "optional Slack delivery")
+	fmt.Fprintln(w, "  newsjack monitor delivery set-slack <slug> [--notify-on every-run|pitch-ready]")
+	fmt.Fprintln(w, "  newsjack monitor delivery status <slug>")
+	fmt.Fprintln(w, "  newsjack monitor delivery test <slug>")
+	fmt.Fprintln(w, "  newsjack monitor delivery send <slug> --message-file slack.md --run-id <id> [--force]")
+	fmt.Fprintln(w, "  newsjack monitor delivery remove-slack <slug>")
+	fmt.Fprintln(w)
+	uiKV(w, "default policy", "every-run (send every completed report while the monitor is being tuned)")
+	uiKV(w, "status values", "every_run means every completed report; pitch_ready means pitch-ready only")
+	uiKV(w, "secret input", "set-slack reads the webhook from a hidden terminal prompt or standard input; never put it in command arguments")
+	uiKV(w, "secret storage", "~/.newsjack/monitors/<slug>/delivery.json (owner-only permissions)")
+	uiKV(w, "message owner", "the detector skill writes Slack-formatted text; the CLI posts it unchanged")
+	uiKV(w, "duplicate guard", "send records a local sent marker for each run-id; use --force only for an intentional resend")
+	uiNote(w, "A configured policy authorizes future scheduled sends. The test command posts a real test message.")
 }
 
 func printCreditsHelp(w io.Writer) {

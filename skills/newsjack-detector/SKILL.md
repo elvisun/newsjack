@@ -51,7 +51,7 @@ The bundled binary is almost always already installed — assume Full Mode and v
 
 5. **JUDGE — NEVER TRUST MECHANICS AS PERMISSION.** `routing.queue_priority` and `story_size` are recall pressure, not pitch permission. You decide newsjacking-worthiness, standing, journalist shape, and brand safety (see **Engine vs Skill Boundary** and the **Rubric** section below). Gate angle fit through `angle-generator`.
 
-6. **VERIFY & CONCLUDE.** In Full Mode, run the **Completion Checklist**, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, and top findings. In Limited Mode, state that no local artifacts, saved monitor state, or deterministic freshness gate were available.
+6. **VERIFY, DELIVER & CONCLUDE.** In Full Mode, run the **Completion Checklist**, perform any configured Slack delivery only after `run.md` is complete, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and any configured delivery result. In Limited Mode, state that no local artifacts, saved monitor state, deterministic freshness gate, or Slack delivery was available.
 
 ## Engine vs Skill Boundary
 
@@ -137,10 +137,11 @@ RUN_DIR/
   triaged_candidates.json      # 5b. newsjack-triage — standing + consolidation
   final_report.md              # 7. compiled 3-bucket scan (pitch-ready / big stories / watch)
   run.md                       # 8. skill-rendered — THE human-facing artifact
+  slack.md                     # 9. optional Slack-ready summary when delivery is due
   detector.stderr.log  commands.log  summary.json
 ```
 
-Only `run.md` is human-facing; the rest are provenance.
+`run.md` is the canonical human-facing report. `slack.md` is optional outbound copy derived from that finished report; the rest are provenance.
 
 1. **Run the detector and save candidates.** This is the **canonical invocation** — use it verbatim for any run a human or pitch will rely on, across every harness, so runs stay comparable:
 
@@ -202,6 +203,8 @@ Only `run.md` is human-facing; the rest are provenance.
 
    `run-summary` writes JSON metadata only; it does not write Markdown or make editorial decisions.
 
+9. **Deliver the finished report when Slack is configured.** Follow [Optional Slack Delivery](#optional-slack-delivery). Delivery happens after `run.md` exists and never changes whether the detector run itself succeeded.
+
 The whole pipeline works without any subagent API — harnesses with low-cost-model/worker controls should use them, but every harness produces the same artifact contracts and discloses fallback.
 
 ## Media-List Handoff
@@ -231,6 +234,24 @@ Render the handoff immediately after the opportunity's angles and sources:
 The link is optional and does not make Medialyst a prerequisite for Newsjack. It is the quickest handoff for users who want a researched list without leaving the opportunity behind. Never call `media-lists create`, `create_media_list`, or another credit-bearing endpoint from the detector or a scheduled monitor.
 
 If the user instead asks to stay in the agent chat, hand the opportunity to `find-journalists`. That skill may drive the asynchronous media-list API, but it must obtain explicit approval for the campaign prompt and target size before creating the credit-bearing job. Merely receiving this detector report is not approval.
+
+## Optional Slack Delivery
+
+Slack is an opt-in output channel for saved monitors, not part of discovery or PR judgment. The setup skill owns the user's choice; this skill owns the short Slack-ready wording; the CLI alone owns the webhook and HTTP request.
+
+After the canonical `run.md` is complete:
+
+1. Capability-check with `newsjack help monitor delivery`. If the command is unavailable, keep the report successful and skip delivery. If a delivery file exists from a newer CLI, mention that updating Newsjack is required; never read that file yourself.
+2. Read that help immediately before delivery, then use its current status operation for the installed monitor. The response is redacted. If Slack is not configured, stop here without creating `slack.md`. Do not attempt Slack for Limited Mode, Quick Run, fixtures, or a direct profile that is not an installed monitor.
+3. Apply the configured policy:
+   - **Every completed report** — send after every completed report, including a clear "nothing pitch-ready" result.
+   - **Pitch-ready only** — send only when the finished report has at least one pitch-ready opportunity.
+4. When delivery is due, render `slack.md` from the same final, freshness-gated facts used in `run.md`. Keep it compact and use Slack's text formatting: wrap bold text in `*asterisks*` and write links as `<URL|label>`. Include a bold monitor/client heading; the `N pitch-ready · M big stories · K watched` line; then at most three pitch-ready opportunities with a one-line angle, source link, and build-a-media-list link. When there are no pitch-ready opportunities under the every-completed-report policy, include up to three big-story/context headlines and label them awareness-only. End with the local `run.md` path so the full provenance is easy to find.
+5. Keep `slack.md` public-safe. Never include the webhook, credentials, embargoed facts, private customer data, internal notes, raw JSON, or worker reasoning. Do not open, print, log, or parse the delivery credentials file.
+6. Use the help-advertised send operation to post the exact rendered message once, passing the `slack.md` path and the run-folder name as the stable run ID. The CLI refuses redirects. After Slack accepts the post, the CLI saves a local “sent” marker; when that marker exists, a normal rerun skips the same run. Use the advertised resend override only when the user explicitly asks to resend it.
+7. A delivery failure is non-fatal: preserve `run.md` and `slack.md`, do not retry automatically, and report the failure without exposing the webhook. If Slack may have accepted the post but the response was lost, or Slack accepted it but the local sent marker could not be saved, the outcome is ambiguous. Slack does not accept a request key that would let it discard a duplicate automatically, so check the channel before any manual resend.
+
+The delivery authorization comes from the user's saved setup policy. Do not prompt again on each scheduled run, and never configure Slack or send a test message from this skill.
 
 ## Freshness Gate
 
@@ -267,10 +288,11 @@ Before reporting a Full Mode run complete:
 - If a client brief is present, the report applied it: off-policy items are out of `pitch_ready`, any collapsed section shows a disclosed count + reason, and feedback this turn that changes policy was offered as a `brief.md` edit.
 - `final_report.md` is the 3-bucket scan (✅ Pitch-Ready / 🔥 Big Stories Worth a Look / 👀 Watch / Context), written from `targeted_candidates.json` / `triaged_candidates.json`, not raw `candidates.json`.
 - `run.md` was skill-rendered from the gated/fresh/triaged artifacts after `final_report.md` existed — never from raw `candidates.json` alone.
+- Slack was checked only after `run.md` existed. If configured, the saved policy was honored, `slack.md` contained only final public-safe facts, and the CLI delivery result was recorded. Missing support in an older CLI or a delivery failure did not invalidate the report.
 - Every `pitch_ready` opportunity has one correctly URL-encoded, public-safe, approval-gated Medialyst media-list link; no `big_story` or `watch` item has one.
 - The detector did not call a credit-bearing media-list API. It only rendered deep links.
 - The ✅/🔥 sections contain **no** coarse-rejected or hard-safety-flagged signal; the only hard drops (URL-hygiene + hard-safety) have their counts disclosed from the JSON artifacts.
-- The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, and top findings.
+- The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and Slack delivery status when configured.
 
 ## Output Format
 

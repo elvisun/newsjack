@@ -93,7 +93,7 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 	case "detector":
 		return cmdDetector(args[1:], stdout, stderr)
 	case "monitor":
-		return cmdMonitor(args[1:], stdout, stderr)
+		return cmdMonitor(args[1:], stdin, stdout, stderr)
 	case "coverage":
 		return cmdCoverage(args[1:], stdout, stderr)
 	case "filter-apply":
