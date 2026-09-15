@@ -19,6 +19,15 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.18 — 2026-09-14
+
+### Changed
+
+- **The recommended monitor cadence now runs at 7am and 2pm.** Moving the
+  morning scan from 8am to 7am helps scheduled agent runs avoid Anthropic's
+  peak hours while preserving the early-afternoon follow-up. The once-daily
+  recommendation now runs at 7am for the same reason.
+
 ## v0.1.17 — 2026-09-14
 
 ### Added

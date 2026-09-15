@@ -46,7 +46,7 @@ In the full flow, steps that ask the user a question wait for their answer. Step
 
 3. **Offer Slack delivery.** Ask whether completed monitor reports should also go to Slack, using the choices in [Slack Delivery](#slack-delivery). This is optional and Full Mode only. Configure it after the profile exists and before the first real run.
 
-4. **Set up the schedule.** Run `newsjack monitor schedule <slug> --runtime <runtime> --every "<frequency>"`, where `<frequency>` is one of `8am and 2pm`, `daily 8am`, or `1h`. The CLI automatically spaces out the exact minute per monitor (the "jitter" explained in [Scheduling](#scheduling)).
+4. **Set up the schedule.** Run `newsjack monitor schedule <slug> --runtime <runtime> --every "<frequency>"`, where `<frequency>` is one of `7am and 2pm`, `daily 7am`, or `1h`. The CLI automatically spaces out the exact minute per monitor (the "jitter" explained in [Scheduling](#scheduling)).
 
 5. **Quick offline test.** Run `newsjack monitor test <slug> --mock`. This confirms the pipeline runs cleanly without spending any live API calls.
 
@@ -160,11 +160,11 @@ Don't default a generic SaaS company to `location`. Stick with `none` unless geo
 
 Before saving the schedule, ask the user how often the monitor should run. Use AskUserQuestion (or similar) with these choices:
 
-- **`8am and 2pm` (recommended)** — the best default for most teams. Catches the morning news and early-afternoon developments without hourly noise.
-- **`Every morning at 8am`** — for a once-a-day digest.
+- **`7am and 2pm` (recommended)** — the best default for most teams. Catches the morning news earlier, then checks early-afternoon developments without hourly noise.
+- **`Every morning at 7am`** — for a once-a-day digest.
 - **`Hourly`** — for high-urgency accounts with the standing and appetite to react fast.
 
-Use the user's local time unless they name a timezone. When you call `newsjack monitor schedule`, pass one of these exact values: `8am and 2pm`, `daily 8am`, or `1h`.
+Use the user's local time unless they name a timezone. When you call `newsjack monitor schedule`, pass one of these exact values: `7am and 2pm`, `daily 7am`, or `1h`.
 
 A behind-the-scenes detail (the user doesn't need to hear this): each monitor gets a stable, slightly-offset run minute so everyone's monitors don't all fire at the same instant. Use a fixed random minute between 1 and 59 — never 0 — computed deterministically per monitor as `minute = (fnv32a(slug) % 59) + 1`. Because it's deterministic, re-running setup produces the same schedule and won't stomp on an existing one. Daily and weekly schedules need the same offset: steer clear of crowded times like `0 * * * *`, `0 0 * * *`, and `0 9 * * 1`, and avoid default hours like midnight or Monday 9am unless the user asks for them. This same rule applies to every scheduler — OpenClaw cron, Hermes cron, Claude Code Routine, Codex, and any other. The point is to spread load across the Newsjack/Medialyst backend so nothing spikes at the top of every hour.
 
