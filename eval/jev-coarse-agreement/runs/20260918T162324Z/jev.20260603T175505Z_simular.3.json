@@ -1,0 +1,1127 @@
+{
+  "decisions": [
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.88,
+          "probabilities": {
+            "keep": 0.92,
+            "monitor_only": 0.08,
+            "reject": 0
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.92,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.67,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.15,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.68,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.03,
+            "no_profile_bridge": 0.08,
+            "not_news": 0,
+            "off_beat": 0.02,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.71,
+            "relevant_news": 0.16,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.09,
+          "type": "noul"
+        }
+      },
+      "confidence": "high",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.helpnetsecurity.com/2026/06/03/research-ai-agent-security-capability/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.88); plausible_client_bridge (0.71). is_news 0.92, profile_bridge 0.67, promotional 0.15, safety_risk 0.09.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.67).",
+      "signal_id": "8dcbd52f38a5679a"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.67,
+          "probabilities": {
+            "keep": 0.77,
+            "monitor_only": 0.22,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.88,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.63,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.12,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.8,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.01,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.07,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.82,
+            "relevant_news": 0.08,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.03,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.ciodive.com/news/agents-change-cybersecurity-frameworks/821801/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.67); plausible_client_bridge (0.82). is_news 0.88, profile_bridge 0.63, promotional 0.12, safety_risk 0.03.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.63).",
+      "signal_id": "c752c1910f816899"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.38,
+          "probabilities": {
+            "keep": 0.58,
+            "monitor_only": 0.41,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.72,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.53,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.16,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.7,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.1,
+            "not_news": 0.02,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.73,
+            "relevant_news": 0.1,
+            "safety_risk": 0.02,
+            "seo_landing_page": 0.01
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.06,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.securityweek.com/security-of-100-ai-agents-tested-and-ranked-what-you-need-to-know/amp/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.38); plausible_client_bridge (0.73). is_news 0.72, profile_bridge 0.53, promotional 0.16, safety_risk 0.06.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.53).",
+      "signal_id": "cf842b7e0607452f"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.3,
+          "probabilities": {
+            "keep": 0.43,
+            "monitor_only": 0.54,
+            "reject": 0.03
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.89,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.52,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.14,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.62,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.05,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.16,
+            "not_news": 0,
+            "off_beat": 0.05,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.65,
+            "relevant_news": 0.08,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.hpcwire.com/2026/06/03/can-ai-agents-replicate-science-argonnes-rick-stevens-puts-them-to-the-test/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.30); plausible_client_bridge (0.65). is_news 0.89, profile_bridge 0.52, promotional 0.14, safety_risk 0.02.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.52).",
+      "signal_id": "016dccbc770a0908"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.24,
+          "probabilities": {
+            "keep": 0.26,
+            "monitor_only": 0.49,
+            "reject": 0.25
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.65,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.34,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.23,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.38,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.05,
+            "low_reach_x_post": 0.06,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.44,
+            "not_news": 0.18,
+            "off_beat": 0.06,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.17,
+            "relevant_news": 0.04,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Matt+Van+Horn+partage+des+astuces+d%27ing%C3%A9nierie+agentique+pour+le+codage+de+l%27IA\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.24); no_profile_bridge (0.44). is_news 0.65, profile_bridge 0.34, promotional 0.23, safety_risk 0.01.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.34).",
+      "signal_id": "db1d9bee9baba605"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.62,
+          "probabilities": {
+            "keep": 0.74,
+            "monitor_only": 0.22,
+            "reject": 0.04
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.93,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.35,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.41,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.38,
+          "probabilities": {
+            "competitor_or_promotional": 0.12,
+            "duplicate": 0,
+            "keyword_collision": 0.02,
+            "low_reach_x_post": 0.05,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.16,
+            "not_news": 0,
+            "off_beat": 0.02,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.43,
+            "relevant_news": 0.19,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Cognition+lance+Devin+Desktop+pour+la+programmation+multi-agents\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.62); plausible_client_bridge (0.43). is_news 0.93, profile_bridge 0.35, promotional 0.41, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.35).",
+      "signal_id": "874b3c927950bbf9"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.2,
+          "probabilities": {
+            "keep": 0.08,
+            "monitor_only": 0.47,
+            "reject": 0.45
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.91,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.17,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.25,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "off_beat",
+          "confidence": 0.4,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.29,
+            "low_reach_x_post": 0.01,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.18,
+            "not_news": 0,
+            "off_beat": 0.46,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.05,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=L%27agent+CUDA+de+ByteDance+surpasse+les+compilateurs+dans+les+benchmarks+GPU\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.20); off_beat (0.46). is_news 0.91, profile_bridge 0.17, promotional 0.25, safety_risk 0.01.",
+      "reason": "off_beat",
+      "relevance_basis": "No profile entity matched (bridge 0.17).",
+      "signal_id": "d8d92210f2a9e73c"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.51,
+          "probabilities": {
+            "keep": 0.67,
+            "monitor_only": 0.28,
+            "reject": 0.04
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.91,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.46,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.36,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.42,
+          "probabilities": {
+            "competitor_or_promotional": 0.08,
+            "duplicate": 0,
+            "keyword_collision": 0.01,
+            "low_reach_x_post": 0.04,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.18,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.47000000000000003,
+            "relevant_news": 0.2,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Perplexity+AI+d%C3%A9voile+un+traitement+hybride+pour+agent+de+bureau+au+Computex+2026\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.51); plausible_client_bridge (0.47). is_news 0.91, profile_bridge 0.46, promotional 0.36, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.46).",
+      "signal_id": "74764f3d0fa0ebeb"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.49,
+          "probabilities": {
+            "keep": 0.66,
+            "monitor_only": 0.28,
+            "reject": 0.06
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.91,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.29,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.63,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.33,
+          "probabilities": {
+            "competitor_or_promotional": 0.16,
+            "duplicate": 0,
+            "keyword_collision": 0.01,
+            "low_reach_x_post": 0.03,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.29000000000000004,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.39,
+            "relevant_news": 0.11,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Nous+Research+lance+l%27application+de+bureau+Hermes+pour+toutes+les+plateformes\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.49); plausible_client_bridge (0.39). is_news 0.91, profile_bridge 0.29, promotional 0.63, safety_risk 0.02.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.29).",
+      "signal_id": "180126a018445c11"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.47,
+          "probabilities": {
+            "keep": 0.65,
+            "monitor_only": 0.34,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.94,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.56,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.29,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.69,
+          "probabilities": {
+            "competitor_or_promotional": 0.02,
+            "duplicate": 0,
+            "keyword_collision": 0.01,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.1,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.72,
+            "relevant_news": 0.14,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.marktechpost.com/2026/06/03/nous-research-releases-hermes-desktop-a-native-cross-platform-front-end-for-hermes-agent-v0-15-2-with-streaming-tool-output/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.47); plausible_client_bridge (0.72). is_news 0.94, profile_bridge 0.56, promotional 0.29, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.56).",
+      "signal_id": "1963b6b7f3f11e5a"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.6,
+          "probabilities": {
+            "keep": 0.19,
+            "monitor_only": 0.73,
+            "reject": 0.08
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.84,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.32,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.54,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "major_news_no_bridge",
+          "confidence": 0.53,
+          "probabilities": {
+            "competitor_or_promotional": 0.04,
+            "duplicate": 0,
+            "keyword_collision": 0.04,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.56,
+            "no_profile_bridge": 0.19,
+            "not_news": 0,
+            "off_beat": 0.03,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.13,
+            "relevant_news": 0.01,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://eu.36kr.com/en/p/3836988816094341"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.60); major_news_no_bridge (0.56). is_news 0.84, profile_bridge 0.32, promotional 0.54, safety_risk 0.01.",
+      "reason": "major_news_no_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.32).",
+      "signal_id": "5a108b0e80092e8c"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.47,
+          "probabilities": {
+            "keep": 0.65,
+            "monitor_only": 0.34,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.88,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.84,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.17,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.69,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.1,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.04,
+            "no_profile_bridge": 0.05,
+            "not_news": 0,
+            "off_beat": 0.02,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.72,
+            "relevant_news": 0.07,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.nextplatform.com/ai/2026/06/03/cisco-preps-for-a-world-of-ai-agent-coworkers-frontier-model-threats/5250406"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.47); plausible_client_bridge (0.72). is_news 0.88, profile_bridge 0.84, promotional 0.17, safety_risk 0.02.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.84).",
+      "signal_id": "dca055355a694376"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.36,
+          "probabilities": {
+            "keep": 0.2,
+            "monitor_only": 0.57,
+            "reject": 0.23
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.89,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.31,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.13,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "keyword_collision",
+          "confidence": 0.36,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.42,
+            "low_reach_x_post": 0.02,
+            "major_news_no_bridge": 0.02,
+            "no_profile_bridge": 0.13,
+            "not_news": 0,
+            "off_beat": 0.14,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.26,
+            "relevant_news": 0.01,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.07,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Les+chatbots+IA+prennent+le+contr%C3%B4le+des+premiers+entretiens+d%27embauche+face+%C3%A0+la+pol%C3%A9mique\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.36); keyword_collision (0.42). is_news 0.89, profile_bridge 0.31, promotional 0.13, safety_risk 0.07.",
+      "reason": "keyword_collision",
+      "relevance_basis": "No profile entity matched (bridge 0.31).",
+      "signal_id": "de80ca9bb28a2de2"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.44,
+          "probabilities": {
+            "keep": 0.08,
+            "monitor_only": 0.63,
+            "reject": 0.29
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.76,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.23,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.19,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "keyword_collision",
+          "confidence": 0.28,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.34,
+            "low_reach_x_post": 0.04,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.23,
+            "not_news": 0.01,
+            "off_beat": 0.12,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.19,
+            "relevant_news": 0,
+            "safety_risk": 0.06,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.07,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Les+PDG+du+secteur+technologique+stup%C3%A9faits+par+l%27explosion+des+prix+des+jetons+d%27IA\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.44); keyword_collision (0.34). is_news 0.76, profile_bridge 0.23, promotional 0.19, safety_risk 0.07.",
+      "reason": "keyword_collision",
+      "relevance_basis": "No profile entity matched (bridge 0.23).",
+      "signal_id": "fdc757aa1805c8a6"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.33,
+          "probabilities": {
+            "keep": 0.08,
+            "monitor_only": 0.37,
+            "reject": 0.55
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.57,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.24,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.13,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.41,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.19,
+            "low_reach_x_post": 0.09,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.46,
+            "not_news": 0.16,
+            "off_beat": 0.07,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.03,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.04,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Que+restera-t-il+aux+humains+lorsque+l%27IA+ma%C3%AEtrisera+tout+%3F\u0026f=live"
+      ],
+      "post_rules": [
+        "uncertainty_floor"
+      ],
+      "rationale": "Jev: reject (0.33); no_profile_bridge (0.46). is_news 0.57, profile_bridge 0.24, promotional 0.13, safety_risk 0.04. Post-rules: uncertainty_floor.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.24).",
+      "signal_id": "944b9f88754d0819"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.36,
+          "probabilities": {
+            "keep": 0.57,
+            "monitor_only": 0.38,
+            "reject": 0.05
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.89,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.37,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.17,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.28,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.14,
+            "low_reach_x_post": 0.02,
+            "major_news_no_bridge": 0.14,
+            "no_profile_bridge": 0.25,
+            "not_news": 0,
+            "off_beat": 0.04,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.34,
+            "relevant_news": 0.06,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.03,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Sam+Altman+r%C3%A9%C3%A9value+les+craintes+de+pertes+d%27emplois+li%C3%A9es+%C3%A0+l%27IA+apr%C3%A8s+des+preuves+concr%C3%A8tes\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.36); plausible_client_bridge (0.34). is_news 0.89, profile_bridge 0.37, promotional 0.17, safety_risk 0.03.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.37).",
+      "signal_id": "80fd636f2b5ea21c"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.36,
+          "probabilities": {
+            "keep": 0.33,
+            "monitor_only": 0.58,
+            "reject": 0.09
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.78,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.3,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.14,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.37,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.14,
+            "low_reach_x_post": 0.04,
+            "major_news_no_bridge": 0.02,
+            "no_profile_bridge": 0.43,
+            "not_news": 0.04,
+            "off_beat": 0.03,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.27,
+            "relevant_news": 0.03,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.03,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=D%C3%A9bat+sur+l%27IA+%3A+R%C3%A9volution+ou+bulle+sp%C3%A9culative+%3F\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.36); no_profile_bridge (0.43). is_news 0.78, profile_bridge 0.30, promotional 0.14, safety_risk 0.03.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.30).",
+      "signal_id": "bfefbefe9e0b1e2b"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.61,
+          "probabilities": {
+            "keep": 0.07,
+            "monitor_only": 0.74,
+            "reject": 0.19
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.96,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.24,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.31,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.31,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.08,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.08,
+            "no_profile_bridge": 0.34,
+            "not_news": 0,
+            "off_beat": 0.13,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.37,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.citybiz.co/article/855232/alphasense-raises-350-million-at-7-5-billion-valuation-as-ai-intelligence-platform-scales-enterprise-adoption/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.61); plausible_client_bridge (0.37). is_news 0.96, profile_bridge 0.24, promotional 0.31, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.24).",
+      "signal_id": "e16791d8ce05d168"
+    }
+  ],
+  "engine": {
+    "base_url": "https://api.typesafe.ai",
+    "calls": 18,
+    "concurrency": 8,
+    "decision_counts": {
+      "keep": 9,
+      "monitor_only": 9
+    },
+    "elapsed_ms": 721,
+    "est_cost_usd": 0.0014,
+    "failures": 0,
+    "input_tokens": 32464,
+    "latency_ms_max": 469,
+    "latency_ms_p50": 264,
+    "model": "jev-1.13.0",
+    "name": "jev",
+    "output_tokens": 4655,
+    "pricing_note": "list price $0.042 per million input tokens, output free (2026-09-18)",
+    "questions_sha256": "a60b2abc042786a73880af22acd36553df6257d68957c7645e75ff7cae92711b",
+    "signals": 18
+  },
+  "generated_at": "2026-09-18T16:23:28.516782Z",
+  "version": 1
+}

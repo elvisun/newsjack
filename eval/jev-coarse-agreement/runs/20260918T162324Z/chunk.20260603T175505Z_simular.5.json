@@ -1,0 +1,139 @@
+{
+ "profile": "simular",
+ "profile_context": {
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks"
+  ],
+  "competitors": [
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus",
+   "Adept AI",
+   "UiPath"
+  ],
+  "search_terms": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks",
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus AI agent",
+   "Adept AI",
+   "UiPath agentic automation",
+   "OSWorld benchmark"
+  ],
+  "standing": [
+   "computer-use AI agents",
+   "desktop automation",
+   "browser automation",
+   "agentic AI benchmarks",
+   "enterprise workflow automation"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with computer-use agent expertise",
+   "Research lead for agent benchmarks",
+   "Product lead for Sai"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "f32fd791a6d278c9",
+   "title": "NVIDIA d\u00e9voile la superpuce RTX Spark pour ordinateurs portables fins d\u00e9di\u00e9s \u00e0 l'IA au Computex 2026",
+   "query": "OSWorld benchmark",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "NVIDIA d\u00e9voile la superpuce RTX Spark pour ordinateurs portables fins d\u00e9di\u00e9s \u00e0 l'IA au Computex 2026",
+     "url": "https://x.com/search?q=NVIDIA+d%C3%A9voile+la+superpuce+RTX+Spark+pour+ordinateurs+portables+fins+d%C3%A9di%C3%A9s+%C3%A0+l%27IA+au+Computex+2026&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "NVIDIA d\u00e9voile la superpuce RTX Spark pour ordinateurs portables fins d\u00e9di\u00e9s \u00e0 l'IA au Computex 2026 \u00c0 Taipei, Jensen Huang a pr\u00e9sent\u00e9 des ordinateurs portables fins, capables de faire tourner des jeux AAA comme Forza \u00e0 plus de 100 images par seconde sur batterie, d\u00e9montrant ainsi comment les appareils du quotidien pou\u2026",
+     "published_at": "2026-06-02T23:07:04.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "764580e73769432b",
+   "title": "Microsoft d\u00e9voile Surface RTX Spark Dev Box pour la puissance de l'IA locale",
+   "query": "OSWorld benchmark",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft d\u00e9voile Surface RTX Spark Dev Box pour la puissance de l'IA locale",
+     "url": "https://x.com/search?q=Microsoft+d%C3%A9voile+Surface+RTX+Spark+Dev+Box+pour+la+puissance+de+l%27IA+locale&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft d\u00e9voile Surface RTX Spark Dev Box pour la puissance de l'IA locale Microsoft vient de d\u00e9voiler une b\u00eate d'IA de la taille d'un bureau lors de la conf\u00e9rence Build 2026 \u00e0 San Francisco, dot\u00e9e d'une puissance suffisante pour ex\u00e9cuter des mod\u00e8les massifs du bout des doigts. La Surface RTX Spark Dev Box est un min\u2026",
+     "published_at": "2026-06-03T16:22:55.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "752fe762d0ef9ff7",
+   "title": "Google DeepMind lance Gemma 4 12B pour ordinateurs portables",
+   "query": "OSWorld benchmark",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google DeepMind lance Gemma 4 12B pour ordinateurs portables",
+     "url": "https://x.com/search?q=Google+DeepMind+lance+Gemma+4+12B+pour+ordinateurs+portables&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Google DeepMind lance Gemma 4 12B pour ordinateurs portables Imaginez ex\u00e9cuter une intelligence artificielle de pointe sur votre ordinateur portable, capable de traiter simultan\u00e9ment du texte, des images, de l'audio et de la vid\u00e9o. Google DeepMind vient de rendre cela possible avec Gemma 4 12B. Ce mod\u00e8le ouvert de 12 m\u2026",
+     "published_at": "2026-06-03T16:37:44.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

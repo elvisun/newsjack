@@ -25,6 +25,7 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 	medialystStatus := loadMedialystAuthStatus()
 	config := configFromEnv()
 	xConfigured := bearerToken(config) != ""
+	typesafeKey, typesafeSource := loadTypeSafeAPIKey()
 	available := availableSources(config, []string{"news_search", "x_news", "x", "x_trends", "reddit", "hackernews"})
 	warnings := doctorWarnings(rootErr, medialystStatus.Configured, xConfigured)
 	actions := doctorActions(rootErr, medialystStatus.Configured, xConfigured)
@@ -52,6 +53,8 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 			"source":                       nullableString(medialystStatus.Source),
 			"auth_type":                    nullableString(medialystStatus.Kind),
 			"x_api_configured":             xConfigured,
+			"typesafe_configured":          typesafeKey != "",
+			"typesafe_source":              nullableString(typesafeSource),
 		},
 		"sources": map[string]any{
 			"news_search": contains(available, "news_search"),
@@ -69,11 +72,11 @@ func cmdDoctor(args []string, stdout, stderr io.Writer) int {
 		writeJSON(stdout, payload)
 		return 0
 	}
-	printDoctor(stdout, root, rootErr, medialystStatus.Configured, medialystStatus.Source, xConfigured, available, warnings, actions)
+	printDoctor(stdout, root, rootErr, medialystStatus.Configured, medialystStatus.Source, xConfigured, typesafeKey != "", typesafeSource, available, warnings, actions)
 	return 0
 }
 
-func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bool, medialystSource string, xConfigured bool, available []string, warnings []string, actions []map[string]string) {
+func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bool, medialystSource string, xConfigured bool, typesafeConfigured bool, typesafeSource string, available []string, warnings []string, actions []map[string]string) {
 	uiProduct(w, "doctor", "system health check")
 	fmt.Fprintln(w)
 	uiSection(w, "paths")
@@ -89,6 +92,7 @@ func printDoctor(w io.Writer, root string, rootErr error, medialystConfigured bo
 	uiSection(w, "auth")
 	uiKV(w, "Medialyst", doctorAuthStatus(medialystConfigured, medialystSource))
 	uiKV(w, "X API", doctorStatus(xConfigured))
+	uiKV(w, "TypeSafe (Jev)", doctorOptionalStatus(typesafeConfigured, typesafeSource, "newsjack auth set-typesafe --key <key>"))
 
 	fmt.Fprintln(w)
 	uiSection(w, "sources")
@@ -140,6 +144,15 @@ func doctorAuthStatus(configured bool, source string) string {
 		return "ok"
 	}
 	return "ok  " + source
+}
+
+// doctorOptionalStatus renders an optional integration: missing is a hint,
+// not a warning, because the pipeline works without it.
+func doctorOptionalStatus(configured bool, source, command string) string {
+	if configured {
+		return doctorAuthStatus(true, source)
+	}
+	return "not configured (optional)  " + command
 }
 
 func doctorStatus(ok bool) string {

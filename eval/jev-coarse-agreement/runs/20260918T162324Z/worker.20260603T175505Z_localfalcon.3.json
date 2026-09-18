@@ -1,0 +1,48 @@
+{
+  "decisions": [
+    {
+      "signal_id": "cad9baf90157c083",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "French sports news about footballer Erling Haaland and Norwegian football; 'Local Viking' query collision with NFL sports content, not local SEO tool news.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Haaland+se+glisse+dans+la+peau+d%27un+guerrier+viking+avant+le+retour+de+la+Norv%C3%A8ge+%C3%A0+la+Coupe+du+monde.&f=live"
+      ],
+      "relevance_basis": "Query 'Local Viking rank tracking' matches the word 'Viking' in sports news, not the Local Viking SEO competitor product. No bridge to local SEO, rank tracking, or AI search visibility."
+    },
+    {
+      "signal_id": "c9ae4817c968ef46",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "French sports news about NFL quarterbacks and Minnesota Vikings roster competition; keyword collision with 'Local Viking' competitor name.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Kyler+Murray+prend+l%27avantage+sur+JJ+McCarthy+dans+la+course+au+poste+de+quarterback+des+Vikings.&f=live"
+      ],
+      "relevance_basis": "Query collision: sports coverage of NFL's Minnesota Vikings, not local SEO tool competitor. No relevance to Local Falcon's topics or market."
+    },
+    {
+      "signal_id": "3491b8709f831a44",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Military news about a training accident in Iraq; spurious keyword match on 'Viking' in query string, completely unrelated to local SEO or rank tracking.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Le+caporal+James+Stewart+Freeman+tu%C3%A9+lors+d%27un+accident+d%27entra%C3%AEnement+en+Irak&f=live"
+      ],
+      "relevance_basis": "No plausible bridge to Local Falcon profile. Unrelated safety/military news captured only via query keyword collision with 'Local Viking.'"
+    },
+    {
+      "signal_id": "1e69de96aaddc6c6",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "French sports news about Minnesota Vikings NFL team hiring a new general manager; keyword collision only, no relevance to local SEO or search visibility tools.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Les+Vikings+nomment+Nolan+Teasley+nouveau+directeur+g%C3%A9n%C3%A9ral+avec+pouvoir+de+gestion+de+l%27effectif&f=live"
+      ],
+      "relevance_basis": "Sports news about NFL franchise, not SEO industry news. Query keyword collision with competitor name 'Local Viking' yields no valid client bridge."
+    }
+  ]
+}

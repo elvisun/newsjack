@@ -1,0 +1,583 @@
+{
+ "profile": "localfalcon",
+ "profile_context": {
+  "company": "Local Falcon",
+  "website": "https://www.localfalcon.com",
+  "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
+  "topics": [
+   "local rank tracking",
+   "AI search visibility",
+   "Google Business Profile optimization",
+   "geo-grid rank tracking",
+   "local SEO analytics",
+   "generative engine optimization"
+  ],
+  "competitors": [
+   "BrightLocal",
+   "Whitespark",
+   "Semrush Local",
+   "Yext",
+   "Localo",
+   "Places Scout",
+   "Local Viking"
+  ],
+  "search_terms": [
+   "local rank tracking",
+   "local SEO rank tracker",
+   "geo-grid rank tracking",
+   "AI search visibility tracking",
+   "Google Business Profile rank tracking",
+   "Google AI Overviews local visibility",
+   "ChatGPT local visibility",
+   "BrightLocal local rank tracking",
+   "Whitespark local rank tracker",
+   "Semrush Local",
+   "Yext local SEO",
+   "Local Viking rank tracking"
+  ],
+  "standing": [
+   "local SEO rank tracking",
+   "Google Business Profile analytics",
+   "AI search visibility",
+   "geo-grid local search reporting",
+   "multi-location and agency SEO workflows",
+   "generative engine optimization for local businesses"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with local SEO expertise",
+   "Product lead for AI search visibility",
+   "Local search data or customer success lead"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "7b67d265d9a10931",
+   "title": "Google\u2019s AI Overviews are not killing traffic",
+   "query": "Google AI Overviews local visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 61.7,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "killing",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Google\u2019s AI Overviews are not killing traffic",
+     "url": "https://www.bizcommunity.com/article/googles-ai-overviews-are-not-killing-traffic-734882a",
+     "container": "Bizcommunity",
+     "source": "news_search",
+     "excerpt": "Every week, I speak to businesses who are worried. Sometimes panicked. It does not matter whether they run a local plumbing business, a fast-growing Shopify...",
+     "published_at": "2026-06-03T16:55:58.603003Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "428bd094a256998a",
+   "title": "Google Search Console adds AI performance report and blocking controls",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 61.5,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google Search Console adds AI performance report and blocking controls",
+     "url": "https://www.semrush.com/blog/google-adds-ai-performance-reports/",
+     "container": "Semrush",
+     "source": "news_search",
+     "excerpt": "Google is rolling out an AI performance report and a toggle to block content from AI responses in Search Console. Here's what it means for your visibility.",
+     "published_at": "2026-06-03T15:55:56.462016Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "4b962fe9d5245362",
+   "title": "Semrush in AI Search Visibility: Why Semrush Scores Higher Than Semrush.com in ChatGPT, Claude and Gemini",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 60.6,
+   "story_size_band": "moderate",
+   "story_size_score": 33.1,
+   "profile_matches": [
+    "AI search visibility"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Semrush in AI Search Visibility: Why Semrush Scores Higher Than Semrush.com in ChatGPT, Claude and Gemini",
+     "url": "https://programminginsider.com/semrush-in-ai-search-visibility-why-semrush-scores-higher-than-semrush-com-in-chatgpt-claude-and-gemini/",
+     "container": "Programming Insider",
+     "source": "news_search",
+     "excerpt": "Semrush is one of the most recognised platforms in SEO and digital marketing. Because of its visibility across search, content and analytics workflows,...",
+     "published_at": "2026-06-03T11:55:56.462051Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "7a4c1c4c38e95750",
+   "title": "Google Tests Dedicated AI Search Reports In Search Console",
+   "query": "Google AI Overviews local visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 60.5,
+   "story_size_band": "high",
+   "story_size_score": 46.9,
+   "profile_matches": [
+    "AI search visibility"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google Tests Dedicated AI Search Reports In Search Console",
+     "url": "https://www.searchenginejournal.com/google-tests-dedicated-ai-search-reports-in-search-console/577793/",
+     "container": "Search Engine Journal",
+     "source": "news_search",
+     "excerpt": "Google is testing Search Console controls and reports for AI Search visibility, including AI-specific impressions data for some UK sites.",
+     "published_at": "2026-06-03T04:55:58.603011Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    },
+    {
+     "title": "Google Tests AI Search Blocking Controls For Websites",
+     "url": "https://winbuzzer.com/2026/06/03/google-tests-ai-search-controls-with-click-data-missing-xcxwbn/",
+     "container": "WinBuzzer",
+     "source": "news_search",
+     "excerpt": "Google is testing Search Console controls for AI Search, giving UK site owners an opt-out that cuts generative visibility but leaves click data missing.",
+     "published_at": "2026-06-03T12:55:58.603046Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "9f3797addd883f4e",
+   "title": "AdLift's Tesseract platform adds Claude AI integration and AI traffic analytics to its growing capability suite",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 60.3,
+   "story_size_band": "moderate",
+   "story_size_score": 38.1,
+   "profile_matches": [
+    "AI search visibility"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AdLift's Tesseract platform adds Claude AI integration and AI traffic analytics to its growing capability suite",
+     "url": "https://www.medianews4u.com/adlifts-tesseract-platform-adds-claude-ai-integration-and-ai-traffic-analytics-to-its-growing-capability-suite/",
+     "container": "MediaNews4U",
+     "source": "news_search",
+     "excerpt": "AdLift's AI Search Visibility platform, Tesseract, has announced the launch of two new capabilities\u2014Claude AI Integration and AI Traffic Analytics\u2014aimed at...",
+     "published_at": "2026-06-03T05:55:56.462206Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    },
+    {
+     "title": "AdLift expands Tesseract with Claude AI integration, traffic analytics tools",
+     "url": "https://www.storyboard18.com/amp/brand-marketing/adlift-expands-tesseract-with-claude-ai-integration-traffic-analytics-tools-100067.htm",
+     "container": "Storyboard18",
+     "source": "news_search",
+     "excerpt": "Global digital marketing agency AdLift has introduced two new capabilities for its AI Search Visibility platform, Tesseract, aimed at helping brands...",
+     "published_at": "2026-06-03T10:55:56.462129Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "63269e130bdc6a68",
+   "title": "Pinned SEO Ranks Google Business Profiles & AI Search Fast",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.7,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Pinned SEO Ranks Google Business Profiles & AI Search Fast",
+     "url": "https://www.accessnewswire.com/newsroom/en/business-and-professional-services/pinned-seo-expands-nationally-as-a-leader-in-google-business-pro-1172838",
+     "container": "ACCESS Newswire",
+     "source": "news_search",
+     "excerpt": "Pinned SEO helps businesses rank Google Business Profiles, improve Google Maps visibility, and appear in AI search results fast for more leads and sales.",
+     "published_at": "2026-06-02T17:55:50.119773Z",
+     "publication_type": "newswire",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "5cd208642a073162",
+   "title": "Birch Stream Digital Expands SEO Reporting to Cover ChatGPT, Gemini, and Google AI Search",
+   "query": "Google AI Overviews local visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.3,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Birch Stream Digital Expands SEO Reporting to Cover ChatGPT, Gemini, and Google AI Search",
+     "url": "https://www.mycarrollcountynews.com/online_features/press_releases/article_e19d59de-0ae0-56d7-a3eb-a2de8af12182.html",
+     "container": "Carroll County Mirror-Democrat",
+     "source": "news_search",
+     "excerpt": "Winston-Salem digital marketing agency Birch Stream Digital helps service businesses and professional firms see how.",
+     "published_at": "2026-06-02T18:55:58.60302Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2c558b96561b02bf",
+   "title": "Google Introduces Search Generative AI Performance Reports to Search Console",
+   "query": "Google AI Overviews local visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.7,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google Introduces Search Generative AI Performance Reports to Search Console",
+     "url": "https://www.affiversemedia.com/google-introduces-search-generative-ai-performance-reports/",
+     "container": "Affiverse",
+     "source": "news_search",
+     "excerpt": "Google has introduced Search Generative AI performance reports in Search Console, covering AI Overviews, AI Mode and Discover features.",
+     "published_at": "2026-06-03T09:55:58.602991Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "6eec6d7270590196",
+   "title": "google search console is getting new generative ai performance reports.\n\nsite owners will soon be able to see how their",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "x"
+   ],
+   "lane": "x_posts",
+   "queue_priority": 50.5,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "google search console is getting new generative ai performance reports.\n\nsite owners will soon be able to see how their",
+     "url": "https://x.com/RahulMarthak/status/2062066219059216886",
+     "container": "x.com",
+     "source": "x",
+     "excerpt": "google search console is getting new generative ai performance reports.\n\nsite owners will soon be able to see how their pages appear in ai overviews, ai mode, and generative ai features in discover.\n\nbig step for tracking seo visibility in ai-powered search. https://t.co/V6Ia3Plb1V",
+     "published_at": "2026-06-03T06:57:52.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "6be41cddd8d53a41",
+   "title": "Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others (Ivan Mehta/TechCrunch)",
+   "query": "major_news_feed",
+   "sources": [
+    "major_feed"
+   ],
+   "lane": "major_news",
+   "queue_priority": 49.3,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others (Ivan Mehta/TechCrunch)",
+     "url": "https://www.techmeme.com/260603/p36#a260603p36",
+     "container": "Techmeme",
+     "source": "major_feed",
+     "excerpt": "Ivan Mehta / TechCrunch : Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others \u00a0 \u2014\u00a0 For years, WhatsApp has been a communication layer for businesses of all sizes around the world.",
+     "published_at": null,
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "346a1a5488b1f670",
+   "title": "Google finally gives Search Console its own generative AI visibility reports",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 42.7,
+   "story_size_band": "moderate",
+   "story_size_score": 35.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google finally gives Search Console its own generative AI visibility reports",
+     "url": "https://ppc.land/google-finally-gives-search-console-its-own-generative-ai-visibility-reports/",
+     "container": "PPC Land",
+     "source": "news_search",
+     "excerpt": "Google adds Search Console reports for AI Overviews and AI Mode, giving site owners a separate view of generative AI impressions across Search and Discover.",
+     "published_at": "2026-06-03T09:55:56.462104Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "20e416fab329892e",
+   "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+     "url": "https://x.com/search?q=Une+nouvelle+%C3%A9tude+r%C3%A9duit+de+1%C2%A0000+fois+les+co%C3%BBts+de+v%C3%A9rification+juridique+par+IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA Les agents d'IA juridique promettent une aide pr\u00e9cieuse dans le domaine du droit, mais la v\u00e9rification de leur travail s'est av\u00e9r\u00e9e extr\u00eamement co\u00fbteuse \u2014 jusqu'\u00e0 pr\u00e9sent. Une nouvelle \u00e9tude de LangChain Labs et Harvey d\u00e9montre que les v\u2026",
+     "published_at": "2026-06-02T18:53:53.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "80fe6e7b813b2909",
+   "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+     "url": "https://x.com/search?q=MiniMax+lance+M3%2C+un+mod%C3%A8le+%C3%A0+pond%C3%A9ration+ouverte+avec+un+contexte+de+jetons+d%27un+million+de+dollars&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars Les ing\u00e9nieurs de MiniMax ont travaill\u00e9 toute la nuit pour livrer M3, un nouveau mod\u00e8le d'IA \u00e0 poids ouverts qui g\u00e8re des contextes de millions de jetons et excelle dans les t\u00e2ches de codage d\u00e8s le d\u00e9part. La soci\u00e9t\u00e9 ch\u2026",
+     "published_at": "2026-06-02T22:35:27.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "04bdc7cdeb5d719b",
+   "title": "Les pr\u00e9sentations de l'IA de Google incitent les utilisateurs \u00e0 trouver des solutions de contournement et DuckDuckGo conna\u00eet une forte croissance.",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les pr\u00e9sentations de l'IA de Google incitent les utilisateurs \u00e0 trouver des solutions de contournement et DuckDuckGo conna\u00eet une forte croissance.",
+     "url": "https://x.com/search?q=Les+pr%C3%A9sentations+de+l%27IA+de+Google+incitent+les+utilisateurs+%C3%A0+trouver+des+solutions+de+contournement+et+DuckDuckGo+conna%C3%AEt+une+forte+croissance.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les pr\u00e9sentations de l'IA de Google incitent les utilisateurs \u00e0 trouver des solutions de contournement et DuckDuckGo conna\u00eet une forte croissance. Frustr\u00e9s, les internautes changent la r\u00e9gion de leur compte Google pour la France afin d'\u00e9chapper aux r\u00e9sum\u00e9s automatiques in\u00e9vitables et de retrouver les liens bleus classi\u2026",
+     "published_at": "2026-06-02T22:51:12.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "30789df446ef6275",
+   "title": "Ahrefs d\u00e9voile les secrets de la recherche par IA \u00e0 partir d'un milliard de points de donn\u00e9es",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Ahrefs d\u00e9voile les secrets de la recherche par IA \u00e0 partir d'un milliard de points de donn\u00e9es",
+     "url": "https://x.com/search?q=Ahrefs+d%C3%A9voile+les+secrets+de+la+recherche+par+IA+%C3%A0+partir+d%27un+milliard+de+points+de+donn%C3%A9es&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Ahrefs d\u00e9voile les secrets de la recherche par IA \u00e0 partir d'un milliard de points de donn\u00e9es Tim Soulo d'Ahrefs a analys\u00e9 plus d'un milliard de points de donn\u00e9es et a constat\u00e9 que les moteurs d'IA comme ChatGPT privil\u00e9gient le v\u00e9ritable bouche-\u00e0-oreille aux vieilles techniques de r\u00e9f\u00e9rencement. Les mentions sur YouTub\u2026",
+     "published_at": "2026-06-03T00:43:10.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "b5c2911b2bda8034",
+   "title": "Google lance une option de d\u00e9sactivation pour les \u00e9diteurs britanniques des fonctionnalit\u00e9s de recherche IA",
+   "query": "local rank tracking AI search visibility",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google lance une option de d\u00e9sactivation pour les \u00e9diteurs britanniques des fonctionnalit\u00e9s de recherche IA",
+     "url": "https://x.com/search?q=Google+lance+une+option+de+d%C3%A9sactivation+pour+les+%C3%A9diteurs+britanniques+des+fonctionnalit%C3%A9s+de+recherche+IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Google lance une option de d\u00e9sactivation pour les \u00e9diteurs britanniques des fonctionnalit\u00e9s de recherche IA Les \u00e9diteurs britanniques, longtemps frustr\u00e9s par la baisse de trafic caus\u00e9e par les r\u00e9sum\u00e9s g\u00e9n\u00e9r\u00e9s par l'IA, ont d\u00e9sormais une nouvelle option\u00a0: se d\u00e9sinscrire compl\u00e8tement des outils de g\u00e9n\u00e9ration de Google. G\u2026",
+     "published_at": "2026-06-03T17:29:45.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "fa5508c57b586077",
+   "title": "Treyarch r\u00e9volutionne le mode class\u00e9 de Black Ops 7 avec la transparence du SR et des stacks Crimson complets.",
+   "query": "local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Treyarch r\u00e9volutionne le mode class\u00e9 de Black Ops 7 avec la transparence du SR et des stacks Crimson complets.",
+     "url": "https://x.com/search?q=Treyarch+r%C3%A9volutionne+le+mode+class%C3%A9+de+Black+Ops+7+avec+la+transparence+du+SR+et+des+stacks+Crimson+complets.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Treyarch r\u00e9volutionne le mode class\u00e9 de Black Ops 7 avec la transparence du SR et des stacks Crimson complets. Plus besoin de deviner pourquoi vous avez perdu des places\u00a0: Treyarch l\u00e8ve le voile sur chaque changement de SR dans le mode class\u00e9 de Black Ops 7. Avant la Saison 4, Treyarch a d\u00e9voil\u00e9 un syst\u00e8me de classemen\u2026",
+     "published_at": "2026-06-02T22:50:56.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "9fb63dd9d9ef4d1b",
+   "title": "V de BTS atteint le rang Diamant II sur le serveur cor\u00e9en tr\u00e8s comp\u00e9titif de League of Legends",
+   "query": "local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "V de BTS atteint le rang Diamant II sur le serveur cor\u00e9en tr\u00e8s comp\u00e9titif de League of Legends",
+     "url": "https://x.com/search?q=V+de+BTS+atteint+le+rang+Diamant+II+sur+le+serveur+cor%C3%A9en+tr%C3%A8s+comp%C3%A9titif+de+League+of+Legends&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "V de BTS atteint le rang Diamant II sur le serveur cor\u00e9en tr\u00e8s comp\u00e9titif de League of Legends Kim Taehyung, alias V du groupe BTS, vient d'atteindre un rang d'\u00e9lite dans League of Legends \u2014 Diamant II sur le serveur cor\u00e9en r\u00e9put\u00e9 pour sa difficult\u00e9 \u2014 tout en menant de front une tourn\u00e9e mondiale et son service militair\u2026",
+     "published_at": "2026-06-03T17:28:54.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

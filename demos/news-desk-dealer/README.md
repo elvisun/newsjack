@@ -24,6 +24,8 @@ SCRAPINGBEE_API_KEY=... node scripts/screenshot.mjs              # all of them
 
 Each shot costs ScrapingBee credits (JS rendering is on so Google News redirect pages resolve). Thumbnails are 360×270 JPEGs and the manifest is `data/shots.json`.
 
+The real pipeline has the same idea: `newsjack coarse-filter --engine jev` runs the detector's coarse-relevance pass through Jev with the public `relevance-coarse-filter` rubric translated into typed questions. See `docs/2026-09-18-jev-coarse-filter-plan.md`.
+
 ## Run it
 
 ```bash
