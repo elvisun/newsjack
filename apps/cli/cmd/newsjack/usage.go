@@ -37,12 +37,15 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "login", "recommended Medialyst browser login for live news search, journalist enrichment, and media list research", "")
 	uiCommand(w, "auth set-medialyst", "API-key fallback for CI or automation", "--key KEY")
 	uiCommand(w, "auth set-x", "save X bearer token for X News, trends, and post search", "--bearer-token TOKEN")
+	uiCommand(w, "auth set-typesafe", "save TypeSafe AI key for Jev coarse filtering", "--key KEY")
 	uiKV(w, "Medialyst login", "newsjack login")
 	uiKV(w, "Medialyst API key", medialystAPIKeyURL)
 	uiKV(w, "X bearer token", xAPIKeyURL)
+	uiKV(w, "TypeSafe key", typesafeAPIKeyURL)
 	uiNote(w, "Medialyst REST commands prefer saved OAuth, then API keys from ~/.newsjack/credentials.json or MEDIALYST_API_KEY.")
 	fmt.Fprintln(w)
 	uiSection(w, "pipeline")
+	uiCommand(w, "coarse-filter", "run the coarse-relevance pass through Jev (TypeSafe AI)", "--engine jev --candidates F")
 	uiCommand(w, "filter-apply", "apply coarse-relevance decisions to candidates", "--candidates F --decisions F")
 	uiCommand(w, "cluster", "collapse same-story pickups before retrieval", "--candidates F [--drop-stale]")
 	uiCommand(w, "origin-apply", "apply the deterministic freshness gate", "--candidates F --origins F")
@@ -121,6 +124,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 		return true
 	case "detector":
 		printDetectorHelp(w)
+		return true
+	case "coarse-filter":
+		printCoarseFilterHelp(w)
 		return true
 	case "monitor", "monitor delivery", "monitor delivery set-slack", "monitor delivery status", "monitor delivery test", "monitor delivery send", "monitor delivery remove-slack":
 		printMonitorHelp(w)
@@ -330,6 +336,7 @@ func printAuthHelp(w io.Writer) {
 	fmt.Fprintln(w, "  newsjack auth set --medialyst-key <mlst_...> --x-bearer-token <token>")
 	fmt.Fprintln(w, "  newsjack auth set-medialyst --key <mlst_...>")
 	fmt.Fprintln(w, "  newsjack auth set-x --bearer-token <token>")
+	fmt.Fprintln(w, "  newsjack auth set-typesafe --key <key>")
 	fmt.Fprintln(w)
 	uiSection(w, "optional apis")
 	uiKV(w, "Medialyst", "live news search, journalist enrichment, and media list research")
@@ -342,6 +349,10 @@ func printAuthHelp(w io.Writer) {
 	uiKV(w, "X API", "X News, X trends, and X post search")
 	uiKV(w, "get token", xAPIKeyURL)
 	uiKV(w, "save token", "newsjack auth set-x --bearer-token <token>")
+	uiKV(w, "TypeSafe AI", "Jev typed-decision model for the coarse-relevance pass (newsjack coarse-filter --engine jev)")
+	uiKV(w, "get key", typesafeAPIKeyURL)
+	uiKV(w, "save key", "newsjack auth set-typesafe --key <key>")
+	uiKV(w, "key storage", "~/.newsjack/.env or TYPESAFE_API_KEY")
 }
 
 func fail(w io.Writer, err error) int {

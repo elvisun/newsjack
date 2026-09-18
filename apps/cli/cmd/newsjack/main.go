@@ -96,6 +96,8 @@ func runCLIWithIO(args []string, stdin io.Reader, stdout, stderr io.Writer) int 
 		return cmdMonitor(args[1:], stdin, stdout, stderr)
 	case "coverage":
 		return cmdCoverage(args[1:], stdout, stderr)
+	case "coarse-filter":
+		return cmdCoarseFilter(args[1:], stdout, stderr)
 	case "filter-apply":
 		return cmdFilterApply(args[1:], stdout, stderr)
 	case "cluster":

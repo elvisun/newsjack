@@ -1,0 +1,166 @@
+{
+  "decisions": [
+    {
+      "signal_id": "d6cd01cb00b2d6be",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "BPCL internal ceremony celebrating 'GURUs' (mentors/champions) is a homonym collision with the profile competitor Guru, not news about the knowledge management product.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.psuconnect.in/psu-news/bpcl-honours-67-knowledge-champions-at-guru-felicitation-ceremony"],
+      "relevance_basis": "The profile matches on 'Guru' but the signal is about BPCL's internal mentorship ceremony, not Guru the knowledge management platform."
+    },
+    {
+      "signal_id": "2008d0167679fa21",
+      "decision": "monitor_only",
+      "reason": "competitor_or_promotional",
+      "rationale": "Atlassian blog post about Loom's use of Atlassian CSM is vendor content with no Slite bridge; preserving as monitor_only per rule on promotional content.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.atlassian.com/blog/customer-service-management/loom-ai-support-growth-engine"],
+      "relevance_basis": "Query matched on 'Atlassian Confluence AI' (competitor), but content is Atlassian's own blog promoting their CSM. Rule favors monitor_only over reject for promotional content to let triage decide."
+    },
+    {
+      "signal_id": "d9adb03bcfad63be",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Market Logic's business knowledge systems for AI-ready operations is plausibly relevant to Slite's standing in knowledge management and AI-powered internal systems.",
+      "confidence": "medium",
+      "evidence_urls": ["https://tech.einnews.com/amp/pr_news/916558384/market-logic-network-develops-business-knowledge-systems-for-ai-ready-operations"],
+      "relevance_basis": "Signal matches 'internal documentation AI' query and describes knowledge systems for AI-ready operations—coherent connection to Slite's enterprise knowledge management positioning."
+    },
+    {
+      "signal_id": "23685b7c893851f8",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Article on answer economy, AEO/GEO, and agentic AI discusses organizing internal data and documents for AI consumption—core Slite use case.",
+      "confidence": "medium",
+      "evidence_urls": ["https://themediaonline.co.za/2026/06/winning-the-answer-economy-with-aeo-geo-and-agentic-ai/"],
+      "relevance_basis": "Signal excerpt explicitly mentions 'Structure your knowledge: Organise internal data, documents and customer insights so AI can easily find and use them'—directly aligned with Slite's value proposition."
+    },
+    {
+      "signal_id": "d6783e8dff961b1e",
+      "decision": "monitor_only",
+      "reason": "no_profile_bridge",
+      "rationale": "Goldman Sachs CEO commentary on AI funding market is major business news but has no specific bridge to Slite, knowledge management, or profile competitors. Preserving as monitor_only per recall-bias rule for breadth.",
+      "confidence": "medium",
+      "evidence_urls": ["https://www.bitget.com/asia/amp/news/detail/12560605440991"],
+      "relevance_basis": "Query was 'company wiki AI' but content is general market financing news. Weak relevance preserved for downstream decision."
+    },
+    {
+      "signal_id": "1b36d51f8aa62cca",
+      "decision": "monitor_only",
+      "reason": "off_beat",
+      "rationale": "French-language post about Coinbase CEO warning on AI agents is tangential to knowledge management; profile matched on 'Notion' but no substantive bridge.",
+      "confidence": "medium",
+      "evidence_urls": ["https://x.com/search?q=Le+PDG+de+Coinbase+exhorte+les+entreprises+%C3%A0+se+pr%C3%A9parer+%C3%A0+l%27arriv%C3%A9e+de+clients+utilisant+des+agents+IA.&f=live"],
+      "relevance_basis": "Notion appears in profile_matches but content is about crypto/agents for business, not knowledge management or documentation tools."
+    },
+    {
+      "signal_id": "f842afdb8a757f8d",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Notion acquiring notion.com domain is news about a profile competitor; rule states 'A named competitor counts even when it is not the headline subject.' Relevant as competitive context.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=Notion+obtient+le+titre+tant+convoit%C3%A9+notion.com+apr%C3%A8s+huit+ans+de+recherche&f=live"],
+      "relevance_basis": "Profile includes Notion as named competitor. Per rule, competitor news survives coarse filter for downstream judgment. Safety flag on 'dead' refers to Grateful Dead reference, not safety risk."
+    },
+    {
+      "signal_id": "6be41cddd8d53a41",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Meta's global rollout of Business Agent for customer support on WhatsApp/Instagram is high-relevance AI automation news relevant to enterprise knowledge/documentation workflows and customer support knowledge systems.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.techmeme.com/260603/p36#a260603p36"],
+      "relevance_basis": "While Meta is not named competitor, Meta Business Agent for customer support touches customer support knowledge workflows, one of Slite's standing terms."
+    },
+    {
+      "signal_id": "18581697c91a1c0a",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "High-band story on Meta AI support bot security breach is major AI news with implications for AI-powered search/knowledge systems. Never reject high/major stories; relevance to AI knowledge systems security preserved.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.theguardian.com/technology/2026/jun/01/meta-ai-hack-obama-sephora-instagram"],
+      "relevance_basis": "High story_size_band (56.6) + editorial coverage + safety/security implications for AI-powered systems → rule ceiling: minimum keep, not reject."
+    },
+    {
+      "signal_id": "7269f38507888d7a",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Cognizant's AI engineering talent program is relevant to enterprise AI talent and AI-driven digital transformation, adjacent to knowledge management and RAG infrastructure.",
+      "confidence": "medium",
+      "evidence_urls": ["https://enterpriseai.economictimes.indiatimes.com/amp/news/industry/cognizant-launches-ace-team-programme-to-nurture-ai-engineering-talent/131486883"],
+      "relevance_basis": "High story_size_band (56.4) query matched on 'enterprise RAG'; talent + digital transformation initiatives are plausibly relevant to enterprise knowledge infrastructure. Preserved per recall bias."
+    },
+    {
+      "signal_id": "d1bd832d5cbc74aa",
+      "decision": "monitor_only",
+      "reason": "no_profile_bridge",
+      "rationale": "High-band story on college employment is major news but lacks connection to Slite's knowledge management or enterprise search standing. Preserving as monitor_only per rule ceiling for high stories.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.fastcompany.com/91552404/ai-isnt-the-real-reason-college-grads-cant-find-jobs"],
+      "relevance_basis": "Query 'workplace AI search' is weak match; content is labor market analysis. High story_size_band (45) → monitor_only ceiling enforced; real reason is no_profile_bridge."
+    },
+    {
+      "signal_id": "847b4ee29e7805c6",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Microsoft's new MAI family of models for reasoning and coding is major AI infrastructure news relevant to enterprise knowledge systems and AI search capabilities.",
+      "confidence": "high",
+      "evidence_urls": ["https://mashable.com/tech/microsoft-launches-new-mai-family-of-models-at-build"],
+      "relevance_basis": "High story_size_band (48.2); major AI model announcement is contextually relevant to RAG, enterprise AI search, and knowledge base capabilities. Preserved for downstream judgment."
+    },
+    {
+      "signal_id": "55fa7c587557ce6f",
+      "decision": "monitor_only",
+      "reason": "no_profile_bridge",
+      "rationale": "Mark Cuban job-search advice in AI era is high-band major news but lacks specific bridge to knowledge management, documentation, or Slite's standing. Preserving as monitor_only per rule.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.businessinsider.com/mark-cuban-ai-era-job-advice-look-at-small-businesses-2026-6"],
+      "relevance_basis": "Query 'workplace AI search' weak match; content is labor/career advice. High story_size_band (52.6) → monitor_only ceiling enforced."
+    },
+    {
+      "signal_id": "f51591270f2b31f8",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Forbes article on 'Gaining Visibility In The AI Search Era' directly addresses how brands appear in AI search contexts—relevant to Slite's enterprise search and knowledge discovery positioning.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.forbes.com/sites/cmo/2026/06/03/gaining-visibility-in-the-ai-search-era/"],
+      "relevance_basis": "High story_size_band (53.7); title directly addresses AI search visibility, coherent to Slite's enterprise search standing. Clear bridge to knowledge discovery and search infrastructure."
+    },
+    {
+      "signal_id": "71f52d6e471b7213",
+      "decision": "monitor_only",
+      "reason": "no_profile_bridge",
+      "rationale": "John Ternus succession at Apple is major news but has no connection to Slite's knowledge management, search, or enterprise standing. Preserving as monitor_only per high-band rule ceiling.",
+      "confidence": "high",
+      "evidence_urls": ["https://fortune.com/article/who-is-john-ternus-new-apple-ceo-tim-cook-retirement/"],
+      "relevance_basis": "Query 'company wiki AI' is weak keyword collision; content is executive succession news. High story_size_band (50.8) → monitor_only ceiling enforced."
+    },
+    {
+      "signal_id": "15078fb5ca721e26",
+      "decision": "monitor_only",
+      "reason": "off_beat",
+      "rationale": "Washington Post opinion on AI chatbot bias and Romance language vocabulary is high-band but tangential to knowledge management and enterprise search. Preserving as monitor_only.",
+      "confidence": "medium",
+      "evidence_urls": ["https://www.washingtonpost.com/opinions/2026/06/02/what-ai-chatbots-bias-romance-languages-tell-us-about-humanity/"],
+      "relevance_basis": "High story_size_band (53); query matched 'Notion AI' but content is linguistic/cultural analysis, not product/platform news. Monitor_only for downstream triage."
+    },
+    {
+      "signal_id": "d43760b1db3650b8",
+      "decision": "monitor_only",
+      "reason": "no_profile_bridge",
+      "rationale": "Federal Reserve study on remote work and Gen-Z employment is high-band news but lacks bridge to knowledge management or Slite standing. Preserving as monitor_only per rule ceiling.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.inc.com/victoria-salves/think-ai-is-ruining-the-job-market-for-gen-z-a-new-study-blames-remote-work-instead/91353705"],
+      "relevance_basis": "Query 'Notion AI' weak collision; content is labor market research. High story_size_band (45.2) → monitor_only ceiling enforced."
+    },
+    {
+      "signal_id": "7a3b39b0f93c0554",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Moderate-band story on Meta AI chatbot hijacking Instagram accounts is security/product reliability news relevant to AI-powered systems and knowledge/support automation vulnerabilities.",
+      "confidence": "high",
+      "evidence_urls": ["https://qz.com/meta-ai-chatbot-instagram-account-hijack-060226"],
+      "relevance_basis": "Moderate story_size_band (41.8); security exploits of AI support systems are contextually relevant to enterprise knowledge and support automation infrastructure. Preserved for downstream judgment."
+    }
+  ]
+}

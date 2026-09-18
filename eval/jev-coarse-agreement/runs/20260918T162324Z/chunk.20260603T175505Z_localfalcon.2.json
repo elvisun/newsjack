@@ -1,0 +1,555 @@
+{
+ "profile": "localfalcon",
+ "profile_context": {
+  "company": "Local Falcon",
+  "website": "https://www.localfalcon.com",
+  "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
+  "topics": [
+   "local rank tracking",
+   "AI search visibility",
+   "Google Business Profile optimization",
+   "geo-grid rank tracking",
+   "local SEO analytics",
+   "generative engine optimization"
+  ],
+  "competitors": [
+   "BrightLocal",
+   "Whitespark",
+   "Semrush Local",
+   "Yext",
+   "Localo",
+   "Places Scout",
+   "Local Viking"
+  ],
+  "search_terms": [
+   "local rank tracking",
+   "local SEO rank tracker",
+   "geo-grid rank tracking",
+   "AI search visibility tracking",
+   "Google Business Profile rank tracking",
+   "Google AI Overviews local visibility",
+   "ChatGPT local visibility",
+   "BrightLocal local rank tracking",
+   "Whitespark local rank tracker",
+   "Semrush Local",
+   "Yext local SEO",
+   "Local Viking rank tracking"
+  ],
+  "standing": [
+   "local SEO rank tracking",
+   "Google Business Profile analytics",
+   "AI search visibility",
+   "geo-grid local search reporting",
+   "multi-location and agency SEO workflows",
+   "generative engine optimization for local businesses"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with local SEO expertise",
+   "Product lead for AI search visibility",
+   "Local search data or customer success lead"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "ca0c4045cf451b96",
+   "title": "Les vedettes du baseball du secondaire re\u00e7oivent des distinctions All-State \u00e0 l'\u00e9chelle nationale",
+   "query": "local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les vedettes du baseball du secondaire re\u00e7oivent des distinctions All-State \u00e0 l'\u00e9chelle nationale",
+     "url": "https://x.com/search?q=Les+vedettes+du+baseball+du+secondaire+re%C3%A7oivent+des+distinctions+All-State+%C3%A0+l%27%C3%A9chelle+nationale&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les vedettes du baseball du secondaire re\u00e7oivent des distinctions All-State \u00e0 l'\u00e9chelle nationale De la dream team de Caroline du Nord au meilleur senior du Dakota du Nord, de jeunes athl\u00e8tes \u00e0 travers les \u00c9tats-Unis c\u00e9l\u00e8brent leurs saisons exceptionnelles avec des s\u00e9lections All-State bien m\u00e9rit\u00e9es. L'Association des \u2026",
+     "published_at": "2026-06-03T17:29:45.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "c8b4b45f296c2991",
+   "title": "Rainbow Six Siege lance une refonte de son syst\u00e8me d'op\u00e9rations avec le mode class\u00e9 3.0",
+   "query": "local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Rainbow Six Siege lance une refonte de son syst\u00e8me d'op\u00e9rations avec le mode class\u00e9 3.0",
+     "url": "https://x.com/search?q=Rainbow+Six+Siege+lance+une+refonte+de+son+syst%C3%A8me+d%27op%C3%A9rations+avec+le+mode+class%C3%A9+3.0&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Rainbow Six Siege lance une refonte de son syst\u00e8me d'op\u00e9rations avec le mode class\u00e9 3.0 Les serveurs se sont enflamm\u00e9s hier alors que les joueurs se sont lanc\u00e9s dans le plus grand remaniement du classement de Rainbow Six Siege \u00e0 ce jour, repartant de z\u00e9ro avec des points visibles et une carte casino pleine d'action sur\u2026",
+     "published_at": "2026-06-03T17:45:56.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "253dc2a30b947ac3",
+   "title": "Google finalise la mise \u00e0 jour principale de mai 2026 apr\u00e8s 12 jours de forte volatilit\u00e9.",
+   "query": "local SEO rank tracker",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Google finalise la mise \u00e0 jour principale de mai 2026 apr\u00e8s 12 jours de forte volatilit\u00e9.",
+     "url": "https://x.com/search?q=Google+finalise+la+mise+%C3%A0+jour+principale+de+mai+2026+apr%C3%A8s+12+jours+de+forte+volatilit%C3%A9.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Google finalise la mise \u00e0 jour principale de mai 2026 apr\u00e8s 12 jours de forte volatilit\u00e9. Apr\u00e8s pr\u00e8s de deux semaines de fluctuations importantes dans les classements de recherche, Google a confirm\u00e9 que sa mise \u00e0 jour principale de mai \u00e9tait termin\u00e9e, laissant les propri\u00e9taires de sites impatients de constater les d\u00e9g\u00e2\u2026",
+     "published_at": "2026-06-02T19:08:43.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "ed32c55c7ee31c99",
+   "title": "Wonhee d'ILLIT en t\u00eate du classement des idoles des d\u00e9butants pour le sixi\u00e8me mois cons\u00e9cutif",
+   "query": "local SEO rank tracker",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Wonhee d'ILLIT en t\u00eate du classement des idoles des d\u00e9butants pour le sixi\u00e8me mois cons\u00e9cutif",
+     "url": "https://x.com/search?q=Wonhee+d%27ILLIT+en+t%C3%AAte+du+classement+des+idoles+des+d%C3%A9butants+pour+le+sixi%C3%A8me+mois+cons%C3%A9cutif&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Wonhee d'ILLIT en t\u00eate du classement des idoles des d\u00e9butants pour le sixi\u00e8me mois cons\u00e9cutif Le score de Wonhee a explos\u00e9 pour atteindre 1\u00a0246\u00a0340, port\u00e9 par l'engouement des fans pour son style plus mature et le buzz autour de Billboard. Elle occupe la premi\u00e8re place du classement pour le sixi\u00e8me mois cons\u00e9cutif, et \u2026",
+     "published_at": "2026-06-03T09:47:31.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "494a2fe72d07cc42",
+   "title": "Legora acquiert Cadastral pour dynamiser l'IA dans l'immobilier commercial",
+   "query": "geo-grid rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Legora acquiert Cadastral pour dynamiser l'IA dans l'immobilier commercial",
+     "url": "https://x.com/search?q=Legora+acquiert+Cadastral+pour+dynamiser+l%27IA+dans+l%27immobilier+commercial&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Legora acquiert Cadastral pour dynamiser l'IA dans l'immobilier commercial La derni\u00e8re initiative de Legora consiste \u00e0 int\u00e9grer \u00e0 son \u00e9quipe une start-up new-yorkaise qui automatise d\u00e9j\u00e0 le cauchemar administratif des transactions immobili\u00e8res pour des g\u00e9ants comme JLL. Legora, entreprise su\u00e9doise bas\u00e9e \u00e0 Stockholm et \u2026",
+     "published_at": "2026-06-02T19:09:30.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2795a8fa377abfa6",
+   "title": "La collection NFT R3ORDR prosp\u00e8re gr\u00e2ce \u00e0 l'engouement artistique et aux achats massifs.",
+   "query": "geo-grid rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La collection NFT R3ORDR prosp\u00e8re gr\u00e2ce \u00e0 l'engouement artistique et aux achats massifs.",
+     "url": "https://x.com/search?q=La+collection+NFT+R3ORDR+prosp%C3%A8re+gr%C3%A2ce+%C3%A0+l%27engouement+artistique+et+aux+achats+massifs.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La collection NFT R3ORDR prosp\u00e8re gr\u00e2ce \u00e0 l'engouement artistique et aux achats massifs. Les portraits d\u00e9structur\u00e9s de Dario De Siena m\u00ealent graphiques en chandeliers, \u00e9crans d'erreur et esth\u00e9tique cyberpunk dans des collages num\u00e9riques chaotiques dont les collectionneurs raffolent. L'artiste suisse Dario De Siena, cof\u2026",
+     "published_at": "2026-06-03T00:17:12.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "a1f30c2d828e4d99",
+   "title": "AI Visibility Action Platforms",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 39.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AI Visibility Action Platforms",
+     "url": "https://www.trendhunter.com/amp/trends/AI-visibility-action-platforms",
+     "container": "Trend Hunter",
+     "source": "news_search",
+     "excerpt": "AI visibility action platforms - AI visibility action platforms are helping marketers move beyond monitoring their presence in AI search results by...",
+     "published_at": "2026-06-02T18:55:56.462079Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "c7b53aac7ef2a575",
+   "title": "AdLift introduces Claude-powered AI traffic analytics for marketers",
+   "query": "AI search visibility tracking",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 32.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AdLift introduces Claude-powered AI traffic analytics for marketers",
+     "url": "https://www.socialsamosa.com/industry-updates/adlift-claude-ai-traffic-analytics-11903421",
+     "container": "Social Samosa",
+     "source": "news_search",
+     "excerpt": "It has added Claude AI integration and AI Traffic Analytics to Tesseract, enabling brands to analyse AI-generated mentions for sentiment, context and intent...",
+     "published_at": "2026-06-03T09:55:56.462179Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d9485c069e80dc2c",
+   "title": "Meta lance un agent commercial IA mondial pour les applications de messagerie",
+   "query": "Google Business Profile rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meta lance un agent commercial IA mondial pour les applications de messagerie",
+     "url": "https://x.com/search?q=Meta+lance+un+agent+commercial+IA+mondial+pour+les+applications+de+messagerie&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Meta lance un agent commercial IA mondial pour les applications de messagerie Imaginez une IA qui discute avec les clients 24h/24 et 7j/7, recommande des produits et prend m\u00eame des rendez-vous, le tout avec la voix de votre entreprise. Meta a lanc\u00e9 son agent commercial Meta Business Agent mercredi lors de la conf\u00e9rence\u2026",
+     "published_at": "2026-06-03T17:12:41.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "835fcb43c1a0b07f",
+   "title": "Crypto Project AI Visibility Service: 75+ Authority Sites Network Announced",
+   "query": "Google AI Overviews local visibility",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 38.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Crypto Project AI Visibility Service: 75+ Authority Sites Network Announced",
+     "url": "https://www.elpasotimes.com/press-release/story/156648/crypto-project-ai-visibility-service-75-authority-sites-network-announced/",
+     "container": "El Paso Times",
+     "source": "news_search",
+     "excerpt": "Ethos Media & Marketing LLC has expanded its CatalystPro platform to distribute crypto project content across a network of more than 400 digital platforms,...",
+     "published_at": "2026-06-03T04:55:58.603029Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "95c46e7788feab67",
+   "title": "Vitality conserve une mince avance sur VRS au d\u00e9but du salon IEM de Cologne.",
+   "query": "BrightLocal local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "blast",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Vitality conserve une mince avance sur VRS au d\u00e9but du salon IEM de Cologne.",
+     "url": "https://x.com/search?q=Vitality+conserve+une+mince+avance+sur+VRS+au+d%C3%A9but+du+salon+IEM+de+Cologne.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Vitality conserve une mince avance sur VRS au d\u00e9but du salon IEM de Cologne. Vitality occupe la premi\u00e8re place du classement r\u00e9gional de Valve avec seulement 32 points d'avance sur Team Spirit, mais les march\u00e9s de pr\u00e9diction ne leur donnent que 46 % de chances de conserver cette position jusqu'en juin. Le 2 juin, Team \u2026",
+     "published_at": "2026-06-02T21:02:50.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e8454a54a98149da",
+   "title": "TleFirstOne d\u00e9voile son premier single \u00ab When It Rains \u00bb",
+   "query": "BrightLocal local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "TleFirstOne d\u00e9voile son premier single \u00ab When It Rains \u00bb",
+     "url": "https://x.com/search?q=TleFirstOne+d%C3%A9voile+son+premier+single+%C2%AB+When+It+Rains+%C2%BB&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "TleFirstOne d\u00e9voile son premier single \u00ab When It Rains \u00bb \u00c0 l'approche de la saison de la mousson en Tha\u00eflande, Tle et FirstOne capturent l'odeur de la pluie qui ravive de vieux souvenirs dans leur premi\u00e8re ballade commune. Les acteurs et chanteurs tha\u00eflandais Tle Matimun Sreeboonrueang, 27 ans, et FirstOne Wannakorn Re\u2026",
+     "published_at": "2026-06-03T15:36:17.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "7c48905cda667469",
+   "title": "Les fans de LNGSHOT se mobilisent pour la place de r\u00e9v\u00e9lation de l'ann\u00e9e aux KM Chart Awards",
+   "query": "BrightLocal local rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les fans de LNGSHOT se mobilisent pour la place de r\u00e9v\u00e9lation de l'ann\u00e9e aux KM Chart Awards",
+     "url": "https://x.com/search?q=Les+fans+de+LNGSHOT+se+mobilisent+pour+la+place+de+r%C3%A9v%C3%A9lation+de+l%27ann%C3%A9e+aux+KM+Chart+Awards&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les fans de LNGSHOT se mobilisent pour la place de r\u00e9v\u00e9lation de l'ann\u00e9e aux KM Chart Awards Les fans de Shotties \u00e9coutent \u00ab Moonwalkin' \u00bb en boucle et partagent des guides de vote, d\u00e9termin\u00e9s \u00e0 propulser leurs nouveaux favoris en finale. Le groupe de K-pop LNGSHOT, compos\u00e9 d'Ohyul, Ryul, Woojin et Louis, et sous le la\u2026",
+     "published_at": "2026-06-03T16:05:53.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "54a06c3106f6851b",
+   "title": "Le capitaine ouzbek Skies marque un but ouvert lors du match amical contre le Canada.",
+   "query": "Semrush Local",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Le capitaine ouzbek Skies marque un but ouvert lors du match amical contre le Canada.",
+     "url": "https://x.com/search?q=Le+capitaine+ouzbek+Skies+marque+un+but+ouvert+lors+du+match+amical+contre+le+Canada.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Le capitaine ouzbek Skies marque un but ouvert lors du match amical contre le Canada. Alors que le but \u00e9tait grand ouvert, l'attaquant vedette ouzbek Eldor Shomurodov a lob\u00e9 le ballon au-dessus de la barre transversale \u2013 un rat\u00e9 qui a provoqu\u00e9 l'hilarit\u00e9 des supporters lors du match amical pluvieux de lundi \u00e0 Edmonton.\u2026",
+     "published_at": "2026-06-02T22:52:32.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "5a9a22b9c46f13ab",
+   "title": "Irumudi, le film de Ravi Teja, d\u00e9voile un lien p\u00e8re-fille dans un nouvel aper\u00e7u",
+   "query": "Semrush Local",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Irumudi, le film de Ravi Teja, d\u00e9voile un lien p\u00e8re-fille dans un nouvel aper\u00e7u",
+     "url": "https://x.com/search?q=Irumudi%2C+le+film+de+Ravi+Teja%2C+d%C3%A9voile+un+lien+p%C3%A8re-fille+dans+un+nouvel+aper%C3%A7u&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Irumudi, le film de Ravi Teja, d\u00e9voile un lien p\u00e8re-fille dans un nouvel aper\u00e7u Ravi Teja, assis sur une falaise brumeuse avec une jeune fille, tongs jet\u00e9es \u00e0 terre, contemple les montagnes en silence. Cette image touchante capture l'essence \u00e9motionnelle de son prochain film, Irumudi. La soci\u00e9t\u00e9 de production Mythri Mo\u2026",
+     "published_at": "2026-06-03T05:00:54.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "856491155799a5ea",
+   "title": "La boutique \u00e9ph\u00e9m\u00e8re SKZOO des Stray Kids ouvre ses portes \u00e0 New York sur le th\u00e8me de l'aventure a\u00e9roportuaire",
+   "query": "Semrush Local",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La boutique \u00e9ph\u00e9m\u00e8re SKZOO des Stray Kids ouvre ses portes \u00e0 New York sur le th\u00e8me de l'aventure a\u00e9roportuaire",
+     "url": "https://x.com/search?q=La+boutique+%C3%A9ph%C3%A9m%C3%A8re+SKZOO+des+Stray+Kids+ouvre+ses+portes+%C3%A0+New+York+sur+le+th%C3%A8me+de+l%27aventure+a%C3%A9roportuaire&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La boutique \u00e9ph\u00e9m\u00e8re SKZOO des Stray Kids ouvre ses portes \u00e0 New York sur le th\u00e8me de l'aventure a\u00e9roportuaire Les fans de Stray Kids faisaient la queue devant Belmont Park, pr\u00eats \u00e0 plonger dans un univers sur le th\u00e8me de l'a\u00e9roport o\u00f9 leurs avatars animaux pr\u00e9f\u00e9r\u00e9s, comme le loup Bang Chan et le lapin Lee Know, se pr\u00e9\u2026",
+     "published_at": "2026-06-03T17:47:28.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "9290d5b61bc0b10d",
+   "title": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026.",
+   "query": "Yext local SEO",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026.",
+     "url": "https://x.com/search?q=Yoko+Apasra+interviendra+lors+de+la+table+ronde+du+forum+LGBTQ%2B+du+TILFF+2026.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026. Yoko Apasra, la star de 24 ans de la s\u00e9rie GL Blank (2024), est impatiente de rencontrer ses fans lors d'une prochaine table ronde sur les s\u00e9ries tha\u00eflandaises Y et GL. Le dimanche 7 juin, de 12:00 \u00e0 14:00 (GMT+7), Yoko participe \u00e0 la table \u2026",
+     "published_at": "2026-06-03T11:26:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2a607278fa6d9caa",
+   "title": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web",
+   "query": "Yext local SEO",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web",
+     "url": "https://x.com/search?q=OpenAI+Codex+lance+des+sites+pour+la+cr%C3%A9ation+instantan%C3%A9e+de+sites+web&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web Imaginez saisir une simple description et voir un site web ou une application compl\u00e8te prendre vie, avec bases de donn\u00e9es et design \u00e9l\u00e9gant. Codex d'OpenAI a rendu cela possible pour les utilisateurs. La nouvelle fonctionnalit\u00e9 Sites de Codex permet\u2026",
+     "published_at": "2026-06-03T16:07:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

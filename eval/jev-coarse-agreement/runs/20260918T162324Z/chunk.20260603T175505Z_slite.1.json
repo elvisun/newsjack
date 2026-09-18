@@ -1,0 +1,559 @@
+{
+ "profile": "slite",
+ "profile_context": {
+  "company": "Slite",
+  "website": "https://slite.com",
+  "description": "AI-powered knowledge base and company wiki for documentation, verified internal knowledge, and enterprise search.",
+  "topics": [
+   "AI knowledge base",
+   "enterprise search",
+   "internal documentation",
+   "company wiki",
+   "AI knowledge management",
+   "workplace knowledge search",
+   "enterprise RAG"
+  ],
+  "competitors": [
+   "Notion",
+   "Notion AI",
+   "Atlassian Confluence",
+   "Guru",
+   "Glean",
+   "Slab",
+   "Document360"
+  ],
+  "search_terms": [
+   "AI knowledge base",
+   "enterprise RAG",
+   "workplace AI search",
+   "internal documentation AI",
+   "company wiki AI",
+   "Notion AI",
+   "Atlassian Confluence AI",
+   "Glean enterprise search",
+   "Guru knowledge management",
+   "Document360 AI"
+  ],
+  "standing": [
+   "knowledge management",
+   "AI-powered internal search",
+   "company documentation",
+   "team onboarding",
+   "customer support knowledge workflows"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with knowledge management expertise",
+   "Product lead for AI search",
+   "Customer success lead for documentation adoption"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "d6cd01cb00b2d6be",
+   "title": "BPCL Honours 67 Knowledge Champions at GURU Felicitation Ceremony",
+   "query": "Guru knowledge management",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.5,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "Guru"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "BPCL Honours 67 Knowledge Champions at GURU Felicitation Ceremony",
+     "url": "https://www.psuconnect.in/psu-news/bpcl-honours-67-knowledge-champions-at-guru-felicitation-ceremony",
+     "container": "PSU Connect",
+     "source": "news_search",
+     "excerpt": "BPCL recognised 67 GURUs across its businesses and entities at the GURU Felicitation Ceremony, celebrating excellence in knowledge sharing, mentoring,...",
+     "published_at": "2026-06-03T06:56:04.948378Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2008d0167679fa21",
+   "title": "How Loom turns customer support into a driver of business growth with Atlassian Customer Service Management",
+   "query": "Atlassian Confluence AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.2,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "How Loom turns customer support into a driver of business growth with Atlassian Customer Service Management",
+     "url": "https://www.atlassian.com/blog/customer-service-management/loom-ai-support-growth-engine",
+     "container": "Atlassian",
+     "source": "news_search",
+     "excerpt": "Loom resolves 80% of support inquiries with AI and cut churn by 11% using Atlassian CSM \u2014 turning customer support into a growth engine.",
+     "published_at": "2026-06-02T22:56:02.501773Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d9adb03bcfad63be",
+   "title": "Market Logic Network Develops Business Knowledge Systems for AI-Ready Operations",
+   "query": "internal documentation AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.1,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Market Logic Network Develops Business Knowledge Systems for AI-Ready Operations",
+     "url": "https://tech.einnews.com/amp/pr_news/916558384/market-logic-network-develops-business-knowledge-systems-for-ai-ready-operations",
+     "container": "EIN News",
+     "source": "news_search",
+     "excerpt": "Company helps businesses organize internal knowledge, workflows, CRM data, and operational processes into structured systems that support smarter AI...",
+     "published_at": "2026-06-02T21:55:55.903985Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "23685b7c893851f8",
+   "title": "Winning the answer economy with AEO, GEO and Agentic AI",
+   "query": "internal documentation AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Winning the answer economy with AEO, GEO and Agentic AI",
+     "url": "https://themediaonline.co.za/2026/06/winning-the-answer-economy-with-aeo-geo-and-agentic-ai/",
+     "container": "The Media Online",
+     "source": "news_search",
+     "excerpt": "Structure your knowledge: Organise internal data, documents and customer insights so AI can easily find and use them. Create AI-readable content: Publish...",
+     "published_at": "2026-06-03T05:55:55.904021Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d6783e8dff961b1e",
+   "title": "Goldman Sachs CEO: Market Enters 'Greed' Mode, Major AI Firms Expected to Lead Massive Financing Wave",
+   "query": "company wiki AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Goldman Sachs CEO: Market Enters 'Greed' Mode, Major AI Firms Expected to Lead Massive Financing Wave",
+     "url": "https://www.bitget.com/asia/amp/news/detail/12560605440991",
+     "container": "Bitget",
+     "source": "news_search",
+     "excerpt": "Goldman Sachs CEO David Solomon stated that as the market prepares for a massive wave of AI company financings, investor sentiment has clearly shifted into...",
+     "published_at": "2026-06-02T23:55:57.405258Z",
+     "publication_type": "brand_content",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "1b36d51f8aa62cca",
+   "title": "Le PDG de Coinbase exhorte les entreprises \u00e0 se pr\u00e9parer \u00e0 l'arriv\u00e9e de clients utilisant des agents IA.",
+   "query": "Notion AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news",
+   "queue_priority": 56.5,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "Notion"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Le PDG de Coinbase exhorte les entreprises \u00e0 se pr\u00e9parer \u00e0 l'arriv\u00e9e de clients utilisant des agents IA.",
+     "url": "https://x.com/search?q=Le+PDG+de+Coinbase+exhorte+les+entreprises+%C3%A0+se+pr%C3%A9parer+%C3%A0+l%27arriv%C3%A9e+de+clients+utilisant+des+agents+IA.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Le PDG de Coinbase exhorte les entreprises \u00e0 se pr\u00e9parer \u00e0 l'arriv\u00e9e de clients utilisant des agents IA. Les agents d'IA d\u00e9pensent d\u00e9j\u00e0 de l'argent r\u00e9el en ligne, g\u00e9rant des millions de micropaiements pour des donn\u00e9es et des outils. Brian Armstrong, PDG de Coinbase, avertit les entreprises qu'elles doivent s'adapter d\u00e8\u2026",
+     "published_at": "2026-06-03T00:16:58.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f842afdb8a757f8d",
+   "title": "Notion obtient le titre tant convoit\u00e9 notion.com apr\u00e8s huit ans de recherche",
+   "query": "Notion AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news",
+   "queue_priority": 56.1,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "Notion"
+   ],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "dead",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Notion obtient le titre tant convoit\u00e9 notion.com apr\u00e8s huit ans de recherche",
+     "url": "https://x.com/search?q=Notion+obtient+le+titre+tant+convoit%C3%A9+notion.com+apr%C3%A8s+huit+ans+de+recherche&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Notion obtient le titre tant convoit\u00e9 notion.com apr\u00e8s huit ans de recherche Akshay Kothari, cofondateur de Notion, a finalement obtenu le nom de domaine dont r\u00eavait son PDG, concluant ainsi une saga avec de l'argent, des actions et le c\u0153ur d'un fan des Grateful Dead. Notion est pass\u00e9 de notion.so \u00e0 app.notion.com cett\u2026",
+     "published_at": "2026-06-03T04:31:13.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "6be41cddd8d53a41",
+   "title": "Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others (Ivan Mehta/TechCrunch)",
+   "query": "major_news_feed",
+   "sources": [
+    "major_feed"
+   ],
+   "lane": "major_news",
+   "queue_priority": 49.3,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others (Ivan Mehta/TechCrunch)",
+     "url": "https://www.techmeme.com/260603/p36#a260603p36",
+     "container": "Techmeme",
+     "source": "major_feed",
+     "excerpt": "Ivan Mehta / TechCrunch : Meta launches Meta Business Agent globally on WhatsApp and Instagram DMs, after a two-year pilot of the customer support AI bot in India, Mexico, and others \u00a0 \u2014\u00a0 For years, WhatsApp has been a communication layer for businesses of all sizes around the world.",
+     "published_at": null,
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "18581697c91a1c0a",
+   "title": "Hackers trick Meta AI support bot to infiltrate Obama White House Instagram account",
+   "query": "AI knowledge base",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 56.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Hackers trick Meta AI support bot to infiltrate Obama White House Instagram account",
+     "url": "https://www.theguardian.com/technology/2026/jun/01/meta-ai-hack-obama-sephora-instagram",
+     "container": "The Guardian",
+     "source": "news_search",
+     "excerpt": "Breach of high-profile accounts raises concerns about reliance on AI for security measures such as passwords.",
+     "published_at": "2026-06-03T01:55:50.220278Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "7269f38507888d7a",
+   "title": "Cognizant launches Ace Team programme to nurture AI engineering talent",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 56.4,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Cognizant launches Ace Team programme to nurture AI engineering talent",
+     "url": "https://enterpriseai.economictimes.indiatimes.com/amp/news/industry/cognizant-launches-ace-team-programme-to-nurture-ai-engineering-talent/131486883",
+     "container": "Indiatimes",
+     "source": "news_search",
+     "excerpt": "Making AI Work: The initiative will initially recruit high-potential engineers in India to support AI-led digital transformation projects.",
+     "published_at": "2026-06-03T14:55:52.21683Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d1bd832d5cbc74aa",
+   "title": "AI isn\u2019t the real reason college grads can\u2019t find jobs",
+   "query": "workplace AI search",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 45,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AI isn\u2019t the real reason college grads can\u2019t find jobs",
+     "url": "https://www.fastcompany.com/91552404/ai-isnt-the-real-reason-college-grads-cant-find-jobs",
+     "container": "Fast Company",
+     "source": "news_search",
+     "excerpt": "There might be a bigger culprit for the rising unemployment rate among young workers, according to new research.",
+     "published_at": "2026-06-02T20:55:54.071232Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "847b4ee29e7805c6",
+   "title": "Microsoft launches new MAI family of AI models for reasoning, voice, coding, and images",
+   "query": "workplace AI search",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 48.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft launches new MAI family of AI models for reasoning, voice, coding, and images",
+     "url": "https://mashable.com/tech/microsoft-launches-new-mai-family-of-models-at-build",
+     "container": "Mashable",
+     "source": "news_search",
+     "excerpt": "At Microsoft Build 2026, the company announced a new family of models, MAI, led by its first reasoning model, MAI-Thinking-1.",
+     "published_at": "2026-06-03T08:55:54.071271Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "55fa7c587557ce6f",
+   "title": "Mark Cuban's job-search advice in the AI era: Look at small businesses",
+   "query": "workplace AI search",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 52.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Mark Cuban's job-search advice in the AI era: Look at small businesses",
+     "url": "https://www.businessinsider.com/mark-cuban-ai-era-job-advice-look-at-small-businesses-2026-6",
+     "container": "Business Insider",
+     "source": "news_search",
+     "excerpt": "As AI reshapes the job market, Mark Cuban has a simple piece of career advice: look at small businesses. In an X post on Tuesday, the billionaire...",
+     "published_at": "2026-06-03T09:55:54.071127Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f51591270f2b31f8",
+   "title": "Gaining Visibility In The AI Search Era",
+   "query": "workplace AI search",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 53.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Gaining Visibility In The AI Search Era",
+     "url": "https://www.forbes.com/sites/cmo/2026/06/03/gaining-visibility-in-the-ai-search-era/",
+     "container": "Forbes",
+     "source": "news_search",
+     "excerpt": "Also in the Forbes CMO Newsletter: Shoppers like help from AI, but prefer to stay in control; Patagonia's trademark battle against a climate activist drag...",
+     "published_at": "2026-06-03T17:01:54.071043Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "71f52d6e471b7213",
+   "title": "Meet John Ternus, the 51-year-old former swimming champ who will succeed Tim Cook as Apple CEO",
+   "query": "company wiki AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 50.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meet John Ternus, the 51-year-old former swimming champ who will succeed Tim Cook as Apple CEO",
+     "url": "https://fortune.com/article/who-is-john-ternus-new-apple-ceo-tim-cook-retirement/",
+     "container": "Fortune",
+     "source": "news_search",
+     "excerpt": "John Ternus, the company's 51-year-old senior vice president of hardware engineering, has been named as CEO Tim Cook's successor, effective Sept. 1.",
+     "published_at": "2026-06-02T22:55:57.404984Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "15078fb5ca721e26",
+   "title": "Opinion | Do these words make you sound smarter? The bias is spreading.",
+   "query": "Notion AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 53,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Opinion | Do these words make you sound smarter? The bias is spreading.",
+     "url": "https://www.washingtonpost.com/opinions/2026/06/02/what-ai-chatbots-bias-romance-languages-tell-us-about-humanity/",
+     "container": "The Washington Post",
+     "source": "news_search",
+     "excerpt": "English speakers love the Romance vocabulary. AI noticed.",
+     "published_at": "2026-06-02T17:56:00.852626Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d43760b1db3650b8",
+   "title": "Think AI Is Ruining the Job Market for Gen-Z? A New Study Blames Remote Work Instead\u2014Here's Why",
+   "query": "Notion AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 45.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Think AI Is Ruining the Job Market for Gen-Z? A New Study Blames Remote Work Instead\u2014Here's Why",
+     "url": "https://www.inc.com/victoria-salves/think-ai-is-ruining-the-job-market-for-gen-z-a-new-study-blames-remote-work-instead/91353705",
+     "container": "Inc.com",
+     "source": "news_search",
+     "excerpt": "Research published by the Federal Reserve Bank of New York found that work-from-home set-ups may be fueling the unemployment rate among recent college...",
+     "published_at": "2026-06-03T00:56:00.852579Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "7a3b39b0f93c0554",
+   "title": "Hackers used Meta's AI support chatbot to hijack Instagram accounts",
+   "query": "AI knowledge base",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 41.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Hackers used Meta's AI support chatbot to hijack Instagram accounts",
+     "url": "https://qz.com/meta-ai-chatbot-instagram-account-hijack-060226",
+     "container": "Quartz",
+     "source": "news_search",
+     "excerpt": "Meta $META's AI support chatbot was exploited by hackers to take over a wave of Instagram accounts, including those belonging to high-profile users,...",
+     "published_at": "2026-06-02T19:55:50.220325Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

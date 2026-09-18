@@ -1,0 +1,550 @@
+{
+ "profile": "simular",
+ "profile_context": {
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks"
+  ],
+  "competitors": [
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus",
+   "Adept AI",
+   "UiPath"
+  ],
+  "search_terms": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks",
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus AI agent",
+   "Adept AI",
+   "UiPath agentic automation",
+   "OSWorld benchmark"
+  ],
+  "standing": [
+   "computer-use AI agents",
+   "desktop automation",
+   "browser automation",
+   "agentic AI benchmarks",
+   "enterprise workflow automation"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with computer-use agent expertise",
+   "Research lead for agent benchmarks",
+   "Product lead for Sai"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "999c4d5972776831",
+   "title": "Top 10: Industry CEOs",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 40.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Top 10: Industry CEOs",
+     "url": "https://procurementmag.com/top10/top-10-industry-ceos",
+     "container": "Procurement Magazine",
+     "source": "news_search",
+     "excerpt": "From AI agents to orchestration layers, we profile the ten visionary CEOs redefining global procurement and driving strategic margin growth in 2026.",
+     "published_at": "2026-06-03T09:55:57.896705Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "211eea2af8437728",
+   "title": "Build 2026: Microsoft tops Google in image generation while playing catch-up on reasoning",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 37.9,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Build 2026: Microsoft tops Google in image generation while playing catch-up on reasoning",
+     "url": "https://the-decoder.com/build-2026-microsoft-tops-google-in-image-generation-while-playing-catch-up-on-reasoning/",
+     "container": "The Decoder",
+     "source": "news_search",
+     "excerpt": "Microsoft unveiled seven homegrown AI models at Build 2026, including its first reasoning model, MAI-Thinking-1. In benchmarks, it lands roughly on par with...",
+     "published_at": "2026-06-03T10:55:57.89661Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "807a4d1862e881d7",
+   "title": "Microsoft MDASH Gains Defender Integration at Build 2026: 96.55% on CyberGym Benchmark",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 38.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft MDASH Gains Defender Integration at Build 2026: 96.55% on CyberGym Benchmark",
+     "url": "https://www.techtimes.com/articles/317692/20260603/microsoft-mdash-gains-defender-integration-build-2026-9655-cybergym-benchmark.htm",
+     "container": "Tech Times",
+     "source": "news_search",
+     "excerpt": "Microsoft MDASH, the 100-agent agentic AI security system, entered expanded preview at Build 2026 with native Defender Portal integration and a 96.55%...",
+     "published_at": "2026-06-03T16:55:57.896677Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "20e416fab329892e",
+   "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+     "url": "https://x.com/search?q=Une+nouvelle+%C3%A9tude+r%C3%A9duit+de+1%C2%A0000+fois+les+co%C3%BBts+de+v%C3%A9rification+juridique+par+IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA Les agents d'IA juridique promettent une aide pr\u00e9cieuse dans le domaine du droit, mais la v\u00e9rification de leur travail s'est av\u00e9r\u00e9e extr\u00eamement co\u00fbteuse \u2014 jusqu'\u00e0 pr\u00e9sent. Une nouvelle \u00e9tude de LangChain Labs et Harvey d\u00e9montre que les v\u2026",
+     "published_at": "2026-06-02T18:53:53.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "51cb154742807fb9",
+   "title": "Replit lance ViBench pour tester les agents d'IA sur des applications web compl\u00e8tes.",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Replit lance ViBench pour tester les agents d'IA sur des applications web compl\u00e8tes.",
+     "url": "https://x.com/search?q=Replit+lance+ViBench+pour+tester+les+agents+d%27IA+sur+des+applications+web+compl%C3%A8tes.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Replit lance ViBench pour tester les agents d'IA sur des applications web compl\u00e8tes. Replit vient de publier ViBench, un nouveau benchmark qui met au d\u00e9fi les agents d'IA de construire des applications web compl\u00e8tes \u00e0 partir de simples descriptions de produits, tout comme les vrais d\u00e9veloppeurs do. Annonc\u00e9 par Michele \u2026",
+     "published_at": "2026-06-02T19:58:34.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d8f76df09665f18a",
+   "title": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365",
+     "url": "https://x.com/search?q=Microsoft+s%27associe+%C3%A0+OpenClaw+pour+des+agents+d%27IA+s%C3%A9curis%C3%A9s+sur+Windows+et+Office+365&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365 Satya Nadella a partag\u00e9 la sc\u00e8ne avec Peter Steinberger, cr\u00e9ateur d'OpenClaw, lors de la conf\u00e9rence Build 2026, pour pr\u00e9senter des agents d'IA capables de g\u00e9rer les e-mails et les calendriers directement sur votre ordinateur portabl\u2026",
+     "published_at": "2026-06-03T16:56:11.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "cb1fdab995d8c9e5",
+   "title": "Claude Opus 4.8 suscite des r\u00e9actions mitig\u00e9es chez les d\u00e9veloppeurs une semaine apr\u00e8s sa sortie.",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Claude Opus 4.8 suscite des r\u00e9actions mitig\u00e9es chez les d\u00e9veloppeurs une semaine apr\u00e8s sa sortie.",
+     "url": "https://x.com/search?q=Claude+Opus+4.8+suscite+des+r%C3%A9actions+mitig%C3%A9es+chez+les+d%C3%A9veloppeurs+une+semaine+apr%C3%A8s+sa+sortie.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Claude Opus 4.8 suscite des r\u00e9actions mitig\u00e9es chez les d\u00e9veloppeurs une semaine apr\u00e8s sa sortie. Six jours seulement apr\u00e8s son lancement le 28 mai, Claude Opus 4.8 d'Anthropic suscite des r\u00e9actions mitig\u00e9es chez les d\u00e9veloppeurs, certains applaudissant une logique plus pr\u00e9cise, d'autres d\u00e9plorant le peu de changements\u2026",
+     "published_at": "2026-06-03T17:12:42.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "765908e90d9d3a6a",
+   "title": "OpenAI Unveils Plans to Move Codex Beyond Coders",
+   "query": "OpenAI Operator",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 40.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "OpenAI Unveils Plans to Move Codex Beyond Coders",
+     "url": "https://www.pymnts.com/artificial-intelligence-2/2026/openai-unveils-plans-to-move-codex-beyond-coders/",
+     "container": "PYMNTS.com",
+     "source": "news_search",
+     "excerpt": "Artificial intelligence company OpenAI announced it is expanding the uses of its coding agent for fields beyond software engineering.",
+     "published_at": "2026-06-02T19:55:59.515043Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "88ad9aa00fa7037e",
+   "title": "Inside OpenAI\u2019s Decision to Combine Codex and ChatGPT",
+   "query": "OpenAI Operator",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 41.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Inside OpenAI\u2019s Decision to Combine Codex and ChatGPT",
+     "url": "https://www.theinformation.com/articles/inside-openais-decision-combine-codex-chatgpt",
+     "container": "The Information",
+     "source": "news_search",
+     "excerpt": "Early last year, after Anthropic released a preview of its coding tool, Claude Code, OpenAI realized it had allowed the then-smaller AI rival to surpass it...",
+     "published_at": "2026-06-02T20:55:59.515025Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "a9bfca225505be65",
+   "title": "OpenAI, Anthropic respond to Trump\u2019s AI security sharing executive order",
+   "query": "OpenAI Operator",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 42.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "OpenAI, Anthropic respond to Trump\u2019s AI security sharing executive order",
+     "url": "https://www.thenews.com.pk/latest/1404602-openai-anthropic-respond-to-trumps-ai-security-sharing-executive-order",
+     "container": "The News International",
+     "source": "news_search",
+     "excerpt": "The Trump administration on Tuesday signed an executive order to promote AI-powered innovation and address the security risks posed by artificial...",
+     "published_at": "2026-06-03T06:55:59.515065Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e27cedeae0fb0636",
+   "title": "Microsoft Fears Being Marginalized by AI Giants",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 43.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Fears Being Marginalized by AI Giants",
+     "url": "https://eu.36kr.com/en/p/3837264010361729",
+     "container": "36 Kr",
+     "source": "news_search",
+     "excerpt": "Once upon a time, OpenAI needed Microsoft. Today, Microsoft needs to prove that it doesn't need OpenAI. On June 2nd, Build 2026 kicked off.",
+     "published_at": "2026-06-03T10:56:00.825226Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "81f322b3eb711c69",
+   "title": "The Real Winner in the Anthropic IPO Isn\u2019t Anthropic, OpenAI, or Even Google.",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 42.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "The Real Winner in the Anthropic IPO Isn\u2019t Anthropic, OpenAI, or Even Google.",
+     "url": "https://247wallst.com/investing/2026/06/03/the-real-winner-in-the-anthropic-ipo-isnt-anthropic-openai-or-even-google/",
+     "container": "24/7 Wall St.",
+     "source": "news_search",
+     "excerpt": "As the big wave of mega AI IPOs moves in, the retail crowd is probably eager to punch their ticket. Though it's tough to tell where valuations will end on...",
+     "published_at": "2026-06-03T11:56:00.825175Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "0e609b979f81cd8f",
+   "title": "Microsoft d\u00e9voile une puissance de calcul massive pour Claude Mythos d'Anthropic lors de la conf\u00e9rence Build 2026",
+   "query": "Anthropic computer use",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "explosion",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Microsoft d\u00e9voile une puissance de calcul massive pour Claude Mythos d'Anthropic lors de la conf\u00e9rence Build 2026",
+     "url": "https://x.com/search?q=Microsoft+d%C3%A9voile+une+puissance+de+calcul+massive+pour+Claude+Mythos+d%27Anthropic+lors+de+la+conf%C3%A9rence+Build+2026&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft d\u00e9voile une puissance de calcul massive pour Claude Mythos d'Anthropic lors de la conf\u00e9rence Build 2026 Mustafa Suleyman est mont\u00e9 sur sc\u00e8ne \u00e0 San Francisco et a montr\u00e9 un graphique retra\u00e7ant l'explosion de la puissance de calcul de l'IA ; un point se d\u00e9marquait : le secret Claude Mythos d'Anthropic \u00e0 environ\u2026",
+     "published_at": "2026-06-02T23:06:29.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "5f4b609bf5e906fd",
+   "title": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays.",
+   "query": "Anthropic computer use",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays.",
+     "url": "https://x.com/search?q=Anthropic+%C3%A9tend+l%27acc%C3%A8s+%C3%A0+Claude+Mythos+%C3%A0+150+organisations+dans+15+pays.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays. Apr\u00e8s des n\u00e9gociations tendues, l'agence europ\u00e9enne de cybers\u00e9curit\u00e9 ENISA rejoint le projet Glasswing en tant que premier participant de l'UE au puissant mod\u00e8le d'IA Mythos d'Anthropic. Anthropic a annonc\u00e9 l'extension de son mod\u00e8le Claude Mythos\u2026",
+     "published_at": "2026-06-03T10:04:59.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "84c36e2fe0655d55",
+   "title": "Claude Code lance des flux de travail dynamiques pour les t\u00e2ches de codage complexes",
+   "query": "Anthropic computer use",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Claude Code lance des flux de travail dynamiques pour les t\u00e2ches de codage complexes",
+     "url": "https://x.com/search?q=Claude+Code+lance+des+flux+de+travail+dynamiques+pour+les+t%C3%A2ches+de+codage+complexes&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Claude Code lance des flux de travail dynamiques pour les t\u00e2ches de codage complexes Imaginez auditer une base de code massive ou migrer des milliers de lignes de code, le tout g\u00e9r\u00e9 par une IA qui cr\u00e9e ses propres scripts personnalis\u00e9s sur place. Claude Code d'Anthropic propose d\u00e9sormais des workflows dynamiques, dispo\u2026",
+     "published_at": "2026-06-03T15:50:59.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "70b1c0e5a7cb9db8",
+   "title": "L'encyclique sur l'intelligence artificielle du pape L\u00e9on XIV est d\u00e9sormais disponible gratuitement en livre audio.",
+   "query": "Anthropic computer use",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "L'encyclique sur l'intelligence artificielle du pape L\u00e9on XIV est d\u00e9sormais disponible gratuitement en livre audio.",
+     "url": "https://x.com/search?q=L%27encyclique+sur+l%27intelligence+artificielle+du+pape+L%C3%A9on+XIV+est+d%C3%A9sormais+disponible+gratuitement+en+livre+audio.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "L'encyclique sur l'intelligence artificielle du pape L\u00e9on XIV est d\u00e9sormais disponible gratuitement en livre audio. Le pape L\u00e9on XIV, premier pape n\u00e9 aux \u00c9tats-Unis, a sign\u00e9 il y a quelques semaines son encyclique urgente sur la dignit\u00e9 humaine, qu'il met d\u00e9sormais gratuitement \u00e0 la disposition des auditeurs du monde e\u2026",
+     "published_at": "2026-06-03T15:51:13.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "3ef1624f8ed76be3",
+   "title": "Claude AI subit une panne partielle qui perturbe les utilisateurs du monde entier",
+   "query": "Anthropic computer use",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Claude AI subit une panne partielle qui perturbe les utilisateurs du monde entier",
+     "url": "https://x.com/search?q=Claude+AI+subit+une+panne+partielle+qui+perturbe+les+utilisateurs+du+monde+entier&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Claude AI subit une panne partielle qui perturbe les utilisateurs du monde entier Le 2 juin, les utilisateurs ont vu d\u00e9filer des messages interminables du type \u00ab\u00a0Le traitement prend plus de temps que d'habitude\u00a0\u00bb, se tournant vers X pour partager leur frustration face aux discussions bloqu\u00e9es et aux \u00e9checs de connexion\u2026",
+     "published_at": "2026-06-03T16:57:30.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "80fe6e7b813b2909",
+   "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+   "query": "OSWorld benchmark",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+     "url": "https://x.com/search?q=MiniMax+lance+M3%2C+un+mod%C3%A8le+%C3%A0+pond%C3%A9ration+ouverte+avec+un+contexte+de+jetons+d%27un+million+de+dollars&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars Les ing\u00e9nieurs de MiniMax ont travaill\u00e9 toute la nuit pour livrer M3, un nouveau mod\u00e8le d'IA \u00e0 poids ouverts qui g\u00e8re des contextes de millions de jetons et excelle dans les t\u00e2ches de codage d\u00e8s le d\u00e9part. La soci\u00e9t\u00e9 ch\u2026",
+     "published_at": "2026-06-02T22:35:27.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

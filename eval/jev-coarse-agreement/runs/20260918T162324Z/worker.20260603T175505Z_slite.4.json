@@ -1,0 +1,67 @@
+{
+  "decisions": [
+    {
+      "signal_id": "d8d92210f2a9e73c",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "ByteDance GPU compiler benchmarks matched on 'Notion AI' search term but have no relevance to Slite's knowledge management, enterprise RAG, or competitor standing.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=L%27agent+CUDA+de+ByteDance+surpasse+les+compilateurs+dans+les+benchmarks+GPU&f=live"],
+      "relevance_basis": "Keyword collision: the story shares no bridge to Slite's domain (AI knowledge bases, internal search, documentation), competitors (Notion, Atlassian, Guru, Glean), or standing terms."
+    },
+    {
+      "signal_id": "1f863a4dc8597faa",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Atlassian (Confluence) is a named competitor. Their AI strategy in Jira/product expansion is directly relevant to Slite's competitive positioning in enterprise knowledge management and search.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.aktiencheck.de/analysen/Artikel-Atlassian_s_AI_Bet_on_Jira_s_Wider_Appeal_Collides_With_Profitability_Doubts-19819401"],
+      "relevance_basis": "Named competitor strategy on AI and enterprise product appeal directly relevant to Slite's standing in knowledge management and workplace search."
+    },
+    {
+      "signal_id": "8e80da9bd55ec9e8",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Maharashtra-Finland circular economy summit matched on 'Guru knowledge management' search but has no connection to Slite, knowledge management products, or any profile entity.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=Le+Maharashtra+et+la+Finlande+renforcent+leurs+liens+en+mati%C3%A8re+d%27%C3%A9conomie+circulaire+lors+d%27un+sommet+%C3%A0+Mumbai.&f=live"],
+      "relevance_basis": "Pure keyword collision: international trade/sustainability story has no bridge to knowledge management, enterprise RAG, documentation, or any competitor."
+    },
+    {
+      "signal_id": "5f4b609bf5e906fd",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Anthropic Claude Mythos expansion matched on 'Guru knowledge management' search but story is about an LLM platform, not knowledge management, enterprise search, or documentation tools.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=Anthropic+%C3%A9tend+l%27acc%C3%A8s+%C3%A0+Claude+Mythos+%C3%A0+150+organisations+dans+15+pays.&f=live"],
+      "relevance_basis": "Keyword collision: Anthropic's LLM is not in Slite's competitive set or knowledge management domain."
+    },
+    {
+      "signal_id": "9290d5b61bc0b10d",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Thai entertainment/series panel matched on 'Guru knowledge management' search but has no connection to Slite, knowledge management, or any profile entity.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=Yoko+Apasra+interviendra+lors+de+la+table+ronde+du+forum+LGBTQ%2B+du+TILFF+2026.&f=live"],
+      "relevance_basis": "Pure keyword collision: entertainment/film festival story unrelated to Slite's knowledge management or enterprise software domain."
+    },
+    {
+      "signal_id": "8aea6978e2478417",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Karnataka minister appointment matched on 'Guru knowledge management' search but is an Indian political story unrelated to Slite's domain.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=Le+ministre+en+chef+du+Karnataka%2C+Shivakumar%2C+nomme+un+conseiller+financier+exp%C3%A9riment%C3%A9+quelques+heures+apr%C3%A8s+sa+prestation+de+serment.&f=live"],
+      "relevance_basis": "Pure keyword collision: political appointment story has no bridge to knowledge management, enterprise search, or Slite's standing."
+    },
+    {
+      "signal_id": "f6ea93af8efc5ab3",
+      "decision": "reject",
+      "reason": "safety_risk",
+      "rationale": "Patna coaching center violence/vandalism story with hard safety flag (human injury, blood). Matched on 'Guru knowledge management' search term only. No profile relevance and safety concern prevents pitching.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/search?q=La+police+de+Patna+arr%C3%AAte+le+directeur+d%27un+centre+de+coaching+rival+pour+vandalisme+au+Khan+Sir+Center.&f=live"],
+      "relevance_basis": "Human-suffering newsjacking risk flagged by hard safety term. Story involves violence/injury with no connection to Slite's business or standing."
+    }
+  ]
+}

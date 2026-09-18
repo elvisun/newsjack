@@ -52,9 +52,18 @@ Allowed reasons (use one): `relevant_news`, `plausible_client_bridge`, `major_ne
 - **Use `no_profile_bridge` only when you can justify it** — when no profile entity, competitor, topic, standing term, or plausible buyer/regulator/category appears in the candidate.
 - **Cite your evidence.** Preserve evidence URLs; each decision lists the URLs it used.
 
+## Engines
+
+This rubric can run on two engines. Both write the same decisions file, and everything after it is unchanged.
+
+- **Low-cost LLM worker (default).** A worker loads this file and judges its chunk of signals. This is the path when nothing else is configured.
+- **Jev (TypeSafe AI), when a key is present.** Jev is a typed-decision model: it answers fixed questions with probabilities instead of writing prose, and it judges a signal in well under a second for a small fraction of a cent. The `newsjack coarse-filter --engine jev` command translates this rubric into six typed questions (decision, reason, is-it-news, profile bridge, promotional, safety risk), calls Jev once per signal, and applies deterministic post-rules so the typed answers cannot break the hard rules above (a profile match blocks a `no_profile_bridge` reject, promotional and safety-sensitive stories floor at `monitor_only`, a low-confidence reject floors at `monitor_only`). Big-story recall stays in `newsjack filter-apply` as before. Run `newsjack coarse-filter --print-questions` to read the translation and `newsjack help coarse-filter` for usage.
+
+Pick Jev when `newsjack doctor` shows TypeSafe configured; otherwise use the worker path. Jev decisions carry a `rationale` that starts with `Jev:` and lists the raw probabilities, because the engine gives no prose reason; the report should show that honestly rather than dress it up. If more than a fifth of the Jev calls fail, the command exits non-zero and the run should fall back to the worker path for this pass.
+
 ## Machine handoff
 
-This skill is a pipeline stage that runs on a low-cost model. Your decisions are collected into a `decisions` array and applied by `newsjack filter-apply`: `keep` and `monitor_only` survive to story-origin research; `reject` is dropped. You do not run that step.
+This skill is a pipeline stage that runs on a low-cost model or on Jev. Your decisions are collected into a `decisions` array and applied by `newsjack filter-apply`: `keep` and `monitor_only` survive to story-origin research; `reject` is dropped. You do not run that step.
 
 The pipeline reads your output as raw JSON. Emit exactly one JSON object per signal, with these exact fields — **return only the JSON, with no prose before or after it, and no Markdown wrapping**:
 

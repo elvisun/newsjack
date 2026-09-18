@@ -222,6 +222,27 @@ harness/scripts/run-ci-installer.sh \
 `--env-file`. The script validates that repo-local env files are ignored by git
 and never prints secret values. CI should keep using the default no-token path.
 
+## Jev Coarse-Filter Shell
+
+One command opens a disposable container with the branch's CLI built and
+installed into an isolated home, the TypeSafe key saved from
+`harness/.env.local`, auto-update disabled so the hosted channel cannot replace
+the branch binary, and a printed cheat sheet of test commands from unit tests
+up to the live agreement eval:
+
+```bash
+harness/scripts/open-jev-shell.sh            # builds newsjack-agent-harness:jev if missing
+harness/scripts/open-jev-shell.sh --rebuild  # force an image rebuild
+```
+
+`harness/.env.local` needs `TYPESAFE_API_KEY`; `MEDIALYST_API_KEY` and
+`ANTHROPIC_API_KEY` are optional (the latter lets you run the detector skill in
+Claude Code inside the container). The chunk and eval commands on the cheat
+sheet expect the 2026-06-03 fixture runs under
+`fixtures/newsjack-detector-agent/runs/` (local, not committed). The setup
+itself is `harness/scripts/jev-container-setup.sh`; re-source it inside the
+container after editing Go code to rebuild and reinstall.
+
 ## Model Eval Scenarios
 
 Manual model/runtime dogfood scenarios live in

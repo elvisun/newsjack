@@ -51,7 +51,7 @@ The bundled binary is almost always already installed — assume Full Mode and v
 
 5. **JUDGE — NEVER TRUST MECHANICS AS PERMISSION.** `routing.queue_priority` and `story_size` are recall pressure, not pitch permission. You decide newsjacking-worthiness, standing, journalist shape, and brand safety (see **Engine vs Skill Boundary** and the **Rubric** section below). Gate angle fit through `angle-generator`.
 
-6. **VERIFY, DELIVER & CONCLUDE.** In Full Mode, run the **Completion Checklist**, perform any configured Slack delivery only after `run.md` is complete, then report: the `run.md` path, whether coarse passes were cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and any configured delivery result. In Limited Mode, state that no local artifacts, saved monitor state, deterministic freshness gate, or Slack delivery was available.
+6. **VERIFY, DELIVER & CONCLUDE.** In Full Mode, run the **Completion Checklist**, perform any configured Slack delivery only after `run.md` is complete, then report: the `run.md` path, which engine ran the coarse relevance pass (`jev`, low-cost worker, or current-model fallback) and whether the story-origin pass was cost-optimized or fallback, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and any configured delivery result. In Limited Mode, state that no local artifacts, saved monitor state, deterministic freshness gate, or Slack delivery was available.
 
 ## Engine vs Skill Boundary
 
@@ -151,7 +151,7 @@ RUN_DIR/
 
    The floors `--min-queue-priority 40` and `--min-major-news 0.55` are the engine defaults; they define the emitted pool. **Do not lower them and do not pass `--include-all-scored` or `--no-hygiene-filter`** (debug-only) for a real run — they change which signals reach the report and make two runs of the same profile incomparable. Profile terms own durable retrieval; do not hand-tune the query per run unless the user explicitly asked for a one-off `--topic`. For recurring/cron precision add `--demote-unmatched-x` (see **Freshness Gate**); that is the only flag the canonical command grows.
 
-2. **Coarse relevance pass** → `coarse_relevance_decisions.json`. High-recall junk removal only — no ranking, angles, dates, or pitch decisions. Each worker loads `skills/relevance-coarse-filter/SKILL.md` and applies it to its assigned signals; merge every worker's output into one `decisions` array. For model/worker routing and chunking, see `references/harness-routing.md`.
+2. **Coarse relevance pass** → `coarse_relevance_decisions.json`. High-recall junk removal only — no ranking, angles, dates, or pitch decisions. Each worker loads `skills/relevance-coarse-filter/SKILL.md` and applies it to its assigned signals; merge every worker's output into one `decisions` array. When `newsjack doctor` shows TypeSafe (Jev) configured, run `newsjack coarse-filter --engine jev --candidates candidates.json --output coarse_relevance_decisions.json` instead of worker fanout; it writes the same artifact. For engine choice, model/worker routing, and chunking, see `references/harness-routing.md`.
 
 3. **Apply coarse decisions:**
 
@@ -292,7 +292,7 @@ Before reporting a Full Mode run complete:
 - Every `pitch_ready` opportunity has one correctly URL-encoded, public-safe, approval-gated Medialyst media-list link; no `big_story` or `watch` item has one.
 - The detector did not call a credit-bearing media-list API. It only rendered deep links.
 - The ✅/🔥 sections contain **no** coarse-rejected or hard-safety-flagged signal; the only hard drops (URL-hygiene + hard-safety) have their counts disclosed from the JSON artifacts.
-- The final response names the `run.md` path, the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and Slack delivery status when configured.
+- The final response names the `run.md` path, the coarse-pass engine (`jev`, low-cost worker, or current-model fallback) and the cost-optimized-vs-fallback status, whether every surfaced signal has verified ≤24h first-public freshness, top findings, and Slack delivery status when configured.
 
 ## Output Format
 
