@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.19 — 2026-09-18
+
+### Added
+
 - `newsjack coarse-filter --engine jev` runs the detector's coarse-relevance pass through Jev (TypeSafe AI's typed-decision model) and writes the same `coarse_relevance_decisions.json` that `filter-apply` already consumes. Opt-in: configure a key with `newsjack auth set-typesafe --key <key>` (or `TYPESAFE_API_KEY`); `doctor` and `auth status` report it. The LLM worker path stays the default. The `relevance-coarse-filter` skill and the detector's harness routing describe when to use it.
 
 ## v0.1.18 — 2026-09-14
