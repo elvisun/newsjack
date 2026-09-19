@@ -101,7 +101,7 @@ func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 				"token_type":"Bearer",
 				"expires_in":3600,
 				"refresh_token":"mcp_rt_test",
-				"scope":"news:search media_lists:manage"
+				"scope":"` + medialystOAuthDefaultScope + `"
 			}`))
 		default:
 			t.Fatalf("unexpected path: %s", r.URL.Path)
@@ -156,12 +156,134 @@ func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 		if creds.Medialyst.OAuth == nil ||
 			creds.Medialyst.OAuth.AccessToken != "mcp_at_test" ||
 			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_test" ||
+			creds.Medialyst.OAuth.Scope != medialystOAuthDefaultScope ||
 			creds.Medialyst.OAuth.ClientID != medialystOAuthClientID ||
 			creds.Medialyst.OAuth.BaseURL != server.URL ||
 			creds.Medialyst.Source != medialystOAuthSource {
 			t.Fatalf("unexpected credentials: %#v", creds.Medialyst)
 		}
 		assertOwnerOnlyFile(t, credentialsPath())
+	})
+}
+
+func TestLoginRetriesWithoutProjectScopeOnInvalidScope(t *testing.T) {
+	home := t.TempDir()
+	var requestedScopes []string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.URL.Path {
+		case "/api/oauth/device_authorization":
+			if err := r.ParseForm(); err != nil {
+				t.Fatal(err)
+			}
+			requestedScopes = append(requestedScopes, r.Form.Get("scope"))
+			if len(requestedScopes) == 1 {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte(`{"error":"invalid_scope","error_description":"unsupported scope"}`))
+				return
+			}
+			w.Write([]byte(`{
+				"device_code":"mcp_dc_legacy",
+				"user_code":"OLD-SERV",
+				"verification_uri":"` + serverDeviceURL(r, "/device") + `",
+				"expires_in":600,
+				"interval":1
+			}`))
+		case "/api/oauth/token":
+			w.Write([]byte(`{
+				"access_token":"mcp_at_legacy",
+				"token_type":"Bearer",
+				"expires_in":3600,
+				"refresh_token":"mcp_rt_legacy"
+			}`))
+		default:
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+	}))
+	defer server.Close()
+	withOAuthHooks(t, nil, func(time.Duration) {}, nil)
+
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"login", "--base-url", server.URL, "--no-browser"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("login code=%d stdout=%s stderr=%s", code, out.String(), errBuf.String())
+		}
+		if len(requestedScopes) != 2 ||
+			requestedScopes[0] != medialystOAuthDefaultScope ||
+			requestedScopes[1] != medialystOAuthLegacyScope {
+			t.Fatalf("requested scopes=%v", requestedScopes)
+		}
+		if !strings.Contains(errBuf.String(), "retrying login without project tools") {
+			t.Fatalf("stderr should explain compatibility retry:\n%s", errBuf.String())
+		}
+		creds, ok, err := readCredentialsFile()
+		if err != nil || !ok || creds.Medialyst.OAuth == nil {
+			t.Fatalf("read credentials ok=%v err=%v creds=%#v", ok, err, creds)
+		}
+		if creds.Medialyst.OAuth.Scope != medialystOAuthLegacyScope {
+			t.Fatalf("stored scope=%q, want %q", creds.Medialyst.OAuth.Scope, medialystOAuthLegacyScope)
+		}
+	})
+}
+
+func TestAuthStatusReportsOAuthScopesAndProjectReloginHint(t *testing.T) {
+	home := t.TempDir()
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		writeGrant := func(scope string) {
+			t.Helper()
+			if _, err := writeOAuthCredentials(oauthTokenResponse{
+				AccessToken:  "mcp_at_saved",
+				TokenType:    "Bearer",
+				ExpiresIn:    3600,
+				RefreshToken: "mcp_rt_saved",
+				Scope:        scope,
+			}); err != nil {
+				t.Fatal(err)
+			}
+		}
+		readStatus := func() (map[string]any, string) {
+			t.Helper()
+			var out, errBuf bytes.Buffer
+			if code := runCLI([]string{"auth", "status"}, &out, &errBuf); code != 0 {
+				t.Fatalf("auth status code=%d stderr=%s", code, errBuf.String())
+			}
+			var status map[string]any
+			if err := json.Unmarshal(out.Bytes(), &status); err != nil {
+				t.Fatalf("invalid auth status JSON: %v\n%s", err, out.String())
+			}
+			return status, errBuf.String()
+		}
+
+		writeGrant(medialystOAuthDefaultScope)
+		status, statusErr := readStatus()
+		if status["medialyst_project_tools_enabled"] != true ||
+			!containsAnyString(anySlice(status["medialyst_oauth_scopes"]), medialystOAuthProjectsScope) {
+			t.Fatalf("status should report project scope: %#v", status)
+		}
+		if statusErr != "" {
+			t.Fatalf("fully scoped grant should not print a hint: %q", statusErr)
+		}
+
+		writeGrant(medialystOAuthLegacyScope)
+		status, statusErr = readStatus()
+		if status["medialyst_project_tools_enabled"] != false ||
+			containsAnyString(anySlice(status["medialyst_oauth_scopes"]), medialystOAuthProjectsScope) {
+			t.Fatalf("status should report the legacy grant: %#v", status)
+		}
+		if !strings.Contains(statusErr, "Run newsjack login again to enable Medialyst project tools.") {
+			t.Fatalf("legacy grant should print the re-login hint: %q", statusErr)
+		}
 	})
 }
 
@@ -278,7 +400,7 @@ func TestDevicePollRetriesTransientTransportError(t *testing.T) {
 	}
 }
 
-func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
+func TestRefreshRotatesSavedOAuthTokenAndPreservesOldGrantScopes(t *testing.T) {
 	home := t.TempDir()
 	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
 	withOAuthHooks(t, nil, func(time.Duration) {}, func() time.Time { return now })
@@ -295,7 +417,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 			t.Fatalf("refresh form=%#v", r.Form)
 		}
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new","scope":"news:search media_lists:manage"}`))
+		w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new"}`))
 	}))
 	defer server.Close()
 
@@ -316,7 +438,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 				RefreshToken: "mcp_rt_old",
 				TokenType:    "Bearer",
 				ExpiresAt:    now.Add(-time.Hour).Format(time.RFC3339),
-				Scope:        medialystOAuthDefaultScope,
+				Scope:        medialystOAuthLegacyScope,
 				ClientID:     medialystOAuthClientID,
 				BaseURL:      server.URL,
 			},
@@ -338,6 +460,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 		}
 		if creds.Medialyst.APIKey == "" ||
 			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" ||
+			creds.Medialyst.OAuth.Scope != medialystOAuthLegacyScope ||
 			creds.Medialyst.OAuth.BaseURL != server.URL {
 			t.Fatalf("credentials after refresh=%#v", creds.Medialyst)
 		}
@@ -496,7 +619,8 @@ func TestOAuthCredentialsJSONShape(t *testing.T) {
 		}
 		med := valueOrEmptyMap(payload["medialyst"])
 		oauth := valueOrEmptyMap(med["oauth"])
-		if med["api_key"] == "" || oauth["access_token"] != "mcp_at_saved" || oauth["client_id"] != medialystOAuthClientID {
+		if med["api_key"] == "" || oauth["access_token"] != "mcp_at_saved" ||
+			oauth["scope"] != medialystOAuthDefaultScope || oauth["client_id"] != medialystOAuthClientID {
 			t.Fatalf("credentials JSON=%s", body)
 		}
 		if code := saveMedialystAPIKey("mlst_"+strings.Repeat("b", 12), &bytes.Buffer{}, &bytes.Buffer{}); code != 0 {

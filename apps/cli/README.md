@@ -20,7 +20,7 @@ newsjack auth set-medialyst --key <mlst_...>
 
 The CLI prefers saved OAuth, then API keys from `~/.newsjack/credentials.json` or `MEDIALYST_API_KEY`. `NEWSJACK_MEDIALYST_API_BASE` or `MEDIALYST_API_BASE` can point commands at another compatible API base; the default is `https://medialyst.ai/api`.
 
-Default OAuth scopes are `news:search media_lists:manage`.
+Default OAuth scopes are `news:search media_lists:manage projects:manage`. Older compatible servers that reject `projects:manage` with `invalid_scope` are retried once with the two legacy scopes. Existing users must run `newsjack login` again to grant access to Medialyst project tools; `newsjack auth status` reports the scopes on the stored grant.
 
 ## REST Command Mapping
 

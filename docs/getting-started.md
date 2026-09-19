@@ -142,7 +142,11 @@ not a signup wall.
   incrementally. For N requested good fits, the skill normally recommends a
   5x research target and may increase toward 10x for a highly constrained brief;
   the CLI never applies that multiplier silently.
-  Default scopes: `news:search media_lists:manage`.
+  Default scopes: `news:search media_lists:manage projects:manage`. The CLI
+  retries once with the two legacy scopes when an older server rejects
+  `projects:manage`. `newsjack auth status` reports the stored grant and tells
+  existing users to run `newsjack login` again when project tools are not yet
+  enabled; legacy grants continue to refresh normally.
 - **X:** set `X_BEARER_TOKEN` (alias `TWITTER_BEARER_TOKEN`). Newsjack calls the X
   API directly.
 - **Slack:** configure this only while setting up a saved monitor. The

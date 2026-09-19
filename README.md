@@ -178,6 +178,8 @@ Prefer a video? Watch the [Newsjack installation walkthrough](https://www.youtub
 8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, journalist enrichment, and approval-gated media list research. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
+For project setup in a local Claude Code plugin install, start with `newsjack auth status`, then run `newsjack login` if it says project tools are not enabled before asking the agent to create or open a Medialyst project, add project memory, or upload project files.
+
 Note: A community marketplace plugin, `newsjack@claude-community`, is pending review
 and will be added soon.
 

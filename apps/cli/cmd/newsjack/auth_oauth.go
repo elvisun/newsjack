@@ -18,12 +18,14 @@ import (
 )
 
 const (
-	medialystDefaultBase       = "https://medialyst.ai"
-	medialystOAuthClientID     = "newsjack-cli"
-	medialystOAuthDefaultScope = "news:search media_lists:manage"
-	medialystOAuthSource       = "newsjack-oauth-device-flow"
-	deviceGrantType            = "urn:ietf:params:oauth:grant-type:device_code"
-	refreshGrantType           = "refresh_token"
+	medialystDefaultBase        = "https://medialyst.ai"
+	medialystOAuthClientID      = "newsjack-cli"
+	medialystOAuthLegacyScope   = "news:search media_lists:manage"
+	medialystOAuthProjectsScope = "projects:manage"
+	medialystOAuthDefaultScope  = medialystOAuthLegacyScope + " " + medialystOAuthProjectsScope
+	medialystOAuthSource        = "newsjack-oauth-device-flow"
+	deviceGrantType             = "urn:ietf:params:oauth:grant-type:device_code"
+	refreshGrantType            = "refresh_token"
 )
 
 var (
@@ -65,6 +67,8 @@ type medialystAuthStatus struct {
 	APIKeyConfigured bool
 	Source           string
 	Kind             string
+	OAuthScopes      []string
+	ProjectsEnabled  bool
 }
 
 type oauthLoginOptions struct {
@@ -104,6 +108,11 @@ func runMedialystDeviceLogin(opts oauthLoginOptions, stdout, stderr io.Writer) i
 		opts.Timeout = 10 * time.Minute
 	}
 	device, err := requestMedialystDeviceCode(opts.BaseURL, opts.Scope)
+	if isOAuthErrorCode(err, "invalid_scope") && hasOAuthScope(opts.Scope, medialystOAuthProjectsScope) {
+		opts.Scope = removeOAuthScope(opts.Scope, medialystOAuthProjectsScope)
+		uiWarn(stderr, "Medialyst does not support %s; retrying login without project tools.", medialystOAuthProjectsScope)
+		device, err = requestMedialystDeviceCode(opts.BaseURL, opts.Scope)
+	}
 	if err != nil {
 		return failf(stderr, "Medialyst login could not start: %v", err)
 	}
@@ -113,6 +122,9 @@ func runMedialystDeviceLogin(opts oauthLoginOptions, stdout, stderr io.Writer) i
 	token, err := pollMedialystDeviceToken(opts.BaseURL, device, opts.Timeout)
 	if err != nil {
 		return failf(stderr, "Medialyst login failed: %v", err)
+	}
+	if strings.TrimSpace(token.Scope) == "" {
+		token.Scope = opts.Scope
 	}
 	path, err := writeOAuthCredentialsForBaseURL(token, opts.BaseURL)
 	if err != nil {
@@ -236,6 +248,43 @@ func (e *oauthEndpointError) Error() string {
 	return fmt.Sprintf("HTTP %d: %s", e.Status, truncate(e.Body, 300))
 }
 
+func isOAuthErrorCode(err error, code string) bool {
+	var oauthErr *oauthEndpointError
+	return errors.As(err, &oauthErr) && oauthErr.Code == code
+}
+
+func oauthScopes(scope string) []string {
+	scopes := make([]string, 0)
+	seen := make(map[string]bool)
+	for _, item := range strings.Fields(scope) {
+		if !seen[item] {
+			scopes = append(scopes, item)
+			seen[item] = true
+		}
+	}
+	return scopes
+}
+
+func hasOAuthScope(scope, want string) bool {
+	for _, item := range oauthScopes(scope) {
+		if item == want {
+			return true
+		}
+	}
+	return false
+}
+
+func removeOAuthScope(scope, unwanted string) string {
+	scopes := oauthScopes(scope)
+	kept := scopes[:0]
+	for _, item := range scopes {
+		if item != unwanted {
+			kept = append(kept, item)
+		}
+	}
+	return strings.Join(kept, " ")
+}
+
 func postOAuthForm(rawURL string, form url.Values, target any) error {
 	req, err := http.NewRequest(http.MethodPost, rawURL, strings.NewReader(form.Encode()))
 	if err != nil {
@@ -278,6 +327,9 @@ func refreshStoredMedialystOAuth() (medialystBearerCredential, error) {
 	token, err := refreshMedialystOAuthToken(baseURL, creds.Medialyst.OAuth.RefreshToken)
 	if err != nil {
 		return medialystBearerCredential{}, err
+	}
+	if strings.TrimSpace(token.Scope) == "" {
+		token.Scope = creds.Medialyst.OAuth.Scope
 	}
 	if _, err := writeOAuthCredentialsForBaseURL(token, baseURL); err != nil {
 		return medialystBearerCredential{}, err
@@ -356,11 +408,13 @@ func oauthTokenExpired(expiresAt string) bool {
 }
 
 func loadMedialystAuthStatus() medialystAuthStatus {
-	status := medialystAuthStatus{}
+	status := medialystAuthStatus{OAuthScopes: []string{}}
 	if creds, ok, err := readCredentialsFile(); err == nil && ok {
 		if creds.Medialyst.OAuth != nil && (strings.TrimSpace(creds.Medialyst.OAuth.AccessToken) != "" || strings.TrimSpace(creds.Medialyst.OAuth.RefreshToken) != "") {
 			status.Configured = true
 			status.OAuthConfigured = true
+			status.OAuthScopes = oauthScopes(creds.Medialyst.OAuth.Scope)
+			status.ProjectsEnabled = hasOAuthScope(creds.Medialyst.OAuth.Scope, medialystOAuthProjectsScope)
 			if status.Source == "" {
 				status.Source = "credentials:" + credentialsPath() + ":oauth"
 				status.Kind = "oauth"

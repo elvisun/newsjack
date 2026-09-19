@@ -56,25 +56,30 @@ func cmdAuth(args []string, stdout, stderr io.Writer) int {
 		xToken, xSource := loadXBearerToken()
 		typesafeKey, typesafeSource := loadTypeSafeAPIKey()
 		payload := map[string]any{
-			"configured":                    medialystStatus.Configured || xToken != "",
-			"medialyst_configured":          medialystStatus.Configured,
-			"medialyst_oauth_configured":    medialystStatus.OAuthConfigured,
-			"medialyst_api_key_configured":  medialystStatus.APIKeyConfigured,
-			"medialyst_source":              nullableString(medialystStatus.Source),
-			"medialyst_auth_type":           nullableString(medialystStatus.Kind),
-			"x_api_configured":              xToken != "",
-			"x_bearer_token_source":         nullableString(xSource),
-			"medialyst_get_key_url":         medialystAPIKeyURL,
-			"medialyst_login_command":       "newsjack login",
-			"medialyst_set_command":         "newsjack login",
-			"medialyst_api_key_set_command": "newsjack auth set-medialyst --key <mlst_...>",
-			"x_bearer_token_command":        "newsjack auth set-x --bearer-token <token>",
-			"typesafe_configured":           typesafeKey != "",
-			"typesafe_api_key_source":       nullableString(typesafeSource),
-			"typesafe_get_key_url":          typesafeAPIKeyURL,
-			"typesafe_api_key_command":      "newsjack auth set-typesafe --key <key>",
+			"configured":                      medialystStatus.Configured || xToken != "",
+			"medialyst_configured":            medialystStatus.Configured,
+			"medialyst_oauth_configured":      medialystStatus.OAuthConfigured,
+			"medialyst_api_key_configured":    medialystStatus.APIKeyConfigured,
+			"medialyst_source":                nullableString(medialystStatus.Source),
+			"medialyst_auth_type":             nullableString(medialystStatus.Kind),
+			"medialyst_oauth_scopes":          medialystStatus.OAuthScopes,
+			"medialyst_project_tools_enabled": medialystStatus.ProjectsEnabled,
+			"x_api_configured":                xToken != "",
+			"x_bearer_token_source":           nullableString(xSource),
+			"medialyst_get_key_url":           medialystAPIKeyURL,
+			"medialyst_login_command":         "newsjack login",
+			"medialyst_set_command":           "newsjack login",
+			"medialyst_api_key_set_command":   "newsjack auth set-medialyst --key <mlst_...>",
+			"x_bearer_token_command":          "newsjack auth set-x --bearer-token <token>",
+			"typesafe_configured":             typesafeKey != "",
+			"typesafe_api_key_source":         nullableString(typesafeSource),
+			"typesafe_get_key_url":            typesafeAPIKeyURL,
+			"typesafe_api_key_command":        "newsjack auth set-typesafe --key <key>",
 		}
 		writeJSON(stdout, payload)
+		if medialystStatus.OAuthConfigured && !medialystStatus.ProjectsEnabled {
+			uiNote(stderr, "Run newsjack login again to enable Medialyst project tools.")
+		}
 		if !medialystStatus.Configured && xToken == "" {
 			return 1
 		}
