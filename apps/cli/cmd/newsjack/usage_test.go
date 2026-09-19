@@ -125,7 +125,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack login [--no-browser]",
 		"newsjack login --key <mlst_...>",
 		"newsjack-cli",
-		"news:search media_lists:manage",
+		"news:search media_lists:manage projects:manage",
 		"Agents should use this path for interactive setup",
 	} {
 		if !strings.Contains(help.String(), want) {
