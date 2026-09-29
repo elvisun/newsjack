@@ -125,7 +125,7 @@ func medialystAPIRequest(method, path string, query url.Values, body any, header
 	}
 	resp, err := medialystAPIRequestWithBearer(cred, method, path, query, body, headers, timeout)
 	if apiErr, ok := err.(*medialystAPIError); ok && apiErr.StatusCode == http.StatusUnauthorized && cred.Kind == "oauth" {
-		refreshed, refreshErr := refreshStoredMedialystOAuth()
+		refreshed, refreshErr := refreshStoredMedialystOAuth(cred.Token, "", true)
 		if refreshErr == nil {
 			return medialystAPIRequestWithBearer(refreshed, method, path, query, body, headers, timeout)
 		}

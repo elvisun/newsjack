@@ -109,6 +109,7 @@ func printCommandHelp(w io.Writer, command string) bool {
 		uiCommand(w, "login", "connect Medialyst with browser OAuth", "")
 		uiCommand(w, "auth set-medialyst", "API-key fallback for CI or automation", "--key <mlst_...>")
 		uiCommand(w, "auth set-x", "save X API bearer token", "--bearer-token <token>")
+		uiNote(w, "doctor validates configured Medialyst credentials with a read-only balance request; network failures are reported as unreachable, not invalid.")
 		uiNote(w, "doctor --json includes the same actions for agents that need machine-readable recovery steps.")
 		return true
 	case "setup":

@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+### Fixed
+
+- Medialyst OAuth refreshes are serialized across concurrent CLI processes, credentials are replaced atomically, and `newsjack doctor` now verifies configured credentials without spending credits.
+
 ## v0.1.19 — 2026-09-18
 
 ### Added

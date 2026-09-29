@@ -20,7 +20,7 @@ import (
 const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
 const defaultClaudeInstallCommandWindows = "irm https://claude.ai/install.ps1 | iex"
 const xAPIKeyURL = "https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens"
-const medialystAPIKeyURL = "https://medialyst.ai/agents"
+const medialystAPIKeyURL = "https://medialyst.ai/app/onboarding/developer"
 
 func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("setup", flag.ContinueOnError)
