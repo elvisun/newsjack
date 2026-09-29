@@ -88,7 +88,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack login",
 		"auth set-medialyst",
 		"auth set-x",
-		"https://medialyst.ai/agents",
+		"https://medialyst.ai/app/onboarding/developer",
 		"live news search, journalist enrichment, and media list research",
 		"news search",
 		"journalists enrich",
@@ -109,7 +109,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack auth set-medialyst --key <mlst_...>",
 		"newsjack auth set-x --bearer-token <token>",
 		"recommended login",
-		"https://medialyst.ai/agents",
+		"https://medialyst.ai/app/onboarding/developer",
 		"credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
