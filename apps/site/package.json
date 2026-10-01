@@ -21,7 +21,10 @@
     ]
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^16.2.2",
+    "@contentful/rich-text-types": "^17.2.7",
     "@neondatabase/serverless": "^1.1.0",
+    "contentful": "^11.12.10",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
