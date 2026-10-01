@@ -25,7 +25,7 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   recordRequest(event, request, "site_visit", getClientKind(userAgent));
-  const response = NextResponse.redirect(repoURL, 308);
+  const response = NextResponse.next();
   applySecurityHeaders(response.headers);
   return response;
 }

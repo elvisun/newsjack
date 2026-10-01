@@ -15,7 +15,7 @@ function GitHubIcon() {
 
 export function Nav() {
   return (
-    <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-5 py-6 sm:px-8">
+    <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-6 sm:px-8 lg:px-10">
       <Link
         href="/"
         className="font-mono text-sm text-zinc-400 transition hover:text-white"
@@ -23,6 +23,12 @@ export function Nav() {
         newsjack.sh
       </Link>
       <div className="flex items-center gap-5">
+        <Link
+          href="/about"
+          className="font-mono text-sm text-zinc-400 transition hover:text-white"
+        >
+          About
+        </Link>
         <Link
           href="/insights"
           className="font-mono text-sm text-zinc-400 transition hover:text-white"

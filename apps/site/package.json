@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev --port 3000",
-    "prebuild": "node scripts/prebuild-dist.mjs",
+    "prebuild": "node scripts/prebuild-dist.mjs && node scripts/prebuild-skills.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",

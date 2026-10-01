@@ -3,11 +3,11 @@ import type { Document } from "@contentful/rich-text-types";
 
 let _client: ContentfulClientApi<undefined> | null = null;
 
-function getClient(): ContentfulClientApi<undefined> {
+function getClient(): ContentfulClientApi<undefined> | null {
+  if (!process.env.CONTENTFUL_SPACE_ID || !process.env.CONTENTFUL_ACCESS_TOKEN) {
+    return null;
+  }
   if (!_client) {
-    if (!process.env.CONTENTFUL_SPACE_ID || !process.env.CONTENTFUL_ACCESS_TOKEN) {
-      throw new Error("CONTENTFUL_SPACE_ID and CONTENTFUL_ACCESS_TOKEN must be set");
-    }
     _client = createClient({
       space: process.env.CONTENTFUL_SPACE_ID,
       accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
@@ -38,7 +38,10 @@ type BlogPostSkeleton = EntrySkeletonType<
 >;
 
 export async function getAllPosts(): Promise<BlogPost[]> {
-  const entries = await getClient().getEntries<BlogPostSkeleton>({
+  const client = getClient();
+  if (!client) return [];
+
+  const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: "blogPost",
     order: ["-sys.createdAt"],
   });
@@ -56,7 +59,10 @@ export async function getAllPosts(): Promise<BlogPost[]> {
 export async function getPostBySlug(
   slug: string,
 ): Promise<BlogPost | undefined> {
-  const entries = await getClient().getEntries<BlogPostSkeleton>({
+  const client = getClient();
+  if (!client) return undefined;
+
+  const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: "blogPost",
     limit: 1,
     ...({ "fields.slug": slug } as Record<string, string>),
@@ -76,7 +82,10 @@ export async function getPostBySlug(
 }
 
 export async function getAllSlugs(): Promise<string[]> {
-  const entries = await getClient().getEntries<BlogPostSkeleton>({
+  const client = getClient();
+  if (!client) return [];
+
+  const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: "blogPost",
     select: ["fields.slug"],
   });

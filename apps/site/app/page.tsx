@@ -1,3 +1,32 @@
+import Link from "next/link";
+
+import skillsData from "../lib/skills-data.json";
+import { Nav } from "./components/nav";
+
+interface Skill {
+  name: string;
+  description: string;
+  whenToUse: string;
+  category: string;
+}
+
+const CATEGORY_META: Record<string, { emoji: string; tagline: string }> = {
+  Strategize: {
+    emoji: "🧭",
+    tagline: "Figure out what your story even is",
+  },
+  Act: {
+    emoji: "🚀",
+    tagline: "Turn signal into output",
+  },
+  Detect: {
+    emoji: "🛰️",
+    tagline: "Surface what matters in your space",
+  },
+};
+
+const CATEGORY_ORDER = ["Detect", "Act", "Strategize"];
+
 function GitHubIcon() {
   return (
     <svg
@@ -11,43 +40,66 @@ function GitHubIcon() {
   );
 }
 
-export default function Home() {
+function SkillCard({ skill }: { skill: Skill }) {
   return (
-    <div className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.16),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
-      <main className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center px-5 py-12 sm:px-8 lg:px-10">
-        <section
-          aria-labelledby="hero-title"
-          className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-center"
-        >
-          <div className="max-w-3xl">
-            <p className="mb-5 font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
-              newsjack.sh
-            </p>
-            <h1
-              id="hero-title"
-              className="max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl"
+    <a
+      href={`https://github.com/elvisun/newsjack/tree/main/skills/${skill.name}`}
+      target="_blank"
+      rel="noreferrer"
+      className="group block rounded-lg border border-white/[0.06] bg-white/[0.02] p-5 transition hover:border-emerald-300/30 hover:bg-emerald-300/[0.04]"
+    >
+      <h3 className="font-mono text-sm font-semibold text-white group-hover:text-emerald-200">
+        {skill.name}
+      </h3>
+      <p className="mt-2 text-sm leading-6 text-zinc-400">{skill.description}</p>
+    </a>
+  );
+}
+
+function grouped(skills: Skill[]): Record<string, Skill[]> {
+  const groups: Record<string, Skill[]> = {};
+  for (const s of skills) {
+    (groups[s.category] ??= []).push(s);
+  }
+  return groups;
+}
+
+export default function Home() {
+  const groups = grouped(skillsData as Skill[]);
+
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.16),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
+      <Nav />
+
+      <main className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8 lg:px-10">
+        {/* Hero */}
+        <section className="pb-20 pt-12 sm:pt-20">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
+            newsjack.sh
+          </p>
+          <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
+            Open-source operating system for agentic PR.
+          </h1>
+          <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-zinc-300 sm:text-xl">
+            Local-first skills and CLI workflows for Claude Code, Codex,
+            OpenClaw, and Hermes. Install once — your agent becomes a PR team.
+          </p>
+
+          <div className="mt-10 max-w-xl">
+            <pre
+              aria-label="Install command"
+              className="overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 font-mono text-sm leading-6 text-emerald-200 shadow-2xl shadow-black/30 sm:text-base"
             >
-              Open-source operating system for agentic PR.
-            </h1>
-            <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-zinc-300 sm:text-xl">
-              Local-first skills and CLI workflows for Claude Code, Codex,
-              OpenClaw, and Hermes. Browser chat gets Limited Mode.
+              <code>curl -fsSL newsjack.sh | bash</code>
+            </pre>
+            <p className="mt-3 font-mono text-xs text-zinc-500">
+              Installs latest from GitHub Releases
             </p>
+          </div>
 
-            <div className="mt-10 max-w-xl">
-              <pre
-                aria-label="Install command"
-                className="overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 font-mono text-sm leading-6 text-emerald-200 shadow-2xl shadow-black/30 sm:text-base"
-              >
-                <code>curl -fsSL newsjack.sh | bash</code>
-              </pre>
-              <p className="mt-3 font-mono text-xs text-zinc-500">
-                Installs latest from GitHub Releases
-              </p>
-            </div>
-
+          <div className="mt-9 flex flex-wrap items-center gap-4">
             <a
-              className="mt-9 inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+              className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
               href="https://github.com/elvisun/newsjack"
               rel="noreferrer"
               target="_blank"
@@ -55,26 +107,84 @@ export default function Home() {
               <GitHubIcon />
               <span>Star on GitHub</span>
             </a>
+            <Link
+              className="inline-flex items-center rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+              href="/about"
+            >
+              Learn more
+            </Link>
           </div>
+        </section>
 
-          <div
-            aria-hidden="true"
-            className="hidden rounded-lg border border-white/10 bg-zinc-950/70 p-4 font-mono text-xs text-zinc-400 shadow-2xl shadow-black/30 lg:block"
-          >
-            <div className="mb-4 flex items-center gap-2 border-b border-white/10 pb-3">
-              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-            </div>
-            <div className="space-y-2">
-              <p>
-                <span className="text-emerald-300">$</span> newsjack install
-              </p>
-              <p className="text-zinc-500">resolving agent runtime...</p>
-              <p className="text-zinc-500">syncing pr operator skills...</p>
-              <p className="text-zinc-500">readying REST api commands...</p>
-              <p className="text-zinc-100">ready</p>
-            </div>
+        {/* Skills */}
+        <section>
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            {(skillsData as Skill[]).length} skills, three lanes
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-zinc-400">
+            Every skill is a plain-Markdown file your agent reads. No vendor lock-in, no API keys required for the core set.
+          </p>
+
+          <div className="mt-14 space-y-16">
+            {CATEGORY_ORDER.map((cat) => {
+              const meta = CATEGORY_META[cat];
+              const skills = groups[cat] || [];
+              return (
+                <div key={cat}>
+                  <div className="mb-6 flex items-center gap-3">
+                    <span className="text-2xl" aria-hidden="true">
+                      {meta.emoji}
+                    </span>
+                    <div>
+                      <h3 className="text-xl font-semibold text-white">
+                        {cat}
+                      </h3>
+                      <p className="text-sm text-zinc-400">{meta.tagline}</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {skills.map((s) => (
+                      <SkillCard key={s.name} skill={s} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Who this is for */}
+        <section className="mt-24">
+          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Who this is for
+          </h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {[
+              {
+                title: "Founders",
+                desc: "Doing their own PR because the agency quote was insane.",
+              },
+              {
+                title: "PR agencies",
+                desc: "Running more accounts than humans can babysit.",
+              },
+              {
+                title: "Marketers",
+                desc: "At small companies who need leverage, not headcount.",
+              },
+              {
+                title: "Anyone",
+                desc: "Whose agent is already running their day-to-day — and should be better at it.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-5"
+              >
+                <h3 className="font-semibold text-white">{item.title}</h3>
+                <p className="mt-1 text-sm text-zinc-400">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </section>
       </main>
