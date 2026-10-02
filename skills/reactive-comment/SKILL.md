@@ -2,6 +2,8 @@
 name: reactive-comment
 description: "Triage inbound journalist source queries and draft a response only when the user's expertise is a real fit. Runs each query through proven source-request lenses (4-gate fit triage, credential-standing test, deadline read, BLUF/inverted-pyramid drafting), kills weak fits, asks for missing proof, and never auto-sends."
 when_to_use: "User shares a HARO, Source of Sources, Qwoted, Featured, Help A B2B Writer, JournoRequest, or similar source request and wants to know whether to respond or wants a response drafted."
+metadata:
+  category: Act
 ---
 
 # Reactive Comment

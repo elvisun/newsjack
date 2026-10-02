@@ -2,6 +2,8 @@
 name: press-clip
 description: "Turn a live article URL into a press clip that looks like the real coverage — the publication's own logo, fonts, photos and layout kept intact, the ads and clutter removed, and (for a roundup) just the client's section. Renders to PDF. You inspect each site and tailor the removal; the bundled script carries no site-specific logic."
 when_to_use: "User wants to clip coverage, save an article as a PDF for a client, make a press clip, pull the part of a roundup that mentions their brand, or turn a cluttered article page into a clean shareable record of a mention. Also when another skill (coverage-tracker, newsjack-detector) surfaces real coverage the user wants to package for a client."
+metadata:
+  category: Act
 ---
 
 # Press Clip

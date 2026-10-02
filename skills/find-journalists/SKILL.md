@@ -2,6 +2,8 @@
 name: find-journalists
 description: "Build, refine, dedupe, and enrich small fit-checked journalist lists for newsjack campaigns. Uses the newsjack CLI (preferred) or the medialyst MCP for news search and journalist enrichment, and falls back to a best-effort local mode with no verified contacts; the agent owns how returned data is organized."
 when_to_use: "User asks to find journalists for a pitch or newsjack angle; build, generate, refine, dedupe, or enrich a journalist/media list; identify real bylines for a topic; or another Newsjack skill has produced journalist shapes that need real recipient discovery."
+metadata:
+  category: Act
 ---
 
 # Find Journalists

@@ -2,6 +2,8 @@
 name: newsjack-monitor-setup
 description: "Set up a newsjack monitoring profile for a company so newsjack-detector can run on a schedule. Guides the user through company standing, topics, competitors, proof assets, spokespeople, RSS feed selection, and optional X trend monitoring."
 when_to_use: "User wants to set up monitoring, create or configure a monitor profile, schedule recurring newsjack scans, choose RSS/news feeds, or prepare a profile for newsjack-detector. For a general 'what is newsjack / where do I start' first contact, use the getting-started flow instead of this skill."
+metadata:
+  category: Detect
 ---
 
 # Newsjack Monitor Setup

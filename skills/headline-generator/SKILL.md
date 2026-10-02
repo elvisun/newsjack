@@ -2,6 +2,8 @@
 name: headline-generator
 description: "Generate headline candidates from a story's raw facts: news-style headlines, press-release headlines, and pitch subject lines. A pure generation skill — it finds the charge in the facts, then runs ten proven moves (consequence, picture, number-as-hero, two-beat turn, naming, reader's-own-story, open question, voice, sound, sized claim), each calibrated by real, verified headlines that made history."
 when_to_use: "User needs headline or subject-line options — for a launch, press release, pitch email, story angle, data drop, or a rewrite of a flat headline; or another newsjack skill (angle-generator, newsjack-detector, meanest-editor) hands off a story that needs headline candidates."
+metadata:
+  category: Act
 ---
 
 # Headline Generator

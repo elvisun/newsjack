@@ -1,197 +1,373 @@
-import Link from "next/link";
+import { CircleCheck, Cpu } from "lucide-react";
+import Image from "next/image";
 
+import {
+  REPO_URL,
+  formatDaysAgo,
+  formatFull,
+  loadNpmMonthlyDownloads,
+  loadAllForkers,
+  loadReleaseCount,
+  loadRepoStats,
+} from "../lib/social-proof";
 import skillsData from "../lib/skills-data.json";
+import { CopyCommand, INSTALL_COMMAND } from "./components/copy-command";
+import { MarkGlyph } from "./components/brand";
+import { Credits } from "./components/credits";
+import { Footer } from "./components/footer";
+import { InstallPanel } from "./components/install-panel";
 import { Nav } from "./components/nav";
+import { Reveal } from "./components/reveal";
+import { SectionHeading } from "./components/section-heading";
+import { SkillCard, type Skill } from "./components/skill-card";
+import { StarButton } from "./components/star-button";
+import { WireToFrontPage } from "./components/wire-to-front-page";
 
-interface Skill {
-  name: string;
-  description: string;
-  whenToUse: string;
-  category: string;
-}
+const skills = skillsData as Skill[];
 
-const CATEGORY_META: Record<string, { emoji: string; tagline: string }> = {
-  Strategize: {
-    emoji: "🧭",
-    tagline: "Figure out what your story even is",
+const LANES: { id: string; tagline: string }[] = [
+  { id: "Detect", tagline: "surface what matters in your space" },
+  { id: "Act", tagline: "turn signal into output" },
+  { id: "Strategize", tagline: "figure out what your story even is" },
+  { id: "More", tagline: "everything else in the kit" },
+];
+
+const RUNTIMES = [
+  "Claude Code",
+  "Codex",
+  "Claude.ai",
+  "Cowork",
+  "Hermes",
+  "OpenClaw",
+  "ChatGPT (limited)",
+];
+
+const TRUST = [
+  { key: "license", label: "MIT licensed" },
+  {
+    key: "authors",
+    label: (
+      <>
+        Built by <Credits />
+      </>
+    ),
   },
-  Act: {
-    emoji: "🚀",
-    tagline: "Turn signal into output",
-  },
-  Detect: {
-    emoji: "🛰️",
-    tagline: "Surface what matters in your space",
-  },
-};
+  { key: "sending", label: "Never sends on your behalf" },
+];
 
-const CATEGORY_ORDER = ["Detect", "Act", "Strategize"];
+const HEADLINE = "Turn your agent into a full PR team.";
 
-function GitHubIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.58.1.79-.25.79-.56v-2.02c-3.2.7-3.87-1.37-3.87-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.04 0 0 .98-.31 3.18 1.18A11.1 11.1 0 0 1 12 6.2c.98 0 1.96.13 2.88.39 2.2-1.49 3.17-1.18 3.17-1.18.64 1.58.24 2.75.12 3.04.74.8 1.18 1.83 1.18 3.08 0 4.42-2.69 5.39-5.25 5.67.42.36.78 1.06.78 2.14v3.03c0 .31.21.67.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-    </svg>
-  );
+function avatarSrc(url: string): string {
+  const src = new URL(url);
+  src.searchParams.set("s", "128");
+  return src.toString();
 }
 
-function SkillCard({ skill }: { skill: Skill }) {
+function Hero({ stars }: { stars: number | null }) {
   return (
-    <a
-      href={`https://github.com/elvisun/newsjack/tree/main/skills/${skill.name}`}
-      target="_blank"
-      rel="noreferrer"
-      className="group block rounded-lg border border-white/[0.06] bg-white/[0.02] p-5 transition hover:border-emerald-300/30 hover:bg-emerald-300/[0.04]"
-    >
-      <h3 className="font-mono text-sm font-semibold text-white group-hover:text-emerald-200">
-        {skill.name}
-      </h3>
-      <p className="mt-2 text-sm leading-6 text-zinc-400">{skill.description}</p>
-    </a>
-  );
-}
-
-function grouped(skills: Skill[]): Record<string, Skill[]> {
-  const groups: Record<string, Skill[]> = {};
-  for (const s of skills) {
-    (groups[s.category] ??= []).push(s);
-  }
-  return groups;
-}
-
-export default function Home() {
-  const groups = grouped(skillsData as Skill[]);
-
-  return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.16),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
-      <Nav />
-
-      <main className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-8 lg:px-10">
-        {/* Hero */}
-        <section className="pb-20 pt-12 sm:pt-20">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
-            newsjack.sh
-          </p>
-          <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Open-source operating system for agentic PR.
+    <section className="px-6 pt-32 pb-24 sm:pt-36" id="install">
+      <div className="mx-auto grid max-w-7xl gap-x-12 gap-y-20 lg:grid-cols-12">
+        <div className="min-w-0 lg:col-span-7">
+          <span className="nj-eyebrow">
+            Vol. 01 — Open-source skills for agentic PR
+          </span>
+          <h1 className="mt-6 font-serif text-[clamp(2.75rem,7vw,5.25rem)] leading-[0.9] tracking-[-0.03em] italic">
+            {HEADLINE.split(" ").map((word, index) => (
+              <span
+                className="nj-word mr-[0.25em]"
+                key={index}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                {word}
+              </span>
+            ))}
           </h1>
-          <p className="mt-7 max-w-2xl text-pretty text-lg leading-8 text-zinc-300 sm:text-xl">
-            Local-first skills and CLI workflows for Claude Code, Codex,
-            OpenClaw, and Hermes. Install once — your agent becomes a PR team.
+          <p className="mt-8 max-w-xl text-[clamp(1rem,1.2vw,1.2rem)] leading-[1.7] text-ink/80">
+            {skills.length} open-source skills that teach Claude, Codex and
+            friends to spot a story worth riding, fit-check reporters, and roast
+            your pitch before it leaves your outbox.
           </p>
 
-          <div className="mt-10 max-w-xl">
-            <pre
-              aria-label="Install command"
-              className="overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 font-mono text-sm leading-6 text-emerald-200 shadow-2xl shadow-black/30 sm:text-base"
-            >
-              <code>curl -fsSL newsjack.sh | bash</code>
-            </pre>
-            <p className="mt-3 font-mono text-xs text-zinc-500">
-              Installs latest from GitHub Releases
-            </p>
+          <div className="mt-10">
+            <InstallPanel />
           </div>
 
-          <div className="mt-9 flex flex-wrap items-center gap-4">
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-6">
+            <StarButton stars={stars} variant="hero" />
+            <ul className="flex flex-col gap-1.5 font-mono text-[10px] tracking-[0.2em] text-ink/60 uppercase">
+              {TRUST.map((item) => (
+                <li className="inline-flex items-center gap-2" key={item.key}>
+                  <CircleCheck
+                    aria-hidden="true"
+                    className="text-accent"
+                    size={12}
+                  />
+                  <span>{item.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="min-w-0 lg:col-span-5 lg:pt-28">
+          <div className="relative">
+            <WireToFrontPage />
             <a
-              className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
-              href="https://github.com/elvisun/newsjack"
+              className="absolute -top-7 right-0 flex items-center gap-3 border border-ink/10 bg-page p-4 shadow-lift transition-colors hover:border-ink/25 sm:-right-4"
+              href="https://medialyst.ai/agents"
               rel="noreferrer"
               target="_blank"
             >
-              <GitHubIcon />
-              <span>Star on GitHub</span>
+              <span className="flex rounded-[2px] bg-ink p-2">
+                <Cpu aria-hidden="true" className="text-accent" size={16} />
+              </span>
+              <span className="font-mono text-[10px] leading-snug tracking-[0.18em] uppercase">
+                Live data by
+                <br />
+                <strong className="font-bold">Medialyst</strong>
+              </span>
             </a>
-            <Link
-              className="inline-flex items-center rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
-              href="/about"
-            >
-              Learn more
-            </Link>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Skills */}
-        <section>
-          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            {(skillsData as Skill[]).length} skills, three lanes
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg text-zinc-400">
-            Every skill is a plain-Markdown file your agent reads. No vendor lock-in, no API keys required for the core set.
-          </p>
-
-          <div className="mt-14 space-y-16">
-            {CATEGORY_ORDER.map((cat) => {
-              const meta = CATEGORY_META[cat];
-              const skills = groups[cat] || [];
-              return (
-                <div key={cat}>
-                  <div className="mb-6 flex items-center gap-3">
-                    <span className="text-2xl" aria-hidden="true">
-                      {meta.emoji}
-                    </span>
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        {cat}
-                      </h3>
-                      <p className="text-sm text-zinc-400">{meta.tagline}</p>
-                    </div>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {skills.map((s) => (
-                      <SkillCard key={s.name} skill={s} />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Who this is for */}
-        <section className="mt-24">
-          <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Who this is for
-          </h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2">
-            {[
-              {
-                title: "Founders",
-                desc: "Doing their own PR because the agency quote was insane.",
-              },
-              {
-                title: "PR agencies",
-                desc: "Running more accounts than humans can babysit.",
-              },
-              {
-                title: "Marketers",
-                desc: "At small companies who need leverage, not headcount.",
-              },
-              {
-                title: "Anyone",
-                desc: "Whose agent is already running their day-to-day — and should be better at it.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-5"
-              >
-                <h3 className="font-semibold text-white">{item.title}</h3>
-                <p className="mt-1 text-sm text-zinc-400">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <footer className="mx-auto flex h-16 w-full max-w-6xl items-center px-5 font-mono text-xs text-zinc-500 sm:px-8 lg:px-10">
-        MIT licensed · github.com/elvisun/newsjack
-      </footer>
+function RunsIn() {
+  return (
+    <div className="border-y border-ink/10 px-6 py-6">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3">
+        <span className="nj-meta">Runs in</span>
+        {RUNTIMES.map((runtime) => (
+          <span
+            className="font-mono text-[11px] tracking-[0.2em] text-ink/70 uppercase"
+            key={runtime}
+          >
+            {runtime}
+          </span>
+        ))}
+      </div>
     </div>
+  );
+}
+
+async function Circulation({
+  repo,
+}: {
+  repo: Awaited<ReturnType<typeof loadRepoStats>>;
+}) {
+  const [forkers, releases, npmDownloads] = await Promise.all([
+    loadAllForkers(),
+    loadReleaseCount(),
+    loadNpmMonthlyDownloads(),
+  ]);
+  const lastPush = repo ? formatDaysAgo(repo.pushedAt) : null;
+
+  const stats = [
+    repo && { label: "GitHub stars", value: formatFull(repo.stars) },
+    repo && { label: "Forks", value: formatFull(repo.forks) },
+    npmDownloads !== null && {
+      label: "npm installs, 30 days",
+      value: formatFull(npmDownloads),
+    },
+    releases !== null && {
+      label: "Releases shipped",
+      value: releases >= 100 ? "100+" : String(releases),
+    },
+    lastPush && { label: "Last push", value: lastPush },
+  ].filter((stat): stat is { label: string; value: string } => Boolean(stat));
+
+  if (stats.length === 0 && forkers.length === 0) return null;
+
+  return (
+    <section aria-labelledby="circulation" className="px-6 py-32">
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading
+          id="circulation"
+          number="01"
+          subtitle="Open source, built in public, and pulled live from GitHub and npm."
+          title="the circulation"
+        />
+
+        <dl className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-3 lg:grid-cols-5">
+          {stats.map((stat, index) => (
+            <Reveal delayMs={index * 100} key={stat.label}>
+              <div
+                className={`border-t pt-3 ${index === 0 ? "border-accent" : "border-ink"}`}
+              >
+                <dt className="nj-meta">{stat.label}</dt>
+                <dd className="mt-2 font-serif text-[clamp(2.25rem,4vw,3.25rem)] leading-none italic">
+                  {stat.value}
+                </dd>
+              </div>
+            </Reveal>
+          ))}
+        </dl>
+
+        {forkers.length > 0 && (
+          <Reveal className="mt-24">
+            <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4">
+              <p className="font-serif text-2xl italic">
+                Forked by founders, PR people and builders
+              </p>
+              <a
+                className="nj-link text-ink/60"
+                href={`${REPO_URL}/forks`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                All {formatFull(forkers.length)} forks →
+              </a>
+            </div>
+            <ul className="grid grid-cols-10 gap-1 sm:grid-cols-16 lg:grid-cols-22">
+              {forkers.map((user) => (
+                <li key={user.forkUrl}>
+                  <a
+                    className="block"
+                    href={user.forkUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                    title={`@${user.login}`}
+                  >
+                    <Image
+                      alt={`@${user.login}`}
+                      className="aspect-square w-full mix-blend-multiply grayscale transition duration-300 hover:mix-blend-normal hover:grayscale-0"
+                      height={64}
+                      src={avatarSrc(user.avatarUrl)}
+                      unoptimized
+                      width={64}
+                    />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function SkillCatalog() {
+  const lanes = LANES.map((lane) => ({
+    ...lane,
+    skills: skills.filter((skill) => skill.category === lane.id),
+  })).filter((lane) => lane.skills.length > 0);
+
+  return (
+    <section
+      aria-labelledby="skills"
+      className="border-y border-ink/10 bg-ink/5 px-6 py-32"
+    >
+      <div className="mx-auto max-w-7xl">
+        <SectionHeading
+          id="skills"
+          number="02"
+          subtitle={`${skills.length} skills in ${lanes.length} lanes. Each one is a plain-Markdown file your agent reads, so you can open it, fork it, or rewrite it.`}
+          title="the skill catalog"
+        />
+
+        <div className="flex flex-col gap-24">
+          {lanes.map((lane) => (
+            <div key={lane.id}>
+              <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-5">
+                <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+                  <span className="nj-eyebrow">{lane.id}</span>
+                  <h3 className="font-serif text-[clamp(1.5rem,3vw,2rem)] leading-tight lowercase italic">
+                    {lane.tagline}
+                  </h3>
+                </div>
+                <span className="nj-meta">
+                  {String(lane.skills.length).padStart(2, "0")} skills
+                </span>
+              </div>
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {lane.skills.map((skill) => (
+                  <SkillCard
+                    key={skill.name}
+                    number={skills.indexOf(skill) + 1}
+                    skill={skill}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ClosingCta({ stars }: { stars: number | null }) {
+  return (
+    <section className="relative overflow-hidden bg-ink px-6 py-40 text-page">
+      <div className="absolute inset-x-0 top-0 h-1 bg-accent" />
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
+        <h2 className="font-serif text-[clamp(2.5rem,8vw,5rem)] leading-[0.95] italic">
+          Ready to exit the spray-and-pray?
+        </h2>
+        <p className="mx-auto mt-7 max-w-xl font-serif text-xl leading-normal text-page/60 italic">
+          One command installs all {skills.length} skills. Your agent does the
+          research; every pitch still goes out under your name, sent by you.
+        </p>
+        <div className="mx-auto mt-12 max-w-xl text-left">
+          <CopyCommand
+            label="install command"
+            tone="ink"
+            value={INSTALL_COMMAND}
+          />
+        </div>
+        <div className="mt-8 flex justify-center">
+          <StarButton stars={stars} variant="ink" />
+        </div>
+        <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-3 text-page/40">
+          <a
+            className="nj-link"
+            href={`${REPO_URL}/blob/main/docs/getting-started.md`}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Getting started guide
+          </a>
+          <a
+            className="nj-link"
+            href={`${REPO_URL}/tree/main/skills`}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Read every skill
+          </a>
+          <a
+            className="nj-link"
+            href={`${REPO_URL}/blob/main/LICENSE`}
+            rel="noreferrer"
+            target="_blank"
+          >
+            License (MIT)
+          </a>
+        </div>
+      </div>
+      <MarkGlyph className="pointer-events-none absolute -right-16 -bottom-24 w-[560px] text-page opacity-5" />
+    </section>
+  );
+}
+
+export default async function Home() {
+  const repo = await loadRepoStats();
+  const stars = repo?.stars ?? null;
+
+  return (
+    <>
+      <Nav />
+      <main>
+        <Hero stars={stars} />
+        <RunsIn />
+        <Circulation repo={repo} />
+        <SkillCatalog />
+        <ClosingCta stars={stars} />
+      </main>
+      <Footer />
+    </>
   );
 }

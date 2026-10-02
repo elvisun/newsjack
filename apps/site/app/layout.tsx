@@ -1,5 +1,24 @@
 import type { Metadata } from "next";
+import { DM_Sans, IBM_Plex_Mono, Newsreader } from "next/font/google";
+import { DevAnnotations } from "./components/dev-annotations";
 import "./globals.css";
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-newsreader",
+});
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  axes: ["opsz"],
+  variable: "--font-dm-sans",
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-plex-mono",
+});
 
 const title = "newsjack.sh";
 const description =
@@ -37,8 +56,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${newsreader.variable} ${dmSans.variable} ${plexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Lets CSS hide scroll-reveal content only when JS can reveal it. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
+      <body>
+        {children}
+        <DevAnnotations />
+      </body>
     </html>
   );
 }

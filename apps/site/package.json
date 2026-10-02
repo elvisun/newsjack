@@ -7,6 +7,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
+    "predev": "node scripts/prebuild-skills.mjs",
     "dev": "next dev --port 3000",
     "prebuild": "node scripts/prebuild-dist.mjs && node scripts/prebuild-skills.mjs",
     "build": "next build",
@@ -25,6 +26,7 @@
     "@contentful/rich-text-types": "^17.2.7",
     "@neondatabase/serverless": "^1.1.0",
     "contentful": "^11.12.10",
+    "lucide-react": "^1.49.0",
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6"
@@ -34,6 +36,7 @@
     "@types/node": "25.9.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "agentation": "^3.1.2",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "4.3.0",

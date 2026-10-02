@@ -2,6 +2,8 @@
 name: coverage-tracker-setup
 description: "Set up a lightweight Google Alerts-style coverage tracker for any number of keywords. Creates a tracker config with each keyword and what it actually means, then hands recurrence to the user's agent harness."
 when_to_use: "User wants to create, configure, or update coverage alerts, brand/company mention tracking, Google Alert-style monitoring, or keyword coverage tracking. Use this instead of newsjack-monitor-setup when the job is to track coverage of the user's own keywords rather than find newsjacking opportunities."
+metadata:
+  category: Detect
 ---
 
 # Coverage Tracker Setup

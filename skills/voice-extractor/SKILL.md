@@ -2,6 +2,8 @@
 name: voice-extractor
 description: "Capture a user's real writing voice from 5-20 prior samples, store a local voice.yaml fingerprint, and enforce it on newsjack drafts so AI tells disappear. Measures voice with named stylometry lenses (Burrows's Delta function-word vector, MATTR lexical diversity, sentence-length burstiness, Biber Dimension-1 register, opener-POS profile, punctuation rates) and gates drafts against the fingerprint as bands, not vibes."
 when_to_use: "User asks to set up, refresh, check, or enforce a newsjack voice fingerprint; user says drafts sound generic or AI-written; another newsjack drafting skill needs sender-voice constraints before returning copy."
+metadata:
+  category: Act
 ---
 
 # Voice Extractor

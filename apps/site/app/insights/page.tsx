@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getAllPosts } from "../../lib/contentful";
+import { Footer } from "../components/footer";
 import { Nav } from "../components/nav";
 
 export const revalidate = 60;
@@ -24,53 +25,48 @@ export default async function InsightsPage() {
   const posts = await getAllPosts();
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.08),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
+    <>
       <Nav />
-      <main className="mx-auto max-w-3xl px-5 pb-20 pt-12 sm:px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
-          Insights
-        </p>
-        <h1 className="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-          From the newsjack team
+      <main className="mx-auto max-w-5xl px-6 pt-36 pb-32">
+        <span className="nj-eyebrow">Insights</span>
+        <h1 className="mt-6 font-serif text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.03em] italic">
+          From the newsjack desk.
         </h1>
-        <p className="mt-5 text-lg leading-8 text-zinc-300">
+        <p className="mt-6 max-w-xl text-[17px] leading-[1.7] text-ink/80">
           Ideas, guides, and dispatches on agentic PR.
         </p>
 
         {posts.length === 0 ? (
-          <p className="mt-16 text-center text-zinc-500">
+          <p className="mt-24 border-t border-ink/10 pt-8 text-ink/60 italic">
             No posts yet. Check back soon.
           </p>
         ) : (
-          <ul className="mt-12 space-y-10">
+          <ul className="mt-20 border-b border-ink/10">
             {posts.map((post) => (
-              <li key={post.slug}>
+              <li className="border-t border-ink/10" key={post.slug}>
                 <Link
+                  className="group grid gap-4 py-10 md:grid-cols-12 md:gap-8"
                   href={`/insights/${post.slug}`}
-                  className="group block rounded-lg border border-white/[0.06] bg-white/[0.02] p-6 transition hover:border-emerald-300/30 hover:bg-emerald-300/[0.04]"
                 >
-                  <time className="font-mono text-xs text-zinc-500">
+                  <time className="nj-meta md:col-span-3 md:pt-2">
                     {formatDate(post.publishedAt)}
                   </time>
-                  <h2 className="mt-2 text-xl font-semibold text-white group-hover:text-emerald-200">
-                    {post.title}
-                  </h2>
-                  <p className="mt-2 leading-7 text-zinc-400">
-                    {post.excerpt}
-                  </p>
-                  <p className="mt-4 font-mono text-xs text-zinc-500">
-                    {post.author}
-                  </p>
+                  <div className="md:col-span-9">
+                    <h2 className="font-serif text-[clamp(1.75rem,3.5vw,2.5rem)] leading-[1.1] italic transition-colors group-hover:text-accent">
+                      {post.title}
+                    </h2>
+                    <p className="mt-3 max-w-2xl leading-[1.7] text-ink/60">
+                      {post.excerpt}
+                    </p>
+                    <p className="nj-meta mt-5">By {post.author}</p>
+                  </div>
                 </Link>
               </li>
             ))}
           </ul>
         )}
       </main>
-
-      <footer className="mx-auto flex h-16 w-full max-w-3xl items-center px-5 font-mono text-xs text-zinc-500 sm:px-8">
-        MIT licensed · github.com/elvisun/newsjack
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

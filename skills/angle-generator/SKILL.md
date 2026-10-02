@@ -2,6 +2,8 @@
 name: angle-generator
 description: "Turn a company update into 3-7 structurally distinct, journalist-shaped story angles. Runs the fact through proven newsroom lenses (perspective, abstraction, news values, data, contrarian, news peg) and refuses rephrasings, invented facts, named-journalist guesses, and AI-marketing slop."
 when_to_use: "User has company news but no story yet: funding, launch, hire, partnership, customer milestone, data point, weak pitch angle, or a newsjack-detector handoff that needs story angles before pitch drafting or media-list building."
+metadata:
+  category: Act
 ---
 
 # Angle Generator

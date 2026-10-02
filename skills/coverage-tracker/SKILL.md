@@ -2,6 +2,8 @@
 name: coverage-tracker
 description: "Run a Google Alerts-style keyword coverage tracker. Uses news-search for recent keyword queries, lets the LLM dedupe and classify real features versus junk, stores decisions in SQLite, and alerts only on new real coverage."
 when_to_use: "User wants to run coverage alerts, check new mentions, track press coverage, monitor brand/company keyword coverage, or execute a previously configured coverage tracker."
+metadata:
+  category: Detect
 ---
 
 # Coverage Tracker

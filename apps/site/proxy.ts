@@ -9,8 +9,6 @@ import {
 } from "./lib/install-telemetry";
 import { applySecurityHeaders } from "./lib/security-headers";
 
-const repoURL = "https://github.com/elvisun/newsjack";
-
 export function proxy(request: NextRequest, event: NextFetchEvent) {
   const userAgent = request.headers.get("user-agent") ?? "";
   const installerKind = getInstallerKind(userAgent);

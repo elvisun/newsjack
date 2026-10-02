@@ -2,6 +2,8 @@
 name: journalist-fit-check
 description: "Gate a pitch against one journalist at a time. Runs the pair through proven media-relations checks (last-10-bylines audit, 90-day topic sweep, beat-vs-angle-vs-one-off, the 5 forms of journalism, source-mirror, stated-preferences, database triangulation) and returns fit, soft-fit, no-fit, or unknown with a real recent anchor and specific edits."
 when_to_use: "User asks whether a specific journalist is a fit for a pitch, wants a pre-send relevance check, tries to add one journalist to a media list, or asks 'should I pitch this person?'"
+metadata:
+  category: Act
 ---
 
 # Journalist Fit Check

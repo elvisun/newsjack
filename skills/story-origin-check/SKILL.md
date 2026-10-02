@@ -2,6 +2,8 @@
 name: story-origin-check
 description: "Recover the first public timestamp and canonical major coverage for a newsjacking signal, then decide whether newer coverage is the same story, a different story, or a materially new development."
 when_to_use: "Use before deterministic freshness gating, before sending beta cron output, or whenever evidence comes from aggregators, syndication partners, copied wire articles, rewritten secondary coverage, or search results with suspiciously recent timestamps."
+metadata:
+  category: Detect
 ---
 
 # Story Origin Check

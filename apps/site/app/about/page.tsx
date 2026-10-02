@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
+import { ArrowUpRight, CircleCheck } from "lucide-react";
 
+import { REPO_URL } from "../../lib/social-proof";
+import { Footer } from "../components/footer";
+import { InstallPanel } from "../components/install-panel";
 import { Nav } from "../components/nav";
+import { SectionHeading } from "../components/section-heading";
 
 export const metadata: Metadata = {
   title: "About | newsjack.sh",
@@ -8,152 +13,111 @@ export const metadata: Metadata = {
     "What newsjack is, how it works, and how to install it on any agent platform.",
 };
 
-function CheckIcon() {
-  return (
-    <svg
-      className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2.5}
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
+const PRINCIPLES = [
+  "Open source — MIT licensed, no vendor lock-in",
+  "Skills are plain Markdown, not compiled plugins",
+  "Local-first — your data stays on your machine",
+  "Works across agent platforms",
+  "Earned media only — never sends on your behalf",
+];
+
+const LINKS = [
+  { label: "GitHub repository", href: REPO_URL },
+  {
+    label: "Getting started guide",
+    href: `${REPO_URL}/tree/main/docs/getting-started.md`,
+  },
+  {
+    label: "Installation walkthrough (video)",
+    href: "https://www.youtube.com/watch?v=1tg6E6ZYGCk",
+  },
+  { label: "Medialyst (news API)", href: "https://medialyst.ai/agents" },
+];
+
+const prose = "text-[17px] leading-[1.7] text-ink/80";
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.08),transparent_28rem),linear-gradient(135deg,#090b0f_0%,#101217_54%,#050607_100%)] text-zinc-50">
+    <>
       <Nav />
-      <main className="mx-auto max-w-3xl px-5 pb-20 pt-12 sm:px-8">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
-          About
-        </p>
-        <h1 className="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-          Your agent, but better at PR
+      <main className="mx-auto max-w-3xl px-6 pt-36 pb-32">
+        <span className="nj-eyebrow">About</span>
+        <h1 className="mt-6 font-serif text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.03em] italic">
+          Your agent, but better at PR.
         </h1>
-        <p className="mt-6 text-lg leading-8 text-zinc-300">
+        <p className={`mt-8 ${prose}`}>
           Newsjack is an open-source set of skills — plain-Markdown instructions
           your agent reads — plus a small CLI. Install once, and your agent can
           monitor your industry, generate story angles, fact-check pitches,
           build media lists, and more.
         </p>
 
-        <section className="mt-14">
-          <h2 className="text-2xl font-semibold text-white">How it works</h2>
-          <p className="mt-4 leading-8 text-zinc-300">
-            Each skill is a Markdown file that tells your agent exactly what to do
-            and how to do it — step by step, with guardrails built in. No API keys
-            are required for the core set. Some skills reach for a live news index
-            or journalist enrichment through the Medialyst API, but most run
-            anywhere your agent does.
-          </p>
-          <p className="mt-4 leading-8 text-zinc-300">
-            Skills work across platforms: Claude Code, Codex, Hermes, OpenClaw,
-            Claude.ai, Cowork, and ChatGPT. Local agents get the full experience
-            with scheduling and saved state. Browser agents get a best-effort,
-            one-shot pass.
-          </p>
-        </section>
-
-        <section className="mt-14">
-          <h2 className="text-2xl font-semibold text-white">Install</h2>
-
-          <div className="mt-6 space-y-6">
-            <div>
-              <h3 className="font-semibold text-white">
-                Local agents (Claude Code, Codex, Hermes, OpenClaw)
-              </h3>
-              <pre className="mt-3 overflow-x-auto rounded-lg border border-white/10 bg-black/60 p-4 font-mono text-sm text-emerald-200">
-                <code>curl -fsSL newsjack.sh | bash</code>
-              </pre>
-              <p className="mt-2 text-sm text-zinc-400">
-                Or copy this to any AI:{" "}
-                <code className="text-emerald-300/70">
-                  help me setup https://newsjack.sh
-                </code>
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-white">Claude.ai &amp; Cowork</h3>
-              <p className="mt-2 leading-7 text-zinc-300">
-                Install the{" "}
-                <a
-                  href="https://claude.ai/customize"
-                  className="text-emerald-300 underline decoration-emerald-300/30 underline-offset-2 hover:decoration-emerald-300"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  newsjack plugin
-                </a>{" "}
-                from the Anthropic marketplace. Go to Customize → Personal plugins →
-                Add marketplace → Add from repository → enter{" "}
-                <code className="text-emerald-300/70">elvisun/newsjack</code>.
-              </p>
-            </div>
+        <section className="mt-24">
+          <SectionHeading number="01" title="how it works" />
+          <div className="space-y-5">
+            <p className={prose}>
+              Each skill is a Markdown file that tells your agent exactly what
+              to do and how to do it — step by step, with guardrails built in.
+              No API keys are required for the core set. Some skills reach for a
+              live news index or journalist enrichment through the Medialyst
+              API, but most run anywhere your agent does.
+            </p>
+            <p className={prose}>
+              Skills work across platforms: Claude Code, Codex, Hermes,
+              OpenClaw, Claude.ai, Cowork, and ChatGPT. Local agents get the
+              full experience with scheduling and saved state. Browser agents
+              get a best-effort, one-shot pass.
+            </p>
           </div>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-2xl font-semibold text-white">Principles</h2>
-          <ul className="mt-6 space-y-4 text-zinc-300">
-            {[
-              "Open source — MIT licensed, no vendor lock-in",
-              "Skills are plain Markdown, not compiled plugins",
-              "Local-first — your data stays on your machine",
-              "Works across agent platforms",
-              "Earned media only — never sends on your behalf",
-            ].map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <CheckIcon />
-                <span className="leading-6">{item}</span>
+        <section className="mt-24">
+          <SectionHeading number="02" title="install" />
+          <div>
+            <InstallPanel />
+          </div>
+        </section>
+
+        <section className="mt-24">
+          <SectionHeading number="03" title="principles" />
+          <ul className="space-y-4">
+            {PRINCIPLES.map((item) => (
+              <li className={`flex items-start gap-3 ${prose}`} key={item}>
+                <CircleCheck
+                  aria-hidden="true"
+                  className="mt-1.5 shrink-0 text-accent"
+                  size={16}
+                />
+                <span>{item}</span>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="mt-14">
-          <h2 className="text-2xl font-semibold text-white">Links</h2>
-          <ul className="mt-6 space-y-3 font-mono text-sm">
-            <li>
-              <a
-                href="https://github.com/elvisun/newsjack"
-                className="text-emerald-300 underline decoration-emerald-300/30 underline-offset-2 hover:decoration-emerald-300"
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub repository
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://github.com/elvisun/newsjack/tree/main/docs/getting-started.md"
-                className="text-emerald-300 underline decoration-emerald-300/30 underline-offset-2 hover:decoration-emerald-300"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Getting started guide
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://medialyst.ai"
-                className="text-emerald-300 underline decoration-emerald-300/30 underline-offset-2 hover:decoration-emerald-300"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Medialyst (news API)
-              </a>
-            </li>
+        <section className="mt-24">
+          <SectionHeading number="04" title="links" />
+          <ul className="divide-y divide-ink/10 border-y border-ink/10">
+            {LINKS.map((link) => (
+              <li key={link.href}>
+                <a
+                  className="group flex items-center justify-between py-4 font-serif text-xl italic transition-colors hover:text-accent"
+                  href={link.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {link.label}
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="text-ink/40 transition-colors group-hover:text-accent"
+                    size={16}
+                  />
+                </a>
+              </li>
+            ))}
           </ul>
         </section>
       </main>
-
-      <footer className="mx-auto flex h-16 w-full max-w-3xl items-center px-5 font-mono text-xs text-zinc-500 sm:px-8">
-        MIT licensed · github.com/elvisun/newsjack
-      </footer>
-    </div>
+      <Footer />
+    </>
   );
 }

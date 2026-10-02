@@ -2,6 +2,8 @@
 name: meanest-editor
 description: "Roast a pitch or press release with the eye of a veteran PR director. Honest, sharp, constructive — never cruel for its own sake."
 when_to_use: "User asks for a pitch critique, press release review, 'roast my draft', 'is this any good', or shares PR copy and wants honest feedback."
+metadata:
+  category: Act
 ---
 
 # Meanest Editor
