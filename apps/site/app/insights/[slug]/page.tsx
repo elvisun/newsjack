@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -40,6 +41,15 @@ function formatDate(iso: string): string {
   });
 }
 
+type EmbeddedAssetFields = {
+  file?: {
+    url?: string;
+    details?: { image?: { width: number; height: number } };
+  };
+  title?: string;
+  description?: string;
+};
+
 const richTextOptions = {
   renderNode: {
     [BLOCKS.PARAGRAPH]: (_node: unknown, children: React.ReactNode) => (
@@ -75,16 +85,20 @@ const richTextOptions = {
     ),
     [BLOCKS.HR]: () => <hr className="my-14 border-ink/10" />,
     [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
-      const fields = (node.data?.target as { fields?: { file?: { url?: string }; title?: string; description?: string } })?.fields;
-      if (!fields?.file?.url) return null;
+      const fields = (node.data?.target as { fields?: EmbeddedAssetFields })?.fields;
+      const image = fields?.file?.details?.image;
+      // next/image needs intrinsic dimensions; Contentful only sets them on images.
+      if (!fields?.file?.url || !image) return null;
       const src = fields.file.url.startsWith("//") ? `https:${fields.file.url}` : fields.file.url;
       return (
         <figure className="mt-8">
-          <img
+          <Image
             src={src}
             alt={fields.title ?? ""}
-            className="w-full rounded-lg border border-ink/10"
-            loading="lazy"
+            width={image.width}
+            height={image.height}
+            sizes="(min-width: 768px) 720px, 100vw"
+            className="h-auto w-full rounded-lg border border-ink/10"
           />
           {fields.description && (
             <figcaption className="mt-2 text-center font-mono text-xs text-ink/40">
