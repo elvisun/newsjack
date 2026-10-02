@@ -1,33 +1,255 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: dark;
-  --background: #090b0f;
-  --foreground: #f4f4f5;
-  --muted: #9ca3af;
-  --line: rgba(255, 255, 255, 0.12);
-  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "Geist Mono", "SFMono-Regular", Consolas,
-    "Liberation Mono", monospace;
+/*
+ * newsjack.sh design system: newspaper paper, ink, one vermilion accent.
+ * Tokens mirror colors_and_type.css from the design handoff. Base styles and
+ * atoms live in cascade layers so Tailwind utilities can still override them.
+ */
+
+@theme inline {
+  --color-page: #f9f8f6;
+  --color-page-2: #f3f1ec;
+  --color-ink: #1a1a1a;
+  --color-ink-2: #2a2a2a;
+  --color-accent: #e05a47;
+  --color-accent-2: #c84a38;
+  --color-success: #4ade80;
+
+  --font-serif: var(--font-newsreader), "Charter", "Georgia", serif;
+  --font-sans: var(--font-dm-sans), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  --shadow-editorial: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-lift: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-terminal: 0 20px 60px rgba(0, 0, 0, 0.25);
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html {
-  background: var(--background);
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    background: var(--color-page);
+    scroll-padding-top: 88px;
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 }
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  /* ---- Type atoms ---- */
+
+  .nj-eyebrow {
+    display: inline-block;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .nj-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.4);
+  }
+
+  .nj-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 200ms var(--ease-editorial);
+  }
+
+  .nj-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* ---- Buttons ---- */
+
+  .nj-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    padding: 7px 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition:
+      background-color 300ms var(--ease-editorial),
+      color 300ms var(--ease-editorial),
+      border-color 300ms var(--ease-editorial);
+  }
+
+  .nj-btn-ghost:hover {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-page);
+  }
+
+  /* ---- Motion ---- */
+
+  .nj-word {
+    display: inline-block;
+    animation: nj-word-in 600ms var(--ease-editorial) both;
+  }
+
+  .nj-rise {
+    animation: nj-rise 800ms 400ms var(--ease-editorial) both;
+  }
+
+  .nj-blink {
+    animation: nj-blink 1s steps(1) infinite;
+  }
+
+  .nj-shimmer {
+    background: linear-gradient(
+        100deg,
+        rgba(249, 248, 246, 0.75) 40%,
+        var(--color-accent) 50%,
+        rgba(249, 248, 246, 0.75) 60%
+      )
+      0 0 / 300% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: nj-shimmer 2.4s linear infinite;
+  }
+
+  .nj-line-in {
+    animation: nj-line-in 160ms ease-out both;
+  }
+
+  .nj-ping {
+    animation: nj-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  /* Scroll reveal. Gated on .js so content stays visible without JavaScript. */
+  .js .nj-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 700ms var(--ease-editorial),
+      transform 700ms var(--ease-editorial);
+  }
+
+  .js .nj-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nj-word,
+    .nj-rise,
+    .nj-blink,
+    .nj-shimmer,
+    .nj-line-in,
+    .nj-ping {
+      animation: none;
+    }
+
+    .js .nj-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@keyframes nj-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes nj-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes nj-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes nj-ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes nj-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes nj-rise {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* react-tweet ships unlayered CSS, so this override stays unlayered too. */
+.nj-clippings .react-tweet-theme {
+  --tweet-container-margin: 0;
 }

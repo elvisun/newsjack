@@ -2,6 +2,8 @@
 name: newsjack-triage
 description: "Consolidate freshness-gated newsjack signals and route them by client standing before angle generation. Collapses any remaining same-story duplicates, decides strong/partial/none standing with a journalist-shape sanity check, and sorts each story into pitch_ready, big_story (always-surfaced suggestion), or watch. Never writes angles or pitches, and never drops a fresh big story."
 when_to_use: "Run as the standing-triage stage of the newsjack-detector pipeline, after the deterministic freshness gate (origin-apply) and before angle-generator. Use whenever a pool of fresh candidate signals needs standing judgment and final same-story consolidation before expensive angle work."
+metadata:
+  category: Detect
 ---
 
 # Newsjack Triage

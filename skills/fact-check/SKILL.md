@@ -2,6 +2,8 @@
 name: fact-check
 description: "Extract factual claims from PR copy, verify each claim independently, attach concrete citations, and warn when certainty is low. Runs each claim through proven newsroom verification methods (lateral reading, source-tier climbing, provenance pillars, triangulation, calibrated rating) and puts the burden of proof on the speaker. Use before a pitch, press release, reactive comment, DM, or other journalist-facing draft is trusted or sent."
 when_to_use: "User asks to verify facts, check sources, cite claims, assess whether a draft is safe to send, or another newsjack skill needs a pre-send factual accuracy gate."
+metadata:
+  category: Act
 ---
 
 # Fact Check

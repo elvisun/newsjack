@@ -1,6 +1,8 @@
 ---
 name: realistic-prompt-generation
 description: "Generate natural, controlled prompt variants from a target-blind design brief and prompt architecture while preserving approved jobs, acts, journeys, constraints, roles, locales, proximity bands, and evidence language. Use after architecture design and before contamination or semantic QA."
+metadata:
+  category: AI visibility
 ---
 
 # Realistic Prompt Generation

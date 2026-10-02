@@ -1,6 +1,8 @@
 ---
 name: prompt-set-qa
 description: "Gate a prompt universe for schema and provenance completeness, target or campaign contamination, evidence entailment, naturalness, one-concept clarity, architecture consistency, aided status, answer leakage, and semantic duplicates. Use after realistic prompt generation and before human panel selection."
+metadata:
+  category: AI visibility
 ---
 
 # Prompt Set QA

@@ -1,6 +1,8 @@
 ---
 name: build-ai-visibility-panel
 description: "Research any company, product, or service from a URL plus description and build a comprehensive, evidence-bound AEO/GEO/AI-visibility prompt panel across buyer jobs, information acts, journey states, B0-B5 proximity, aided status, roles, locales, variants, partitions, surfaces, and measurement lanes. Use when a user wants prompts to track in ChatGPT, Claude, Gemini, Perplexity, AI search, or answer engines; wants an AI-visibility measurement design; or needs a versioned panel rather than an SEO keyword list."
+metadata:
+  category: AI visibility
 ---
 
 # Build AI Visibility Panel

@@ -1,34 +1,35 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Connection help | newsjack.sh",
+import { pageMetadata } from "../../lib/site";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Connection help",
   description:
     "Fixes for Chrome ERR_SSL_PROTOCOL_ERROR and other connection problems with newsjack.sh.",
-};
+  path: "/connection-help",
+});
 
 export default function ConnectionHelp() {
   return (
-    <main className="min-h-screen bg-zinc-950 px-5 py-12 text-zinc-100 sm:px-8">
+    <main className="min-h-screen px-6 pt-24 pb-32">
       <div className="mx-auto max-w-3xl">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-emerald-300">
-          newsjack.sh
-        </p>
-        <h1 className="mt-5 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+        <span className="nj-eyebrow">newsjack.sh</span>
+        <h1 className="mt-6 font-serif text-[clamp(2.5rem,7vw,4.5rem)] leading-[0.95] tracking-[-0.03em] italic">
           Connection help
         </h1>
-        <p className="mt-5 text-lg leading-8 text-zinc-300">
+        <p className="mt-8 text-[17px] leading-[1.7] text-ink/80">
           If Chrome shows <code>ERR_SSL_PROTOCOL_ERROR</code>, the most common
           causes are a corporate or antivirus TLS proxy, an old browser or
           operating system, or local HSTS state left behind after a failed
           connection.
         </p>
 
-        <section className="mt-10 space-y-8">
+        <section className="mt-16 space-y-14">
           <div>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="border-t border-ink/10 pt-8 font-serif text-[2rem] leading-[1.1] lowercase italic">
               Quick recovery steps
             </h2>
-            <ol className="mt-4 list-decimal space-y-4 pl-5 text-zinc-300">
+            <ol className="mt-6 list-decimal space-y-4 pl-5 text-[17px] leading-[1.7] text-ink/80 marker:font-mono marker:text-sm marker:text-accent">
               <li>
                 Try a personal network or mobile hotspot. If that works, ask
                 IT or your security vendor to allow <code>newsjack.sh</code>{" "}
@@ -48,15 +49,15 @@ export default function ConnectionHelp() {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="border-t border-ink/10 pt-8 font-serif text-[2rem] leading-[1.1] lowercase italic">
               Still blocked?
             </h2>
-            <p className="mt-4 text-zinc-300">
+            <p className="mt-6 text-[17px] leading-[1.7] text-ink/80">
               Install from GitHub or share the error with your network
               administrator:
             </p>
             <a
-              className="mt-5 inline-flex rounded-md border border-white/15 bg-white/[0.04] px-4 py-2.5 font-mono text-sm text-zinc-100 transition hover:border-emerald-300/50 hover:bg-emerald-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+              className="nj-btn-ghost mt-6"
               href="https://github.com/elvisun/newsjack"
               rel="noreferrer"
             >

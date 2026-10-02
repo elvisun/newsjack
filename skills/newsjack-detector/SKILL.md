@@ -2,6 +2,8 @@
 name: newsjack-detector
 description: "Monitor current news and reaction signals, then decide which are credible newsjacking opportunities for a client. Uses the local monitoring engine for evidence, but the skill owns PR judgment, brand safety, standing, decay, angle fit, and handoff."
 when_to_use: "User wants to monitor news for pitchable hooks, find newsjacking opportunities, react to breaking industry news, watch competitors/topics, or decide whether a current signal is worth turning into an angle or reactive comment."
+metadata:
+  category: Detect
 ---
 
 # Newsjack Detector

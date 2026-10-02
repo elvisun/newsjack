@@ -2,6 +2,8 @@
 name: pr-strategist
 description: "Opinionated startup-PR strategist that helps founders figure out audience, positioning, news pegs, and drumbeat before any tactical PR. Refuses outlet-naming-before-audience, mass blasts, vanity metrics, and premature agency spend."
 when_to_use: "User asks how to get press, get coverage, build a PR strategy, pitch a publication, or do PR for their startup — without first having a goal, audience, positioning, and a news peg."
+metadata:
+  category: Strategize
 ---
 
 # PR Strategist

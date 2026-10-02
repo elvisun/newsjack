@@ -2,6 +2,8 @@
 name: news-search
 description: "Search current news for a topic, company, competitor, or hook and return dated, attributed articles. Uses the newsjack CLI and Medialyst REST API when available, tries direct Medialyst MCP if the CLI is missing, and falls back to host web/browser search with explicit caveats only when neither cloud path is available."
 when_to_use: "User asks to search the news, find recent coverage, check who has written about a topic, or pull article evidence; or another Newsjack skill needs dated, attributed news results (coverage-tracker, story-origin-check, newsworthiness-check, find-journalists, newsjack-detector). Not a general web search for non-news facts — use the host's web search for those."
+metadata:
+  category: Detect
 ---
 
 # News Search

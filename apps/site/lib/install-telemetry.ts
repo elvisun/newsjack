@@ -5,12 +5,7 @@ export const trafficEventTypes = ["site_visit", "install_request"] as const;
 export type TrafficEventType = (typeof trafficEventTypes)[number];
 
 export type JsonValue =
-  | null
-  | string
-  | number
-  | boolean
-  | JsonObject
-  | JsonValue[];
+  null | string | number | boolean | JsonObject | JsonValue[];
 
 export type JsonObject = {
   [key: string]: JsonValue;
@@ -131,9 +126,8 @@ export async function recordTrafficEvent(
 
   const sql = neon(databaseUrl);
   const metadata = input.metadata ?? {};
-  const queryParams = input.queryParams ?? (
-    input.url ? queryParamsFromUrl(input.url) : {}
-  );
+  const queryParams =
+    input.queryParams ?? (input.url ? queryParamsFromUrl(input.url) : {});
   const userAgent = headerOrNull(input.headers, "user-agent") ?? "";
   const clientKind = input.clientKind ?? getClientKind(userAgent);
 
@@ -167,6 +161,32 @@ export async function recordTrafficEvent(
   `;
 
   return { id, stored: true };
+}
+
+// Real installer clients only: scanners (python-requests, go-http-client) also
+// fetch install.sh, and the CLI itself never calls newsjack.sh.
+const installClientKinds = ["curl", "wget", "powershell", "httpie", "aria2"];
+
+// Installs = installer requests from real installer clients, counted once per
+// IP per day (ip_hash is salted with the UTC date, so distinct hashes already
+// dedupe within a day).
+// NEWSJACK_STATS_DATABASE_URL lets a local dev server read the count without
+// also recording its own page views as production traffic.
+export async function countInstalls(): Promise<number | null> {
+  const databaseUrl =
+    process.env.NEWSJACK_STATS_DATABASE_URL ?? databaseUrlFromEnv();
+  if (!databaseUrl) return null;
+
+  const sql = neon(databaseUrl);
+  const rows = await sql`
+    SELECT
+      (count(DISTINCT ip_hash) + count(*) FILTER (WHERE ip_hash IS NULL))::int AS installs
+    FROM install_events
+    WHERE event_type = 'install_request'
+      AND client_kind = ANY(${installClientKinds})
+  `;
+  const installs = rows[0]?.installs;
+  return typeof installs === "number" ? installs : null;
 }
 
 function databaseUrlFromEnv(): string | undefined {

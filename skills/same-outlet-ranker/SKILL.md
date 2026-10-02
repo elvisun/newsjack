@@ -2,6 +2,8 @@
 name: same-outlet-ranker
 description: "Decide which single journalist at one publication to approach first with a pitch. Fit-checks each candidate through journalist-fit-check, then ranks the survivors on the comparative signals that separate colleagues at the same masthead (topic ownership, format match, staff vs. contributor, publishing cadence, recent story types, source-type match), and returns one first pick with tailoring notes plus a held fallback order."
 when_to_use: "User has one pitch and two or more named journalists at the same publication and asks who to send it to first, which reporter at an outlet is the right target, or whether to pitch several people at one outlet."
+metadata:
+  category: Act
 ---
 
 # Same-Outlet Ranker

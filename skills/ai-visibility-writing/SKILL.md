@@ -1,6 +1,8 @@
 ---
 name: ai-visibility-writing
 description: Audit, question, suggest, or fact-preservingly revise a press release, blog post, contributed article, or expert explainer so AI answer systems can more easily retrieve, understand, quote, and cite its useful information. Use when someone asks for AI visibility, AI search, answer-engine, AEO, GEO, AI Overview, or ChatGPT citation optimization of supplied writing; when they want an evidence-aware pre-publication audit; or when another Newsjack workflow needs a prose-level AI-discoverability pass. Do not use as a technical SEO audit, rank tracker, publishing system, or promise of rankings, mentions, citations, traffic, or coverage.
+metadata:
+  category: AI visibility
 ---
 
 # AI Visibility Writing

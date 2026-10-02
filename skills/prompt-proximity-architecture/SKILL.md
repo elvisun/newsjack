@@ -1,6 +1,8 @@
 ---
 name: prompt-proximity-architecture
 description: "Turn an approved measurement charter, ICPs, and buyer jobs into a budget-aware prompt coverage blueprint across proximity bands, aided status, information acts, journey states, roles, locales, evidence grades, partitions, and measurement lanes. Use before prompt wording to define required, optional, and prohibited canonical intent cells."
+metadata:
+  category: AI visibility
 ---
 
 # Prompt Proximity Architecture

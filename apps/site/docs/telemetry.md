@@ -56,6 +56,15 @@ Migration:
 psql "$DATABASE_URL" -f apps/site/db/migrations/0001_install_events.sql
 ```
 
+## Landing page install count
+
+The landing page shows total installs from this table: `install_request`
+events from real installer clients (`curl`, `wget`, `powershell`, `httpie`,
+`aria2`), counted once per IP per day. Scanner clients such as
+`python-requests` and `go-http-client` are excluded. The count is cached for
+an hour (`loadInstallCount` in `lib/social-proof.ts`), so page traffic never
+queries the database directly.
+
 Stats from a local Vercel env file:
 
 ```bash

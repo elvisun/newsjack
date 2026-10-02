@@ -2,6 +2,8 @@
 name: relevance-coarse-filter
 description: "Cheap, high-recall first-pass filter that removes obvious junk from a detector candidate pool before expensive story-origin research and PR judgment. Decides keep, monitor_only, or reject — never ranks, writes angles, verifies dates, or decides whether to pitch."
 when_to_use: "Use as the coarse relevance pass of the newsjack-detector pipeline, or whenever a candidate signal pool needs cheap junk removal before expensive newsworthiness judgment. Designed to run on a low-cost model."
+metadata:
+  category: Detect
 ---
 
 # Relevance Coarse Filter

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "newsjack-site",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "apps/site", "dev"],
+      "port": 3000
+    }
+  ]
+}

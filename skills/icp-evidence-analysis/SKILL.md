@@ -1,6 +1,8 @@
 ---
 name: icp-evidence-analysis
 description: "Turn a source-bound company and market dossier into testable ideal-customer-profile hypotheses, buying roles, triggers, constraints, disqualifiers, standing, counterevidence, and research gaps. Use when a URL, company description, monitor profile, or evidence manifest needs to become defensible ICP inputs for buyer research or an AI-visibility prompt panel."
+metadata:
+  category: AI visibility
 ---
 
 # ICP Evidence Analysis

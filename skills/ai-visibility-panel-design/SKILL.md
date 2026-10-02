@@ -1,6 +1,8 @@
 ---
 name: ai-visibility-panel-design
 description: "Select QA-approved canonical intent cells into a versioned AI-visibility tracking panel with partitions, variants, lanes, surfaces, locales, repetitions, separate exposure and priority weights, randomization, uncertainty, refresh rules, and campaign controls. Use after prompt QA or when revising an existing panel."
+metadata:
+  category: AI visibility
 ---
 
 # AI Visibility Panel Design

@@ -2,6 +2,8 @@
 name: pr-calendar
 description: "Turn the Medialyst PR calendar feed into a brand-specific, lead-time-aware plan. Pull source-backed upcoming moments, keep only the few a brand has real standing to own, schedule backward from the event date, screen out tone-deaf hooks, and hand selected moments to angle and journalist prep ahead of time. The planned twin of newsjack-detector's reactive monitoring."
 when_to_use: "User wants a PR calendar, editorial calendar, PR plan, or upcoming moments to pitch around; asks what to plan for next quarter or the next six months; asks what awareness days, holidays, seasonal hooks, industry events, conferences, anniversaries, or cultural moments are coming up; or wants to pre-build angles and media lists for a known future date. Use newsjack-detector instead when the trigger is news breaking right now."
+metadata:
+  category: Strategize
 ---
 
 # PR Calendar

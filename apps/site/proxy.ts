@@ -9,8 +9,6 @@ import {
 } from "./lib/install-telemetry";
 import { applySecurityHeaders } from "./lib/security-headers";
 
-const repoURL = "https://github.com/elvisun/newsjack";
-
 export function proxy(request: NextRequest, event: NextFetchEvent) {
   const userAgent = request.headers.get("user-agent") ?? "";
   const installerKind = getInstallerKind(userAgent);
@@ -25,7 +23,7 @@ export function proxy(request: NextRequest, event: NextFetchEvent) {
   }
 
   recordRequest(event, request, "site_visit", getClientKind(userAgent));
-  const response = NextResponse.redirect(repoURL, 308);
+  const response = NextResponse.next();
   applySecurityHeaders(response.headers);
   return response;
 }

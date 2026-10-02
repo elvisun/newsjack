@@ -1,6 +1,8 @@
 ---
 name: buyer-job-intent-analysis
 description: "Recover source-bound buyer jobs, struggling moments, desired progress, forces, workarounds, information acts, journey states, criteria, constraints, roles, locales, and authentic language. Use on approved ICP hypotheses plus customer, search, review, forum, procurement, support, or public-market evidence before designing an AI-visibility prompt architecture."
+metadata:
+  category: AI visibility
 ---
 
 # Buyer Job Intent Analysis

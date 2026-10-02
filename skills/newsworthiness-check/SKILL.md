@@ -2,6 +2,8 @@
 name: newsworthiness-check
 description: "Score whether a news event is worth newsjacking, or whether a user's pitch idea is actually newsworthy to journalists. Uses calibrated anchors, hard anti-inflation rules, standing checks, timing windows, and brand-safety kill switches."
 when_to_use: "User asks if something is newsworthy, worth pitching, worth newsjacking, likely to get press, strong enough for journalists, or asks for a score/rubric/check on a current event, company announcement, pitch idea, or news hook."
+metadata:
+  category: Strategize
 ---
 
 # Newsworthiness Check
