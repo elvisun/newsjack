@@ -1,5 +1,12 @@
-import { createClient, type ContentfulClientApi, type EntrySkeletonType } from "contentful";
+import {
+  createClient,
+  type ContentfulClientApi,
+  type EntryFieldTypes,
+  type EntrySkeletonType,
+} from "contentful";
 import type { Document } from "@contentful/rich-text-types";
+
+export const NEWSJACK_BLOG_POST_CONTENT_TYPE = "newsjackBlogPost";
 
 let _client: ContentfulClientApi<undefined> | null = null;
 
@@ -11,6 +18,7 @@ function getClient(): ContentfulClientApi<undefined> | null {
     _client = createClient({
       space: process.env.CONTENTFUL_SPACE_ID,
       accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+      environment: "master",
     });
   }
   return _client;
@@ -27,26 +35,51 @@ export interface BlogPost {
 
 type BlogPostSkeleton = EntrySkeletonType<
   {
-    title: string;
-    slug: string;
-    excerpt: string;
-    body: Document;
-    publishedAt: string;
-    author: string;
+    title: EntryFieldTypes.Symbol;
+    slug: EntryFieldTypes.Symbol;
+    excerpt: EntryFieldTypes.Text;
+    body: EntryFieldTypes.RichText;
+    publishedAt: EntryFieldTypes.Date;
+    author: EntryFieldTypes.Symbol;
   },
-  "blogPost"
+  typeof NEWSJACK_BLOG_POST_CONTENT_TYPE
 >;
+
+type EntryWithContentType = {
+  sys: {
+    id: string;
+    contentType: {
+      sys: {
+        id: string;
+      };
+    };
+  };
+};
+
+function onlyNewsjackBlogPosts<T extends EntryWithContentType>(
+  items: T[],
+): T[] {
+  return items.filter((item) => {
+    const contentType = item.sys.contentType.sys.id;
+    if (contentType === NEWSJACK_BLOG_POST_CONTENT_TYPE) return true;
+
+    console.error("Dropped Contentful entry with unexpected content type", {
+      entryId: item.sys.id,
+    });
+    return false;
+  });
+}
 
 export async function getAllPosts(): Promise<BlogPost[]> {
   const client = getClient();
   if (!client) return [];
 
   const entries = await client.getEntries<BlogPostSkeleton>({
-    content_type: "blogPost",
-    order: ["-sys.createdAt"],
+    content_type: NEWSJACK_BLOG_POST_CONTENT_TYPE,
+    order: ["-fields.publishedAt"],
   });
 
-  return entries.items.map((item) => ({
+  return onlyNewsjackBlogPosts(entries.items).map((item) => ({
     title: item.fields.title,
     slug: item.fields.slug,
     excerpt: item.fields.excerpt,
@@ -63,12 +96,12 @@ export async function getPostBySlug(
   if (!client) return undefined;
 
   const entries = await client.getEntries<BlogPostSkeleton>({
-    content_type: "blogPost",
+    content_type: NEWSJACK_BLOG_POST_CONTENT_TYPE,
     limit: 1,
-    ...({ "fields.slug": slug } as Record<string, string>),
+    "fields.slug": slug,
   });
 
-  const item = entries.items[0];
+  const item = onlyNewsjackBlogPosts(entries.items)[0];
   if (!item) return undefined;
 
   return {
@@ -86,9 +119,9 @@ export async function getAllSlugs(): Promise<string[]> {
   if (!client) return [];
 
   const entries = await client.getEntries<BlogPostSkeleton>({
-    content_type: "blogPost",
+    content_type: NEWSJACK_BLOG_POST_CONTENT_TYPE,
     select: ["fields.slug"],
   });
 
-  return entries.items.map((item) => item.fields.slug);
+  return onlyNewsjackBlogPosts(entries.items).map((item) => item.fields.slug);
 }

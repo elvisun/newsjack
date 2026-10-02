@@ -17,6 +17,10 @@ pnpm dev
 
 The dev server runs at http://localhost:3000.
 
+The `/insights` blog uses Contentful. See
+[Contentful blog workflow](docs/contentful.md) for the content model, local
+configuration, publishing steps, and delivery behavior.
+
 ## Build
 
 ```bash
