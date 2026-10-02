@@ -60,12 +60,14 @@ function onlyNewsjackBlogPosts<T extends EntryWithContentType>(
   items: T[],
 ): T[] {
   return items.filter((item) => {
-    const contentType = item.sys.contentType.sys.id;
+    const contentType = item.sys.contentType?.sys?.id;
     if (contentType === NEWSJACK_BLOG_POST_CONTENT_TYPE) return true;
 
-    console.error("Dropped Contentful entry with unexpected content type", {
-      entryId: item.sys.id,
-    });
+    if (contentType) {
+      console.error("Dropped Contentful entry with unexpected content type", {
+        entryId: item.sys.id,
+      });
+    }
     return false;
   });
 }

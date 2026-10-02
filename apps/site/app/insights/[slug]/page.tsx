@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, INLINES, type Block, type Inline } from "@contentful/rich-text-types";
+import { BLOCKS, INLINES, type Block, type Inline, type Node } from "@contentful/rich-text-types";
 
 import { getPostBySlug, getAllSlugs } from "../../../lib/contentful";
 import { Footer } from "../../components/footer";
@@ -74,6 +74,26 @@ const richTextOptions = {
       </blockquote>
     ),
     [BLOCKS.HR]: () => <hr className="my-14 border-ink/10" />,
+    [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
+      const fields = (node.data?.target as { fields?: { file?: { url?: string }; title?: string; description?: string } })?.fields;
+      if (!fields?.file?.url) return null;
+      const src = fields.file.url.startsWith("//") ? `https:${fields.file.url}` : fields.file.url;
+      return (
+        <figure className="mt-8">
+          <img
+            src={src}
+            alt={fields.title ?? ""}
+            className="w-full rounded-lg border border-ink/10"
+            loading="lazy"
+          />
+          {fields.description && (
+            <figcaption className="mt-2 text-center font-mono text-xs text-ink/40">
+              {fields.description}
+            </figcaption>
+          )}
+        </figure>
+      );
+    },
     [INLINES.HYPERLINK]: (
       node: Block | Inline,
       children: React.ReactNode,
