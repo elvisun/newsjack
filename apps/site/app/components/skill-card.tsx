@@ -15,7 +15,7 @@ export interface Skill {
 // the SKILL.md link leaves the page.
 export function SkillCard({ skill }: { skill: Skill }) {
   return (
-    <article className="flex flex-col border border-ink/10 bg-white p-5 shadow-editorial transition-colors hover:border-ink/25">
+    <article className="nj-px-rise flex flex-col border border-ink/10 bg-white p-5 shadow-editorial transition-colors hover:border-ink/25">
       <div className="flex items-start justify-between gap-3">
         <h4 className="font-serif text-[19px] leading-[1.2] italic">
           {skill.title}
