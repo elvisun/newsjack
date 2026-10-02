@@ -122,7 +122,9 @@ export async function getAllSlugs(): Promise<string[]> {
 
   const entries = await client.getEntries<BlogPostSkeleton>({
     content_type: NEWSJACK_BLOG_POST_CONTENT_TYPE,
-    select: ["fields.slug"],
+    // The SDK only adds sys.id and sys.type to a select; the content-type
+    // guard needs sys.contentType too.
+    select: ["sys", "fields.slug"],
   });
 
   return onlyNewsjackBlogPosts(entries.items).map((item) => item.fields.slug);

@@ -5,10 +5,26 @@ const responses = [];
 const queries = [];
 const clientOptions = [];
 
+// Mirrors Contentful's `select` projection, including the SDK only adding
+// sys.id and sys.type, so tests catch queries that drop fields the code reads.
+function applySelect(item, select) {
+  const sys = select.includes("sys")
+    ? item.sys
+    : { id: item.sys.id, type: "Entry" };
+  const fields = Object.fromEntries(
+    Object.entries(item.fields).filter(([key]) =>
+      select.includes(`fields.${key}`),
+    ),
+  );
+  return { sys, fields };
+}
+
 const client = {
   async getEntries(query) {
     queries.push(query);
-    return { items: responses.shift() ?? [] };
+    const items = responses.shift() ?? [];
+    if (!query.select) return { items };
+    return { items: items.map((item) => applySelect(item, query.select)) };
   },
 };
 
@@ -27,6 +43,7 @@ process.env.CONTENTFUL_ACCESS_TOKEN = "test-token";
 const {
   NEWSJACK_BLOG_POST_CONTENT_TYPE,
   getAllPosts,
+  getAllSlugs,
   getPostBySlug,
 } = await import("../lib/contentful.ts");
 
@@ -84,4 +101,20 @@ test("Contentful reads fail closed when another content type is returned", async
   assert.equal(queries[1].content_type, NEWSJACK_BLOG_POST_CONTENT_TYPE);
   assert.equal(queries[1]["fields.slug"], "other-post");
   assert.equal(errors.length, 2);
+});
+
+test("getAllSlugs keeps blog post slugs through the content-type guard", async () => {
+  responses.push([
+    entry(NEWSJACK_BLOG_POST_CONTENT_TYPE, "newsjack-post"),
+    entry("otherContentType", "other-post"),
+  ]);
+
+  const originalConsoleError = console.error;
+  console.error = () => {};
+
+  try {
+    assert.deepEqual(await getAllSlugs(), ["newsjack-post"]);
+  } finally {
+    console.error = originalConsoleError;
+  }
 });
