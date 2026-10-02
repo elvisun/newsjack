@@ -145,6 +145,37 @@ type AssetFields = {
   description?: string;
 };
 
+const CONTENTFUL_IMAGE_HOST = "images.ctfassets.net";
+const INSIGHTS_MEDIA_PREFIX = "/insights/media";
+
+function proxiedImageUrl(rawUrl: string): string | undefined {
+  let url: URL;
+  try {
+    url = new URL(rawUrl.startsWith("//") ? `https:${rawUrl}` : rawUrl);
+  } catch {
+    return undefined;
+  }
+
+  if (url.protocol !== "https:" || url.hostname !== CONTENTFUL_IMAGE_HOST) {
+    return undefined;
+  }
+
+  const [, spaceId, assetId, token, filename, ...extra] =
+    url.pathname.split("/");
+  if (
+    extra.length > 0 ||
+    !spaceId ||
+    spaceId !== process.env.CONTENTFUL_SPACE_ID ||
+    !assetId ||
+    !token ||
+    !filename
+  ) {
+    return undefined;
+  }
+
+  return `${INSIGHTS_MEDIA_PREFIX}/${assetId}/${token}/${filename}${url.search}`;
+}
+
 // Image fields of an embedded-asset node. Non-image assets (PDFs) have no
 // dimensions and return undefined.
 export function embeddedImage(node: Node): PostImage | undefined {
@@ -154,8 +185,11 @@ export function embeddedImage(node: Node): PostImage | undefined {
   const image = fields?.file?.details?.image;
   if (!url || !image) return undefined;
 
+  const src = proxiedImageUrl(url);
+  if (!src) return undefined;
+
   return {
-    src: url.startsWith("//") ? `https:${url}` : url,
+    src,
     width: image.width,
     height: image.height,
     alt: fields.title ?? "",
