@@ -1,0 +1,37 @@
+{
+  "decisions": [
+    {
+      "signal_id": "f32fd791a6d278c9",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "NVIDIA hardware chip announcement matched 'OSWorld benchmark' query but content is about laptop processors for AI, not agent benchmarks or computer-use agents. No profile bridge.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=NVIDIA+d%C3%A9voile+la+superpuce+RTX+Spark+pour+ordinateurs+portables+fins+d%C3%A9di%C3%A9s+%C3%A0+l%27IA+au+Computex+2026&f=live"
+      ],
+      "relevance_basis": "Search term collision: 'OSWorld benchmark' appears in query but story is about hardware chips, not agent benchmarks or autonomous agents."
+    },
+    {
+      "signal_id": "764580e73769432b",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Microsoft hardware dev box announcement matched 'OSWorld benchmark' query but content is about AI hardware infrastructure, not computer-use agents or agent benchmarks. No profile bridge.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Microsoft+d%C3%A9voile+Surface+RTX+Spark+Dev+Box+pour+la+puissance+de+l%27IA+locale&f=live"
+      ],
+      "relevance_basis": "Search term collision: 'OSWorld benchmark' triggered detection but story focuses on hardware/dev infrastructure, not agent or benchmark research."
+    },
+    {
+      "signal_id": "752fe762d0ef9ff7",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Google DeepMind model release matched 'OSWorld benchmark' query but content is about a multimodal language model for laptops, not agent benchmarks or computer-use agents. No profile bridge.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Google+DeepMind+lance+Gemma+4+12B+pour+ordinateurs+portables&f=live"
+      ],
+      "relevance_basis": "Search term collision: 'OSWorld benchmark' appears in query but story is about model architecture, not agent benchmarking or autonomous desktop agents."
+    }
+  ]
+}

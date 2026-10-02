@@ -6,7 +6,8 @@ import (
 )
 
 // The Claude plugin ships two manifests whose versions must stay in lockstep:
-// .claude-plugin/plugin.json and the plugin entry in .claude-plugin/marketplace.json.
+// plugins/newsjack/.claude-plugin/plugin.json and the plugin entry in
+// .claude-plugin/marketplace.json.
 // The release workflow separately enforces that they match the release tag
 // (see .github/workflows/release.yml, "Verify plugin version matches tag").
 // This test guards the cheaper invariant — the two manifests never drift from
@@ -14,10 +15,11 @@ import (
 func TestPluginManifestVersionsMatch(t *testing.T) {
 	root := repoRootForTest(t)
 
-	plugin := readJSONForTest(t, filepath.Join(root, ".claude-plugin", "plugin.json"))
+	pluginPath := filepath.Join(root, "plugins", "newsjack", ".claude-plugin", "plugin.json")
+	plugin := readJSONForTest(t, pluginPath)
 	pluginVer, _ := plugin["version"].(string)
 	if pluginVer == "" {
-		t.Fatal(".claude-plugin/plugin.json has no version")
+		t.Fatal("plugins/newsjack/.claude-plugin/plugin.json has no version")
 	}
 
 	marketplace := readJSONForTest(t, filepath.Join(root, ".claude-plugin", "marketplace.json"))

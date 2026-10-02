@@ -1,0 +1,4 @@
+Company: Whoop
+Current time: 2026-06-09T16:00:00Z
+
+Whoop is launching blood-pressure insights and an FDA-cleared ECG feature on its newest band. Facts: the ECG feature received FDA clearance for detecting atrial fibrillation; blood-pressure insights are launching as a non-medical 'wellness' estimate, not a diagnostic, and require a one-time calibration with a cuff; the features are gated behind the most expensive membership tier; Whoop is privately held and last valued at $3.6B; a cardiologist advisory board reviewed the features; competitors already ship FDA-cleared ECG.

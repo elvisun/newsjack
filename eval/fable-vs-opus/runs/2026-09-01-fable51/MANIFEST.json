@@ -1,0 +1,34 @@
+{
+  "run": "2026-09-01-fable51",
+  "study": "6-model story-angle quality round-robin — Fable 5.1 vs Opus 5 vs Fable 5 vs Opus 4.8 vs Sonnet 5 vs Sonnet 4.6, GPT-5.5 (meanest-editor) blind judge",
+  "judge_model": "gpt-5.5",
+  "date_generated": "2026-09-01",
+  "models": [
+    {"slug": "f51", "label": "Fable 5.1", "exact_id": "claude-fable-5-1",
+     "source": "generated 2026-09-01 via generate.sh (headless Claude Code CLI, tools off, skill inlined, frozen ETHICS.md)"},
+    {"slug": "o5", "label": "Opus 5", "exact_id": "claude-opus-5",
+     "source": "reused from 2026-07-24-opus5 (generated via generate.sh)"},
+    {"slug": "fable", "label": "Fable 5", "exact_id": "claude-fable-5",
+     "source": "reused from 2026-06-09-full (frozen original benchmark output)"},
+    {"slug": "opus", "label": "Opus 4.8", "exact_id": "claude-opus-4-8",
+     "source": "reused from 2026-06-09-full (frozen original benchmark output)"},
+    {"slug": "s5", "label": "Sonnet 5", "exact_id": "claude-sonnet-5",
+     "source": "reused from 2026-06-30-4model (generated via generate.sh)"},
+    {"slug": "s46", "label": "Sonnet 4.6", "exact_id": "claude-sonnet-4-6",
+     "source": "reused from 2026-06-30-4model (generated via generate.sh)"}
+  ],
+  "notes": {
+    "generation": "Only Fable 5.1 was generated. Every other angle set is byte-identical to its source run (verified with cmp during staging).",
+    "judge": "Unchanged independent GPT-5.5 judge via codex exec, meanest-editor persona, both orderings, schema-validated.",
+    "pairs": "Full C(6,2)=15-pair round-robin. 800 judgments reused (fable/opus/o5 pairs from 2026-07-24-opus5; the 5 Sonnet pairs from 2026-06-30-4model). 700 fresh: 5 Fable 5.1 pairs + the 2 Opus 5 vs Sonnet pairs no earlier run had crossed. Total: 1500.",
+    "ethics_file": "skills/ETHICS.md changed on 2026-08-03 (commit 8dd02af). The generator was pointed at apparatus/ETHICS.md, the 2026-05-19 version (sha 897f4fd0…) every prior run used, via the ETHICS_FILE override in generate.sh.",
+    "fixed_case_time": "2026-06-09T16:00:00Z"
+  },
+  "apparatus_sha256": {
+    "skills/angle-generator/SKILL.md": "644896fc277172a47e7c1db14b8b52a082745f6cb0c1bd7d29c675e307e91503",
+    "skills/meanest-editor/SKILL.md": "1c4039174ea3247fe6c218e03bc61232c95fe8d51f5ed14135fea8ad1154eac2",
+    "apparatus/ETHICS.md (frozen)": "897f4fd0be30902dedb5af51ba2ecf40181f2ad017827bd3ef55b749302dddd4",
+    "skills/WHY-NOT-SPAM.md": "414a00ab97b951394a241ec4f01ea90ac1919e9af7a6ec6db7a428dd5d726842"
+  },
+  "tooling": {"claude_cli": "2.1.258 (Claude Code)", "codex_cli": "codex-cli 0.150.1"}
+}

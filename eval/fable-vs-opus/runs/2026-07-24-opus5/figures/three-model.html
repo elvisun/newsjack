@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Three-model angle study — 2026-07-24-opus5</title>
+<!--
+  Built with eval/design-system ("the chart room") by make_figures.py.
+  Data: eval/fable-vs-opus/runs/2026-07-24-opus5/summary.json (aggregate-nmodel.py).
+  Validate: cd eval/design-system/scripts && node validate.mjs \
+    ../../fable-vs-opus/runs/2026-07-24-opus5/figures/four-model.html --out ../../fable-vs-opus/runs/2026-07-24-opus5/figures/png
+-->
+<link rel="stylesheet" href="../../../../design-system/assets/colors_and_type.css" />
+<link rel="stylesheet" href="../../../../design-system/charts.css" />
+</head>
+<body data-accent="winner" data-grid="on" data-barstyle="solid">
+<div class="wrap" style="padding-top:48px; padding-bottom:48px;">
+
+  <section class="sec">
+    <div class="sec-head">
+      <div class="lhs"><span class="num">01</span><h2>dimension scorecard</h2></div>
+      <span class="sub">Opus 5 › Fable 5 › Opus 4.8 · GPT-5.5 JUDGE · n=300</span>
+    </div>
+  <div class="fig">
+    <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">GROUPED BARS</span></div>
+    <h3>3 models, seven dimensions</h3>
+    <p class="cap">Per-dimension mean on the judge’s 1–5 scale, both orderings averaged (n=300). Opus 5 carries the accent; the field trails in graded grey, darkest = runner-up. Lead over 2nd on overall mean: +0.05.</p>
+    <div class="plot">
+      <svg class="chart" viewBox="0 0 1650 600" role="img" aria-label="Grouped bars of per-dimension mean by model">
+      <text class="t-tick" x="78" y="524.0" text-anchor="end">0</text>
+      <text class="t-tick" x="78" y="448.0" text-anchor="end">1</text>
+      <line class="grid-line" x1="96" y1="444.0" x2="1610" y2="444.0" />
+      <text class="t-tick" x="78" y="372.0" text-anchor="end">2</text>
+      <line class="grid-line" x1="96" y1="368.0" x2="1610" y2="368.0" />
+      <text class="t-tick" x="78" y="296.0" text-anchor="end">3</text>
+      <line class="grid-line" x1="96" y1="292.0" x2="1610" y2="292.0" />
+      <text class="t-tick" x="78" y="220.0" text-anchor="end">4</text>
+      <line class="grid-line" x1="96" y1="216.0" x2="1610" y2="216.0" />
+      <text class="t-tick" x="78" y="144.0" text-anchor="end">5</text>
+      <line class="grid-line" x1="96" y1="140.0" x2="1610" y2="140.0" />
+      <line class="axis" x1="96" y1="520.0" x2="1610" y2="520.0" />
+      <text class="t-cat" x="204.1" y="108" text-anchor="middle">NEWS VALUE</text>
+      <rect class="bar-primary" x="145.1" y="189.0" width="34.0" height="331.0" />
+      <text class="t-val" x="162.1" y="180.0" text-anchor="middle">4.36</text>
+      <text class="t-series" x="162.1" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="187.1" y="195.1" width="34.0" height="324.9" />
+      <text class="t-val" x="204.1" y="170.1" text-anchor="middle">4.28</text>
+      <text class="t-series" x="204.1" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="229.1" y="214.5" width="34.0" height="305.5" />
+      <text class="t-val" x="246.1" y="205.5" text-anchor="middle">4.02</text>
+      <text class="t-series" x="246.1" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="420.4" y="108" text-anchor="middle">DISTINCT</text>
+      <rect class="bar-primary" x="361.4" y="161.3" width="34.0" height="358.7" />
+      <text class="t-val" x="378.4" y="152.3" text-anchor="middle">4.72</text>
+      <text class="t-series" x="378.4" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="403.4" y="170.8" width="34.0" height="349.2" />
+      <text class="t-val" x="420.4" y="145.8" text-anchor="middle">4.59</text>
+      <text class="t-series" x="420.4" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="445.4" y="195.1" width="34.0" height="324.9" />
+      <text class="t-val" x="462.4" y="186.1" text-anchor="middle">4.28</text>
+      <text class="t-series" x="462.4" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="636.7" y="108" text-anchor="middle">SHAPE</text>
+      <rect class="bar-primary" x="577.7" y="146.5" width="34.0" height="373.5" />
+      <text class="t-val" x="594.7" y="137.5" text-anchor="middle">4.92</text>
+      <text class="t-series" x="594.7" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="619.7" y="161.3" width="34.0" height="358.7" />
+      <text class="t-val" x="636.7" y="136.3" text-anchor="middle">4.72</text>
+      <text class="t-series" x="636.7" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="661.7" y="176.5" width="34.0" height="343.5" />
+      <text class="t-val" x="678.7" y="167.5" text-anchor="middle">4.52</text>
+      <text class="t-series" x="678.7" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="853.0" y="108" text-anchor="middle">GROUNDING</text>
+      <rect class="bar-primary" x="794.0" y="259.7" width="34.0" height="260.3" />
+      <text class="t-val" x="811.0" y="250.7" text-anchor="middle">3.42</text>
+      <text class="t-series" x="811.0" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="836.0" y="224.4" width="34.0" height="295.6" />
+      <text class="t-val" x="853.0" y="199.4" text-anchor="middle">3.89</text>
+      <text class="t-series" x="853.0" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="878.0" y="238.8" width="34.0" height="281.2" />
+      <text class="t-val" x="895.0" y="229.8" text-anchor="middle">3.70</text>
+      <text class="t-series" x="895.0" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="1069.3" y="108" text-anchor="middle">ANTI-SLOP</text>
+      <rect class="bar-primary" x="1010.3" y="173.4" width="34.0" height="346.6" />
+      <text class="t-val" x="1027.3" y="164.4" text-anchor="middle">4.56</text>
+      <text class="t-series" x="1027.3" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="1052.3" y="162.0" width="34.0" height="358.0" />
+      <text class="t-val" x="1069.3" y="137.0" text-anchor="middle">4.71</text>
+      <text class="t-series" x="1069.3" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="1094.3" y="176.9" width="34.0" height="343.1" />
+      <text class="t-val" x="1111.3" y="167.9" text-anchor="middle">4.51</text>
+      <text class="t-series" x="1111.3" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="1285.6" y="108" text-anchor="middle">PROOF</text>
+      <rect class="bar-primary" x="1226.6" y="142.3" width="34.0" height="377.7" />
+      <text class="t-val" x="1243.6" y="133.3" text-anchor="middle">4.97</text>
+      <text class="t-series" x="1243.6" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="1268.6" y="171.2" width="34.0" height="348.8" />
+      <text class="t-val" x="1285.6" y="146.2" text-anchor="middle">4.59</text>
+      <text class="t-series" x="1285.6" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="1310.6" y="165.5" width="34.0" height="354.5" />
+      <text class="t-val" x="1327.6" y="156.5" text-anchor="middle">4.67</text>
+      <text class="t-series" x="1327.6" y="538" text-anchor="middle">OP</text>
+      <text class="t-cat" x="1501.9" y="108" text-anchor="middle">USEFUL</text>
+      <rect class="bar-primary" x="1442.9" y="162.4" width="34.0" height="357.6" />
+      <text class="t-val" x="1459.9" y="153.4" text-anchor="middle">4.71</text>
+      <text class="t-series" x="1459.9" y="538" text-anchor="middle">O5</text>
+      <rect class="bar-base" style="fill:#9E988C" x="1484.9" y="175.7" width="34.0" height="344.3" />
+      <text class="t-val" x="1501.9" y="150.7" text-anchor="middle">4.53</text>
+      <text class="t-series" x="1501.9" y="538" text-anchor="middle">FB</text>
+      <rect class="bar-base" style="fill:#C0BAAE" x="1526.9" y="187.5" width="34.0" height="332.5" />
+      <text class="t-val" x="1543.9" y="178.5" text-anchor="middle">4.38</text>
+      <text class="t-series" x="1543.9" y="538" text-anchor="middle">OP</text>
+      </svg>
+    </div>
+<div class="legend">
+        <span class="item"><span class="key" style="background:#E05A47"></span>Opus 5 · 4.52</span>
+    <span class="item"><span class="key" style="background:#9E988C"></span>Fable 5 · 4.47</span>
+    <span class="item"><span class="key" style="background:#C0BAAE"></span>Opus 4.8 · 4.30</span>
+    <span class="item" style="margin-left:auto;color:var(--nj-fg-4);">SCALE 1–5 · n=300 JUDGMENTS</span></div>
+  </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div class="lhs"><span class="num">02</span><h2>head-to-head</h2></div>
+      <span class="sub">ROW’S DECISIVE WIN-RATE vs COLUMN</span>
+    </div>
+    <div class="fig">
+      <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">WIN MATRIX</span></div>
+      <h3>Who beats whom</h3>
+      <p class="cap">Each cell is the row model’s share of decisive judgments against the column model (both orderings, 50 brands per pair). Darker = stronger. The diagonal is blank.</p>
+      <div class="plot"><svg id="winmatrix" class="chart" viewBox="0 0 980 300" role="img" aria-label="Win-rate matrix"></svg></div>
+    </div>
+    <div class="fig">
+      <div class="fig-head"><span class="fig-tag">NEWSJACK.SH</span><span class="fig-kind">HEATMAP</span></div>
+      <h3>Mean score, model × dimension</h3>
+      <p class="cap">The full evaluation surface. Cell density encodes the 1–5 mean (darker = stronger).</p>
+      <div class="plot"><svg id="dimheat" class="chart" viewBox="0 0 980 340" role="img" aria-label="Model by dimension heatmap"></svg></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head">
+      <div class="lhs"><span class="num">03</span><h2>headline figures</h2></div>
+      <span class="sub">BIG-STAT CALLOUTS</span>
+    </div>
+<div class="stat-grid">
+  <div class="stat">
+    <span class="lab">TOP OVERALL MEAN</span>
+    <span class="fig-num"><span class="accent">4.52</span></span>
+    <span class="rule"></span>
+    <span class="note">Opus 5 on the judge’s 1–5 scale, both orderings averaged.</span>
+  </div>
+  <div class="stat">
+    <span class="lab">LEAD OVER 2ND</span>
+    <span class="fig-num"><span class="accent">+0.05</span></span>
+    <span class="rule"></span>
+    <span class="note">Opus 5 vs Fable 5 on overall mean.</span>
+  </div>
+  <div class="stat">
+    <span class="lab">MOST ‘PUBLISHABLE’</span>
+    <span class="fig-num">145<span class="accent">/200</span></span>
+    <span class="rule"></span>
+    <span class="note">Meanest-editor Fable 5 sets rated publishable.</span>
+  </div>
+  <div class="stat">
+    <span class="lab">POSITION BIAS</span>
+    <span class="fig-num">0.74</span>
+    <span class="rule"></span>
+    <span class="note">Slot-A decisive win-rate across all pairs (0.50 = unbiased); cancelled by both-orderings.</span>
+  </div>
+</div>
+  </section>
+
+  <footer class="colophon">
+    <span class="c">NEWSJACK.SH — <b>THE EVAL DESK</b></span>
+    <span class="c">3-MODEL ANGLE STUDY · <b>2026-07-24-opus5</b></span>
+    <span class="c">$ <b>curl newsjack.sh | sh</b></span>
+  </footer>
+</div>
+<script>
+(function () {
+  function draw(svgId, rowLabels, colLabels, data, vmin, vmax, suffix) {
+    var svg = document.getElementById(svgId);
+    var NS = 'http://www.w3.org/2000/svg';
+    var nCols = colLabels.length, nRows = rowLabels.length;
+    var x0 = 150, y0 = 20, gap = 6;
+    var cw = (960 - x0) / nCols, ch = 54;
+    function el(tag, attrs, txt) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      if (txt != null) e.textContent = txt;
+      svg.appendChild(e); return e;
+    }
+    for (var c = 0; c < nCols; c++)
+      el('text', {x: x0 + c*cw + (cw-gap)/2, y: y0, 'text-anchor':'middle', 'class':'hm-label'}, colLabels[c]);
+    for (var r = 0; r < nRows; r++) {
+      var ry = y0 + 20 + r*(ch+gap);
+      el('text', {x: x0-14, y: ry+ch/2+4, 'text-anchor':'end', 'class':'hm-label'}, rowLabels[r]);
+      for (var cI = 0; cI < nCols; cI++) {
+        var v = data[r][cI];
+        var cx = x0 + cI*cw;
+        if (v === null) {
+          el('rect', {x: cx, y: ry, width: cw-gap, height: ch, fill:'rgba(26,26,26,0.04)', 'class':'hm-cell'});
+          el('text', {x: cx+(cw-gap)/2, y: ry+ch/2+5, 'text-anchor':'middle', 'class':'hm-val', fill:'#B7B2A8'}, '—');
+          continue;
+        }
+        var a = 0.12 + Math.max(0, Math.min(1, (v-vmin)/(vmax-vmin))) * 0.88;
+        el('rect', {x: cx, y: ry, width: cw-gap, height: ch, fill:'rgba(224,90,71,'+a.toFixed(3)+')', 'class':'hm-cell'});
+        el('text', {x: cx+(cw-gap)/2, y: ry+ch/2+5, 'text-anchor':'middle', 'class':'hm-val', fill: a>0.55?'#fff':'#1A1A1A'}, v + (suffix||''));
+      }
+    }
+  }
+  draw('dimheat', ["Opus 5", "Fable 5", "Opus 4.8"], ["NEWS VALUE", "DISTINCT", "SHAPE", "GROUNDING", "ANTI-SLOP", "PROOF", "USEFUL"], [
+    [4.36, 4.72, 4.92, 3.42, 4.56, 4.97, 4.71],
+    [4.28, 4.59, 4.72, 3.89, 4.71, 4.59, 4.53],
+    [4.02, 4.28, 4.52, 3.7, 4.51, 4.67, 4.38]
+  ], 3.4, 5.0, '');
+  draw('winmatrix', ["Opus 5", "Fable 5", "Opus 4.8"], ["Opus 5", "Fable 5", "Opus 4.8"], [
+    [null, 56, 66],
+    [44, null, 67],
+    [34, 33, null]
+  ], 0, 100, '%');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{
+  "protocol_id": "ai-visibility-writing-pilot-v1",
+  "phase": "calibration",
+  "generated_at": "2026-07-21T19:52:23.677651Z",
+  "query_as_of": "2026-07-21",
+  "seed_material": "ai-visibility-writing-pilot-v1|main|2026-07-21|calibration",
+  "seed_sha256": "5276fcbe79f1ddb373895253fe39193f0fdc0c9038e30f567d5cea2949eec1cd",
+  "pair_count": 6,
+  "units": [
+    {
+      "phase": "calibration",
+      "topic_family": "climate_logistics",
+      "intent": "explanatory",
+      "topic": "last-mile delivery",
+      "query": "What is last-mile delivery, and how does it work?",
+      "paired_unit_id": "calibration-0001",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0001-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0001-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "calibration",
+      "topic_family": "consumer_finance",
+      "intent": "comparative",
+      "topic": "credit card interest",
+      "query": "Compare the main credit card interest options for a typical U.S. buyer in 2026.",
+      "paired_unit_id": "calibration-0002",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0002-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0002-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "calibration",
+      "topic_family": "health_literacy",
+      "intent": "procedural",
+      "topic": "seasonal allergies",
+      "query": "How should someone evaluate or set up seasonal allergies?",
+      "paired_unit_id": "calibration-0003",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0003-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0003-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "calibration",
+      "topic_family": "home_energy",
+      "intent": "evaluative",
+      "topic": "solar batteries",
+      "query": "What are the best solar batteries options, and which tradeoffs matter?",
+      "paired_unit_id": "calibration-0004",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0004-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0004-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "calibration",
+      "topic_family": "travel_planning",
+      "intent": "freshness",
+      "topic": "airline carry-on rules",
+      "query": "What changed recently about airline carry-on rules in the United States as of July 2026?",
+      "paired_unit_id": "calibration-0005",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0005-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0005-chatgpt"
+        }
+      ]
+    },
+    {
+      "phase": "calibration",
+      "topic_family": "workplace_technology",
+      "intent": "explanatory",
+      "topic": "knowledge bases",
+      "query": "What is knowledge bases, and how does it work?",
+      "paired_unit_id": "calibration-0006",
+      "requests": [
+        {
+          "platform": "google",
+          "request_tag": "calibration-0006-google"
+        },
+        {
+          "platform": "chatgpt",
+          "request_tag": "calibration-0006-chatgpt"
+        }
+      ]
+    }
+  ]
+}

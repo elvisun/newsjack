@@ -1,0 +1,556 @@
+{
+ "profile": "simular",
+ "profile_context": {
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks"
+  ],
+  "competitors": [
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus",
+   "Adept AI",
+   "UiPath"
+  ],
+  "search_terms": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks",
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus AI agent",
+   "Adept AI",
+   "UiPath agentic automation",
+   "OSWorld benchmark"
+  ],
+  "standing": [
+   "computer-use AI agents",
+   "desktop automation",
+   "browser automation",
+   "agentic AI benchmarks",
+   "enterprise workflow automation"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with computer-use agent expertise",
+   "Research lead for agent benchmarks",
+   "Product lead for Sai"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "8dcbd52f38a5679a",
+   "title": "Only 11% of production agents pass the AI agent security bar",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 38.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Only 11% of production agents pass the AI agent security bar",
+     "url": "https://www.helpnetsecurity.com/2026/06/03/research-ai-agent-security-capability/",
+     "container": "Help Net Security",
+     "source": "news_search",
+     "excerpt": "AI agent security lags capability. A new report scores 100 production agents and finds 98% carry the lethal trifecta of attack conditions.",
+     "published_at": "2026-06-03T10:55:51.42345Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "c752c1910f816899",
+   "title": "AI agents put cybersecurity frameworks to the test",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 34,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AI agents put cybersecurity frameworks to the test",
+     "url": "https://www.ciodive.com/news/agents-change-cybersecurity-frameworks/821801/",
+     "container": "CIO Dive",
+     "source": "news_search",
+     "excerpt": "Security and governance management are rapidly evolving as enterprises deploy the technology across more parts of the business.",
+     "published_at": "2026-06-03T10:55:51.423495Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "cf842b7e0607452f",
+   "title": "Security of 100 AI Agents Tested and Ranked \u2013 What You Need to Know",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 37.9,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "blast",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Security of 100 AI Agents Tested and Ranked \u2013 What You Need to Know",
+     "url": "https://www.securityweek.com/security-of-100-ai-agents-tested-and-ranked-what-you-need-to-know/amp/",
+     "container": "SecurityWeek",
+     "source": "news_search",
+     "excerpt": "The AI Risk Quadrant categorizes 100 agents according to how easily they can be compromised, size of potential blast radius, and how well they are...",
+     "published_at": "2026-06-03T12:55:51.423555Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "016dccbc770a0908",
+   "title": "Can AI Agents Replicate Science? Argonne\u2019s Rick Stevens Puts Them to the Test",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 35.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Can AI Agents Replicate Science? Argonne\u2019s Rick Stevens Puts Them to the Test",
+     "url": "https://www.hpcwire.com/2026/06/03/can-ai-agents-replicate-science-argonnes-rick-stevens-puts-them-to-the-test/",
+     "container": "HPCwire",
+     "source": "news_search",
+     "excerpt": "Science & Technology. by Ali Azhar | June 3, 2026. Shares. Press play to listen to this content. Plays:-Audio plays count. 0:00. -:--. 1x. Playback Speed.",
+     "published_at": "2026-06-03T14:55:51.423534Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "db1d9bee9baba605",
+   "title": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA",
+   "query": "computer-use agents",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA",
+     "url": "https://x.com/search?q=Matt+Van+Horn+partage+des+astuces+d%27ing%C3%A9nierie+agentique+pour+le+codage+de+l%27IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA Matt Van Horn a transform\u00e9 des conversations informelles avec des IA en un outil de d\u00e9veloppement ultra-performant, \u00e0 l'origine de ses outils qui cumulent des dizaines de milliers d'\u00e9toiles sur GitHub. Son dernier guide d\u00e9voile les 22 astuc\u2026",
+     "published_at": "2026-06-03T04:31:36.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "874b3c927950bbf9",
+   "title": "Cognition lance Devin Desktop pour la programmation multi-agents",
+   "query": "computer-use agents",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Cognition lance Devin Desktop pour la programmation multi-agents",
+     "url": "https://x.com/search?q=Cognition+lance+Devin+Desktop+pour+la+programmation+multi-agents&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Cognition lance Devin Desktop pour la programmation multi-agents Les d\u00e9veloppeurs peuvent d\u00e9sormais piloter des flottes d'agents de codage IA (locaux ou dans le cloud) depuis une plateforme de bureau unique et transparente, sans avoir \u00e0 changer d'application. Cognition, cr\u00e9ateurs du logiciel d'ing\u00e9nierie logicielle nov\u2026",
+     "published_at": "2026-06-03T12:40:28.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d8d92210f2a9e73c",
+   "title": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU",
+   "query": "computer-use agents",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU",
+     "url": "https://x.com/search?q=L%27agent+CUDA+de+ByteDance+surpasse+les+compilateurs+dans+les+benchmarks+GPU&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU Les chercheurs de ByteDance ont cr\u00e9\u00e9 une IA qui \u00e9crit du code GPU ultra-efficace, surpassant les meilleurs compilateurs et mod\u00e8les lors de tests industriels rigoureux. Pr\u00e9sent\u00e9 en d\u00e9tail dans un article arXiv de f\u00e9vrier 2026, fruit d'une collab\u2026",
+     "published_at": "2026-06-03T17:12:37.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "74764f3d0fa0ebeb",
+   "title": "Perplexity AI d\u00e9voile un traitement hybride pour agent de bureau au Computex 2026",
+   "query": "computer-use agents",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Perplexity AI d\u00e9voile un traitement hybride pour agent de bureau au Computex 2026",
+     "url": "https://x.com/search?q=Perplexity+AI+d%C3%A9voile+un+traitement+hybride+pour+agent+de+bureau+au+Computex+2026&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Perplexity AI d\u00e9voile un traitement hybride pour agent de bureau au Computex 2026 Imaginez votre ordinateur portable g\u00e9rant localement les dossiers m\u00e9dicaux confidentiels tout en exploitant la puissance du cloud pour les t\u00e2ches de recherche complexes. Perplexity AI vient de rendre cette fonctionnalit\u00e9 accessible gr\u00e2ce \u2026",
+     "published_at": "2026-06-03T17:28:44.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "180126a018445c11",
+   "title": "Nous Research lance l'application de bureau Hermes pour toutes les plateformes",
+   "query": "computer-use agents",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Nous Research lance l'application de bureau Hermes pour toutes les plateformes",
+     "url": "https://x.com/search?q=Nous+Research+lance+l%27application+de+bureau+Hermes+pour+toutes+les+plateformes&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Nous Research lance l'application de bureau Hermes pour toutes les plateformes Imaginez votre agent IA quittant la ligne de commande pour une interface \u00e9l\u00e9gante et intuitive, qui m\u00e9morise tout ce que vous lui avez appris. Nous Research vient de concr\u00e9tiser ce r\u00eave avec Hermes Desktop. Hermes Desktop met \u00e0 disposition d\u2026",
+     "published_at": "2026-06-03T17:30:33.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "1963b6b7f3f11e5a",
+   "title": "Nous Research Releases Hermes Desktop: A Native Cross-Platform Front End for Hermes Agent v0.15.2 with Streaming Tool Output",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 38.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Nous Research Releases Hermes Desktop: A Native Cross-Platform Front End for Hermes Agent v0.15.2 with Streaming Tool Output",
+     "url": "https://www.marktechpost.com/2026/06/03/nous-research-releases-hermes-desktop-a-native-cross-platform-front-end-for-hermes-agent-v0-15-2-with-streaming-tool-output/",
+     "container": "MarkTechPost",
+     "source": "news_search",
+     "excerpt": "Nous Research released Hermes Desktop in public preview, a native macOS, Windows, and Linux app for Hermes Agent.",
+     "published_at": "2026-06-03T09:55:52.944125Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "5a108b0e80092e8c",
+   "title": "Microsoft Build Conference: Everything in One Article - 9 Self-Developed Models, Windows Version of Lobster, \"Dream Machine\", Highly Praised by Jensen Huang",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 43.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Build Conference: Everything in One Article - 9 Self-Developed Models, Windows Version of Lobster, \"Dream Machine\", Highly Praised by Jensen Huang",
+     "url": "https://eu.36kr.com/en/p/3836988816094341",
+     "container": "36 Kr",
+     "source": "news_search",
+     "excerpt": "Microsoft: Paving the Way and Building Bridges for the Intelligent Agents Era.",
+     "published_at": "2026-06-03T13:55:52.943639Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "dca055355a694376",
+   "title": "Cisco Preps For A World Of AI Agent Coworkers, Frontier Model Threats",
+   "query": "AI coworkers",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 32.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Cisco Preps For A World Of AI Agent Coworkers, Frontier Model Threats",
+     "url": "https://www.nextplatform.com/ai/2026/06/03/cisco-preps-for-a-world-of-ai-agent-coworkers-frontier-model-threats/5250406",
+     "container": "The Next Platform",
+     "source": "news_search",
+     "excerpt": "Last month, we did a deep dive into Cisco Systems' third quarter fiscal 2026 numbers to get a gauge on what the AI market looks like when you strip away...",
+     "published_at": "2026-06-02T23:55:54.318439Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "de80ca9bb28a2de2",
+   "title": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique",
+   "query": "AI coworkers",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique",
+     "url": "https://x.com/search?q=Les+chatbots+IA+prennent+le+contr%C3%B4le+des+premiers+entretiens+d%27embauche+face+%C3%A0+la+pol%C3%A9mique&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique Une jeune femme fixe son ordinateur portable, r\u00e9pondant aux questions d'un avatar IA souriant sur ses pr\u00e9tentions salariales et son ad\u00e9quation au poste. C'est la nouvelle r\u00e9alit\u00e9 pour de nombreux demandeurs d'emploi\u00a0: affronter \u2026",
+     "published_at": "2026-06-02T20:47:36.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "fdc757aa1805c8a6",
+   "title": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA",
+   "query": "AI coworkers",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "explosion",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA",
+     "url": "https://x.com/search?q=Les+PDG+du+secteur+technologique+stup%C3%A9faits+par+l%27explosion+des+prix+des+jetons+d%27IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA Dans un sketch, une PDG reste bouche b\u00e9e en apprenant que le codage de l'IA de son \u00e9quipe a co\u00fbt\u00e9 700 000 dollars, soit bien plus que le salaire du d\u00e9veloppeur. Une vid\u00e9o de 42 secondes, publi\u00e9e le 2 juin par la soci\u00e9t\u00e9 de g\u00e9nie logici\u2026",
+     "published_at": "2026-06-03T03:29:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "944b9f88754d0819",
+   "title": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ?",
+   "query": "AI coworkers",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ?",
+     "url": "https://x.com/search?q=Que+restera-t-il+aux+humains+lorsque+l%27IA+ma%C3%AEtrisera+tout+%3F&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ? Kekius Maximus, passionn\u00e9 de science, a pos\u00e9 une question cruciale sur X:\u00a0: une fois que l\u2019IA aura tout g\u00e9r\u00e9, que ferons-nous\u00a0? Les r\u00e9ponses ont afflu\u00e9, m\u00ealant espoir, joie et r\u00e9flexions r\u00e9alistes sur l\u2019importance de rester humains. La publication de Kekius Ma\u2026",
+     "published_at": "2026-06-03T04:12:34.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "80fd636f2b5ea21c",
+   "title": "Sam Altman r\u00e9\u00e9value les craintes de pertes d'emplois li\u00e9es \u00e0 l'IA apr\u00e8s des preuves concr\u00e8tes",
+   "query": "AI coworkers",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Sam Altman r\u00e9\u00e9value les craintes de pertes d'emplois li\u00e9es \u00e0 l'IA apr\u00e8s des preuves concr\u00e8tes",
+     "url": "https://x.com/search?q=Sam+Altman+r%C3%A9%C3%A9value+les+craintes+de+pertes+d%27emplois+li%C3%A9es+%C3%A0+l%27IA+apr%C3%A8s+des+preuves+concr%C3%A8tes&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Sam Altman r\u00e9\u00e9value les craintes de pertes d'emplois li\u00e9es \u00e0 l'IA apr\u00e8s des preuves concr\u00e8tes Sam Altman s'attendait \u00e0 ce que l'IA ait d\u00e9j\u00e0 supprim\u00e9 tous les emplois de d\u00e9but de carri\u00e8re. Au lieu de cela, il est ravi d'admettre s'\u00eatre tromp\u00e9, car les entreprises qui utilisent l'IA recrutent de mani\u00e8re beaucoup plus int\u2026",
+     "published_at": "2026-06-03T05:50:27.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "bfefbefe9e0b1e2b",
+   "title": "D\u00e9bat sur l'IA : R\u00e9volution ou bulle sp\u00e9culative ?",
+   "query": "AI coworkers",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "D\u00e9bat sur l'IA : R\u00e9volution ou bulle sp\u00e9culative ?",
+     "url": "https://x.com/search?q=D%C3%A9bat+sur+l%27IA+%3A+R%C3%A9volution+ou+bulle+sp%C3%A9culative+%3F&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "D\u00e9bat sur l'IA : R\u00e9volution ou bulle sp\u00e9culative ? L'entrepreneur Nick Huber s'est demand\u00e9 si les outils d'IA fonctionnaient r\u00e9ellement \u00e0 grande \u00e9chelle, suscitant des r\u00e9ponses de sceptiques qualifiant cela d'illusion collective et de partisans partageant des \u00e9conomies r\u00e9elles, comme 50 000 \u00a3 en frais juridiques. Dans \u2026",
+     "published_at": "2026-06-03T15:21:01.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e16791d8ce05d168",
+   "title": "AlphaSense Raises $350 Million at $7.5 Billion Valuation as AI Intelligence Platform Scales Enterprise Adoption",
+   "query": "agentic workflow automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 35.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AlphaSense Raises $350 Million at $7.5 Billion Valuation as AI Intelligence Platform Scales Enterprise Adoption",
+     "url": "https://www.citybiz.co/article/855232/alphasense-raises-350-million-at-7-5-billion-valuation-as-ai-intelligence-platform-scales-enterprise-adoption/",
+     "container": "citybiz",
+     "source": "news_search",
+     "excerpt": "AlphaSense has raised $350 million in new funding at a $7.5 billion valuation, nearly doubling its valuation from its previous financing round as demand...",
+     "published_at": "2026-06-03T16:55:56.338729Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

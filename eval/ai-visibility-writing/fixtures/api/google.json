@@ -1,0 +1,31 @@
+{
+  "version": "0.1.mock",
+  "status_code": 20000,
+  "status_message": "Ok.",
+  "cost": 0.0012,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [{
+    "id": "mock-google-1",
+    "status_code": 20000,
+    "status_message": "Ok.",
+    "cost": 0.0012,
+    "result_count": 1,
+    "result": [{
+      "keyword": "mock query",
+      "items": [
+        {
+          "type": "ai_overview",
+          "text": "A scoped mock answer.",
+          "items": [{
+            "type": "ai_overview_reference",
+            "title": "Example evidence",
+            "url": "https://evidence.example/report?utm_source=test"
+          }]
+        },
+        {"type": "organic", "rank_group": 1, "rank_absolute": 1, "title": "Example evidence", "url": "https://evidence.example/report"},
+        {"type": "organic", "rank_group": 2, "rank_absolute": 2, "title": "Control page", "url": "https://control.example/page"}
+      ]
+    }]
+  }]
+}

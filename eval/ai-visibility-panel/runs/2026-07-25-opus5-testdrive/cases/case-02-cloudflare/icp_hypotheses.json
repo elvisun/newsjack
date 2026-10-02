@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "icp-cloudflare-2026-07-25",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:icp-evidence-analysis",
+  "source_manifest_hash": "sha256:unavailable",
+  "warnings": [
+    "The target's plan page (src-002) declares audiences in its own words. A declared segment establishes standing, not demand. Every ICP below that leans on src-002 also carries at least one independent or behavioural source, or it is marked hypothesis_only.",
+    "No buying committee is asserted. Roles below are limited to those an evidence span actually shows. Company size, revenue, seniority, tenure, budget authority and headcount are NOT inferred anywhere in this artifact.",
+    "No prevalence or market-size claim is made. The number of sources supporting an ICP is not a measure of how many such buyers exist."
+  ],
+  "gate_status": "ready_for_human_review",
+  "standing_facts": [
+    {"claim_id": "claim-001", "text": "Target operates a global network offering CDN, DNS, WAF, DDoS mitigation, load balancing and bot mitigation.", "source_ids": ["src-001"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-002", "text": "Target sells a per-user Zero Trust / SASE product line with free, per-user and contract tiers.", "source_ids": ["src-002"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-003", "text": "Target sells serverless compute and storage primitives (Workers, R2, D1, KV, Queues, Durable Objects, Workers AI).", "source_ids": ["src-001"], "assertion_class": "company_asserted"},
+    {"claim_id": "claim-004", "text": "Target is changing default behaviour for mixed-use AI crawlers on ad-bearing pages effective 2026-09-15, and is extending a pay-per-crawl experiment into a broader pay-per-use model.", "source_ids": ["src-004"], "assertion_class": "independent"},
+    {"claim_id": "claim-005", "text": "Target experienced a network-wide outage on 2025-11-18 lasting over four hours, caused by an oversized bot-management feature file propagating across the network.", "source_ids": ["src-013"], "assertion_class": "independent", "counterevidence_to": ["claim-001"]},
+    {"claim_id": "claim-006", "text": "Target self-asserts analyst recognition (SASE Platforms MQ 2025 Visionary; Forrester WAF Wave Q1 2025 Leader). Underlying reports not read.", "source_ids": ["src-012"], "assertion_class": "company_asserted", "verification_status": "unverified"}
+  ],
+  "icps": [
+    {
+      "icp_id": "icp-001",
+      "label": "Operator of an ad- or content-supported website losing server capacity and content control to automated crawlers",
+      "context": {
+        "organization_type": "Publisher, media site, documentation site or other content-heavy web property",
+        "operating_context": "Runs a public site whose value is its text/media; depends on search discoverability for audience",
+        "geography": null,
+        "size": null
+      },
+      "triggers": [
+        {"text": "Automated crawler volume rises without a matching rise in human readership, raising hosting and bandwidth cost", "source_ids": ["src-003", "src-007"]},
+        {"text": "Millions of sites added AI crawlers to robots.txt disallow lists between July and December 2025, and a rising share of AI-bot requests ignored those directives", "source_ids": ["src-003"]},
+        {"text": "A platform-level default change effective 2026-09-15 will block mixed-use crawlers on ad-bearing pages, forcing an explicit decision from site owners", "source_ids": ["src-004"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "site/content operator", "source_ids": ["src-003", "src-007"]},
+        {"role": "champion", "label": "site/content operator", "source_ids": ["src-003"]}
+      ],
+      "constraints": [
+        {"text": "Must keep traditional search crawlers allowed while restricting training/agent crawlers", "source_ids": ["src-004", "src-003"]},
+        {"text": "robots.txt alone is unreliable; a material share of AI-bot requests ignore it", "source_ids": ["src-003"]}
+      ],
+      "disqualifiers": [
+        {"text": "Sites with no public content and no search-discoverability dependency", "source_ids": ["src-004"]}
+      ],
+      "standing_claim_ids": ["claim-001", "claim-004"],
+      "supporting_source_ids": ["src-003", "src-004", "src-007"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Which site sizes and revenue models actually change behaviour before the 2026-09-15 default, versus being changed for them?",
+        "What proportion of operators treat this as a cost problem versus a rights problem? No evidence in this manifest distinguishes the two."
+      ]
+    },
+    {
+      "icp_id": "icp-002",
+      "label": "Owner-operator of a small business or ecommerce website with no dedicated security staff, whose site going down is a revenue event",
+      "context": {
+        "organization_type": "Small online business, store or service business with a business-critical website",
+        "operating_context": "No in-house security or platform team; relies on a host and a packaged product",
+        "geography": null,
+        "size": null
+      },
+      "triggers": [
+        {"text": "Site becomes unreachable under a traffic flood and the host attributes it to request volume; operator needs immediate remediation steps", "source_ids": ["src-014"]},
+        {"text": "Recurring bandwidth overage charges and questions about whether a WAF is needed at this size", "source_ids": ["src-008"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "small business site owner-operator", "source_ids": ["src-014", "src-008"]},
+        {"role": "economic_buyer", "label": "same person as user (no separation evidenced)", "source_ids": ["src-002"]}
+      ],
+      "constraints": [
+        {"text": "Limited in-house expertise; solutions must be low-operations", "source_ids": ["src-014", "src-008"]},
+        {"text": "Price sensitivity at the tens-to-low-hundreds of dollars per month band", "source_ids": ["src-002"]}
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-001"],
+      "supporting_source_ids": ["src-008", "src-014", "src-002"],
+      "counterevidence_source_ids": ["src-011"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "src-011 suggests support responsiveness is a recurring post-purchase complaint at paid tiers, but was only reachable as a snippet. Direct review access is needed before this becomes a core post-purchase job.",
+        "Nothing in this manifest shows how these operators choose between a host-bundled option and a standalone provider."
+      ]
+    },
+    {
+      "icp_id": "icp-003",
+      "label": "Platform / SRE engineering team at a mid-market software company selecting or re-evaluating edge delivery and application protection",
+      "context": {
+        "organization_type": "Software company running a globally reachable web or API product",
+        "operating_context": "Small platform team owns delivery, caching, WAF and availability; evaluates vendors against reliability, programmability, billing predictability and compliance",
+        "geography": null,
+        "size": null
+      },
+      "triggers": [
+        {"text": "Delivery and egress becomes a dominant infrastructure cost line", "source_ids": ["src-008", "src-005"]},
+        {"text": "A network-wide provider outage takes dependent services offline and forces a dependency review", "source_ids": ["src-013", "src-006"]},
+        {"text": "Usage-based billing produces unpredictable invoices; flat-rate contracts are preferred", "source_ids": ["src-006"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "platform / SRE engineer", "source_ids": ["src-005", "src-006"]},
+        {"role": "economic_buyer", "label": "engineering budget owner (evidenced only through billing-model preference, not title)", "source_ids": ["src-006"]},
+        {"role": "blocker", "label": "compliance/security reviewer asking for certification and residency evidence", "source_ids": ["src-009", "src-010"]}
+      ],
+      "constraints": [
+        {"text": "Must not break WebSocket, gRPC and other dynamic/API traffic", "source_ids": ["src-005"]},
+        {"text": "Non-text/media-heavy workloads may force a tier or vendor change", "source_ids": ["src-005"]},
+        {"text": "Cannot absorb a single-provider dependency for the whole stack", "source_ids": ["src-013", "src-006"]},
+        {"text": "Cloud-specific certifications (e.g. ISO 27017/27018) and data residency may be procurement-blocking", "source_ids": ["src-009", "src-010"]}
+      ],
+      "disqualifiers": [
+        {"text": "Teams for whom a hyperscaler's bundled protection is sufficient and who do not want extra moving parts", "source_ids": ["src-006"]}
+      ],
+      "standing_claim_ids": ["claim-001"],
+      "supporting_source_ids": ["src-005", "src-006", "src-008", "src-010", "src-013"],
+      "counterevidence_source_ids": ["src-006", "src-011", "src-013"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Forum evidence is individual and public, not a sample. Whether reliability or billing predictability dominates the decision is unknown.",
+        "No win/loss or RFP outcome evidence was available."
+      ]
+    },
+    {
+      "icp_id": "icp-004",
+      "label": "IT / security engineer replacing legacy VPN access for a hybrid workforce and for non-human clients",
+      "context": {
+        "organization_type": "Organisation with employees, contractors and automated build systems needing access to internal applications",
+        "operating_context": "Existing VPN is slow, over-permissive and cannot serve ephemeral compute; procurement expects an SSE/SASE evaluation",
+        "geography": null,
+        "size": null
+      },
+      "triggers": [
+        {"text": "A compromised node in a network-level VPN model exposes the whole network; per-request verification is the stated requirement", "source_ids": ["src-006"]},
+        {"text": "Ephemeral CI/CD compute cannot practically run a persistent access client", "source_ids": ["src-006"]},
+        {"text": "A formal SASE/SSE evaluation requires distinguishing native from third-party-integrated services", "source_ids": ["src-009"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "employee/contractor needing internal app access", "source_ids": ["src-006"]},
+        {"role": "champion", "label": "IT / security engineer", "source_ids": ["src-006", "src-009"]},
+        {"role": "approver", "label": "procurement-led evaluation with reference and pilot criteria", "source_ids": ["src-009"]}
+      ],
+      "constraints": [
+        {"text": "Some clients cannot install an agent (ephemeral CI, unmanaged devices)", "source_ids": ["src-006"]},
+        {"text": "Team-size thresholds materially change packaging (under 50 users vs over 50 users)", "source_ids": ["src-002"]},
+        {"text": "Coverage must span ZTNA, SWG, CASB and DLP with continuous, not login-time-only, verification", "source_ids": ["src-009"]}
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-002"],
+      "supporting_source_ids": ["src-002", "src-006", "src-009", "src-015"],
+      "counterevidence_source_ids": ["src-015"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "src-015 indicates head-to-head SSE comparison demand against named alternatives, but the review pages were blocked (HTTP 403). Direct review evidence is needed before any competitor-aided cell is promoted out of the aided partition.",
+        "No evidence distinguishes the security buyer from the network buyer in this manifest."
+      ]
+    },
+    {
+      "icp_id": "icp-005",
+      "label": "Developer or small team building on serverless edge compute and storage",
+      "context": {
+        "organization_type": null,
+        "operating_context": "Wants code and data close to users without server management or egress fees",
+        "geography": null,
+        "size": null
+      },
+      "triggers": [],
+      "roles": [],
+      "constraints": [],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-003"],
+      "supporting_source_ids": ["src-001", "src-016"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "This ICP exists only because the target sells the capability (src-001) and the user description names edge compute. NO buyer-behaviour, review, forum, procurement or search evidence in this manifest shows anyone expressing this job. Inverting a feature into a buyer is exactly the failure mode this atom forbids.",
+        "Evidence needed to promote: developer-survey data, community/forum threads describing the migration decision, or on-site search/support queries. Until then all derived cells stay rotating discovery."
+      ]
+    },
+    {
+      "icp_id": "icp-006",
+      "label": "EXCLUDED: end-consumer user of a public DNS resolver",
+      "context": {},
+      "triggers": [],
+      "roles": [],
+      "constraints": [],
+      "disqualifiers": [
+        {"text": "No buyer job, no purchase decision and no evidence of information-seeking behaviour in this manifest.", "source_ids": []}
+      ],
+      "standing_claim_ids": [],
+      "supporting_source_ids": [],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "excluded",
+      "open_questions": []
+    }
+  ],
+  "unanswered_questions": [
+    "No customer, prospect, interview, call, CRM, on-site-search or support-ticket evidence was supplied, so no grade-A language exists anywhere in this run.",
+    "No geography evidence exists for any ICP. All locale assignments are agent assumptions, not findings.",
+    "Two intended buyer-language sources (TrustRadius comparison, vendor community forum) returned HTTP 403 and were not read.",
+    "The relationship between the 2025-11-18 outage and actual buying behaviour is unknown; src-013 shows commentary, not switching."
+  ]
+}

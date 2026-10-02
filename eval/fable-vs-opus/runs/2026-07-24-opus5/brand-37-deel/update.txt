@@ -1,0 +1,4 @@
+Company: Deel
+Current time: 2026-06-09T16:00:00Z
+
+Deel is launching an AI compliance tool that flags risks in global hiring and contractor classification. Facts: the tool checks worker classification, local labor law, and tax exposure across 150 countries as a company hires; Deel handles payroll and compliance for thousands of companies hiring internationally; the company is privately held and last valued at $12B; Deel is currently in a high-profile corporate-espionage lawsuit with a competitor; the AI tool is included for existing customers; accuracy and audit data for the tool not disclosed.

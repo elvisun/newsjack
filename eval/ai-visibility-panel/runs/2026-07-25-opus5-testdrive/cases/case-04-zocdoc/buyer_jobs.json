@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "jobs-zocdoc-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5/buyer-job-intent-analysis",
+  "source_manifest_hash": null,
+  "warnings": [
+    "No tier-1 or tier-2 evidence (AI conversations, interviews, on-site search, win/loss) was available. The strongest evidence in this run is tier-5 public reviews and one forum thread, plus a government secret-shopper study.",
+    "Language samples are counts within this small corpus. They are not market frequency and were not used to weight anything.",
+    "job-007 rests on a single company-asserted source and is hypothesis_only. job-004 and job-008 rest on weak or company-commissioned evidence and are capped at rotating/sentinel.",
+    "Roles are kept separate: care-seeker, practice owner-clinician and practice operations manager are not collapsed. No caregiver role was created because no evidence supports one.",
+    "Funnel was not inferred from keywords. Most jobs carry funnel null at the cell level; see prompt_architecture.json for the per-cell rule."
+  ],
+  "gate_status": "ready_for_human_review",
+  "jobs": [
+    {
+      "job_id": "job-001",
+      "icp_ids": ["icp-001"],
+      "statement": "When I need a new provider in an unfamiliar area or after a plan change, help me get an appointment on the calendar with someone my plan actually covers, near enough to reach, and soon enough to matter.",
+      "struggling_moment": "Starting a provider search from zero with three simultaneous constraints (network, location, availability) and no reliable single list that satisfies all three",
+      "desired_progress": "A confirmed appointment with a provider who is genuinely covered, without a second round of phone calls",
+      "workarounds": ["Calling the insurer for a list", "Working the plan's online directory", "Asking the previous clinician or local acquaintances", "Calling offices one by one to confirm"],
+      "forces": {
+        "push": [{"text": "Relocation or plan change removes the existing provider relationship", "source_ids": ["source-013", "source-005"]}],
+        "pull": [{"text": "Being able to see real open slots and pick one immediately", "source_ids": ["source-005"]}],
+        "anxiety": [{"text": "The listing may be wrong and the visit may not be covered", "source_ids": ["source-004", "source-011"]}, {"text": "A confirmed booking may be cancelled at the last minute", "source_ids": ["source-004"]}],
+        "habit": [{"text": "Defaulting to the insurer's directory or a phone call", "source_ids": ["source-011", "source-012"]}]
+      },
+      "information_acts": ["plan", "navigate", "recommend", "troubleshoot"],
+      "journey_states": ["exploration", "supplier_selection", "post_purchase"],
+      "criteria": [
+        {"text": "In-network under the specific plan", "source_ids": ["source-004", "source-011"]},
+        {"text": "Appointment available within an acceptable window", "source_ids": ["source-005", "source-012"]},
+        {"text": "Reachable location", "source_ids": ["source-005"]}
+      ],
+      "constraints": [{"text": "Cannot verify coverage without a second confirmation", "source_ids": ["source-011", "source-004"]}],
+      "roles": ["care_seeker"],
+      "language_samples": [
+        {"text": "incredibly easy to book, reschedule, or cancel appointments", "source_id": "source-005", "span": "recent review entries, July 2026", "locale": "en-US", "evidence_grade": "B"},
+        {"text": "got an appointment that quick and with choices", "source_id": "source-005", "span": "recent review entries, July 2026", "locale": "en-US", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-005", "source-013", "source-004", "source-011", "source-003"],
+      "counterevidence_source_ids": ["source-004"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-002",
+      "icp_ids": ["icp-001", "icp-002"],
+      "statement": "When a listing says a provider takes my plan, help me confirm that is actually true before I sit in the chair, so I am not handed an out-of-network bill afterwards.",
+      "struggling_moment": "The directory and the front desk disagree, and the cost of believing the wrong one lands after the visit",
+      "desired_progress": "Confidence that coverage will hold, and a known sequence of checks that produces it",
+      "workarounds": ["Calling the office to confirm", "Calling the insurer to confirm", "Asking for the billing NPI/tax ID and checking it against the plan"],
+      "forces": {
+        "push": [{"text": "Directory listings are measurably inaccurate", "source_ids": ["source-011"]}],
+        "pull": [{"text": "A filter that claims to show real in-network availability", "source_ids": ["source-009", "source-002"]}],
+        "anxiety": [{"text": "Surprise out-of-network charge", "source_ids": ["source-004", "source-011"]}],
+        "habit": [{"text": "Trusting whatever list the plan publishes", "source_ids": ["source-011"]}]
+      },
+      "information_acts": ["verify", "explain", "plan"],
+      "journey_states": ["requirements_building", "supplier_selection"],
+      "criteria": [{"text": "Coverage confirmed by a second, independent check", "source_ids": ["source-011", "source-004"]}],
+      "constraints": [{"text": "Verification must happen before the visit; afterwards there is no leverage", "source_ids": ["source-004"]}],
+      "roles": ["care_seeker"],
+      "language_samples": [
+        {"text": "Why would ZocDoc state you are in my network if you are not?", "source_id": "source-004", "span": "dated complaint, Oct 2018", "locale": "en-US", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-004", "source-011"],
+      "counterevidence_source_ids": ["source-005"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-003",
+      "icp_ids": ["icp-002"],
+      "statement": "When every therapist on my plan's list is full, unreachable, or no longer in network, help me actually reach one who will take me, without spending my working day on follow-up calls.",
+      "struggling_moment": "Working a list where a third or more of the entries are dead ends, while unable to make repeated daytime calls",
+      "desired_progress": "A first session booked within weeks rather than an indefinite search",
+      "workarounds": ["Calling down the plan directory", "Leaving voicemails and waiting", "Paying out of network"],
+      "forces": {
+        "push": [{"text": "33% of listings inaccurate, non-working or unreturned; over 80% of contacted listings effectively unavailable", "source_ids": ["source-011"]}],
+        "pull": [{"text": "A list showing who is genuinely accepting new patients", "source_ids": ["source-011"]}],
+        "anxiety": [{"text": "Repeating the whole exercise and still not being seen", "source_ids": ["source-012"]}],
+        "habit": [{"text": "Starting again from the insurer's portal", "source_ids": ["source-012"]}]
+      },
+      "information_acts": ["diagnose", "plan", "troubleshoot", "compare", "recommend"],
+      "journey_states": ["problem_identification", "exploration", "supplier_selection"],
+      "criteria": [
+        {"text": "Provider is actually accepting new patients", "source_ids": ["source-011"]},
+        {"text": "In-network", "source_ids": ["source-011", "source-012"]},
+        {"text": "Reachable without repeated business-hours calls", "source_ids": ["source-012"]}
+      ],
+      "constraints": [{"text": "Limited daytime availability to chase providers", "source_ids": ["source-012"]}],
+      "roles": ["care_seeker"],
+      "language_samples": [
+        {"text": "All therapists are either full or have these weird ass times", "source_id": "source-012", "span": "original post, 2021-07-19", "locale": "en-US", "evidence_grade": "A"},
+        {"text": "Insurance portals just dont have updated contact details", "source_id": "source-012", "span": "reply, 2021-07-19", "locale": "en-US", "evidence_grade": "A"},
+        {"text": "Most of the therapists don't return the call and have full voicemails", "source_id": "source-012", "span": "reply, 2021-07-19", "locale": "en-US", "evidence_grade": "A"}
+      ],
+      "supporting_source_ids": ["source-011", "source-012", "source-006"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "A",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-004",
+      "icp_ids": ["icp-001", "icp-005"],
+      "statement": "When something needs attention today and my usual provider is booked out, help me find a route to being seen quickly without a referral I do not have and without an unknown price.",
+      "struggling_moment": "Acute need collides with weeks-long lead times, referral gatekeeping, and unclear cost",
+      "desired_progress": "Seen today or within a day or two, at a knowable price",
+      "workarounds": ["Urgent care walk-in", "Self-pay telehealth", "Emergency department as a last resort"],
+      "forces": {
+        "push": [{"text": "Regular provider has no near-term availability", "source_ids": ["source-013"]}],
+        "pull": [{"text": "Same-day and no-referral booking options are heavily marketed", "source_ids": ["source-013"]}],
+        "anxiety": [{"text": "Unknown cost, or coverage refused because a referral was required", "source_ids": ["source-013", "source-004"]}],
+        "habit": [{"text": "Calling the practice and accepting the next offered slot", "source_ids": []}]
+      },
+      "information_acts": ["troubleshoot", "plan", "recommend", "navigate"],
+      "journey_states": ["problem_identification", "supplier_selection"],
+      "criteria": [{"text": "Speed to being seen", "source_ids": ["source-013"]}, {"text": "Referral not required, or obtainable fast", "source_ids": ["source-013"]}],
+      "constraints": [{"text": "Price must be knowable before committing when self-paying", "source_ids": ["source-013"]}],
+      "roles": ["care_seeker"],
+      "language_samples": [],
+      "supporting_source_ids": ["source-013", "source-004"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "low",
+      "status": "supported",
+      "status_note": "Supported for the insured same-day variant via search proxy; the self-pay price-transparency variant (icp-005) is hypothesis_only and was quarantined at QA."
+    },
+    {
+      "job_id": "job-005",
+      "icp_ids": ["icp-003"],
+      "statement": "When my schedule has unfilled capacity, help me decide which channels are worth paying for and what a new patient can cost me before the arithmetic stops working.",
+      "struggling_moment": "Deciding whether a per-new-patient fee is a purchase or a leak, without a published rate card and without a settled view of what a new patient is worth",
+      "desired_progress": "A defensible blended cost per new patient and a channel mix the owner controls",
+      "workarounds": ["Trialling one marketplace and watching the monthly invoice", "Building referrals and owned booking instead", "Local search and profile optimisation"],
+      "forces": {
+        "push": [{"text": "Unfilled capacity", "source_ids": ["source-007"]}, {"text": "Per-booking fees that vary unpredictably by specialty and market", "source_ids": ["source-008", "source-001"]}],
+        "pull": [{"text": "Bookings arrive from people already ready to schedule", "source_ids": ["source-006", "source-007"]}],
+        "anxiety": [{"text": "Renting demand rather than owning it", "source_ids": ["source-006", "source-007"]}, {"text": "Fees are not visible until late in sign-up", "source_ids": ["source-008"]}],
+        "habit": [{"text": "Judging a channel on gross new patients rather than blended cost", "source_ids": ["source-007"]}]
+      },
+      "information_acts": ["compare", "verify", "plan", "recommend", "explain"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection"],
+      "criteria": [
+        {"text": "Average new-patient lifetime value", "source_ids": ["source-007"]},
+        {"text": "Actual unfilled capacity to be filled", "source_ids": ["source-007"]},
+        {"text": "Lowest blended cost per new patient across all channels", "source_ids": ["source-007"]},
+        {"text": "Whether the channel is owned or rented", "source_ids": ["source-006", "source-007"]}
+      ],
+      "constraints": [{"text": "Per-new-patient fee cited roughly $35-$110 by specialty and market", "source_ids": ["source-008", "source-006"]}],
+      "roles": ["practice_owner_clinician"],
+      "language_samples": [
+        {"text": "lowest blended cost per new patient", "source_id": "source-007", "span": "decision-framework section, 2026-06-03", "locale": "en-US", "evidence_grade": "C"},
+        {"text": "not a one and done solution to filling your practice", "source_id": "source-006", "span": "recommendation section", "locale": "en-US", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-006", "source-007", "source-008", "source-001", "source-003"],
+      "counterevidence_source_ids": ["source-003"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-006",
+      "icp_ids": ["icp-003"],
+      "statement": "When acquisition charges land for appointments that never happened or for patients we already had, help me get them corrected and stop the monthly total from running away from me.",
+      "struggling_moment": "Being billed at booking rather than at attendance, with a bill that changes shape every month",
+      "desired_progress": "Disputed charges reversed, and a predictable ceiling on acquisition spend",
+      "workarounds": ["Disputing individual charges", "Pausing the listing", "Leaving the channel"],
+      "forces": {
+        "push": [{"text": "Fee is charged whether or not the patient attends", "source_ids": ["source-006", "source-001"]}, {"text": "Existing patients billed as new", "source_ids": ["source-001", "source-004"]}],
+        "pull": [{"text": "Spend caps and pause controls exist", "source_ids": ["source-001"]}],
+        "anxiety": [{"text": "Paying for someone else's error", "source_ids": ["source-004"]}],
+        "habit": [{"text": "Absorbing small disputed charges rather than claiming them", "source_ids": []}]
+      },
+      "information_acts": ["troubleshoot", "explain", "implement", "diagnose"],
+      "journey_states": ["adoption", "post_purchase"],
+      "criteria": [{"text": "A working dispute path with a defined window", "source_ids": ["source-001"]}, {"text": "A hard monthly ceiling on spend", "source_ids": ["source-001", "source-008"]}],
+      "constraints": [{"text": "Claims window is short (7 days for existing-patient claims; 24-hour good-faith cancellation waiver)", "source_ids": ["source-001"]}],
+      "roles": ["practice_owner_clinician", "practice_operations_manager"],
+      "language_samples": [
+        {"text": "Should not charge a fee for their mistake", "source_id": "source-004", "span": "dated complaint, Sept 2023", "locale": "en-US", "evidence_grade": "B"},
+        {"text": "whether or not the client arrives or doesn't", "source_id": "source-006", "span": "risk section", "locale": "en-US", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-001", "source-004", "source-006", "source-008"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-007",
+      "icp_ids": ["icp-004"],
+      "statement": "When inbound scheduling calls exceed what staff can answer, including outside business hours, help me stop losing bookings to hold times and voicemail.",
+      "struggling_moment": "Scheduling demand arrives by phone at times and volumes the front office cannot absorb",
+      "desired_progress": "Calls resolved into booked appointments without adding staff",
+      "workarounds": ["Voicemail and callback queues", "Answering services", "Online self-scheduling"],
+      "forces": {
+        "push": [{"text": "Hold times and unanswered after-hours calls", "source_ids": ["source-002"]}],
+        "pull": [{"text": "Automated 24/7 call handling that books into the real calendar", "source_ids": ["source-002"]}],
+        "anxiety": [],
+        "habit": []
+      },
+      "information_acts": ["plan", "implement", "compare"],
+      "journey_states": ["requirements_building", "adoption"],
+      "criteria": [{"text": "Integration with the existing EHR/PMS", "source_ids": ["source-002"]}],
+      "constraints": [],
+      "roles": ["practice_operations_manager"],
+      "language_samples": [],
+      "supporting_source_ids": ["source-002"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "status_note": "Derived from a target capability page. This is close to inverting a product feature into demand, which the method forbids. It is admitted only as a quarantined rotating cell and must not enter core without independent or buyer-language evidence."
+    },
+    {
+      "job_id": "job-008",
+      "icp_ids": ["icp-001", "icp-003", "icp-004"],
+      "statement": "When people increasingly consult AI assistants before and instead of contacting a practice, help me understand what that changes about how care is found, chosen and booked this year.",
+      "struggling_moment": "Discovery and pre-visit research are moving into assistants and into third-party consumer surfaces, and neither patients nor practices have settled norms for it",
+      "desired_progress": "A current, dated understanding of where booking demand now originates and how to respond",
+      "workarounds": ["Ignoring it", "Reacting to individual incidents in the exam room"],
+      "forces": {
+        "push": [{"text": "Providers report a rise in AI-informed patients over the past year; 83% report correcting AI-derived misinformation in a visit", "source_ids": ["source-010"]}],
+        "pull": [{"text": "Booking is being embedded into review and assistant surfaces with real-time in-network availability", "source_ids": ["source-009"]}],
+        "anxiety": [{"text": "Patients concealing AI use from clinicians (23% have hidden it)", "source_ids": ["source-010"]}],
+        "habit": []
+      },
+      "information_acts": ["explain"],
+      "journey_states": ["problem_identification", "exploration"],
+      "criteria": [],
+      "constraints": [{"text": "Evidence decays; each derived cell carries a review-by date", "source_ids": ["source-009", "source-010"]}],
+      "roles": ["care_seeker", "practice_owner_clinician", "practice_operations_manager"],
+      "language_samples": [],
+      "supporting_source_ids": ["source-009", "source-010"],
+      "counterevidence_source_ids": ["source-014"],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "status_note": "The only prevalence figures come from a target-commissioned survey (source-010, fielded Feb 2026, published 2026-03-24). They are dated and citable as a market event but are not independent prevalence. source-014 (2021) covers the same theme and is explicitly too old to anchor a B5 cell. Cells derived from job-008 are rotating or sentinel only, never core."
+    }
+  ],
+  "coverage_gaps": [
+    {"gap": "No caregiver / proxy-booker job", "reason": "No evidence source found", "evidence_needed": "Forum, review or support evidence of someone booking on another person's behalf"},
+    {"gap": "No Spanish-language job or language sample", "reason": "No Spanish-language source found in this run", "evidence_needed": "Spanish-language community, review or search-proxy evidence plus a native reviewer"},
+    {"gap": "No 'buy' information act anywhere in the panel", "reason": "Booking is free to the care-seeker and provider pricing is not transacted in an assistant. Nothing in the evidence entails a purchase act in a prompt.", "evidence_needed": "Evidence of a transactional query pattern; otherwise this act stays permanently out of scope, which is the correct outcome rather than a gap to fill"},
+    {"gap": "No 'generate' information act", "reason": "No evidence that either audience asks an assistant to produce an artefact in this domain", "evidence_needed": "Evidence of artefact-generation requests, e.g. appeal letters or practice marketing copy"},
+    {"gap": "Post-purchase evidence is thin on the care-seeker side", "reason": "Only cancellation complaints (source-004) support it", "evidence_needed": "Support-question or help-centre query evidence"}
+  ]
+}

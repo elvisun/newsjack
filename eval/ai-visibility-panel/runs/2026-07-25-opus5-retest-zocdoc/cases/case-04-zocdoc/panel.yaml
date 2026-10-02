@@ -1,0 +1,179 @@
+schema_version: "1.0.0"
+artifact_id: "panel-zocdoc-2026-07-25"
+created_at: "2026-07-25T20:00:00Z"
+created_by: "agent:ai-visibility-panel-design (claude-opus-5)"
+source_manifest_hash: null
+warnings:
+  - "hash_not_computed: compute source_manifest_hash before freeze"
+  - "prompt_hash_not_computed: candidate prompt hashes are null; freeze blocker"
+  - "no_variance_pilot: repeats and interval widths are provisional defaults, not pilot-derived"
+  - "no_human_approvals: all four gates are pending"
+panel_id: "panel-zocdoc-booking"
+version: "0.1.0"
+status: "provisional_directional"
+charter_id: "charter-zocdoc-2026-07-25"
+architecture_id: "architecture-zocdoc-2026-07-25"
+universe_id: "universe-zocdoc-2026-07-25"
+qa_id: "qa-zocdoc-2026-07-25"
+estimands:
+  - name: "unaided_brand_presence"
+    numerator: "Valid eligible answers mentioning the target at least once"
+    denominator: "Valid observations in partitions core+sentinel, aided_status unaided, within one lane, surface, locale, and wave"
+    excludes: "control partition, aided partition, rotating partition, invalid or unparsed runs"
+  - name: "aided_brand_knowledge"
+    numerator: "Valid target-aided answers containing a materially correct, source-checkable target fact"
+    denominator: "Valid observations in partition aided with aided_status target_aided, within one lane, surface, locale, and wave"
+    excludes: "category_aided and competitor_aided cells, which have their own denominators"
+  - name: "competitive_mention_share"
+    numerator: "Mentions of one named option within valid unaided answers in the stratum"
+    denominator: "All option mentions in the same unaided stratum"
+    excludes: "aided partitions and control cells"
+  - name: "citation_presence"
+    numerator: "Valid retrieval-lane answers exposing at least one target-owned citation"
+    denominator: "Valid retrieval-lane observations in the stratum where citations were exposed at all; aided and unaided reported separately"
+    excludes: "closed_model and consumer_surface lanes"
+  - name: "answer_framing"
+    numerator: "Valid answers coded into one fixed framing category"
+    denominator: "All valid coded observations in the same partition, aided status, lane, surface, locale, and wave"
+    excludes: "cross-partition pooling"
+  - name: "control_false_positive_rate"
+    numerator: "Control-cell answers mentioning the target"
+    denominator: "Valid control-partition observations in the same lane, surface, and wave"
+    excludes: "all core, sentinel, rotating, and aided observations"
+partitions:
+  core:
+    canonical_cell_ids: ["cell-001","cell-002","cell-003","cell-004","cell-005","cell-006","cell-007","cell-008","cell-009","cell-010","cell-011","cell-012","cell-013","cell-014","cell-015","cell-016","cell-017","cell-018","cell-019","cell-020","cell-021","cell-022","cell-023","cell-024"]
+  rotating:
+    canonical_cell_ids: ["cell-035","cell-036"]
+  sentinel:
+    canonical_cell_ids: ["cell-038","cell-039","cell-040","cell-041","cell-042"]
+  control:
+    canonical_cell_ids: ["cell-043","cell-044"]
+  aided:
+    canonical_cell_ids: ["cell-025","cell-026","cell-027","cell-028","cell-029","cell-030","cell-031","cell-032"]
+excluded_cells:
+  - canonical_cell_id: "cell-033"
+    reason: "es-US candidate is a translation with locale review pending"
+    waiver_id: "waiver-003"
+  - canonical_cell_id: "cell-034"
+    reason: "es-US candidate is a translation with locale review pending"
+    waiver_id: "waiver-003"
+  - canonical_cell_id: "cell-037"
+    reason: "grade-D model expansion, quarantined"
+    waiver_id: "waiver-004"
+selected_candidate_ids: ["prompt-001a","prompt-001b","prompt-002a","prompt-002b","prompt-003a","prompt-003b","prompt-004a","prompt-004b","prompt-005a","prompt-005b","prompt-006a","prompt-006b","prompt-007a","prompt-007b","prompt-008a","prompt-008b","prompt-009a","prompt-009b","prompt-010a","prompt-010b","prompt-011a","prompt-011b","prompt-012a","prompt-012b","prompt-013a","prompt-013b","prompt-014a","prompt-014c","prompt-015a","prompt-015b","prompt-016a","prompt-016b","prompt-017a","prompt-017b","prompt-018a","prompt-018b","prompt-019a","prompt-019b","prompt-020a","prompt-020b","prompt-021a","prompt-021b","prompt-022a","prompt-022b","prompt-023a","prompt-023b","prompt-024a","prompt-024b","prompt-025a","prompt-025b","prompt-026a","prompt-026b","prompt-027a","prompt-027b","prompt-028a","prompt-028b","prompt-029a","prompt-029b","prompt-030a","prompt-030b","prompt-031a","prompt-031b","prompt-032a","prompt-032b","prompt-035a","prompt-036a","prompt-038a","prompt-038b","prompt-039a","prompt-039b","prompt-040a","prompt-040b","prompt-041a","prompt-041b","prompt-042a","prompt-042b","prompt-043a","prompt-044a"]
+selected_variants:
+  observed_language: 13
+  natural_paraphrase: 63
+  sensitivity: 2
+  note: "Counts cover selected candidates only; the two grade-D sensitivity drafts and the revised draft are not selected."
+lanes: ["closed_model", "retrieval", "consumer_surface"]
+surfaces: ["surface-api-chat-closed", "surface-api-chat-retrieval", "surface-consumer-assistant-clean"]
+locales: ["en-US"]
+locales_excluded: ["es-US"]
+model_policy:
+  models: "Declare exact provider model IDs and versions at wave start; record whatever version string the provider exposes on every observation."
+  temperature: "Fixed, lowest available deterministic setting for closed_model; record the value. Consumer surfaces expose no sampling control; record that as unknown."
+  system_prompt: "Fixed empty or minimal fixed developer prompt, identical across cells within a wave; hash it into configuration_hash."
+search_policy:
+  closed_model: "disabled"
+  retrieval: "allowed; record retrieval_used, generated queries when exposed, and citation metadata"
+  consumer_surface: "as the product defaults; record whether the UI showed sources"
+session_policy:
+  fresh_session: true
+  memory_personalization: "disabled where the setting exists; clean archetype account otherwise"
+  history: "none; one prompt per session"
+repetitions:
+  core: 3
+  aided: 3
+  rotating: 3
+  sentinel: 3
+  control: 3
+  pilot_cells: 8
+randomization:
+  seed: 20260801
+  method: "Randomize cell order and surface order within each wave using the declared seed; record the realized order per observation."
+controls:
+  matched_unaffected_cells: ["cell-043", "cell-044"]
+  purpose: "Estimate spurious target mentions in adjacent but out-of-perimeter needs. Never pooled with core."
+weight:
+  exposure:
+    method: "equal_within_declared_strata"
+    factors: []
+    justification: "No credible prevalence evidence exists for AI-prompt exposure in this category. No source in the manifest measures query volume or assistant usage by job. Equal weighting is a conditional analytic choice, not a prevalence estimate."
+  priority:
+    method: "withheld_pending_human_approval"
+    factors: []
+    justification: "Strategic priority is a human judgment and no approver has been named."
+statistics:
+  cluster_unit: "canonical_cell_id"
+  interval_method_unweighted: "Wilson score interval within a single partition, aided status, lane, surface, locale, and wave"
+  interval_method_weighted: "Stratified cluster bootstrap resampling canonical cells, with variants and repeats nested"
+  paired_comparison: "Pair unchanged cells across waves; report overlap-only change plus both full-version levels"
+  minimum_subgroup_for_percentages: 20
+  pilot_status: "pending"
+  pilot_design:
+    cells: 15
+    cell_ids: ["cell-038","cell-039","cell-040","cell-041","cell-042","cell-001","cell-005","cell-011","cell-013","cell-016","cell-020","cell-022","cell-025","cell-031","cell-043"]
+    repeats_per_cell: 8
+    time_blocks: 2
+    variance_components: ["between_cell", "within_cell_run", "variant", "day_time_block", "model_surface", "invalid_parse"]
+    note: "Five dedicated sentinel cells fall short of the 12-20 diverse pilot cells the method requires, so ten additional cells participate in the pilot without changing partition. Recorded as waiver-002."
+refresh_policy:
+  evidence_intake: "monthly"
+  panel_review: "quarterly"
+  b5_review_by: "2026-10-25"
+  mutable_claim_review_by:
+    per_booking_fee_range: "2026-10-25"
+    availability_24_72_hours: "2026-10-25"
+    payer_and_partner_integrations: "2026-10-25"
+    spend_control_features: "2026-10-25"
+  event_triggers: ["target pricing or policy change", "new payer/partner booking surface", "provider-directory regulation or enforcement action", "model or consumer-surface version change", "category entrant or exit named by new evidence"]
+  next_review: "2026-10-25"
+  charter_reapproval: "annual"
+limitations:
+  - "Estimates are conditional on this panel and do not represent a probability sample of AI users, patients, or practices."
+  - "Equal exposure weighting is an assumption, not measured prevalence; no source in the manifest supports weights."
+  - "All buyer language is public proxy evidence; no first-party customer corpus, interview, or query-log data was supplied."
+  - "The target's root domain and several first-party pages returned HTTP 403, so the contamination lexicon and factual perimeter may be incomplete."
+  - "No variance pilot has been run, so repeats and interval widths are defaults."
+  - "B5 cells decay; two of the three rest partly on vendor-published dated material."
+  - "Aided, unaided, control, and lane observations never share a denominator; do not combine them into one visibility score."
+  - "Nothing in this design supports causal claims. A wave-over-wave change is not attribution."
+approvals: []
+pending_approvals:
+  - gate: "gate_1_icp"
+    decision_needed: "Approve or reject icp-005 and icp-006 as hypothesis-only, and confirm the exclusion list"
+  - gate: "gate_2_jobs"
+    decision_needed: "Approve job-010 and job-011 as rotating hypotheses, and confirm job-012 as control-only"
+  - gate: "gate_3_partitions"
+    decision_needed: "Approve core/aided/control partitions and resolve the six disputed QA decisions"
+  - gate: "gate_4_design"
+    decision_needed: "Approve equal exposure weighting, priority weights, limitations, cadence, and version 0.1.0"
+waivers:
+  - waiver_id: "waiver-001"
+    subject: "campaign_experiment lane and campaign_response estimand"
+    reason: "No campaign supplied"
+    evidence_needed: "Campaign terms, treatment window, pre-registration, matched unaffected controls"
+  - waiver_id: "waiver-002"
+    subject: "variance pilot sentinel count"
+    reason: "Only five dedicated sentinel cells exist; the pilot borrows ten core cells"
+    evidence_needed: "Pilot results, after which sentinel count is re-set"
+  - waiver_id: "waiver-003"
+    subject: "es-US locale coverage"
+    reason: "Translated candidates without native review and without Spanish behavioral evidence"
+    evidence_needed: "Native or market-competent review plus Spanish buyer or query evidence"
+  - waiver_id: "waiver-004"
+    subject: "uninsured / cash-pay job"
+    reason: "Grade-D model expansion only"
+    evidence_needed: "Independent behavioral or query evidence"
+  - waiver_id: "waiver-005"
+    subject: "AI phone assistant product area"
+    reason: "Product page unreachable; no independent coverage obtained"
+    evidence_needed: "Retrievable product page or trade coverage, plus practice-side language"
+  - waiver_id: "waiver-006"
+    subject: "scripted multi-turn coverage"
+    reason: "No lawful conversational corpus"
+    evidence_needed: "Consented multi-turn logs or interviews"
+change_ledger_ref: "panel_change_ledger.json"
+run_manifest_ref: "run_manifest_template.json"

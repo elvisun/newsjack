@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["answer", "cited_candidate_ids", "accurately_used_candidate_ids", "unsupported_claims"],
+  "properties": {
+    "answer": {"type": "string"},
+    "cited_candidate_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "accurately_used_candidate_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "unsupported_claims": {"type": "array", "items": {"type": "string"}}
+  }
+}

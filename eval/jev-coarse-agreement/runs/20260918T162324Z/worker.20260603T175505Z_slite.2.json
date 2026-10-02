@@ -1,0 +1,202 @@
+{
+  "decisions": [
+    {
+      "signal_id": "075a857094c4e5d0",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Meta AI support bot security hack matches 'AI' keyword but has no connection to knowledge base, enterprise search, documentation, or company wiki.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://www.firstpost.com/tech/hackers-exploit-metas-ai-support-bot-exposing-flaws-in-automated-security-systems-14018519.html"
+      ],
+      "relevance_basis": "Generic AI security story with no bridge to Slite's knowledge management, enterprise search, or documentation platform focus."
+    },
+    {
+      "signal_id": "f70360bc6b34b18e",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "General AI agent automation for sales/marketing/support teams matches 'AI' keyword but lacks knowledge base, enterprise search, or documentation angle.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://programminginsider.com/8-tasks-ai-agents-are-automating-for-sales-marketing-and-support-teams-in-2026/"
+      ],
+      "relevance_basis": "Broad AI automation story without connection to knowledge management, internal documentation, or enterprise search capabilities."
+    },
+    {
+      "signal_id": "de873e028f18b973",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Microsoft Work IQ and Web IQ APIs announcement is about general AI agent intelligence, not knowledge base, enterprise search, or company documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Microsoft+d%C3%A9voile+les+API+Work+IQ+et+Web+IQ+pour+des+agents+d%27IA+plus+intelligents&f=live"
+      ],
+      "relevance_basis": "Microsoft Build conference announcement focused on AI agent APIs without relevance to knowledge management or enterprise search platforms."
+    },
+    {
+      "signal_id": "e3c5acd48f4f4380",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Discussion of AI designers preferring concrete projects over courses is generic AI industry commentary unrelated to knowledge base, search, or documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=En+2026%2C+les+concepteurs+d%27IA+privil%C3%A9gient+les+projets+d%27agents+concrets+aux+cours+interminables.&f=live"
+      ],
+      "relevance_basis": "Industry trends in AI development without connection to Slite's knowledge management platform or enterprise search focus."
+    },
+    {
+      "signal_id": "003bbe16d51c8d2c",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Donald Hoffman's theory of perception and reality is philosophical/cognitive science content unrelated to AI knowledge bases, enterprise search, or documentation platforms.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=La+th%C3%A9orie+de+Donald+Hoffman%C2%A0%3A+les+perceptions+masquent+la+v%C3%A9ritable+r%C3%A9alit%C3%A9&f=live"
+      ],
+      "relevance_basis": "Academic cognitive science discussion with no relevance to knowledge management, enterprise search, or company documentation platforms."
+    },
+    {
+      "signal_id": "2730990ec41153de",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Obsidian + Claude + NotebookLM creating 'second brains' connects to knowledge capture and organization, plausibly adjacent to Slite's knowledge management and documentation focus.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://x.com/search?q=Obsidian%2C+Claude+et+NotebookLM+cr%C3%A9ent+de+puissants+seconds+cerveaux&f=live"
+      ],
+      "relevance_basis": "Story about AI-powered knowledge organization tools (Obsidian + Claude + NotebookLM) creates plausible angle for knowledge management and internal documentation positioning."
+    },
+    {
+      "signal_id": "d8f76df09665f18a",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Microsoft and OpenClaw partnership on Windows/Office 365 agents is about application automation, not knowledge base, enterprise search, or documentation platforms.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Microsoft+s%27associe+%C3%A0+OpenClaw+pour+des+agents+d%27IA+s%C3%A9curis%C3%A9s+sur+Windows+et+Office+365&f=live"
+      ],
+      "relevance_basis": "Desktop and Office automation agents without relevance to knowledge management, internal search, or company documentation focus."
+    },
+    {
+      "signal_id": "82eebead1a88fec4",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Enterprise RAG query with Microsoft IQ and Rayfin addressing data silos and AI agent governance connects to knowledge management, data organization, and enterprise search challenges.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://venturebeat.com/data/enterprise-ai-agents-keep-creating-data-silos-microsofts-build-answer-is-microsoft-iq-and-rayfin"
+      ],
+      "relevance_basis": "Story about enterprise knowledge organization and data governance in AI systems is plausibly relevant to Slite's knowledge management and enterprise search positioning."
+    },
+    {
+      "signal_id": "75e3a104d098aeb5",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Cohesity's RAG platform patent directly addresses enterprise RAG, a core Slite topic, and Slite can position itself as an alternative RAG-powered knowledge base solution.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://www.manilatimes.net/2026/06/03/tmt-newswire/pr-newswire/cohesity-secures-earliest-invented-patent-in-the-industry-for-genai-retrieval-augmented-generation-rag-platform-built-on-secondary-data/2357408"
+      ],
+      "relevance_basis": "Direct match on enterprise RAG topic; Slite can comment on RAG-powered knowledge bases and internal documentation capabilities."
+    },
+    {
+      "signal_id": "94f4e1ac291abda4",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "Cognizant's AI talent development program matches 'enterprise RAG' query but focuses on HR and skill-building, not knowledge management or enterprise search.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://analyticsindiamag.com/ai-news/cognizant-launches-ai-focused-ace-team-to-build-specialised-talent-pool"
+      ],
+      "relevance_basis": "HR and talent development story without connection to knowledge bases, enterprise search, or internal documentation platforms."
+    },
+    {
+      "signal_id": "df82b0fcc0378db2",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "NetApp and Cisco infrastructure partnership for AI matches 'enterprise RAG' query but focuses on data infrastructure, not knowledge base or enterprise search.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://aimmediahouse.com/stories/enterprise-ai/netapp-and-cisco-expand-flexpod-partnership-to-power-ai"
+      ],
+      "relevance_basis": "Data infrastructure and storage partnership without relevance to knowledge management, enterprise search, or internal documentation platforms."
+    },
+    {
+      "signal_id": "158da889ebf9a6e8",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Unstructured data handling integration with Azure for enterprise AI workflows connects to knowledge management and enterprise search infrastructure needs.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://www.01net.it/unstructured-expands-integration-with-microsoft-azure-to-power-enterprise-ai-workflows/"
+      ],
+      "relevance_basis": "Story about transforming unstructured data for enterprise AI is plausibly relevant to Slite's enterprise knowledge management and search positioning."
+    },
+    {
+      "signal_id": "20e416fab329892e",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Legal AI verification cost reduction is about legal services automation, not knowledge base, enterprise search, or internal documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Une+nouvelle+%C3%A9tude+r%C3%A9duit+de+1%C2%A0000+fois+les+co%C3%BBts+de+v%C3%A9rification+juridique+par+IA&f=live"
+      ],
+      "relevance_basis": "Specialized legal AI application without relevance to knowledge management, internal documentation, or enterprise search platforms."
+    },
+    {
+      "signal_id": "db1d9bee9baba605",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Matt Van Horn's AI engineering tips for developers is about coding practices, not knowledge base, enterprise search, or company documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Matt+Van+Horn+partage+des+astuces+d%27ing%C3%A9nierie+agentique+pour+le+codage+de+l%27IA&f=live"
+      ],
+      "relevance_basis": "Developer-focused engineering tips without connection to knowledge management or enterprise search platforms."
+    },
+    {
+      "signal_id": "b3ba0330375f1308",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "Ethereum ERC-8183 AI agent token trading is about blockchain and cryptocurrency, not knowledge base, enterprise search, or company documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=La+session+de+cr%C3%A9ation+de+jetons+ERC-8183+d%27Ethereum+lance+le+commerce+par+agent+IA+sur+la+blockchain&f=live"
+      ],
+      "relevance_basis": "Blockchain and crypto story with no relevance to enterprise knowledge management or search platforms."
+    },
+    {
+      "signal_id": "41d61ecce2f9771e",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "AI models governing simulated societies is experimental/academic research without connection to knowledge base, enterprise search, or documentation platforms.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=Des+mod%C3%A8les+d%27IA+gouvernent+des+soci%C3%A9t%C3%A9s+simul%C3%A9es+avec+des+r%C3%A9sultats+tr%C3%A8s+diff%C3%A9rents.&f=live"
+      ],
+      "relevance_basis": "Experimental AI simulation research with no relevance to enterprise knowledge management or search."
+    },
+    {
+      "signal_id": "8ccc0caa8c01be86",
+      "decision": "reject",
+      "reason": "off_beat",
+      "rationale": "SEBI regulatory action against Rajesh Exports is financial/regulatory news unrelated to knowledge base, enterprise search, or AI documentation.",
+      "confidence": "high",
+      "evidence_urls": [
+        "https://x.com/search?q=La+SEBI+interdit+%C3%A0+Rajesh+Exports%2C+pr%C3%A9sident+de+l%27entreprise%2C+de+poursuivre+ses+fonctions+suite+%C3%A0+des+all%C3%A9gations+de+forte+inflation+des+revenus.&f=live"
+      ],
+      "relevance_basis": "Financial compliance and regulatory news with no relevance to knowledge management or enterprise search platforms."
+    },
+    {
+      "signal_id": "1878f54bb221212d",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Runa's 'company brain' for businesses connects to knowledge management and internal information organization, plausibly relevant to Slite's knowledge base and documentation positioning.",
+      "confidence": "medium",
+      "evidence_urls": [
+        "https://newsismybusiness.com/puerto-rico-ai-startup-builds-company-brain-for-businesses/"
+      ],
+      "relevance_basis": "Story about AI-powered company knowledge organization and scattered information consolidation aligns with Slite's knowledge management and internal documentation platform focus."
+    }
+  ]
+}

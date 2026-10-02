@@ -88,8 +88,8 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack login",
 		"auth set-medialyst",
 		"auth set-x",
-		"https://medialyst.ai/agents",
-		"live news search and journalist enrichment",
+		"https://medialyst.ai/app/onboarding/developer",
+		"live news search, journalist enrichment, and media list research",
 		"news search",
 		"journalists enrich",
 		"~/.newsjack/credentials.json",
@@ -109,7 +109,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack auth set-medialyst --key <mlst_...>",
 		"newsjack auth set-x --bearer-token <token>",
 		"recommended login",
-		"https://medialyst.ai/agents",
+		"https://medialyst.ai/app/onboarding/developer",
 		"credentials.json",
 	} {
 		if !strings.Contains(help.String(), want) {
@@ -125,7 +125,7 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 		"newsjack login [--no-browser]",
 		"newsjack login --key <mlst_...>",
 		"newsjack-cli",
-		"news:search media_lists:manage",
+		"news:search media_lists:manage projects:manage",
 		"Agents should use this path for interactive setup",
 	} {
 		if !strings.Contains(help.String(), want) {
@@ -145,14 +145,81 @@ func TestHelpShowsAPIRecoveryCommands(t *testing.T) {
 	}
 }
 
+func TestMonitorHelpDocumentsSlackDeliveryAndSecretHandling(t *testing.T) {
+	var help bytes.Buffer
+	if !printCommandHelp(&help, "monitor delivery") {
+		t.Fatal("monitor delivery help topic was not handled")
+	}
+	for _, want := range []string{
+		"monitor delivery set-slack <slug>",
+		"--notify-on every-run|pitch-ready",
+		"monitor delivery status <slug>",
+		"monitor delivery test <slug>",
+		"--message-file slack.md --run-id <id>",
+		"monitor delivery remove-slack <slug>",
+		"every-run (send every completed report while the monitor is being tuned)",
+		"every_run means every completed report; pitch_ready means pitch-ready only",
+		"never put it in command arguments",
+		"owner-only permissions",
+		"local sent marker",
+		"posts a real test message",
+	} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("newsjack help monitor delivery missing %q:\n%s", want, help.String())
+		}
+	}
+}
+
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "pr-calendar", "journalists", "credits"} {
+	for _, topic := range []string{"news", "pr-calendar", "journalists", "media-lists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
 		}
 		if !strings.Contains(help.String(), "/api/v1/") {
 			t.Fatalf("%s help should include endpoint mapping:\n%s", topic, help.String())
+		}
+	}
+}
+
+func TestMediaListsHelpExplainsResearchSizingWithoutHiddenMultiplier(t *testing.T) {
+	var help bytes.Buffer
+	if !printCommandHelp(&help, "media-lists") {
+		t.Fatal("media-lists help topic was not handled")
+	}
+	for _, want := range []string{"5x N", "up to 10x N", "sends the exact target supplied", "explicit user approval"} {
+		if !strings.Contains(help.String(), want) {
+			t.Fatalf("media-lists help missing %q:\n%s", want, help.String())
+		}
+	}
+}
+
+func TestMediaListsHelpDocumentsEveryAcceptedFlagAndDefault(t *testing.T) {
+	for _, args := range [][]string{
+		{"help", "media-lists"},
+		{"media-lists", "create", "--help"},
+		{"media-lists", "job", "--help"},
+	} {
+		var out, err bytes.Buffer
+		if code := runCLI(args, &out, &err); code != 0 {
+			t.Fatalf("newsjack %v exited %d: %s", args, code, err.String())
+		}
+		for _, want := range []string{
+			"--prompt",
+			"--target-list-size",
+			"--idempotency-key",
+			"--json",
+			"--json-file",
+			"--include-results",
+			"--limit",
+			"default 50",
+			"range 1-200",
+			"--cursor",
+			"default empty",
+		} {
+			if !strings.Contains(out.String(), want) {
+				t.Fatalf("newsjack %v help missing %q:\n%s", args, want, out.String())
+			}
 		}
 	}
 }
@@ -165,6 +232,8 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 		{"help", "news", "search"},
 		{"help", "pr-calendar query"},
 		{"help", "pr-calendar", "query"},
+		{"help", "media-lists create"},
+		{"help", "media-lists", "job"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {
@@ -181,6 +250,8 @@ func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 		{"pr-calendar", "query", "--help"},
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
+		{"media-lists", "create", "--help"},
+		{"media-lists", "job", "--help"},
 	} {
 		var out, err bytes.Buffer
 		if code := runCLI(args, &out, &err); code != 0 {

@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "blindbrief-travel-connectivity-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:build-ai-visibility-panel",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "blind_brief_hash_not_computed: compute blind_brief_hash before freeze",
+    "no_fresh_subagent: unaided generation ran in the same session; the operator worked only from this brief and prompt_architecture.json during that pass and did not consult target pages, the contamination register, or any current-answer material",
+    "b0_pass_separate: B0 target-aided prompts were written in a separate, explicitly aided pass that received only the target alias, and are excluded from this brief"
+  ],
+  "brief_scope": "Design prompts a real person would type when they need mobile internet while travelling outside their home country. No supplier, brand, domain or campaign wording is included or permitted in this pass.",
+  "anonymized_roles": [
+    {"persona_id": "role-001", "label": "First-time buyer of travel mobile data; owns a recent smartphone; buying for themselves before a trip", "evidence_grade": "B", "evidence_ids": ["source-002", "source-006", "source-007"]},
+    {"persona_id": "role-002", "label": "Experienced multi-country traveller who plans connectivity for a whole itinerary and advises others", "evidence_grade": "B", "evidence_ids": ["source-006", "source-005"]},
+    {"persona_id": "role-003", "label": "Heavy-data traveller who tethers a laptop and works while abroad", "evidence_grade": "B", "evidence_ids": ["source-004", "source-007"]},
+    {"persona_id": "role-004", "label": "Traveller already at the destination whose connection is failing or expiring", "evidence_grade": "B", "evidence_ids": ["source-002", "source-004"]}
+  ],
+  "approved_jobs": [
+    {"job_id": "job-001", "statement": "When a trip to one foreign country is booked, help a traveller arrive with working mobile data instead of paying home-carrier roaming, while their handset must support a digital line and stay unlocked.", "information_acts": ["explain", "plan", "compare", "recommend"], "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection"], "evidence_grade": "B"},
+    {"job_id": "job-002", "statement": "When an itinerary crosses several countries, help a traveller keep one working data plan across borders instead of buying and reinstalling a plan per country.", "information_acts": ["explain", "compare", "plan", "recommend"], "journey_states": ["exploration", "requirements_building", "supplier_selection"], "evidence_grade": "B"},
+    {"job_id": "job-003", "statement": "When a traveller cannot tell how much data a trip needs or whether an unlimited plan is genuinely unlimited, help them size the plan and avoid fair-use throttling while tethering a laptop.", "information_acts": ["explain", "plan", "compare", "verify"], "journey_states": ["requirements_building", "exploration"], "evidence_grade": "B"},
+    {"job_id": "job-004", "statement": "When a traveller is unsure whether their handset can take a foreign data line at all, help them verify device support, carrier lock and device origin before they pay for anything.", "information_acts": ["verify", "diagnose", "explain"], "journey_states": ["requirements_building", "problem_identification"], "evidence_grade": "B"},
+    {"job_id": "job-005", "statement": "When a traveller relies on their home number for messaging apps and bank verification codes, help them keep those working while a separate data-only line carries the internet.", "information_acts": ["explain", "verify", "implement"], "journey_states": ["requirements_building", "adoption"], "evidence_grade": "C"},
+    {"job_id": "job-006", "statement": "When a traveller lands and the phone shows no service despite a plan bought before the flight, help them restore connectivity from the airport without another handset.", "information_acts": ["troubleshoot", "diagnose"], "journey_states": ["post_purchase", "adoption"], "evidence_grade": "B"},
+    {"job_id": "job-007", "statement": "When a plan is running out or about to expire mid-trip, help a traveller extend the existing line rather than lose it and start again.", "information_acts": ["plan", "buy", "explain"], "journey_states": ["post_purchase"], "evidence_grade": "B"},
+    {"job_id": "job-008", "statement": "When public reporting says travellers are shifting away from operator roaming, help a traveller understand what has actually changed about buying data abroad this year.", "information_acts": ["explain"], "journey_states": ["problem_identification", "exploration"], "evidence_grade": "C"},
+    {"job_id": "job-009", "statement": "When a destination may require identity registration for a mobile line, help a traveller find out whether that applies to a digital line bought before departure.", "information_acts": ["verify", "explain"], "journey_states": ["requirements_building"], "evidence_grade": "C"}
+  ],
+  "material_constraints": [
+    {"constraint_id": "con-device-support", "label": "Handset must support a digital SIM profile", "evidence_ids": ["source-001", "source-004"]},
+    {"constraint_id": "con-carrier-lock", "label": "Handset must be network unlocked", "evidence_ids": ["source-004"]},
+    {"constraint_id": "con-device-origin", "label": "Some handsets sold in certain markets lack the capability", "evidence_ids": ["source-005"]},
+    {"constraint_id": "con-install-needs-internet", "label": "Installation requires an existing internet connection", "evidence_ids": ["source-001", "source-003"]},
+    {"constraint_id": "con-destination-bound", "label": "A plan is bound to a declared destination or country list", "evidence_ids": ["source-001", "source-005"]},
+    {"constraint_id": "con-validity-window", "label": "Plans expire on a fixed validity window", "evidence_ids": ["source-002", "source-003"]},
+    {"constraint_id": "con-fair-use-throttle", "label": "Unlimited-labelled plans may throttle sharply after a daily threshold", "evidence_ids": ["source-004"]},
+    {"constraint_id": "con-tethering", "label": "Tethering a laptop may be impractical under fair-use thresholds", "evidence_ids": ["source-004"]},
+    {"constraint_id": "con-data-only", "label": "Line may be data-only with no voice, SMS or local number", "evidence_ids": ["source-004", "source-007"]},
+    {"constraint_id": "con-single-device", "label": "Line cannot be moved to another handset", "evidence_ids": ["source-004", "source-005"]},
+    {"constraint_id": "con-id-registration", "label": "Some jurisdictions require identity registration for a mobile line", "evidence_ids": ["source-008"]},
+    {"constraint_id": "con-topup", "label": "Extending an existing line may be possible instead of buying a new one", "evidence_ids": ["source-003", "source-005"]}
+  ],
+  "safe_language_fragments": [
+    {"fragment": "which one should I get for Japan", "evidence_id": "source-007", "evidence_grade": "B"},
+    {"fragment": "best one for NZ?", "evidence_id": "source-006", "evidence_grade": "B"},
+    {"fragment": "coverage & speed experiences", "evidence_id": "source-006", "evidence_grade": "B"},
+    {"fragment": "is it really unlimited", "evidence_id": "source-007", "evidence_grade": "B"},
+    {"fragment": "how much data do you need for Europe travel", "evidence_id": "source-012", "evidence_grade": "C"},
+    {"fragment": "why is it not working", "evidence_id": "source-002", "evidence_grade": "C"},
+    {"fragment": "when does my package expire", "evidence_id": "source-002", "evidence_grade": "C"},
+    {"fragment": "how do I check if my device supports it", "evidence_id": "source-002", "evidence_grade": "C"},
+    {"fragment": "does it work in rural areas", "evidence_id": "source-007", "evidence_grade": "B"},
+    {"fragment": "country-specific and multi-country", "evidence_id": "source-006", "evidence_grade": "B"}
+  ],
+  "required_strata": {
+    "proximity_bands_for_this_pass": ["B1_comparison_purchase", "B2_category", "B3_problem_need", "B4_job_goal", "B5_broad_discovery_story"],
+    "aided_states_for_this_pass": ["unaided", "category_aided", "competitor_aided"],
+    "locales": ["en-US", "en-CA"],
+    "languages": ["en"],
+    "turn_forms": ["single_turn", "scripted_multi_turn"],
+    "styles_required": ["concise", "contextual", "imperfect_but_intelligible", "natural_follow_up"],
+    "variants_per_core_cell": 2
+  },
+  "style_rules": [
+    "Write what a person would actually type, including short and slightly untidy phrasings.",
+    "Do not add polished persona exposition or job titles.",
+    "Do not append a request for product recommendations to a problem-shaped prompt.",
+    "B3 and B4 prompts must not name any solution category; describe the problem or the outcome.",
+    "B1 and B2 prompts may use generic category vocabulary only.",
+    "One concept per prompt."
+  ],
+  "excluded_content": [
+    "No brand, product, domain, person, slogan, proprietary category or campaign wording of any supplier",
+    "No current AI answers, rankings, mentions, citations, content gaps or desired landing pages",
+    "No target performance data of any kind",
+    "No copied strings from public conversational corpora"
+  ]
+}

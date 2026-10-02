@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "contamination-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:build-ai-visibility-panel",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "register_version_1: this register was built from source-001, source-002, source-003 and source-005 only; a term absent here is not certified absent from the target's copy",
+    "generic_terms_excluded: 'eSIM', 'travel eSIM', 'local eSIM', 'regional eSIM', 'global eSIM', 'data plan' and 'roaming' are generic category vocabulary and are deliberately NOT listed as target terms; banning them would make B1 and B2 cells impossible to write"
+  ],
+  "target_terms": {
+    "brands": ["Airalo", "airalo", "AIRALO"],
+    "products": [
+      "Airalo eSIM",
+      "Airmoney",
+      "Airalo Partners",
+      "Discover+",
+      "Global Discover",
+      "Eurolink",
+      "Asialink",
+      "Football 2026 eSIMs"
+    ],
+    "domains": ["airalo.com", "www.airalo.com", "https://www.airalo.com/"],
+    "people": [],
+    "slogans": [
+      "A better way to stay connected",
+      "Buy eSIMs for affordable, flexible coverage around the world"
+    ],
+    "proprietary_categories": [
+      "travel eSIM store",
+      "eSIM marketplace",
+      "eSIM store"
+    ],
+    "campaign_terms": [
+      "Football 2026 eSIMs",
+      "Refer and earn",
+      "Airalo loyalty program"
+    ],
+    "flattering_claims": [
+      "affordable, flexible coverage",
+      "a better way to stay connected",
+      "200+ locations",
+      "the world's first eSIM store"
+    ]
+  },
+  "competitor_terms": [
+    "Holafly",
+    "Saily",
+    "Nomad",
+    "Nomad eSIM",
+    "Ubigi",
+    "Yesim",
+    "eSIM Go",
+    "GigSky",
+    "Maya Mobile",
+    "Jetpac",
+    "Sakura Mobile",
+    "Orange Holiday",
+    "Visible",
+    "Simigo",
+    "TooSIM",
+    "Keepgo",
+    "Surfroam",
+    "NoveSIM"
+  ],
+  "people_data_policy": "No named individuals were collected from the target site or from any review, forum or community source. Reviewer and forum-poster identities are deliberately excluded from every artifact.",
+  "allowed_exceptions": [
+    {
+      "exception_id": "exc-001",
+      "band": "B0_direct_brand_product",
+      "term_classes": ["brands", "products", "domains"],
+      "partition": "aided",
+      "aided_status": "target_aided",
+      "rationale": "B0 cells must name the target to measure aided brand knowledge. These cells are quarantined into the aided partition and never enter an unaided denominator."
+    },
+    {
+      "exception_id": "exc-002",
+      "band": "B1_comparison_purchase",
+      "term_classes": ["competitor_terms"],
+      "partition": "aided",
+      "aided_status": "competitor_aided",
+      "rationale": "Competitor-named comparison cells are legitimate stimuli for competitor-aided measurement. They are reported in their own denominator and are never counted as unaided."
+    },
+    {
+      "exception_id": "exc-003",
+      "band": "B2_category",
+      "term_classes": [],
+      "partition": "aided",
+      "aided_status": "category_aided",
+      "rationale": "B2 cells use generic category vocabulary only. No target term, slogan, proprietary category or campaign term is permitted, and these cells still sit outside the unaided denominator."
+    }
+  ],
+  "prohibited_everywhere": [
+    "Any slogan or flattering_claims string, in any band, including B0",
+    "Any campaign_terms string, because no campaign is being measured in this version",
+    "Any target domain as a prompt instruction such as 'according to airalo.com'"
+  ],
+  "scan_policy": {
+    "normalized": "casefold, strip punctuation and diacritics, collapse whitespace",
+    "token": "whole-token match against brands, products, domains, campaign_terms",
+    "fuzzy": "edit distance <= 2 on brand and product tokens of length >= 5",
+    "semantic": "manual review of slogans and flattering_claims paraphrases; a semantic flag requires a recorded human or high-confidence review decision and may never auto-delete"
+  }
+}

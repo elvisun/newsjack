@@ -1,0 +1,4 @@
+Company: Notion
+Current time: 2026-06-09T16:00:00Z
+
+Notion is shipping an offline-first mode and customer-managed encryption keys (CMEK) for enterprise. Facts: offline editing now works with no connection and syncs on reconnect; enterprise customers can hold their own encryption keys via AWS KMS; data residency options added for the EU and Australia; the company says this unblocks regulated buyers in finance and healthcare that previously could not adopt; Notion has ~100M users and four of the five largest US banks now run pilots; no pricing change for existing Enterprise plans.

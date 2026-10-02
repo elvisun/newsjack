@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "ledger-cloudflare-network-platform",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:ai-visibility-panel-design",
+  "source_manifest_hash": "sha256:unavailable",
+  "warnings": [
+    "Append-only. No prior frozen version exists, so nothing has been overwritten.",
+    "Version 0.1.0 is provisional_directional and was never frozen. It may be edited in place until a human freezes it; every edit after freeze requires a new version entry."
+  ],
+  "panel_id": "panel-cloudflare-network-platform",
+  "entries": [
+    {
+      "entry_id": "chg-0001",
+      "version": "0.1.0",
+      "created_at": "2026-07-25T16:00:00-04:00",
+      "author": "agent:build-ai-visibility-panel",
+      "change_type": "initial_provisional_panel",
+      "status": "provisional_directional",
+      "frozen": false,
+      "prior_version": null,
+      "overlap_bridge": null,
+      "summary": "First candidate panel built from one public URL plus a one-line description. 50 canonical cells, 92 generated candidates, 86 accepted, 5 quarantined, 1 sent back for revision, 3 rejected pre-QA.",
+      "inputs": {
+        "url": "https://www.cloudflare.com/",
+        "description": "Cloudflare is a network platform spanning CDN and performance, application security, Zero Trust and SASE, DNS, and edge compute.",
+        "current_time": "2026-07-25T16:00:00-04:00",
+        "sources_recorded": 16,
+        "sources_blocked": 2
+      },
+      "decisions_of_record": [
+        "Charter estimands set provisionally to unaided_brand_presence, category-aided presence, competitive_mention_share, citation_presence, answer_framing and aided_brand_knowledge, each with its own denominator. campaign_response declared out of scope.",
+        "funnel left null on all 50 cells because no evidence links these jobs to a funnel model.",
+        "Acts 'generate' and 'navigate' omitted as unsupported rather than padded in.",
+        "icp-005 (developer/edge compute) kept hypothesis_only despite appearing in the user's description, because only company-asserted evidence supports it.",
+        "Equal exposure and priority weights adopted with an explicit non-prevalence limitation.",
+        "Randomization seed deliberately left null because no runtime was available to generate and freeze one."
+      ],
+      "affects": {
+        "core_cells_added": 25,
+        "sentinel_cells_added": 8,
+        "rotating_cells_added": 6,
+        "control_cells_added": 2,
+        "aided_cells_added": 9,
+        "cells_removed": 0,
+        "weights_changed": false,
+        "metric_definitions_changed": false,
+        "surface_mix_changed": false
+      },
+      "approvals": {"gate_1": "pending", "gate_2": "pending", "gate_3": "pending", "gate_4": "pending"},
+      "next_review": "2026-08-25"
+    }
+  ],
+  "planned_version_triggers": [
+    {"trigger": "Any Gate 3 or Gate 4 approval that changes core membership, weights, metric definitions or surface mix", "resulting_version": "0.2.0", "requires_overlap_bridge": true},
+    {"trigger": "Variance pilot completion and reallocation of repeats versus cells", "resulting_version": "0.2.0", "requires_overlap_bridge": true},
+    {"trigger": "B5 evidence expiry on 2026-09-15 for cell-032, cell-033 and cell-051", "resulting_version": "0.3.0", "requires_overlap_bridge": true},
+    {"trigger": "Promotion of any quarantined cell (cell-018, cell-044, cell-045, cell-046, cell-047) after new evidence", "resulting_version": "0.2.x", "requires_overlap_bridge": true},
+    {"trigger": "Addition of a non-English locale after market-competent review", "resulting_version": "0.3.0", "requires_overlap_bridge": true},
+    {"trigger": "First human freeze of a fully approved panel", "resulting_version": "1.0.0", "requires_overlap_bridge": false}
+  ]
+}

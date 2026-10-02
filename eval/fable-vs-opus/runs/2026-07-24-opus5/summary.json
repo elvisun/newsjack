@@ -1,0 +1,127 @@
+{
+  "run": "2026-07-24-opus5",
+  "judge_model": "gpt-5.5",
+  "n_judgments": 300,
+  "dims": [
+    "news_value",
+    "distinctness",
+    "journalist_shape",
+    "grounding",
+    "anti_slop",
+    "proof_rigor",
+    "usefulness"
+  ],
+  "models": [
+    {
+      "slug": "o5",
+      "label": "Opus 5",
+      "dim_means": {
+        "news_value": 4.355,
+        "distinctness": 4.72,
+        "journalist_shape": 4.915,
+        "grounding": 3.425,
+        "anti_slop": 4.56,
+        "proof_rigor": 4.97,
+        "usefulness": 4.705
+      },
+      "overall": 4.5214,
+      "verdicts": {
+        "workshopable": 83,
+        "publishable": 117
+      }
+    },
+    {
+      "slug": "fable",
+      "label": "Fable 5",
+      "dim_means": {
+        "news_value": 4.275,
+        "distinctness": 4.595,
+        "journalist_shape": 4.72,
+        "grounding": 3.89,
+        "anti_slop": 4.71,
+        "proof_rigor": 4.59,
+        "usefulness": 4.53
+      },
+      "overall": 4.4729,
+      "verdicts": {
+        "publishable": 145,
+        "workshopable": 55
+      }
+    },
+    {
+      "slug": "opus",
+      "label": "Opus 4.8",
+      "dim_means": {
+        "news_value": 4.02,
+        "distinctness": 4.275,
+        "journalist_shape": 4.52,
+        "grounding": 3.7,
+        "anti_slop": 4.515,
+        "proof_rigor": 4.665,
+        "usefulness": 4.375
+      },
+      "overall": 4.2957,
+      "verdicts": {
+        "publishable": 110,
+        "workshopable": 90
+      }
+    }
+  ],
+  "win_matrix": [
+    {
+      "row": "o5",
+      "col": "fable",
+      "row_wins": 56,
+      "col_wins": 44,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.56
+    },
+    {
+      "row": "o5",
+      "col": "opus",
+      "row_wins": 66,
+      "col_wins": 34,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.66
+    },
+    {
+      "row": "fable",
+      "col": "o5",
+      "row_wins": 44,
+      "col_wins": 56,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.44
+    },
+    {
+      "row": "fable",
+      "col": "opus",
+      "row_wins": 67,
+      "col_wins": 33,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.67
+    },
+    {
+      "row": "opus",
+      "col": "o5",
+      "row_wins": 34,
+      "col_wins": 66,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.34
+    },
+    {
+      "row": "opus",
+      "col": "fable",
+      "row_wins": 33,
+      "col_wins": 67,
+      "ties": 0,
+      "n": 100,
+      "row_winrate_decisive": 0.33
+    }
+  ],
+  "position_bias_slotA": 0.7367
+}

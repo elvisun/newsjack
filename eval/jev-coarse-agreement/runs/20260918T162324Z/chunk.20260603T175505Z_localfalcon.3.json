@@ -1,0 +1,171 @@
+{
+ "profile": "localfalcon",
+ "profile_context": {
+  "company": "Local Falcon",
+  "website": "https://www.localfalcon.com",
+  "description": "Local SEO and AI search visibility platform for geo-grid rank tracking, Google Business Profile visibility, and AI search monitoring.",
+  "topics": [
+   "local rank tracking",
+   "AI search visibility",
+   "Google Business Profile optimization",
+   "geo-grid rank tracking",
+   "local SEO analytics",
+   "generative engine optimization"
+  ],
+  "competitors": [
+   "BrightLocal",
+   "Whitespark",
+   "Semrush Local",
+   "Yext",
+   "Localo",
+   "Places Scout",
+   "Local Viking"
+  ],
+  "search_terms": [
+   "local rank tracking",
+   "local SEO rank tracker",
+   "geo-grid rank tracking",
+   "AI search visibility tracking",
+   "Google Business Profile rank tracking",
+   "Google AI Overviews local visibility",
+   "ChatGPT local visibility",
+   "BrightLocal local rank tracking",
+   "Whitespark local rank tracker",
+   "Semrush Local",
+   "Yext local SEO",
+   "Local Viking rank tracking"
+  ],
+  "standing": [
+   "local SEO rank tracking",
+   "Google Business Profile analytics",
+   "AI search visibility",
+   "geo-grid local search reporting",
+   "multi-location and agency SEO workflows",
+   "generative engine optimization for local businesses"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with local SEO expertise",
+   "Product lead for AI search visibility",
+   "Local search data or customer success lead"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "cad9baf90157c083",
+   "title": "Haaland se glisse dans la peau d'un guerrier viking avant le retour de la Norv\u00e8ge \u00e0 la Coupe du monde.",
+   "query": "Local Viking rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Haaland se glisse dans la peau d'un guerrier viking avant le retour de la Norv\u00e8ge \u00e0 la Coupe du monde.",
+     "url": "https://x.com/search?q=Haaland+se+glisse+dans+la+peau+d%27un+guerrier+viking+avant+le+retour+de+la+Norv%C3%A8ge+%C3%A0+la+Coupe+du+monde.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Haaland se glisse dans la peau d'un guerrier viking avant le retour de la Norv\u00e8ge \u00e0 la Coupe du monde. Erling Haaland se tenait droit, v\u00eatu d'une cotte de mailles et brandissant une \u00e9p\u00e9e \u00e9tincelante sous un ciel orageux, ses cheveux blonds flottant au vent, puisant dans ses racines nordiques avec une simple l\u00e9gende : \u00ab\u2026",
+     "published_at": "2026-06-02T18:20:12.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "c9ae4817c968ef46",
+   "title": "Kyler Murray prend l'avantage sur JJ McCarthy dans la course au poste de quarterback des Vikings.",
+   "query": "Local Viking rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Kyler Murray prend l'avantage sur JJ McCarthy dans la course au poste de quarterback des Vikings.",
+     "url": "https://x.com/search?q=Kyler+Murray+prend+l%27avantage+sur+JJ+McCarthy+dans+la+course+au+poste+de+quarterback+des+Vikings.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Kyler Murray prend l'avantage sur JJ McCarthy dans la course au poste de quarterback des Vikings. Les passes pr\u00e9cises de Kyler Murray lors des entra\u00eenements d'avant-saison ont fait sensation, obligeant le jeune JJ McCarthy \u00e0 se battre pour conserver sa place dans un groupe de quarterbacks des Vikings tr\u00e8s tendu. Le v\u00e9t\u2026",
+     "published_at": "2026-06-03T00:03:07.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "3491b8709f831a44",
+   "title": "Le caporal James Stewart Freeman tu\u00e9 lors d'un accident d'entra\u00eenement en Irak",
+   "query": "Local Viking rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Le caporal James Stewart Freeman tu\u00e9 lors d'un accident d'entra\u00eenement en Irak",
+     "url": "https://x.com/search?q=Le+caporal+James+Stewart+Freeman+tu%C3%A9+lors+d%27un+accident+d%27entra%C3%AEnement+en+Irak&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Le caporal James Stewart Freeman tu\u00e9 lors d'un accident d'entra\u00eenement en Irak Le caporal James Stewart Freeman, un p\u00e8re d\u00e9vou\u00e9 de 29 ans, a perdu la vie lors d'un entra\u00eenement de routine en Irak, laissant derri\u00e8re lui une \u00e9pouse, une jeune fille et des camarades qui le consid\u00e9raient comme un chef-n\u00e9. Freeman, du 1er b\u2026",
+     "published_at": "2026-06-03T14:27:25.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "1e69de96aaddc6c6",
+   "title": "Les Vikings nomment Nolan Teasley nouveau directeur g\u00e9n\u00e9ral avec pouvoir de gestion de l'effectif",
+   "query": "Local Viking rank tracking",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les Vikings nomment Nolan Teasley nouveau directeur g\u00e9n\u00e9ral avec pouvoir de gestion de l'effectif",
+     "url": "https://x.com/search?q=Les+Vikings+nomment+Nolan+Teasley+nouveau+directeur+g%C3%A9n%C3%A9ral+avec+pouvoir+de+gestion+de+l%27effectif&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les Vikings nomment Nolan Teasley nouveau directeur g\u00e9n\u00e9ral avec pouvoir de gestion de l'effectif Nolan Teasley est mont\u00e9 sur le podium du TCO Performance Center, d\u00e9clarant que l'effectif des Vikings \u00e9tait pr\u00eat \u00e0 concourir d\u00e8s maintenant \u2013 aucune reconstruction n'est pr\u00e9vue. Les Vikings du Minnesota ont nomm\u00e9 mercredi \u2026",
+     "published_at": "2026-06-03T17:46:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

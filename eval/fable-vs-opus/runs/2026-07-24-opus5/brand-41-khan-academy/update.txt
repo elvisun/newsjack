@@ -1,0 +1,4 @@
+Company: Khan Academy
+Current time: 2026-06-09T16:00:00Z
+
+Khan Academy is rolling out its Khanmigo AI tutor to 30 more US school districts and publishing first classroom results. Facts: Khanmigo gives students step-by-step tutoring and gives teachers lesson-planning help; an internal study across pilot districts found students who used it regularly gained the equivalent of extra weeks of learning, by Khan's own measure; Khan Academy is a nonprofit and offers Khanmigo to teachers for free, funded by donors; the rollout reaches an estimated 1 million additional students; the study is not yet peer-reviewed; some educators question AI tutoring's effect on independent thinking.

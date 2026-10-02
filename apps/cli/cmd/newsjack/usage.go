@@ -27,21 +27,25 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "news search", "search current news through Medialyst", "--query Q")
 	uiCommand(w, "pr-calendar query", "query source-backed upcoming PR moments", "--from DATE --to DATE")
 	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
-	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors", "")
+	uiCommand(w, "media-lists create|job", "start and read Medialyst media-list research jobs", "")
+	uiCommand(w, "monitor init|test|run...", "manage newsjacking monitors and optional Slack delivery", "")
 	uiCommand(w, "coverage list|init|check...", "manage coverage trackers", "")
 	uiCommand(w, "detector run|recent...", "angle detection over recent stories", "")
 	uiCommand(w, "update", "pull the latest skill bundle", "")
 	fmt.Fprintln(w)
 	uiSection(w, "api setup")
-	uiCommand(w, "login", "recommended Medialyst browser login for live news search and journalist enrichment", "")
+	uiCommand(w, "login", "recommended Medialyst browser login for live news search, journalist enrichment, and media list research", "")
 	uiCommand(w, "auth set-medialyst", "API-key fallback for CI or automation", "--key KEY")
 	uiCommand(w, "auth set-x", "save X bearer token for X News, trends, and post search", "--bearer-token TOKEN")
+	uiCommand(w, "auth set-typesafe", "save TypeSafe AI key for Jev coarse filtering", "--key KEY")
 	uiKV(w, "Medialyst login", "newsjack login")
 	uiKV(w, "Medialyst API key", medialystAPIKeyURL)
 	uiKV(w, "X bearer token", xAPIKeyURL)
+	uiKV(w, "TypeSafe key", typesafeAPIKeyURL)
 	uiNote(w, "Medialyst REST commands prefer saved OAuth, then API keys from ~/.newsjack/credentials.json or MEDIALYST_API_KEY.")
 	fmt.Fprintln(w)
 	uiSection(w, "pipeline")
+	uiCommand(w, "coarse-filter", "run the coarse-relevance pass through Jev (TypeSafe AI)", "--engine jev --candidates F")
 	uiCommand(w, "filter-apply", "apply coarse-relevance decisions to candidates", "--candidates F --decisions F")
 	uiCommand(w, "cluster", "collapse same-story pickups before retrieval", "--candidates F [--drop-stale]")
 	uiCommand(w, "origin-apply", "apply the deterministic freshness gate", "--candidates F --origins F")
@@ -105,6 +109,7 @@ func printCommandHelp(w io.Writer, command string) bool {
 		uiCommand(w, "login", "connect Medialyst with browser OAuth", "")
 		uiCommand(w, "auth set-medialyst", "API-key fallback for CI or automation", "--key <mlst_...>")
 		uiCommand(w, "auth set-x", "save X API bearer token", "--bearer-token <token>")
+		uiNote(w, "doctor validates configured Medialyst credentials with a read-only balance request; network failures are reported as unreachable, not invalid.")
 		uiNote(w, "doctor --json includes the same actions for agents that need machine-readable recovery steps.")
 		return true
 	case "setup":
@@ -121,6 +126,12 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "detector":
 		printDetectorHelp(w)
 		return true
+	case "coarse-filter":
+		printCoarseFilterHelp(w)
+		return true
+	case "monitor", "monitor delivery", "monitor delivery set-slack", "monitor delivery status", "monitor delivery test", "monitor delivery send", "monitor delivery remove-slack":
+		printMonitorHelp(w)
+		return true
 	case "coverage":
 		printCoverageHelp(w)
 		return true
@@ -136,9 +147,40 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "journalists", "journalists enrich", "journalists enrich-job":
 		printJournalistsHelp(w)
 		return true
+	case "media-lists", "media-lists create", "media-lists create-async", "media-lists job":
+		printMediaListsHelp(w)
+		return true
 	default:
 		return false
 	}
+}
+
+func printMonitorHelp(w io.Writer) {
+	uiProduct(w, "monitor", "manage saved newsjacking monitors and optional report delivery.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack monitor init [slug] --profile profile.json")
+	fmt.Fprintln(w, "  newsjack monitor test <slug> --mock|--live")
+	fmt.Fprintln(w, "  newsjack monitor run <slug>")
+	fmt.Fprintln(w, "  newsjack monitor schedule <slug> --runtime <agent-runtime> --every 1h")
+	fmt.Fprintln(w, "  newsjack monitor status <slug>")
+	fmt.Fprintln(w, "  newsjack monitor open <slug>")
+	fmt.Fprintln(w, "  newsjack monitor brief <slug> [--edit|--json]")
+	fmt.Fprintln(w)
+	uiSection(w, "optional Slack delivery")
+	fmt.Fprintln(w, "  newsjack monitor delivery set-slack <slug> [--notify-on every-run|pitch-ready]")
+	fmt.Fprintln(w, "  newsjack monitor delivery status <slug>")
+	fmt.Fprintln(w, "  newsjack monitor delivery test <slug>")
+	fmt.Fprintln(w, "  newsjack monitor delivery send <slug> --message-file slack.md --run-id <id> [--force]")
+	fmt.Fprintln(w, "  newsjack monitor delivery remove-slack <slug>")
+	fmt.Fprintln(w)
+	uiKV(w, "default policy", "every-run (send every completed report while the monitor is being tuned)")
+	uiKV(w, "status values", "every_run means every completed report; pitch_ready means pitch-ready only")
+	uiKV(w, "secret input", "set-slack reads the webhook from a hidden terminal prompt or standard input; never put it in command arguments")
+	uiKV(w, "secret storage", "~/.newsjack/monitors/<slug>/delivery.json (owner-only permissions)")
+	uiKV(w, "message owner", "the detector skill writes Slack-formatted text; the CLI posts it unchanged")
+	uiKV(w, "duplicate guard", "send records a local sent marker for each run-id; use --force only for an intentional resend")
+	uiNote(w, "A configured policy authorizes future scheduled sends. The test command posts a real test message.")
 }
 
 func printCreditsHelp(w io.Writer) {
@@ -203,6 +245,41 @@ func printJournalistsHelp(w io.Writer) {
 	uiNote(w, "If a job is still processing after the bounded wait, keep the job ID and revisit later instead of calling enrich-job immediately or writing your own polling loop.")
 }
 
+func printMediaListsHelp(w io.Writer) {
+	uiProduct(w, "media-lists", "thin Medialyst REST wrapper for asynchronous media-list research.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack media-lists create --prompt \"Find Canadian journalists covering PR technology\" --target-list-size 50 --idempotency-key campaign-2026-09-14")
+	fmt.Fprintln(w, "  newsjack media-lists create --json '{\"prompt\":\"...\",\"target_list_size\":50}' --idempotency-key campaign-2026-09-14")
+	fmt.Fprintln(w, "  newsjack media-lists create --json-file request.json --idempotency-key campaign-2026-09-14")
+	fmt.Fprintln(w, "  newsjack media-lists job <job-id>")
+	fmt.Fprintln(w, "  newsjack media-lists job <job-id> --include-results --limit 50 [--cursor CURSOR]")
+	fmt.Fprintln(w)
+	uiSection(w, "create options")
+	uiKV(w, "--prompt", "campaign brief; required with convenience flags, maximum 2000 characters")
+	uiKV(w, "--target-list-size", "research size and credit budget; required with convenience flags, range 1-1000")
+	uiKV(w, "--idempotency-key", "required for every create request, including --json and --json-file")
+	uiKV(w, "--json", "exact inline JSON request body; mutually exclusive with --json-file")
+	uiKV(w, "--json-file", "exact JSON request body from a file, or - for stdin; mutually exclusive with --json")
+	fmt.Fprintln(w)
+	uiSection(w, "job options")
+	uiKV(w, "--include-results", "include currently ready journalist rows; default false")
+	uiKV(w, "--limit", "rows per result page when results are included; default 50, range 1-200")
+	uiKV(w, "--cursor", "pagination cursor from page.next_cursor; default empty")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "create", "POST /api/v1/media-lists:create-async")
+	uiKV(w, "job", "GET /api/v1/jobs/{jobId}")
+	fmt.Fprintln(w)
+	uiSection(w, "agent behavior")
+	uiNote(w, "Creating a job starts credit-bearing work immediately. Agents must get explicit user approval for the prompt and target size before calling create.")
+	uiNote(w, "For N requested good fits, the find-journalists skill normally recommends a research target of 5x N, or up to 10x N for a constrained brief. The CLI sends the exact target supplied and never multiplies it.")
+	uiNote(w, "target-list-size sets the requested research size and credit budget; discovery may show extra provisional candidates and does not guarantee that many unique journalists.")
+	uiNote(w, "The public range starts at 1, but some multi-angle campaign configurations require at least 3 and return a retryable error when the target is smaller.")
+	uiNote(w, "job is a one-shot status/read call. Poll every few seconds, request --include-results, and surface newly ready rows while processing.")
+	uiNote(w, "Only create and job are exposed; spreadsheet actions and hosted-list CRUD are intentionally outside the agent CLI.")
+}
+
 func printDetectorHelp(w io.Writer) {
 	uiProduct(w, "detector", "collects news evidence and emits JSON candidates for agent judgment.")
 	fmt.Fprintln(w)
@@ -260,9 +337,10 @@ func printAuthHelp(w io.Writer) {
 	fmt.Fprintln(w, "  newsjack auth set --medialyst-key <mlst_...> --x-bearer-token <token>")
 	fmt.Fprintln(w, "  newsjack auth set-medialyst --key <mlst_...>")
 	fmt.Fprintln(w, "  newsjack auth set-x --bearer-token <token>")
+	fmt.Fprintln(w, "  newsjack auth set-typesafe --key <key>")
 	fmt.Fprintln(w)
 	uiSection(w, "optional apis")
-	uiKV(w, "Medialyst", "live news search and journalist enrichment")
+	uiKV(w, "Medialyst", "live news search, journalist enrichment, and media list research")
 	uiKV(w, "recommended login", "newsjack login")
 	uiKV(w, "login behavior", "prints a Medialyst approval link, opens the browser when possible, and stores OAuth")
 	uiKV(w, "OAuth storage", "~/.newsjack/credentials.json")
@@ -272,6 +350,10 @@ func printAuthHelp(w io.Writer) {
 	uiKV(w, "X API", "X News, X trends, and X post search")
 	uiKV(w, "get token", xAPIKeyURL)
 	uiKV(w, "save token", "newsjack auth set-x --bearer-token <token>")
+	uiKV(w, "TypeSafe AI", "Jev typed-decision model for the coarse-relevance pass (newsjack coarse-filter --engine jev)")
+	uiKV(w, "get key", typesafeAPIKeyURL)
+	uiKV(w, "save key", "newsjack auth set-typesafe --key <key>")
+	uiKV(w, "key storage", "~/.newsjack/.env or TYPESAFE_API_KEY")
 }
 
 func fail(w io.Writer, err error) int {

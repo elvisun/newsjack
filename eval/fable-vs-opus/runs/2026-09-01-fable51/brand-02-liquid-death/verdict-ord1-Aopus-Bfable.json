@@ -1,0 +1,39 @@
+{
+  "scores": {
+    "A": {
+      "news_value": 4,
+      "distinctness": 4,
+      "journalist_shape": 5,
+      "grounding": 3,
+      "anti_slop": 5,
+      "proof_rigor": 5,
+      "usefulness": 5
+    },
+    "B": {
+      "news_value": 4,
+      "distinctness": 4,
+      "journalist_shape": 5,
+      "grounding": 4,
+      "anti_slop": 5,
+      "proof_rigor": 4,
+      "usefulness": 4
+    }
+  },
+  "verdict_A": "publishable",
+  "verdict_B": "publishable",
+  "winner": "A",
+  "margin": "slight",
+  "rationale": "A wins by a nose because it gives the founder the harder strategic choice, especially in \"Liquid Death says it's profitable on contribution margin — but won't show net profit.\" That is a real reporter-shaped tension B only parks in uncomfortable questions. B is cleaner on the store story with \"Already in 120,000 stores, Liquid Death is opening one of its own,\" but its second angle invents too much with \"T-shirts\" and \"event tickets\" and then avoids the finance scrutiny as a kept angle.",
+  "gaps_in_A": [
+    "\"a brand that grew through cans-on-shelves and viral video\" imports outside brand lore not supplied in the update; useful color, but not grounded enough for this judging brief.",
+    "\"Liquid Death opens its first permanent store as it converts to a B Corp\" jams two separate developments into one headline, then immediately says sustainability is separate. That muddies the strongest store angle.",
+    "\"DTC-native\" and \"anti-marketing\" are beat shorthand, not supplied facts. They may be true in the real world, but this set was supposed to stay inside the update.",
+    "The philanthropy angle is honest, but \"$4.2M to clean-water nonprofits: what a beverage brand's giving actually buys\" may be too thin without recipients or denominator; A admits that, but still keeps it as a standalone."
+  ],
+  "gaps_in_B": [
+    "\"sells T-shirts, limited-run cans and event tickets\" invents T-shirts and event tickets. The update only says merch, limited-edition canned water, and in-store events.",
+    "B misses a viable contrarian business angle by refusing only the sloppy version of profitability instead of keeping a cautious \"contribution margin but no net profit\" scrutiny angle.",
+    "\"the company explicitly announced no new product line\" overstates the supplied fact. The brief says no new product line announced; it does not say the company made that an explicit messaging point.",
+    "\"The other kept angles drop down to what's inside the store\" makes angle 2 feel close to angle 1: channel strategy versus experiential retail is distinct enough, but the protagonist is still the flagship."
+  ]
+}

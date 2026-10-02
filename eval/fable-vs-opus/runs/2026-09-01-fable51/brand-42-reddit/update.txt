@@ -1,0 +1,4 @@
+Company: Reddit
+Current time: 2026-06-09T16:00:00Z
+
+Reddit is launching Reddit Answers, an AI feature that summarizes discussions, and expanding paid data-licensing deals. Facts: Reddit Answers generates answers to questions by pulling from relevant threads with links back to communities; the company has signed AI-training data deals reportedly worth over $200M combined; Reddit is publicly traded and recently profitable; moderators have protested past monetization moves; the data deals are a major revenue driver alongside advertising; some users worry AI summaries will reduce traffic to communities; per-deal terms not all disclosed.

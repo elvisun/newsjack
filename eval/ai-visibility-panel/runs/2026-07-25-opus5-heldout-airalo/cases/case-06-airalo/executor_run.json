@@ -1,0 +1,30 @@
+{
+  "apparatus_sha256": "1e06e1c54f73a07d282d3046000f7536bc62fa0344c37f6654f80fb4bdd037bc",
+  "artifact_sha256": {
+    "blind_design_brief.json": "dc7741649b18299f17529dbc20ad2e3e2aa0219ef9e3efb811ceeb7f37c96311",
+    "buyer_jobs.json": "4c9fdd65296ee56881b6db06ba5443ad1a2000de4cf555f0095b9708a9d3a7f5",
+    "contamination_register.yaml": "e36b8e0bc4c3b81bad133bbd75bcd43d715eb23719304fe94747bc8f2466b520",
+    "icp_hypotheses.json": "5b139772ac9f0a680a1035479fcd3a9fee7629ca078e10589ec1be085464361c",
+    "measurement_charter.json": "328cbe67e8c7df57336509ddabcd9b4a26738394e3eefccf0ca8af5e0273a7df",
+    "panel.yaml": "4b2c3996baf727854c941954a7b3bcba5c824825a68836e6f9b242263c062615",
+    "panel_change_ledger.json": "75c5b095bcc90e492d4766a22d537c7e4655c26170b1f44eab44beefe04c7e0f",
+    "panel_report.md": "57d525bb0d16c7f23ca20e1dd6f3cbc374403f3a22863a371b1e897f00d7f7bf",
+    "prompt_architecture.json": "8807912637e647db4521602faa1ad1fa2e743c65a8e8b14e1c2be11605984467",
+    "prompt_qa.json": "454a7614782d7db3969da15981a6eb22cd31dfbd009cc5c7fcd9ad8879a33af4",
+    "prompt_universe.json": "6c45cf3236b279bd29bb7636de0d973ff947cb1c816beb6ba2174f652550f802",
+    "run_manifest_template.json": "3838db95dedb53567557f8fdd7b35cac6e5c39f855de89220aa0e5c2df473dbb",
+    "source_manifest.json": "fb61bc8a2702c408be2cf099676f5fa6e5b0e145698a79362a658ec3d16c6beb",
+    "tracking_plan.md": "4c387fe3813b6e09ab48d9da9d68cfd38b8725380aee75d62d1bb8490837beb3"
+  },
+  "claude_exit_code": 0,
+  "claude_subtype": "success",
+  "claude_terminal_reason": "completed",
+  "completed_at": "2026-07-25T18:07:53Z",
+  "executor_prompt_sha256": "68d6426bccd62663a2061e8786e8d12b1779d3ca91510ca3f1cdb42e8a64f806",
+  "input_sha256": "bc391908f2a39bcea166b8f1cccac192caebb394c91e5961fa9be59843b8c550",
+  "model": "claude-opus-5",
+  "schema_version": "1.0.0",
+  "status": "complete",
+  "stream_sha256": "fd044b20e00e241a606861390d4a01cbde916220c04b03e6c39a42fe396ac42c",
+  "total_cost_usd": 9.067616500000002
+}

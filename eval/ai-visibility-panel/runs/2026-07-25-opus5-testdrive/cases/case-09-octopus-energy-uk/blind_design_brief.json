@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "blind-brief-20260725-gb-home-energy",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5 (build-ai-visibility-panel)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: no hashing tool in this runtime; sha256 fields are null rather than fabricated.",
+    "This brief intentionally contains no supplier names, no product names, no domains, no slogans, no campaign copy, no current answer text, no ranking or mention data, and no desired destination pages. It carries anonymised roles, jobs, constraints, safe language fragments, evidence IDs and grades, and required strata only.",
+    "Generation ran in the same process that had earlier read market pages because no fresh subagent was available. The generator worked only from this brief and the architecture, and every output was scanned deterministically afterwards, but the isolation is procedural rather than architectural."
+  ],
+  "market_frame": "Domestic household energy in a single national market with a regulated default price that is reset quarterly by a public regulator, competing fixed-term and wholesale-linked alternatives, and adjacent home-energy hardware (electric vehicle charging, rooftop generation, storage, low-carbon heating) whose economics depend on the electricity contract and on the meter installed.",
+  "locales_required": [{"locale": "en-GB", "language": "en", "review_status": "not_required"}],
+  "locale_gaps": [
+    {"locale": "cy-GB", "language": "cy", "status": "not_generated", "reason": "No evidence of demand in this language for these jobs, and machine translation would not make it a valid locale cell. Requires native or market-competent authoring and review before any candidate exists."}
+  ],
+  "roles": [
+    {"persona_id": "role-001", "label": "household bill payer on the regulated default rate", "evidence_ids": ["source-004", "source-005", "source-012", "source-013"], "grade": "B"},
+    {"persona_id": "role-002", "label": "driver charging an electric car at home with a controllable charge point", "evidence_ids": ["source-008", "source-017"], "grade": "B"},
+    {"persona_id": "role-003", "label": "rooftop generation owner receiving payments under a legacy scheme", "evidence_ids": ["source-009", "source-002"], "grade": "B"},
+    {"persona_id": "role-004", "label": "owner-occupier of an existing home facing heating-system replacement", "evidence_ids": ["source-014", "source-003"], "grade": "C"},
+    {"persona_id": "role-005", "label": "household whose meter cannot report half-hourly data", "evidence_ids": ["source-010", "source-002"], "grade": "B"},
+    {"persona_id": "role-006", "label": "existing account holder managing a monthly payment and balance", "evidence_ids": ["source-011", "source-004"], "grade": "B"}
+  ],
+  "jobs": [
+    {"job_id": "job-001", "statement": "When the regulated default rate moves and the bill changes, help a bill payer choose between locking a price and staying flexible while they cannot absorb an unpredictable bill and cannot easily check a comparison.", "acts": ["explain", "compare", "plan", "recommend", "verify"], "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection", "post_purchase"], "grade": "B"},
+    {"job_id": "job-002", "statement": "When home charging becomes the largest part of the electricity bill, help a driver get the cheapest reliable charging cost while their car or charge point limits which smart contracts work and an existing payment-for-export arrangement must survive the change.", "acts": ["compare", "plan", "recommend", "verify", "implement", "troubleshoot"], "journeys": ["exploration", "requirements_building", "supplier_selection", "adoption", "post_purchase"], "grade": "B"},
+    {"job_id": "job-003", "statement": "When a generation owner suspects their payments for exported units are below market, help them work out whether metered payment beats a guaranteed legacy payment while metering, eligibility and a physical installation stand in the way.", "acts": ["explain", "compare", "plan", "verify"], "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection"], "grade": "B"},
+    {"job_id": "job-004", "statement": "When a heating system is near the end of its life and public grant money is available, help an owner-occupier decide whether low-carbon heating will work in their house and what it will really cost to run, while whole-system cost and disruption are unclear.", "acts": ["diagnose", "explain", "compare", "plan", "verify"], "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection"], "grade": "C"},
+    {"job_id": "job-005", "statement": "When a household wants a cheaper time-varying rate or metered export payment but does not have the metering for it, help them decide whether accepting a new meter is worth it while they distrust the technology and fear it will not work.", "acts": ["explain", "verify", "plan", "troubleshoot"], "journeys": ["problem_identification", "exploration", "requirements_building", "adoption"], "grade": "B"},
+    {"job_id": "job-006", "statement": "When a monthly payment rises although the account is in credit, help an account holder judge whether the increase is justified and how to stop overpaying, while the supplier controls both the forecast and the balance.", "acts": ["diagnose", "explain", "troubleshoot", "navigate", "compare"], "journeys": ["problem_identification", "post_purchase"], "grade": "B"}
+  ],
+  "material_constraints_available": [
+    "regional variation in unit rates and daily standing charges within the same national market (source-005)",
+    "contract exit fees and term length (source-012)",
+    "already on a fixed term, therefore unaffected by a default-rate change (source-005)",
+    "charge point or vehicle must be remotely controllable for a smart charging contract (source-017)",
+    "storage battery round-trip losses (source-008)",
+    "an existing export payment arrangement that must remain compatible (source-008)",
+    "meter must be able to report half-hourly export data (source-002)",
+    "a separate export meter point reference is required (source-002)",
+    "existing guaranteed legacy payment that would be given up (source-009)",
+    "physical or accessibility limits on meter work (source-009)",
+    "older or larger property fabric; radiator sizing; space for a hot water cylinder (source-014)",
+    "grant conditions tied to an energy performance certificate (source-015, low confidence)",
+    "meter connectivity failure risk after installation (source-010)",
+    "seasonal credit accumulation is expected supplier behaviour (source-011)"
+  ],
+  "safe_language_fragments": [
+    {"text": "is it time to fix or stay on the cap", "source_id": "source-012", "grade": "B"},
+    {"text": "prices have risen - is it worth fixing", "source_id": "source-012", "grade": "B"},
+    {"text": "is it worth switching", "source_id": "source-013", "grade": "B"},
+    {"text": "could I do better by switching", "source_id": "source-009", "grade": "B"},
+    {"text": "is there a way I can calculate the difference between the two", "source_id": "source-009", "grade": "B"},
+    {"text": "is there a difference between providers", "source_id": "source-009", "grade": "B"},
+    {"text": "anyone with a similar installation seeing an advantage", "source_id": "source-008", "grade": "B"},
+    {"text": "is it compatible with", "source_id": "source-008", "grade": "B"},
+    {"text": "I'm still skeptical about them", "source_id": "source-010", "grade": "B"},
+    {"text": "is it worth it", "source_id": "source-010", "grade": "B"},
+    {"text": "payment increased but I'm in credit", "source_id": "source-011", "grade": "B"},
+    {"text": "perpetually in credit", "source_id": "source-011", "grade": "B"},
+    {"text": "should I delay and hope costs fall", "source_id": "source-014", "grade": "B"}
+  ],
+  "dated_market_events_for_b5": [
+    {"event_id": "event-001", "description": "The national regulator reset the default domestic price for the quarter beginning 1 July 2026, a 13% rise for a typical dual-fuel direct-debit household, announced 27 May 2026. Electricity rose about 5%, gas about 24%. The next quarter's level is due to be published by 26 August 2026.", "source_ids": ["source-004", "source-005"], "grade": "B", "review_by": "2026-08-26"},
+    {"event_id": "event-002", "description": "Commercial guidance claims the national low-carbon heating grant increases for homes currently using oil or liquid gas from 21 July 2026. Unverified against a primary government source.", "source_ids": ["source-015"], "grade": "C", "review_by": "2026-08-15", "status": "unverified_do_not_treat_as_fact"}
+  ],
+  "required_strata": {
+    "bands": ["B1_comparison_purchase", "B2_category", "B3_problem_need", "B4_job_goal", "B5_broad_discovery_story"],
+    "aided_statuses_in_scope_for_this_brief": ["unaided", "category_aided"],
+    "aided_statuses_excluded_from_this_brief": ["target_aided", "competitor_aided"],
+    "acts": ["explain", "diagnose", "compare", "plan", "recommend", "verify", "implement", "troubleshoot", "navigate"],
+    "journeys": ["problem_identification", "exploration", "requirements_building", "supplier_selection", "adoption", "post_purchase"],
+    "turn_forms": ["single_turn", "scripted_multi_turn"],
+    "styles_required": ["concise", "contextual", "imperfect_but_intelligible", "natural_follow_up"]
+  },
+  "generation_rules_restated": [
+    "Do not name any supplier, product, platform or domain.",
+    "Do not append a purchasing question to an informational need in order to elicit brands.",
+    "Do not introduce a solution category that the job evidence does not contain.",
+    "B3 supplies the problem only; B4 supplies the outcome only; B2 may name the market-wide category; B5 must attach to a dated event ID and a review-by date.",
+    "Two variants per core cell: the closest natural rendering of the observed fragment, and a natural paraphrase holding the same intent, act, journey, constraint and expected answer.",
+    "Model-invented phrasings with no supporting fragment are grade D and rotating only."
+  ]
+}

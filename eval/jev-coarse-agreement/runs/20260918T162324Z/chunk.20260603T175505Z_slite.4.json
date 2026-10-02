@@ -1,0 +1,256 @@
+{
+ "profile": "slite",
+ "profile_context": {
+  "company": "Slite",
+  "website": "https://slite.com",
+  "description": "AI-powered knowledge base and company wiki for documentation, verified internal knowledge, and enterprise search.",
+  "topics": [
+   "AI knowledge base",
+   "enterprise search",
+   "internal documentation",
+   "company wiki",
+   "AI knowledge management",
+   "workplace knowledge search",
+   "enterprise RAG"
+  ],
+  "competitors": [
+   "Notion",
+   "Notion AI",
+   "Atlassian Confluence",
+   "Guru",
+   "Glean",
+   "Slab",
+   "Document360"
+  ],
+  "search_terms": [
+   "AI knowledge base",
+   "enterprise RAG",
+   "workplace AI search",
+   "internal documentation AI",
+   "company wiki AI",
+   "Notion AI",
+   "Atlassian Confluence AI",
+   "Glean enterprise search",
+   "Guru knowledge management",
+   "Document360 AI"
+  ],
+  "standing": [
+   "knowledge management",
+   "AI-powered internal search",
+   "company documentation",
+   "team onboarding",
+   "customer support knowledge workflows"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with knowledge management expertise",
+   "Product lead for AI search",
+   "Customer success lead for documentation adoption"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "d8d92210f2a9e73c",
+   "title": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU",
+   "query": "Notion AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU",
+     "url": "https://x.com/search?q=L%27agent+CUDA+de+ByteDance+surpasse+les+compilateurs+dans+les+benchmarks+GPU&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "L'agent CUDA de ByteDance surpasse les compilateurs dans les benchmarks GPU Les chercheurs de ByteDance ont cr\u00e9\u00e9 une IA qui \u00e9crit du code GPU ultra-efficace, surpassant les meilleurs compilateurs et mod\u00e8les lors de tests industriels rigoureux. Pr\u00e9sent\u00e9 en d\u00e9tail dans un article arXiv de f\u00e9vrier 2026, fruit d'une collab\u2026",
+     "published_at": "2026-06-03T17:12:37.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "1f863a4dc8597faa",
+   "title": "Atlassian's AI Bet on Jira's Wider Appeal Collides With Profitability Doubts ()",
+   "query": "Atlassian Confluence AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 37.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Atlassian's AI Bet on Jira's Wider Appeal Collides With Profitability Doubts ()",
+     "url": "https://www.aktiencheck.de/analysen/Artikel-Atlassian_s_AI_Bet_on_Jira_s_Wider_Appeal_Collides_With_Profitability_Doubts-19819401",
+     "container": "aktiencheck.de",
+     "source": "news_search",
+     "excerpt": "James Chuong, Atlassian's finance chief, took the stage at the Bank of America Global Technology Conference earlier this week with a clear message:...",
+     "published_at": "2026-06-03T14:56:02.501745Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "8e80da9bd55ec9e8",
+   "title": "Le Maharashtra et la Finlande renforcent leurs liens en mati\u00e8re d'\u00e9conomie circulaire lors d'un sommet \u00e0 Mumbai.",
+   "query": "Guru knowledge management",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Le Maharashtra et la Finlande renforcent leurs liens en mati\u00e8re d'\u00e9conomie circulaire lors d'un sommet \u00e0 Mumbai.",
+     "url": "https://x.com/search?q=Le+Maharashtra+et+la+Finlande+renforcent+leurs+liens+en+mati%C3%A8re+d%27%C3%A9conomie+circulaire+lors+d%27un+sommet+%C3%A0+Mumbai.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Le Maharashtra et la Finlande renforcent leurs liens en mati\u00e8re d'\u00e9conomie circulaire lors d'un sommet \u00e0 Mumbai. Des repr\u00e9sentants du Maharashtra et de la Finlande se sont r\u00e9unis \u00e0 Mumbai pour \u00e9changer des id\u00e9es sur la valorisation des d\u00e9chets, alliant d\u00e9veloppement durable et croissance \u00e9conomique, en amont d'un forum\u2026",
+     "published_at": "2026-06-03T07:22:35.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "5f4b609bf5e906fd",
+   "title": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays.",
+   "query": "Guru knowledge management",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays.",
+     "url": "https://x.com/search?q=Anthropic+%C3%A9tend+l%27acc%C3%A8s+%C3%A0+Claude+Mythos+%C3%A0+150+organisations+dans+15+pays.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Anthropic \u00e9tend l'acc\u00e8s \u00e0 Claude Mythos \u00e0 150 organisations dans 15 pays. Apr\u00e8s des n\u00e9gociations tendues, l'agence europ\u00e9enne de cybers\u00e9curit\u00e9 ENISA rejoint le projet Glasswing en tant que premier participant de l'UE au puissant mod\u00e8le d'IA Mythos d'Anthropic. Anthropic a annonc\u00e9 l'extension de son mod\u00e8le Claude Mythos\u2026",
+     "published_at": "2026-06-03T10:04:59.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "9290d5b61bc0b10d",
+   "title": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026.",
+   "query": "Guru knowledge management",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026.",
+     "url": "https://x.com/search?q=Yoko+Apasra+interviendra+lors+de+la+table+ronde+du+forum+LGBTQ%2B+du+TILFF+2026.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Yoko Apasra interviendra lors de la table ronde du forum LGBTQ+ du TILFF 2026. Yoko Apasra, la star de 24 ans de la s\u00e9rie GL Blank (2024), est impatiente de rencontrer ses fans lors d'une prochaine table ronde sur les s\u00e9ries tha\u00eflandaises Y et GL. Le dimanche 7 juin, de 12:00 \u00e0 14:00 (GMT+7), Yoko participe \u00e0 la table \u2026",
+     "published_at": "2026-06-03T11:26:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "8aea6978e2478417",
+   "title": "Le ministre en chef du Karnataka, Shivakumar, nomme un conseiller financier exp\u00e9riment\u00e9 quelques heures apr\u00e8s sa prestation de serment.",
+   "query": "Guru knowledge management",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Le ministre en chef du Karnataka, Shivakumar, nomme un conseiller financier exp\u00e9riment\u00e9 quelques heures apr\u00e8s sa prestation de serment.",
+     "url": "https://x.com/search?q=Le+ministre+en+chef+du+Karnataka%2C+Shivakumar%2C+nomme+un+conseiller+financier+exp%C3%A9riment%C3%A9+quelques+heures+apr%C3%A8s+sa+prestation+de+serment.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Le ministre en chef du Karnataka, Shivakumar, nomme un conseiller financier exp\u00e9riment\u00e9 quelques heures apr\u00e8s sa prestation de serment. \u00c0 peine investi ministre en chef, DK Shivakumar s'est empress\u00e9 de constituer son \u00e9quipe, entour\u00e9 d'un expert financier de confiance. Mercredi, Shivakumar a pr\u00eat\u00e9 serment \u00e0 4:15 \u00e0 Benga\u2026",
+     "published_at": "2026-06-03T15:50:36.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f6ea93af8efc5ab3",
+   "title": "La police de Patna arr\u00eate le directeur d'un centre de coaching rival pour vandalisme au Khan Sir Center.",
+   "query": "Guru knowledge management",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "shooting",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "La police de Patna arr\u00eate le directeur d'un centre de coaching rival pour vandalisme au Khan Sir Center.",
+     "url": "https://x.com/search?q=La+police+de+Patna+arr%C3%AAte+le+directeur+d%27un+centre+de+coaching+rival+pour+vandalisme+au+Khan+Sir+Center.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La police de Patna arr\u00eate le directeur d'un centre de coaching rival pour vandalisme au Khan Sir Center. Un agent de s\u00e9curit\u00e9 nomm\u00e9 Chunchun gisait, ensanglant\u00e9, suite \u00e0 des blessures \u00e0 la t\u00eate, apr\u00e8s qu'une foule nocturne a arrach\u00e9 des panneaux d'affichage et jet\u00e9 des pierres devant le centre de coaching populaire de \u2026",
+     "published_at": "2026-06-03T17:11:13.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,200 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "icp-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:icp-evidence-analysis",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "no_customer_corpus: no interviews, win/loss, on-site search or authorised conversation data was supplied; every ICP is a public-evidence hypothesis",
+    "one_first_party_behavioural_source: only source-006 is direct buyer-written language; review-platform and community sources were blocked at access time",
+    "no_human_approval: Gate 1 is pending; no ICP has been promoted by a human"
+  ],
+  "gate_status": "ready_for_human_review",
+  "icps": [
+    {
+      "icp_id": "icp-001",
+      "label": "Short-trip leisure traveller to a single foreign destination who wants working phone data on arrival without home-carrier roaming charges",
+      "context": {
+        "unit": "individual traveller or travelling household",
+        "device_precondition": "eSIM-capable, network-unlocked smartphone",
+        "geography": "outbound from any market to a single declared destination",
+        "purchase_timing": "before departure"
+      },
+      "triggers": [
+        {"text": "Upcoming trip abroad and awareness that home-carrier roaming is charged per day", "source_ids": ["source-010", "source-004"]},
+        {"text": "Community threads asking which data option to buy for a named destination before flying", "source_ids": ["source-006", "source-007"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "traveller who installs and uses the line", "source_ids": ["source-002", "source-007"]},
+        {"role": "economic_buyer", "label": "same person; low-ticket self-purchase", "source_ids": ["source-001", "source-003"]}
+      ],
+      "constraints": [
+        {"text": "Device must support eSIM and be network unlocked", "source_ids": ["source-001", "source-004"]},
+        {"text": "Installation requires an existing internet connection", "source_ids": ["source-001", "source-003"]},
+        {"text": "Plan is bound to one destination or destination set", "source_ids": ["source-001", "source-003"]}
+      ],
+      "disqualifiers": [
+        {"text": "Carrier-locked handset; reported as the most common new-user failure", "source_ids": ["source-004"]},
+        {"text": "Handsets sold in China, Hong Kong, Macao or Taiwan may lack eSIM support", "source_ids": ["source-005"]}
+      ],
+      "standing_claim_ids": ["claim-local-packages", "claim-device-requirements"],
+      "supporting_source_ids": ["source-001", "source-003", "source-004", "source-006", "source-007", "source-010"],
+      "counterevidence_source_ids": ["source-004", "source-005"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "What share of buyers purchase pre-departure versus after landing? No first-party data available.",
+        "Which destinations dominate demand? Only Japan, Bali, New Zealand and Europe appear in the retrieved community evidence."
+      ]
+    },
+    {
+      "icp_id": "icp-002",
+      "label": "Multi-country traveller who needs one data plan that survives border crossings across a region or several continents",
+      "context": {
+        "unit": "individual traveller or couple on a multi-stop itinerary",
+        "itinerary_shape": "several countries within one region, or a multi-region trip",
+        "geography": "regional (for example multi-country Europe or Asia) and global"
+      },
+      "triggers": [
+        {"text": "Itinerary crosses borders, making per-country purchases repetitive", "source_ids": ["source-006", "source-005"]},
+        {"text": "Multi-host-country event travel concentrates demand for cross-border data", "source_ids": ["source-009"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "traveller managing connectivity across the itinerary", "source_ids": ["source-006"]},
+        {"role": "champion", "label": "trip organiser advising fellow travellers in forums", "source_ids": ["source-006"]}
+      ],
+      "constraints": [
+        {"text": "Regional and global packages cover defined country lists, not everywhere", "source_ids": ["source-005", "source-001"]},
+        {"text": "Global plans are described as covering 137 countries; coverage lists must be checked per plan", "source_ids": ["source-005"]}
+      ],
+      "disqualifiers": [
+        {"text": "Traveller staying in a single country where a local plan is cheaper", "source_ids": ["source-004"]}
+      ],
+      "standing_claim_ids": ["claim-regional-packages", "claim-global-packages"],
+      "supporting_source_ids": ["source-001", "source-005", "source-006", "source-009"],
+      "counterevidence_source_ids": ["source-004"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "No independent buyer-language evidence was retrieved that is specific to multi-continent global plans as distinct from regional plans."
+      ]
+    },
+    {
+      "icp_id": "icp-003",
+      "label": "Heavy-data traveller or remote worker who tethers a laptop and is exposed to fair-use throttling on unlimited plans",
+      "context": {
+        "unit": "individual working or streaming while travelling",
+        "usage_shape": "hotspot/tethering, video, long stays",
+        "geography": "any destination with unlimited or high-volume plans offered"
+      },
+      "triggers": [
+        {"text": "Need to work or navigate continuously without monitoring usage", "source_ids": ["source-007", "source-004"]},
+        {"text": "Discovery that an unlimited plan throttles after a daily fair-use threshold", "source_ids": ["source-004"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "remote worker or heavy-usage traveller", "source_ids": ["source-004", "source-007"]}
+      ],
+      "constraints": [
+        {"text": "Unlimited regional plans reported capped near 1 Mbps after roughly 3 GB/day", "source_ids": ["source-004"]},
+        {"text": "Heavy tethering described as impractical under those thresholds", "source_ids": ["source-004"]},
+        {"text": "Single-device use on some plans", "source_ids": ["source-005"]}
+      ],
+      "disqualifiers": [
+        {"text": "Light user for whom a small fixed-GB plan is cheaper", "source_ids": ["source-012", "source-013"]}
+      ],
+      "standing_claim_ids": ["claim-unlimited-plans", "claim-topup"],
+      "supporting_source_ids": ["source-003", "source-004", "source-007"],
+      "counterevidence_source_ids": ["source-004"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Fair-use thresholds are plan- and date-specific; the single independent figure retrieved needs re-verification per package before any factual claim is made."
+      ]
+    },
+    {
+      "icp_id": "icp-004",
+      "label": "Traveller blocked or uncertain at the device and identity layer: eSIM support, carrier lock, device origin, or destination ID registration",
+      "context": {
+        "unit": "individual traveller pre-purchase or pre-departure",
+        "blocking_layer": "handset capability, carrier lock, or local line-registration rules"
+      },
+      "triggers": [
+        {"text": "Most-viewed help questions are device compatibility and installation", "source_ids": ["source-002"]},
+        {"text": "Carrier-locked handsets described as the most common complaint from new users", "source_ids": ["source-004"]},
+        {"text": "Uncertainty about whether a digital line escapes local identity-registration rules", "source_ids": ["source-008"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "traveller checking device eligibility before buying", "source_ids": ["source-002", "source-004"]},
+        {"role": "blocker", "label": "home carrier that must release the device lock", "source_ids": ["source-004"]}
+      ],
+      "constraints": [
+        {"text": "Device must be eSIM-capable and unlocked", "source_ids": ["source-001", "source-004"]},
+        {"text": "Some handsets sold in China, Hong Kong, Macao and Taiwan lack compatibility", "source_ids": ["source-005"]},
+        {"text": "A digital line may still fall under local SIM-registration law", "source_ids": ["source-008"]}
+      ],
+      "disqualifiers": [
+        {"text": "Handset with no eSIM support and no willingness to change device", "source_ids": ["source-005"]}
+      ],
+      "standing_claim_ids": ["claim-device-requirements"],
+      "supporting_source_ids": ["source-001", "source-002", "source-004", "source-005", "source-008"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Which destinations actually enforce identity registration on travel eSIMs? The retrieved source names none and is undated."
+      ]
+    },
+    {
+      "icp_id": "icp-005",
+      "label": "Post-purchase traveller already in destination: no service after landing, package expiry, or top-up decisions",
+      "context": {
+        "unit": "individual traveller mid-trip",
+        "state": "line purchased and installed, or purchased and failing"
+      },
+      "triggers": [
+        {"text": "'Why is my eSIM not working?' listed among the most-viewed help questions", "source_ids": ["source-002"]},
+        {"text": "'When does my eSIM data package expire?' listed among the most-viewed help questions", "source_ids": ["source-002"]},
+        {"text": "Top-up described as an alternative to buying a new line", "source_ids": ["source-005", "source-003"]}
+      ],
+      "roles": [
+        {"role": "post_purchase_user", "label": "traveller troubleshooting in destination", "source_ids": ["source-002", "source-004"]}
+      ],
+      "constraints": [
+        {"text": "A failing digital line cannot be moved to another handset", "source_ids": ["source-004"]},
+        {"text": "Support response times reported as slow by community sources", "source_ids": ["source-007", "source-004"]}
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-topup", "claim-support"],
+      "supporting_source_ids": ["source-002", "source-003", "source-004", "source-005", "source-007"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Failure modes are known only through help-article titles and one independent review; no first-party ticket-mix evidence is available."
+      ]
+    },
+    {
+      "icp_id": "icp-006",
+      "label": "Business, affiliate or reseller partner distributing travel connectivity to end customers",
+      "context": {
+        "unit": "organisation reselling or bundling travel connectivity",
+        "note": "declared by the target only"
+      },
+      "triggers": [
+        {"text": "A partner/reseller programme and an affiliate category are published by the target", "source_ids": ["source-001", "source-002"]}
+      ],
+      "roles": [],
+      "constraints": [],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-partners"],
+      "supporting_source_ids": ["source-001", "source-002"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "No independent or behavioural evidence of partner-side demand, roles, criteria or language was found. This ICP is excluded from the panel until such evidence exists or a human promotes it."
+      ]
+    }
+  ]
+}

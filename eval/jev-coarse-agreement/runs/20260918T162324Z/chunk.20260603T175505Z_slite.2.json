@@ -1,0 +1,547 @@
+{
+ "profile": "slite",
+ "profile_context": {
+  "company": "Slite",
+  "website": "https://slite.com",
+  "description": "AI-powered knowledge base and company wiki for documentation, verified internal knowledge, and enterprise search.",
+  "topics": [
+   "AI knowledge base",
+   "enterprise search",
+   "internal documentation",
+   "company wiki",
+   "AI knowledge management",
+   "workplace knowledge search",
+   "enterprise RAG"
+  ],
+  "competitors": [
+   "Notion",
+   "Notion AI",
+   "Atlassian Confluence",
+   "Guru",
+   "Glean",
+   "Slab",
+   "Document360"
+  ],
+  "search_terms": [
+   "AI knowledge base",
+   "enterprise RAG",
+   "workplace AI search",
+   "internal documentation AI",
+   "company wiki AI",
+   "Notion AI",
+   "Atlassian Confluence AI",
+   "Glean enterprise search",
+   "Guru knowledge management",
+   "Document360 AI"
+  ],
+  "standing": [
+   "knowledge management",
+   "AI-powered internal search",
+   "company documentation",
+   "team onboarding",
+   "customer support knowledge workflows"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with knowledge management expertise",
+   "Product lead for AI search",
+   "Customer success lead for documentation adoption"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "075a857094c4e5d0",
+   "title": "Hackers exploit Meta\u2019s AI support bot, exposing flaws in automated security systems",
+   "query": "AI knowledge base",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 44.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Hackers exploit Meta\u2019s AI support bot, exposing flaws in automated security systems",
+     "url": "https://www.firstpost.com/tech/hackers-exploit-metas-ai-support-bot-exposing-flaws-in-automated-security-systems-14018519.html",
+     "container": "Firstpost",
+     "source": "news_search",
+     "excerpt": "Meta's AI support chatbot reportedly exploited in Instagram account takeover hack, raising concerns over AI-driven security and account recovery systems.",
+     "published_at": "2026-06-03T12:55:50.2203Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f70360bc6b34b18e",
+   "title": "8 Tasks AI Agents Are Automating For Sales, Marketing, And Support Teams In 2026",
+   "query": "AI knowledge base",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 33.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "8 Tasks AI Agents Are Automating For Sales, Marketing, And Support Teams In 2026",
+     "url": "https://programminginsider.com/8-tasks-ai-agents-are-automating-for-sales-marketing-and-support-teams-in-2026/",
+     "container": "Programming Insider",
+     "source": "news_search",
+     "excerpt": "Your sales team is inundated with leads that are not qualified. Your marketing team is sending out campaigns that are feeling \u201cgeneric.",
+     "published_at": "2026-06-03T13:55:50.220175Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "de873e028f18b973",
+   "title": "Microsoft d\u00e9voile les API Work IQ et Web IQ pour des agents d'IA plus intelligents",
+   "query": "AI knowledge base",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft d\u00e9voile les API Work IQ et Web IQ pour des agents d'IA plus intelligents",
+     "url": "https://x.com/search?q=Microsoft+d%C3%A9voile+les+API+Work+IQ+et+Web+IQ+pour+des+agents+d%27IA+plus+intelligents&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft d\u00e9voile les API Work IQ et Web IQ pour des agents d'IA plus intelligents Lors de la conf\u00e9rence Build 2026 \u00e0 San Francisco, le PDG Satya Nadella a mis en lumi\u00e8re des outils qui conf\u00e8rent aux agents d'IA une v\u00e9ritable intelligence op\u00e9rationnelle et de nouvelles perspectives web. Lors de sa conf\u00e9rence d\u00e9veloppeu\u2026",
+     "published_at": "2026-06-02T21:18:59.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e3c5acd48f4f4380",
+   "title": "En 2026, les concepteurs d'IA privil\u00e9gient les projets d'agents concrets aux cours interminables.",
+   "query": "AI knowledge base",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "En 2026, les concepteurs d'IA privil\u00e9gient les projets d'agents concrets aux cours interminables.",
+     "url": "https://x.com/search?q=En+2026%2C+les+concepteurs+d%27IA+privil%C3%A9gient+les+projets+d%27agents+concrets+aux+cours+interminables.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "En 2026, les concepteurs d'IA privil\u00e9gient les projets d'agents concrets aux cours interminables. Peter Diamandis a lanc\u00e9 les hostilit\u00e9s en affirmant que 90 jours de projets concrets valaient mieux qu'une ann\u00e9e de th\u00e9orie. Les d\u00e9veloppeurs ont rapidement partag\u00e9 leurs feuilles de route et leurs outils pour concr\u00e9tiser \u2026",
+     "published_at": "2026-06-02T21:35:53.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "003bbe16d51c8d2c",
+   "title": "La th\u00e9orie de Donald Hoffman\u00a0: les perceptions masquent la v\u00e9ritable r\u00e9alit\u00e9",
+   "query": "AI knowledge base",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La th\u00e9orie de Donald Hoffman\u00a0: les perceptions masquent la v\u00e9ritable r\u00e9alit\u00e9",
+     "url": "https://x.com/search?q=La+th%C3%A9orie+de+Donald+Hoffman%C2%A0%3A+les+perceptions+masquent+la+v%C3%A9ritable+r%C3%A9alit%C3%A9&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La th\u00e9orie de Donald Hoffman\u00a0: les perceptions masquent la v\u00e9ritable r\u00e9alit\u00e9 Le scientifique cognitif Donald Hoffman soutient que nos sens ne nous montrent qu'une interface de survie, et non le monde r\u00e9el \u2013 comme un ordinateur de bureau qui cache le code sous-jacent. Dans une interview largement diffus\u00e9e le 2 juin, Don\u2026",
+     "published_at": "2026-06-03T07:04:05.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2730990ec41153de",
+   "title": "Obsidian, Claude et NotebookLM cr\u00e9ent de puissants seconds cerveaux",
+   "query": "AI knowledge base",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Obsidian, Claude et NotebookLM cr\u00e9ent de puissants seconds cerveaux",
+     "url": "https://x.com/search?q=Obsidian%2C+Claude+et+NotebookLM+cr%C3%A9ent+de+puissants+seconds+cerveaux&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Obsidian, Claude et NotebookLM cr\u00e9ent de puissants seconds cerveaux Vous est-il d\u00e9j\u00e0 arriv\u00e9 de mettre de c\u00f4t\u00e9 une id\u00e9e g\u00e9niale, pour ensuite la perdre \u00e0 jamais au milieu d'une multitude d'onglets\u00a0? D\u00e9sormais, certains associent leurs notes Obsidian \u00e0 des outils d'IA pour cr\u00e9er des \u00ab\u00a0seconds cerveaux\u00a0\u00bb consultables, v\u00e9r\u2026",
+     "published_at": "2026-06-03T14:26:58.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d8f76df09665f18a",
+   "title": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365",
+   "query": "AI knowledge base",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365",
+     "url": "https://x.com/search?q=Microsoft+s%27associe+%C3%A0+OpenClaw+pour+des+agents+d%27IA+s%C3%A9curis%C3%A9s+sur+Windows+et+Office+365&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft s'associe \u00e0 OpenClaw pour des agents d'IA s\u00e9curis\u00e9s sur Windows et Office 365 Satya Nadella a partag\u00e9 la sc\u00e8ne avec Peter Steinberger, cr\u00e9ateur d'OpenClaw, lors de la conf\u00e9rence Build 2026, pour pr\u00e9senter des agents d'IA capables de g\u00e9rer les e-mails et les calendriers directement sur votre ordinateur portabl\u2026",
+     "published_at": "2026-06-03T16:56:11.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "82eebead1a88fec4",
+   "title": "Enterprise AI agents keep creating data silos. Microsoft's Build answer is Microsoft IQ and Rayfin.",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 41.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Enterprise AI agents keep creating data silos. Microsoft's Build answer is Microsoft IQ and Rayfin.",
+     "url": "https://venturebeat.com/data/enterprise-ai-agents-keep-creating-data-silos-microsofts-build-answer-is-microsoft-iq-and-rayfin",
+     "container": "VentureBeat",
+     "source": "news_search",
+     "excerpt": "Microsoft launched Microsoft IQ and Rayfin at Build 2026 to fix the context gap and data silo problem created when AI agents spin up ungoverned apps.",
+     "published_at": "2026-06-02T17:55:52.21681Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "75e3a104d098aeb5",
+   "title": "Cohesity Secures Earliest Invented Patent in the Industry for GenAI Retrieval-Augmented Generation (RAG) Platform Built on Secondary Data",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 40.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Cohesity Secures Earliest Invented Patent in the Industry for GenAI Retrieval-Augmented Generation (RAG) Platform Built on Secondary Data",
+     "url": "https://www.manilatimes.net/2026/06/03/tmt-newswire/pr-newswire/cohesity-secures-earliest-invented-patent-in-the-industry-for-genai-retrieval-augmented-generation-rag-platform-built-on-secondary-data/2357408",
+     "container": "The Manila Times",
+     "source": "news_search",
+     "excerpt": "Patent validates Cohesity's architectural lead in applying GenAI to secondary data to unlock AI without data movement.",
+     "published_at": "2026-06-03T00:55:52.216855Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "94f4e1ac291abda4",
+   "title": "How Is Cognizant Building AI Talent with Ace Team?",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 36.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "How Is Cognizant Building AI Talent with Ace Team?",
+     "url": "https://analyticsindiamag.com/ai-news/cognizant-launches-ai-focused-ace-team-to-build-specialised-talent-pool",
+     "container": "Analytics India Magazine",
+     "source": "news_search",
+     "excerpt": "Discover how Cognizant's Ace Team is shaping AI talent development. Explore their innovative approach to engineering and AI adoption.",
+     "published_at": "2026-06-03T10:55:52.216892Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "df82b0fcc0378db2",
+   "title": "NetApp and Cisco Expand FlexPod Partnership to Power AI",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 38.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "NetApp and Cisco Expand FlexPod Partnership to Power AI",
+     "url": "https://aimmediahouse.com/stories/enterprise-ai/netapp-and-cisco-expand-flexpod-partnership-to-power-ai",
+     "container": "AIM Media House",
+     "source": "news_search",
+     "excerpt": "NetApp, the California-based data infrastructure and cloud services company, collaborated with Cisco, the American multinational technology corporation...",
+     "published_at": "2026-06-03T11:55:52.216911Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "158da889ebf9a6e8",
+   "title": "Unstructured Expands Integration with Microsoft Azure to Power Enterprise AI Workflows",
+   "query": "enterprise RAG",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 30.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Unstructured Expands Integration with Microsoft Azure to Power Enterprise AI Workflows",
+     "url": "https://www.01net.it/unstructured-expands-integration-with-microsoft-azure-to-power-enterprise-ai-workflows/",
+     "container": "01net",
+     "source": "news_search",
+     "excerpt": "Enterprise organizations can transform unstructured data into AI-ready intelligence using Unstructured's platform integrated with Microsoft Azure services...",
+     "published_at": "2026-06-03T16:55:52.216788Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "20e416fab329892e",
+   "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+   "query": "enterprise RAG",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA",
+     "url": "https://x.com/search?q=Une+nouvelle+%C3%A9tude+r%C3%A9duit+de+1%C2%A0000+fois+les+co%C3%BBts+de+v%C3%A9rification+juridique+par+IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Une nouvelle \u00e9tude r\u00e9duit de 1\u00a0000 fois les co\u00fbts de v\u00e9rification juridique par IA Les agents d'IA juridique promettent une aide pr\u00e9cieuse dans le domaine du droit, mais la v\u00e9rification de leur travail s'est av\u00e9r\u00e9e extr\u00eamement co\u00fbteuse \u2014 jusqu'\u00e0 pr\u00e9sent. Une nouvelle \u00e9tude de LangChain Labs et Harvey d\u00e9montre que les v\u2026",
+     "published_at": "2026-06-02T18:53:53.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "db1d9bee9baba605",
+   "title": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA",
+   "query": "enterprise RAG",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA",
+     "url": "https://x.com/search?q=Matt+Van+Horn+partage+des+astuces+d%27ing%C3%A9nierie+agentique+pour+le+codage+de+l%27IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Matt Van Horn partage des astuces d'ing\u00e9nierie agentique pour le codage de l'IA Matt Van Horn a transform\u00e9 des conversations informelles avec des IA en un outil de d\u00e9veloppement ultra-performant, \u00e0 l'origine de ses outils qui cumulent des dizaines de milliers d'\u00e9toiles sur GitHub. Son dernier guide d\u00e9voile les 22 astuc\u2026",
+     "published_at": "2026-06-03T04:31:36.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "b3ba0330375f1308",
+   "title": "La session de cr\u00e9ation de jetons ERC-8183 d'Ethereum lance le commerce par agent IA sur la blockchain",
+   "query": "enterprise RAG",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La session de cr\u00e9ation de jetons ERC-8183 d'Ethereum lance le commerce par agent IA sur la blockchain",
+     "url": "https://x.com/search?q=La+session+de+cr%C3%A9ation+de+jetons+ERC-8183+d%27Ethereum+lance+le+commerce+par+agent+IA+sur+la+blockchain&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La session de cr\u00e9ation de jetons ERC-8183 d'Ethereum lance le commerce par agent IA sur la blockchain Des d\u00e9veloppeurs d'OKX Wallet, de BNB Chain et d'autres se sont r\u00e9unis pour fa\u00e7onner ERC-8183, la nouvelle norme d'Ethereum permettant aux agents d'IA d'\u00e9changer et de collaborer sans interm\u00e9diaires. La premi\u00e8re sessio\u2026",
+     "published_at": "2026-06-03T16:37:54.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "41d61ecce2f9771e",
+   "title": "Des mod\u00e8les d'IA gouvernent des soci\u00e9t\u00e9s simul\u00e9es avec des r\u00e9sultats tr\u00e8s diff\u00e9rents.",
+   "query": "enterprise RAG",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Des mod\u00e8les d'IA gouvernent des soci\u00e9t\u00e9s simul\u00e9es avec des r\u00e9sultats tr\u00e8s diff\u00e9rents.",
+     "url": "https://x.com/search?q=Des+mod%C3%A8les+d%27IA+gouvernent+des+soci%C3%A9t%C3%A9s+simul%C3%A9es+avec+des+r%C3%A9sultats+tr%C3%A8s+diff%C3%A9rents.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Des mod\u00e8les d'IA gouvernent des soci\u00e9t\u00e9s simul\u00e9es avec des r\u00e9sultats tr\u00e8s diff\u00e9rents. Dans le cadre d'une exp\u00e9rience men\u00e9e par une start-up new-yorkaise, des agents d'IA ont construit de minuscules soci\u00e9t\u00e9s\u00a0: certaines ont prosp\u00e9r\u00e9 pendant des semaines, d'autres se sont effondr\u00e9es dans l'incendie et l'extinction apr\u00e8s \u2026",
+     "published_at": "2026-06-03T17:48:18.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "8ccc0caa8c01be86",
+   "title": "La SEBI interdit \u00e0 Rajesh Exports, pr\u00e9sident de l'entreprise, de poursuivre ses fonctions suite \u00e0 des all\u00e9gations de forte inflation des revenus.",
+   "query": "enterprise RAG",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La SEBI interdit \u00e0 Rajesh Exports, pr\u00e9sident de l'entreprise, de poursuivre ses fonctions suite \u00e0 des all\u00e9gations de forte inflation des revenus.",
+     "url": "https://x.com/search?q=La+SEBI+interdit+%C3%A0+Rajesh+Exports%2C+pr%C3%A9sident+de+l%27entreprise%2C+de+poursuivre+ses+fonctions+suite+%C3%A0+des+all%C3%A9gations+de+forte+inflation+des+revenus.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La SEBI interdit \u00e0 Rajesh Exports, pr\u00e9sident de l'entreprise, de poursuivre ses fonctions suite \u00e0 des all\u00e9gations de forte inflation des revenus. L'autorit\u00e9 de surveillance des march\u00e9s indiens vient de l\u00e2cher une bombe : Rajesh Exports aurait gonfl\u00e9 ses revenus d'un montant stup\u00e9fiant \u20b9 de 15,15 lakh crores gr\u00e2ce \u00e0 des\u2026",
+     "published_at": "2026-06-03T17:48:25.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "1878f54bb221212d",
+   "title": "Puerto Rico AI startup builds \u2018company brain\u2019 for businesses",
+   "query": "workplace AI search",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 28.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Puerto Rico AI startup builds \u2018company brain\u2019 for businesses",
+     "url": "https://newsismybusiness.com/puerto-rico-ai-startup-builds-company-brain-for-businesses/",
+     "container": "News is My Business",
+     "source": "news_search",
+     "excerpt": "Puerto Rico-based artificial intelligence startup Runa is developing software meant to help companies keep track of information that is often scattered...",
+     "published_at": "2026-06-03T10:55:54.071304Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

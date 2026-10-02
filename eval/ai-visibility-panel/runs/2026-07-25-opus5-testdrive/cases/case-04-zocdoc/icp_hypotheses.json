@@ -1,0 +1,211 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "icp-zocdoc-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5/icp-evidence-analysis",
+  "source_manifest_hash": null,
+  "warnings": [
+    "No customer corpus, interview, win/loss, CRM or on-site search evidence was supplied. Every ICP below is a public-evidence hypothesis, not a validated segment.",
+    "No age, income, title, household size, practice headcount or buying-committee composition has been invented. Fields without evidence are null.",
+    "icp-004 and icp-005 rest on company assertion or a weak search proxy only and are hypothesis_only. They may not enter core without human promotion plus new evidence.",
+    "Counterevidence is retained: source-005 (BBB, 4.89/5) and source-004 (ComplaintsBoard) describe the same service in opposite terms. Both are self-selected. Neither is prevalence."
+  ],
+  "gate_status": "ready_for_human_review",
+  "standing_claims": [
+    {"claim_id": "claim-001", "text": "The target operates a US marketplace where care-seekers filter providers by insurance, location, specialty and availability and book a real appointment slot.", "source_ids": ["source-002", "source-003"], "assertion_class": "company_asserted_corroborated_by_tertiary"},
+    {"claim_id": "claim-002", "text": "Booking is free to the care-seeker; practices pay a one-time fee when a NEW patient books, varying by specialty and location.", "source_ids": ["source-001", "source-003", "source-006", "source-008"], "assertion_class": "company_asserted_corroborated_by_independent"},
+    {"claim_id": "claim-003", "text": "The fee is charged at booking and is not automatically voided by a cancellation or no-show, though a 24-hour good-faith waiver and a 7-day existing-patient claim process exist.", "source_ids": ["source-001", "source-006", "source-004"], "assertion_class": "company_asserted_with_independent_and_buyer_corroboration"},
+    {"claim_id": "claim-004", "text": "The target self-reports 250k+ providers, 200+ specialties, 175+ EHR/PMS integrations and 50-state coverage.", "source_ids": ["source-002"], "assertion_class": "company_asserted_uncorroborated"},
+    {"claim_id": "claim-005", "text": "Booking capability is being distributed onto third-party consumer surfaces, including a Yelp integration launched 2026-04-21 exposing real-time in-network availability.", "source_ids": ["source-009"], "assertion_class": "press_release_relayed_by_independent_publisher"}
+  ],
+  "icps": [
+    {
+      "icp_id": "icp-001",
+      "label": "US insured care-seeker who must find a provider that is genuinely in-network, near enough, and available soon",
+      "context": {
+        "unit": "individual household care-seeker",
+        "geography": "United States",
+        "situation": "Needs a new provider (primary care, dental, or a specialty) and is constrained simultaneously by plan network, location and appointment availability rather than by any one of them",
+        "org_size": null,
+        "income": null,
+        "age": null
+      },
+      "triggers": [
+        {"text": "Relocation or plan change forces a new provider search from scratch", "source_ids": ["source-013", "source-005"]},
+        {"text": "A provider listed as in-network turns out not to be, or the office has no record of the booking", "source_ids": ["source-004", "source-011"]},
+        {"text": "A confirmed appointment is cancelled shortly before the visit", "source_ids": ["source-004"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "care-seeker booking for themselves", "source_ids": ["source-005", "source-004"]},
+        {"role": "economic_buyer", "label": "same person; pays nothing to the marketplace but bears out-of-network cost risk", "source_ids": ["source-003", "source-004"]},
+        {"role": "blocker", "label": "practice front desk that contradicts the listing", "source_ids": ["source-004"]}
+      ],
+      "constraints": [
+        {"text": "Must be in-network under a named plan; out-of-network exposure is the feared outcome", "source_ids": ["source-004", "source-011"]},
+        {"text": "Availability window matters as much as fit", "source_ids": ["source-005", "source-012"]},
+        {"text": "Directory information cannot be trusted without a second confirmation", "source_ids": ["source-011", "source-004"]}
+      ],
+      "disqualifiers": [
+        {"text": "Care-seekers outside the United States", "source_ids": ["source-002"]},
+        {"text": "Emergency or acute clinical need requiring urgent/emergency care rather than scheduled booking", "source_ids": []}
+      ],
+      "standing_claim_ids": ["claim-001", "claim-002"],
+      "supporting_source_ids": ["source-004", "source-005", "source-011", "source-013", "source-003"],
+      "counterevidence_source_ids": ["source-005"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "Which specialties dominate real demand? The target claims 200+ (source-002) but only dental, primary care and mental health appear in independent or buyer evidence.",
+        "How often does the in-network mismatch actually occur on this marketplace specifically, as opposed to across US directories generally?"
+      ]
+    },
+    {
+      "icp_id": "icp-002",
+      "label": "US care-seeker trying to reach a mental-health provider through directories that are stale and networks that are effectively closed",
+      "context": {
+        "unit": "individual care-seeker",
+        "geography": "United States",
+        "situation": "Working a plan directory or list of therapists where listings are unreachable, full, or not actually in-network, while holding a job that makes repeated daytime calling difficult",
+        "org_size": null
+      },
+      "triggers": [
+        {"text": "Repeated unreturned calls and full voicemail boxes when working a directory list", "source_ids": ["source-012", "source-011"]},
+        {"text": "Directory contact details are out of date", "source_ids": ["source-012", "source-011"]},
+        {"text": "Providers who are listed are not accepting new patients", "source_ids": ["source-011"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "care-seeker", "source_ids": ["source-012"]},
+        {"role": "blocker", "label": "closed or unreachable provider panel", "source_ids": ["source-011", "source-012"]}
+      ],
+      "constraints": [
+        {"text": "Limited time to make repeated follow-up calls during business hours", "source_ids": ["source-012"]},
+        {"text": "Insurance coverage is a hard requirement, not a preference", "source_ids": ["source-011", "source-012"]}
+      ],
+      "disqualifiers": [
+        {"text": "Crisis or acute-risk situations, which are out of scope for a marketing measurement panel", "source_ids": []}
+      ],
+      "standing_claim_ids": ["claim-001"],
+      "supporting_source_ids": ["source-011", "source-012", "source-006"],
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "source-012 is verbatim but dated 2021-07-19. Has this language shifted? Fresh forum evidence is needed at the next refresh.",
+        "source-011 measured Medicare Advantage directories, not this marketplace. Does the marketplace's availability data materially outperform plan directories? No independent test was found."
+      ]
+    },
+    {
+      "icp_id": "icp-003",
+      "label": "US independent or small-group practice owner buying new-patient volume and judging it on cost per acquired patient",
+      "context": {
+        "unit": "solo or small-group practice (dental, mental health, primary care evidenced)",
+        "geography": "United States",
+        "situation": "Has unfilled schedule capacity, pays a per-new-patient fee for marketplace bookings, and cannot easily predict or control the monthly total",
+        "practice_headcount": null,
+        "revenue": null
+      },
+      "triggers": [
+        {"text": "Schedule capacity is unfilled and the owner must decide where to buy new patients", "source_ids": ["source-007", "source-006"]},
+        {"text": "A per-booking charge lands for a patient who cancelled or did not show", "source_ids": ["source-006", "source-004", "source-001"]},
+        {"text": "A returning patient is billed as a new-patient acquisition", "source_ids": ["source-001", "source-004"]},
+        {"text": "Fee levels are not visible until late in sign-up and vary by specialty and market", "source_ids": ["source-008", "source-001"]}
+      ],
+      "roles": [
+        {"role": "economic_buyer", "label": "owner-clinician who signs off on acquisition spend", "source_ids": ["source-006", "source-007"]},
+        {"role": "user", "label": "practice operations / front-desk manager who runs the schedule and the billing disputes", "source_ids": ["source-004", "source-001"]},
+        {"role": "blocker", "label": "unpredictable monthly acquisition cost", "source_ids": ["source-008", "source-006"]},
+        {"role": "post_purchase_user", "label": "same owner evaluating retention and blended cost after several months", "source_ids": ["source-007", "source-006"]}
+      ],
+      "constraints": [
+        {"text": "Per-new-patient fee cited between roughly $35 and $110 depending on specialty and market", "source_ids": ["source-008", "source-006"]},
+        {"text": "Fee applies whether or not the patient attends", "source_ids": ["source-006", "source-001"]},
+        {"text": "Decision is benchmarked on blended cost per new patient across all channels, not on one channel's price", "source_ids": ["source-007"]},
+        {"text": "New-patient lifetime value is the denominator the owner must estimate first", "source_ids": ["source-007"]}
+      ],
+      "disqualifiers": [
+        {"text": "Practices with no unfilled capacity", "source_ids": ["source-007"]}
+      ],
+      "standing_claim_ids": ["claim-002", "claim-003"],
+      "supporting_source_ids": ["source-001", "source-003", "source-004", "source-006", "source-007", "source-008"],
+      "counterevidence_source_ids": ["source-003"],
+      "confidence": "medium",
+      "status": "supported",
+      "open_questions": [
+        "The two richest sources on the provider decision (source-007, source-008) are published by competing vendors. An unaffiliated practice-owner survey or an association source is needed before any fee figure is treated as fact.",
+        "source-003 records that provider counts reportedly rose 50% after the per-booking transition, which sits against the owner-complaint evidence. Both are retained; neither is resolved."
+      ]
+    },
+    {
+      "icp_id": "icp-004",
+      "label": "Multi-location group, health system or DSO evaluating patient-access and scheduling infrastructure",
+      "context": {
+        "unit": "multi-site provider organisation",
+        "geography": "United States",
+        "situation": "Evaluating EHR-integrated scheduling, call deflection and distributed booking across many locations",
+        "org_size": null
+      },
+      "triggers": [
+        {"text": "Inbound scheduling calls exceed staff capacity, including after hours", "source_ids": ["source-002"]}
+      ],
+      "roles": [
+        {"role": "champion", "label": "patient access or digital lead", "source_ids": ["source-002"]},
+        {"role": "user", "label": "call-centre or front-office staff", "source_ids": ["source-002"]},
+        {"role": "economic_buyer", "label": null, "source_ids": []},
+        {"role": "approver", "label": null, "source_ids": []}
+      ],
+      "constraints": [
+        {"text": "Requires integration with existing EHR/PMS systems", "source_ids": ["source-002"]}
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-004"],
+      "supporting_source_ids": ["source-002"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "Every element of this ICP comes from the target's own provider page. No independent source, buyer-language source, procurement guide or analyst source describing this buying context was found.",
+        "Evidence needed to promote: an independent case study, an RFP or procurement document, or health-system practitioner discussion. Until then this ICP supports one quarantined rotating cell and nothing in core."
+      ]
+    },
+    {
+      "icp_id": "icp-005",
+      "label": "US self-pay or uninsured care-seeker who needs a price before committing to a booking",
+      "context": {
+        "unit": "individual care-seeker",
+        "geography": "United States",
+        "situation": "Booking without usable insurance coverage and needing the visit cost up front",
+        "coverage_status": "uninsured or paying out of pocket"
+      },
+      "triggers": [
+        {"text": "Needs same-day or near-term care without a usable plan, and searches surface self-pay telehealth and no-referral booking options", "source_ids": ["source-013"]},
+        {"text": "A booking made as self-pay conflicts with insurance information presented at the visit", "source_ids": ["source-004"]}
+      ],
+      "roles": [
+        {"role": "user", "label": "self-paying care-seeker", "source_ids": ["source-013"]}
+      ],
+      "constraints": [
+        {"text": "Price transparency before booking is the binding requirement", "source_ids": ["source-013"]}
+      ],
+      "disqualifiers": [],
+      "standing_claim_ids": ["claim-001"],
+      "supporting_source_ids": ["source-013", "source-004"],
+      "counterevidence_source_ids": [],
+      "confidence": "low",
+      "status": "hypothesis_only",
+      "open_questions": [
+        "The only support is search-result composition (source-013), which is a proxy for what publishers target, not for what care-seekers ask. No forum, review or verbatim source was found.",
+        "The target's stated organising axis is insurance, which may make this segment structurally out of scope rather than under-served. Evidence needed: buyer-language sources from self-pay care-seekers, or a target-side self-pay capability page."
+      ]
+    }
+  ],
+  "excluded_contexts": [
+    {"label": "Non-US care-seekers and practices", "reason": "Target coverage claimed as 50 US states only", "source_ids": ["source-002"]},
+    {"label": "Payer / employer benefits procurement", "reason": "No evidence found in this run", "source_ids": []},
+    {"label": "Caregiver booking on behalf of a dependent or older adult", "reason": "Plausible and probably material, but no evidence source was found. Recorded as a research gap rather than an invented role.", "source_ids": []}
+  ],
+  "open_research_questions": [
+    "The supplied URL (target homepage) returned HTTP 403 to the fetch agent. Direct capture of the patient-side product surface, its specialty taxonomy and its stated locale support is outstanding.",
+    "No lawfully collected AI-conversation evidence exists for this category. All prompt language is reconstructed from reviews, one forum thread and search proxies.",
+    "No Spanish-language evidence was found despite the US market. This is an unresolved coverage gap, not a decision that the segment does not exist."
+  ]
+}

@@ -19,6 +19,67 @@ below these notes.
 
 ## Unreleased
 
+### Fixed
+
+- Medialyst OAuth refreshes are serialized across concurrent CLI processes, credentials are replaced atomically, and `newsjack doctor` now verifies configured credentials without spending credits.
+
+## v0.1.19 — 2026-09-18
+
+### Added
+
+- `newsjack coarse-filter --engine jev` runs the detector's coarse-relevance pass through Jev (TypeSafe AI's typed-decision model) and writes the same `coarse_relevance_decisions.json` that `filter-apply` already consumes. Opt-in: configure a key with `newsjack auth set-typesafe --key <key>` (or `TYPESAFE_API_KEY`); `doctor` and `auth status` report it. The LLM worker path stays the default. The `relevance-coarse-filter` skill and the detector's harness routing describe when to use it.
+
+## v0.1.18 — 2026-09-14
+
+### Changed
+
+- **The recommended monitor cadence now runs at 7am and 2pm.** Moving the
+  morning scan from 8am to 7am helps scheduled agent runs avoid Anthropic's
+  peak hours while preserving the early-afternoon follow-up. The once-daily
+  recommendation now runs at 7am for the same reason.
+
+## v0.1.17 — 2026-09-14
+
+### Added
+
+- **Opt-in Slack delivery for completed monitor reports.** Monitor setup can now connect a Slack incoming webhook and defaults to every-run notifications so users can see and tune early alert behavior; pitch-ready-only remains the quieter option. The detector writes compact Slack-ready copy only after the canonical report is finished, while the CLI keeps the webhook in a separate owner-only file, validates Slack hosts, refuses redirects, and records per-run sent markers to prevent routine duplicate posts. Older CLIs and skills continue to run without delivery.
+- **Agent-driven media list research with incremental results.** The CLI now exposes only the two hosted-list operations agents need: `media-lists create` starts Medialyst's asynchronous campaign workflow after explicit credit approval, and `media-lists job --include-results` reads progress and normalized journalist rows while enrichment is still running. Stable idempotency keys prevent accidental duplicate jobs; the old spreadsheet CRUD/action surface remains removed.
+- **Approval-gated list handoffs in detector reports.** Every pitch-ready opportunity now includes a URL-encoded Medialyst campaign link. It prepares a media-list plan for review and spends no credits until the user approves it in Medialyst; scheduled detectors never call the paid creation API themselves.
+
+### Changed
+
+- **`find-journalists` now prefers Medialyst's asynchronous research workflow when available.** The agent prepares the brief, sizes the research pool at 5x the desired good-fit count (up to 10x for constrained briefs), obtains explicit approval for that target and credit exposure, starts one job, polls it, and surfaces journalists incrementally before applying Newsjack's fit and anti-spam judgment. The CLI never applies a hidden multiplier. Medialyst remains optional and the local best-effort path remains available.
+
+### Fixed
+
+- npm package verification now accepts both the array output used by npm 10 and
+  the package-keyed object output used by npm 12 for `npm pack --json`, keeping
+  release publication compatible with the workflow's latest npm CLI.
+
+## v0.1.16 — 2026-08-05
+
+### Fixed
+
+- **Claude.ai marketplace sync no longer treats the source-checkout CLI shim as
+  a hosted plugin executable.** The marketplace now packages the dedicated
+  `plugins/newsjack/` directory instead of the repository root, while keeping
+  the canonical skills and Medialyst connector configuration shared with local
+  installs. CI and the release workflow now reject any regression that would
+  expose a top-level `bin/` through the hosted plugin package or reintroduce
+  unsupported manifest metadata that Claude.ai would strip with a warning.
+
+### Added
+
+- **`build-ai-visibility-panel` turns any public URL and description into an
+  evidence-bound prompt panel for AI-answer tracking.** Six composable atoms
+  research ICPs and buyer jobs, design intent coverage across six prompt
+  groups, generate blinded prompt variants, run contamination and duplicate QA,
+  and produce a provisional measurement plan with explicit denominators,
+  sources, gaps, and human approval gates. Reports name the groups the way a
+  marketer would — Brand, Shortlist, Category, Problem, Goal, Market — and keep
+  the `B0`–`B5` codes in the machine artifacts only. Synthetic fixtures and a
+  ten-case public-URL eval exercise the workflow without private client data.
+
 ## v0.1.15 — 2026-06-30
 
 ### Added

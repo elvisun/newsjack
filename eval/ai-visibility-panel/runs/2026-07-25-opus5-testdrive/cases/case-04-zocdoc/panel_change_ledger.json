@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "ledger-zocdoc-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5/ai-visibility-panel-design",
+  "source_manifest_hash": null,
+  "warnings": ["Append-only. No frozen version exists yet, so nothing has been superseded and no overlap bridge is required."],
+  "panel_id": "panel-zocdoc-us-booking",
+  "frozen_versions": [],
+  "entries": [
+    {
+      "entry_id": "ledger-001",
+      "timestamp": "2026-07-25T16:00:00-04:00",
+      "version": "0.1.0-provisional",
+      "prior_version": null,
+      "actor": "agent:claude-opus-5",
+      "change_type": "panel_created",
+      "summary": "Initial provisional panel built from one public URL plus a one-line description. 14 sources, 5 ICPs (3 supported, 2 hypothesis_only), 8 buyer jobs (6 supported, 2 hypothesis_only), 37 canonical cells, 80 candidates, 70 accepted, 35 cells in panel.",
+      "affected_artifacts": ["measurement_charter.json", "source_manifest.json", "icp_hypotheses.json", "buyer_jobs.json", "contamination_register.yaml", "blind_design_brief.json", "prompt_architecture.json", "prompt_universe.json", "prompt_qa.json", "panel.yaml"],
+      "overlap_bridge_required": false,
+      "approved_by": null
+    },
+    {
+      "entry_id": "ledger-002",
+      "timestamp": "2026-07-25T16:00:00-04:00",
+      "version": "0.1.0-provisional",
+      "actor": "agent:claude-opus-5/prompt-set-qa",
+      "change_type": "qa_rejection",
+      "summary": "Rejected prompt-004b (recommendation forcing), prompt-010b (exact normalized duplicate), prompt-016b (target proprietary-category contamination in an unaided core candidate). Archived with reasons; not deleted.",
+      "affected_artifacts": ["prompt_universe.json", "prompt_qa.json"],
+      "approved_by": null
+    },
+    {
+      "entry_id": "ledger-003",
+      "timestamp": "2026-07-25T16:00:00-04:00",
+      "version": "0.1.0-provisional",
+      "actor": "agent:claude-opus-5/prompt-set-qa",
+      "change_type": "qa_revision_requested",
+      "summary": "Revision routed for prompt-015b (embeds a contested single-source claim as premise) and prompt-029b (introduces an unevidenced specialty). Both routed to realistic-prompt-generation; neither was silently repaired.",
+      "affected_artifacts": ["prompt_qa.json"],
+      "approved_by": null
+    },
+    {
+      "entry_id": "ledger-004",
+      "timestamp": "2026-07-25T16:00:00-04:00",
+      "version": "0.1.0-provisional",
+      "actor": "agent:claude-opus-5/prompt-set-qa",
+      "change_type": "qa_quarantine",
+      "summary": "Quarantined cell-023 (self-pay care-seeker, icp-005 hypothesis_only), cell-024 (call-handling job derived only from a target capability page) and prompt-030c (names a third-party assistant inside the instrument). Panel dropped from 30 to 28 unaided cells as a result.",
+      "affected_artifacts": ["prompt_qa.json", "panel.yaml"],
+      "approved_by": null
+    },
+    {
+      "entry_id": "ledger-005",
+      "timestamp": "2026-07-25T16:00:00-04:00",
+      "version": "0.1.0-provisional",
+      "actor": "agent:claude-opus-5",
+      "change_type": "defect_recorded",
+      "summary": "defect-001: prompt_architecture.json spec-001 carries job_id 'job-001' with a disambiguating job_id_authoritative 'job-003'; the authoritative value is job-003. defect-002: all content hashes are null because no hashing runtime was available. Both block freeze.",
+      "affected_artifacts": ["prompt_architecture.json", "all"],
+      "approved_by": null
+    }
+  ],
+  "pending_changes_before_freeze": [
+    "Compute and back-fill every SHA-256 hash (defect-002).",
+    "Correct prompt_architecture.json spec-001 job_id to job-003 (defect-001).",
+    "Regenerate second variants for cell-004, cell-010, cell-015 and cell-016 from the blind brief.",
+    "Resolve the four Gate 3 disputed decisions.",
+    "Restore the unaided cell count to at least 30 with evidence-backed cells, or accept waiver-002b.",
+    "Fix the exact model, version and surface identities and record them in the charter.",
+    "Run the 12-cell variance pilot over at least two time blocks before any precision claim.",
+    "Obtain Gate 1-4 approvals from a named human."
+  ]
+}

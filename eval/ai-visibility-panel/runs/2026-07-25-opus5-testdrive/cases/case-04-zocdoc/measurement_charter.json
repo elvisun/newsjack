@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "charter-zocdoc-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5/build-ai-visibility-panel",
+  "source_manifest_hash": null,
+  "warnings": [
+    "The user supplied only a URL and a one-line description. Business decision, estimands, exclusions, budgets, competitors, surfaces and approver were NOT supplied and are provisional agent assumptions, flagged individually below.",
+    "approval_status is pending. No human has approved this charter. The panel it governs is provisional_directional and must not be described as frozen, representative, statistically significant, or causal.",
+    "source_manifest_hash is null because no hashing runtime was available. Freezing is blocked until it is computed."
+  ],
+  "business_decision": {
+    "statement": "Provisional. Decide where a US healthcare-booking marketplace should invest evidence-backed content and answer-surface work so that assistant answers to real patient and practice-owner questions about finding, verifying and booking in-network care surface the marketplace accurately, and so that practice-owner cost questions are answered with correct fee mechanics rather than vendor-competitor framing.",
+    "assumption_status": "agent_assumed",
+    "what_would_change_it": "A user-stated decision (for example: budget allocation between patient-side and provider-side content, or defending against competitor-authored comparison content) would re-weight the priority component and could drop or add whole strata."
+  },
+  "estimands": [
+    {
+      "estimand_id": "est-001",
+      "estimand": "unaided_brand_presence",
+      "numerator": "Valid observations in which the target brand is named anywhere in the assistant's answer text.",
+      "denominator": "Valid observations from unaided canonical cells only (partitions core, rotating, sentinel), counted separately per lane, surface, locale and wave.",
+      "eligible_partitions": ["core", "rotating", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "what_it_does_not_prove": "Not awareness, not market share, not audience reach, not that any person ever asked this question. It is the rate at which this specific, non-probability panel of prompts elicits the brand under this configuration."
+    },
+    {
+      "estimand_id": "est-002",
+      "estimand": "competitive_mention_share",
+      "numerator": "Mentions of the target among provider-discovery or patient-acquisition brands named in the answer.",
+      "denominator": "All distinct provider-discovery / patient-acquisition brand mentions in the same valid unaided observations, using a pre-declared brand list frozen at panel version.",
+      "eligible_partitions": ["core", "rotating", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "what_it_does_not_prove": "Not category market share and not competitive standing. Answer-set composition is a property of the model and the prompt, not of the market."
+    },
+    {
+      "estimand_id": "est-003",
+      "estimand": "citation_presence",
+      "numerator": "Valid observations whose exposed citation metadata includes at least one target-owned domain.",
+      "denominator": "Valid retrieval-lane observations only, where retrieval actually ran and citations were exposed by the surface.",
+      "eligible_partitions": ["core", "rotating", "sentinel", "aided"],
+      "eligible_lanes": ["retrieval"],
+      "what_it_does_not_prove": "Not referral traffic, not clicks, not a ranking. Surfaces expose citations inconsistently; absence of a citation is not absence of use."
+    },
+    {
+      "estimand_id": "est-004",
+      "estimand": "aided_brand_knowledge",
+      "numerator": "B0 target-aided observations in which the answer is materially accurate on the four pre-declared checkable facts: (a) booking is free to patients, (b) providers are charged per new-patient booking, (c) fee amount varies by specialty and location, (d) a cancellation/no-show does not automatically void the fee.",
+      "denominator": "Valid B0 target-aided observations only. Never pooled with unaided observations.",
+      "eligible_partitions": ["aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "what_it_does_not_prove": "Not demand and not preference. It measures factual fidelity when the brand is already supplied by the asker."
+    },
+    {
+      "estimand_id": "est-005",
+      "estimand": "answer_framing",
+      "numerator": "Observations mentioning the target that are coded into pre-declared frame categories: insurance/in-network filtering, appointment availability and speed, cost-to-provider, review trustworthiness, directory-accuracy caveat.",
+      "denominator": "Valid observations that mention the target at all, reported separately per aided status and lane.",
+      "eligible_partitions": ["core", "rotating", "sentinel", "aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "what_it_does_not_prove": "Descriptive coding only. It does not establish sentiment prevalence among real users and it is sensitive to the coder and codebook version."
+    }
+  ],
+  "out_of_scope_estimands": [
+    {
+      "estimand": "campaign_response",
+      "status": "not_in_scope",
+      "reason": "No campaign, campaign terms, launch, or pre-registration were supplied. Without a registered treatment definition and matched unaffected controls, a campaign estimand would be uninterpretable. The control partition is therefore empty by design, not by oversight."
+    }
+  ],
+  "target_population": {
+    "statement": "Provisional and non-probability. The intended inferential population is US-based insured care-seekers and US independent/small-group practice owners and practice operations staff who put healthcare-access questions to a general AI assistant. The panel does NOT sample that population; it samples evidence-supported question cells constructed from public buyer language.",
+    "assumption_status": "agent_assumed"
+  },
+  "exclusions": [
+    "Non-US markets and non-US locales: the target's own provider page claims 50-state US coverage only (source-002).",
+    "Enterprise health-system and DSO buying contexts beyond a single quarantined rotating cell: supported only by target-asserted partner logos (source-002), with no independent or buyer-language corroboration.",
+    "Clinical or symptom-triage prompts: out of scope and ethically inappropriate as a marketing measurement instrument.",
+    "Any prompt containing named individuals, patient details, or other personal data.",
+    "Employer/payer procurement contexts: no evidence found."
+  ],
+  "products": [
+    "Patient-side appointment discovery and booking (insurance, location, specialty, availability filters)",
+    "Provider-side marketplace listing charged per new-patient booking",
+    "Provider-side scheduling and call-handling software adjacent to the marketplace"
+  ],
+  "markets": ["United States"],
+  "locales": [
+    {"locale": "en-US", "language": "en", "status": "in_scope", "review_status": "not_required"},
+    {"locale": "es-US", "language": "es", "status": "gap", "review_status": "blocked", "reason": "US Spanish-speaking care-seekers are a plausible and material segment, but no Spanish-language buyer evidence was found in this run and no native or market-competent reviewer is available. Machine translation of en-US cells would be locale equivalence by assumption and is prohibited. Evidence needed: Spanish-language forum/review/search-proxy sources plus a native reviewer."}
+  ],
+  "time_horizon": {
+    "wave_cadence": "monthly",
+    "panel_review_cadence": "quarterly",
+    "charter_review": "2027-07-25",
+    "next_review": "2026-10-25"
+  },
+  "surfaces": [
+    {"surface_id": "srf-api-a", "label": "Frontier assistant A, API, tools off", "lane": "closed_model"},
+    {"surface_id": "srf-api-b", "label": "Frontier assistant B, API, tools off", "lane": "closed_model"},
+    {"surface_id": "srf-ret-a", "label": "Frontier assistant A, search/retrieval enabled", "lane": "retrieval"},
+    {"surface_id": "srf-ret-b", "label": "Answer engine with citations enabled", "lane": "retrieval"},
+    {"surface_id": "srf-con-a", "label": "Consumer assistant app, clean logged-out archetype, en-US, desktop", "lane": "consumer_surface"},
+    {"surface_id": "srf-con-b", "label": "Search AI answer surface, clean archetype, en-US, mobile", "lane": "consumer_surface"}
+  ],
+  "surface_assumption_status": "agent_assumed; the user named no surfaces. Exact provider/model identities must be fixed by a human before wave 1 and recorded in the run manifest.",
+  "lanes": [
+    {"lane": "closed_model", "status": "in_scope", "note": "No external search, tools, files, RAG or history. Fixed system prompt, fixed model/version, fixed sampling, fresh session per observation. B5 cells are excluded from this lane because their estimand depends on knowledge of events postdating training."},
+    {"lane": "retrieval", "status": "in_scope", "note": "Records retrieval as required/allowed/unavailable, whether retrieval actually ran, generated queries and citation metadata where exposed, and live vs cached state."},
+    {"lane": "consumer_surface", "status": "in_scope", "note": "Clean logged-out archetype only in wave 1. Never merged into an API rollup."},
+    {"lane": "campaign_experiment", "status": "ineligible", "note": "No registered campaign. No cell is campaign-eligible and campaign_exposed is false everywhere."}
+  ],
+  "reporting_strata": [
+    "proximity_band",
+    "aided_status",
+    "buyer_job",
+    "information_act",
+    "journey_state",
+    "icp_and_role",
+    "locale",
+    "lane_and_surface",
+    "partition",
+    "evidence_grade"
+  ],
+  "run_budget": {
+    "value": "approximately 1,500 valid observations per monthly wave across 6 surfaces",
+    "assumption_status": "agent_assumed; no budget was supplied. Allocation is reconciled against this figure in prompt_architecture.json and panel.yaml."
+  },
+  "review_budget": {
+    "value": "approximately 2 human-hours of triage per wave and 6 human-hours per quarterly panel review",
+    "assumption_status": "agent_assumed; no budget was supplied."
+  },
+  "precision_status": "directional_only",
+  "precision_note": "No variance pilot has been run, so no target precision can be honestly declared. Several reporting subgroups have fewer than 20 distinct canonical cells and must be reported as counts and response excerpts, not as percentage leaderboards.",
+  "approver": null,
+  "approval_status": "pending",
+  "human_gates": [
+    {"gate": "gate_1_icp", "status": "pending", "blocking_question": "Promote or reject the two hypothesis_only ICPs (enterprise access buyer, self-pay care-seeker) and confirm the exclusion list."},
+    {"gate": "gate_2_jobs", "status": "pending", "blocking_question": "Confirm the eight buyer jobs, in particular whether job-007 (call handling) may enter the panel on target-asserted evidence alone."},
+    {"gate": "gate_3_partitions", "status": "pending", "blocking_question": "Approve core/aided partitions, the three rejections, the two revisions and the five quarantines, while remaining blind to baseline visibility."},
+    {"gate": "gate_4_weights", "status": "pending", "blocking_question": "Approve equal exposure weights as a stated limitation, approve or replace provisional priority weights, and approve cadence, limitations and version."}
+  ]
+}

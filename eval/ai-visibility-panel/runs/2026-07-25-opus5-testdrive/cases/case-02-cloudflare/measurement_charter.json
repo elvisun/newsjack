@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "charter-cloudflare-2026-07-25",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:build-ai-visibility-panel",
+  "source_manifest_hash": "sha256:unavailable",
+  "warnings": [
+    "This charter is PROVISIONAL and directional. The user supplied only a URL and a one-line description: no business decision, no estimand choice, no target population, no locale list, no competitor list, no surface budget, no customer corpus, and no approver. Every field below is an agent-stated assumption pending human Gate 1-4 approval.",
+    "No 'AI visibility score' is defined. A single blended score is rejected by the charter contract because it would mix aided statuses, lanes and denominators.",
+    "Exposure-weighted and priority-weighted results are kept in separate rollups and neither may be reported as market share, audience reach, awareness or revenue attribution."
+  ],
+  "business_decision": "PROVISIONAL/ASSUMED: decide where to invest answer-engine content, documentation and third-party-evidence work across the target's five stated product areas, by first establishing a repeatable baseline of how assistants answer the buyer questions this panel enumerates. This charter does not authorise any claim about market position, demand size or revenue.",
+  "decision_owner": null,
+  "estimands": [
+    {
+      "estimand_id": "est-unaided-presence",
+      "name": "unaided_brand_presence",
+      "numerator": "Eligible observations in which the target brand or a target product name appears anywhere in the assistant's answer text.",
+      "denominator": "All valid observations from canonical cells with aided_status = 'unaided' AND partition IN ('core','sentinel'), within one lane, one surface, one locale and one wave.",
+      "eligible_partitions": ["core", "sentinel"],
+      "eligible_aided_statuses": ["unaided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Does not prove awareness, preference, market share, audience reach, or that any human ever issued these prompts. It is a property of this prompt panel under this configuration."
+    },
+    {
+      "estimand_id": "est-category-presence",
+      "name": "unaided_brand_presence",
+      "variant_label": "category_aided_presence",
+      "numerator": "Eligible observations in which the target brand or a target product name appears in the answer.",
+      "denominator": "All valid observations from cells with aided_status = 'category_aided', held in a SEPARATE denominator from est-unaided-presence.",
+      "eligible_partitions": ["core", "sentinel", "rotating"],
+      "eligible_aided_statuses": ["category_aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Naming a solution category is itself a prompt, not buyer behaviour. This rate may not be pooled with the unaided rate."
+    },
+    {
+      "estimand_id": "est-mention-share",
+      "name": "competitive_mention_share",
+      "numerator": "Distinct answers naming the target, per named vendor.",
+      "denominator": "All valid observations in the same cell set that name at least one vendor of any kind; reported as a per-vendor rate with the full vendor list, never as a single leaderboard percentage when a stratum has fewer than 20 distinct cells.",
+      "eligible_partitions": ["core", "sentinel"],
+      "eligible_aided_statuses": ["unaided", "category_aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Mention share in a prompt panel is not market share, revenue share, or consideration-set share."
+    },
+    {
+      "estimand_id": "est-citation-presence",
+      "name": "citation_presence",
+      "numerator": "Observations in which a target-owned domain appears in exposed citation metadata.",
+      "denominator": "Valid observations in the retrieval and consumer_surface lanes ONLY, where retrieval actually ran and citations were exposed.",
+      "eligible_partitions": ["core", "sentinel", "aided"],
+      "eligible_aided_statuses": ["unaided", "category_aided", "target_aided", "competitor_aided"],
+      "eligible_lanes": ["retrieval", "consumer_surface"],
+      "does_not_prove": "Does not prove traffic, clicks, influence on the reader, or that the cited page caused the answer."
+    },
+    {
+      "estimand_id": "est-answer-framing",
+      "name": "answer_framing",
+      "numerator": "Observations coded against a pre-registered framing codebook (problem framing used, capability attributed, limitation attributed, plan/tier attributed, accuracy of attributed fact).",
+      "denominator": "Valid observations within a single cell set, lane, surface and wave; reported per code, never collapsed into one score.",
+      "eligible_partitions": ["core", "sentinel", "aided"],
+      "eligible_aided_statuses": ["unaided", "category_aided", "target_aided", "competitor_aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Framing coding is inter-rater dependent; no codebook or rater agreement has been established yet. Pending Gate 4."
+    },
+    {
+      "estimand_id": "est-aided-knowledge",
+      "name": "aided_brand_knowledge",
+      "numerator": "B0 target-aided observations in which the assistant returns a factually correct, source-checkable statement about the named target capability, plan or incident.",
+      "denominator": "Valid observations from cells with aided_status = 'target_aided' ONLY, in a denominator shared with no other aided status.",
+      "eligible_partitions": ["aided"],
+      "eligible_aided_statuses": ["target_aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Aided accuracy says nothing about whether the target is reached unaided."
+    }
+  ],
+  "estimands_declared_out_of_scope": [
+    {
+      "name": "campaign_response",
+      "reason": "No campaign, campaign terms, campaign dates, treatment definition, pre-registration or matched control set were supplied. The campaign_experiment lane is defined but not instantiated. No causal or before/after campaign claim may be made from this panel."
+    }
+  ],
+  "target_population": "The population of interest is a PROMPT-SPACE population: the set of evidence-supported canonical buyer-intent cells enumerated in prompt_architecture.json, covering site/content operators, small online-business operators, platform/SRE engineers, and workforce-access IT/security engineers. This is explicitly NOT a population of AI users, and no probability sample of AI users exists in this run.",
+  "exclusions": [
+    "Consumers of the target's free DNS resolver as an end-user product (no buyer-job evidence in this manifest).",
+    "Domain registration and email-routing jobs (no evidence in this manifest).",
+    "Any job requiring individual-level personal data.",
+    "Non-English locales other than the single en-GB rotating probe: no locale evidence and no market-competent reviewer available.",
+    "Edge-compute and serverless-storage jobs beyond a rotating discovery probe: capability is company-asserted (src-001) but no buyer-behaviour evidence exists (src-016)."
+  ],
+  "products": [
+    "CDN and performance delivery",
+    "Application security (WAF, DDoS mitigation, bot management)",
+    "Zero Trust / SASE / secure workforce access",
+    "Authoritative and recursive DNS",
+    "Edge compute and developer platform (declared low-evidence; rotating only)"
+  ],
+  "markets": ["Global English-language public web, with no market-size or share claim"],
+  "locales": [
+    {"locale": "en-US", "language": "en", "status": "core", "review": "not_required"},
+    {"locale": "en-GB", "language": "en", "status": "rotating_probe", "review": "pending_market_competent_reviewer"},
+    {"locale": "de-DE", "language": "de", "status": "gap", "review": "blocked_no_evidence_no_reviewer"},
+    {"locale": "ja-JP", "language": "ja", "status": "gap", "review": "blocked_no_evidence_no_reviewer"},
+    {"locale": "pt-BR", "language": "pt", "status": "gap", "review": "blocked_no_evidence_no_reviewer"}
+  ],
+  "time_horizon": {
+    "wave_window": "2026-08-01 to 2026-10-31",
+    "cadence": "monthly wave, quarterly panel review",
+    "b5_review_by": "2026-09-15",
+    "charter_review_by": "2027-07-25"
+  },
+  "surfaces": [
+    {"surface_id": "surf-api-a", "label": "Closed-model API, vendor A", "lane": "closed_model", "status": "assumed_pending_approval"},
+    {"surface_id": "surf-api-b", "label": "Closed-model API, vendor B", "lane": "closed_model", "status": "assumed_pending_approval"},
+    {"surface_id": "surf-rag-a", "label": "Search-grounded assistant, vendor A", "lane": "retrieval", "status": "assumed_pending_approval"},
+    {"surface_id": "surf-rag-b", "label": "Answer engine with exposed citations", "lane": "retrieval", "status": "assumed_pending_approval"},
+    {"surface_id": "surf-cons-a", "label": "Consumer assistant app, clean archetype", "lane": "consumer_surface", "status": "assumed_pending_approval"},
+    {"surface_id": "surf-cons-b", "label": "Search AI answer panel, clean archetype", "lane": "consumer_surface", "status": "assumed_pending_approval"}
+  ],
+  "lanes": [
+    {"lane": "closed_model", "instantiated": true, "policy": "No external search, tools, files, RAG or history. Fixed system prompt, declared model/version, fixed sampling, fresh session per observation."},
+    {"lane": "retrieval", "instantiated": true, "policy": "Retrieval recorded as required/allowed/unavailable; whether retrieval ran; generated queries and citation metadata captured when exposed; live vs cached state recorded."},
+    {"lane": "consumer_surface", "instantiated": true, "policy": "Clean archetype only in v0.1.0: new account, no history, no personalisation, declared device and locale. Never rolled up with API lanes."},
+    {"lane": "campaign_experiment", "instantiated": false, "policy": "Defined but empty. Requires pre-registration, treatment/control definition and matched unaffected controls before use."}
+  ],
+  "reporting_strata": [
+    "proximity_band",
+    "aided_status",
+    "buyer_job",
+    "information_act",
+    "journey_state",
+    "icp_and_role",
+    "locale_language",
+    "measurement_lane",
+    "surface",
+    "partition",
+    "evidence_grade"
+  ],
+  "run_budget": {
+    "max_observations_per_wave": 2000,
+    "planned_observations_per_wave": 1590,
+    "planned_variance_pilot_observations": 576,
+    "basis": "86 accepted candidates in fully-eligible partitions x 3 repeats x 6 surface-lane combinations, plus reduced-lane rotating and control allocation. See panel.yaml for the exact derivation."
+  },
+  "review_budget": {
+    "human_hours_per_wave": 8,
+    "human_hours_gate_review": 6,
+    "status": "assumed_pending_approval"
+  },
+  "precision_status": "directional_only",
+  "precision_note": "No variance pilot has been run. No target precision, minimum detectable difference or power calculation may be stated until the sentinel pilot in panel.yaml completes over at least two time blocks.",
+  "approver": null,
+  "approval_status": "pending",
+  "gates": [
+    {"gate": 1, "owns": "ICP hypotheses, exclusions, permissions, standing facts", "status": "pending", "resumable_from": "icp_hypotheses.json"},
+    {"gate": 2, "owns": "Buyer jobs, language, roles, locales, strategic priority", "status": "pending", "resumable_from": "buyer_jobs.json"},
+    {"gate": 3, "owns": "Core/aided/campaign partitions and disputed QA decisions", "status": "pending", "resumable_from": "prompt_qa.json"},
+    {"gate": 4, "owns": "Weights, limitations, cadence, claims, frozen version", "status": "pending", "resumable_from": "panel.yaml"}
+  ]
+}

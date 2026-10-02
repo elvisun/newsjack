@@ -1,0 +1,11 @@
+{
+  "candidate_artifacts_sha256": "ea983199ce8ba6e2fd9a93631e2fc8d3cb403f78ca8ee292eabffcbe32711d8a",
+  "completed_at": "2026-07-25T17:00:13Z",
+  "judge_apparatus_sha256": "9f6cf8b4bcd84e136351d0b86f3c9956048dd7c0a86a36adadbdae7f4010cb5f",
+  "judge_prompt_sha256": "270412b4d8b82f198bb5b574fe5dbc2cbeede3754f823b9eb11a233edfcfdf10",
+  "model": "claude-opus-5",
+  "raw_result_sha256": "c3917a53c1a1bb189b54efac3405d96a2cf8ca88cf731b1872b532a91ae6d37c",
+  "schema_version": "1.0.0",
+  "status": "complete",
+  "verdict_sha256": "8dbe6f02bde1eb8bb6ad3f51f28472dd3609f06ec731de65e30440f103e793cb"
+}

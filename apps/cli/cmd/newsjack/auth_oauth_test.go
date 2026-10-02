@@ -4,10 +4,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
+	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -101,7 +106,7 @@ func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 				"token_type":"Bearer",
 				"expires_in":3600,
 				"refresh_token":"mcp_rt_test",
-				"scope":"news:search media_lists:manage"
+				"scope":"` + medialystOAuthDefaultScope + `"
 			}`))
 		default:
 			t.Fatalf("unexpected path: %s", r.URL.Path)
@@ -156,12 +161,134 @@ func TestLoginDeviceFlowSendsClientAndStoresOAuth(t *testing.T) {
 		if creds.Medialyst.OAuth == nil ||
 			creds.Medialyst.OAuth.AccessToken != "mcp_at_test" ||
 			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_test" ||
+			creds.Medialyst.OAuth.Scope != medialystOAuthDefaultScope ||
 			creds.Medialyst.OAuth.ClientID != medialystOAuthClientID ||
 			creds.Medialyst.OAuth.BaseURL != server.URL ||
 			creds.Medialyst.Source != medialystOAuthSource {
 			t.Fatalf("unexpected credentials: %#v", creds.Medialyst)
 		}
 		assertOwnerOnlyFile(t, credentialsPath())
+	})
+}
+
+func TestLoginRetriesWithoutProjectScopeOnInvalidScope(t *testing.T) {
+	home := t.TempDir()
+	var requestedScopes []string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.URL.Path {
+		case "/api/oauth/device_authorization":
+			if err := r.ParseForm(); err != nil {
+				t.Fatal(err)
+			}
+			requestedScopes = append(requestedScopes, r.Form.Get("scope"))
+			if len(requestedScopes) == 1 {
+				w.WriteHeader(http.StatusBadRequest)
+				w.Write([]byte(`{"error":"invalid_scope","error_description":"unsupported scope"}`))
+				return
+			}
+			w.Write([]byte(`{
+				"device_code":"mcp_dc_legacy",
+				"user_code":"OLD-SERV",
+				"verification_uri":"` + serverDeviceURL(r, "/device") + `",
+				"expires_in":600,
+				"interval":1
+			}`))
+		case "/api/oauth/token":
+			w.Write([]byte(`{
+				"access_token":"mcp_at_legacy",
+				"token_type":"Bearer",
+				"expires_in":3600,
+				"refresh_token":"mcp_rt_legacy"
+			}`))
+		default:
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+	}))
+	defer server.Close()
+	withOAuthHooks(t, nil, func(time.Duration) {}, nil)
+
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"login", "--base-url", server.URL, "--no-browser"}, &out, &errBuf)
+		if code != 0 {
+			t.Fatalf("login code=%d stdout=%s stderr=%s", code, out.String(), errBuf.String())
+		}
+		if len(requestedScopes) != 2 ||
+			requestedScopes[0] != medialystOAuthDefaultScope ||
+			requestedScopes[1] != medialystOAuthLegacyScope {
+			t.Fatalf("requested scopes=%v", requestedScopes)
+		}
+		if !strings.Contains(errBuf.String(), "retrying login without project tools") {
+			t.Fatalf("stderr should explain compatibility retry:\n%s", errBuf.String())
+		}
+		creds, ok, err := readCredentialsFile()
+		if err != nil || !ok || creds.Medialyst.OAuth == nil {
+			t.Fatalf("read credentials ok=%v err=%v creds=%#v", ok, err, creds)
+		}
+		if creds.Medialyst.OAuth.Scope != medialystOAuthLegacyScope {
+			t.Fatalf("stored scope=%q, want %q", creds.Medialyst.OAuth.Scope, medialystOAuthLegacyScope)
+		}
+	})
+}
+
+func TestAuthStatusReportsOAuthScopesAndProjectReloginHint(t *testing.T) {
+	home := t.TempDir()
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		writeGrant := func(scope string) {
+			t.Helper()
+			if _, err := writeOAuthCredentials(oauthTokenResponse{
+				AccessToken:  "mcp_at_saved",
+				TokenType:    "Bearer",
+				ExpiresIn:    3600,
+				RefreshToken: "mcp_rt_saved",
+				Scope:        scope,
+			}); err != nil {
+				t.Fatal(err)
+			}
+		}
+		readStatus := func() (map[string]any, string) {
+			t.Helper()
+			var out, errBuf bytes.Buffer
+			if code := runCLI([]string{"auth", "status"}, &out, &errBuf); code != 0 {
+				t.Fatalf("auth status code=%d stderr=%s", code, errBuf.String())
+			}
+			var status map[string]any
+			if err := json.Unmarshal(out.Bytes(), &status); err != nil {
+				t.Fatalf("invalid auth status JSON: %v\n%s", err, out.String())
+			}
+			return status, errBuf.String()
+		}
+
+		writeGrant(medialystOAuthDefaultScope)
+		status, statusErr := readStatus()
+		if status["medialyst_project_tools_enabled"] != true ||
+			!containsAnyString(anySlice(status["medialyst_oauth_scopes"]), medialystOAuthProjectsScope) {
+			t.Fatalf("status should report project scope: %#v", status)
+		}
+		if statusErr != "" {
+			t.Fatalf("fully scoped grant should not print a hint: %q", statusErr)
+		}
+
+		writeGrant(medialystOAuthLegacyScope)
+		status, statusErr = readStatus()
+		if status["medialyst_project_tools_enabled"] != false ||
+			containsAnyString(anySlice(status["medialyst_oauth_scopes"]), medialystOAuthProjectsScope) {
+			t.Fatalf("status should report the legacy grant: %#v", status)
+		}
+		if !strings.Contains(statusErr, "Run newsjack login again to enable Medialyst project tools.") {
+			t.Fatalf("legacy grant should print the re-login hint: %q", statusErr)
+		}
 	})
 }
 
@@ -278,7 +405,7 @@ func TestDevicePollRetriesTransientTransportError(t *testing.T) {
 	}
 }
 
-func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
+func TestRefreshRotatesSavedOAuthTokenAndPreservesOldGrantScopes(t *testing.T) {
 	home := t.TempDir()
 	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
 	withOAuthHooks(t, nil, func(time.Duration) {}, func() time.Time { return now })
@@ -295,7 +422,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 			t.Fatalf("refresh form=%#v", r.Form)
 		}
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new","scope":"news:search media_lists:manage"}`))
+		w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new"}`))
 	}))
 	defer server.Close()
 
@@ -316,7 +443,7 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 				RefreshToken: "mcp_rt_old",
 				TokenType:    "Bearer",
 				ExpiresAt:    now.Add(-time.Hour).Format(time.RFC3339),
-				Scope:        medialystOAuthDefaultScope,
+				Scope:        medialystOAuthLegacyScope,
 				ClientID:     medialystOAuthClientID,
 				BaseURL:      server.URL,
 			},
@@ -338,8 +465,285 @@ func TestRefreshRotatesSavedOAuthToken(t *testing.T) {
 		}
 		if creds.Medialyst.APIKey == "" ||
 			creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" ||
+			creds.Medialyst.OAuth.Scope != medialystOAuthLegacyScope ||
 			creds.Medialyst.OAuth.BaseURL != server.URL {
 			t.Fatalf("credentials after refresh=%#v", creds.Medialyst)
+		}
+	})
+}
+
+func TestConcurrentOAuthRefreshUsesRotatedTokenOnce(t *testing.T) {
+	home := t.TempDir()
+	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
+	withOAuthHooks(t, nil, nil, func() time.Time { return now })
+
+	var tokenCalls atomic.Int32
+	var tokenMu sync.Mutex
+	activeRefreshToken := "mcp_rt_old"
+	familyRevoked := false
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/oauth/token" {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		tokenCalls.Add(1)
+		if err := r.ParseForm(); err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		tokenMu.Lock()
+		if familyRevoked || r.Form.Get("refresh_token") != activeRefreshToken {
+			familyRevoked = true
+			tokenMu.Unlock()
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write([]byte(`{"error":"invalid_grant","error_description":"refresh token reuse revoked the token family"}`))
+			return
+		}
+		activeRefreshToken = "mcp_rt_new"
+		tokenMu.Unlock()
+		time.Sleep(75 * time.Millisecond)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"access_token":"mcp_at_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_new","scope":"news:search"}`))
+	}))
+	defer server.Close()
+
+	withTempEnv(t, map[string]string{
+		"HOME":                        home,
+		"NEWSJACK_HOME":               "",
+		"NEWSJACK_IGNORE_DOTENV":      "1",
+		"MEDIALYST_API_KEY":           "",
+		"NEWSJACK_MEDIALYST_API_BASE": "",
+		"MEDIALYST_API_BASE":          "",
+	}, func() {
+		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{
+			APIKey: "mlst_" + strings.Repeat("a", 12),
+			OAuth: &medialystOAuthCredentials{
+				AccessToken:  "mcp_at_old",
+				RefreshToken: "mcp_rt_old",
+				TokenType:    "Bearer",
+				ExpiresAt:    now.Add(-time.Hour).Format(time.RFC3339),
+				Scope:        "news:search",
+				ClientID:     medialystOAuthClientID,
+				BaseURL:      server.URL,
+			},
+		}}); err != nil {
+			t.Fatal(err)
+		}
+
+		const callers = 12
+		start := make(chan struct{})
+		results := make(chan error, callers)
+		var wg sync.WaitGroup
+		for i := 0; i < callers; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				<-start
+				cred, err := loadMedialystBearerCredential()
+				if err == nil && cred.Token != "mcp_at_new" {
+					err = fmt.Errorf("access token=%q, want mcp_at_new", cred.Token)
+				}
+				results <- err
+			}()
+		}
+		close(start)
+		wg.Wait()
+		close(results)
+		for err := range results {
+			if err != nil {
+				t.Fatal(err)
+			}
+		}
+		if got := tokenCalls.Load(); got != 1 {
+			t.Fatalf("refresh POSTs=%d, want 1", got)
+		}
+		tokenMu.Lock()
+		revoked := familyRevoked
+		tokenMu.Unlock()
+		if revoked {
+			t.Fatal("refresh token family was revoked")
+		}
+		creds, _, err := readCredentialsFile()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if creds.Medialyst.OAuth == nil || creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" {
+			t.Fatalf("credentials did not keep the rotated token: %#v", creds.Medialyst.OAuth)
+		}
+	})
+}
+
+func TestCredentialsRefreshLockHasBoundedWait(t *testing.T) {
+	withTempEnv(t, map[string]string{
+		"HOME":          t.TempDir(),
+		"NEWSJACK_HOME": "",
+	}, func() {
+		oldTimeout := credentialsLockTimeout
+		credentialsLockTimeout = 100 * time.Millisecond
+		defer func() { credentialsLockTimeout = oldTimeout }()
+
+		release, err := lockCredentialsFile()
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer release()
+		if _, err := lockCredentialsFile(); err == nil || !strings.Contains(err.Error(), "timed out") {
+			t.Fatalf("second lock error=%v, want bounded timeout", err)
+		}
+	})
+}
+
+func TestOAuthRefreshAcrossProcessesUsesRotatedTokenOnce(t *testing.T) {
+	home := t.TempDir()
+	var tokenCalls atomic.Int32
+	var tokenMu sync.Mutex
+	activeRefreshToken := "mcp_rt_process_old"
+	familyRevoked := false
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		tokenCalls.Add(1)
+		if err := r.ParseForm(); err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		tokenMu.Lock()
+		if familyRevoked || r.Form.Get("refresh_token") != activeRefreshToken {
+			familyRevoked = true
+			tokenMu.Unlock()
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write([]byte(`{"error":"invalid_grant","error_description":"refresh token reuse revoked the token family"}`))
+			return
+		}
+		activeRefreshToken = "mcp_rt_process_new"
+		tokenMu.Unlock()
+		time.Sleep(100 * time.Millisecond)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"access_token":"mcp_at_process_new","token_type":"Bearer","expires_in":3600,"refresh_token":"mcp_rt_process_new"}`))
+	}))
+	defer server.Close()
+
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{OAuth: &medialystOAuthCredentials{
+			AccessToken:  "mcp_at_process_old",
+			RefreshToken: "mcp_rt_process_old",
+			ExpiresAt:    time.Now().Add(-time.Hour).Format(time.RFC3339),
+			BaseURL:      server.URL,
+		}}}); err != nil {
+			t.Fatal(err)
+		}
+
+		const processes = 4
+		type helperProcess struct {
+			cmd    *exec.Cmd
+			output bytes.Buffer
+		}
+		commands := make([]*helperProcess, 0, processes)
+		for i := 0; i < processes; i++ {
+			process := &helperProcess{cmd: exec.Command(os.Args[0], "-test.run=^TestOAuthRefreshHelperProcess$")}
+			process.cmd.Env = append(os.Environ(),
+				"NEWSJACK_OAUTH_REFRESH_HELPER=1",
+				"HOME="+home,
+				"NEWSJACK_HOME=",
+				"NEWSJACK_IGNORE_DOTENV=1",
+				"MEDIALYST_API_KEY=",
+			)
+			process.cmd.Stdout = &process.output
+			process.cmd.Stderr = &process.output
+			if err := process.cmd.Start(); err != nil {
+				t.Fatal(err)
+			}
+			commands = append(commands, process)
+		}
+		for _, process := range commands {
+			if err := process.cmd.Wait(); err != nil {
+				t.Fatalf("refresh helper failed: %v\n%s", err, process.output.String())
+			}
+		}
+		if got := tokenCalls.Load(); got != 1 {
+			t.Fatalf("refresh POSTs=%d, want 1", got)
+		}
+		tokenMu.Lock()
+		revoked := familyRevoked
+		tokenMu.Unlock()
+		if revoked {
+			t.Fatal("refresh token family was revoked")
+		}
+		creds, _, err := readCredentialsFile()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if creds.Medialyst.OAuth == nil || creds.Medialyst.OAuth.RefreshToken != "mcp_rt_process_new" {
+			t.Fatalf("credentials did not keep the rotated token: %#v", creds.Medialyst.OAuth)
+		}
+	})
+}
+
+func TestOAuthRefreshHelperProcess(t *testing.T) {
+	if os.Getenv("NEWSJACK_OAUTH_REFRESH_HELPER") != "1" {
+		return
+	}
+	cred, err := loadMedialystBearerCredential()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cred.Token != "mcp_at_process_new" {
+		t.Fatalf("access token=%q, want mcp_at_process_new", cred.Token)
+	}
+}
+
+func TestRefreshTransportFailureIsNotRetriedWithSameToken(t *testing.T) {
+	home := t.TempDir()
+	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
+	withOAuthHooks(t, nil, nil, func() time.Time { return now })
+	var tokenCalls atomic.Int32
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		tokenCalls.Add(1)
+		hijacker, ok := w.(http.Hijacker)
+		if !ok {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		conn, _, err := hijacker.Hijack()
+		if err == nil {
+			_ = conn.Close()
+		}
+	}))
+	defer server.Close()
+
+	withTempEnv(t, map[string]string{
+		"HOME":                   home,
+		"NEWSJACK_HOME":          "",
+		"NEWSJACK_IGNORE_DOTENV": "1",
+		"MEDIALYST_API_KEY":      "",
+	}, func() {
+		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{OAuth: &medialystOAuthCredentials{
+			AccessToken:  "mcp_at_old",
+			RefreshToken: "mcp_rt_old",
+			ExpiresAt:    now.Add(-time.Hour).Format(time.RFC3339),
+			BaseURL:      server.URL,
+		}}}); err != nil {
+			t.Fatal(err)
+		}
+		_, firstErr := loadMedialystBearerCredential()
+		if firstErr == nil || !strings.Contains(firstErr.Error(), "will not be retried with the same token") || !strings.Contains(firstErr.Error(), "newsjack login") || !strings.Contains(firstErr.Error(), "auth set-medialyst --key") {
+			t.Fatalf("first refresh error=%v", firstErr)
+		}
+		_, _ = loadMedialystBearerCredential()
+		if got := tokenCalls.Load(); got != 1 {
+			t.Fatalf("refresh POSTs=%d, want 1", got)
+		}
+		creds, _, err := readCredentialsFile()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if creds.Medialyst.OAuth == nil || creds.Medialyst.OAuth.RefreshToken != "" {
+			t.Fatalf("uncertain refresh token should not remain retryable: %#v", creds.Medialyst.OAuth)
 		}
 	})
 }
@@ -415,6 +819,83 @@ func TestMedialystAPIRefreshesOAuthAfterUnauthorizedAndRetries(t *testing.T) {
 		}
 		if creds.Medialyst.OAuth.RefreshToken != "mcp_rt_new" {
 			t.Fatalf("refresh token was not rotated: %#v", creds.Medialyst.OAuth)
+		}
+	})
+}
+
+func TestMedialystAPIUnauthorizedUsesNewerStoredAccessToken(t *testing.T) {
+	home := t.TempDir()
+	now := time.Date(2026, 6, 20, 0, 0, 0, 0, time.UTC)
+	withOAuthHooks(t, nil, nil, func() time.Time { return now })
+	var authMu sync.Mutex
+	var authHeaders []string
+	var refreshCalls atomic.Int32
+	var writeMu sync.Mutex
+	var writeErr error
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		switch r.URL.Path {
+		case "/v1/news/search":
+			auth := r.Header.Get("Authorization")
+			authMu.Lock()
+			authHeaders = append(authHeaders, auth)
+			authMu.Unlock()
+			if auth == "Bearer mcp_at_old" {
+				writeMu.Lock()
+				_, writeErr = writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{OAuth: &medialystOAuthCredentials{
+					AccessToken:  "mcp_at_new",
+					RefreshToken: "mcp_rt_new",
+					ExpiresAt:    now.Add(time.Hour).Format(time.RFC3339),
+					BaseURL:      serverDeviceURL(r, ""),
+				}}})
+				writeMu.Unlock()
+				w.WriteHeader(http.StatusUnauthorized)
+				_, _ = w.Write([]byte(`{"error":{"message":"expired"}}`))
+				return
+			}
+			_, _ = w.Write([]byte(`{"news":[]}`))
+		case "/api/oauth/token":
+			refreshCalls.Add(1)
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write([]byte(`{"error":"invalid_grant"}`))
+		default:
+			w.WriteHeader(http.StatusNotFound)
+		}
+	}))
+	defer server.Close()
+
+	withTempEnv(t, map[string]string{
+		"HOME":                        home,
+		"NEWSJACK_HOME":               "",
+		"NEWSJACK_IGNORE_DOTENV":      "1",
+		"MEDIALYST_API_KEY":           "",
+		"NEWSJACK_MEDIALYST_API_BASE": server.URL,
+	}, func() {
+		if _, err := writeCredentialsFile(credentialsFile{Medialyst: medialystCredentials{OAuth: &medialystOAuthCredentials{
+			AccessToken:  "mcp_at_old",
+			RefreshToken: "mcp_rt_old",
+			ExpiresAt:    now.Add(time.Hour).Format(time.RFC3339),
+			BaseURL:      server.URL,
+		}}}); err != nil {
+			t.Fatal(err)
+		}
+		if _, err := medialystAPIRequest(http.MethodGet, "/v1/news/search", nil, nil, nil, time.Second); err != nil {
+			t.Fatal(err)
+		}
+		writeMu.Lock()
+		gotWriteErr := writeErr
+		writeMu.Unlock()
+		if gotWriteErr != nil {
+			t.Fatal(gotWriteErr)
+		}
+		authMu.Lock()
+		gotHeaders := append([]string(nil), authHeaders...)
+		authMu.Unlock()
+		if len(gotHeaders) != 2 || gotHeaders[0] != "Bearer mcp_at_old" || gotHeaders[1] != "Bearer mcp_at_new" {
+			t.Fatalf("auth headers=%v", gotHeaders)
+		}
+		if got := refreshCalls.Load(); got != 0 {
+			t.Fatalf("refresh POSTs=%d, want 0", got)
 		}
 	})
 }
@@ -496,8 +977,17 @@ func TestOAuthCredentialsJSONShape(t *testing.T) {
 		}
 		med := valueOrEmptyMap(payload["medialyst"])
 		oauth := valueOrEmptyMap(med["oauth"])
-		if med["api_key"] == "" || oauth["access_token"] != "mcp_at_saved" || oauth["client_id"] != medialystOAuthClientID {
+		if med["api_key"] == "" || oauth["access_token"] != "mcp_at_saved" ||
+			oauth["scope"] != medialystOAuthDefaultScope || oauth["client_id"] != medialystOAuthClientID {
 			t.Fatalf("credentials JSON=%s", body)
+		}
+		assertOwnerOnlyFile(t, credentialsPath())
+		tempFiles, err := filepath.Glob(filepath.Join(filepath.Dir(credentialsPath()), ".credentials.json.tmp-*"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(tempFiles) != 0 {
+			t.Fatalf("temporary credential files remain: %v", tempFiles)
 		}
 		if code := saveMedialystAPIKey("mlst_"+strings.Repeat("b", 12), &bytes.Buffer{}, &bytes.Buffer{}); code != 0 {
 			t.Fatalf("save second API key code=%d", code)

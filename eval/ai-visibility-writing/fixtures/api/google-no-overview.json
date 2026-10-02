@@ -1,0 +1,17 @@
+{
+  "status_code": 20000,
+  "cost": 0.0012,
+  "tasks_count": 1,
+  "tasks_error": 0,
+  "tasks": [{
+    "id": "mock-google-no-overview",
+    "status_code": 20000,
+    "cost": 0.0012,
+    "result_count": 1,
+    "result": [{
+      "items": [
+        {"type": "organic", "rank_group": 1, "rank_absolute": 1, "title": "Only organic", "url": "https://organic.example/page"}
+      ]
+    }]
+  }]
+}

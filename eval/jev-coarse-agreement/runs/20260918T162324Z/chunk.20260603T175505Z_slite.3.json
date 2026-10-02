@@ -1,0 +1,553 @@
+{
+ "profile": "slite",
+ "profile_context": {
+  "company": "Slite",
+  "website": "https://slite.com",
+  "description": "AI-powered knowledge base and company wiki for documentation, verified internal knowledge, and enterprise search.",
+  "topics": [
+   "AI knowledge base",
+   "enterprise search",
+   "internal documentation",
+   "company wiki",
+   "AI knowledge management",
+   "workplace knowledge search",
+   "enterprise RAG"
+  ],
+  "competitors": [
+   "Notion",
+   "Notion AI",
+   "Atlassian Confluence",
+   "Guru",
+   "Glean",
+   "Slab",
+   "Document360"
+  ],
+  "search_terms": [
+   "AI knowledge base",
+   "enterprise RAG",
+   "workplace AI search",
+   "internal documentation AI",
+   "company wiki AI",
+   "Notion AI",
+   "Atlassian Confluence AI",
+   "Glean enterprise search",
+   "Guru knowledge management",
+   "Document360 AI"
+  ],
+  "standing": [
+   "knowledge management",
+   "AI-powered internal search",
+   "company documentation",
+   "team onboarding",
+   "customer support knowledge workflows"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with knowledge management expertise",
+   "Product lead for AI search",
+   "Customer success lead for documentation adoption"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "de80ca9bb28a2de2",
+   "title": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique",
+   "query": "workplace AI search",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique",
+     "url": "https://x.com/search?q=Les+chatbots+IA+prennent+le+contr%C3%B4le+des+premiers+entretiens+d%27embauche+face+%C3%A0+la+pol%C3%A9mique&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les chatbots IA prennent le contr\u00f4le des premiers entretiens d'embauche face \u00e0 la pol\u00e9mique Une jeune femme fixe son ordinateur portable, r\u00e9pondant aux questions d'un avatar IA souriant sur ses pr\u00e9tentions salariales et son ad\u00e9quation au poste. C'est la nouvelle r\u00e9alit\u00e9 pour de nombreux demandeurs d'emploi\u00a0: affronter \u2026",
+     "published_at": "2026-06-02T20:47:36.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "fdc757aa1805c8a6",
+   "title": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA",
+   "query": "workplace AI search",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [
+    {
+     "note": "Review against tragedy and human-suffering newsjacking rules.",
+     "term": "explosion",
+     "type": "hard_safety_term"
+    }
+   ],
+   "evidence": [
+    {
+     "title": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA",
+     "url": "https://x.com/search?q=Les+PDG+du+secteur+technologique+stup%C3%A9faits+par+l%27explosion+des+prix+des+jetons+d%27IA&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les PDG du secteur technologique stup\u00e9faits par l'explosion des prix des jetons d'IA Dans un sketch, une PDG reste bouche b\u00e9e en apprenant que le codage de l'IA de son \u00e9quipe a co\u00fbt\u00e9 700 000 dollars, soit bien plus que le salaire du d\u00e9veloppeur. Une vid\u00e9o de 42 secondes, publi\u00e9e le 2 juin par la soci\u00e9t\u00e9 de g\u00e9nie logici\u2026",
+     "published_at": "2026-06-03T03:29:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "944b9f88754d0819",
+   "title": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ?",
+   "query": "workplace AI search",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ?",
+     "url": "https://x.com/search?q=Que+restera-t-il+aux+humains+lorsque+l%27IA+ma%C3%AEtrisera+tout+%3F&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Que restera-t-il aux humains lorsque l'IA ma\u00eetrisera tout ? Kekius Maximus, passionn\u00e9 de science, a pos\u00e9 une question cruciale sur X:\u00a0: une fois que l\u2019IA aura tout g\u00e9r\u00e9, que ferons-nous\u00a0? Les r\u00e9ponses ont afflu\u00e9, m\u00ealant espoir, joie et r\u00e9flexions r\u00e9alistes sur l\u2019importance de rester humains. La publication de Kekius Ma\u2026",
+     "published_at": "2026-06-03T04:12:34.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d19c211804e25256",
+   "title": "Microsoft int\u00e8gre les agents d'IA OpenClaw \u00e0 Windows et \u00e0 Office 365 lors de la conf\u00e9rence Build 2026.",
+   "query": "workplace AI search",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft int\u00e8gre les agents d'IA OpenClaw \u00e0 Windows et \u00e0 Office 365 lors de la conf\u00e9rence Build 2026.",
+     "url": "https://x.com/search?q=Microsoft+int%C3%A8gre+les+agents+d%27IA+OpenClaw+%C3%A0+Windows+et+%C3%A0+Office+365+lors+de+la+conf%C3%A9rence+Build+2026.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Microsoft int\u00e8gre les agents d'IA OpenClaw \u00e0 Windows et \u00e0 Office 365 lors de la conf\u00e9rence Build 2026. Lors de la conf\u00e9rence Build 2026, Satya Nadella a pr\u00e9sent\u00e9 sa vision d'un monde o\u00f9 des assistants IA autonomes seraient int\u00e9gr\u00e9s directement \u00e0 Windows. OpenClaw, le logiciel libre \u00e0 succ\u00e8s comptant 370\u00a0000 \u00e9toiles sur\u2026",
+     "published_at": "2026-06-03T16:22:49.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2f59b640401af9c5",
+   "title": "3 Takeaways as AI Moves Into Banks\u2019 Daily Operating Machinery",
+   "query": "internal documentation AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 40.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "3 Takeaways as AI Moves Into Banks\u2019 Daily Operating Machinery",
+     "url": "https://www.pymnts.com/news/banking/2026/3-takeaways-as-ai-moves-into-banks-daily-operating-machinery/",
+     "container": "PYMNTS.com",
+     "source": "news_search",
+     "excerpt": "Artificial intelligence is emerging in the financial services realm as both banking product and workplace tool.",
+     "published_at": "2026-06-02T18:55:55.904012Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2cf8b97abe9ece12",
+   "title": "Microsoft Wants to 'Make People Addicted' to its New AI Assistant, Internal Documents Reveal",
+   "query": "internal documentation AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 40.4,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Wants to 'Make People Addicted' to its New AI Assistant, Internal Documents Reveal",
+     "url": "https://www.404media.co/microsoft-wants-to-make-people-addicted-to-scout-its-new-ai-assistant-internal-documents-reveal/",
+     "container": "404 Media",
+     "source": "news_search",
+     "excerpt": "Planning documents for \"Scout\" say the plan is to \"make people addicted\" to the tool before adding new features.",
+     "published_at": "2026-06-02T21:55:55.903936Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "34356d474003def8",
+   "title": "Why AI won\u2019t replace compliance teams \u2014 but will reshape them",
+   "query": "internal documentation AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 35.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Why AI won\u2019t replace compliance teams \u2014 but will reshape them",
+     "url": "https://fintech.global/2026/06/03/why-ai-wont-replace-compliance-teams-but-will-reshape-them/",
+     "container": "FinTech Global",
+     "source": "news_search",
+     "excerpt": "Generative AI has rapidly embedded itself across financial services, appearing in everything from client-facing tools to internal workflows.",
+     "published_at": "2026-06-03T11:55:55.903967Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "feba07e7c730204d",
+   "title": "La d\u00e9monstration d'un article sur l'IA par un universitaire provoque un affrontement scientifique.",
+   "query": "internal documentation AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "La d\u00e9monstration d'un article sur l'IA par un universitaire provoque un affrontement scientifique.",
+     "url": "https://x.com/search?q=La+d%C3%A9monstration+d%27un+article+sur+l%27IA+par+un+universitaire+provoque+un+affrontement+scientifique.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "La d\u00e9monstration d'un article sur l'IA par un universitaire provoque un affrontement scientifique. Mushtaq Bilal a fourni \u00e0 l'IA une simple requ\u00eate avec ses sources de recherche, et un brouillon d'article quasi publiable a \u00e9t\u00e9 g\u00e9n\u00e9r\u00e9. Les universitaires se sont rapidement partag\u00e9s quant \u00e0 savoir si cela annon\u00e7ait un pr\u2026",
+     "published_at": "2026-06-02T21:04:37.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2a607278fa6d9caa",
+   "title": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web",
+   "query": "internal documentation AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web",
+     "url": "https://x.com/search?q=OpenAI+Codex+lance+des+sites+pour+la+cr%C3%A9ation+instantan%C3%A9e+de+sites+web&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "OpenAI Codex lance des sites pour la cr\u00e9ation instantan\u00e9e de sites web Imaginez saisir une simple description et voir un site web ou une application compl\u00e8te prendre vie, avec bases de donn\u00e9es et design \u00e9l\u00e9gant. Codex d'OpenAI a rendu cela possible pour les utilisateurs. La nouvelle fonctionnalit\u00e9 Sites de Codex permet\u2026",
+     "published_at": "2026-06-03T16:07:20.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "a097671ceea670c4",
+   "title": "L'essor du codage IA engendre un gaspillage massif au sein des \u00e9quipes d'ing\u00e9nierie",
+   "query": "internal documentation AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "L'essor du codage IA engendre un gaspillage massif au sein des \u00e9quipes d'ing\u00e9nierie",
+     "url": "https://x.com/search?q=L%27essor+du+codage+IA+engendre+un+gaspillage+massif+au+sein+des+%C3%A9quipes+d%27ing%C3%A9nierie&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "L'essor du codage IA engendre un gaspillage massif au sein des \u00e9quipes d'ing\u00e9nierie Les ing\u00e9nieurs s'efforcent d'utiliser davantage de jetons d'IA dans le code, mais un nouveau rapport montre que la plupart de ces efforts finissent par \u00eatre jet\u00e9s \u00e0 la poubelle avant m\u00eame la mise en production. Entelligence AI a analys\u00e9\u2026",
+     "published_at": "2026-06-03T17:48:18.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "ba6d168ba7c696bc",
+   "title": "TownAI se lance avec 55 millions de dollars pour cr\u00e9er des assistants personnels proactifs.",
+   "query": "company wiki AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "TownAI se lance avec 55 millions de dollars pour cr\u00e9er des assistants personnels proactifs.",
+     "url": "https://x.com/search?q=TownAI+se+lance+avec+55+millions+de+dollars+pour+cr%C3%A9er+des+assistants+personnels+proactifs.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "TownAI se lance avec 55 millions de dollars pour cr\u00e9er des assistants personnels proactifs. Imaginez une IA qui lit vos e-mails, comprend votre style de travail et r\u00e9dige des messages avec votre propre voix, le tout sans relances constantes. TownAI sort aujourd'hui de sa phase b\u00eata avec une lev\u00e9e de fonds de s\u00e9rie A de\u2026",
+     "published_at": "2026-06-03T15:34:07.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "2826a6aec66b0170",
+   "title": "Ollie AI g\u00e8re le chaos familial, mais divise les parents sur la question de l'externalisation de l'\u00e9ducation des enfants.",
+   "query": "company wiki AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Ollie AI g\u00e8re le chaos familial, mais divise les parents sur la question de l'externalisation de l'\u00e9ducation des enfants.",
+     "url": "https://x.com/search?q=Ollie+AI+g%C3%A8re+le+chaos+familial%2C+mais+divise+les+parents+sur+la+question+de+l%27externalisation+de+l%27%C3%A9ducation+des+enfants.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Ollie AI g\u00e8re le chaos familial, mais divise les parents sur la question de l'externalisation de l'\u00e9ducation des enfants. Imaginez une intelligence artificielle qui s'immisce dans vos conversations familiales pour se souvenir des anniversaires oubli\u00e9s et dresser des listes de courses \u00e0 partir du contenu du r\u00e9frig\u00e9rateu\u2026",
+     "published_at": "2026-06-03T15:35:44.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "4c4f6e122c629f2c",
+   "title": "Les investissements des entreprises dans l'IA ne permettent pas de r\u00e9aliser les \u00e9conomies escompt\u00e9es.",
+   "query": "company wiki AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Les investissements des entreprises dans l'IA ne permettent pas de r\u00e9aliser les \u00e9conomies escompt\u00e9es.",
+     "url": "https://x.com/search?q=Les+investissements+des+entreprises+dans+l%27IA+ne+permettent+pas+de+r%C3%A9aliser+les+%C3%A9conomies+escompt%C3%A9es.&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Les investissements des entreprises dans l'IA ne permettent pas de r\u00e9aliser les \u00e9conomies escompt\u00e9es. Les dirigeants esp\u00e9raient que l'IA permettrait de r\u00e9duire les co\u00fbts de fa\u00e7on significative, mais une nouvelle enqu\u00eate de Bain montre que la plupart d'entre eux constatent des retomb\u00e9es bien moindres que pr\u00e9vu. Une enqu\u2026",
+     "published_at": "2026-06-03T17:48:00.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "ed18ccf95c32a031",
+   "title": "Snowflake and Anthropic Advance Governed AI for Enterprise Production Workloads",
+   "query": "Notion AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 35.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Snowflake and Anthropic Advance Governed AI for Enterprise Production Workloads",
+     "url": "https://www.hpcwire.com/bigdatawire/this-just-in/snowflake-and-anthropic-advance-governed-ai-for-enterprise-production-workloads/",
+     "container": "HPCwire",
+     "source": "news_search",
+     "excerpt": "SAN FRANCISCO, June 2, 2026 \u2014 Snowflake and Anthropic have announced at Snowflake Summit 26 significant momentum in their strategic partnership.",
+     "published_at": "2026-06-02T17:56:00.852615Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "85f496cb1309121f",
+   "title": "Paste launches MCP support to connect your clipboard history to AI tools",
+   "query": "Notion AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 44.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Paste launches MCP support to connect your clipboard history to AI tools",
+     "url": "https://9to5mac.com/2026/06/02/paste-launches-mcp-support-to-connect-your-clipboard-history-to-ai-tools/",
+     "container": "9to5Mac",
+     "source": "news_search",
+     "excerpt": "Paste MCP connects your clipboard history to several AI tools, from Claude and Codex, to Cursor and beyond. Here are the details.",
+     "published_at": "2026-06-02T19:56:00.852591Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "d6bbf09cc0b60a1b",
+   "title": "Otter.ai Founder and CEO Sam Liang on Why A.I. Will Make Typing Obsolete Soon",
+   "query": "Notion AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 39.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Otter.ai Founder and CEO Sam Liang on Why A.I. Will Make Typing Obsolete Soon",
+     "url": "https://observer.com/2026/06/otter-founder-sam-liang-voice-ai-automate-workflow/",
+     "container": "Observer",
+     "source": "news_search",
+     "excerpt": "Otter founder and CEO Sam Liang outlines how conversational A.I. and context-rich data could redefine how people work and communicate.",
+     "published_at": "2026-06-03T13:56:00.852567Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "80fe6e7b813b2909",
+   "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+   "query": "Notion AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars",
+     "url": "https://x.com/search?q=MiniMax+lance+M3%2C+un+mod%C3%A8le+%C3%A0+pond%C3%A9ration+ouverte+avec+un+contexte+de+jetons+d%27un+million+de+dollars&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "MiniMax lance M3, un mod\u00e8le \u00e0 pond\u00e9ration ouverte avec un contexte de jetons d'un million de dollars Les ing\u00e9nieurs de MiniMax ont travaill\u00e9 toute la nuit pour livrer M3, un nouveau mod\u00e8le d'IA \u00e0 poids ouverts qui g\u00e8re des contextes de millions de jetons et excelle dans les t\u00e2ches de codage d\u00e8s le d\u00e9part. La soci\u00e9t\u00e9 ch\u2026",
+     "published_at": "2026-06-02T22:35:27.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "874b3c927950bbf9",
+   "title": "Cognition lance Devin Desktop pour la programmation multi-agents",
+   "query": "Notion AI",
+   "sources": [
+    "x_news"
+   ],
+   "lane": "x_news_unmatched",
+   "queue_priority": 42,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Cognition lance Devin Desktop pour la programmation multi-agents",
+     "url": "https://x.com/search?q=Cognition+lance+Devin+Desktop+pour+la+programmation+multi-agents&f=live",
+     "container": "x.com/news",
+     "source": "x_news",
+     "excerpt": "Cognition lance Devin Desktop pour la programmation multi-agents Les d\u00e9veloppeurs peuvent d\u00e9sormais piloter des flottes d'agents de codage IA (locaux ou dans le cloud) depuis une plateforme de bureau unique et transparente, sans avoir \u00e0 changer d'application. Cognition, cr\u00e9ateurs du logiciel d'ing\u00e9nierie logicielle nov\u2026",
+     "published_at": "2026-06-03T12:40:28.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

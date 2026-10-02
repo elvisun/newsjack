@@ -20,7 +20,7 @@ import (
 const defaultClaudeInstallCommand = "curl -fsSL https://claude.ai/install.sh | bash"
 const defaultClaudeInstallCommandWindows = "irm https://claude.ai/install.ps1 | iex"
 const xAPIKeyURL = "https://docs.x.com/fundamentals/authentication/oauth-2-0/bearer-tokens"
-const medialystAPIKeyURL = "https://medialyst.ai/agents"
+const medialystAPIKeyURL = "https://medialyst.ai/app/onboarding/developer"
 
 func cmdSetup(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("setup", flag.ContinueOnError)
@@ -323,7 +323,7 @@ func (w *setupWizard) promptForMedialystAPIKey() error {
 	}
 	fmt.Fprintln(w.stdout)
 	uiSectionExact(w.stdout, "Connect Medialyst (Optional)")
-	uiKV(w.stdout, "used for", "live news search and journalist enrichment")
+	uiKV(w.stdout, "used for", "live news search, journalist enrichment, and media list research")
 	uiKV(w.stdout, "recommended", "newsjack login")
 	uiKV(w.stdout, "browser approval", "opens a Medialyst link and stores OAuth in ~/.newsjack/credentials.json")
 	uiKV(w.stdout, "api key fallback", "newsjack auth set-medialyst --key <mlst_...>")
@@ -916,9 +916,9 @@ func medialystConfigured() bool {
 	return loadMedialystAuthStatus().Configured
 }
 
-func cmdMonitor(args []string, stdout, stderr io.Writer) int {
+func cmdMonitor(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open|brief"))
+		return fail(stderr, errors.New("usage: newsjack monitor init|test|run|schedule|status|open|brief|delivery"))
 	}
 	switch args[0] {
 	case "init":
@@ -935,6 +935,8 @@ func cmdMonitor(args []string, stdout, stderr io.Writer) int {
 		return cmdMonitorOpen(args[1:], stdout, stderr)
 	case "brief":
 		return cmdMonitorBrief(args[1:], stdout, stderr)
+	case "delivery":
+		return cmdMonitorDelivery(args[1:], stdin, stdout, stderr)
 	default:
 		return failf(stderr, "unknown monitor command: %s", args[0])
 	}

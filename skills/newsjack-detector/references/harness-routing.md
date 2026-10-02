@@ -6,6 +6,14 @@ The two coarse passes (relevance, story-origin) are low-cost tasks. They become 
 
 Before each coarse pass, identify the harness and take the first available path:
 
+0. **Jev engine path (relevance pass only).** If `newsjack doctor` shows TypeSafe (Jev) configured, run the relevance pass with the CLI instead of worker fanout:
+
+   ```bash
+   newsjack coarse-filter --engine jev --candidates candidates.json --output coarse_relevance_decisions.json
+   ```
+
+   The output is the same decisions contract; feed it to `filter-apply` unchanged. No chunking is needed, the CLI runs the calls in parallel. Disclose `coarse relevance pass: jev` in the final response and include the `engine` block's call count, token count, and estimated cost from the decisions file. If the command exits non-zero (more than a fifth of calls failed), fall through to the paths below for this run and say so. The story-origin pass never uses Jev: it needs retrieval and prose evidence.
+
 1. **Direct low-cost-model path.** If the harness can choose a model for a single step, run the coarse prompt with the lowest-cost reliable model below, then run the expensive pass with the strong model.
 2. **Low-cost subagent/worker path.** If the harness can't switch the current model but can spawn workers/subagents with a model hint, split candidates into chunks. Relevance workers return only `decisions`; origin workers return only `findings`. Merge each pass into its single JSON artifact.
 3. **Current-model fallback.** If neither is possible, run the prompts with the current model and state explicitly in the final response: `coarse passes ran with current model; this was semantic multi-stage, not cost-optimized multi-stage`.

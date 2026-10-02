@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "charter-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:build-ai-visibility-panel",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "provisional_charter: the user supplied only a URL and a description; business decision, estimand priorities, markets, competitors, surfaces, budget and approver are agent-proposed assumptions and are not human-approved",
+    "no_precision_target: directional_only until the variance pilot runs",
+    "campaign_response_excluded: no campaign was supplied, so campaign_response is not an estimand in this version and no campaign_experiment lane cells exist"
+  ],
+  "business_decision": "Decide whether assistant answers to real travel-connectivity questions currently surface this travel eSIM marketplace, in which buyer situations and constraint types it is absent, and where evidence is too thin to measure at all - so that content and evidence work can be prioritised for the next two quarters.",
+  "estimands": [
+    {
+      "name": "unaided_brand_presence",
+      "numerator": "Valid eligible answers that mention the target brand or a target-owned product name at least once",
+      "denominator": "All valid observations in partitions core and sentinel where aided_status is unaided, within one declared lane, surface, locale and wave",
+      "eligible_partitions": ["core", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Market share, category awareness, audience reach, purchase intent or revenue attribution. It is conditional on this panel and this configuration."
+    },
+    {
+      "name": "competitive_mention_share",
+      "numerator": "Valid eligible answers naming the target, counted against all supplier brands named across those same answers",
+      "denominator": "All valid observations in the aided partition where aided_status is category_aided, within one declared lane, surface, locale and wave; competitor_aided cells are reported in their own separate denominator and are never pooled with this one",
+      "eligible_partitions": ["aided"],
+      "eligible_lanes": ["closed_model", "retrieval"],
+      "does_not_prove": "Market share or relative commercial performance. A crowded, affiliate-dense answer set means mention share reflects publishing economics as much as merit."
+    },
+    {
+      "name": "citation_presence",
+      "numerator": "Valid retrieval-lane answers that expose at least one citation resolving to a target-owned domain",
+      "denominator": "All valid retrieval-lane observations where retrieval_used is true, within one declared partition, aided_status, surface, locale and wave",
+      "eligible_partitions": ["core", "sentinel", "aided", "rotating"],
+      "eligible_lanes": ["retrieval"],
+      "does_not_prove": "Referral traffic, click-through or influence on the answer text. Citation exposure varies by surface and is not comparable across surfaces."
+    },
+    {
+      "name": "aided_brand_knowledge",
+      "numerator": "Valid answers that state target attributes consistent with the dated evidence in source_manifest.json for destination, device and plan constraints",
+      "denominator": "All valid observations in the aided partition where aided_status is target_aided, within one declared lane, surface, locale and wave",
+      "eligible_partitions": ["aided"],
+      "eligible_lanes": ["closed_model", "retrieval"],
+      "does_not_prove": "That buyers hold the same beliefs, or that the model's stated facts are currently true; every plan, price and coverage fact must be re-verified against a dated source at scoring time."
+    },
+    {
+      "name": "answer_framing",
+      "numerator": "Valid answers whose structure matches the cell's declared expected_answer_kind",
+      "denominator": "All valid observations within one canonical cell, lane, surface, locale and wave",
+      "eligible_partitions": ["core", "sentinel", "aided", "rotating", "control"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Buyer preference or persuasion. It records how the assistant frames the answer, not how a person reacts to it."
+    }
+  ],
+  "target_population": "People who ask a general-purpose AI assistant, in English, how to obtain mobile data while travelling outside their home country, in the situations evidenced in buyer_jobs.json. This is a declared analytical population, not a probability sample of AI users.",
+  "exclusions": [
+    "Non-English prompts: no buyer-language evidence and no native reviewer available",
+    "Business, affiliate and reseller partner buyers (icp-006): company-asserted evidence only",
+    "In-app and on-device assistant surfaces that cannot be run with a declared session state",
+    "Voice-first assistants: no evidence base and no comparable parser",
+    "Any campaign-exposed measurement: no campaign supplied",
+    "Enterprise/IoT connectivity buyers: outside the described perimeter"
+  ],
+  "products": [
+    {"area": "local single-destination packages", "coverage_status": "covered", "cell_ids": ["cell-002", "cell-003", "cell-014", "cell-026"]},
+    {"area": "regional multi-country packages", "coverage_status": "covered", "cell_ids": ["cell-005", "cell-006", "cell-016", "cell-033"]},
+    {"area": "global multi-region packages", "coverage_status": "partial", "cell_ids": ["cell-033", "cell-009"], "gap_note": "No independent or behavioural buyer language specific to multi-continent global plans was retrieved; global coverage is measured only through the regional-versus-global comparison cell. Evidence needed: forum or review language from travellers choosing a global plan."},
+    {"area": "destination constraint", "coverage_status": "covered", "cell_ids": ["cell-002", "cell-003", "cell-005", "cell-006", "cell-014", "cell-016", "cell-023", "cell-026"]},
+    {"area": "device constraint", "coverage_status": "covered", "cell_ids": ["cell-010", "cell-011", "cell-019", "cell-027"]},
+    {"area": "plan constraint (data volume, unlimited fair use, validity, top-up)", "coverage_status": "covered", "cell_ids": ["cell-007", "cell-008", "cell-015", "cell-018", "cell-034"]},
+    {"area": "partner / reseller programme", "coverage_status": "excluded", "cell_ids": [], "gap_note": "Waiver W-002. Company-asserted evidence only (source-001, source-002). Evidence needed: independent partner-side sources or authorised customer evidence before any cell is created."},
+    {"area": "loyalty, referral and stored-value programme", "coverage_status": "excluded", "cell_ids": [], "gap_note": "Waiver W-003. Company-asserted only; no buyer language found. Also a campaign-adjacent term class held out of unaided measurement."}
+  ],
+  "markets": ["global outbound leisure travel, measured from en-US and en-CA prompting contexts only"],
+  "locales": ["en-US", "en-CA"],
+  "time_horizon": "One quarter of waves from first run, with monthly evidence intake and a quarterly panel review",
+  "surfaces": ["surface-closed-a", "surface-closed-b", "surface-retrieval-a", "surface-consumer-clean"],
+  "lanes": ["closed_model", "retrieval", "consumer_surface"],
+  "lane_policies": {
+    "closed_model": "No external retrieval, tools, files, RAG or conversation history. Fixed model/version, fixed system prompt, fixed sampling settings, fresh session per observation.",
+    "retrieval": "Retrieval allowed. Record retrieval_used, generated queries when exposed, live/cached state and all exposed citation metadata. Never pool with closed_model.",
+    "consumer_surface": "Clean, logged-out or declared archetype account, declared device and locale, personalisation and history state recorded. Never rolled up with API observations.",
+    "campaign_experiment": "Not instantiated in this version. No campaign wording, treatment set or matched control exists; a campaign lane requires pre-registration before any cell is created."
+  },
+  "surface_policies": {
+    "surface-closed-a": {"lane": "closed_model", "access": "api", "session": "fresh_per_observation", "sampling": "fixed_temperature_declared_at_run", "system_prompt": "fixed_empty_or_declared_minimal"},
+    "surface-closed-b": {"lane": "closed_model", "access": "api", "session": "fresh_per_observation", "sampling": "fixed_temperature_declared_at_run", "system_prompt": "fixed_empty_or_declared_minimal"},
+    "surface-retrieval-a": {"lane": "retrieval", "access": "api_or_product_with_search_enabled", "session": "fresh_per_observation", "record": ["retrieval_used", "generated_queries", "citations"]},
+    "surface-consumer-clean": {"lane": "consumer_surface", "access": "consumer_web_ui", "account_state": "logged_out_or_clean_archetype", "device": "declared", "history": "cleared", "note": "Sentinel cells only in this version, because manual collection cost limits volume."}
+  },
+  "reporting_strata": [
+    "proximity_band",
+    "aided_status",
+    "partition",
+    "job_id",
+    "information_act",
+    "journey_state",
+    "persona_id",
+    "locale",
+    "lane",
+    "surface",
+    "evidence_grade"
+  ],
+  "run_budget": {
+    "observations_per_wave_target": 700,
+    "basis": "639 planned observations per wave (see panel.yaml budget.calculation) plus headroom of roughly 10 percent for retries on invalid runs",
+    "waves_per_quarter": 3,
+    "status": "agent_proposed_not_approved"
+  },
+  "review_budget": {
+    "analyst_hours_per_wave": 6,
+    "basis": "Manual scoring of ambiguous mention/citation cases, consumer-surface collection, and B5 decay review",
+    "status": "agent_proposed_not_approved"
+  },
+  "precision_status": "directional_only",
+  "approver": null,
+  "approval_status": "pending",
+  "gates": [
+    {"gate": "gate_1_icp", "status": "pending", "owner": "human", "blocks": "promotion of any hypothesis_only ICP into core"},
+    {"gate": "gate_2_jobs", "status": "pending", "owner": "human", "blocks": "promotion of grade-C jobs job-005, job-008, job-009"},
+    {"gate": "gate_3_partitions", "status": "pending", "owner": "human", "blocks": "final core/aided partition assignment and the disputed QA decisions listed in prompt_qa.json"},
+    {"gate": "gate_4_panel", "status": "pending", "owner": "human", "blocks": "weights, limitations, cadence, claims language and any frozen version"}
+  ]
+}

@@ -26,6 +26,7 @@ This is the cleanest fit in the scan: an *AI customer-support chatbot* was socia
 - **[a3 · week, contrarian]** "The race to make support agents more autonomous is what got 20,000 accounts hijacked" — argued position for an opinion/analyst slot. *Needs: a defensible "where autonomy should stop" stance that survives a "you would say that, you're a vendor" challenge.*
 
 **Links** · Source of record: [The Verge — Meta AI support chatbot exploit](https://www.theverge.com/tech/945658/meta-ai-support-chatbot-exploit-instagram-accounts) (2026-06-08, editorial). Related: [TechCrunch original report](https://techcrunch.com/2026/06/01/hackers-hijacked-instagram-accounts-by-tricking-meta-ai-support-chatbot-into-granting-access/) (2026-06-01, the first-public clock) · [SecurityWeek — Meta confirms ~20,000 accounts](https://www.securityweek.com/meta-says-20000-instagram-accounts-hacked-via-ai-tool-abuse/) (2026-06-08).
+**Build the list:** [Create a media list in Medialyst](https://medialyst.ai/app/_/workflow/campaign?prompt=Find+enterprise+AI+security+and+customer-support+automation+reporters+for+outside-expert+reaction+to+Meta%27s+confirmed+AI+support+chatbot+breach.+Prioritize+recent+coverage+of+agent+permissions%2C+prompt+injection%2C+and+abuse+controls.+Exclude+consumer+chatbot+reviewers.) — review the proposed plan first; credits start only after you approve it in Medialyst.
 **Handoff:** `journalist-fit-check` (a1 reaction window is live — confirm named reporters today).
 
 ### 2. Wendy's customer-service backlash → "how not to automate support"
@@ -38,6 +39,7 @@ This is the cleanest fit in the scan: an *AI customer-support chatbot* was socia
 > ⚠ Honest caveat: kiosk/automated *ordering* and conversational *support agents* are not the same product. The connection is defensible but a reporter will test it — lead with the support-automation principle, not the QSR story.
 
 **Links** · Source of record: [TheStreet — Analysis: Wendy's has a customer service problem](https://www.thestreet.com/restaurants/analysis-wendys-has-a-customer-service-problem) (2026-06-08, editorial). Related: [Yahoo Finance syndication](https://sg.finance.yahoo.com/news/analysis-wendys-customer-problem-181700839.html) (2026-06-08, *surfaced duplicate — does not reset clock*).
+**Build the list:** [Create a media list in Medialyst](https://medialyst.ai/app/_/workflow/campaign?prompt=Find+customer-experience+and+support-operations+reporters+covering+automation+failures%2C+human+escalation%2C+and+service-quality+measurement.+The+client+can+discuss+general+failure+patterns+but+has+no+first-party+knowledge+of+Wendy%27s.+Exclude+QSR+product+reviewers.) — review the proposed plan first; credits start only after you approve it in Medialyst.
 **Handoff:** `meanest-editor` once shareable data is confirmed.
 
 ### 3. Snowflake Summit puts AI-agent security on the agenda
@@ -48,6 +50,7 @@ This is the cleanest fit in the scan: an *AI customer-support chatbot* was socia
 - **[a2 · week, trend]** "Enterprise agent security has a blind spot: the customer-facing agents talking to the public" — extends the Summit theme to the external threat surface. *Needs: one shipped Chatbase control, stated honestly.*
 
 **Links** · Source of record: [SiliconANGLE — AI agent security in focus for Snowflake and 1Password](https://siliconangle.com/2026/06/08/ai-agent-security-snowflakesummit/) (2026-06-08, editorial). Related: [Let's Data Science](https://letsdatascience.com/news/snowflake-and-1password-spotlight-ai-agent-security-8755bd7b) (2026-06-08).
+**Build the list:** [Create a media list in Medialyst](https://medialyst.ai/app/_/workflow/campaign?prompt=Find+enterprise+AI+security+reporters+covering+agent+reliability%2C+prompt+injection%2C+and+customer-facing+threat+surfaces+after+Snowflake+Summit.+Treat+the+client%27s+standing+as+adjacent%2C+not+first-party.+Exclude+general+cloud+earnings+and+consumer+AI+writers.) — review the proposed plan first; credits start only after you approve it in Medialyst.
 **Handoff:** `journalist-fit-check` (weakest standing of the three — verify a reporter wants outside agent-security commentary before investing).
 
 ---

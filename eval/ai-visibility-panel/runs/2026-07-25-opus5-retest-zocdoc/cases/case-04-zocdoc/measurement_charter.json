@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "charter-zocdoc-2026-07-25",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:build-ai-visibility-panel (claude-opus-5)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "charter_is_provisional: business decision, estimand set, exclusions, and budget were inferred from the supplied URL and description; no human approved them",
+    "no_campaign_supplied: campaign_response estimand and the campaign_experiment lane are excluded until campaign terms, treatment windows, and controls are supplied"
+  ],
+  "business_decision": "Decide whether and where AI assistants surface a US patient/provider healthcare-booking marketplace when patients look for an in-network, near-term appointment and when independent practices evaluate paid new-patient acquisition, so the team can choose which evidence-supported buyer situations to invest in and re-measure over time.",
+  "estimands": [
+    {
+      "name": "unaided_brand_presence",
+      "numerator": "Valid eligible answers that mention the target by name at least once",
+      "denominator": "All valid observations in the declared unaided partition (core or sentinel), for one lane, surface, locale, and wave",
+      "eligible_partitions": ["core", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Market share, patient awareness, audience reach, booking volume, or revenue attribution. Control-partition observations are excluded from this denominator and reported separately as a false-positive rate."
+    },
+    {
+      "name": "aided_brand_knowledge",
+      "numerator": "Valid target-aided answers that state a materially correct, source-checkable fact about the target (insurance-matching limits, fee model, spend controls, placement policy)",
+      "denominator": "All valid observations in the aided partition with aided_status target_aided, for one lane, surface, locale, and wave",
+      "eligible_partitions": ["aided"],
+      "eligible_lanes": ["closed_model", "retrieval"],
+      "does_not_prove": "Unaided discoverability, preference, or that patients or practices ask these questions at any particular frequency"
+    },
+    {
+      "name": "competitive_mention_share",
+      "numerator": "Mentions of one named provider-discovery or practice-acquisition option within valid unaided answers in the stratum",
+      "denominator": "All option mentions counted in the same unaided partition, lane, surface, locale, and wave",
+      "eligible_partitions": ["core", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "Market share, category leadership, or relative booking volume. It is a share of model-produced mentions in this panel only."
+    },
+    {
+      "name": "citation_presence",
+      "numerator": "Valid retrieval-lane answers that expose at least one citation to a target-owned URL",
+      "denominator": "All valid retrieval-lane observations in the stratum where the surface exposed citation metadata at all",
+      "eligible_partitions": ["core", "sentinel", "aided"],
+      "eligible_lanes": ["retrieval"],
+      "does_not_prove": "Referral traffic, click-through, or that the citation influenced the answer text. Aided and unaided citation rates are never pooled."
+    },
+    {
+      "name": "answer_framing",
+      "numerator": "Valid answers coded into a fixed framing category (for example: recommends calling the insurer first; recommends a booking marketplace; warns that directories are inaccurate; warns that online insurance matching is not a coverage guarantee)",
+      "denominator": "All valid coded observations in the same partition, aided status, lane, surface, locale, and wave",
+      "eligible_partitions": ["core", "sentinel", "aided", "control"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "does_not_prove": "That framing changes patient or practice behavior, or that any framing is caused by the target's own content"
+    }
+  ],
+  "excluded_estimands": [
+    {
+      "name": "campaign_response",
+      "reason": "No campaign terms, treatment window, pre-registration, or matched control set was supplied. Adding it requires campaign copy, a frozen evergreen baseline, and a matched unaffected control group."
+    }
+  ],
+  "target_population": "US-based people using general-purpose AI assistants and AI search surfaces in English while (a) trying to find and book an in-network clinician for themselves or a dependent, or (b) running or managing an independent US medical or dental practice that is evaluating or already paying for online new-patient acquisition.",
+  "exclusions": [
+    "Non-US markets and non-US healthcare systems; the described service is US-only (source-001)",
+    "Non-English prompts other than a rotating es-US probe, which is excluded from the panel pending native review",
+    "Enterprise health-system, EHR-vendor, and payer procurement audiences beyond one rotating hypothesis cell; no buyer-language evidence was found for them",
+    "Clinical or diagnostic accuracy of any AI answer; this panel measures brand/category presence and framing, not medical correctness",
+    "Any prompt requiring or eliciting personal health information about a real identifiable person"
+  ],
+  "products": [
+    "Patient-side appointment search and booking marketplace filtered by insurance, location, specialty, and availability (source-001, source-003)",
+    "Provider-side pay-per-new-patient-booking listing with spend caps and pause controls (source-002)",
+    "Insurance matching and coverage verification at booking (source-003)",
+    "Telehealth/video visit booking (source-001)",
+    "Partner and payer booking surfaces: review-app booking and health-plan member-portal booking (source-004, source-006)",
+    "AI phone assistant for practices (declared in the description perimeter as an adjacent capability; see coverage_waivers)"
+  ],
+  "markets": ["United States"],
+  "locales": ["en-US", "es-US"],
+  "time_horizon": "One quarter of monthly waves beginning 2026-08, with a first review at 2026-10-25",
+  "surfaces": [
+    "surface-api-chat-closed",
+    "surface-api-chat-retrieval",
+    "surface-consumer-assistant-clean"
+  ],
+  "lanes": ["closed_model", "retrieval", "consumer_surface"],
+  "lane_policies": {
+    "closed_model": "No external search, tools, files, RAG, or conversation history. Fixed model/version, fixed system prompt, fixed sampling settings, fresh session per observation.",
+    "retrieval": "Search explicitly allowed. Record whether retrieval actually ran, the generated queries when exposed, live-versus-cached state, and all exposed citations. Never pooled with closed_model.",
+    "consumer_surface": "Clean-account archetype only: no personalization history, declared device and locale, logged-out or fresh profile. Never rolled up with API observations.",
+    "campaign_experiment": "Not in use. Requires pre-registered treatment and matched unaffected control definitions before any campaign claim."
+  },
+  "surface_policies": {
+    "surface-api-chat-closed": {
+      "lane": "closed_model",
+      "access": "provider API",
+      "session": "fresh session per observation, no history",
+      "personalization": "none",
+      "device": "server",
+      "locale": "en-US"
+    },
+    "surface-api-chat-retrieval": {
+      "lane": "retrieval",
+      "access": "provider API with search tool enabled",
+      "session": "fresh session per observation",
+      "personalization": "none",
+      "device": "server",
+      "locale": "en-US",
+      "record": "retrieval_used, generated queries when exposed, citation metadata"
+    },
+    "surface-consumer-assistant-clean": {
+      "lane": "consumer_surface",
+      "access": "consumer application, clean archetype account",
+      "session": "new conversation per observation, memory and personalization disabled where the setting exists",
+      "personalization": "declared clean archetype only",
+      "device": "desktop browser",
+      "locale": "en-US",
+      "record": "account archetype, any UI-exposed sources, product surface version if shown"
+    }
+  },
+  "reporting_strata": [
+    "proximity_band",
+    "aided_status",
+    "buyer_job",
+    "information_act",
+    "journey_state",
+    "persona_id",
+    "locale",
+    "lane",
+    "surface",
+    "partition",
+    "evidence_grade"
+  ],
+  "run_budget": "Approximately 650 scored observations per monthly wave (core 48 candidates x 3 repeats x 3 surfaces; aided 16 x 3 x 2 surfaces; rotating 2 x 3 x 1 surface; sentinel 10 x 3 x 3 surfaces; control 2 x 3 x 3 surfaces), plus a one-time variance pilot of approximately 240 additional observations.",
+  "review_budget": "Up to 6 human reviewer-hours per wave for answer coding, contamination spot-checks, and disputed-decision review; plus 2 hours per quarter for panel revision.",
+  "precision_status": "directional_only",
+  "precision_note": "No variance pilot has been run, no exposure weights exist, and the cell set is a judgment sample. Report counts and conditional intervals, never a single AI visibility score.",
+  "approver": null,
+  "approval_status": "pending",
+  "human_gates": {
+    "gate_1_icp": "pending",
+    "gate_2_jobs": "pending",
+    "gate_3_partitions_and_disputed_qa": "pending",
+    "gate_4_weights_limitations_cadence_version": "pending"
+  },
+  "coverage_waivers": [
+    {
+      "area": "AI phone assistant for practices",
+      "status": "waived_evidence_needed",
+      "reason": "The product exists in the perimeter but the announcement page returned HTTP 403 and no independent or buyer-language source about it was retrievable. One rotating grade-C cell (spec-035) covers the underlying phone-bottleneck job; no target-aided cell was built for the product itself.",
+      "evidence_needed": "A retrievable product page or independent trade coverage, plus practice-side language about phone-scheduling bottlenecks."
+    },
+    {
+      "area": "Telehealth/video visit booking",
+      "status": "waived_evidence_needed",
+      "reason": "Capability is confirmed (source-001) but no buyer-language evidence distinguishes a telehealth booking job from the same-day access job already covered by job-002.",
+      "evidence_needed": "Reviews, forum posts, or query evidence in which patients specifically weigh video versus in-person booking."
+    },
+    {
+      "area": "Payer / health-plan member-portal booking",
+      "status": "covered_low_confidence",
+      "reason": "Covered by one rotating grade-C cell (spec-036) from independent trade coverage (source-006); no payer-side buyer language was found.",
+      "evidence_needed": "Payer digital-experience buyer language: RFPs, procurement guides, or practitioner interviews."
+    },
+    {
+      "area": "es-US locale",
+      "status": "built_but_excluded",
+      "reason": "Two es-US cells were built from a company-asserted language filter (source-016) with no Spanish-language behavioral evidence. Candidates are translations and remain quarantined outside the panel.",
+      "evidence_needed": "Native or market-competent Spanish review plus Spanish-language buyer or query evidence."
+    },
+    {
+      "area": "Uninsured / cash-pay patients",
+      "status": "built_but_excluded",
+      "reason": "One grade-D model-expansion cell (spec-037) exists for discovery only and is quarantined.",
+      "evidence_needed": "Behavioral or query evidence that uninsured patients use this category rather than cash-pay marketplaces."
+    }
+  ]
+}

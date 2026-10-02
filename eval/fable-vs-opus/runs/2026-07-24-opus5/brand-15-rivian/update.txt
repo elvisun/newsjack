@@ -1,0 +1,4 @@
+Company: Rivian
+Current time: 2026-06-09T16:00:00Z
+
+Rivian is opening its Adventure Network of fast chargers to all EVs and adding NACS plugs. Facts: non-Rivian EVs can now use 3,500+ Rivian chargers via the Rivian app; all new stalls will include both CCS and Tesla-style NACS connectors; Rivian says opening the network creates a new revenue stream and improves charger utilization; the company is publicly traded and not yet profitable; pricing for non-Rivian drivers is set at a premium to Rivian owners; no partnership with another automaker announced.

@@ -1,0 +1,557 @@
+{
+ "profile": "simular",
+ "profile_context": {
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks"
+  ],
+  "competitors": [
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus",
+   "Adept AI",
+   "UiPath"
+  ],
+  "search_terms": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks",
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus AI agent",
+   "Adept AI",
+   "UiPath agentic automation",
+   "OSWorld benchmark"
+  ],
+  "standing": [
+   "computer-use AI agents",
+   "desktop automation",
+   "browser automation",
+   "agentic AI benchmarks",
+   "enterprise workflow automation"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with computer-use agent expertise",
+   "Research lead for agent benchmarks",
+   "Product lead for Sai"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "7202068d914ded43",
+   "title": "AI News: OpenAI's Agent Phone, Meta's AI Push & Anthropic's Valuation (Apr 30, 2026) Diletta Leotta (GVClDrRmzj)",
+   "query": "Manus AI agent",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AI News: OpenAI's Agent Phone, Meta's AI Push & Anthropic's Valuation (Apr 30, 2026) Diletta Leotta (GVClDrRmzj)",
+     "url": "https://mshale.com/41183ee9/2a961d0cmHkSxDORI54",
+     "container": "Mshale",
+     "source": "news_search",
+     "excerpt": "Stay updated with the latest in AI! This special report from EXAI Global on April 30, 2026, brings you a comprehensive overview of the most signifi...",
+     "published_at": "2026-06-02T22:56:02.074901Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "8f4f82a5ea9200d8",
+   "title": "An AI employee needs its own inbox.\n\nAgentMail makes that possible for Junior.\n\nBig step toward AI coworkers that can ac",
+   "query": "AI coworkers",
+   "sources": [
+    "x"
+   ],
+   "lane": "x_posts",
+   "queue_priority": 52.9,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "AI coworkers"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "An AI employee needs its own inbox.\n\nAgentMail makes that possible for Junior.\n\nBig step toward AI coworkers that can ac",
+     "url": "https://x.com/hirejuniorso/status/2062003409830789554",
+     "container": "x.com",
+     "source": "x",
+     "excerpt": "An AI employee needs its own inbox.\n\nAgentMail makes that possible for Junior.\n\nBig step toward AI coworkers that can actually do the job! https://t.co/VTbAcu0dPP",
+     "published_at": "2026-06-03T02:48:17.000Z",
+     "publication_type": null,
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e0def68ad24af688",
+   "title": "I post LinkedIn comedy skits to help my marketing company get new clients. Here's what works and what I won't do.",
+   "query": "AI coworkers",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 52.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "I post LinkedIn comedy skits to help my marketing company get new clients. Here's what works and what I won't do.",
+     "url": "https://www.businessinsider.com/marketer-makes-comedy-skits-for-linkedin-to-acquire-clients-2026-6",
+     "container": "Business Insider",
+     "source": "news_search",
+     "excerpt": "Henry Hayes is gaining traction and new client leads by posting comedy skits on LinkedIn, like a recent \"Grand Theft Auto\" spoof.",
+     "published_at": "2026-06-03T11:55:54.318514Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f698010193b964c8",
+   "title": "AI search is exposing a hidden weakness in the way many brands operate",
+   "query": "AI coworkers",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 52.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "AI search is exposing a hidden weakness in the way many brands operate",
+     "url": "https://www.businessinsider.com/ai-search-strategies-hampered-by-corporate-silos-semrush-study-2026-5",
+     "container": "Business Insider",
+     "source": "news_search",
+     "excerpt": "A new study shines a light on how corporate silos can lead to issues with how brands show up in AI search.",
+     "published_at": "2026-06-03T11:55:54.318606Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "6085b212a0b25959",
+   "title": "After Weeks of Pushback, Meta Will Now Give Employees a 30-Minute Break From Its AI Surveillance Tool",
+   "query": "AI coworkers",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 45.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "After Weeks of Pushback, Meta Will Now Give Employees a 30-Minute Break From Its AI Surveillance Tool",
+     "url": "https://www.inc.com/moses-jeanfrancois/meta-will-now-give-employees-a-30-minute-break-from-ai-surveillance-tool/91354934",
+     "container": "Inc.com",
+     "source": "news_search",
+     "excerpt": "Meta Platforms is changing a new policy. In April, the tech company announced that it would monitor its employees' mouse movements and keyboard strokes.",
+     "published_at": "2026-06-03T15:55:54.31849Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "304b04b53c929816",
+   "title": "The Sequence AI of the Week #871: Inside the Loop with Claude Opus 4.8",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 54.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "The Sequence AI of the Week #871: Inside the Loop with Claude Opus 4.8",
+     "url": "https://thesequence.substack.com/p/the-sequence-ai-of-the-week-871-inside",
+     "container": "TheSequence",
+     "source": "news_search",
+     "excerpt": "I am sure you guys are surprised that we are going to cover Claude Opus 4.8 today ;) but I have been playing with it so much that merits the post.",
+     "published_at": "2026-06-03T10:55:57.896582Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "963ca9ee4288d65f",
+   "title": "The 3 Bets On AI Coming For The Operator Economy",
+   "query": "OpenAI Operator",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 53.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "The 3 Bets On AI Coming For The Operator Economy",
+     "url": "https://www.forbes.com/sites/daraabasiita/2026/06/03/the-3-bets-on-ai-coming-for-the-operator-economy/",
+     "container": "Forbes",
+     "source": "news_search",
+     "excerpt": "In April, a self-storage roll-up hired AI's first chief from Nvidia. The choice operators make next is a wager on one of three rival theses about how...",
+     "published_at": "2026-06-03T17:50:59.514974Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "8a5ec532d9125ab6",
+   "title": "Scientists Find Way to Supercharge Dangerous Computer \u2018Worms\u2019 With A.I.",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 58.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Scientists Find Way to Supercharge Dangerous Computer \u2018Worms\u2019 With A.I.",
+     "url": "https://www.nytimes.com/2026/06/02/technology/scientists-find-way-to-supercharge-dangerous-computer-worms-with-ai.html",
+     "container": "The New York Times",
+     "source": "news_search",
+     "excerpt": "Researchers at the University of Toronto showed how hackers could use artificial intelligence to create a program that could target any known flaw in the...",
+     "published_at": "2026-06-03T00:56:00.825188Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "fc72aca0e396353a",
+   "title": "Perplexity CEO tells CNBC one metric will determine who wins the AI race",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 53.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Perplexity CEO tells CNBC one metric will determine who wins the AI race",
+     "url": "https://www.cnbc.com/2026/06/03/perplexity-ceo-ai-valuations-computer-agentic.html",
+     "container": "CNBC",
+     "source": "news_search",
+     "excerpt": "Perplexity CEO Aravind Srinivas said that whichever company can provide the \"most taken value per watt per user\" will be the AI winners in the future.",
+     "published_at": "2026-06-03T05:56:00.825201Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "290920c39bf2085b",
+   "title": "Anthropic widens Mythos testing despite warnings of mass cyberattacks",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 50.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Anthropic widens Mythos testing despite warnings of mass cyberattacks",
+     "url": "https://www.euronews.com/next/2026/06/03/anthropic-expands-access-to-mythos-despite-warnings-of-mass-cyberattacks",
+     "container": "Euronews.com",
+     "source": "news_search",
+     "excerpt": "Anthropic is expanding access to Mythos, its powerful cybersecurity model, to 150 new partners across more than 15 countries even as the company warns that...",
+     "published_at": "2026-06-03T11:56:00.825161Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "83be8e9fc7c5dbfd",
+   "title": "No, Artificial Intelligence Is Not Conscious",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 49.8,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "No, Artificial Intelligence Is Not Conscious",
+     "url": "https://www.theatlantic.com/philosophy/2026/06/no-artificial-intelligence-is-not-conscious/687378/",
+     "container": "The Atlantic",
+     "source": "news_search",
+     "excerpt": "Anthropic is regarded as a giant among AI companies, but perhaps what it really excels in is anthropomorphism. Earlier this year the company released an...",
+     "published_at": "2026-06-03T15:56:00.825147Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "c0ffe3d7102d8c79",
+   "title": "Global Rush to Public Market Equity Funding. ARD #88",
+   "query": "Manus AI agent",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 54.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Global Rush to Public Market Equity Funding. ARD #88",
+     "url": "https://michaelparekh.substack.com/p/global-rush-to-public-market-equity",
+     "container": "AI: Reset to Zero",
+     "source": "news_search",
+     "excerpt": "not just the 3 mega-AI IPOs, but AI driven Google + Asia markets.",
+     "published_at": "2026-06-02T20:56:02.074932Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f81d43992c42b144",
+   "title": "Meta Sells AI Agent for Businesses in Push to Monetize Service",
+   "query": "Manus AI agent",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 51.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meta Sells AI Agent for Businesses in Push to Monetize Service",
+     "url": "https://www.bloomberg.com/news/articles/2026-06-03/meta-sells-ai-agent-for-businesses-in-push-to-monetize-service",
+     "container": "Bloomberg.com",
+     "source": "news_search",
+     "excerpt": "Meta Platforms Inc. is selling businesses access to an artificial intelligence agent for the first time, its latest effort to generate revenue to offset the...",
+     "published_at": "2026-06-03T13:56:02.07489Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "789e19b921db5359",
+   "title": "Similarweb Expands AI Ecosystem with Perplexity Collaboration Through Native AI Workflows",
+   "query": "Manus AI agent",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 54.6,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Similarweb Expands AI Ecosystem with Perplexity Collaboration Through Native AI Workflows",
+     "url": "https://www.businesswire.com/news/home/20260603646002/en/Similarweb-Expands-AI-Ecosystem-with-Perplexity-Collaboration-Through-Native-AI-Workflows",
+     "container": "Business Wire",
+     "source": "news_search",
+     "excerpt": "Similarweb (NYSE: SMWB) and Perplexity today announced an expanded relationship that brings Similarweb's digital data directly into Perplexity's AI-native...",
+     "published_at": "2026-06-03T17:00:02.074876Z",
+     "publication_type": "newswire",
+     "x_signal_type": null,
+     "x_author_followers": null
+    },
+    {
+     "title": "Similarweb integrates data into Perplexity\u2019s AI platform By Investing.com",
+     "url": "https://in.investing.com/news/stock-market-news/similarweb-integrates-data-into-perplexitys-ai-platform-93CH-5439363",
+     "container": "Investing.com India",
+     "source": "news_search",
+     "excerpt": "TEL AVIV, Israel - Similarweb (NYSE:SMWB) announced today an expanded partnership with Perplexity that integrates its digital data into Perplexity's...",
+     "published_at": "2026-06-03T17:25:02.074912Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "699dea3b8c05ec5d",
+   "title": "Australia gets access to AI model \u2018too dangerous to release\u2019",
+   "query": "Adept AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 49.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Australia gets access to AI model \u2018too dangerous to release\u2019",
+     "url": "https://www.smh.com.au/technology/australia-gets-access-to-ai-model-too-dangerous-to-release-20260603-p603ds.html",
+     "container": "SMH.com.au",
+     "source": "news_search",
+     "excerpt": "The San Francisco AI company Anthropic said on Wednesday morning it had extended access to its Claude Mythos Preview model to about 150 new organisations...",
+     "published_at": "2026-06-02T21:56:03.48372Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "65ed6f7f91ba0971",
+   "title": "Agent Skills and Exponentia\u00adl Engineerin\u00adg: Transformi\u00adng Code Developmen\u00adt",
+   "query": "Adept AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 45.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Agent Skills and Exponentia\u00adl Engineerin\u00adg: Transformi\u00adng Code Developmen\u00adt",
+     "url": "https://www.pressreader.com/india/open-source-for-you/20260602/282699053798563",
+     "container": "PressReader",
+     "source": "news_search",
+     "excerpt": "Artificial intelligence (AI) has evolved rapidly, enabling machines to perform increasingly complex tasks. Central to this advancement are agent skills and...",
+     "published_at": "2026-06-03T02:56:03.483682Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "f291b7c1d253e517",
+   "title": "Trump signs order designed to give government early look at powerful AI models",
+   "query": "Adept AI",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 46,
+   "story_size_band": "high",
+   "story_size_score": 53,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Trump signs order designed to give government early look at powerful AI models",
+     "url": "https://www.washingtonpost.com/technology/2026/06/02/trump-signs-order-designed-give-government-early-look-powerful-ai-models/",
+     "container": "The Washington Post",
+     "source": "news_search",
+     "excerpt": "The order would give officials the chance to brace the economy for security risks. President Donald Trump shelved an earlier proposal following industry...",
+     "published_at": "2026-06-03T03:56:03.483438Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "247a3dbbd8a2c89c",
+   "title": "Microsoft Uses Build 2026 To Put AI Agents at the Center of Windows",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance_weak",
+   "queue_priority": 42,
+   "story_size_band": "moderate",
+   "story_size_score": 42.5,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Uses Build 2026 To Put AI Agents at the Center of Windows",
+     "url": "https://redmondmag.com/articles/2026/06/02/microsoft-uses-build-2026-to-put-ai-agents-at-the-center-of-windows.aspx",
+     "container": "Redmondmag.com",
+     "source": "news_search",
+     "excerpt": "Microsoft used Build 2026 to position Windows as a platform for building and running AI agents, expanding its developer focus beyond AI-assisted apps and...",
+     "published_at": "2026-06-02T18:55:51.423604Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

@@ -69,10 +69,22 @@ def main(run_dir, write=True):
         print(f"  brand-{brand_id:02d}-{slug}: {found_here} verdict(s) [{status}]",
               file=sys.stderr)
 
+    manifest = {}
+    manifest_path = os.path.join(run_dir, "MANIFEST.json")
+    if os.path.isfile(manifest_path):
+        try:
+            with open(manifest_path) as f:
+                manifest = json.load(f)
+        except (json.JSONDecodeError, OSError) as e:
+            print(f"  WARN: ignoring unreadable MANIFEST.json: {e}", file=sys.stderr)
+
     out = {
         "run": os.path.basename(os.path.normpath(run_dir)),
-        "study": "Fable 5 vs Opus 4.8 — story-angle quality, GPT-5.5 (meanest-editor) blind judge",
-        "judge_model": "gpt-5.5",
+        "study": manifest.get(
+            "study",
+            "Story-angle quality round-robin — GPT-5.5 (meanest-editor) blind judge",
+        ),
+        "judge_model": manifest.get("judge_model", "gpt-5.5"),
         "generator_skill": "skills/angle-generator",
         "judge_skill": "skills/meanest-editor",
         "note": "Reconstructed from on-disk verdict files by collect.py. One record per judgment; ordering encodes which model sat in slot A vs B.",

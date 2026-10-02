@@ -1,0 +1,46 @@
+{
+  "decision": {
+    "type": "choice",
+    "instructions": "You are the first cheap gate in a newsjacking pipeline. Judge this one signal against the client profile and decide whether it should go on to expensive story-origin research and PR judgment. Lean toward keeping: a false positive is cheap, a dropped real opportunity is expensive. When in doubt, keep. Do not rank, write angles, check freshness, or decide whether to pitch.",
+    "criteria": {
+      "keep": "Plausibly relevant to the client: real news that mentions or affects the client, a named competitor, a profile topic, a standing term, or a profile-named regulator, customer, or category, or any coherent bridge between the story and the client.",
+      "monitor_only": "Worth surfacing but weak or unclear: a remote but coherent connection, a big story with no obvious bridge, a press release or vendor-authored promotional piece, a possible keyword collision on a story that is otherwise real news, or a safety-sensitive story.",
+      "reject": "Clear junk only: the matched word means something else (keyword collision), obvious non-news, docs or product or SEO landing pages, evergreen content, a single low-reach X post, or a plainly off-beat item with no profile entity anywhere in the title, excerpt, or evidence."
+    }
+  },
+  "reason": {
+    "type": "choice",
+    "instructions": "Pick the single reason that best explains the decision on this signal.",
+    "criteria": {
+      "relevant_news": "Real news that directly involves the client, a named competitor, or a profile topic.",
+      "plausible_client_bridge": "Real news with a plausible link to the client's standing, category, customers, or regulators, even if the client is not named.",
+      "major_news_no_bridge": "A big, widely covered story with no clear link to the client profile.",
+      "keyword_collision": "A profile term appears but means something different here; the topic does not match.",
+      "not_news": "Not a reported news item: an opinion, listicle, evergreen explainer, or undated feature.",
+      "owned_docs_or_product_page": "Documentation, a product page, a changelog, or a help-center article rather than coverage.",
+      "seo_landing_page": "A search-optimized landing page, comparison page, or affiliate roundup rather than coverage.",
+      "competitor_or_promotional": "A press release, newswire item, or vendor-authored promotional or thought-leadership piece, especially from a named competitor.",
+      "low_reach_x_post": "A single X post from a low-reach account with no other coverage.",
+      "safety_risk": "Attaching a brand to this story would ride on tragedy, hate, crime, or an active crisis.",
+      "duplicate": "The same story as another signal already in the pool.",
+      "off_beat": "Real news, but about a topic the client has no connection to.",
+      "no_profile_bridge": "No profile entity, competitor, topic, standing term, or plausible buyer, regulator, or category appears anywhere in the signal."
+    }
+  },
+  "is_news": {
+    "type": "noul",
+    "instructions": "This signal is a reported news item (an event, announcement, ruling, deal, report, or development with a date), not a documentation page, product page, SEO landing page, listicle, or evergreen explainer."
+  },
+  "profile_bridge": {
+    "type": "noul",
+    "instructions": "The client company, a named competitor, a profile topic, a standing term, a profile-named regulator, customer, or category, or a direct synonym of one of these appears in the signal's title, excerpt, evidence, or profile_matches."
+  },
+  "promotional": {
+    "type": "noul",
+    "instructions": "This signal is a press release, newswire item, dateline release, sponsored post, or a vendor-authored promotional or thought-leadership piece rather than independent reporting."
+  },
+  "safety_risk": {
+    "type": "noul",
+    "instructions": "Attaching a brand to this story would ride directly on tragedy, death, hate, an active crime, a disaster, or an active crisis involving named victims."
+  }
+}

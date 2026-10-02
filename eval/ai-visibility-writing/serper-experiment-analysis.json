@@ -1,0 +1,123 @@
+{
+  "ai_join": {
+    "chatgpt_citation_domain_recall_in_serper_top10": 0.16832779623477298,
+    "chatgpt_citation_url_recall_in_serper_top10": 0.08604887983706722,
+    "citation_event_denominators": {
+      "chatgpt_domain": 1806,
+      "chatgpt_url": 1964,
+      "google_domain": 4208,
+      "google_url": 4912
+    },
+    "explicit_ai_field_rate": 0.0,
+    "explicit_ai_field_responses": 0,
+    "google_aio_citation_domain_recall_in_serper_top10": 0.3593155893536122,
+    "google_aio_citation_url_recall_in_serper_top10": 0.24206026058631921
+  },
+  "analyzed_at": "2026-07-22T05:20:43.701830Z",
+  "budget": {
+    "approved_cap_usd": 25.0,
+    "free_serper_credits_used": 276,
+    "incremental_cash_spend_usd": 0.0,
+    "incremental_dataforseo_spend_usd": 0.0,
+    "response_credits_charged": 276.0,
+    "starter_price_replacement_value_usd": 0.276
+  },
+  "decisions": {
+    "direct_ai_instrument_pass": false,
+    "lever_ranking_update_allowed": false,
+    "operational_pass": true,
+    "stable_organic_control_pass": false
+  },
+  "operational": {
+    "latency_ms_median": 877.5,
+    "latency_ms_p95": 1506.75,
+    "malformed_responses": 0,
+    "minimum_reported_rate_limit_remaining": 671,
+    "organic_count_median": 9.0,
+    "success_rate": 1.0,
+    "top_level_key_counts": {
+      "answerBox": 16,
+      "credits": 276,
+      "organic": 276,
+      "peopleAlsoAsk": 222,
+      "relatedSearches": 201,
+      "searchInformation": 1,
+      "searchParameters": 276
+    }
+  },
+  "protocol_id": "ai-visibility-serper-feasibility-v1",
+  "provenance": {
+    "ledger_sha256": "6fd1cdd098c768050e60ee0b5b20c2212b12b759cfe51c11de072b3fbd10731e",
+    "manifest_sha256": {
+      "calibration": "cd052eb63d0a4930134671d6d8b9160facf0413e607acf5e80dca04f790e42cf",
+      "fresh": "d54eafd797ea9a088ac574e00bc64adf3fe62dc0a8257aa8b57e5277ed9ce4a7",
+      "main": "354a0830fb6f62fb0d58e084c1099b24da51bbc3240f42a72bed92e043be7b63",
+      "repeats": "e9175501fd3a4f179117075c5bfb8c0b4a926879ce1bca3c322d3ee20d0a43aa"
+    },
+    "observation_sha256": {
+      "calibration": "b47b68e1fb56e728fafed0674aec62a7f0f3d93e7dd9f25e8ce52519ea4d52f9",
+      "fresh": "84addf18f08d8472eac86c6e05b0324a234a7a0199d6f2bbc71fd5baa847ff40",
+      "main": "06ef0594f265885a60790417b4f3b99206a29ed7420f19d1e037fe1dbe892537",
+      "repeats": "5e17a38271d69c7bafaffa31db3f0290b28d3605092469c98818923f701c39a4"
+    },
+    "protocol_sha256": "08a07cd0b2041b444920db1807b632d3f1d74aea6fe4e7dd3738d9b6d54fdb2b",
+    "raw_response_count": 276,
+    "raw_tree_sha256": "68dc4671fd29bf19a21ca8e4e47b2f662631c14194c3faf9d698bf58350e4fb0"
+  },
+  "sample": {
+    "existing_ai_observations": 448,
+    "matched_response_wave_pairs": {
+      "chatgpt": 448,
+      "dataforseo_organic": 448,
+      "google": 448
+    },
+    "serper_organic_rows": 2518,
+    "serper_responses": 276,
+    "serper_waves": 2,
+    "unique_queries": 138
+  },
+  "stability": {
+    "serper_vs_dataforseo_domain_jaccard_mean": 0.4653450909064092,
+    "serper_vs_dataforseo_domain_jaccard_median": 0.4444444444444444,
+    "serper_vs_dataforseo_url_jaccard_mean": 0.39832893366408334,
+    "serper_vs_dataforseo_url_jaccard_median": 0.3333333333333333,
+    "wave_interval_seconds_median": 39.647073,
+    "wave_interval_seconds_p95": 47.940426900000006,
+    "within_serper_domain_jaccard_mean": 0.502433210637545,
+    "within_serper_domain_jaccard_median": 0.4356060606060606,
+    "within_serper_url_jaccard_at_least_0_50_share": 0.42028985507246375,
+    "within_serper_url_jaccard_at_least_0_70_share": 0.2463768115942029,
+    "within_serper_url_jaccard_by_intent": {
+      "comparative": {
+        "mean": 0.48672486433924345,
+        "median": 0.4166666666666667,
+        "queries": 27
+      },
+      "evaluative": {
+        "mean": 0.37010230880476347,
+        "median": 0.2761904761904762,
+        "queries": 28
+      },
+      "explanatory": {
+        "mean": 0.5510858872927838,
+        "median": 0.5454545454545454,
+        "queries": 29
+      },
+      "freshness": {
+        "mean": 0.4200375546488992,
+        "median": 0.3351648351648352,
+        "queries": 28
+      },
+      "procedural": {
+        "mean": 0.4099737429488561,
+        "median": 0.2857142857142857,
+        "queries": 26
+      }
+    },
+    "within_serper_url_jaccard_mean": 0.44859634465234144,
+    "within_serper_url_jaccard_median": 0.38461538461538464,
+    "within_serper_url_jaccard_p25": 0.1875,
+    "within_serper_url_jaccard_p75": 0.6666666666666666,
+    "within_serper_url_jaccard_zero_share": 0.014492753623188406
+  }
+}

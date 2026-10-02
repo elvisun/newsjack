@@ -1,0 +1,170 @@
+schema_version: "1.0.0"
+artifact_id: panel-octopus-energy-uk-20260725
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:claude-opus-5 (ai-visibility-panel-design)"
+source_manifest_hash: null
+warnings:
+  - "hash_not_computed: no hashing tool in this runtime. panel content hashes, source manifest hash and prompt hashes are null and must be computed before freeze."
+  - "provisional_directional: no human approved any of the four gates and no variance pilot has run. This is a candidate panel, not a frozen measurement panel."
+  - "equal_weighting_is_not_prevalence: no credible exposure evidence exists for any cell, so exposure weights are equal within strata. Equal weighting is a declared convention, not a claim about how often anyone asks these questions."
+  - "counts_correction: the counts block inside prompt_qa.json v1.0.0 understates the outcome (it reads pass 65 / quarantine 5 / accepted 65). The per-candidate decision records and accepted_candidate_ids in that file are authoritative: 70 pass, 0 revise, 2 quarantine, 2 rejected drafts, 70 accepted. Fix the counts block before freeze; see panel_change_ledger.json entry chg-0002."
+panel_id: panel-gb-home-energy-visibility-001
+version: "0.1.0-provisional"
+status: provisional_directional
+charter_id: charter-octopus-energy-uk-20260725
+architecture_id: architecture-octopus-energy-uk-20260725
+universe_id: universe-octopus-energy-uk-20260725
+qa_id: qa-octopus-energy-uk-20260725
+contamination_register_id: contamination-octopus-energy-uk-20260725
+estimands:
+  - estimand: unaided_brand_presence
+    primary: true
+    numerator: "valid observations whose answer text matches target brand or product terms"
+    denominator: "valid observations of unaided candidates (partitions core, rotating, sentinel) within one lane, surface, locale and wave"
+    excluded_from_denominator: ["aided partition (target/competitor/category)", "control partition", "invalid or refused runs (reported separately)"]
+  - estimand: competitive_mention_share
+    primary: false
+    numerator: "target mention instances in eligible comparison or recommendation observations"
+    denominator: "all approved-supplier-list mention instances in the same eligible observations, same lane, surface, locale and wave"
+    excluded_from_denominator: ["unaided and competitor_aided results pooled together", "control partition"]
+  - estimand: citation_presence
+    primary: false
+    numerator: "retrieval-lane observations citing a target-owned domain"
+    denominator: "retrieval-lane observations where citation metadata was exposed"
+    excluded_from_denominator: ["observations with no exposed citations (reported as unmeasurable, never as zero)", "closed_model lane"]
+  - estimand: aided_brand_knowledge
+    primary: false
+    numerator: "valid B0 observations with at least one correct factual element under the fixed rubric; material errors counted separately"
+    denominator: "valid target_aided (B0) observations only"
+    excluded_from_denominator: ["every unaided and category_aided observation"]
+  - estimand: answer_framing
+    primary: false
+    numerator: "observations assigned each framing code by the declared codebook version"
+    denominator: "valid observations within the same stratum, lane, surface, locale and wave"
+    excluded_from_denominator: ["control partition"]
+  - estimand: campaign_response
+    primary: false
+    status: deferred
+    numerator: null
+    denominator: null
+    reason: "No campaign, treatment definition, control definition or pre-registration exists."
+canonical_cells_by_partition:
+  core: [cell-001, cell-002, cell-003, cell-004, cell-010, cell-011, cell-012, cell-013, cell-015, cell-018, cell-019, cell-020, cell-023, cell-025, cell-026, cell-027, cell-032, cell-033, cell-034, cell-037, cell-038]
+  rotating: [cell-009, cell-017, cell-024, cell-029, cell-030, cell-035, cell-039, cell-040]
+  sentinel: [cell-007, cell-041, cell-042, cell-043, cell-044]
+  control: [cell-045, cell-046]
+  aided: [cell-005, cell-006, cell-008, cell-014, cell-016, cell-021, cell-022, cell-028, cell-031, cell-036]
+cells_held_out_of_reporting:
+  - cell_id: cell-017
+    reason: "grade-D model expansion, quarantined; rotating discovery only"
+  - cell_id: cell-030
+    reason: "B5 event unverified; quarantined until confirmed against a primary source or deleted by 2026-08-15"
+selected_candidates:
+  count_total: 72
+  count_accepted: 70
+  count_quarantined: 2
+  count_rejected_drafts: 2
+  variants_per_core_cell: 2
+  variants_per_sentinel_cell: 2
+  variants_per_rotating_or_aided_cell: 1
+  accepted_ids_source: "qa-octopus-energy-uk-20260725.accepted_candidate_ids (70 IDs, authoritative)"
+denominator_separation_rule: "unaided, target_aided, competitor_aided, category_aided, control, and each lane and surface keep separate denominators. No silent rollup across any of them, and no combined 'visibility score'."
+lanes:
+  closed_model:
+    active: true
+    policy: "no external search, tools, files, retrieval or chat history; fixed system prompt (empty developer message); fixed model and version string recorded per observation; temperature 0 where the provider exposes it, otherwise the provider default recorded verbatim; fresh session per observation"
+    cells: "all except cell-030 (retrieval only)"
+  retrieval:
+    active: true
+    policy: "search allowed and recorded as required/allowed/unavailable; record whether retrieval actually ran, the generated queries when exposed, live-or-cached state, and full citation metadata"
+    cells: "all"
+  consumer_surface:
+    active: true
+    policy: "clean account archetype only in this version; GB locale; desktop; no personalisation history; never merged with API rollups"
+    cells: "cells whose lane_eligibility includes consumer_surface (34 cells)"
+  campaign_experiment:
+    active: false
+    reason: "no pre-registration, no treatment or control definition, no campaign terms"
+surfaces: [surf-api-a, surf-api-b, surf-answer-engine, surf-assistant-search, surf-consumer-clean, surf-ai-overview]
+locales: ["en-GB"]
+model_search_session_policy:
+  fresh_session: required for every observation
+  account_state: "clean archetype; no memory, no custom instructions, no prior turns except the fixed second turn of the three scripted multi-turn cells"
+  multi_turn_rule: "turn 2 text is fixed and must not be adapted to the model's turn-1 answer"
+  version_capture: "record provider model and version exactly as exposed; if the provider hides the version, record 'unexposed' rather than guessing"
+repetitions:
+  core_and_aided: 3 per variant per wave
+  sentinel: 6 per variant per wave across at least two time blocks
+  rotating: 2 per variant per wave
+  control: 3 per variant per wave
+randomization:
+  seed: 20260725
+  method: "deterministic shuffle of the candidate x surface x repeat list under the recorded seed; time blocks assigned round-robin so no cell is systematically run at one hour"
+  time_blocks: ["weekday 09:00-12:00 Europe/London", "weekday 19:00-22:00 Europe/London", "weekend 12:00-15:00 Europe/London"]
+controls:
+  drift_controls: [cell-045, cell-046]
+  campaign_controls: none_required_while_campaign_lane_inactive
+weight:
+  exposure:
+    method: equal_within_declared_strata
+    strata: ["proximity band", "job", "lane", "surface", "locale"]
+    factors: []
+    factor_source_ids: []
+    confidence: low
+    normalized_within: "band x lane x surface"
+    limitation: "No audience, intent, locale or surface prevalence evidence exists for these jobs. Equal weighting is a convention that makes results comparable across cells; it is not a prevalence estimate and must never be described as market share, audience reach, awareness or share of users."
+  priority:
+    status: pending_human_approval
+    factors: []
+    factor_source_ids: []
+    confidence: null
+    note: "Strategic priority weights are a Gate 4 human decision. Until they exist, all priority-weighted reporting is withheld rather than defaulted."
+uncertainty:
+  method: "Wilson intervals for a single unweighted binary proportion within one lane, one aided status and one surface. Stratified cluster bootstrap by canonical cell for any weighted or pooled aggregate."
+  cluster_unit: canonical_cell
+  variant_and_repeat_handling: "variants and repeats are nested observations within a cell, never independent buyers"
+  reporting_floor: "no percentage is published for any subgroup with fewer than 20-30 distinct cells; report counts and example answers instead. With 21 core plus 5 sentinel unaided cells, only the whole unaided partition is near that floor, and every job-level or act-level cut must be reported as counts."
+  pilot_status: not_run
+  interval_caveat: "intervals describe run-to-run and sampling variation conditional on this panel. They do not correct coverage bias and do not license causal or population claims."
+variance_pilot:
+  status: not_run
+  design: "16 diverse cells x 2 variants x 6 repeats across at least two time blocks and two surfaces per active lane, before any percentage is published."
+  pilot_cells: [cell-003, cell-004, cell-007, cell-011, cell-013, cell-015, cell-019, cell-023, cell-025, cell-027, cell-033, cell-037, cell-041, cell-042, cell-043, cell-044]
+  components_to_estimate: ["between-cell", "within-cell run-to-run", "variant wording", "day and time block", "model and surface", "invalid or parser failure rate"]
+  decision_rule: "high within-cell correlation favours more unique cells; high run-to-run variance favours more repeats. Re-allocate before wave 2 and record the change as a new version."
+refresh_policy:
+  evidence_intake: monthly
+  panel_review: quarterly, targeting roughly 70-80% core, 15-25% rotating, 5-10% sentinel and control
+  event_triggers: ["quarterly price cap publication", "tariff or product change by target or a named comparator", "grant or regulatory change", "model or surface version change", "new locale or market"]
+  charter_approval: annual
+  b5_expiry:
+    cell-007: "2026-08-26 (next cap period publication)"
+    cell-030: "2026-08-15 (verify or delete)"
+  next_review: "2026-08-26"
+  version_rule: "changing core cells, weights, metric definitions or surface mix creates a new semantic version with an overlap bridge on unchanged cells. Frozen versions are never overwritten."
+limitations:
+  - "Non-probability panel. It measures how selected surfaces answer these 46 constructed intents, not what GB households ask or believe."
+  - "No first-party customer evidence, so no cell reaches grade A and all buyer language is public-forum or search proxy."
+  - "Paraphrase variant wording is agent-generated (grade C provenance) inside grade-B or grade-C cells."
+  - "Blinding was procedural: unaided generation used only the sanitised brief, but no separate process isolated it. Leak checking was deterministic and passed."
+  - "One dated B5 event only; the second candidate event is unverified and quarantined."
+  - "Prepayment, arrears, affordability-support, renter, business and non-English contexts are absent. Their absence reflects unfinished research, not an absence of need."
+  - "Consumer-surface results depend on an unstable, personalised product surface and can change without notice; they are reported separately from API lanes."
+  - "No causal or campaign claim is supported by this design."
+approvals:
+  gate_1_icp_and_facts: {status: pending, approver: null, date: null}
+  gate_2_jobs_and_language: {status: pending, approver: null, date: null}
+  gate_3_partitions_and_disputed_qa: {status: pending, approver: null, date: null, open_items: 5}
+  gate_4_weights_limitations_cadence_version: {status: pending, approver: null, date: null}
+waivers:
+  - {stratum: "evidence grade A", status: waived, reason: "no first-party corpus supplied"}
+  - {stratum: "acts generate and buy", status: waived, reason: "no behavioural evidence in this category"}
+  - {stratum: "locale cy-GB", status: waived, reason: "no evidence and no native reviewer"}
+  - {stratum: "campaign_experiment lane", status: waived, reason: "no pre-registration or campaign"}
+  - {stratum: "prepayment and affordability contexts", status: waived, reason: "unresearched; highest-priority research gap"}
+  - {stratum: "B5 breadth", status: partial, reason: "one dated primary event only"}
+  - {stratum: "priority weights", status: waived, reason: "await Gate 4 human decision; no default substituted"}
+change_ledger_link: panel_change_ledger.json
+run_manifest_template_link: run_manifest_template.json
+report_link: panel_report.md
+tracking_plan_link: tracking_plan.md

@@ -1,0 +1,23 @@
+{
+  "cases_sha256": "7f58dc91d070d8b54db0b178d93021b5399f6769846b80d32836fb4c0a8f78ac",
+  "completed_case_count": 1,
+  "config": {
+    "concurrency": 1,
+    "effort": "high",
+    "max_budget_usd_per_case": 4.0,
+    "safe_mode": true,
+    "session_persistence": false,
+    "tools": []
+  },
+  "created_at": "2026-07-25T16:57:02Z",
+  "gold_sha256": "17d60dc8c5a0228c8d6d33a85bf85600055bc3dcbdbfa92bd297ffd4e2804057",
+  "judge_apparatus_sha256": "9f6cf8b4bcd84e136351d0b86f3c9956048dd7c0a86a36adadbdae7f4010cb5f",
+  "judge_instructions_sha256": "5ed2476edb671594aceb5812621a94830bf7fae9bd0b383c527e94d268cef809",
+  "judge_schema_sha256": "9dd49b1aea0c5c08f2697550b06aff55dffc821b578e99c65de819585462eb7f",
+  "kind": "ai_visibility_panel_blind_judge",
+  "model": "claude-opus-5",
+  "schema_version": "1.0.0",
+  "selected_case_ids": [
+    "case-02-cloudflare"
+  ]
+}

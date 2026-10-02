@@ -1,0 +1,4 @@
+Company: Perplexity
+Current time: 2026-06-09T16:00:00Z
+
+Perplexity is launching in-app shopping and a revenue-sharing program for publishers whose content it cites. Facts: users can research and buy products without leaving the app, with Perplexity earning a referral fee; the publisher program shares ad revenue when a publisher's article is used in an answer; Perplexity says it handles hundreds of millions of queries a month; the company has faced criticism and legal threats from publishers over content use; it is privately held and recently raised at a multi-billion valuation; publisher payout amounts not disclosed.

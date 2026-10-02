@@ -1,0 +1,4 @@
+Company: Going
+Current time: 2026-06-09T16:00:00Z
+
+Going (formerly Scott's Cheap Flights) is launching an AI trip planner that turns a cheap fare alert into a full itinerary. Facts: when the app finds a mistake fare or deep discount, the planner drafts a day-by-day itinerary, hotel options, and a packing list; Going has ~2 million free members and a smaller paid Premium/Elite base; the planner is Premium-only; the company says paid members save an average of $550 per booked flight; no airline or hotel booking happens in-app yet, only planning and links out.

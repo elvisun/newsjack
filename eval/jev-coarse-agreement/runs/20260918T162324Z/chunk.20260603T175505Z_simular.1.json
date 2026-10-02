@@ -1,0 +1,574 @@
+{
+ "profile": "simular",
+ "profile_context": {
+  "company": "Simular",
+  "website": "https://simular.ai",
+  "description": "Autonomous computer agent company building research-driven AI agents and Sai, an always-on AI co-worker for digital workflows.",
+  "topics": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks"
+  ],
+  "competitors": [
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus",
+   "Adept AI",
+   "UiPath"
+  ],
+  "search_terms": [
+   "computer-use agents",
+   "autonomous desktop agents",
+   "AI coworkers",
+   "agentic workflow automation",
+   "AI agent benchmarks",
+   "OpenAI Operator",
+   "Anthropic computer use",
+   "Manus AI agent",
+   "Adept AI",
+   "UiPath agentic automation",
+   "OSWorld benchmark"
+  ],
+  "standing": [
+   "computer-use AI agents",
+   "desktop automation",
+   "browser automation",
+   "agentic AI benchmarks",
+   "enterprise workflow automation"
+  ],
+  "exclusions": null,
+  "spokespeople": [
+   "Founder or CEO with computer-use agent expertise",
+   "Research lead for agent benchmarks",
+   "Product lead for Sai"
+  ],
+  "x_news": {
+   "enabled": true
+  },
+  "x_trends": {
+   "mode": "none",
+   "woeids": [],
+   "locations": []
+  }
+ },
+ "signals": [
+  {
+   "signal_id": "6f73d6a2fc1d8f2a",
+   "title": "Meta (META) Stock Trades Up, Here Is Why",
+   "query": "OpenAI Operator",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 61.5,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meta (META) Stock Trades Up, Here Is Why",
+     "url": "https://www.tradingview.com/news/stockstory:5cfad21ea094b:0-meta-meta-stock-trades-up-here-is-why/",
+     "container": "TradingView",
+     "source": "news_search",
+     "excerpt": "Shares of social network operator Meta Platforms METAjumped 3.2% in the morning session after sentiment improved following an enterprise AI product launch,...",
+     "published_at": "2026-06-03T15:55:59.515004Z",
+     "publication_type": "brand_content",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "4444898ba4b7e56f",
+   "title": "Microsoft MXC: OS Kernel Sandbox for AI Agents \u2014 OpenAI, Nvidia Onboard",
+   "query": "Manus AI agent",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 60.2,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "Manus"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft MXC: OS Kernel Sandbox for AI Agents \u2014 OpenAI, Nvidia Onboard",
+     "url": "https://www.abhs.in/blog/microsoft-mxc-agent-sandbox-windows-openai-nvidia-build-2026",
+     "container": "www.abhs.in",
+     "source": "news_search",
+     "excerpt": "At Build 2026 Microsoft launched MXC (Execution Containers): kernel-enforced agent boundaries on Windows. Partners: OpenAI, Nvidia OpenShell, Manus,...",
+     "published_at": "2026-06-02T18:56:02.074962Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "045ee736d4f1b770",
+   "title": "UiPath Achieves Dubai Electronic Security Center (DESC) Certification, Enabling Public and Private Organizations to Adopt Agentic Capabilities with Confidence",
+   "query": "UiPath agentic automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 60,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "UiPath"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "UiPath Achieves Dubai Electronic Security Center (DESC) Certification, Enabling Public and Private Organizations to Adopt Agentic Capabilities with Confidence",
+     "url": "https://www.businesswire.com/news/home/20260603281113/en/UiPath-Achieves-Dubai-Electronic-Security-Center-DESC-Certification-Enabling-Public-and-Private-Organizations-to-Adopt-Agentic-Capabilities-with-Confidence",
+     "container": "Business Wire",
+     "source": "news_search",
+     "excerpt": "UiPath's Automation Cloud UAE Region Certified Under the DESC Cloud Service Provider Security Standard, Enabling Secure Agentic Automation Across Dubai's...",
+     "published_at": "2026-06-03T12:56:04.433212Z",
+     "publication_type": "newswire",
+     "x_signal_type": null,
+     "x_author_followers": null
+    },
+    {
+     "title": "Dubai clears UiPath cloud to serve government with AI automation",
+     "url": "https://www.stocktitan.net/news/PATH/ui-path-achieves-dubai-electronic-security-center-desc-certification-dals3nrnprgp.html",
+     "container": "Stock Titan",
+     "source": "news_search",
+     "excerpt": "UiPath's Automation Cloud UAE Region Certified Under the DESC Cloud Service Provider Security Standard, Enabling Secure Agentic Automation Across Dubai's...",
+     "published_at": "2026-06-03T12:56:04.433235Z",
+     "publication_type": "brand_content",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "89710ed44b18450b",
+   "title": "Docusign Recruits Former UiPath Product Chief Graham Sheldon to Advance AI Agreement Strategy",
+   "query": "UiPath agentic automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.9,
+   "story_size_band": "moderate",
+   "story_size_score": 35.1,
+   "profile_matches": [
+    "UiPath"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Docusign Recruits Former UiPath Product Chief Graham Sheldon to Advance AI Agreement Strategy",
+     "url": "https://www.citybiz.co/article/854679/docusign-recruits-former-uipath-product-chief-graham-sheldon-to-advance-ai-agreement-strategy/",
+     "container": "citybiz",
+     "source": "news_search",
+     "excerpt": "Docusign has appointed former UiPath and Microsoft executive Graham Sheldon as chief product officer, a leadership move that strengthens the company's push...",
+     "published_at": "2026-06-02T18:56:04.433255Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e7cdc58918e6fdb0",
+   "title": "Docusign Appoints Graham Sheldon as Chief Product Officer to Accelerate Intelligent Agreement Management Vision",
+   "query": "UiPath agentic automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.7,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [
+    "UiPath"
+   ],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Docusign Appoints Graham Sheldon as Chief Product Officer to Accelerate Intelligent Agreement Management Vision",
+     "url": "https://finviz.com/news/358999/docusign-appoints-graham-sheldon-as-chief-product-officer-to-accelerate-intelligent-agreement-management-vision",
+     "container": "Finviz",
+     "source": "news_search",
+     "excerpt": "Microsoft veteran and leader of UiPath's agentic transformation joins Docusign to drive the next era of AI-powered agreement intelligence.",
+     "published_at": "2026-06-02T22:56:04.433272Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "e11fe91e31b96a6d",
+   "title": "Factory AI brings cost routing to enterprise coding agents",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59.1,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Factory AI brings cost routing to enterprise coding agents",
+     "url": "https://startupfortune.com/factory-ai-brings-cost-routing-to-enterprise-coding-agents/",
+     "container": "Startup Fortune",
+     "source": "news_search",
+     "excerpt": "Factory AI launched Factory Router in private research preview for its CLI and Desktop App. The company says it can cut coding-agent token spend by 20-25%",
+     "published_at": "2026-06-03T01:55:57.896726Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "a49adfb24fb7cb92",
+   "title": "Microsoft Scout: Autonomous AI Agent With Enterprise Security Controls",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 59,
+   "story_size_band": "moderate",
+   "story_size_score": 35.3,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Scout: Autonomous AI Agent With Enterprise Security Controls",
+     "url": "https://petri.com/microsoft-scout-autonomous-ai-agent-enterprise-security/",
+     "container": "Petri IT Knowledgebase",
+     "source": "news_search",
+     "excerpt": "Microsoft Scout is an autonomous AI agent with enterprise security controls, designed to automate tasks across Microsoft 365 workflows.",
+     "published_at": "2026-06-03T12:55:52.943332Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "4e516597fd7833fd",
+   "title": "Microsoft develops AI wearable to help employees work alongside digital agents",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.9,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft develops AI wearable to help employees work alongside digital agents",
+     "url": "https://anz.peoplemattersglobal.com/news/ai-and-emerging-tech/microsoft-develops-ai-wearable-to-help-employees-work-alongside-digital-agents-50067",
+     "container": "People Matters Global",
+     "source": "news_search",
+     "excerpt": "The technology giant is testing a wearable access badge and desktop AI companion with employees as it explores new ways for workers to interact with...",
+     "published_at": "2026-06-03T05:55:52.944175Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "abd46c25e557c7fd",
+   "title": "Snowflake introduces AI and data platform updates for agentic enterprise use cases",
+   "query": "agentic workflow automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.9,
+   "story_size_band": "high",
+   "story_size_score": 56.4,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Snowflake introduces AI and data platform updates for agentic enterprise use cases",
+     "url": "https://cio.economictimes.indiatimes.com/news/artificial-intelligence/snowflake-introduces-ai-and-data-platform-updates-for-agentic-enterprise-use-cases/131475633",
+     "container": "Indiatimes",
+     "source": "news_search",
+     "excerpt": "Snowflake unveiled platform updates to empower enterprises in building, governing, and scaling AI systems. New features across CoCo, CoWork, Horizon Catalog...",
+     "published_at": "2026-06-03T03:55:56.338774Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "3cd1676a59e1fd4e",
+   "title": "Gambit Cyber Launches Vizier AI - An Autonomous Security Intelligence Workspace for Continuous Exposure Management",
+   "query": "agentic workflow automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.9,
+   "story_size_band": "moderate",
+   "story_size_score": 30.1,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Gambit Cyber Launches Vizier AI - An Autonomous Security Intelligence Workspace for Continuous Exposure Management",
+     "url": "https://www.01net.it/gambit-cyber-launches-vizier-ai-an-autonomous-security-intelligence-workspace-for-continuous-exposure-management/",
+     "container": "01net",
+     "source": "news_search",
+     "excerpt": "Next-Generation Agentic Security Workflow Automation Platform Transforms How Security Teams Detect, Respond, and Manage Cyber Risk at ScaleLEIDEN,...",
+     "published_at": "2026-06-03T08:55:56.338795Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "3692c1ad084d6f7e",
+   "title": "\ud83d\ude3a New Codex, Copilot, Hermes, and Microsoft Build 2026 AI updates",
+   "query": "computer-use agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.7,
+   "story_size_band": "moderate",
+   "story_size_score": 33.7,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "\ud83d\ude3a New Codex, Copilot, Hermes, and Microsoft Build 2026 AI updates",
+     "url": "https://www.theneurondaily.com/p/new-codex-copilot-hermes-and-microst-build-2026-ai-updates",
+     "container": "The Neuron",
+     "source": "news_search",
+     "excerpt": "Microsoft Build 2026 pushed agents into Windows, while OpenAI expanded Codex, Nous launched Hermes Desktop, and Cognition released Devin Desktop.",
+     "published_at": "2026-06-03T09:55:51.423573Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "45128a0c67b71969",
+   "title": "Microsoft Scout agent opens a new category of always-on Autopilots",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.7,
+   "story_size_band": "moderate",
+   "story_size_score": 38.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft Scout agent opens a new category of always-on Autopilots",
+     "url": "https://www.helpnetsecurity.com/2026/06/03/microsoft-scout-personal-agent/",
+     "container": "Help Net Security",
+     "source": "news_search",
+     "excerpt": "The Microsoft Scout agent brings an always-on, autonomous AI to Microsoft 365 with governed Entra identity and Purview access controls.",
+     "published_at": "2026-06-03T08:55:52.943463Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "79ba43235b6cb56f",
+   "title": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off",
+   "query": "AI coworkers",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.7,
+   "story_size_band": "high",
+   "story_size_score": 48.9,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Meet Microsoft Scout, Your AI Coworker That Never Logs Off",
+     "url": "https://www.wired.com/story/meet-microsoft-scout-your-ai-coworker-that-never-logs-off/",
+     "container": "WIRED",
+     "source": "news_search",
+     "excerpt": "Soon, your coworkers in Microsoft Teams might not all be human. Scout, an always-on AI agent announced at Microsoft's Build developer conference on Tuesday,...",
+     "published_at": "2026-06-02T17:55:54.318536Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "ba10adf35bdcce49",
+   "title": "Elementum Named 2026 Snowflake Product Partner of the Year - Agentic Transformation",
+   "query": "agentic workflow automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.7,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Elementum Named 2026 Snowflake Product Partner of the Year - Agentic Transformation",
+     "url": "https://www.businesswire.com/news/home/20260602737430/en/Elementum-Named-2026-Snowflake-Product-Partner-of-the-Year---Agentic-Transformation",
+     "container": "Business Wire",
+     "source": "news_search",
+     "excerpt": "Elementum, the AI-native replacement for enterprise SaaS, today announced at Snowflake's annual user conference, Snowflake Summit 26, that it has been named...",
+     "published_at": "2026-06-02T18:55:56.338753Z",
+     "publication_type": "newswire",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "0d7b9c18397141a3",
+   "title": "Microsoft unveils Scout, an autonomous AI agent built on OpenClaw",
+   "query": "autonomous desktop agents",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "high",
+   "story_size_score": 47.4,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Microsoft unveils Scout, an autonomous AI agent built on OpenClaw",
+     "url": "https://www.computerworld.com/article/4180103/microsoft-unveils-scout-an-autonomous-ai-agent-built-on-openclaw.html",
+     "container": "Computerworld",
+     "source": "news_search",
+     "excerpt": "Scout is the first of a new breed of 'autopilot' agents in Microsoft 365 that can carry out tasks independently.",
+     "published_at": "2026-06-02T17:55:52.943519Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    },
+    {
+     "title": "Microsoft Launches Scout, an Autonomous AI Agent Built on OpenClaw for Microsoft 365",
+     "url": "https://analyticsindiamag.com/ai-news/microsoft-launches-scout-an-autonomous-ai-agent-built-on-openclaw-for-microsoft-365",
+     "container": "Analytics India Magazine",
+     "source": "news_search",
+     "excerpt": "Microsoft Scout is integrated with Microsoft 365 services, including Teams, Outlook, OneDrive, and SharePoint.",
+     "published_at": "2026-06-03T05:55:52.944213Z",
+     "publication_type": "other",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "bc5cdd3fae6013da",
+   "title": "Agentic Mail brings a webhook-powered email built for real-time automation",
+   "query": "agentic workflow automation",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "high",
+   "story_size_score": 49.2,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Agentic Mail brings a webhook-powered email built for real-time automation",
+     "url": "https://www.techradar.com/pro/stop-duct-taping-human-email-into-machine-workflows-hostinger-unleashes-agentic-mail-to-fix-the-biggest-bottleneck-in-ai-automation",
+     "container": "TechRadar",
+     "source": "news_search",
+     "excerpt": "AI agents can process data and execute actions within milliseconds, yet many automated systems still depend on tools originally built for human users.",
+     "published_at": "2026-06-02T23:55:56.338679Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "cf1da6bf59830c7a",
+   "title": "Deployed but Not Optimized: TELUS Digital and Ryan Strategic Advisory Reveal the AI Performance Gap in Enterprise CX for 2026",
+   "query": "AI agent benchmarks",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "unknown",
+   "story_size_score": null,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "Deployed but Not Optimized: TELUS Digital and Ryan Strategic Advisory Reveal the AI Performance Gap in Enterprise CX for 2026",
+     "url": "https://www.prnewswire.com/news-releases/deployed-but-not-optimized-telus-digital-and-ryan-strategic-advisory-reveal-the-ai-performance-gap-in-enterprise-cx-for-2026-302789046.html",
+     "container": "PR Newswire",
+     "source": "news_search",
+     "excerpt": "New global survey of 815 enterprise CX leaders finds the leading approach across every major CX function is human agents assisted by AI, but most...",
+     "published_at": "2026-06-03T10:55:57.896656Z",
+     "publication_type": "newswire",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  },
+  {
+   "signal_id": "4b992d6870cd51b7",
+   "title": "M.G. Siegler: Google is lagging behind OpenAI and Anthropic, the shift to standalone AI apps is challenging, and strategic missteps could be company-destroying | Big Technology",
+   "query": "Anthropic computer use",
+   "sources": [
+    "news_search"
+   ],
+   "lane": "profile_relevance",
+   "queue_priority": 58.6,
+   "story_size_band": "moderate",
+   "story_size_score": 35,
+   "profile_matches": [],
+   "safety_flags": [],
+   "evidence": [
+    {
+     "title": "M.G. Siegler: Google is lagging behind OpenAI and Anthropic, the shift to standalone AI apps is challenging, and strategic missteps could be company-destroying | Big Technology",
+     "url": "https://cryptobriefing.com/m-g-siegler-google-is-lagging-behind-openai-and-anthropic-the-shift-to-standalone-ai-apps-is-challenging-and-strategic-missteps-could-be-company-destroying-big-technology/",
+     "container": "Crypto Briefing",
+     "source": "news_search",
+     "excerpt": "Google's AI advancements are lagging behind competitors like OpenAI and Anthropic. The readiness of AI models is critical for maintaining a competitive edge...",
+     "published_at": "2026-06-03T00:56:00.825239Z",
+     "publication_type": "editorial",
+     "x_signal_type": null,
+     "x_author_followers": null
+    }
+   ]
+  }
+ ]
+}

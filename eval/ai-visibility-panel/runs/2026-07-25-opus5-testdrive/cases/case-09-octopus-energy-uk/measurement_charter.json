@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "charter-octopus-energy-uk-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5 (build-ai-visibility-panel)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: no hashing tool in this runtime; sha256 fields are null rather than fabricated.",
+    "provisional_directional: the user supplied only a URL and a one-line description. The business decision, estimand priorities, target population, exclusions, competitor set, surfaces, lanes and budget below are agent-proposed defaults derived from public evidence, not user or approver choices.",
+    "no_approver: no human has approved this charter. approval_status is pending and the panel must not be described as frozen, representative, or statistically significant.",
+    "ambiguous_score_rejected: no single 'AI visibility score' is defined. Any request for one should be refused in favour of the named estimands with their own denominators."
+  ],
+  "business_decision": {
+    "assumed_decision": "Where should GB home-energy answer-engine effort go over the next two quarters: which buyer jobs, journey states and proximity bands does the brand fail to appear in when a household describes its situation without naming any supplier, and which of those gaps are worth content, data or PR investment?",
+    "status": "agent_assumed",
+    "confirmation_needed_from": "approver",
+    "what_would_change_if_wrong": "If the real decision is competitive benchmarking, competitive_mention_share and the competitor-aided partition would need to expand and a defensible competitor set would have to be approved. If the real decision is campaign measurement, a pre-registered campaign lane with matched controls would have to be added before any before/after reading."
+  },
+  "estimands": [
+    {
+      "estimand": "unaided_brand_presence",
+      "definition": "Share of valid observations in unaided cells where the target brand appears anywhere in the assistant's answer text.",
+      "numerator": "Valid observations whose answer text contains a normalised match to target_terms.brands or target_terms.products in contamination_register.yaml.",
+      "denominator": "Valid observations of unaided-partition candidates (aided_status = unaided) within one lane, one surface, one locale and one wave. Aided and control observations are excluded.",
+      "eligible_partitions": ["core", "rotating", "sentinel"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "primary": true,
+      "does_not_prove": "Market share, audience reach, consumer awareness, preference, purchase intent, revenue, or that any household ever asked these questions. It is conditional on this prompt panel and this configuration."
+    },
+    {
+      "estimand": "competitive_mention_share",
+      "definition": "The target's share of all named GB domestic supplier mentions within eligible recommendation- or comparison-shaped observations.",
+      "numerator": "Count of observations mentioning the target, or target mention instances under the declared counting rule, within eligible cells.",
+      "denominator": "Count of all approved-supplier-list mention instances in the same eligible observations, in the same lane, surface, locale and wave. Competitor-aided observations are reported separately and never pooled with unaided ones.",
+      "eligible_partitions": ["core", "sentinel", "aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "primary": false,
+      "does_not_prove": "Share of customers, share of switchers, or market share. The supplier list is a measurement instrument, not the market.",
+      "open_dependency": "The approved supplier list is currently drawn from source-006, source-007 and source-012 and needs human approval at Gate 4."
+    },
+    {
+      "estimand": "citation_presence",
+      "definition": "Share of retrieval-lane observations that cite at least one target-owned URL.",
+      "numerator": "Valid retrieval-lane observations whose exposed citation set contains a target-owned domain.",
+      "denominator": "Valid retrieval-lane observations in which citation metadata was actually exposed by the surface. Observations without exposed citations are reported separately as unmeasurable, never as zeros.",
+      "eligible_partitions": ["core", "rotating", "sentinel", "aided"],
+      "eligible_lanes": ["retrieval", "consumer_surface"],
+      "primary": false,
+      "does_not_prove": "Referral traffic, clicks, or influence on the answer's content."
+    },
+    {
+      "estimand": "aided_brand_knowledge",
+      "definition": "Accuracy and completeness of assistant answers about the target when the target is named.",
+      "numerator": "Valid B0 observations containing at least one factually correct element scored against a fixed rubric built from source-001, source-002 and source-003, with material errors recorded separately.",
+      "denominator": "Valid observations of target_aided (B0) candidates only, in one lane, surface, locale and wave.",
+      "eligible_partitions": ["aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "primary": false,
+      "does_not_prove": "Sentiment, favourability, or unaided visibility. It cannot be added to or averaged with unaided results."
+    },
+    {
+      "estimand": "answer_framing",
+      "definition": "How answers frame the decision, coded to a fixed codebook (cost-first, risk-or-caveat-first, service-first, low-carbon-first, regulator-or-official-guidance-first, refuses-to-recommend).",
+      "numerator": "Valid observations assigned each code by the declared parser and rubric version.",
+      "denominator": "Valid observations within the same stratum, lane, surface, locale and wave.",
+      "eligible_partitions": ["core", "sentinel", "aided"],
+      "eligible_lanes": ["closed_model", "retrieval", "consumer_surface"],
+      "primary": false,
+      "does_not_prove": "That the framing changed anyone's behaviour, or that it was caused by any publisher's content."
+    },
+    {
+      "estimand": "campaign_response",
+      "definition": "Not active in this version.",
+      "numerator": null,
+      "denominator": null,
+      "eligible_partitions": [],
+      "eligible_lanes": ["campaign_experiment"],
+      "primary": false,
+      "status": "deferred",
+      "reason": "No campaign, campaign term set, treatment definition, control definition or pre-registration exists. A before/after change without those is not attribution and will not be reported as one.",
+      "does_not_prove": "Nothing yet; the estimand is declared so that nobody retro-fits it to an uncontrolled comparison."
+    }
+  ],
+  "target_population": {
+    "conceptual": "GB households (England, Scotland, Wales) with a domestic energy decision matching one of the six evidenced buyer jobs, who might pose that question to a general-purpose AI assistant or answer engine.",
+    "measured": "Non-probability set of 46 canonical intent cells derived from public evidence, run on selected surfaces. It is a purposive instrument, not a sample of households or of AI users.",
+    "coverage_limitation": "No frequency, prevalence or population-weighting evidence exists for any cell. Results describe how these surfaces answer these questions, nothing more."
+  },
+  "exclusions": [
+    "Northern Ireland and non-GB markets (no evidence gathered; regulated-cap evidence is GB-only).",
+    "Business, SME and employer salary-sacrifice buyers (website-only standing; no buyer evidence).",
+    "Prepayment, arrears, Warm Home Discount and other affordability-support contexts (unresearched in this run).",
+    "Renters, flats and park homes for the heating job (unresearched).",
+    "Non-English locales including cy-GB (no evidence, no native reviewer).",
+    "Any prompt derived from an observed AI answer, a target page, or a desired landing page."
+  ],
+  "products": [
+    "standard variable and fixed domestic supply",
+    "wholesale-linked daily and half-hourly import tariffs",
+    "smart EV charging tariffs",
+    "solar and battery time-of-use tariffs",
+    "export tariffs",
+    "heat pump supply and installation plus heating tariff",
+    "smart metering as an enabling product",
+    "payment methods and billing"
+  ],
+  "markets": ["GB"],
+  "locales": ["en-GB"],
+  "time_horizon": {
+    "wave_length": "monthly waves",
+    "initial_commitment": "two quarters (2026-08 through 2027-01)",
+    "decay_rules": "B5 cells expire on their review-by date; the price-cap cell must be re-read by 2026-08-26 when the next cap period is published."
+  },
+  "surfaces": [
+    {"surface_id": "surf-api-a", "description": "Frontier closed model via API, no tools", "lane": "closed_model"},
+    {"surface_id": "surf-api-b", "description": "Second frontier closed model via API, no tools", "lane": "closed_model"},
+    {"surface_id": "surf-answer-engine", "description": "Retrieval-first answer engine with exposed citations", "lane": "retrieval"},
+    {"surface_id": "surf-assistant-search", "description": "General assistant with web search enabled and citations exposed", "lane": "retrieval"},
+    {"surface_id": "surf-consumer-clean", "description": "Consumer assistant app, clean account archetype, GB locale, no personalisation history", "lane": "consumer_surface"},
+    {"surface_id": "surf-ai-overview", "description": "Search-engine AI answer module, GB locale, clean session", "lane": "consumer_surface"}
+  ],
+  "lanes": ["closed_model", "retrieval", "consumer_surface"],
+  "lanes_declared_inactive": ["campaign_experiment"],
+  "reporting_strata": [
+    "proximity band",
+    "aided status",
+    "buyer job",
+    "information act",
+    "journey state",
+    "role/persona",
+    "material constraint family",
+    "partition",
+    "lane and surface",
+    "evidence grade",
+    "wave"
+  ],
+  "run_budget": {
+    "assumed": "diagnostic tier",
+    "unaided_cells": 33,
+    "aided_cells": 11,
+    "control_cells": 2,
+    "variants_per_core_cell": 2,
+    "repeats_per_variant_per_wave": 3,
+    "sentinel_repeats": 6,
+    "estimated_observations_per_wave": "72 candidates across 6 surfaces at 3 repeats is on the order of 1,300 observations per full wave; sentinel deepening adds roughly 180. A cheaper first wave can run 2 surfaces (one per active lane pair) for about 430 observations.",
+    "status": "agent_assumed_needs_approval"
+  },
+  "review_budget": {
+    "assumed": "Human review of the QA ledger and of every disputed core, aided-exception and locale decision, roughly 2-3 hours at Gate 3 and 1-2 hours at Gate 4 per version.",
+    "status": "agent_assumed_needs_approval"
+  },
+  "precision_status": "directional_only",
+  "precision_notes": "No variance pilot has been run, so no minimum detectable difference can be stated. Percentages must not be published for any subgroup with fewer than 20-30 distinct cells; report counts and answers instead.",
+  "approver": null,
+  "approval_status": "pending",
+  "human_gates": [
+    {"gate": 1, "owns": "facts, ICPs, exclusions, permissions, unanswered questions", "status": "pending", "artifact": "icp_hypotheses.json"},
+    {"gate": 2, "owns": "jobs, language, roles, locales, strategic priority", "status": "pending", "artifact": "buyer_jobs.json"},
+    {"gate": 3, "owns": "core/aided/campaign partitions and disputed QA decisions, while blind to baseline visibility", "status": "pending", "artifact": "prompt_qa.json"},
+    {"gate": 4, "owns": "weights, limitations, cadence, claims, version freeze", "status": "pending", "artifact": "panel.yaml"}
+  ]
+}

@@ -1,0 +1,4 @@
+Company: Canva
+Current time: 2026-06-09T16:00:00Z
+
+Canva is launching an enterprise suite with AI design generation and SSO, pushing into Adobe and Microsoft territory. Facts: Canva Enterprise adds brand controls, admin tools, single sign-on, and an AI tool that generates on-brand designs from a prompt; the company says it has over 220 million monthly users and 24,000 teams on paid plans; Canva is privately held, profitable, and last valued at $26B; it recently acquired an AI image-generation startup; named enterprise customers not disclosed in the announcement.

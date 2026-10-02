@@ -1,0 +1,148 @@
+{
+  "anti_pattern_results": [
+    {
+      "evidence": "No generic 'best cloud platform' prompt exists. The nearest category prompts are scoped and evidenced: prompt-038a 'compare the main content delivery network options for a global web app' (category_aided, cell-038), prompt-039a DDoS+WAF for mid-sized SaaS, prompt-042a 'what is SASE and do we need the whole thing or just ZTNA?'. blind_design_brief.accepted_solution_categories_for_B2 restricts B2 to six attested categories.",
+      "id": "cloudflare-ap-01",
+      "triggered": false
+    },
+    {
+      "evidence": "Each canonical cell carries one job and one constraint set: spec-010 (job-003, con-04 dynamic/API traffic), spec-012 (job-006, con-06 ephemeral CI), spec-019 (job-001, con-01/con-02 crawler controls), spec-018 (job-007, con-07 certification/residency). No cell attaches Workers/edge-compute constraints to a CDN or Zero Trust cell; edge compute is isolated in cells 044/045 under job-010.",
+      "id": "cloudflare-ap-02",
+      "triggered": false
+    },
+    {
+      "evidence": "Plan names in prompt-031a are traced to src-002's own plan cards; contamination_register.flattering_claims blocks '330+ data centers', 'Zero Cold Starts' and analyst-badge language from prompts; prompt-041a's 'in half' is flagged in prompt_qa r-entail review as 'a scenario ambition, not a claim traceable to src-008'; prompt-029a deliberately avoids asserting a specific error code because src-011 does not evidence one. No latency, threat-volume or compliance guarantee is asserted anywhere in the prompt set.",
+      "id": "cloudflare-ap-03",
+      "triggered": false
+    },
+    {
+      "evidence": "Roles have distinct journeys and vocabularies: SMB owner cells are troubleshoot/recommend at B3/B1 ('my website is down and my host says its a flood of traffic'), platform/SRE cells are plan/compare with gRPC and egress language, IT/security cells centre on per-request verification and agentless CI access, budget owner cells centre on flat-vs-usage billing (cell-024), compliance reviewer on certification and log retention (cell-025). icp_hypotheses records six separate role entries with their own source_ids.",
+      "id": "cloudflare-ap-04",
+      "triggered": false
+    },
+    {
+      "evidence": "Only 4 of 50 cells are supplier_selection recommend/buy acts beyond comparison; adoption (cells 019/028/030/037) and post_purchase (cells 006/029/035/046) are each 4 cells, covering implementation steps, error debugging plus support timing, and post-outage dependency reduction. prompt-052a, which appended 'which security platform should we buy?' to a troubleshooting need, was rejected under proh-001.",
+      "id": "cloudflare-ap-05",
+      "triggered": false
+    }
+  ],
+  "case_id": "case-02-cloudflare",
+  "critical_failures": [],
+  "hard_gates": {
+    "artifact_contract_and_resumability": {
+      "evidence": "All fourteen canonical snake_case files are present and parse (panel_report.md, tracking_plan.md, measurement_charter.json, source_manifest.json, icp_hypotheses.json, buyer_jobs.json, contamination_register.yaml, blind_design_brief.json, prompt_architecture.json, prompt_universe.json, prompt_qa.json, panel.yaml, run_manifest_template.json, panel_change_ledger.json). Four gates recorded pending with resumable_from targets; rejects archived in prompt_universe.rejected_candidates; waiver-01…06 and an append-only change ledger with planned_version_triggers. Deduction: every hash is 'sha256:unavailable' and randomization seed is null, so the panel cannot be frozen (declared as waiver-05).",
+      "status": "pass"
+    },
+    "comprehensive_or_waived_dimensions": {
+      "evidence": "11 jobs, 9 information acts (generate/navigate waived in buyer_jobs.missing_coverage and waiver-01 with the evidence needed), all six journey states (13/11/10/8/4/4), B0–B5, all four aided states, six roles, single + scripted multi-turn, three lanes instantiated with campaign_experiment waived (waiver-04), five partitions, OL/NP/sensitivity variants, grades B/C/D with grade A waived (waiver-03). Gap: authoritative/managed DNS — named in the case description and in charter.products — has no cell, no job and no waiver (charter exclusions cover only the consumer resolver and registrar/email).",
+      "status": "pass"
+    },
+    "evidence_source_mix": {
+      "evidence": "source_manifest.json records 16 sources across company_asserted (src-001/002/012), independent (src-003 Register 2025-12-08, src-004 TechCrunch 2026-07-01, src-010, src-013), buyer_behavior (src-005/006 HN with Algolia objectIDs, src-011), search_proxy (src-007/008/009/014/015) and a declared llm_hypothesis (src-016, grade D). Two 403 blocks are disclosed and unused. Flaw: src-013 is the vendor's own postmortem URL (blog.cloudflare.com/18-november-2025-outage/) blended with third-party commentary but classed 'independent'; the span text discloses the blend, so it is visible rather than laundered.",
+      "status": "pass"
+    },
+    "measurement_and_claim_honesty": {
+      "evidence": "measurement_charter.json defines six estimands each with its own denominator; est-category-presence is explicitly 'held in a SEPARATE denominator from est-unaided-presence'; citation_presence is retrieval/consumer only; campaign_response declared out of scope. panel.yaml weight block keeps exposure (status no_evidence) and priority (pending_human_gate_4) separate with 'Equal weighting is a conditional convention, NOT a claim that these intents occur equally often'. target_population is stated as a prompt-space population, precision_status directional_only, and tracking_plan §12 keeps the evidence ladder at rung 1 with 'A before/after movement in rung 1 is not attribution.'",
+      "status": "pass"
+    },
+    "prompt_provenance_traceability": {
+      "evidence": "Every candidate in prompt_universe.json carries cell_spec_id → job_id → source_ids (e.g. prompt-012a → cell-012 → spec-012 → job-006 → src-006 objectID 44852206). Cross-artifact counts reconcile: prompt_architecture cell_count 50 (spec-001…042 + 044…051, no spec-043) matches panel.yaml partition lists (25 core + 8 sentinel + 6 rotating + 2 control + 9 aided = 50) and the band tally B0 6/B1 7/B2 9/B3 13/B4 10/B5 5 = 50; the 26-cell unaided denominator in panel.yaml enumerates exactly the unaided core+sentinel cells.",
+      "status": "pass"
+    },
+    "unaided_contamination_and_blinding": {
+      "evidence": "contamination_register.yaml covers brands/products/domains/people/slogans/proprietary_categories/campaign_terms/flattering_claims plus an ambiguous_terms review policy (auto_delete_permitted: false); prompt_qa summary reports unaided_core_target_leaks: 0 with rejects prompt-053a ('connectivity cloud') and prompt-054a (Akamai/Fastly in an unaided cell). B0 (cells 026–031) and cell-051 sit in the aided partition with separate denominators; the sole grade-D candidate (prompt-045a) is quarantined in rotating. blind_design_brief.json self_check is target- and competitor-free. Residual risk disclosed, not hidden: blinding was procedural (single context), and prompt-032b's paraphrase of vendor policy framing in an unaided B5 core cell is routed to Gate 3 rather than silently cleared.",
+      "status": "pass"
+    },
+    "usable_exact_prompt_output": {
+      "evidence": "panel_report.md §4 lists 92 exact prompt strings (prompt-001a … prompt-051b) with Var/Part/Band/Aided/Job/Act/Journey/Role/Locale/Constraints/Expected answer/Turn/Lanes/Evidence/Transformation/Weight/QA columns; scripted multi-turn encoded as 'TURN 1: … || TURN 2: …' (prompt-003a, prompt-021a). Archived rejects (prompt-052a/053a/054a) are shown with reasons.",
+      "status": "pass"
+    }
+  },
+  "must_have_results": [
+    {
+      "evidence": "CDN/performance and egress cost (job-003, cells 005/010/017/041/050), application/DDoS security (job-002, job-004, cells 004/013/015/021/039), crawler-and-bot control (job-001, job-009), Zero Trust/SASE (job-006, job-007, cells 007/012/016/023/028/042) are separated with distinct constraints; edge compute is kept hypothesis_only (icp-005, job-010) with waiver-06. Authoritative/recursive DNS is listed in measurement_charter.products but has no job, no cell and no waiver — charter exclusions only cover the consumer resolver (icp-006) and registrar/email-routing, so a named product area is dropped silently.",
+      "id": "cloudflare-mh-01",
+      "status": "partial"
+    },
+    {
+      "evidence": "Six evidenced roles in blind_design_brief.roles and icp_hypotheses: site/content operator (role-001), SMB owner-operator (role-002), platform/SRE engineer (role-003, src-005/006), IT/security engineer (role-004, src-006/009), engineering budget owner (role-005, evidenced 'only through billing-model preference, not title'), security/compliance reviewer (role-006). Role registers differ materially (prompt-013a 'I really don't want the site to fall over' vs prompt-012b 'short-lived build agents … persistent VPN client'). buyer_jobs.missing_coverage explicitly declines to invent a CFO, distinct procurement officer or reseller.",
+      "id": "cloudflare-mh-02",
+      "status": "pass"
+    },
+    {
+      "evidence": "Constraints are category-specific and carried per cell: con-04 WebSocket/gRPC on delivery-cost cells (spec-010, spec-017, spec-041), con-06 ephemeral CI clients on access cells (spec-007, spec-012), con-09 50-user packaging on spec-016/028, con-07 certification/residency on spec-018/025. Expected answer kinds differ accordingly (cost_reduction_options, configuration_steps, criteria_checklist, pricing_model_options). No cell mixes a CDN need with a Zero Trust migration; the closest combination (cell-020 'caching and application protection in front of a SaaS app') is a single front-door selection intent evidenced by src-005/src-010.",
+      "id": "cloudflare-mh-03",
+      "status": "pass"
+    },
+    {
+      "evidence": "Acts beyond comparison are represented: requirements (plan, 11 cells incl. spec-033 criteria_checklist), migration (cell-028 'move internal app access from a VPN to Cloudflare Zero Trust'), architecture (cell-006/cell-011 dependency mapping under con-08), verification (cell-025 certification/residency, cell-027 reliability, cell-037 control effectiveness), implementation (cell-019, cell-030), troubleshooting (cell-003, cell-029, cell-036, cell-046, cell-048). Recommendation forcing was rejected, not padded (prompt-052a, proh-001).",
+      "id": "cloudflare-mh-04",
+      "status": "pass"
+    },
+    {
+      "evidence": "All 50 cells are retrieval-lane eligible (panel.yaml lanes_and_surfaces; coverage matrix 'retrieval 50') and the run_manifest_template captures retrieval_ran, retrieval_state live-vs-cached, generated_queries and citations. Dated decay is applied only to the five B5 cells (032/033/051 review_by 2026-09-15; 034 2026-09-30; 035 2026-08-31). Plan/pricing/feature/reliability cells resting on undated company copy — cell-031 (Pro/Business plan fit, src-002), cell-024, cell-027, cell-028 — carry no review_by or refresh rule, and no service-status/current-incident cell exists, so those remain treatable as timeless facts.",
+      "id": "cloudflare-mh-05",
+      "status": "partial"
+    },
+    {
+      "evidence": "Counterevidence is retained and used: claim-005 (2025-11-18 four-hour outage, src-013) is explicitly marked counterevidence_to claim-001's availability standing and drives cells 006/011/027/035; src-006 HN 45981893 (better uptime from a hyperscaler WAF) and 46160621 (mid-market may not need a dedicated edge vendor) are recorded as disqualifiers/counterevidence in icp-003; src-011 review complaints drive cells 029/046 and are held at grade C outside core. Prevalence laundering is blocked repeatedly ('Counts inside any single source … are counts within that source, not market prevalence'), and unsupported architecture (src-016 edge compute) is declared llm_hypothesis with cells 044/045 quarantined.",
+      "id": "cloudflare-mh-06",
+      "status": "pass"
+    }
+  ],
+  "overall_score": 4.25,
+  "recommended_changes": [
+    {
+      "change": "Add an authoritative/managed DNS buyer job (or an explicit exclusion with evidence need) — DNS is named in the case description and in measurement_charter.products but only the consumer resolver is excluded, so the area is currently dropped without a waiver. Also record whether an enterprise/contract-tier ICP exists or is being deliberately excluded, since src-002's 'mission-critical' contract tier establishes standing that no ICP covers.",
+      "owner": "icp-evidence-analysis"
+    },
+    {
+      "change": "Create at least one DNS cell set (e.g. authoritative DNS migration/resilience, resolver performance verification) if the DNS job is approved, and otherwise add a coverage_gaps entry naming DNS with the evidence needed, matching the treatment already given to edge compute.",
+      "owner": "prompt-proximity-architecture"
+    },
+    {
+      "change": "Extend the decay/review_by mechanism beyond B5: attach refresh rules to plan/pricing/feature/reliability cells (031, 024, 027, 028) that rest on undated company copy, and add a time-sensitive service-status or current-incident cell so plan and status facts are not tracked as timeless model memory.",
+      "owner": "ai-visibility-panel-design"
+    },
+    {
+      "change": "Compute real SHA-256 values for source_manifest_hash, prompt_hash, blind_brief_hash and configuration/response hashes, and generate and freeze the randomization seed (waiver-05); until then the panel remains unfreezable and cross-wave pairing is unverifiable.",
+      "owner": "build-ai-visibility-panel"
+    },
+    {
+      "change": "Split src-013 into two records: the vendor postmortem (blog.cloudflare.com, company_asserted) and the third-party reliability analyses (independent). As written, a company-authored URL is counted in the independent class, which overstates independent coverage in the evidence mix table.",
+      "owner": "icp-evidence-analysis"
+    },
+    {
+      "change": "Re-render prompt-035a with an absolute anchor ('the November 2025 edge provider outage') and supply candidates for the other five zero-candidate rotating cells (018, 044, 045, 046, 047) or demote the partition, so rotating does not contribute zero observations in wave 1.",
+      "owner": "realistic-prompt-generation"
+    },
+    {
+      "change": "Resolve the prompt-032b question before wave 1 rather than at Gate 3 only: an unaided B5 core cell that paraphrases the target's own policy framing risks inflating unaided presence for cells 032/033; either re-render from the buyer's situation without the vendor's framing structure or move the variant into the aided partition.",
+      "owner": "prompt-set-qa"
+    },
+    {
+      "change": "Rename variant_role 'observed_language' where transformation is human_written or search_query_expanded and nothing was actually observed (e.g. prompt-006a, prompt-013a, prompt-024a); the label currently implies an observation the run explicitly says does not exist.",
+      "owner": "realistic-prompt-generation"
+    }
+  ],
+  "scores": {
+    "artifact_usability_integrity": 4,
+    "contamination_qa": 4,
+    "evidence_quality": 4,
+    "icp_market_model": 4,
+    "job_intent_architecture": 5,
+    "panel_measurement_design": 5,
+    "prompt_coverage_traceability": 4,
+    "prompt_realism_cell_discipline": 4
+  },
+  "strengths": [
+    "Denominator discipline is exemplary: six estimands, six denominators, the 26-cell unaided set enumerated cell-by-cell in panel.yaml and never pooled with the 7-cell category-aided or 7-cell target-aided sets, with a counts-not-percentages rule for strata under 20–30 cells.",
+    "Honest treatment of the weakest area: edge compute appears in the user's own description but is held at icp-005 hypothesis_only, job-010 with null struggling_moment, cells 044/045 quarantined, src-016 declared as llm_hypothesis grade D, and waiver-06 states the evidence needed.",
+    "Counterevidence is preserved and operationalised — the 2025-11-18 outage (src-013) is registered as counterevidence to the availability standing claim and generates cells 006/011/027 rather than being dropped.",
+    "Contamination handling avoids both leakage and false positives: ambiguous_terms (CDN, WAF, ZTNA, 'bot management') are routed to review with 12 clearances recorded, hard-fail scope is defined, auto_delete is prohibited, and three rejects are archived with reasons.",
+    "Genuine measurement design: matched-unaffected control cells (048/049) in a domain with no target standing, fresh-session-per-observation, live-vs-cached retrieval state, cluster bootstrap on canonical_cell_id, variance pilot specified, and equal weights labelled a convention rather than prevalence.",
+    "Failures are surfaced rather than papered over: the rotating partition contributing zero wave-1 observations, procedural-not-architectural blinding, missing hashes/seed, and five Gate 3 disputes are all stated in panel_report.md, tracking_plan.md and panel.yaml."
+  ],
+  "summary": "A strong, unusually honest URL-only panel. All fourteen artifacts are present, parse and cross-reconcile exactly (50 cells; band, aided, act, journey, role, lane and grade tallies each sum to 50; the 26-cell unaided denominator enumerates precisely the unaided core+sentinel cells), and panel_report.md exposes 92 exact prompt strings with the dimensions needed to track them. Measurement honesty is the standout: six estimands with six separate denominators, aided/unaided and lane pooling explicitly prohibited, exposure and priority weights held apart with an equal-weight convention limitation, prompt-space (not user) population, directional_only precision, campaign_response out of scope, and a rung-1-only claims ladder. Contamination control is thorough without over-blocking — ambiguous category terms are reviewed rather than auto-failed, B0/B5 target-aided cells are quarantined in the aided partition, the single grade-D candidate is confined to rotating, and three rejects are archived with reasons. Against the case gold, four of six must-haves pass and none of the five anti-patterns triggers: CDN, application/DDoS security, Zero Trust/SASE and crawler-control jobs are separated with category-appropriate constraints and answer kinds, six distinct technical and buying roles carry distinct registers, and implementation, migration, verification and post-purchase acts are present alongside comparison. Two gaps hold it back from a higher score. Authoritative DNS — named in the case description and in the charter's own product list — has no job, no cell and no waiver, unlike edge compute which is rigorously waived. And time-sensitivity discipline is applied only to the five B5 cells: plan, pricing, feature and reliability cells built on undated company copy (cell-031, 024, 027, 028) carry no refresh rule, and no service-status cell exists. Smaller defects: src-013 is a vendor postmortem URL classed 'independent'; the whole rotating partition has zero runnable candidates in wave 1; all hashes are 'sha256:unavailable' and the seed is null, so the panel cannot be frozen; and several candidates are labelled variant_role 'observed_language' when the run states nothing was observed. Mean 4.25, no hard-gate failure, no critical contamination, traceability, denominator or causal-claim failure — verdict pass, with the DNS gap and plan/pricing freshness rules as the first repairs.",
+  "verdict": "pass"
+}

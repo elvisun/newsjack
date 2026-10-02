@@ -1,0 +1,4 @@
+Company: Ramp
+Current time: 2026-06-09T16:00:00Z
+
+Ramp is launching an AI agent that audits and renegotiates a company's software subscriptions. Facts: the agent scans spend, flags duplicate and unused SaaS seats, and drafts cancellation or renegotiation emails the finance team approves; in a 200-company beta it found an average of $342,000 in annual savings per company, mostly from unused seats and auto-renewals; Ramp processes over $80B in annualized purchase volume; the feature is included for existing customers at no extra cost; an enterprise tier with custom approval workflows is coming later this year.

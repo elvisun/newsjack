@@ -1,0 +1,4 @@
+Company: Klarna
+Current time: 2026-06-09T16:00:00Z
+
+Klarna says its AI assistant now handles two-thirds of customer-service chats and has cut average resolution time from 11 minutes to under 2. Facts: the assistant, built on a large language model, handled the equivalent work of 700 full-time agents in its first months; Klarna froze most hiring and its headcount fell about 20% over the year, partly through attrition; the company processes payments for 150 million consumers; Klarna is profitable and has filed to go public; the company will not say how many roles were cut versus left unfilled; some consumer advocates have raised concerns about AI handling disputes.

@@ -45,7 +45,7 @@ func cmdLogin(args []string, stdout, stderr io.Writer) int {
 func cmdAuth(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
 		printAuthHelp(stderr)
-		return fail(stderr, errors.New("usage: newsjack auth status|set|set-medialyst|set-x|headers|logout"))
+		return fail(stderr, errors.New("usage: newsjack auth status|set|set-medialyst|set-x|set-typesafe|headers|logout"))
 	}
 	switch args[0] {
 	case "--help", "-h", "help":
@@ -54,22 +54,32 @@ func cmdAuth(args []string, stdout, stderr io.Writer) int {
 	case "status":
 		medialystStatus := loadMedialystAuthStatus()
 		xToken, xSource := loadXBearerToken()
+		typesafeKey, typesafeSource := loadTypeSafeAPIKey()
 		payload := map[string]any{
-			"configured":                    medialystStatus.Configured || xToken != "",
-			"medialyst_configured":          medialystStatus.Configured,
-			"medialyst_oauth_configured":    medialystStatus.OAuthConfigured,
-			"medialyst_api_key_configured":  medialystStatus.APIKeyConfigured,
-			"medialyst_source":              nullableString(medialystStatus.Source),
-			"medialyst_auth_type":           nullableString(medialystStatus.Kind),
-			"x_api_configured":              xToken != "",
-			"x_bearer_token_source":         nullableString(xSource),
-			"medialyst_get_key_url":         medialystAPIKeyURL,
-			"medialyst_login_command":       "newsjack login",
-			"medialyst_set_command":         "newsjack login",
-			"medialyst_api_key_set_command": "newsjack auth set-medialyst --key <mlst_...>",
-			"x_bearer_token_command":        "newsjack auth set-x --bearer-token <token>",
+			"configured":                      medialystStatus.Configured || xToken != "",
+			"medialyst_configured":            medialystStatus.Configured,
+			"medialyst_oauth_configured":      medialystStatus.OAuthConfigured,
+			"medialyst_api_key_configured":    medialystStatus.APIKeyConfigured,
+			"medialyst_source":                nullableString(medialystStatus.Source),
+			"medialyst_auth_type":             nullableString(medialystStatus.Kind),
+			"medialyst_oauth_scopes":          medialystStatus.OAuthScopes,
+			"medialyst_project_tools_enabled": medialystStatus.ProjectsEnabled,
+			"x_api_configured":                xToken != "",
+			"x_bearer_token_source":           nullableString(xSource),
+			"medialyst_get_key_url":           medialystAPIKeyURL,
+			"medialyst_login_command":         "newsjack login",
+			"medialyst_set_command":           "newsjack login",
+			"medialyst_api_key_set_command":   "newsjack auth set-medialyst --key <mlst_...>",
+			"x_bearer_token_command":          "newsjack auth set-x --bearer-token <token>",
+			"typesafe_configured":             typesafeKey != "",
+			"typesafe_api_key_source":         nullableString(typesafeSource),
+			"typesafe_get_key_url":            typesafeAPIKeyURL,
+			"typesafe_api_key_command":        "newsjack auth set-typesafe --key <key>",
 		}
 		writeJSON(stdout, payload)
+		if medialystStatus.OAuthConfigured && !medialystStatus.ProjectsEnabled {
+			uiNote(stderr, "Run newsjack login again to enable Medialyst project tools.")
+		}
 		if !medialystStatus.Configured && xToken == "" {
 			return 1
 		}
@@ -80,6 +90,8 @@ func cmdAuth(args []string, stdout, stderr io.Writer) int {
 		return cmdAuthSetMedialyst(args[1:], stdout, stderr)
 	case "set-x":
 		return cmdAuthSetX(args[1:], stdout, stderr)
+	case "set-typesafe":
+		return cmdAuthSetTypeSafe(args[1:], stdout, stderr)
 	case "headers":
 		cred, credErr := loadMedialystBearerCredential()
 		if credErr != nil || cred.Token == "" {
@@ -114,14 +126,16 @@ func cmdAuthSet(args []string, stdout, stderr io.Writer) int {
 	medialystKey := fs.String("medialyst-key", "", "Medialyst API key")
 	xBearerToken := fs.String("x-bearer-token", "", "X API bearer token")
 	xToken := fs.String("x-token", "", "Alias for --x-bearer-token")
+	typesafeKey := fs.String("typesafe-key", "", "TypeSafe AI API key for Jev coarse filtering")
 	if err := fs.Parse(args); err != nil {
 		return 2
 	}
 
 	medialystValue := strings.TrimSpace(*medialystKey)
 	xValue := strings.TrimSpace(firstString(*xBearerToken, *xToken))
-	if medialystValue == "" && xValue == "" {
-		return fail(stderr, errors.New("usage: newsjack auth set [--medialyst-key KEY] [--x-bearer-token TOKEN]"))
+	typesafeValue := strings.TrimSpace(*typesafeKey)
+	if medialystValue == "" && xValue == "" && typesafeValue == "" {
+		return fail(stderr, errors.New("usage: newsjack auth set [--medialyst-key KEY] [--x-bearer-token TOKEN] [--typesafe-key KEY]"))
 	}
 	if medialystValue != "" {
 		if code := saveMedialystAPIKey(medialystValue, stdout, stderr); code != 0 {
@@ -133,7 +147,50 @@ func cmdAuthSet(args []string, stdout, stderr io.Writer) int {
 			return code
 		}
 	}
+	if typesafeValue != "" {
+		if code := saveTypeSafeAPIKey(typesafeValue, stdout, stderr); code != 0 {
+			return code
+		}
+	}
 	return 0
+}
+
+func cmdAuthSetTypeSafe(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("auth set-typesafe", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	key := fs.String("key", "", "TypeSafe AI API key")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	value := strings.TrimSpace(*key)
+	if value == "" {
+		return fail(stderr, errors.New("usage: newsjack auth set-typesafe --key <key>"))
+	}
+	return saveTypeSafeAPIKey(value, stdout, stderr)
+}
+
+func saveTypeSafeAPIKey(key string, stdout, stderr io.Writer) int {
+	if err := writeNewsjackEnv(map[string]string{envTypeSafeKey: key}); err != nil {
+		return fail(stderr, err)
+	}
+	uiSuccess(stdout, "saved TypeSafe API key to %s", newsjackEnvPath())
+	uiNote(stdout, "used for: Jev coarse filtering (newsjack coarse-filter --engine jev)")
+	return 0
+}
+
+// loadTypeSafeAPIKey resolves the TypeSafe (Jev) key the same way as the X
+// bearer token: process env, then .env files walking up from cwd, then
+// ~/.newsjack/.env.
+func loadTypeSafeAPIKey() (string, string) {
+	if v := strings.TrimSpace(os.Getenv(envTypeSafeKey)); v != "" {
+		return v, "environment:" + envTypeSafeKey
+	}
+	for _, path := range candidateEnvPaths() {
+		if v := readDotenvKey(path, envTypeSafeKey); v != "" {
+			return v, "dotenv:" + path
+		}
+	}
+	return "", ""
 }
 
 func cmdAuthSetMedialyst(args []string, stdout, stderr io.Writer) int {
@@ -174,7 +231,7 @@ func saveMedialystAPIKey(apiKey string, stdout, stderr io.Writer) int {
 		return fail(stderr, err)
 	}
 	uiSuccess(stdout, "saved Medialyst credentials to %s", path)
-	uiNote(stdout, "used for: live news search and journalist enrichment")
+	uiNote(stdout, "used for: live news search, journalist enrichment, and media list research")
 	uiNote(stdout, "newsjack REST commands now use the saved key without MEDIALYST_API_KEY exports.")
 	return 0
 }

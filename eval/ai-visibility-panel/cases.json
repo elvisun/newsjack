@@ -1,0 +1,77 @@
+{
+  "eval_name": "ai-visibility-panel-public-url",
+  "version": 1,
+  "checked_at": "2026-07-25",
+  "current_time": "2026-07-25T16:00:00-04:00",
+  "executor_model": "claude-opus-5",
+  "description": "Clean-context public-web cases for building a provisional AI visibility prompt panel from only a URL and description.",
+  "skill_paths": [
+    "skills/build-ai-visibility-panel/SKILL.md",
+    "skills/icp-evidence-analysis/SKILL.md",
+    "skills/buyer-job-intent-analysis/SKILL.md",
+    "skills/prompt-proximity-architecture/SKILL.md",
+    "skills/realistic-prompt-generation/SKILL.md",
+    "skills/prompt-set-qa/SKILL.md",
+    "skills/ai-visibility-panel-design/SKILL.md"
+  ],
+  "output_dir_template": "eval/ai-visibility-panel/runs/<run-id>/<case-id>/executor",
+  "executor_visible_fields": [
+    "url",
+    "description",
+    "skill_paths",
+    "current_time",
+    "output_dir"
+  ],
+  "cases": [
+    {
+      "id": "case-01-rippling",
+      "url": "https://www.rippling.com/",
+      "description": "Rippling is a modular workforce platform spanning HR, payroll, IT, and spend."
+    },
+    {
+      "id": "case-02-cloudflare",
+      "url": "https://www.cloudflare.com/",
+      "description": "Cloudflare is a network platform spanning CDN and performance, application security, Zero Trust and SASE, DNS, and edge compute."
+    },
+    {
+      "id": "case-03-wise",
+      "url": "https://wise.com/",
+      "description": "Wise is a cross-border personal and business money service with an embedded platform."
+    },
+    {
+      "id": "case-04-zocdoc",
+      "url": "https://www.zocdoc.com/",
+      "description": "Zocdoc is a US patient and provider healthcare-booking marketplace organized around insurance, location, and availability."
+    },
+    {
+      "id": "case-05-taskrabbit",
+      "url": "https://www.taskrabbit.com/",
+      "description": "Taskrabbit is a local marketplace connecting clients and Taskers for assembly, moving, repair, errands, and related services."
+    },
+    {
+      "id": "case-06-airalo",
+      "url": "https://www.airalo.com/",
+      "description": "Airalo is a travel eSIM marketplace with local, regional, and global packages constrained by destination, device, and plan."
+    },
+    {
+      "id": "case-07-oura",
+      "url": "https://ouraring.com/",
+      "description": "Oura is a smart ring and membership for wellness, sleep, activity, and recovery tracking."
+    },
+    {
+      "id": "case-08-turbotax",
+      "url": "https://turbotax.intuit.com/",
+      "description": "TurboTax is a US tax-preparation service with DIY, assisted, and full-service options whose eligibility and price vary by tax year, forms, state, and tax situation."
+    },
+    {
+      "id": "case-09-octopus-energy-uk",
+      "url": "https://octopus.energy/",
+      "description": "Octopus Energy UK is an energy supplier with standard and dynamic tariffs plus EV, solar, battery, heat-pump, export, metering, and payment offerings."
+    },
+    {
+      "id": "case-10-toyota-rav4-2026",
+      "url": "https://www.toyota.com/rav4/",
+      "description": "The redesigned 2026 Toyota RAV4 is a compact SUV with hybrid and plug-in-hybrid powertrains, multiple trims, local inventory and dealer offers, ownership support, and US/Canada differences."
+    }
+  ]
+}

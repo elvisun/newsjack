@@ -32,7 +32,9 @@ REPO_ROOT="$(cd "$EVAL_DIR/../.." && pwd)"
 
 GEN_MD="$EVAL_DIR/harness/generator.md"
 SKILL="$REPO_ROOT/skills/angle-generator/SKILL.md"
-ETHICS="$REPO_ROOT/skills/ETHICS.md"
+# ETHICS_FILE may point at a frozen copy so a later run keeps the exact apparatus
+# of an earlier one (the live file changed 2026-08-03).
+ETHICS="${ETHICS_FILE:-$REPO_ROOT/skills/ETHICS.md}"
 NOSPAM="$REPO_ROOT/skills/WHY-NOT-SPAM.md"
 
 for f in "$GEN_MD" "$SKILL" "$ETHICS" "$NOSPAM" "$UPDATE_FILE"; do

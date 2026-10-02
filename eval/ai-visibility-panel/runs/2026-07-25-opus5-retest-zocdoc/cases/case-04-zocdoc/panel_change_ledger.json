@@ -1,0 +1,19 @@
+{
+"schema_version": "1.0.0",
+"artifact_id": "ledger-zocdoc-2026-07-25",
+"created_at": "2026-07-25T20:00:00Z",
+"created_by": "agent:ai-visibility-panel-design (claude-opus-5)",
+"source_manifest_hash": null,
+"warnings": ["hash_not_computed: compute source_manifest_hash before freeze"],
+"panel_id": "panel-zocdoc-booking",
+"append_only": true,
+"changes": [
+{"change_id": "chg-0001", "at": "2026-07-25T20:00:00Z", "by": "agent:build-ai-visibility-panel (claude-opus-5)", "type": "create", "version_from": null, "version_to": "0.1.0", "summary": "Initial provisional_directional panel built from a public URL and a one-line description. 44 canonical cells and 86 candidates generated; 41 cells and 78 candidates selected.", "affected": ["charter", "sources", "icps", "jobs", "contamination", "blind_brief", "architecture", "universe", "qa", "panel"], "approval": "none", "overlap_bridge": null},
+{"change_id": "chg-0002", "at": "2026-07-25T20:00:00Z", "by": "agent:prompt-set-qa (claude-opus-5)", "type": "qa_decision", "version_from": "0.1.0", "version_to": "0.1.0", "summary": "Rejected 3 candidates (recommendation forcing, target-term contamination in an unaided cell, undated B5 premise), quarantined 4 (two locale-pending translations, one grade-D expansion, one leading benchmark premise), and revised 1 persona-exposition draft into prompt-014c.", "affected": ["qa", "universe"], "approval": "none", "overlap_bridge": null},
+{"change_id": "chg-0003", "at": "2026-07-25T20:00:00Z", "by": "agent:ai-visibility-panel-design (claude-opus-5)", "type": "waiver", "version_from": "0.1.0", "version_to": "0.1.0", "summary": "Recorded six waivers: campaign lane absent, pilot sentinel shortfall, es-US locale excluded, grade-D cash-pay cell excluded, AI phone-assistant product area unverified, no scripted multi-turn coverage.", "affected": ["panel", "charter", "architecture"], "approval": "none", "overlap_bridge": null}
+],
+"version_history": [
+{"version": "0.1.0", "status": "provisional_directional", "created_at": "2026-07-25T20:00:00Z", "frozen": false, "frozen_at": null, "content_hashes": null, "freeze_blockers": ["source_manifest_hash is null", "all prompt_hash values are null", "blind_brief_hash is null", "human gates 1-4 pending", "variance pilot not run", "es-US locale review pending"]}
+],
+"next_review": "2026-10-25"
+}

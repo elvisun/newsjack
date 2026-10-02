@@ -1,0 +1,2810 @@
+{
+  "cases": [
+    {
+      "artifact_sha256": {
+        "blind_design_brief.json": "90d60ec1dfbf439bbe4dee8e517e88c9acf1f925931e3ad39a1ca73ff889c22c",
+        "buyer_jobs.json": "3e6d440605c9ce21220fa08fe8306a6e07d0a3bed33ece306f33045247908a6d",
+        "contamination_register.yaml": "c0ac7cbbfb47e62c880d7fb296f86724e1eeb3db8cb75f860aafcecf0d7d802f",
+        "icp_hypotheses.json": "f65b33bfda3e2de4a10cbeb31885aa71dece8011169f3b684ffc53acbc51ea27",
+        "measurement_charter.json": "bf329fbfcb03ad6768a64e38d03b4754dc360d9d82aeea13bfb65246a37aed11",
+        "panel.yaml": "68354a7a90c665d2672c5cdc74f105fb28894cbf2689fe912d50889b118fd1fa",
+        "panel_change_ledger.json": "9bea9b0794e192048d02cf8af049ecd1f068f2dbd16fd5ce4fb6da2c237167bb",
+        "panel_report.md": "e5ecbe449fdfd1f06d257155ec2b2cc3626a4a2975d59d39936ad200f37ea45c",
+        "prompt_architecture.json": "d0d93b09c9b2c9fbb2a0c93e2f184162f5fbae66ca85bcfea5aa13e06a456437",
+        "prompt_qa.json": "c5e79e940b6c5cc684338f43ca1c1a0a4a6d048dbec04043e76299b6720c8b29",
+        "prompt_universe.json": "0bf70de274150d4d16eaf63a2bf5da572a857913b3d03864eab9f3b1896132a6",
+        "run_manifest_template.json": "25f386c58f273194b2784d9a231e2e2574937d2a7598c966b3dab026316d74db",
+        "source_manifest.json": "b3862af39d4656eaf7585edc0ecbf5dc55df53c4fe7c282dc8eea55403577996",
+        "tracking_plan.md": "7551c39ffdbc7cac09e733f5fc392bd5236a09d2961e57fd5bddbabf26b057ee"
+      },
+      "case_id": "case-02-cloudflare",
+      "case_name": "case-02-cloudflare",
+      "case_slug": "case-02-cloudflare",
+      "checks": [
+        {
+          "evidence": "14 artifacts",
+          "id": "required_artifacts_parse",
+          "passed": true,
+          "severity": "critical",
+          "text": "required artifacts parse"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:measurement charter.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:measurement charter.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:measurement charter.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:measurement_charter.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:measurement charter.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:measurement_charter.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:measurement charter.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:source manifest.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:source manifest.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:source manifest.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:source_manifest.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:source manifest.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:source_manifest.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:source manifest.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:icp hypotheses.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:icp hypotheses.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:icp hypotheses.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:icp_hypotheses.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:icp hypotheses.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:icp_hypotheses.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:icp hypotheses.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:buyer jobs.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:buyer jobs.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:buyer jobs.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:buyer_jobs.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:buyer jobs.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:buyer_jobs.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:buyer jobs.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:blind design brief.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:blind design brief.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:blind design brief.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:blind_design_brief.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:blind design brief.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:blind_design_brief.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:blind design brief.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt architecture.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt architecture.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt architecture.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:prompt_architecture.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:prompt architecture.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_architecture.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt architecture.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt universe.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt universe.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt universe.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:prompt_universe.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:prompt universe.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_universe.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt universe.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:prompt qa.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:prompt qa.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:prompt qa.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:prompt_qa.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:prompt qa.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:prompt_qa.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:prompt qa.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:run manifest template.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:run manifest template.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:run manifest template.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:run_manifest_template.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:run manifest template.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:run_manifest_template.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:run manifest template.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel change ledger.json"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel change ledger.json"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel change ledger.json"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:panel_change_ledger.json",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:panel change ledger.json"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel_change_ledger.json",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel change ledger.json"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:contamination register.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:contamination register.yaml"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:contamination register.yaml"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:contamination_register.yaml",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:contamination register.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:contamination_register.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:contamination register.yaml"
+        },
+        {
+          "evidence": "complete",
+          "id": "envelope:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "envelope:panel.yaml"
+        },
+        {
+          "evidence": "1.0.0",
+          "id": "schema_version:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "schema version:panel.yaml"
+        },
+        {
+          "evidence": "2026-07-25T16:00:00-04:00",
+          "id": "created_at:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "created at:panel.yaml"
+        },
+        {
+          "evidence": "sha256:unavailable",
+          "id": "source_hash_shape:panel.yaml",
+          "passed": false,
+          "severity": "error",
+          "text": "source hash shape:panel.yaml"
+        },
+        {
+          "evidence": "list",
+          "id": "warnings_array:panel.yaml",
+          "passed": true,
+          "severity": "error",
+          "text": "warnings array:panel.yaml"
+        },
+        {
+          "evidence": {
+            "artifacts": {
+              "blind_design_brief.json": "sha256:unavailable",
+              "buyer_jobs.json": "sha256:unavailable",
+              "contamination_register.yaml": "sha256:unavailable",
+              "icp_hypotheses.json": "sha256:unavailable",
+              "measurement_charter.json": "sha256:unavailable",
+              "panel.yaml": "sha256:unavailable",
+              "panel_change_ledger.json": "sha256:unavailable",
+              "prompt_architecture.json": "sha256:unavailable",
+              "prompt_qa.json": "sha256:unavailable",
+              "prompt_universe.json": "sha256:unavailable",
+              "run_manifest_template.json": "sha256:unavailable",
+              "source_manifest.json": "sha256:unavailable"
+            },
+            "distinct_hashes": [
+              "sha256:unavailable"
+            ]
+          },
+          "id": "source_manifest_hash_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "source manifest hash consistent"
+        },
+        {
+          "evidence": [
+            "src-016: evidence source missing URL/locator"
+          ],
+          "id": "source_records_valid",
+          "passed": false,
+          "severity": "error",
+          "text": "source records valid"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 3,
+            "company_asserted": 3,
+            "independent": 4,
+            "llm_hypothesis": 1,
+            "search_proxy": 5
+          },
+          "id": "source_mix_target",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix target"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 3,
+            "company_asserted": 3,
+            "independent": 4,
+            "llm_hypothesis": 1,
+            "search_proxy": 5
+          },
+          "id": "source_mix_independent",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix independent"
+        },
+        {
+          "evidence": {
+            "buyer_behavior": 3,
+            "company_asserted": 3,
+            "independent": 4,
+            "llm_hypothesis": 1,
+            "search_proxy": 5
+          },
+          "id": "source_mix_buyer_language",
+          "passed": true,
+          "severity": "warning",
+          "text": "source mix buyer language"
+        },
+        {
+          "evidence": {
+            "count": 6,
+            "records": 6,
+            "unique": 6
+          },
+          "id": "unique:icp_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:icp id"
+        },
+        {
+          "evidence": {
+            "count": 11,
+            "records": 11,
+            "unique": 11
+          },
+          "id": "unique:job_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:job id"
+        },
+        {
+          "evidence": {
+            "count": 50,
+            "records": 50,
+            "unique": 50
+          },
+          "id": "unique:cell_spec_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:cell spec id"
+        },
+        {
+          "evidence": {
+            "count": 50,
+            "records": 50,
+            "unique": 50
+          },
+          "id": "unique:canonical_cell_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:canonical cell id"
+        },
+        {
+          "evidence": {
+            "count": 92,
+            "records": 92,
+            "unique": 92
+          },
+          "id": "unique:candidate_id",
+          "passed": true,
+          "severity": "error",
+          "text": "unique:candidate id"
+        },
+        {
+          "evidence": "16 references",
+          "id": "source_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "source references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "job_icp_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "job icp references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "architecture_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "architecture job references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_spec_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe spec references resolve"
+        },
+        {
+          "evidence": "resolved",
+          "id": "universe_job_references_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "universe job references resolve"
+        },
+        {
+          "evidence": {
+            "missing": [],
+            "unknown": [
+              "prompt-052a",
+              "prompt-053a",
+              "prompt-054a"
+            ]
+          },
+          "id": "qa_one_decision_per_candidate",
+          "passed": false,
+          "severity": "error",
+          "text": "qa one decision per candidate"
+        },
+        {
+          "evidence": "resolved",
+          "id": "qa_accepted_ids_resolve",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted ids resolve"
+        },
+        {
+          "evidence": "all pass",
+          "id": "qa_accepted_are_pass",
+          "passed": true,
+          "severity": "error",
+          "text": "qa accepted are pass"
+        },
+        {
+          "evidence": true,
+          "id": "qa_baseline_blinded",
+          "passed": true,
+          "severity": "error",
+          "text": "qa baseline blinded"
+        },
+        {
+          "evidence": {
+            "cell-001": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-002": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-003": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-004": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-005": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-006": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-007": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-008": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-009": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-010": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-011": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-012": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-013": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-014": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-015": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-016": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-017": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-018": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-019": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-020": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-021": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-022": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-023": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-024": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-025": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-026": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-027": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-028": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-029": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-030": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-031": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-032": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-033": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-034": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-035": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-036": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-037": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-038": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-039": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-040": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-041": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-042": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-044": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-045": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-046": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-047": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-048": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-049": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-050": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ],
+            "cell-051": [
+              "aided_status",
+              "campaign_exposed",
+              "evidence_grade",
+              "funnel",
+              "icp_ids",
+              "information_act",
+              "journey_state",
+              "lane_eligibility",
+              "language",
+              "locale",
+              "material_constraints",
+              "partition",
+              "persona_id",
+              "proximity_band",
+              "reason_source_ids",
+              "turn_form"
+            ]
+          },
+          "id": "canonical_cell_fields_complete",
+          "passed": false,
+          "severity": "error",
+          "text": "canonical cell fields complete"
+        },
+        {
+          "evidence": {
+            "prompt-001a": [
+              "generation_provenance"
+            ],
+            "prompt-001b": [
+              "generation_provenance"
+            ],
+            "prompt-002a": [
+              "generation_provenance"
+            ],
+            "prompt-002b": [
+              "generation_provenance"
+            ],
+            "prompt-003a": [
+              "generation_provenance"
+            ],
+            "prompt-003b": [
+              "generation_provenance"
+            ],
+            "prompt-004a": [
+              "generation_provenance"
+            ],
+            "prompt-004b": [
+              "generation_provenance"
+            ],
+            "prompt-005a": [
+              "generation_provenance"
+            ],
+            "prompt-005b": [
+              "generation_provenance"
+            ],
+            "prompt-006a": [
+              "generation_provenance"
+            ],
+            "prompt-006b": [
+              "generation_provenance"
+            ],
+            "prompt-007a": [
+              "generation_provenance"
+            ],
+            "prompt-007b": [
+              "generation_provenance"
+            ],
+            "prompt-008a": [
+              "generation_provenance"
+            ],
+            "prompt-008b": [
+              "generation_provenance"
+            ],
+            "prompt-009a": [
+              "generation_provenance"
+            ],
+            "prompt-009b": [
+              "generation_provenance"
+            ],
+            "prompt-010a": [
+              "generation_provenance"
+            ],
+            "prompt-010b": [
+              "generation_provenance"
+            ],
+            "prompt-011a": [
+              "generation_provenance"
+            ],
+            "prompt-011b": [
+              "generation_provenance"
+            ],
+            "prompt-012a": [
+              "generation_provenance"
+            ],
+            "prompt-012b": [
+              "generation_provenance"
+            ],
+            "prompt-013a": [
+              "generation_provenance"
+            ],
+            "prompt-013b": [
+              "generation_provenance"
+            ],
+            "prompt-014a": [
+              "generation_provenance"
+            ],
+            "prompt-014b": [
+              "generation_provenance"
+            ],
+            "prompt-015a": [
+              "generation_provenance"
+            ],
+            "prompt-015b": [
+              "generation_provenance"
+            ],
+            "prompt-016a": [
+              "generation_provenance"
+            ],
+            "prompt-016b": [
+              "generation_provenance"
+            ],
+            "prompt-017a": [
+              "generation_provenance"
+            ],
+            "prompt-017b": [
+              "generation_provenance"
+            ],
+            "prompt-018a": [
+              "generation_provenance"
+            ],
+            "prompt-019a": [
+              "generation_provenance"
+            ],
+            "prompt-019b": [
+              "generation_provenance"
+            ],
+            "prompt-020a": [
+              "generation_provenance"
+            ],
+            "prompt-020b": [
+              "generation_provenance"
+            ],
+            "prompt-021a": [
+              "generation_provenance"
+            ],
+            "prompt-021b": [
+              "generation_provenance"
+            ],
+            "prompt-022a": [
+              "generation_provenance"
+            ],
+            "prompt-022b": [
+              "generation_provenance"
+            ],
+            "prompt-023a": [
+              "generation_provenance"
+            ],
+            "prompt-023b": [
+              "generation_provenance"
+            ],
+            "prompt-024a": [
+              "generation_provenance"
+            ],
+            "prompt-024b": [
+              "generation_provenance"
+            ],
+            "prompt-025a": [
+              "generation_provenance"
+            ],
+            "prompt-025b": [
+              "generation_provenance"
+            ],
+            "prompt-026a": [
+              "generation_provenance"
+            ],
+            "prompt-026b": [
+              "generation_provenance"
+            ],
+            "prompt-027a": [
+              "generation_provenance"
+            ],
+            "prompt-027b": [
+              "generation_provenance"
+            ],
+            "prompt-028a": [
+              "generation_provenance"
+            ],
+            "prompt-028b": [
+              "generation_provenance"
+            ],
+            "prompt-029a": [
+              "generation_provenance"
+            ],
+            "prompt-029b": [
+              "generation_provenance"
+            ],
+            "prompt-030a": [
+              "generation_provenance"
+            ],
+            "prompt-030b": [
+              "generation_provenance"
+            ],
+            "prompt-031a": [
+              "generation_provenance"
+            ],
+            "prompt-031b": [
+              "generation_provenance"
+            ],
+            "prompt-032a": [
+              "generation_provenance"
+            ],
+            "prompt-032b": [
+              "generation_provenance"
+            ],
+            "prompt-033a": [
+              "generation_provenance"
+            ],
+            "prompt-033b": [
+              "generation_provenance"
+            ],
+            "prompt-034a": [
+              "generation_provenance"
+            ],
+            "prompt-034b": [
+              "generation_provenance"
+            ],
+            "prompt-035a": [
+              "generation_provenance"
+            ],
+            "prompt-036a": [
+              "generation_provenance"
+            ],
+            "prompt-036b": [
+              "generation_provenance"
+            ],
+            "prompt-037a": [
+              "generation_provenance"
+            ],
+            "prompt-037b": [
+              "generation_provenance"
+            ],
+            "prompt-038a": [
+              "generation_provenance"
+            ],
+            "prompt-038b": [
+              "generation_provenance"
+            ],
+            "prompt-039a": [
+              "generation_provenance"
+            ],
+            "prompt-039b": [
+              "generation_provenance"
+            ],
+            "prompt-040a": [
+              "generation_provenance"
+            ],
+            "prompt-040b": [
+              "generation_provenance"
+            ],
+            "prompt-041a": [
+              "generation_provenance"
+            ],
+            "prompt-041b": [
+              "generation_provenance"
+            ],
+            "prompt-042a": [
+              "generation_provenance"
+            ],
+            "prompt-042b": [
+              "generation_provenance"
+            ],
+            "prompt-044a": [
+              "generation_provenance"
+            ],
+            "prompt-045a": [
+              "generation_provenance"
+            ],
+            "prompt-046a": [
+              "generation_provenance"
+            ],
+            "prompt-047a": [
+              "generation_provenance"
+            ],
+            "prompt-048a": [
+              "generation_provenance"
+            ],
+            "prompt-049a": [
+              "generation_provenance"
+            ],
+            "prompt-050a": [
+              "generation_provenance"
+            ],
+            "prompt-050b": [
+              "generation_provenance"
+            ],
+            "prompt-051a": [
+              "generation_provenance"
+            ],
+            "prompt-051b": [
+              "generation_provenance"
+            ]
+          },
+          "id": "candidate_fields_complete",
+          "passed": false,
+          "severity": "error",
+          "text": "candidate fields complete"
+        },
+        {
+          "evidence": [
+            "prompt-001a: information_act=None",
+            "prompt-001a: journey_state=None",
+            "prompt-001a: proximity_band=None",
+            "prompt-001a: aided_status=None",
+            "prompt-001a: partition=None",
+            "prompt-001b: information_act=None",
+            "prompt-001b: journey_state=None",
+            "prompt-001b: proximity_band=None",
+            "prompt-001b: aided_status=None",
+            "prompt-001b: partition=None",
+            "prompt-002a: information_act=None",
+            "prompt-002a: journey_state=None",
+            "prompt-002a: proximity_band=None",
+            "prompt-002a: aided_status=None",
+            "prompt-002a: partition=None",
+            "prompt-002b: information_act=None",
+            "prompt-002b: journey_state=None",
+            "prompt-002b: proximity_band=None",
+            "prompt-002b: aided_status=None",
+            "prompt-002b: partition=None",
+            "prompt-003a: information_act=None",
+            "prompt-003a: journey_state=None",
+            "prompt-003a: proximity_band=None",
+            "prompt-003a: aided_status=None",
+            "prompt-003a: partition=None",
+            "prompt-003b: information_act=None",
+            "prompt-003b: journey_state=None",
+            "prompt-003b: proximity_band=None",
+            "prompt-003b: aided_status=None",
+            "prompt-003b: partition=None",
+            "prompt-004a: information_act=None",
+            "prompt-004a: journey_state=None",
+            "prompt-004a: proximity_band=None",
+            "prompt-004a: aided_status=None",
+            "prompt-004a: partition=None",
+            "prompt-004b: information_act=None",
+            "prompt-004b: journey_state=None",
+            "prompt-004b: proximity_band=None",
+            "prompt-004b: aided_status=None",
+            "prompt-004b: partition=None",
+            "prompt-005a: information_act=None",
+            "prompt-005a: journey_state=None",
+            "prompt-005a: proximity_band=None",
+            "prompt-005a: aided_status=None",
+            "prompt-005a: partition=None",
+            "prompt-005b: information_act=None",
+            "prompt-005b: journey_state=None",
+            "prompt-005b: proximity_band=None",
+            "prompt-005b: aided_status=None",
+            "prompt-005b: partition=None",
+            "prompt-006a: information_act=None",
+            "prompt-006a: journey_state=None",
+            "prompt-006a: proximity_band=None",
+            "prompt-006a: aided_status=None",
+            "prompt-006a: partition=None",
+            "prompt-006b: information_act=None",
+            "prompt-006b: journey_state=None",
+            "prompt-006b: proximity_band=None",
+            "prompt-006b: aided_status=None",
+            "prompt-006b: partition=None",
+            "prompt-007a: information_act=None",
+            "prompt-007a: journey_state=None",
+            "prompt-007a: proximity_band=None",
+            "prompt-007a: aided_status=None",
+            "prompt-007a: partition=None",
+            "prompt-007b: information_act=None",
+            "prompt-007b: journey_state=None",
+            "prompt-007b: proximity_band=None",
+            "prompt-007b: aided_status=None",
+            "prompt-007b: partition=None",
+            "prompt-008a: information_act=None",
+            "prompt-008a: journey_state=None",
+            "prompt-008a: proximity_band=None",
+            "prompt-008a: aided_status=None",
+            "prompt-008a: partition=None",
+            "prompt-008b: information_act=None",
+            "prompt-008b: journey_state=None",
+            "prompt-008b: proximity_band=None",
+            "prompt-008b: aided_status=None",
+            "prompt-008b: partition=None",
+            "prompt-009a: information_act=None",
+            "prompt-009a: journey_state=None",
+            "prompt-009a: proximity_band=None",
+            "prompt-009a: aided_status=None",
+            "prompt-009a: partition=None",
+            "prompt-009b: information_act=None",
+            "prompt-009b: journey_state=None",
+            "prompt-009b: proximity_band=None",
+            "prompt-009b: aided_status=None",
+            "prompt-009b: partition=None",
+            "prompt-010a: information_act=None",
+            "prompt-010a: journey_state=None",
+            "prompt-010a: proximity_band=None",
+            "prompt-010a: aided_status=None",
+            "prompt-010a: partition=None",
+            "prompt-010b: information_act=None",
+            "prompt-010b: journey_state=None",
+            "prompt-010b: proximity_band=None",
+            "prompt-010b: aided_status=None",
+            "prompt-010b: partition=None",
+            "prompt-011a: information_act=None",
+            "prompt-011a: journey_state=None",
+            "prompt-011a: proximity_band=None",
+            "prompt-011a: aided_status=None",
+            "prompt-011a: partition=None",
+            "prompt-011b: information_act=None",
+            "prompt-011b: journey_state=None",
+            "prompt-011b: proximity_band=None",
+            "prompt-011b: aided_status=None",
+            "prompt-011b: partition=None",
+            "prompt-012a: information_act=None",
+            "prompt-012a: journey_state=None",
+            "prompt-012a: proximity_band=None",
+            "prompt-012a: aided_status=None",
+            "prompt-012a: partition=None",
+            "prompt-012b: information_act=None",
+            "prompt-012b: journey_state=None",
+            "prompt-012b: proximity_band=None",
+            "prompt-012b: aided_status=None",
+            "prompt-012b: partition=None",
+            "prompt-013a: information_act=None",
+            "prompt-013a: journey_state=None",
+            "prompt-013a: proximity_band=None",
+            "prompt-013a: aided_status=None",
+            "prompt-013a: partition=None",
+            "prompt-013b: information_act=None",
+            "prompt-013b: journey_state=None",
+            "prompt-013b: proximity_band=None",
+            "prompt-013b: aided_status=None",
+            "prompt-013b: partition=None",
+            "prompt-014a: information_act=None",
+            "prompt-014a: journey_state=None",
+            "prompt-014a: proximity_band=None",
+            "prompt-014a: aided_status=None",
+            "prompt-014a: partition=None",
+            "prompt-014b: information_act=None",
+            "prompt-014b: journey_state=None",
+            "prompt-014b: proximity_band=None",
+            "prompt-014b: aided_status=None",
+            "prompt-014b: partition=None",
+            "prompt-015a: information_act=None",
+            "prompt-015a: journey_state=None",
+            "prompt-015a: proximity_band=None",
+            "prompt-015a: aided_status=None",
+            "prompt-015a: partition=None",
+            "prompt-015b: information_act=None",
+            "prompt-015b: journey_state=None",
+            "prompt-015b: proximity_band=None",
+            "prompt-015b: aided_status=None",
+            "prompt-015b: partition=None",
+            "prompt-016a: information_act=None",
+            "prompt-016a: journey_state=None",
+            "prompt-016a: proximity_band=None",
+            "prompt-016a: aided_status=None",
+            "prompt-016a: partition=None",
+            "prompt-016b: information_act=None",
+            "prompt-016b: journey_state=None",
+            "prompt-016b: proximity_band=None",
+            "prompt-016b: aided_status=None",
+            "prompt-016b: partition=None",
+            "prompt-017a: information_act=None",
+            "prompt-017a: journey_state=None",
+            "prompt-017a: proximity_band=None",
+            "prompt-017a: aided_status=None",
+            "prompt-017a: partition=None",
+            "prompt-017b: information_act=None",
+            "prompt-017b: journey_state=None",
+            "prompt-017b: proximity_band=None",
+            "prompt-017b: aided_status=None",
+            "prompt-017b: partition=None",
+            "prompt-018a: information_act=None",
+            "prompt-018a: journey_state=None",
+            "prompt-018a: proximity_band=None",
+            "prompt-018a: aided_status=None",
+            "prompt-018a: partition=None",
+            "prompt-019a: information_act=None",
+            "prompt-019a: journey_state=None",
+            "prompt-019a: proximity_band=None",
+            "prompt-019a: aided_status=None",
+            "prompt-019a: partition=None",
+            "prompt-019b: information_act=None",
+            "prompt-019b: journey_state=None",
+            "prompt-019b: proximity_band=None",
+            "prompt-019b: aided_status=None",
+            "prompt-019b: partition=None",
+            "prompt-020a: information_act=None",
+            "prompt-020a: journey_state=None",
+            "prompt-020a: proximity_band=None",
+            "prompt-020a: aided_status=None",
+            "prompt-020a: partition=None",
+            "prompt-020b: information_act=None",
+            "prompt-020b: journey_state=None",
+            "prompt-020b: proximity_band=None",
+            "prompt-020b: aided_status=None",
+            "prompt-020b: partition=None",
+            "prompt-021a: information_act=None",
+            "prompt-021a: journey_state=None",
+            "prompt-021a: proximity_band=None",
+            "prompt-021a: aided_status=None",
+            "prompt-021a: partition=None",
+            "prompt-021b: information_act=None",
+            "prompt-021b: journey_state=None",
+            "prompt-021b: proximity_band=None",
+            "prompt-021b: aided_status=None",
+            "prompt-021b: partition=None",
+            "prompt-022a: information_act=None",
+            "prompt-022a: journey_state=None",
+            "prompt-022a: proximity_band=None",
+            "prompt-022a: aided_status=None",
+            "prompt-022a: partition=None",
+            "prompt-022b: information_act=None",
+            "prompt-022b: journey_state=None",
+            "prompt-022b: proximity_band=None",
+            "prompt-022b: aided_status=None",
+            "prompt-022b: partition=None",
+            "prompt-023a: information_act=None",
+            "prompt-023a: journey_state=None",
+            "prompt-023a: proximity_band=None",
+            "prompt-023a: aided_status=None",
+            "prompt-023a: partition=None",
+            "prompt-023b: information_act=None",
+            "prompt-023b: journey_state=None",
+            "prompt-023b: proximity_band=None",
+            "prompt-023b: aided_status=None",
+            "prompt-023b: partition=None",
+            "prompt-024a: information_act=None",
+            "prompt-024a: journey_state=None",
+            "prompt-024a: proximity_band=None",
+            "prompt-024a: aided_status=None",
+            "prompt-024a: partition=None",
+            "prompt-024b: information_act=None",
+            "prompt-024b: journey_state=None",
+            "prompt-024b: proximity_band=None",
+            "prompt-024b: aided_status=None",
+            "prompt-024b: partition=None",
+            "prompt-025a: information_act=None",
+            "prompt-025a: journey_state=None",
+            "prompt-025a: proximity_band=None",
+            "prompt-025a: aided_status=None",
+            "prompt-025a: partition=None",
+            "prompt-025b: information_act=None",
+            "prompt-025b: journey_state=None",
+            "prompt-025b: proximity_band=None",
+            "prompt-025b: aided_status=None",
+            "prompt-025b: partition=None",
+            "prompt-026a: information_act=None",
+            "prompt-026a: journey_state=None",
+            "prompt-026a: proximity_band=None",
+            "prompt-026a: aided_status=None",
+            "prompt-026a: partition=None",
+            "prompt-026b: information_act=None",
+            "prompt-026b: journey_state=None",
+            "prompt-026b: proximity_band=None",
+            "prompt-026b: aided_status=None",
+            "prompt-026b: partition=None",
+            "prompt-027a: information_act=None",
+            "prompt-027a: journey_state=None",
+            "prompt-027a: proximity_band=None",
+            "prompt-027a: aided_status=None",
+            "prompt-027a: partition=None",
+            "prompt-027b: information_act=None",
+            "prompt-027b: journey_state=None",
+            "prompt-027b: proximity_band=None",
+            "prompt-027b: aided_status=None",
+            "prompt-027b: partition=None",
+            "prompt-028a: information_act=None",
+            "prompt-028a: journey_state=None",
+            "prompt-028a: proximity_band=None",
+            "prompt-028a: aided_status=None",
+            "prompt-028a: partition=None",
+            "prompt-028b: information_act=None",
+            "prompt-028b: journey_state=None",
+            "prompt-028b: proximity_band=None",
+            "prompt-028b: aided_status=None",
+            "prompt-028b: partition=None",
+            "prompt-029a: information_act=None",
+            "prompt-029a: journey_state=None",
+            "prompt-029a: proximity_band=None",
+            "prompt-029a: aided_status=None",
+            "prompt-029a: partition=None",
+            "prompt-029b: information_act=None",
+            "prompt-029b: journey_state=None",
+            "prompt-029b: proximity_band=None",
+            "prompt-029b: aided_status=None",
+            "prompt-029b: partition=None",
+            "prompt-030a: information_act=None",
+            "prompt-030a: journey_state=None",
+            "prompt-030a: proximity_band=None",
+            "prompt-030a: aided_status=None",
+            "prompt-030a: partition=None",
+            "prompt-030b: information_act=None",
+            "prompt-030b: journey_state=None",
+            "prompt-030b: proximity_band=None",
+            "prompt-030b: aided_status=None",
+            "prompt-030b: partition=None",
+            "prompt-031a: information_act=None",
+            "prompt-031a: journey_state=None",
+            "prompt-031a: proximity_band=None",
+            "prompt-031a: aided_status=None",
+            "prompt-031a: partition=None",
+            "prompt-031b: information_act=None",
+            "prompt-031b: journey_state=None",
+            "prompt-031b: proximity_band=None",
+            "prompt-031b: aided_status=None",
+            "prompt-031b: partition=None",
+            "prompt-032a: information_act=None",
+            "prompt-032a: journey_state=None",
+            "prompt-032a: proximity_band=None",
+            "prompt-032a: aided_status=None",
+            "prompt-032a: partition=None",
+            "prompt-032b: information_act=None",
+            "prompt-032b: journey_state=None",
+            "prompt-032b: proximity_band=None",
+            "prompt-032b: aided_status=None",
+            "prompt-032b: partition=None",
+            "prompt-033a: information_act=None",
+            "prompt-033a: journey_state=None",
+            "prompt-033a: proximity_band=None",
+            "prompt-033a: aided_status=None",
+            "prompt-033a: partition=None",
+            "prompt-033b: information_act=None",
+            "prompt-033b: journey_state=None",
+            "prompt-033b: proximity_band=None",
+            "prompt-033b: aided_status=None",
+            "prompt-033b: partition=None",
+            "prompt-034a: information_act=None",
+            "prompt-034a: journey_state=None",
+            "prompt-034a: proximity_band=None",
+            "prompt-034a: aided_status=None",
+            "prompt-034a: partition=None",
+            "prompt-034b: information_act=None",
+            "prompt-034b: journey_state=None",
+            "prompt-034b: proximity_band=None",
+            "prompt-034b: aided_status=None",
+            "prompt-034b: partition=None",
+            "prompt-035a: information_act=None",
+            "prompt-035a: journey_state=None",
+            "prompt-035a: proximity_band=None",
+            "prompt-035a: aided_status=None",
+            "prompt-035a: partition=None",
+            "prompt-036a: information_act=None",
+            "prompt-036a: journey_state=None",
+            "prompt-036a: proximity_band=None",
+            "prompt-036a: aided_status=None",
+            "prompt-036a: partition=None",
+            "prompt-036b: information_act=None",
+            "prompt-036b: journey_state=None",
+            "prompt-036b: proximity_band=None",
+            "prompt-036b: aided_status=None",
+            "prompt-036b: partition=None",
+            "prompt-037a: information_act=None",
+            "prompt-037a: journey_state=None",
+            "prompt-037a: proximity_band=None",
+            "prompt-037a: aided_status=None",
+            "prompt-037a: partition=None",
+            "prompt-037b: information_act=None",
+            "prompt-037b: journey_state=None",
+            "prompt-037b: proximity_band=None",
+            "prompt-037b: aided_status=None",
+            "prompt-037b: partition=None",
+            "prompt-038a: information_act=None",
+            "prompt-038a: journey_state=None",
+            "prompt-038a: proximity_band=None",
+            "prompt-038a: aided_status=None",
+            "prompt-038a: partition=None",
+            "prompt-038b: information_act=None",
+            "prompt-038b: journey_state=None",
+            "prompt-038b: proximity_band=None",
+            "prompt-038b: aided_status=None",
+            "prompt-038b: partition=None",
+            "prompt-039a: information_act=None",
+            "prompt-039a: journey_state=None",
+            "prompt-039a: proximity_band=None",
+            "prompt-039a: aided_status=None",
+            "prompt-039a: partition=None",
+            "prompt-039b: information_act=None",
+            "prompt-039b: journey_state=None",
+            "prompt-039b: proximity_band=None",
+            "prompt-039b: aided_status=None",
+            "prompt-039b: partition=None",
+            "prompt-040a: information_act=None",
+            "prompt-040a: journey_state=None",
+            "prompt-040a: proximity_band=None",
+            "prompt-040a: aided_status=None",
+            "prompt-040a: partition=None",
+            "prompt-040b: information_act=None",
+            "prompt-040b: journey_state=None",
+            "prompt-040b: proximity_band=None",
+            "prompt-040b: aided_status=None",
+            "prompt-040b: partition=None",
+            "prompt-041a: information_act=None",
+            "prompt-041a: journey_state=None",
+            "prompt-041a: proximity_band=None",
+            "prompt-041a: aided_status=None",
+            "prompt-041a: partition=None",
+            "prompt-041b: information_act=None",
+            "prompt-041b: journey_state=None",
+            "prompt-041b: proximity_band=None",
+            "prompt-041b: aided_status=None",
+            "prompt-041b: partition=None",
+            "prompt-042a: information_act=None",
+            "prompt-042a: journey_state=None",
+            "prompt-042a: proximity_band=None",
+            "prompt-042a: aided_status=None",
+            "prompt-042a: partition=None",
+            "prompt-042b: information_act=None",
+            "prompt-042b: journey_state=None",
+            "prompt-042b: proximity_band=None",
+            "prompt-042b: aided_status=None",
+            "prompt-042b: partition=None",
+            "prompt-044a: information_act=None",
+            "prompt-044a: journey_state=None",
+            "prompt-044a: proximity_band=None",
+            "prompt-044a: aided_status=None",
+            "prompt-044a: partition=None",
+            "prompt-045a: information_act=None",
+            "prompt-045a: journey_state=None",
+            "prompt-045a: proximity_band=None",
+            "prompt-045a: aided_status=None",
+            "prompt-045a: partition=None",
+            "prompt-046a: information_act=None",
+            "prompt-046a: journey_state=None",
+            "prompt-046a: proximity_band=None",
+            "prompt-046a: aided_status=None",
+            "prompt-046a: partition=None",
+            "prompt-047a: information_act=None",
+            "prompt-047a: journey_state=None",
+            "prompt-047a: proximity_band=None",
+            "prompt-047a: aided_status=None",
+            "prompt-047a: partition=None",
+            "prompt-048a: information_act=None",
+            "prompt-048a: journey_state=None",
+            "prompt-048a: proximity_band=None",
+            "prompt-048a: aided_status=None",
+            "prompt-048a: partition=None",
+            "prompt-049a: information_act=None",
+            "prompt-049a: journey_state=None",
+            "prompt-049a: proximity_band=None",
+            "prompt-049a: aided_status=None",
+            "prompt-049a: partition=None",
+            "prompt-050a: information_act=None",
+            "prompt-050a: journey_state=None",
+            "prompt-050a: proximity_band=None",
+            "prompt-050a: aided_status=None",
+            "prompt-050a: partition=None",
+            "prompt-050b: information_act=None",
+            "prompt-050b: journey_state=None",
+            "prompt-050b: proximity_band=None",
+            "prompt-050b: aided_status=None",
+            "prompt-050b: partition=None",
+            "prompt-051a: information_act=None",
+            "prompt-051a: journey_state=None",
+            "prompt-051a: proximity_band=None",
+            "prompt-051a: aided_status=None",
+            "prompt-051a: partition=None",
+            "prompt-051b: information_act=None",
+            "prompt-051b: journey_state=None",
+            "prompt-051b: proximity_band=None",
+            "prompt-051b: aided_status=None",
+            "prompt-051b: partition=None"
+          ],
+          "id": "prompt_enums_valid",
+          "passed": false,
+          "severity": "error",
+          "text": "prompt enums valid"
+        },
+        {
+          "evidence": "consistent",
+          "id": "band_aided_partition_consistent",
+          "passed": true,
+          "severity": "error",
+          "text": "band aided partition consistent"
+        },
+        {
+          "evidence": "unique",
+          "id": "accepted_prompts_exact_unique",
+          "passed": true,
+          "severity": "error",
+          "text": "accepted prompts exact unique"
+        },
+        {
+          "evidence": "none",
+          "id": "no_unpromoted_grade_d_core",
+          "passed": true,
+          "severity": "error",
+          "text": "no unpromoted grade d core"
+        },
+        {
+          "evidence": [
+            "prompt-022a: competitor term 'Akamai' outside competitor_aided",
+            "prompt-022a: competitor term 'Fastly' outside competitor_aided",
+            "prompt-022b: competitor term 'Akamai' outside competitor_aided",
+            "prompt-022b: competitor term 'Fastly' outside competitor_aided",
+            "prompt-022b: competitor term 'Amazon CloudFront' outside competitor_aided",
+            "prompt-023a: competitor term 'Zscaler' outside competitor_aided",
+            "prompt-023a: competitor term 'Netskope' outside competitor_aided",
+            "prompt-023b: competitor term 'Zscaler' outside competitor_aided",
+            "prompt-023b: competitor term 'Netskope' outside competitor_aided",
+            "prompt-026a: target term 'Cloudflare' outside target_aided",
+            "prompt-026a: target term 'CloudFlare' outside target_aided",
+            "prompt-026a: target term 'cloudflare' outside target_aided",
+            "prompt-026b: target term 'Cloudflare' outside target_aided",
+            "prompt-026b: target term 'CloudFlare' outside target_aided",
+            "prompt-026b: target term 'cloudflare' outside target_aided",
+            "prompt-027a: target term 'Cloudflare' outside target_aided",
+            "prompt-027a: target term 'CloudFlare' outside target_aided",
+            "prompt-027a: target term 'cloudflare' outside target_aided",
+            "prompt-027b: target term 'Cloudflare' outside target_aided",
+            "prompt-027b: target term 'CloudFlare' outside target_aided",
+            "prompt-027b: target term 'cloudflare' outside target_aided",
+            "prompt-028a: target term 'Cloudflare' outside target_aided",
+            "prompt-028a: target term 'CloudFlare' outside target_aided",
+            "prompt-028a: target term 'cloudflare' outside target_aided",
+            "prompt-028a: target term 'Cloudflare Access' outside target_aided",
+            "prompt-028b: target term 'Cloudflare' outside target_aided",
+            "prompt-028b: target term 'CloudFlare' outside target_aided",
+            "prompt-028b: target term 'cloudflare' outside target_aided",
+            "prompt-028b: target term 'Cloudflare Zero Trust' outside target_aided",
+            "prompt-029a: target term 'Cloudflare' outside target_aided",
+            "prompt-029a: target term 'CloudFlare' outside target_aided",
+            "prompt-029a: target term 'cloudflare' outside target_aided",
+            "prompt-029b: target term 'Cloudflare' outside target_aided",
+            "prompt-029b: target term 'CloudFlare' outside target_aided",
+            "prompt-029b: target term 'cloudflare' outside target_aided",
+            "prompt-030a: target term 'Cloudflare' outside target_aided",
+            "prompt-030a: target term 'CloudFlare' outside target_aided",
+            "prompt-030a: target term 'cloudflare' outside target_aided",
+            "prompt-030b: target term 'Cloudflare' outside target_aided",
+            "prompt-030b: target term 'CloudFlare' outside target_aided",
+            "prompt-030b: target term 'cloudflare' outside target_aided",
+            "prompt-031a: target term 'Cloudflare' outside target_aided",
+            "prompt-031a: target term 'CloudFlare' outside target_aided",
+            "prompt-031a: target term 'cloudflare' outside target_aided",
+            "prompt-031b: target term 'Cloudflare' outside target_aided",
+            "prompt-031b: target term 'CloudFlare' outside target_aided",
+            "prompt-031b: target term 'cloudflare' outside target_aided",
+            "prompt-051a: target term 'Cloudflare' outside target_aided",
+            "prompt-051a: target term 'CloudFlare' outside target_aided",
+            "prompt-051a: target term 'cloudflare' outside target_aided",
+            "prompt-051b: target term 'Cloudflare' outside target_aided",
+            "prompt-051b: target term 'CloudFlare' outside target_aided",
+            "prompt-051b: target term 'cloudflare' outside target_aided"
+          ],
+          "id": "accepted_prompt_contamination_zero",
+          "passed": false,
+          "severity": "error",
+          "text": "accepted prompt contamination zero"
+        },
+        {
+          "evidence": "target-free",
+          "id": "blind_brief_target_free",
+          "passed": true,
+          "severity": "error",
+          "text": "blind brief target free"
+        },
+        {
+          "evidence": {
+            "exposure": {
+              "factors": [],
+              "limitation": "No audience, intent, locale or surface prevalence evidence exists in source_manifest.json. Equal weighting is a conditional convention, NOT a claim that these intents occur equally often. Exposure-weighted figures may not be described as market share, audience reach, awareness or share of users.",
+              "method": "equal_within_stratum",
+              "status": "no_evidence",
+              "value_per_cell": null
+            },
+            "priority": {
+              "factors": [],
+              "limitation": "Strategic priority is a human judgement. Until an approver sets it, all cells carry equal priority and no priority-weighted rollup should be published.",
+              "method": "equal_within_stratum",
+              "status": "pending_human_gate_4",
+              "value_per_cell": null
+            },
+            "separation_rule": "Exposure-weighted and priority-weighted results are computed and reported separately. They are never blended into a single visibility score."
+          },
+          "id": "weights_exposure_priority_separate",
+          "passed": true,
+          "severity": "error",
+          "text": "weights exposure priority separate"
+        },
+        {
+          "evidence": [
+            "{'accepted_count': 86, 'accepted_ids_ref': 'prompt_qa.json#accepted_candidate_ids', 'variants_per_cell': '2 for core, sentinel and aided cells; 1 for control cells', 'rotating_cells_with_zero_accepted': ['cell-018', 'cell-035', 'cell-044', 'cell-045', 'cell-046', 'cell-047'], 'rotating_note': 'All six rotating cells are currently quarantined or awaiting revision, so the rotating partition contributes no observations in wave 1. This is a coverage gap, recorded rather than papered over.'}"
+          ],
+          "id": "panel_selected_candidates_present",
+          "passed": true,
+          "severity": "error",
+          "text": "panel selected candidates present"
+        },
+        {
+          "evidence": [
+            "{'accepted_count': 86, 'accepted_ids_ref': 'prompt_qa.json#accepted_candidate_ids', 'variants_per_cell': '2 for core, sentinel and aided cells; 1 for control cells', 'rotating_cells_with_zero_accepted': ['cell-018', 'cell-035', 'cell-044', 'cell-045', 'cell-046', 'cell-047'], 'rotating_note': 'All six rotating cells are currently quarantined or awaiting revision, so the rotating partition contributes no observations in wave 1. This is a coverage gap, recorded rather than papered over.'}"
+          ],
+          "id": "panel_selected_candidates_qa_approved",
+          "passed": false,
+          "severity": "error",
+          "text": "panel selected candidates qa approved"
+        },
+        {
+          "evidence": "phrase present",
+          "id": "conditional_panel_language",
+          "passed": true,
+          "severity": "error",
+          "text": "conditional panel language"
+        },
+        {
+          "evidence": "86 accepted IDs present",
+          "id": "report_lists_accepted_prompts",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists accepted prompts"
+        },
+        {
+          "evidence": "86 exact prompt texts present",
+          "id": "report_lists_exact_prompt_text",
+          "passed": true,
+          "severity": "error",
+          "text": "report lists exact prompt text"
+        },
+        {
+          "evidence": {
+            "approvals_pending": true,
+            "status": "provisional_directional"
+          },
+          "id": "pending_gates_not_frozen",
+          "passed": true,
+          "severity": "error",
+          "text": "pending gates not frozen"
+        }
+      ],
+      "counts": {
+        "accepted_candidates": 86,
+        "candidates": 92,
+        "canonical_cells": 50,
+        "sources": 16
+      },
+      "judge_verdict": {
+        "anti_pattern_results": [
+          {
+            "evidence": "No generic 'best cloud platform' prompt exists. The nearest category prompts are scoped and evidenced: prompt-038a 'compare the main content delivery network options for a global web app' (category_aided, cell-038), prompt-039a DDoS+WAF for mid-sized SaaS, prompt-042a 'what is SASE and do we need the whole thing or just ZTNA?'. blind_design_brief.accepted_solution_categories_for_B2 restricts B2 to six attested categories.",
+            "id": "cloudflare-ap-01",
+            "triggered": false
+          },
+          {
+            "evidence": "Each canonical cell carries one job and one constraint set: spec-010 (job-003, con-04 dynamic/API traffic), spec-012 (job-006, con-06 ephemeral CI), spec-019 (job-001, con-01/con-02 crawler controls), spec-018 (job-007, con-07 certification/residency). No cell attaches Workers/edge-compute constraints to a CDN or Zero Trust cell; edge compute is isolated in cells 044/045 under job-010.",
+            "id": "cloudflare-ap-02",
+            "triggered": false
+          },
+          {
+            "evidence": "Plan names in prompt-031a are traced to src-002's own plan cards; contamination_register.flattering_claims blocks '330+ data centers', 'Zero Cold Starts' and analyst-badge language from prompts; prompt-041a's 'in half' is flagged in prompt_qa r-entail review as 'a scenario ambition, not a claim traceable to src-008'; prompt-029a deliberately avoids asserting a specific error code because src-011 does not evidence one. No latency, threat-volume or compliance guarantee is asserted anywhere in the prompt set.",
+            "id": "cloudflare-ap-03",
+            "triggered": false
+          },
+          {
+            "evidence": "Roles have distinct journeys and vocabularies: SMB owner cells are troubleshoot/recommend at B3/B1 ('my website is down and my host says its a flood of traffic'), platform/SRE cells are plan/compare with gRPC and egress language, IT/security cells centre on per-request verification and agentless CI access, budget owner cells centre on flat-vs-usage billing (cell-024), compliance reviewer on certification and log retention (cell-025). icp_hypotheses records six separate role entries with their own source_ids.",
+            "id": "cloudflare-ap-04",
+            "triggered": false
+          },
+          {
+            "evidence": "Only 4 of 50 cells are supplier_selection recommend/buy acts beyond comparison; adoption (cells 019/028/030/037) and post_purchase (cells 006/029/035/046) are each 4 cells, covering implementation steps, error debugging plus support timing, and post-outage dependency reduction. prompt-052a, which appended 'which security platform should we buy?' to a troubleshooting need, was rejected under proh-001.",
+            "id": "cloudflare-ap-05",
+            "triggered": false
+          }
+        ],
+        "case_id": "case-02-cloudflare",
+        "critical_failures": [],
+        "hard_gates": {
+          "artifact_contract_and_resumability": {
+            "evidence": "All fourteen canonical snake_case files are present and parse (panel_report.md, tracking_plan.md, measurement_charter.json, source_manifest.json, icp_hypotheses.json, buyer_jobs.json, contamination_register.yaml, blind_design_brief.json, prompt_architecture.json, prompt_universe.json, prompt_qa.json, panel.yaml, run_manifest_template.json, panel_change_ledger.json). Four gates recorded pending with resumable_from targets; rejects archived in prompt_universe.rejected_candidates; waiver-01…06 and an append-only change ledger with planned_version_triggers. Deduction: every hash is 'sha256:unavailable' and randomization seed is null, so the panel cannot be frozen (declared as waiver-05).",
+            "status": "pass"
+          },
+          "comprehensive_or_waived_dimensions": {
+            "evidence": "11 jobs, 9 information acts (generate/navigate waived in buyer_jobs.missing_coverage and waiver-01 with the evidence needed), all six journey states (13/11/10/8/4/4), B0–B5, all four aided states, six roles, single + scripted multi-turn, three lanes instantiated with campaign_experiment waived (waiver-04), five partitions, OL/NP/sensitivity variants, grades B/C/D with grade A waived (waiver-03). Gap: authoritative/managed DNS — named in the case description and in charter.products — has no cell, no job and no waiver (charter exclusions cover only the consumer resolver and registrar/email).",
+            "status": "pass"
+          },
+          "evidence_source_mix": {
+            "evidence": "source_manifest.json records 16 sources across company_asserted (src-001/002/012), independent (src-003 Register 2025-12-08, src-004 TechCrunch 2026-07-01, src-010, src-013), buyer_behavior (src-005/006 HN with Algolia objectIDs, src-011), search_proxy (src-007/008/009/014/015) and a declared llm_hypothesis (src-016, grade D). Two 403 blocks are disclosed and unused. Flaw: src-013 is the vendor's own postmortem URL (blog.cloudflare.com/18-november-2025-outage/) blended with third-party commentary but classed 'independent'; the span text discloses the blend, so it is visible rather than laundered.",
+            "status": "pass"
+          },
+          "measurement_and_claim_honesty": {
+            "evidence": "measurement_charter.json defines six estimands each with its own denominator; est-category-presence is explicitly 'held in a SEPARATE denominator from est-unaided-presence'; citation_presence is retrieval/consumer only; campaign_response declared out of scope. panel.yaml weight block keeps exposure (status no_evidence) and priority (pending_human_gate_4) separate with 'Equal weighting is a conditional convention, NOT a claim that these intents occur equally often'. target_population is stated as a prompt-space population, precision_status directional_only, and tracking_plan §12 keeps the evidence ladder at rung 1 with 'A before/after movement in rung 1 is not attribution.'",
+            "status": "pass"
+          },
+          "prompt_provenance_traceability": {
+            "evidence": "Every candidate in prompt_universe.json carries cell_spec_id → job_id → source_ids (e.g. prompt-012a → cell-012 → spec-012 → job-006 → src-006 objectID 44852206). Cross-artifact counts reconcile: prompt_architecture cell_count 50 (spec-001…042 + 044…051, no spec-043) matches panel.yaml partition lists (25 core + 8 sentinel + 6 rotating + 2 control + 9 aided = 50) and the band tally B0 6/B1 7/B2 9/B3 13/B4 10/B5 5 = 50; the 26-cell unaided denominator in panel.yaml enumerates exactly the unaided core+sentinel cells.",
+            "status": "pass"
+          },
+          "unaided_contamination_and_blinding": {
+            "evidence": "contamination_register.yaml covers brands/products/domains/people/slogans/proprietary_categories/campaign_terms/flattering_claims plus an ambiguous_terms review policy (auto_delete_permitted: false); prompt_qa summary reports unaided_core_target_leaks: 0 with rejects prompt-053a ('connectivity cloud') and prompt-054a (Akamai/Fastly in an unaided cell). B0 (cells 026–031) and cell-051 sit in the aided partition with separate denominators; the sole grade-D candidate (prompt-045a) is quarantined in rotating. blind_design_brief.json self_check is target- and competitor-free. Residual risk disclosed, not hidden: blinding was procedural (single context), and prompt-032b's paraphrase of vendor policy framing in an unaided B5 core cell is routed to Gate 3 rather than silently cleared.",
+            "status": "pass"
+          },
+          "usable_exact_prompt_output": {
+            "evidence": "panel_report.md §4 lists 92 exact prompt strings (prompt-001a … prompt-051b) with Var/Part/Band/Aided/Job/Act/Journey/Role/Locale/Constraints/Expected answer/Turn/Lanes/Evidence/Transformation/Weight/QA columns; scripted multi-turn encoded as 'TURN 1: … || TURN 2: …' (prompt-003a, prompt-021a). Archived rejects (prompt-052a/053a/054a) are shown with reasons.",
+            "status": "pass"
+          }
+        },
+        "must_have_results": [
+          {
+            "evidence": "CDN/performance and egress cost (job-003, cells 005/010/017/041/050), application/DDoS security (job-002, job-004, cells 004/013/015/021/039), crawler-and-bot control (job-001, job-009), Zero Trust/SASE (job-006, job-007, cells 007/012/016/023/028/042) are separated with distinct constraints; edge compute is kept hypothesis_only (icp-005, job-010) with waiver-06. Authoritative/recursive DNS is listed in measurement_charter.products but has no job, no cell and no waiver — charter exclusions only cover the consumer resolver (icp-006) and registrar/email-routing, so a named product area is dropped silently.",
+            "id": "cloudflare-mh-01",
+            "status": "partial"
+          },
+          {
+            "evidence": "Six evidenced roles in blind_design_brief.roles and icp_hypotheses: site/content operator (role-001), SMB owner-operator (role-002), platform/SRE engineer (role-003, src-005/006), IT/security engineer (role-004, src-006/009), engineering budget owner (role-005, evidenced 'only through billing-model preference, not title'), security/compliance reviewer (role-006). Role registers differ materially (prompt-013a 'I really don't want the site to fall over' vs prompt-012b 'short-lived build agents … persistent VPN client'). buyer_jobs.missing_coverage explicitly declines to invent a CFO, distinct procurement officer or reseller.",
+            "id": "cloudflare-mh-02",
+            "status": "pass"
+          },
+          {
+            "evidence": "Constraints are category-specific and carried per cell: con-04 WebSocket/gRPC on delivery-cost cells (spec-010, spec-017, spec-041), con-06 ephemeral CI clients on access cells (spec-007, spec-012), con-09 50-user packaging on spec-016/028, con-07 certification/residency on spec-018/025. Expected answer kinds differ accordingly (cost_reduction_options, configuration_steps, criteria_checklist, pricing_model_options). No cell mixes a CDN need with a Zero Trust migration; the closest combination (cell-020 'caching and application protection in front of a SaaS app') is a single front-door selection intent evidenced by src-005/src-010.",
+            "id": "cloudflare-mh-03",
+            "status": "pass"
+          },
+          {
+            "evidence": "Acts beyond comparison are represented: requirements (plan, 11 cells incl. spec-033 criteria_checklist), migration (cell-028 'move internal app access from a VPN to Cloudflare Zero Trust'), architecture (cell-006/cell-011 dependency mapping under con-08), verification (cell-025 certification/residency, cell-027 reliability, cell-037 control effectiveness), implementation (cell-019, cell-030), troubleshooting (cell-003, cell-029, cell-036, cell-046, cell-048). Recommendation forcing was rejected, not padded (prompt-052a, proh-001).",
+            "id": "cloudflare-mh-04",
+            "status": "pass"
+          },
+          {
+            "evidence": "All 50 cells are retrieval-lane eligible (panel.yaml lanes_and_surfaces; coverage matrix 'retrieval 50') and the run_manifest_template captures retrieval_ran, retrieval_state live-vs-cached, generated_queries and citations. Dated decay is applied only to the five B5 cells (032/033/051 review_by 2026-09-15; 034 2026-09-30; 035 2026-08-31). Plan/pricing/feature/reliability cells resting on undated company copy — cell-031 (Pro/Business plan fit, src-002), cell-024, cell-027, cell-028 — carry no review_by or refresh rule, and no service-status/current-incident cell exists, so those remain treatable as timeless facts.",
+            "id": "cloudflare-mh-05",
+            "status": "partial"
+          },
+          {
+            "evidence": "Counterevidence is retained and used: claim-005 (2025-11-18 four-hour outage, src-013) is explicitly marked counterevidence_to claim-001's availability standing and drives cells 006/011/027/035; src-006 HN 45981893 (better uptime from a hyperscaler WAF) and 46160621 (mid-market may not need a dedicated edge vendor) are recorded as disqualifiers/counterevidence in icp-003; src-011 review complaints drive cells 029/046 and are held at grade C outside core. Prevalence laundering is blocked repeatedly ('Counts inside any single source … are counts within that source, not market prevalence'), and unsupported architecture (src-016 edge compute) is declared llm_hypothesis with cells 044/045 quarantined.",
+            "id": "cloudflare-mh-06",
+            "status": "pass"
+          }
+        ],
+        "overall_score": 4.25,
+        "recommended_changes": [
+          {
+            "change": "Add an authoritative/managed DNS buyer job (or an explicit exclusion with evidence need) — DNS is named in the case description and in measurement_charter.products but only the consumer resolver is excluded, so the area is currently dropped without a waiver. Also record whether an enterprise/contract-tier ICP exists or is being deliberately excluded, since src-002's 'mission-critical' contract tier establishes standing that no ICP covers.",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Create at least one DNS cell set (e.g. authoritative DNS migration/resilience, resolver performance verification) if the DNS job is approved, and otherwise add a coverage_gaps entry naming DNS with the evidence needed, matching the treatment already given to edge compute.",
+            "owner": "prompt-proximity-architecture"
+          },
+          {
+            "change": "Extend the decay/review_by mechanism beyond B5: attach refresh rules to plan/pricing/feature/reliability cells (031, 024, 027, 028) that rest on undated company copy, and add a time-sensitive service-status or current-incident cell so plan and status facts are not tracked as timeless model memory.",
+            "owner": "ai-visibility-panel-design"
+          },
+          {
+            "change": "Compute real SHA-256 values for source_manifest_hash, prompt_hash, blind_brief_hash and configuration/response hashes, and generate and freeze the randomization seed (waiver-05); until then the panel remains unfreezable and cross-wave pairing is unverifiable.",
+            "owner": "build-ai-visibility-panel"
+          },
+          {
+            "change": "Split src-013 into two records: the vendor postmortem (blog.cloudflare.com, company_asserted) and the third-party reliability analyses (independent). As written, a company-authored URL is counted in the independent class, which overstates independent coverage in the evidence mix table.",
+            "owner": "icp-evidence-analysis"
+          },
+          {
+            "change": "Re-render prompt-035a with an absolute anchor ('the November 2025 edge provider outage') and supply candidates for the other five zero-candidate rotating cells (018, 044, 045, 046, 047) or demote the partition, so rotating does not contribute zero observations in wave 1.",
+            "owner": "realistic-prompt-generation"
+          },
+          {
+            "change": "Resolve the prompt-032b question before wave 1 rather than at Gate 3 only: an unaided B5 core cell that paraphrases the target's own policy framing risks inflating unaided presence for cells 032/033; either re-render from the buyer's situation without the vendor's framing structure or move the variant into the aided partition.",
+            "owner": "prompt-set-qa"
+          },
+          {
+            "change": "Rename variant_role 'observed_language' where transformation is human_written or search_query_expanded and nothing was actually observed (e.g. prompt-006a, prompt-013a, prompt-024a); the label currently implies an observation the run explicitly says does not exist.",
+            "owner": "realistic-prompt-generation"
+          }
+        ],
+        "scores": {
+          "artifact_usability_integrity": 4,
+          "contamination_qa": 4,
+          "evidence_quality": 4,
+          "icp_market_model": 4,
+          "job_intent_architecture": 5,
+          "panel_measurement_design": 5,
+          "prompt_coverage_traceability": 4,
+          "prompt_realism_cell_discipline": 4
+        },
+        "strengths": [
+          "Denominator discipline is exemplary: six estimands, six denominators, the 26-cell unaided set enumerated cell-by-cell in panel.yaml and never pooled with the 7-cell category-aided or 7-cell target-aided sets, with a counts-not-percentages rule for strata under 20–30 cells.",
+          "Honest treatment of the weakest area: edge compute appears in the user's own description but is held at icp-005 hypothesis_only, job-010 with null struggling_moment, cells 044/045 quarantined, src-016 declared as llm_hypothesis grade D, and waiver-06 states the evidence needed.",
+          "Counterevidence is preserved and operationalised — the 2025-11-18 outage (src-013) is registered as counterevidence to the availability standing claim and generates cells 006/011/027 rather than being dropped.",
+          "Contamination handling avoids both leakage and false positives: ambiguous_terms (CDN, WAF, ZTNA, 'bot management') are routed to review with 12 clearances recorded, hard-fail scope is defined, auto_delete is prohibited, and three rejects are archived with reasons.",
+          "Genuine measurement design: matched-unaffected control cells (048/049) in a domain with no target standing, fresh-session-per-observation, live-vs-cached retrieval state, cluster bootstrap on canonical_cell_id, variance pilot specified, and equal weights labelled a convention rather than prevalence.",
+          "Failures are surfaced rather than papered over: the rotating partition contributing zero wave-1 observations, procedural-not-architectural blinding, missing hashes/seed, and five Gate 3 disputes are all stated in panel_report.md, tracking_plan.md and panel.yaml."
+        ],
+        "summary": "A strong, unusually honest URL-only panel. All fourteen artifacts are present, parse and cross-reconcile exactly (50 cells; band, aided, act, journey, role, lane and grade tallies each sum to 50; the 26-cell unaided denominator enumerates precisely the unaided core+sentinel cells), and panel_report.md exposes 92 exact prompt strings with the dimensions needed to track them. Measurement honesty is the standout: six estimands with six separate denominators, aided/unaided and lane pooling explicitly prohibited, exposure and priority weights held apart with an equal-weight convention limitation, prompt-space (not user) population, directional_only precision, campaign_response out of scope, and a rung-1-only claims ladder. Contamination control is thorough without over-blocking — ambiguous category terms are reviewed rather than auto-failed, B0/B5 target-aided cells are quarantined in the aided partition, the single grade-D candidate is confined to rotating, and three rejects are archived with reasons. Against the case gold, four of six must-haves pass and none of the five anti-patterns triggers: CDN, application/DDoS security, Zero Trust/SASE and crawler-control jobs are separated with category-appropriate constraints and answer kinds, six distinct technical and buying roles carry distinct registers, and implementation, migration, verification and post-purchase acts are present alongside comparison. Two gaps hold it back from a higher score. Authoritative DNS — named in the case description and in the charter's own product list — has no job, no cell and no waiver, unlike edge compute which is rigorously waived. And time-sensitivity discipline is applied only to the five B5 cells: plan, pricing, feature and reliability cells built on undated company copy (cell-031, 024, 027, 028) carry no refresh rule, and no service-status cell exists. Smaller defects: src-013 is a vendor postmortem URL classed 'independent'; the whole rotating partition has zero runnable candidates in wave 1; all hashes are 'sha256:unavailable' and the seed is null, so the panel cannot be frozen; and several candidates are labelled variant_role 'observed_language' when the run states nothing was observed. Mean 4.25, no hard-gate failure, no critical contamination, traceability, denominator or causal-claim failure — verdict pass, with the DNS gap and plan/pricing freshness rules as the first repairs.",
+        "verdict": "pass"
+      },
+      "passed": false,
+      "pending_judgment_assertions": [],
+      "split": null,
+      "tags": []
+    },
+    {
+      "artifact_sha256": {
+        "blind_design_brief.json": "437808e9378baa6e3bf614cde91a71848430888701aad1b5c934c9ad98b7b737",
+        "buyer_jobs.json": "54829b568f5205ccc74b7f49809e14e16213e1ff1674f2cae18d2a2b6d978cec",
+        "contamination_register.yaml": "13fb94910b0467866d5e546e9cf69aa297c778b4fe1dc2d7e02262994886dcc7",
+        "icp_hypotheses.json": "07107a652bca6961a16413be58b4b7541d1a0581e3129c59a1888f1075c933fa",
+        "measurement_charter.json": "0db5cdb944fe10a63497f0f10e76a00fea20d948200ac44d23bc6f2d6bdff8b9",
+        "panel.yaml": "3d5ffdad278f32f8c07af9193084c8ebe9423bffb1f4e903a25185aecd46357d",
+        "panel_change_ledger.json": "66aeb2787e7824478853f7bf8d053ea2e6a3195c920d60a035429ad4c0ae0c86",
+        "panel_report.md": "8018d7dcec4362371a595ed3313e269450f8d460609537a3d9b84abb97b7d934",
+        "prompt_architecture.json": "36555fb75b03f090854f8c602ce69bf2c90a0f7a7cbbc56aebc07166a085b19d",
+        "prompt_qa.json": "fa83151839a0e19b79fa08c8d4c2e43055004eac515d620c4ba27a51a25f567a",
+        "prompt_universe.json": "7e602c6955588559dd2b5b712e5f87109c3831c095beaeeb5463b7a353ac9b4a",
+        "run_manifest_template.json": "29b2e60278b12dbcd6b9f2c3f535d249412e96b4fe102447acecfafd5ae58fdc",
+        "source_manifest.json": "1973c3bbfda515b43f0e97d24a14e8c63f53e6cccdac2229ed090acee60ab176",
+        "tracking_plan.md": "722bdb6b34f74dcccf399c16d1bc2918481ba3913ad6c3ec20c1f356cf5881bd"
+      },
+      "case_id": "case-04-zocdoc",
+      "case_name": "case-04-zocdoc",
+      "case_slug": "case-04-zocdoc",
+      "checks": [
+        {
+          "evidence": [
+            "cannot parse contamination_register.yaml: /Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/eval/ai-visibility-panel/runs/2026-07-25-opus5-testdrive/cases/case-04-zocdoc/contamination_register.yaml: YAML parse failed: /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:456:in `parse': (<unknown>): did not find expected '-' indicator while parsing a block collection at line 115 column 3 (Psych::SyntaxError)\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:456:in `parse_stream'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:390:in `parse'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:349:in `safe_load'\n\tfrom -e:1:in `<main>'"
+          ],
+          "id": "required_artifacts_parse",
+          "passed": false,
+          "severity": "critical",
+          "text": "required artifacts parse"
+        }
+      ],
+      "counts": {
+        "accepted_candidates": 0,
+        "candidates": 0,
+        "canonical_cells": 0,
+        "sources": 14
+      },
+      "judge_verdict": null,
+      "passed": false,
+      "pending_judgment_assertions": [],
+      "split": null,
+      "tags": []
+    },
+    {
+      "artifact_sha256": {
+        "blind_design_brief.json": "ad1709b356ea2d6576b8067a5ab29f53201cb66a17c4f6e20d13bf72ee10e61e",
+        "buyer_jobs.json": "486fa139f5b46dede56de9140054d75d8f180f088a7578e9b006be380bd1c8bd",
+        "contamination_register.yaml": "72f027f20dd239be31a76ee2838efd043d0e03a653a828ef6e5da1c8210985e4",
+        "icp_hypotheses.json": "3aade9460ddf49bfd0f16647342ef1ff57b60e8828f27e6d279506526cf44c00",
+        "measurement_charter.json": "499c4d6e1be87a34987deaa63e946477c7372ffcf0b84f36ed0519c39d340bd8",
+        "panel.yaml": "26f84c73236c65d1b5dfe32682d51b17a03b4f10d6c1b05f685c85df781c7744",
+        "panel_change_ledger.json": "641177756a7fd6bc5fb3afa80d9c97cf6005ad2618fdad9b992bbe8888936ff7",
+        "panel_report.md": "12890b2638deabc008d287e41b36c6bb572244872867c322ff0a230168520fb0",
+        "prompt_architecture.json": "2c2d3e7200d55ca64a7ff771a3c85588d8cdc26b674a463d5a3209acccc40795",
+        "prompt_qa.json": "503e7486cd9729a89f097e63dd25ab742445da59e2eb5bcbb508e4605f6aa14e",
+        "prompt_universe.json": "5bca98d6d3399fb0961c3b75eb151070f7b8c51bca5376047bf40d19f37eeb85",
+        "run_manifest_template.json": "1247f89fd0d687b91c6101e6a796c3b5302abdc884d0bf78fa130827f2b84804",
+        "source_manifest.json": "f5f08e1e5a1cfc90b1ffd93c63a8140a64395d2b59d52faf9b75bff924b41bd3",
+        "tracking_plan.md": "29dd3c6f136a6028d0843c6afb8f8bc316a47f02f79cf1f90f8df822f753d647"
+      },
+      "case_id": "case-09-octopus-energy-uk",
+      "case_name": "case-09-octopus-energy-uk",
+      "case_slug": "case-09-octopus-energy-uk",
+      "checks": [
+        {
+          "evidence": [
+            "cannot parse contamination_register.yaml: /Users/elvissun/Documents/GitHub/newsjack-worktrees/newsjack-aeo-prompt-research-20260725/eval/ai-visibility-panel/runs/2026-07-25-opus5-testdrive/cases/case-09-octopus-energy-uk/contamination_register.yaml: YAML parse failed: /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:456:in `parse': (<unknown>): did not find expected key while parsing a block mapping at line 101 column 9 (Psych::SyntaxError)\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:456:in `parse_stream'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:390:in `parse'\n\tfrom /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/psych.rb:349:in `safe_load'\n\tfrom -e:1:in `<main>'"
+          ],
+          "id": "required_artifacts_parse",
+          "passed": false,
+          "severity": "critical",
+          "text": "required artifacts parse"
+        }
+      ],
+      "counts": {
+        "accepted_candidates": 0,
+        "candidates": 0,
+        "canonical_cells": 0,
+        "sources": 18
+      },
+      "judge_verdict": null,
+      "passed": false,
+      "pending_judgment_assertions": [],
+      "split": null,
+      "tags": []
+    }
+  ],
+  "cases_sha256": "7f58dc91d070d8b54db0b178d93021b5399f6769846b80d32836fb4c0a8f78ac",
+  "gold_sha256": "17d60dc8c5a0228c8d6d33a85bf85600055bc3dcbdbfa92bd297ffd4e2804057",
+  "graded_at": "2026-07-25T18:13:30Z",
+  "run": "2026-07-25-opus5-testdrive",
+  "schema_version": "1.0.0",
+  "summary": {
+    "cases": 3,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "passed": 0,
+    "top_failed_checks": [
+      [
+        "required_artifacts_parse",
+        2
+      ],
+      [
+        "source_hash_shape:measurement_charter.json",
+        1
+      ],
+      [
+        "source_hash_shape:source_manifest.json",
+        1
+      ],
+      [
+        "source_hash_shape:icp_hypotheses.json",
+        1
+      ],
+      [
+        "source_hash_shape:buyer_jobs.json",
+        1
+      ],
+      [
+        "source_hash_shape:blind_design_brief.json",
+        1
+      ],
+      [
+        "source_hash_shape:prompt_architecture.json",
+        1
+      ],
+      [
+        "source_hash_shape:prompt_universe.json",
+        1
+      ],
+      [
+        "source_hash_shape:prompt_qa.json",
+        1
+      ],
+      [
+        "source_hash_shape:run_manifest_template.json",
+        1
+      ],
+      [
+        "source_hash_shape:panel_change_ledger.json",
+        1
+      ],
+      [
+        "source_hash_shape:contamination_register.yaml",
+        1
+      ],
+      [
+        "source_hash_shape:panel.yaml",
+        1
+      ],
+      [
+        "source_records_valid",
+        1
+      ],
+      [
+        "qa_one_decision_per_candidate",
+        1
+      ],
+      [
+        "canonical_cell_fields_complete",
+        1
+      ],
+      [
+        "candidate_fields_complete",
+        1
+      ],
+      [
+        "prompt_enums_valid",
+        1
+      ],
+      [
+        "accepted_prompt_contamination_zero",
+        1
+      ],
+      [
+        "panel_selected_candidates_qa_approved",
+        1
+      ]
+    ]
+  }
+}

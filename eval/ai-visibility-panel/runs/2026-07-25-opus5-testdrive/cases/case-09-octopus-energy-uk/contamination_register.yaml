@@ -1,0 +1,131 @@
+schema_version: "1.0.0"
+artifact_id: contamination-octopus-energy-uk-20260725
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:claude-opus-5 (build-ai-visibility-panel)"
+source_manifest_hash: null
+warnings:
+  - "hash_not_computed: no hashing tool in this runtime; sha256 fields are null rather than fabricated."
+  - "personal_data_excluded: the target home page displays first names and some full names of individual customers and support staff. target_terms.people is deliberately empty. Do not add them; they are unnecessary personal data and are not needed for leak detection."
+  - "register_held_outside_generation: this file was not exposed to the unaided generation pass. It was applied to QA after generation."
+  - "single_context_limitation: no fresh subagent was available, so unaided generation ran in the same context that had read target pages. Blinding is procedural (sanitised brief only) plus deterministic post-hoc scanning, not architectural isolation. Treat this as a real limitation of the leak guarantee."
+target_terms:
+  brands:
+    - "Octopus"
+    - "Octopus Energy"
+    - "Octopus Energy Group"
+    - "Octoplus"
+    - "Electroverse"
+    - "Octopus Fan Club"
+  products:
+    - "Agile Octopus"
+    - "Agile"
+    - "Octopus Tracker"
+    - "Intelligent Octopus"
+    - "Intelligent Octopus Go"
+    - "Intelligent Octopus Flux"
+    - "Flux"
+    - "Outgoing Octopus"
+    - "Agile Outgoing Octopus"
+    - "Prime Outgoing Octopus"
+    - "Cosy Octopus"
+    - "Cosy"
+    - "Flexible Octopus"
+    - "Octoplus Rewards"
+    - "Fan Club"
+    - "Octopus EV salary sacrifice"
+  domains:
+    - "octopus.energy"
+  people: []
+  slogans:
+    - "Everything you need for a cheaper, greener home & car"
+    - "Better on the planet and your wallet"
+    - "Britain's fairest energy tariff"
+    - "Driving that's cheaper, greener, dreamier"
+  proprietary_categories:
+    - "Fan Club tariff"
+    - "Electroverse network"
+    - "Octoplus rewards"
+    - "Intelligent tariff family"
+    - "Cosy heating range"
+  campaign_terms: []
+  flattering_claims:
+    - "most awarded energy supplier"
+    - "Which? Recommended Provider 9 years running"
+    - "rated 4.8 stars"
+    - "Britain's fairest energy tariff"
+    - "save around GBP 370 a year"
+    - "cut electricity bills by 90%"
+    - "save 86% vs public charging"
+    - "cut charging costs by 70%"
+    - "cheapest overnight EV rate"
+    - "lower than the national average of GBP 5,600"
+competitor_terms:
+  - "British Gas"
+  - "E.ON Next"
+  - "E.on Next"
+  - "EDF"
+  - "EDF Energy"
+  - "OVO"
+  - "OVO Energy"
+  - "Scottish Power"
+  - "So Energy"
+  - "100Green"
+  - "Sainsbury's Energy"
+  - "E (Gas & Electricity)"
+  - "Good Energy"
+  - "Co-op Energy"
+  - "Home Energy"
+  - "Utility Warehouse"
+allowed_exceptions:
+  - band: B0_direct_brand_product
+    term_classes: [brands, products, domains]
+    rationale: "B0 cells exist to measure aided brand knowledge. They must name the target. Generated in a separate aided pass; never counted in an unaided denominator."
+    applies_to_cells: [spec-006, spec-016, spec-022, spec-031]
+  - band: B1_comparison_purchase
+    term_classes: [competitor_terms]
+    rationale: "One declared competitor-aided cell names two large incumbents drawn from source-006, source-007 and source-012. It is a competitor_aided cell with its own denominator and is never merged with unaided results."
+    applies_to_cells: [spec-008]
+  - band: B2_category
+    term_classes: []
+    generic_word_decisions:
+      - term: "tracker tariff"
+        decision: "allowed in one category_aided cell only (spec-005)"
+        rationale: "'Tracker' is an ordinary GB market category word used by multiple suppliers, evidenced by a competitor product named in source-012, and appears in consumer guidance. It is nonetheless a substring of a target product name, so it is barred from every unaided cell and permitted only in a declared category_aided cell."
+        reviewer: "agent high-confidence decision; flagged for human Gate 3 confirmation"
+      - term: "agile"
+        decision: "prohibited everywhere"
+        rationale: "Too close to a target product name to be safely treated as a generic descriptor. Unaided prompts say 'half-hourly' or 'prices that change every half hour' instead."
+      - term: "cosy"
+        decision: "prohibited everywhere"
+        rationale: "Ordinary English adjective but also a target product name in the heating context; excluded to keep heat pump prompts clean."
+      - term: "outgoing" (export sense)
+        decision: "prohibited everywhere"
+        rationale: "Target export product name; unaided prompts say 'export payments' or 'paid for what I send back'."
+      - term: "flexible" (tariff sense)
+        decision: "prohibited in tariff naming"
+        rationale: "Target standard-variable product name; unaided prompts say 'standard variable' or 'the capped default rate'."
+      - term: "intelligent" (tariff sense)
+        decision: "prohibited everywhere"
+        rationale: "Target smart-tariff family name."
+neutral_public_terms_allowed:
+  - "price cap"
+  - "standard variable tariff"
+  - "Ofgem"
+  - "Smart Export Guarantee"
+  - "SEG"
+  - "feed-in tariff"
+  - "Boiler Upgrade Scheme"
+  - "MPAN"
+  - "SMETS1"
+  - "SMETS2"
+  - "air source heat pump"
+  - "time-of-use"
+  - "half-hourly"
+  - "export MPAN"
+rationale_for_neutral_list: "These are regulatory, metering or category terms defined by public bodies and used market-wide (source-002, source-004, source-005, source-009, source-015). Using them does not aid the target and is required for the prompts to be realistic."
+scan_policy:
+  normalized: "NFKC, casefold, strip punctuation and internal whitespace runs before matching."
+  token: "token-boundary match on every term above."
+  fuzzy: "edit distance <= 1 on single-token brand and product terms; flag for review, never auto-delete."
+  semantic: "review slogans and flattering claims for paraphrase leakage; any hit requires a recorded review decision."
+  hard_failure_scope: "Any target-class match in a cell whose aided_status is unaided or category_aided is a hard failure and a reject. Competitor-class matches in unaided cells are also hard failures."

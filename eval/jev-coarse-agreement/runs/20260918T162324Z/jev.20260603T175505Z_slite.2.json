@@ -1,0 +1,1132 @@
+{
+  "decisions": [
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.65,
+          "probabilities": {
+            "keep": 0.09,
+            "monitor_only": 0.77,
+            "reject": 0.14
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.95,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.21,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.07,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "keyword_collision",
+          "confidence": 0.32,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.38,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.06,
+            "no_profile_bridge": 0.16,
+            "not_news": 0,
+            "off_beat": 0.16,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.22,
+            "relevant_news": 0,
+            "safety_risk": 0.02,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.21,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.firstpost.com/tech/hackers-exploit-metas-ai-support-bot-exposing-flaws-in-automated-security-systems-14018519.html"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.65); keyword_collision (0.38). is_news 0.95, profile_bridge 0.21, promotional 0.07, safety_risk 0.21.",
+      "reason": "keyword_collision",
+      "relevance_basis": "No profile entity matched (bridge 0.21).",
+      "signal_id": "075a857094c4e5d0"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.38,
+          "probabilities": {
+            "keep": 0.22,
+            "monitor_only": 0.58,
+            "reject": 0.2
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.19,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.32,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.27,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "not_news",
+          "confidence": 0.49,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.08,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.06,
+            "not_news": 0.54,
+            "off_beat": 0.02,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.29,
+            "relevant_news": 0.01,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://programminginsider.com/8-tasks-ai-agents-are-automating-for-sales-marketing-and-support-teams-in-2026/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.38); not_news (0.54). is_news 0.19, profile_bridge 0.32, promotional 0.27, safety_risk 0.01.",
+      "reason": "not_news",
+      "relevance_basis": "No profile entity matched (bridge 0.32). Unlikely to be reported news (0.19).",
+      "signal_id": "f70360bc6b34b18e"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.5,
+          "probabilities": {
+            "keep": 0.24,
+            "monitor_only": 0.66,
+            "reject": 0.1
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.94,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.23,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.46,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.25,
+          "probabilities": {
+            "competitor_or_promotional": 0.01,
+            "duplicate": 0,
+            "keyword_collision": 0.06,
+            "low_reach_x_post": 0.01,
+            "major_news_no_bridge": 0.28,
+            "no_profile_bridge": 0.3,
+            "not_news": 0,
+            "off_beat": 0.05,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.28,
+            "relevant_news": 0.01,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Microsoft+d%C3%A9voile+les+API+Work+IQ+et+Web+IQ+pour+des+agents+d%27IA+plus+intelligents\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.50); no_profile_bridge (0.30). is_news 0.94, profile_bridge 0.23, promotional 0.46, safety_risk 0.02.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.23).",
+      "signal_id": "de873e028f18b973"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.25,
+          "probabilities": {
+            "keep": 0.05,
+            "monitor_only": 0.45,
+            "reject": 0.5
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.76,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.12,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.21,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.4,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.13,
+            "low_reach_x_post": 0.04,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.45,
+            "not_news": 0.08,
+            "off_beat": 0.22,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.07,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=En+2026%2C+les+concepteurs+d%27IA+privil%C3%A9gient+les+projets+d%27agents+concrets+aux+cours+interminables.\u0026f=live"
+      ],
+      "post_rules": [
+        "uncertainty_floor"
+      ],
+      "rationale": "Jev: reject (0.25); no_profile_bridge (0.45). is_news 0.76, profile_bridge 0.12, promotional 0.21, safety_risk 0.02. Post-rules: uncertainty_floor.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.12).",
+      "signal_id": "e3c5acd48f4f4380"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.87,
+          "probabilities": {
+            "keep": 0.01,
+            "monitor_only": 0.07,
+            "reject": 0.92
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.72,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.06,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.1,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.46,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.03,
+            "low_reach_x_post": 0.01,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.5,
+            "not_news": 0,
+            "off_beat": 0.45,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "high",
+      "decision": "reject",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=La+th%C3%A9orie+de+Donald+Hoffman%C2%A0%3A+les+perceptions+masquent+la+v%C3%A9ritable+r%C3%A9alit%C3%A9\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: reject (0.87); no_profile_bridge (0.50). is_news 0.72, profile_bridge 0.06, promotional 0.10, safety_risk 0.02.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.06).",
+      "signal_id": "003bbe16d51c8d2c"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.25,
+          "probabilities": {
+            "keep": 0.3,
+            "monitor_only": 0.49,
+            "reject": 0.21
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.61,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.22,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.18,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.31,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.02,
+            "low_reach_x_post": 0.08,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.35,
+            "not_news": 0.15,
+            "off_beat": 0.03,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.29,
+            "relevant_news": 0.07,
+            "safety_risk": 0,
+            "seo_landing_page": 0.01
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Obsidian%2C+Claude+et+NotebookLM+cr%C3%A9ent+de+puissants+seconds+cerveaux\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.25); no_profile_bridge (0.35). is_news 0.61, profile_bridge 0.22, promotional 0.18, safety_risk 0.01.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.22).",
+      "signal_id": "2730990ec41153de"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.41,
+          "probabilities": {
+            "keep": 0.06,
+            "monitor_only": 0.6,
+            "reject": 0.34
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.95,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.16,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.32,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.39,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.05,
+            "low_reach_x_post": 0.01,
+            "major_news_no_bridge": 0.16,
+            "no_profile_bridge": 0.45,
+            "not_news": 0,
+            "off_beat": 0.25,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.08,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Microsoft+s%27associe+%C3%A0+OpenClaw+pour+des+agents+d%27IA+s%C3%A9curis%C3%A9s+sur+Windows+et+Office+365\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.41); no_profile_bridge (0.45). is_news 0.95, profile_bridge 0.16, promotional 0.32, safety_risk 0.02.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.16).",
+      "signal_id": "d8f76df09665f18a"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.46,
+          "probabilities": {
+            "keep": 0.64,
+            "monitor_only": 0.35,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.95,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.63,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.17,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.71,
+          "probabilities": {
+            "competitor_or_promotional": 0.01,
+            "duplicate": 0,
+            "keyword_collision": 0.02,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.06,
+            "no_profile_bridge": 0.08,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.74,
+            "relevant_news": 0.08,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://venturebeat.com/data/enterprise-ai-agents-keep-creating-data-silos-microsofts-build-answer-is-microsoft-iq-and-rayfin"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.46); plausible_client_bridge (0.74). is_news 0.95, profile_bridge 0.63, promotional 0.17, safety_risk 0.02.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.63).",
+      "signal_id": "82eebead1a88fec4"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.56,
+          "probabilities": {
+            "keep": 0.21,
+            "monitor_only": 0.71,
+            "reject": 0.08
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.96,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.74,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.82,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.22,
+          "probabilities": {
+            "competitor_or_promotional": 0.21,
+            "duplicate": 0,
+            "keyword_collision": 0.28,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.1,
+            "not_news": 0,
+            "off_beat": 0.07,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.28,
+            "relevant_news": 0.05,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.manilatimes.net/2026/06/03/tmt-newswire/pr-newswire/cohesity-secures-earliest-invented-patent-in-the-industry-for-genai-retrieval-augmented-generation-rag-platform-built-on-secondary-data/2357408"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.56); plausible_client_bridge (0.28). is_news 0.96, profile_bridge 0.74, promotional 0.82, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "Jev found a profile bridge (0.74).",
+      "signal_id": "75e3a104d098aeb5"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.46,
+          "probabilities": {
+            "keep": 0.02,
+            "monitor_only": 0.34,
+            "reject": 0.64
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.91,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.14,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.35,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.47,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.08,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.52,
+            "not_news": 0,
+            "off_beat": 0.3,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.09,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://analyticsindiamag.com/ai-news/cognizant-launches-ai-focused-ace-team-to-build-specialised-talent-pool"
+      ],
+      "post_rules": [
+        "uncertainty_floor"
+      ],
+      "rationale": "Jev: reject (0.46); no_profile_bridge (0.52). is_news 0.91, profile_bridge 0.14, promotional 0.35, safety_risk 0.02. Post-rules: uncertainty_floor.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.14).",
+      "signal_id": "94f4e1ac291abda4"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.44,
+          "probabilities": {
+            "keep": 0.03,
+            "monitor_only": 0.63,
+            "reject": 0.34
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.95,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.18,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.59,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.36,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.21,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.05,
+            "no_profile_bridge": 0.42,
+            "not_news": 0,
+            "off_beat": 0.21,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.11,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://aimmediahouse.com/stories/enterprise-ai/netapp-and-cisco-expand-flexpod-partnership-to-power-ai"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.44); no_profile_bridge (0.42). is_news 0.95, profile_bridge 0.18, promotional 0.59, safety_risk 0.01.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.18).",
+      "signal_id": "df82b0fcc0378db2"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.53,
+          "probabilities": {
+            "keep": 0.3,
+            "monitor_only": 0.68,
+            "reject": 0.02
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.94,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.4,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.61,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.74,
+          "probabilities": {
+            "competitor_or_promotional": 0.02,
+            "duplicate": 0,
+            "keyword_collision": 0.03,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.13,
+            "not_news": 0,
+            "off_beat": 0.02,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.77,
+            "relevant_news": 0.03,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.01,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://www.01net.it/unstructured-expands-integration-with-microsoft-azure-to-power-enterprise-ai-workflows/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.53); plausible_client_bridge (0.77). is_news 0.94, profile_bridge 0.40, promotional 0.61, safety_risk 0.01.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.40).",
+      "signal_id": "158da889ebf9a6e8"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "monitor_only",
+          "confidence": 0.4,
+          "probabilities": {
+            "keep": 0.16,
+            "monitor_only": 0.6,
+            "reject": 0.24
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.92,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.27,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.31,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "off_beat",
+          "confidence": 0.36,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.13,
+            "low_reach_x_post": 0.02,
+            "major_news_no_bridge": 0.02,
+            "no_profile_bridge": 0.18,
+            "not_news": 0,
+            "off_beat": 0.41,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.23,
+            "relevant_news": 0.01,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Une+nouvelle+%C3%A9tude+r%C3%A9duit+de+1%C2%A0000+fois+les+co%C3%BBts+de+v%C3%A9rification+juridique+par+IA\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: monitor_only (0.40); off_beat (0.41). is_news 0.92, profile_bridge 0.27, promotional 0.31, safety_risk 0.02.",
+      "reason": "off_beat",
+      "relevance_basis": "No profile entity matched (bridge 0.27).",
+      "signal_id": "20e416fab329892e"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.49,
+          "probabilities": {
+            "keep": 0.05,
+            "monitor_only": 0.3,
+            "reject": 0.65
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.74,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.1,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.18,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.4,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.07,
+            "low_reach_x_post": 0.03,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.45,
+            "not_news": 0.02,
+            "off_beat": 0.4,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.03,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "monitor_only",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Matt+Van+Horn+partage+des+astuces+d%27ing%C3%A9nierie+agentique+pour+le+codage+de+l%27IA\u0026f=live"
+      ],
+      "post_rules": [
+        "uncertainty_floor"
+      ],
+      "rationale": "Jev: reject (0.49); no_profile_bridge (0.45). is_news 0.74, profile_bridge 0.10, promotional 0.18, safety_risk 0.02. Post-rules: uncertainty_floor.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.10).",
+      "signal_id": "db1d9bee9baba605"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.62,
+          "probabilities": {
+            "keep": 0.02,
+            "monitor_only": 0.24,
+            "reject": 0.74
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.94,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.11,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.24,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "off_beat",
+          "confidence": 0.66,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.09,
+            "low_reach_x_post": 0.01,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.19,
+            "not_news": 0,
+            "off_beat": 0.69,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.01,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "reject",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=La+session+de+cr%C3%A9ation+de+jetons+ERC-8183+d%27Ethereum+lance+le+commerce+par+agent+IA+sur+la+blockchain\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: reject (0.62); off_beat (0.69). is_news 0.94, profile_bridge 0.11, promotional 0.24, safety_risk 0.02.",
+      "reason": "off_beat",
+      "relevance_basis": "No profile entity matched (bridge 0.11).",
+      "signal_id": "b3ba0330375f1308"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.67,
+          "probabilities": {
+            "keep": 0.02,
+            "monitor_only": 0.2,
+            "reject": 0.78
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.86,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.12,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.12,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "off_beat",
+          "confidence": 0.42,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.08,
+            "low_reach_x_post": 0.02,
+            "major_news_no_bridge": 0.01,
+            "no_profile_bridge": 0.4,
+            "not_news": 0,
+            "off_beat": 0.48,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.01,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.12,
+          "type": "noul"
+        }
+      },
+      "confidence": "medium",
+      "decision": "reject",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=Des+mod%C3%A8les+d%27IA+gouvernent+des+soci%C3%A9t%C3%A9s+simul%C3%A9es+avec+des+r%C3%A9sultats+tr%C3%A8s+diff%C3%A9rents.\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: reject (0.67); off_beat (0.48). is_news 0.86, profile_bridge 0.12, promotional 0.12, safety_risk 0.12.",
+      "reason": "off_beat",
+      "relevance_basis": "No profile entity matched (bridge 0.12).",
+      "signal_id": "41d61ecce2f9771e"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "reject",
+          "confidence": 0.91,
+          "probabilities": {
+            "keep": 0.01,
+            "monitor_only": 0.05,
+            "reject": 0.94
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.94,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.08,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.13,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "no_profile_bridge",
+          "confidence": 0.46,
+          "probabilities": {
+            "competitor_or_promotional": 0,
+            "duplicate": 0,
+            "keyword_collision": 0.05,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0.06,
+            "no_profile_bridge": 0.5,
+            "not_news": 0,
+            "off_beat": 0.39,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0,
+            "relevant_news": 0,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.31,
+          "type": "noul"
+        }
+      },
+      "confidence": "high",
+      "decision": "reject",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://x.com/search?q=La+SEBI+interdit+%C3%A0+Rajesh+Exports%2C+pr%C3%A9sident+de+l%27entreprise%2C+de+poursuivre+ses+fonctions+suite+%C3%A0+des+all%C3%A9gations+de+forte+inflation+des+revenus.\u0026f=live"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: reject (0.91); no_profile_bridge (0.50). is_news 0.94, profile_bridge 0.08, promotional 0.13, safety_risk 0.31.",
+      "reason": "no_profile_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.08).",
+      "signal_id": "8ccc0caa8c01be86"
+    },
+    {
+      "answers": {
+        "decision": {
+          "choice": "keep",
+          "confidence": 0.42,
+          "probabilities": {
+            "keep": 0.62,
+            "monitor_only": 0.37,
+            "reject": 0.01
+          },
+          "type": "choice"
+        },
+        "is_news": {
+          "noul": 0.93,
+          "type": "noul"
+        },
+        "profile_bridge": {
+          "noul": 0.36,
+          "type": "noul"
+        },
+        "promotional": {
+          "noul": 0.18,
+          "type": "noul"
+        },
+        "reason": {
+          "choice": "plausible_client_bridge",
+          "confidence": 0.77,
+          "probabilities": {
+            "competitor_or_promotional": 0.01,
+            "duplicate": 0,
+            "keyword_collision": 0.01,
+            "low_reach_x_post": 0,
+            "major_news_no_bridge": 0,
+            "no_profile_bridge": 0.15,
+            "not_news": 0,
+            "off_beat": 0.01,
+            "owned_docs_or_product_page": 0,
+            "plausible_client_bridge": 0.79,
+            "relevant_news": 0.03,
+            "safety_risk": 0,
+            "seo_landing_page": 0
+          },
+          "type": "choice"
+        },
+        "safety_risk": {
+          "noul": 0.02,
+          "type": "noul"
+        }
+      },
+      "confidence": "low",
+      "decision": "keep",
+      "engine": "jev",
+      "evidence_urls": [
+        "https://newsismybusiness.com/puerto-rico-ai-startup-builds-company-brain-for-businesses/"
+      ],
+      "post_rules": [],
+      "rationale": "Jev: keep (0.42); plausible_client_bridge (0.79). is_news 0.93, profile_bridge 0.36, promotional 0.18, safety_risk 0.02.",
+      "reason": "plausible_client_bridge",
+      "relevance_basis": "No profile entity matched (bridge 0.36).",
+      "signal_id": "1878f54bb221212d"
+    }
+  ],
+  "engine": {
+    "base_url": "https://api.typesafe.ai",
+    "calls": 18,
+    "concurrency": 8,
+    "decision_counts": {
+      "keep": 2,
+      "monitor_only": 12,
+      "reject": 4
+    },
+    "elapsed_ms": 768,
+    "est_cost_usd": 0.0014,
+    "failures": 0,
+    "input_tokens": 32667,
+    "latency_ms_max": 555,
+    "latency_ms_p50": 243,
+    "model": "jev-1.13.0",
+    "name": "jev",
+    "output_tokens": 4641,
+    "pricing_note": "list price $0.042 per million input tokens, output free (2026-09-18)",
+    "questions_sha256": "a60b2abc042786a73880af22acd36553df6257d68957c7645e75ff7cae92711b",
+    "signals": 18
+  },
+  "generated_at": "2026-09-18T16:23:31.804339Z",
+  "version": 1
+}

@@ -1,0 +1,39 @@
+{
+  "scores": {
+    "A": {
+      "news_value": 4,
+      "distinctness": 4,
+      "journalist_shape": 5,
+      "grounding": 4,
+      "anti_slop": 5,
+      "proof_rigor": 5,
+      "usefulness": 5
+    },
+    "B": {
+      "news_value": 5,
+      "distinctness": 5,
+      "journalist_shape": 5,
+      "grounding": 4,
+      "anti_slop": 5,
+      "proof_rigor": 5,
+      "usefulness": 5
+    }
+  },
+  "verdict_A": "publishable",
+  "verdict_B": "publishable",
+  "winner": "B",
+  "margin": "slight",
+  "rationale": "B wins because it finds the fourth real story A left on the floor: \"Who is responsible for a flight when no one is flying it?\" That is a legitimate aviation-regulation angle sitting directly inside \"no pilot,\" not a decorative safety panic. A is strong, but \"A US drone maker bets the grid will pay a premium to avoid Chinese hardware\" smuggles in a pricing premise the update does not give. B is cleaner strategy for a founder because its angles are distinct without needing that little sales-deck leap.",
+  "gaps_in_A": [
+    "\"bets the grid will pay a premium\" invents willingness to pay and price premium before the facts earn it.",
+    "\"no named utility willing to say so\" overstates the release; the update says no named utility is disclosed, not that utilities refused.",
+    "\"The safety case: what happens when an unpiloted drone fails over a live substation\" is refused too broadly. The failure-mode framing is too hot, but a rules/accountability angle is absolutely pitchable from \"no pilot.\"",
+    "\"first concrete evidence of where the 2024 exit led\" assumes this launch is the first proof point after the consumer exit; the update does not say that."
+  ],
+  "gaps_in_B": [
+    "\"regulators have been slow to accommodate\" brings in outside context not supplied in the update. Probably true, but not proven here.",
+    "\"bought and budgeted like a sensor installation\" is a smart hypothesis, but it needs pricing/procurement proof before it can carry a pitch.",
+    "\"Without a named utility this angle cannot be pitched\" is a little absolutist; it cannot be pitched as a customer story, but the launch itself still has a narrow trade-news path.",
+    "\"defense-and-security trade\" risks beat creep unless the import-restriction hook is genuinely active this week."
+  ]
+}

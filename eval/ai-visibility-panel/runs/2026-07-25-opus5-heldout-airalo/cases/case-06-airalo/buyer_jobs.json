@@ -1,0 +1,269 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "jobs-travel-esim-marketplace-20260725",
+  "created_at": "2026-07-25T20:00:00Z",
+  "created_by": "agent:buyer-job-intent-analysis",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: compute source_manifest_hash before freeze",
+    "no_prevalence: counts of sources are not counts of buyers; no job carries an observed market frequency",
+    "language_samples_are_source_language: quoted fragments are language from the cited source, including one secondary characterisation of forum discussion (source-007), not a measured distribution of how travellers phrase things",
+    "no_human_approval: Gate 2 is pending",
+    "roles_defined: role-001 first-time travel-data buyer; role-002 experienced multi-country traveller; role-003 heavy-data remote worker; role-004 traveller in destination with a failing or expiring line"
+  ],
+  "gate_status": "ready_for_human_review",
+  "jobs": [
+    {
+      "job_id": "job-001",
+      "icp_ids": ["icp-001"],
+      "statement": "When a trip to one foreign country is booked, help a traveller arrive with working mobile data instead of paying home-carrier roaming, while their handset must support a digital line and stay unlocked.",
+      "struggling_moment": "Departure is near and the only default is per-day home-carrier roaming.",
+      "desired_progress": "Phone data that works on landing, at a known total cost, bought before the flight.",
+      "workarounds": ["Home-carrier daily roaming pass", "Buying a physical local SIM after landing", "Relying on hotel and cafe WiFi"],
+      "forces": {
+        "push": ["Per-day roaming cost", "Not wanting to hunt for a shop after landing"],
+        "pull": ["Buy and install before departure", "Named destination packages"],
+        "anxiety": ["Will it actually activate when I land", "Will my handset be compatible"],
+        "habit": ["Just turning on the carrier roaming pass"]
+      },
+      "information_acts": ["explain", "plan", "compare", "recommend"],
+      "journey_states": ["problem_identification", "exploration", "requirements_building", "supplier_selection"],
+      "criteria": ["Total trip cost", "Works on arrival", "Coverage on a usable network", "Simple install"],
+      "constraints": ["eSIM-capable handset", "Network unlocked", "Internet needed to install", "Plan tied to a destination"],
+      "roles": ["role-001"],
+      "language_samples": [
+        {"text": "which eSIM should I get for Japan?", "source_id": "source-007", "span": "community-question summary", "locale": "en", "evidence_grade": "B"},
+        {"text": "Best e-sim for NZ?", "source_id": "source-006", "span": "thread title", "locale": "en", "evidence_grade": "B"},
+        {"text": "Best eSIM for Bali in 2026? Coverage & speed experiences", "source_id": "source-006", "span": "thread title", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-001", "source-003", "source-004", "source-006", "source-007", "source-010"],
+      "counterevidence_source_ids": ["source-004"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-002",
+      "icp_ids": ["icp-002"],
+      "statement": "When an itinerary crosses several countries, help a traveller keep one working data plan across borders instead of buying and reinstalling a plan per country.",
+      "struggling_moment": "Data stops or has to be re-bought every time the traveller crosses into the next country.",
+      "desired_progress": "One plan whose coverage list matches the whole itinerary.",
+      "workarounds": ["A separate local plan per country", "Home-carrier regional roaming bundle"],
+      "forces": {
+        "push": ["Repeated purchase and reinstall effort", "Coverage gaps mid-itinerary"],
+        "pull": ["Regional and global packages with published country lists"],
+        "anxiety": ["Is my exact country list actually covered", "Does the plan restart or carry over"],
+        "habit": ["Buying per-country at each arrival airport"]
+      },
+      "information_acts": ["explain", "compare", "plan", "recommend"],
+      "journey_states": ["exploration", "requirements_building", "supplier_selection"],
+      "criteria": ["Country list matches itinerary", "Cost versus per-country purchase", "Validity window covers the whole trip"],
+      "constraints": ["Regional/global coverage lists are finite", "Validity is time-boxed"],
+      "roles": ["role-002"],
+      "language_samples": [
+        {"text": "List of Prepaid SIM threads (country-specific and multi-country)", "source_id": "source-006", "span": "sticky thread title", "locale": "en", "evidence_grade": "B"},
+        {"text": "global plans cover 137 countries", "source_id": "source-005", "span": "feature comparison", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-001", "source-005", "source-006", "source-009"],
+      "counterevidence_source_ids": ["source-004"],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-003",
+      "icp_ids": ["icp-003", "icp-001"],
+      "statement": "When a traveller cannot tell how much data a trip needs or whether an unlimited plan is genuinely unlimited, help them size the plan and avoid fair-use throttling while tethering a laptop.",
+      "struggling_moment": "Plans are sold in gigabytes or as 'unlimited' with an undisclosed daily threshold.",
+      "desired_progress": "A defensible data volume choice and a clear expectation of what happens after the threshold.",
+      "workarounds": ["Buying the largest plan available", "Buying small and topping up", "Rationing usage and staying on WiFi"],
+      "forces": {
+        "push": ["Running out mid-trip", "Speed collapsing during heavy use"],
+        "pull": ["Unlimited-labelled packages", "Top-up availability"],
+        "anxiety": ["Throttling after a daily cap", "Paying for data that expires unused"],
+        "habit": ["Guessing based on home-plan usage"]
+      },
+      "information_acts": ["explain", "plan", "compare", "verify"],
+      "journey_states": ["requirements_building", "exploration"],
+      "criteria": ["Cost per usable GB", "Fair-use threshold and post-threshold speed", "Tethering permitted", "Validity window"],
+      "constraints": ["Fair-use throttling near 1 Mbps after roughly 3 GB/day on unlimited regional plans", "Some plans are single-device"],
+      "roles": ["role-003", "role-001"],
+      "language_samples": [
+        {"text": "Is Holafly really unlimited?", "source_id": "source-007", "span": "community-question summary", "locale": "en", "evidence_grade": "B"},
+        {"text": "How Much Data Do You Need for Europe Travel?", "source_id": "source-012", "span": "search result title", "locale": "en", "evidence_grade": "C"},
+        {"text": "Speed is capped at approximately 1 Mbps once you exceed the daily fair-use threshold", "source_id": "source-004", "span": "unlimited-plan section", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-003", "source-004", "source-007", "source-012", "source-013"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-004",
+      "icp_ids": ["icp-004"],
+      "statement": "When a traveller is unsure whether their handset can take a foreign data line at all, help them verify eSIM support, carrier lock and device origin before they pay for anything.",
+      "struggling_moment": "The purchase may be wasted if the handset is locked or has no eSIM support.",
+      "desired_progress": "A yes/no answer about this specific handset, and the unlock step if the answer is no.",
+      "workarounds": ["Buying anyway and hoping", "Asking the home carrier to unlock", "Borrowing or buying a second handset"],
+      "forces": {
+        "push": ["Risk of a non-refundable useless purchase"],
+        "pull": ["A quick device check before buying"],
+        "anxiety": ["Carrier lock", "Handset bought in a region without eSIM support"],
+        "habit": ["Assuming any modern phone works"]
+      },
+      "information_acts": ["verify", "diagnose", "explain"],
+      "journey_states": ["requirements_building", "problem_identification"],
+      "criteria": ["Definitive device eligibility", "Steps to unlock", "Where to check"],
+      "constraints": ["Carrier-locked handsets fail", "Handsets from China, Hong Kong, Macao and Taiwan may lack support"],
+      "roles": ["role-001"],
+      "language_samples": [
+        {"text": "How do I check if my iOS device supports eSIM?", "source_id": "source-002", "span": "popular help question", "locale": "en", "evidence_grade": "C"},
+        {"text": "Carrier-locked phones will fail", "source_id": "source-004", "span": "pros/cons section", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-001", "source-002", "source-004", "source-005"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-005",
+      "icp_ids": ["icp-001", "icp-004"],
+      "statement": "When a traveller relies on their home number for messaging apps and bank verification codes, help them keep those working while a separate data-only line carries the internet.",
+      "struggling_moment": "A data-only travel line has no voice or SMS and often no local number.",
+      "desired_progress": "Confidence that the home number, messaging apps and one-time codes keep working, plus the dual-line setup steps.",
+      "workarounds": ["Leaving home roaming on as well", "Using WiFi calling only", "Carrying a second handset"],
+      "forces": {
+        "push": ["Fear of losing bank one-time codes abroad"],
+        "pull": ["Dual-line handsets keep the home number active"],
+        "anxiety": ["App re-verification while abroad", "Accidental roaming charges from the home line"],
+        "habit": ["Swapping physical SIMs and losing the home number"]
+      },
+      "information_acts": ["explain", "verify", "implement"],
+      "journey_states": ["requirements_building", "adoption"],
+      "criteria": ["Home number stays reachable", "Messaging apps unaffected", "No accidental roaming charges"],
+      "constraints": ["Data-only line with no voice/SMS", "Local number not always included"],
+      "roles": ["role-001"],
+      "language_samples": [
+        {"text": "Can I Use WhatsApp with an eSIM?", "source_id": "source-011", "span": "search result title", "locale": "en", "evidence_grade": "C"},
+        {"text": "Local phone number not always included", "source_id": "source-004", "span": "cons list", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-004", "source-005", "source-011"],
+      "counterevidence_source_ids": ["source-005"],
+      "evidence_grade": "C",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-006",
+      "icp_ids": ["icp-005"],
+      "statement": "When a traveller lands and the phone shows no service despite a plan bought before the flight, help them restore connectivity from the airport without another handset.",
+      "struggling_moment": "The line is installed but not carrying data, and the traveller is offline in an unfamiliar country.",
+      "desired_progress": "Working data in minutes, or a clear escalation path.",
+      "workarounds": ["Airport WiFi", "Turning home roaming back on", "Buying a physical local SIM"],
+      "forces": {
+        "push": ["Being offline on arrival"],
+        "pull": ["Documented troubleshooting steps"],
+        "anxiety": ["Slow support response", "Line cannot be moved to another handset"],
+        "habit": ["Restarting the phone repeatedly"]
+      },
+      "information_acts": ["troubleshoot", "diagnose"],
+      "journey_states": ["post_purchase", "adoption"],
+      "criteria": ["Speed of resolution", "Steps possible without data", "Refund or replacement path"],
+      "constraints": ["Traveller may have no data to reach support", "Line is bound to the handset"],
+      "roles": ["role-004"],
+      "language_samples": [
+        {"text": "Why is my eSIM not working?", "source_id": "source-002", "span": "popular help question", "locale": "en", "evidence_grade": "C"},
+        {"text": "you cannot pull the eSIM and slot it into a friend's phone", "source_id": "source-004", "span": "limitations section", "locale": "en", "evidence_grade": "B"}
+      ],
+      "supporting_source_ids": ["source-002", "source-004", "source-007"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "B",
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-007",
+      "icp_ids": ["icp-005", "icp-003"],
+      "statement": "When a plan is running out or about to expire mid-trip, help a traveller extend the existing line rather than lose it and start again.",
+      "struggling_moment": "Data or validity is about to end while the traveller is still abroad.",
+      "desired_progress": "Continued service at a known incremental cost, without reinstalling.",
+      "workarounds": ["Buying a second line", "Rationing usage", "Switching to WiFi"],
+      "forces": {
+        "push": ["Running out mid-trip"],
+        "pull": ["Top-up in the app without a new line"],
+        "anxiety": ["Whether unused data or validity carries over"],
+        "habit": ["Buying a whole new plan"]
+      },
+      "information_acts": ["plan", "buy", "explain"],
+      "journey_states": ["post_purchase"],
+      "criteria": ["Incremental cost", "Whether validity extends", "Whether the same line is retained"],
+      "constraints": ["Validity windows are time-boxed", "Top-up availability varies by package"],
+      "roles": ["role-004", "role-003"],
+      "language_samples": [
+        {"text": "When does my eSIM data package expire?", "source_id": "source-002", "span": "popular help question", "locale": "en", "evidence_grade": "C"},
+        {"text": "top up your eSIM - you don't need to buy a new eSIM to stay connected", "source_id": "source-003", "span": "destination page FAQ", "locale": "en", "evidence_grade": "C"}
+      ],
+      "supporting_source_ids": ["source-002", "source-003", "source-005"],
+      "evidence_grade": "B",
+      "counterevidence_source_ids": [],
+      "confidence": "medium",
+      "status": "supported"
+    },
+    {
+      "job_id": "job-008",
+      "icp_ids": ["icp-002", "icp-001"],
+      "statement": "When public reporting says travellers are shifting away from operator roaming, help a traveller understand what has actually changed about buying data abroad this year.",
+      "struggling_moment": "The traveller has heard the default is changing but cannot tell what is marketing and what is real.",
+      "desired_progress": "A dated, sourced picture of how travel connectivity is bought now.",
+      "workarounds": ["Asking friends", "Reading affiliate-funded round-ups"],
+      "forces": {
+        "push": ["Roaming bills"],
+        "pull": ["Reported shift toward third-party travel data"],
+        "anxiety": ["Affiliate-driven advice"],
+        "habit": ["Sticking with the home operator"]
+      },
+      "information_acts": ["explain"],
+      "journey_states": ["problem_identification", "exploration"],
+      "criteria": ["Dated evidence", "Independence of the source"],
+      "constraints": ["Story evidence decays and must carry a review-by date"],
+      "roles": ["role-002"],
+      "language_samples": [
+        {"text": "travel eSIM adoption is now a primary driver of retail roaming spend", "source_id": "source-010", "span": "travel-use-case section", "locale": "en", "evidence_grade": "C"}
+      ],
+      "supporting_source_ids": ["source-009", "source-010", "source-013"],
+      "counterevidence_source_ids": ["source-013"],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only"
+    },
+    {
+      "job_id": "job-009",
+      "icp_ids": ["icp-004"],
+      "statement": "When a destination may require identity registration for a mobile line, help a traveller find out whether that applies to a digital line bought before departure.",
+      "struggling_moment": "The traveller cannot tell whether a pre-bought digital line escapes local registration rules.",
+      "desired_progress": "A destination-specific answer and the documents needed if registration applies.",
+      "workarounds": ["Registering a local SIM in person on arrival"],
+      "forces": {
+        "push": ["Risk of a line that will not activate"],
+        "pull": ["Pre-departure purchase"],
+        "anxiety": ["Passport or selfie verification requirements"],
+        "habit": ["Assuming digital means no paperwork"]
+      },
+      "information_acts": ["verify", "explain"],
+      "journey_states": ["requirements_building"],
+      "criteria": ["Destination-specific accuracy", "Documents required"],
+      "constraints": ["Rules are jurisdictional and change", "Retrieved evidence names no specific countries and is undated"],
+      "roles": ["role-001"],
+      "language_samples": [
+        {"text": "Do not assume that eSIM automatically means no verification", "source_id": "source-008", "span": "eSIM caveat", "locale": "en", "evidence_grade": "C"}
+      ],
+      "supporting_source_ids": ["source-008"],
+      "counterevidence_source_ids": [],
+      "evidence_grade": "C",
+      "confidence": "low",
+      "status": "hypothesis_only"
+    }
+  ]
+}

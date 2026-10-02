@@ -18,12 +18,14 @@ import (
 )
 
 const (
-	medialystDefaultBase       = "https://medialyst.ai"
-	medialystOAuthClientID     = "newsjack-cli"
-	medialystOAuthDefaultScope = "news:search media_lists:manage"
-	medialystOAuthSource       = "newsjack-oauth-device-flow"
-	deviceGrantType            = "urn:ietf:params:oauth:grant-type:device_code"
-	refreshGrantType           = "refresh_token"
+	medialystDefaultBase        = "https://medialyst.ai"
+	medialystOAuthClientID      = "newsjack-cli"
+	medialystOAuthLegacyScope   = "news:search media_lists:manage"
+	medialystOAuthProjectsScope = "projects:manage"
+	medialystOAuthDefaultScope  = medialystOAuthLegacyScope + " " + medialystOAuthProjectsScope
+	medialystOAuthSource        = "newsjack-oauth-device-flow"
+	deviceGrantType             = "urn:ietf:params:oauth:grant-type:device_code"
+	refreshGrantType            = "refresh_token"
 )
 
 var (
@@ -65,6 +67,8 @@ type medialystAuthStatus struct {
 	APIKeyConfigured bool
 	Source           string
 	Kind             string
+	OAuthScopes      []string
+	ProjectsEnabled  bool
 }
 
 type oauthLoginOptions struct {
@@ -104,6 +108,11 @@ func runMedialystDeviceLogin(opts oauthLoginOptions, stdout, stderr io.Writer) i
 		opts.Timeout = 10 * time.Minute
 	}
 	device, err := requestMedialystDeviceCode(opts.BaseURL, opts.Scope)
+	if isOAuthErrorCode(err, "invalid_scope") && hasOAuthScope(opts.Scope, medialystOAuthProjectsScope) {
+		opts.Scope = removeOAuthScope(opts.Scope, medialystOAuthProjectsScope)
+		uiWarn(stderr, "Medialyst does not support %s; retrying login without project tools.", medialystOAuthProjectsScope)
+		device, err = requestMedialystDeviceCode(opts.BaseURL, opts.Scope)
+	}
 	if err != nil {
 		return failf(stderr, "Medialyst login could not start: %v", err)
 	}
@@ -113,6 +122,9 @@ func runMedialystDeviceLogin(opts oauthLoginOptions, stdout, stderr io.Writer) i
 	token, err := pollMedialystDeviceToken(opts.BaseURL, device, opts.Timeout)
 	if err != nil {
 		return failf(stderr, "Medialyst login failed: %v", err)
+	}
+	if strings.TrimSpace(token.Scope) == "" {
+		token.Scope = opts.Scope
 	}
 	path, err := writeOAuthCredentialsForBaseURL(token, opts.BaseURL)
 	if err != nil {
@@ -226,6 +238,18 @@ type oauthEndpointError struct {
 	Body        string
 }
 
+type oauthRefreshTransportError struct {
+	Err error
+}
+
+func (e *oauthRefreshTransportError) Error() string {
+	return fmt.Sprintf("OAuth refresh failed in transit and will not be retried with the same token; the login may need newsjack login, or use newsjack auth set-medialyst --key <mlst_...> for unattended runs: %v", e.Err)
+}
+
+func (e *oauthRefreshTransportError) Unwrap() error {
+	return e.Err
+}
+
 func (e *oauthEndpointError) Error() string {
 	if e.Description != "" {
 		return fmt.Sprintf("%s: %s", e.Code, e.Description)
@@ -234,6 +258,43 @@ func (e *oauthEndpointError) Error() string {
 		return e.Code
 	}
 	return fmt.Sprintf("HTTP %d: %s", e.Status, truncate(e.Body, 300))
+}
+
+func isOAuthErrorCode(err error, code string) bool {
+	var oauthErr *oauthEndpointError
+	return errors.As(err, &oauthErr) && oauthErr.Code == code
+}
+
+func oauthScopes(scope string) []string {
+	scopes := make([]string, 0)
+	seen := make(map[string]bool)
+	for _, item := range strings.Fields(scope) {
+		if !seen[item] {
+			scopes = append(scopes, item)
+			seen[item] = true
+		}
+	}
+	return scopes
+}
+
+func hasOAuthScope(scope, want string) bool {
+	for _, item := range oauthScopes(scope) {
+		if item == want {
+			return true
+		}
+	}
+	return false
+}
+
+func removeOAuthScope(scope, unwanted string) string {
+	scopes := oauthScopes(scope)
+	kept := scopes[:0]
+	for _, item := range scopes {
+		if item != unwanted {
+			kept = append(kept, item)
+		}
+	}
+	return strings.Join(kept, " ")
 }
 
 func postOAuthForm(rawURL string, form url.Values, target any) error {
@@ -266,27 +327,72 @@ func postOAuthForm(rawURL string, form url.Values, target any) error {
 	return nil
 }
 
-func refreshStoredMedialystOAuth() (medialystBearerCredential, error) {
+func refreshStoredMedialystOAuth(expectedAccessToken, expectedRefreshToken string, afterUnauthorized bool) (medialystBearerCredential, error) {
+	initial, ok, err := readCredentialsFile()
+	if err != nil {
+		return medialystBearerCredential{}, err
+	}
+	if !ok || initial.Medialyst.OAuth == nil || strings.TrimSpace(initial.Medialyst.OAuth.RefreshToken) == "" {
+		return medialystBearerCredential{}, errors.New("no Medialyst OAuth refresh token is saved")
+	}
+	if expectedAccessToken == "" {
+		expectedAccessToken = strings.TrimSpace(initial.Medialyst.OAuth.AccessToken)
+	}
+	if expectedRefreshToken == "" {
+		expectedRefreshToken = strings.TrimSpace(initial.Medialyst.OAuth.RefreshToken)
+	}
+
+	release, err := lockCredentialsFile()
+	if err != nil {
+		return medialystBearerCredential{}, err
+	}
+	defer release()
+
 	creds, ok, err := readCredentialsFile()
 	if err != nil {
 		return medialystBearerCredential{}, err
 	}
-	if !ok || creds.Medialyst.OAuth == nil || strings.TrimSpace(creds.Medialyst.OAuth.RefreshToken) == "" {
+	if !ok || creds.Medialyst.OAuth == nil {
+		return medialystBearerCredential{}, errors.New("no Medialyst OAuth credentials are saved")
+	}
+	oauth := creds.Medialyst.OAuth
+	accessToken := strings.TrimSpace(oauth.AccessToken)
+	refreshToken := strings.TrimSpace(oauth.RefreshToken)
+	if accessToken != expectedAccessToken || refreshToken != expectedRefreshToken || (!afterUnauthorized && accessToken != "" && !oauthTokenExpired(oauth.ExpiresAt)) {
+		if accessToken == "" {
+			return medialystBearerCredential{}, errors.New("saved Medialyst OAuth credentials do not include an access token")
+		}
+		if refreshToken == "" && oauthTokenExpired(oauth.ExpiresAt) {
+			return medialystBearerCredential{}, errors.New("Medialyst OAuth refresh status is uncertain; run newsjack login, or use newsjack auth set-medialyst --key <mlst_...> for unattended runs")
+		}
+		return storedOAuthBearer(accessToken), nil
+	}
+	if refreshToken == "" {
 		return medialystBearerCredential{}, errors.New("no Medialyst OAuth refresh token is saved")
 	}
-	baseURL := strings.TrimSpace(creds.Medialyst.OAuth.BaseURL)
-	token, err := refreshMedialystOAuthToken(baseURL, creds.Medialyst.OAuth.RefreshToken)
+
+	baseURL := strings.TrimSpace(oauth.BaseURL)
+	token, err := refreshMedialystOAuthToken(baseURL, refreshToken)
 	if err != nil {
+		oauth.RefreshToken = ""
+		if _, writeErr := writeCredentialsFile(creds); writeErr != nil {
+			return medialystBearerCredential{}, fmt.Errorf("OAuth refresh failed and the spent-token safeguard could not be saved: %v; original error: %w", writeErr, err)
+		}
+		if isOAuthTransportError(err) {
+			return medialystBearerCredential{}, &oauthRefreshTransportError{Err: err}
+		}
+		if isOAuthErrorCode(err, "invalid_grant") {
+			return medialystBearerCredential{}, fmt.Errorf("Medialyst OAuth login is invalid or revoked; run newsjack login, or use newsjack auth set-medialyst --key <mlst_...> for unattended runs: %w", err)
+		}
 		return medialystBearerCredential{}, err
 	}
-	if _, err := writeOAuthCredentialsForBaseURL(token, baseURL); err != nil {
+	if strings.TrimSpace(token.Scope) == "" {
+		token.Scope = oauth.Scope
+	}
+	if _, err := writeOAuthCredentialsToFile(creds, token, baseURL); err != nil {
 		return medialystBearerCredential{}, err
 	}
-	return medialystBearerCredential{
-		Token:  token.AccessToken,
-		Source: "credentials:" + credentialsPath() + ":oauth",
-		Kind:   "oauth",
-	}, nil
+	return storedOAuthBearer(token.AccessToken), nil
 }
 
 func refreshMedialystOAuthToken(baseURL, refreshToken string) (oauthTokenResponse, error) {
@@ -302,6 +408,19 @@ func refreshMedialystOAuthToken(baseURL, refreshToken string) (oauthTokenRespons
 		return oauthTokenResponse{}, errors.New("refresh response did not include access_token and refresh_token")
 	}
 	return token, nil
+}
+
+func isOAuthTransportError(err error) bool {
+	var endpointErr *oauthEndpointError
+	return err != nil && !errors.As(err, &endpointErr)
+}
+
+func storedOAuthBearer(accessToken string) medialystBearerCredential {
+	return medialystBearerCredential{
+		Token:  strings.TrimSpace(accessToken),
+		Source: "credentials:" + credentialsPath() + ":oauth",
+		Kind:   "oauth",
+	}
 }
 
 func loadMedialystBearerCredential() (medialystBearerCredential, error) {
@@ -323,16 +442,12 @@ func loadStoredOAuthBearer() (medialystBearerCredential, bool, error) {
 	}
 	oauth := creds.Medialyst.OAuth
 	if strings.TrimSpace(oauth.AccessToken) != "" && !oauthTokenExpired(oauth.ExpiresAt) {
-		return medialystBearerCredential{
-			Token:  strings.TrimSpace(oauth.AccessToken),
-			Source: "credentials:" + credentialsPath() + ":oauth",
-			Kind:   "oauth",
-		}, true, nil
+		return storedOAuthBearer(oauth.AccessToken), true, nil
 	}
 	if strings.TrimSpace(oauth.RefreshToken) == "" {
 		return medialystBearerCredential{}, false, nil
 	}
-	cred, err := refreshStoredMedialystOAuth()
+	cred, err := refreshStoredMedialystOAuth(oauth.AccessToken, oauth.RefreshToken, false)
 	if err != nil {
 		if key, source := loadAPIKey(); key != "" {
 			return medialystBearerCredential{Token: key, Source: source, Kind: "api_key"}, true, nil
@@ -356,11 +471,13 @@ func oauthTokenExpired(expiresAt string) bool {
 }
 
 func loadMedialystAuthStatus() medialystAuthStatus {
-	status := medialystAuthStatus{}
+	status := medialystAuthStatus{OAuthScopes: []string{}}
 	if creds, ok, err := readCredentialsFile(); err == nil && ok {
 		if creds.Medialyst.OAuth != nil && (strings.TrimSpace(creds.Medialyst.OAuth.AccessToken) != "" || strings.TrimSpace(creds.Medialyst.OAuth.RefreshToken) != "") {
 			status.Configured = true
 			status.OAuthConfigured = true
+			status.OAuthScopes = oauthScopes(creds.Medialyst.OAuth.Scope)
+			status.ProjectsEnabled = hasOAuthScope(creds.Medialyst.OAuth.Scope, medialystOAuthProjectsScope)
 			if status.Source == "" {
 				status.Source = "credentials:" + credentialsPath() + ":oauth"
 				status.Kind = "oauth"
@@ -408,6 +525,10 @@ func writeOAuthCredentialsForBaseURL(token oauthTokenResponse, baseURL string) (
 	if err != nil {
 		return "", err
 	}
+	return writeOAuthCredentialsToFile(creds, token, baseURL)
+}
+
+func writeOAuthCredentialsToFile(creds credentialsFile, token oauthTokenResponse, baseURL string) (string, error) {
 	now := oauthNow().UTC()
 	expiresIn := token.ExpiresIn
 	if expiresIn <= 0 {
@@ -474,11 +595,33 @@ func readCredentialsFile() (credentialsFile, bool, error) {
 
 func writeCredentialsFile(creds credentialsFile) (string, error) {
 	path := credentialsPath()
-	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+	dir := filepath.Dir(path)
+	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return "", err
 	}
 	data, _ := json.MarshalIndent(creds, "", "  ")
-	if err := os.WriteFile(path, append(data, '\n'), 0o600); err != nil {
+	temp, err := os.CreateTemp(dir, ".credentials.json.tmp-*")
+	if err != nil {
+		return "", err
+	}
+	tempPath := temp.Name()
+	defer os.Remove(tempPath)
+	if err := temp.Chmod(0o600); err != nil {
+		temp.Close()
+		return "", err
+	}
+	if _, err := temp.Write(append(data, '\n')); err != nil {
+		temp.Close()
+		return "", err
+	}
+	if err := temp.Sync(); err != nil {
+		temp.Close()
+		return "", err
+	}
+	if err := temp.Close(); err != nil {
+		return "", err
+	}
+	if err := os.Rename(tempPath, path); err != nil {
 		return "", err
 	}
 	return path, nil

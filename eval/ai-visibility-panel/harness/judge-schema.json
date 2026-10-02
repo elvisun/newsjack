@@ -1,0 +1,239 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "verdict",
+    "overall_score",
+    "scores",
+    "hard_gates",
+    "must_have_results",
+    "anti_pattern_results",
+    "strengths",
+    "critical_failures",
+    "recommended_changes",
+    "summary"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["pass", "partial", "fail"]
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_quality",
+        "icp_market_model",
+        "job_intent_architecture",
+        "prompt_coverage_traceability",
+        "prompt_realism_cell_discipline",
+        "contamination_qa",
+        "panel_measurement_design",
+        "artifact_usability_integrity"
+      ],
+      "properties": {
+        "evidence_quality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "icp_market_model": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "job_intent_architecture": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "prompt_coverage_traceability": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "prompt_realism_cell_discipline": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "contamination_qa": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "panel_measurement_design": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "artifact_usability_integrity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    },
+    "hard_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "usable_exact_prompt_output",
+        "evidence_source_mix",
+        "prompt_provenance_traceability",
+        "comprehensive_or_waived_dimensions",
+        "unaided_contamination_and_blinding",
+        "measurement_and_claim_honesty",
+        "artifact_contract_and_resumability"
+      ],
+      "properties": {
+        "usable_exact_prompt_output": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "evidence_source_mix": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "prompt_provenance_traceability": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "comprehensive_or_waived_dimensions": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "unaided_contamination_and_blinding": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "measurement_and_claim_honesty": {
+          "$ref": "#/definitions/gateResult"
+        },
+        "artifact_contract_and_resumability": {
+          "$ref": "#/definitions/gateResult"
+        }
+      }
+    },
+    "must_have_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mustHaveResult"
+      }
+    },
+    "anti_pattern_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/antiPatternResult"
+      }
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 6
+    },
+    "critical_failures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_changes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/recommendedChange"
+      },
+      "maxItems": 8
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "definitions": {
+    "gateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "partial", "fail"]
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "mustHaveResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "evidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pass", "partial", "fail"]
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "antiPatternResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "triggered", "evidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "triggered": {
+          "type": "boolean"
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "recommendedChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "change"],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "enum": [
+            "build-ai-visibility-panel",
+            "icp-evidence-analysis",
+            "buyer-job-intent-analysis",
+            "prompt-proximity-architecture",
+            "realistic-prompt-generation",
+            "prompt-set-qa",
+            "ai-visibility-panel-design",
+            "artifact-validator",
+            "human-gate"
+          ]
+        },
+        "change": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

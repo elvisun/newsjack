@@ -1,0 +1,178 @@
+schema_version: "1.0.0"
+artifact_id: contamination-cloudflare-2026-07-25
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:build-ai-visibility-panel"
+source_manifest_hash: "sha256:unavailable"
+register_version: "1.0.0"
+warnings:
+  - "This register is held OUTSIDE the unaided generation context and is supplied to prompt-set-qa only after generation."
+  - "Several target product names are ordinary English words or generic industry categories (Workers, Gateway, Access, Images, Stream, Pages, Queues, Bot Management, Zero Trust, WAF, CDN). Hard-blocking those bare tokens would produce false failures on legitimate category language. They are listed under ambiguous_terms with a required multiword/context match and are routed to human review, never auto-failed."
+  - "No campaign terms were supplied by the user. campaign_terms holds target-originated policy framing that must not enter unaided core, not an actual marketing campaign."
+  - "people is limited to publicly known co-founder names, recorded solely so that leakage into an unaided prompt is detectable. No other personal data is stored."
+
+target_terms:
+  brands:
+    - "Cloudflare"
+    - "CloudFlare"
+    - "Cloudflare, Inc."
+    - "cloudflare"
+  products:
+    - "Cloudflare Workers"
+    - "Workers AI"
+    - "AI Gateway"
+    - "AI Search"
+    - "AI Crawl Control"
+    - "Durable Objects"
+    - "Browser Rendering"
+    - "Hyperdrive"
+    - "Vectorize"
+    - "Cloudflare R2"
+    - "Cloudflare D1"
+    - "Cloudflare KV"
+    - "Workers KV"
+    - "Cloudflare Images"
+    - "Cloudflare Stream"
+    - "RealtimeKit"
+    - "Cloudflare Access"
+    - "Cloudflare Tunnel"
+    - "Cloudflare Gateway"
+    - "Cloudflare WARP"
+    - "WARP client"
+    - "Magic WAN"
+    - "Magic Transit"
+    - "Cloudflare Spectrum"
+    - "Cloudflare Argo"
+    - "Argo Smart Routing"
+    - "Cloudflare Pages"
+    - "Cloudflare Turnstile"
+    - "Cloudflare Registrar"
+    - "Cloudflare Waiting Room"
+    - "Cloudflare Radar"
+    - "Cloudflare Zero Trust"
+    - "Cloudflare Bot Management"
+    - "1.1.1.1"
+  domains:
+    - "cloudflare.com"
+    - "www.cloudflare.com"
+    - "blog.cloudflare.com"
+    - "developers.cloudflare.com"
+    - "dash.cloudflare.com"
+    - "community.cloudflare.com"
+    - "cloudflarestatus.com"
+    - "workers.dev"
+    - "pages.dev"
+  people:
+    - "Matthew Prince"
+    - "Michelle Zatlyn"
+    - "Lee Holloway"
+  slogans:
+    - "Helping build a better Internet"
+    - "Connect, protect, and build everywhere"
+    - "Global by Default"
+    - "Pay for What You Use"
+    - "Zero Cold Starts"
+    - "Egress-free object storage"
+    - "Serverless SQL"
+  proprietary_categories:
+    - "connectivity cloud"
+    - "Cloudflare One"
+    - "Pay Per Crawl"
+    - "Pay Per Use"
+    - "AI Crawl Control"
+    - "Magic WAN"
+    - "mixed-use crawler"
+    - "mixed-use crawlers"
+  campaign_terms:
+    - "mixed-use crawlers"
+    - "Pay Per Crawl"
+    - "Pay Per Use"
+    - "Content Independence Day"
+    - "declaring your AIndependence"
+  flattering_claims:
+    - "330+ data centers"
+    - "one of the largest networks in the world"
+    - "the connectivity cloud"
+    - "fastest DNS resolver"
+    - "Leader in the Forrester Wave"
+    - "Visionary in the Gartner Magic Quadrant"
+    - "blocks billions of threats per day"
+    - "zero cold starts"
+
+competitor_terms:
+  - "Akamai"
+  - "Fastly"
+  - "Amazon CloudFront"
+  - "AWS WAF"
+  - "AWS Shield"
+  - "Google Cloud CDN"
+  - "Azure Front Door"
+  - "Imperva"
+  - "F5"
+  - "Sucuri"
+  - "DataDome"
+  - "HUMAN Security"
+  - "Bunny.net"
+  - "KeyCDN"
+  - "Zscaler"
+  - "Netskope"
+  - "Palo Alto Networks"
+  - "Prisma Access"
+  - "Cato Networks"
+  - "Cisco Umbrella"
+  - "Tailscale"
+  - "Twingate"
+  - "Vercel"
+  - "Netlify"
+  - "Fly.io"
+
+ambiguous_terms:
+  policy: "Match only as an exact multiword target phrase or with the brand token in the same sentence. A bare occurrence is status 'review', routed to human_gate_3, never an automatic fail."
+  terms:
+    - "Workers"
+    - "Gateway"
+    - "Access"
+    - "Images"
+    - "Stream"
+    - "Pages"
+    - "Queues"
+    - "Tunnel"
+    - "Radar"
+    - "Turnstile"
+    - "Zero Trust"
+    - "zero trust network access"
+    - "ZTNA"
+    - "SASE"
+    - "SSE"
+    - "WAF"
+    - "CDN"
+    - "bot management"
+    - "edge compute"
+    - "NET"
+
+allowed_exceptions:
+  - band: B0_direct_brand_product
+    partition: aided
+    aided_status: target_aided
+    term_classes: [brands, products, domains]
+    note: "B0 cells must name the target. They live in the aided partition and never enter an unaided denominator."
+  - band: B5_broad_discovery_story
+    partition: aided
+    aided_status: target_aided
+    term_classes: [brands, products, proprietary_categories, campaign_terms]
+    note: "Applies only to cell-051, the target-aided rendering of the dated 2026-09-15 default change. The matching unaided rendering (cell-032/033) must describe the situation without naming the target or its framing."
+  - band: B1_comparison_purchase
+    partition: aided
+    aided_status: competitor_aided
+    term_classes: [competitor_terms]
+    note: "Applies only to cell-022 and cell-023. Competitor-named prompts are never counted as unaided."
+
+scan_policy:
+  normalization: "NFKC, casefold, collapse whitespace, strip zero-width characters, map common homoglyphs"
+  checks:
+    - exact_normalized_string
+    - token_boundary_match
+    - fuzzy_match_edit_distance_2
+    - semantic_review_of_slogan_and_flattering_claim_paraphrase
+  hard_fail_scope: "Any target_terms or campaign_terms hit in a candidate whose cell has aided_status in [unaided, category_aided, competitor_aided], or in any cell with partition in [core, sentinel, rotating, control]."
+  review_scope: "ambiguous_terms hits; semantic paraphrase of a slogan or flattering claim; competitor_terms appearing outside a declared competitor_aided cell."
+  auto_delete_permitted: false

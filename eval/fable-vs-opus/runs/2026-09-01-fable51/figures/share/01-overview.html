@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1600, initial-scale=1.0" />
+<title>Fable 5.1 finishes first. Cleanly.</title>
+<link rel="stylesheet" href="../../../../../design-system/assets/colors_and_type.css" />
+<link rel="stylesheet" href="../../../../../design-system/charts.css" />
+
+<style>
+  html, body { width: 1600px; height: 900px; overflow: hidden; }
+  body { background: var(--nj-page); }
+  .share-frame { width: 1600px; height: 900px; padding: 42px 54px; }
+  .fig.share { width: 100%; height: 100%; padding: 42px 48px 30px; display: grid;
+    grid-template-rows: auto 1fr auto; gap: 22px; }
+  .share-head { display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 48px; padding-bottom: 20px; border-bottom: 1px solid var(--nj-border); }
+  .share-kicker { font-family: var(--nj-mono); font-size: 12px; letter-spacing: 0.26em;
+    text-transform: uppercase; color: var(--nj-accent); margin-bottom: 9px; }
+  .share-head h3 { font-size: 48px; line-height: 0.98; margin: 0; max-width: 1040px; }
+  .share-dek { max-width: 960px; margin-top: 12px; font-family: var(--nj-sans);
+    font-size: 17px; line-height: 1.45; color: var(--nj-fg-3); }
+  .share-meta { min-width: 290px; padding-top: 4px; text-align: right; font-family: var(--nj-mono);
+    font-size: 11px; line-height: 1.8; letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-meta b { color: var(--nj-fg-1); font-weight: 500; }
+  .share-body { min-height: 0; }
+  .share-foot { border-top: 1px solid var(--nj-ink); padding-top: 16px; display: flex; align-items: center;
+    justify-content: space-between; gap: 24px; font-family: var(--nj-mono); font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--nj-fg-4); }
+  .share-foot b { color: var(--nj-fg-1); font-weight: 500; }
+  .accent { color: var(--nj-accent); }
+  .quiet { color: var(--nj-fg-4); }
+  .micro-label { font-family: var(--nj-mono); font-size: 10.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--nj-fg-4); }
+  .callout-strip { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--nj-border); }
+  .callout { padding: 17px 22px; border-right: 1px solid var(--nj-border); }
+  .callout:last-child { border-right: 0; }
+  .callout strong { display: block; margin-top: 4px; font-family: var(--nj-serif); font-size: 27px;
+    line-height: 1.05; font-style: italic; font-weight: 400; color: var(--nj-fg-1); }
+  .callout p { margin-top: 5px; font-size: 12.5px; line-height: 1.35; color: var(--nj-fg-3); }
+  .chart text { font-family: var(--nj-mono); }
+</style>
+
+</head>
+<body data-accent="winner" data-grid="on" data-barstyle="solid">
+  <main class="share-frame">
+    <section class="fig share">
+      <header class="share-head">
+        <div>
+          <div class="share-kicker">NEWSJACK.SH · THE EVAL DESK · 01 / 04</div>
+          <h3>Fable 5.1 finishes first. Cleanly.</h3>
+          <p class="share-dek">Same 50 company updates. Same angle-generator skill. The only fresh contestant was Fable 5.1.</p>
+        </div>
+        <div class="share-meta">
+          <b>50 BRANDS · 6 MODELS</b><br />
+          1500 BLIND JUDGMENTS<br />
+          GPT-5.5 JUDGE
+        </div>
+      </header>
+      <div class="share-body">
+<div style="display:grid; grid-template-columns: 1.55fr 0.85fr; gap:42px; height:100%; align-items:center;">
+  <div><svg class="chart" viewBox="0 0 830 440" role="img" aria-label="Overall mean ranking for 6 models"><text class="t-axislabel" x="210" y="30">OVERALL MEAN · FULL 1–5 SCALE</text><line class="axis" x1="210" y1="390" x2="790" y2="390" /><line class="grid-line" x1="210" y1="50" x2="210" y2="390" /><text class="t-tick" x="210" y="414" text-anchor="middle">0</text><line class="grid-line" x1="326" y1="50" x2="326" y2="390" /><text class="t-tick" x="326" y="414" text-anchor="middle">1</text><line class="grid-line" x1="442" y1="50" x2="442" y2="390" /><text class="t-tick" x="442" y="414" text-anchor="middle">2</text><line class="grid-line" x1="558" y1="50" x2="558" y2="390" /><text class="t-tick" x="558" y="414" text-anchor="middle">3</text><line class="grid-line" x1="674" y1="50" x2="674" y2="390" /><text class="t-tick" x="674" y="414" text-anchor="middle">4</text><line class="grid-line" x1="790" y1="50" x2="790" y2="390" /><text class="t-tick" x="790" y="414" text-anchor="middle">5</text><text class="t-cat" x="0" y="92.5">FABLE 5.1</text><rect class="bar-primary" x="210" y="70.5" width="547.0" height="34.1" /><text class="t-val" x="771.0" y="92.5">4.72</text><text class="t-cat" x="0" y="147.5">OPUS 5</text><rect class="bar-base" style="fill:#8E887C" x="210" y="125.5" width="524.8" height="34.1" /><text class="t-val" x="748.8" y="147.5">4.52</text><text class="t-cat" x="0" y="202.5">FABLE 5</text><rect class="bar-base" style="fill:#A8A296" x="210" y="180.4" width="523.1" height="34.1" /><text class="t-val" x="747.1" y="202.5">4.51</text><text class="t-cat" x="0" y="257.5">OPUS 4.8</text><rect class="bar-base" style="fill:#C0BAAE" x="210" y="235.4" width="504.2" height="34.1" /><text class="t-val" x="728.2" y="257.5">4.35</text><text class="t-cat" x="0" y="312.5">SONNET 5</text><rect class="bar-base" style="fill:#D2CDC2" x="210" y="290.4" width="466.1" height="34.1" /><text class="t-val" x="690.1" y="312.5">4.02</text><text class="t-cat" x="0" y="367.5">SONNET 4.6</text><rect class="bar-base" style="fill:#E2DDD3" x="210" y="345.4" width="457.8" height="34.1" /><text class="t-val" x="681.8" y="367.5">3.95</text></svg></div>
+  <aside style="border-left:1px solid var(--nj-border); padding-left:42px;">
+    <div class="micro-label">FABLE 5.1 · OVERALL MEAN · RANK 1 OF 6</div>
+    <div style="font-family:var(--nj-serif); font-style:italic; font-size:76px; line-height:.92; color:var(--nj-accent); margin:12px 0 18px;">4.72</div>
+    <p style="font-family:var(--nj-serif); font-style:italic; font-size:31px; line-height:1.08; color:var(--nj-fg-1);">Fable 5.1 finishes first.<br />Nobody else is close.</p>
+    <p style="font-size:15px; line-height:1.5; color:var(--nj-fg-3); margin-top:18px;">Six Claude models, one independent GPT-5.5 judge, all fifteen pairs judged blind in both orderings.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px;">
+      <div style="background:#F3F1EC; padding:16px;">
+        <div class="micro-label">VS FABLE 5 · ROBUST</div>
+        <div style="font-family:var(--nj-serif); font-style:italic; font-size:34px; color:var(--nj-accent);">38–1</div>
+        <div style="font-size:11px; color:var(--nj-fg-4);">11 position splits</div>
+      </div>
+      <div style="background:#F3F1EC; padding:16px;">
+        <div class="micro-label">VS OPUS 5 · ROBUST</div>
+        <div style="font-family:var(--nj-serif); font-style:italic; font-size:34px; color:var(--nj-accent);">19–4</div>
+        <div style="font-size:11px; color:var(--nj-fg-4);">27 position splits</div>
+      </div>
+    </div>
+  </aside>
+</div>
+</div>
+      <footer class="share-foot">
+        <span>FABLE 5.1 VIA <b>CLAUDE CODE CLI</b> · FIVE PRIOR MODELS REUSED FROZEN</span>
+        <span>2026-09-01 · <b>NEWSJACK.SH</b></span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

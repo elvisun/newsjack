@@ -7,6 +7,20 @@ on:
       - main
 
 jobs:
+  claude-plugin-package:
+    name: Claude hosted plugin package
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Reject unsafe hosted plugin contents
+        run: node scripts/validate-claude-hosted-plugin.mjs
+
   cli-unit:
     name: CLI unit tests (${{ matrix.os }})
     runs-on: ${{ matrix.os }}

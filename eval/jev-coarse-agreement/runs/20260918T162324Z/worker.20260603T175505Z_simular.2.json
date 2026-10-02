@@ -1,0 +1,166 @@
+{
+  "decisions": [
+    {
+      "signal_id": "7202068d914ded43",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Roundup of OpenAI Agent, Meta AI, and Anthropic news covering agent ecosystem. Query targets Manus (competitor); story likely covers computer-use agent landscape.",
+      "confidence": "medium",
+      "evidence_urls": ["https://mshale.com/41183ee9/2a961d0cmHkSxDORI54"],
+      "relevance_basis": "Competitor (Manus) mentioned via query; broad agent ecosystem news relevant to Simular's competitive landscape."
+    },
+    {
+      "signal_id": "8f4f82a5ea9200d8",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "AgentMail enables AI employees to manage inboxes, directly supporting the 'AI coworkers' profile topic and autonomous workflow automation.",
+      "confidence": "high",
+      "evidence_urls": ["https://x.com/hirejuniorso/status/2062003409830789554"],
+      "relevance_basis": "Direct profile match: 'AI coworkers'. Product innovation in autonomous agent capabilities."
+    },
+    {
+      "signal_id": "e0def68ad24af688",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "LinkedIn comedy skits for marketing. Title and excerpt show no agent, automation, or agentic workflow content despite query matching 'AI coworkers'.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.businessinsider.com/marketer-makes-comedy-skits-for-linkedin-to-acquire-clients-2026-6"],
+      "relevance_basis": "Query collision only; content is about social media marketing tactics, not AI agents or workflow automation."
+    },
+    {
+      "signal_id": "f698010193b964c8",
+      "decision": "reject",
+      "reason": "keyword_collision",
+      "rationale": "AI search strategies and corporate silos. No agent, automation, or agentic workflow content despite query matching 'AI coworkers'.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.businessinsider.com/ai-search-strategies-hampered-by-corporate-silos-semrush-study-2026-5"],
+      "relevance_basis": "Query collision only; story is about AI search and organizational structure, not agents or automation."
+    },
+    {
+      "signal_id": "6085b212a0b25959",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Meta's AI surveillance tool and employee breaks. No automation or agentic workflow content. Story_size band: high; ceiling applies.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.inc.com/moses-jeanfrancois/meta-will-now-give-employees-a-30-minute-break-from-ai-surveillance-tool/91354934"],
+      "relevance_basis": "Query collision; story is about employee monitoring tool, not agents. High-band signal capped at monitor_only, not rejected."
+    },
+    {
+      "signal_id": "304b04b53c929816",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Newsletter review of Claude Opus 4.8 model. Query 'AI agent benchmarks' does not match content (model release review, not benchmark analysis). Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://thesequence.substack.com/p/the-sequence-ai-of-the-week-871-inside"],
+      "relevance_basis": "Query collision; content is product/model review, not agent benchmarks. High-band ceiling applies."
+    },
+    {
+      "signal_id": "963ca9ee4288d65f",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Strategic analysis of AI agents in operator economy. Query targets OpenAI Operator (competitor). Story directly relevant to agentic automation for enterprises and operator workflows.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.forbes.com/sites/daraabasiita/2026/06/03/the-3-bets-on-ai-coming-for-the-operator-economy/"],
+      "relevance_basis": "Competitor (OpenAI Operator) and profile topic (agentic workflow automation, enterprise automation). Strategic market analysis."
+    },
+    {
+      "signal_id": "8a5ec532d9125ab6",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Cybersecurity research on AI-enhanced malware/worms. Query 'Anthropic computer use' targets competitor but story is safety/security risk, not legitimate computer-use agent applications. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.nytimes.com/2026/06/02/technology/scientists-find-way-to-supercharge-dangerous-computer-worms-with-ai.html"],
+      "relevance_basis": "Competitor mentioned via query but content is off-beat security risk. High-band ceiling applies; flagged as safety-related."
+    },
+    {
+      "signal_id": "fc72aca0e396353a",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Perplexity CEO on AI race metrics (value per watt per user). Query 'Anthropic computer use' does not match; story is about CEO interview on AI value, not computer-use agents. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.cnbc.com/2026/06/03/perplexity-ceo-ai-valuations-computer-agentic.html"],
+      "relevance_basis": "Query collision; content is competitive commentary on AI value metrics, not agent capabilities. High-band ceiling applies."
+    },
+    {
+      "signal_id": "290920c39bf2085b",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Anthropic expands Mythos model access. Query 'Anthropic computer use' targets competitor but story is about model availability, not computer-use agents. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.euronews.com/next/2026/06/03/anthropic-expands-access-to-mythos-despite-warnings-of-mass-cyberattacks"],
+      "relevance_basis": "Competitor (Anthropic) product announcement. High-band ceiling applies; flagged as competitive intelligence."
+    },
+    {
+      "signal_id": "83be8e9fc7c5dbfd",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Philosophy piece on AI consciousness mentioning Anthropic. Query 'Anthropic computer use' does not match content. Opinion on AI anthropomorphism, not computer-use agents. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.theatlantic.com/philosophy/2026/06/no-artificial-intelligence-is-not-conscious/687378/"],
+      "relevance_basis": "Query collision; content is opinion/philosophy, not technical or commercial agent news. High-band ceiling applies."
+    },
+    {
+      "signal_id": "c0ffe3d7102d8c79",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Newsletter on public market IPO trends. Query 'Manus AI agent' targets competitor but story is about equity funding/IPOs, not computer-use agents. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://michaelparekh.substack.com/p/global-rush-to-public-market-equity"],
+      "relevance_basis": "Query collision; content is financial market analysis, not agent technology. High-band ceiling applies."
+    },
+    {
+      "signal_id": "f81d43992c42b144",
+      "decision": "keep",
+      "reason": "plausible_client_bridge",
+      "rationale": "Meta launches AI agent for business automation. Direct competitor activity in computer-use/business agent space. Highly relevant to Simular's standing in autonomous agents and enterprise automation.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.bloomberg.com/news/articles/2026-06-03/meta-sells-ai-agent-for-businesses-in-push-to-monetize-service"],
+      "relevance_basis": "Competitor product (Meta agent) directly relevant to computer-use agents and enterprise workflow automation standing terms."
+    },
+    {
+      "signal_id": "789e19b921db5359",
+      "decision": "monitor_only",
+      "reason": "competitor_or_promotional",
+      "rationale": "Similarweb-Perplexity partnership announcement via Business Wire (newswire source). Query 'Manus AI agent' is collision. Publication is promotional. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.businesswire.com/news/home/20260603646002/en/Similarweb-Expands-AI-Ecosystem-with-Perplexity-Collaboration-Through-Native-AI-Workflows"],
+      "relevance_basis": "Newswire announcement; query collision. High-band ceiling applies; flagged as promotional content."
+    },
+    {
+      "signal_id": "699dea3b8c05ec5d",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Anthropic extends Mythos model access to Australia. Query 'Adept AI' is collision; story is about Anthropic Mythos, not Adept or computer-use agents. Story_size: high.",
+      "confidence": "high",
+      "evidence_urls": ["https://www.smh.com.au/technology/australia-gets-access-to-ai-model-too-dangerous-to-release-20260603-p603ds.html"],
+      "relevance_basis": "Query collision; content is competitor (Anthropic) model availability, not agent technology. High-band ceiling applies."
+    },
+    {
+      "signal_id": "65ed6f7f91ba0971",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Agent skills and exponential engineering for code development. Directly relevant to agentic workflow automation and agent benchmarks/evaluation in development workflows.",
+      "confidence": "medium",
+      "evidence_urls": ["https://www.pressreader.com/india/open-source-for-you/20260602/282699053798563"],
+      "relevance_basis": "Content covers agent skills for development automation; aligns with profile topic 'agentic workflow automation' and standing 'enterprise workflow automation'."
+    },
+    {
+      "signal_id": "f291b7c1d253e517",
+      "decision": "monitor_only",
+      "reason": "keyword_collision",
+      "rationale": "Trump executive order on AI model review. Query 'Adept AI' is collision. Regulatory/policy story. Story_size: high. Potential regulator bridge for AI agent company.",
+      "confidence": "medium",
+      "evidence_urls": ["https://www.washingtonpost.com/technology/2026/06/02/trump-signs-order-designed-give-government-early-look-powerful-ai-models/"],
+      "relevance_basis": "Regulatory signal relevant to AI companies including agent builders. High-band ceiling applies; flagged as plausible regulator engagement."
+    },
+    {
+      "signal_id": "247a3dbbd8a2c89c",
+      "decision": "keep",
+      "reason": "relevant_news",
+      "rationale": "Microsoft positions AI agents at center of Windows platform. Direct match to core profile topic 'computer-use agents' and standing 'desktop automation'. Major OS platform adoption of agent-centric computing.",
+      "confidence": "high",
+      "evidence_urls": ["https://redmondmag.com/articles/2026/06/02/microsoft-uses-build-2026-to-put-ai-agents-at-the-center-of-windows.aspx"],
+      "relevance_basis": "Direct profile match: 'computer-use agents'. Major platform (Windows) strategic shift to agent-based architecture; core competitive landscape."
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+Company: Plaid
+Current time: 2026-06-09T16:00:00Z
+
+Plaid is launching Pay by Bank, letting merchants accept account-to-account payments that bypass card networks. Facts: merchants pay a flat per-transaction fee instead of card interchange; Plaid says early merchants see fees up to 70% lower than cards on large transactions; the product uses instant bank verification and the new FedNow rails; Plaid connects to over 12,000 financial institutions; the company is privately held; no named launch merchant has gone on record.

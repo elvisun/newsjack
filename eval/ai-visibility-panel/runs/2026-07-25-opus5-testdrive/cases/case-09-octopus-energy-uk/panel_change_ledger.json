@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "artifact_id": "ledger-octopus-energy-uk-20260725",
+  "created_at": "2026-07-25T16:00:00-04:00",
+  "created_by": "agent:claude-opus-5 (ai-visibility-panel-design)",
+  "source_manifest_hash": null,
+  "warnings": [
+    "hash_not_computed: no hashing tool in this runtime.",
+    "append_only: no entry in this file may be edited or removed. Corrections are new entries."
+  ],
+  "panel_id": "panel-gb-home-energy-visibility-001",
+  "frozen_versions": [],
+  "entries": [
+    {
+      "change_id": "chg-0001",
+      "at": "2026-07-25T16:00:00-04:00",
+      "by": "agent:claude-opus-5",
+      "type": "panel_created",
+      "from_version": null,
+      "to_version": "0.1.0-provisional",
+      "summary": "Built a provisional GB home-energy AI-visibility panel from one public URL plus a one-line description: 18 sources, 7 ICP hypotheses (1 excluded from all cells), 6 buyer jobs, 46 canonical intent cells (33 unaided, 5 category-aided, 4 target-aided, 1 competitor-aided, 2 control), 72 candidate prompts, 70 accepted, 2 quarantined, 2 drafted-and-rejected.",
+      "rationale": "User supplied only URL and description, so the charter, competitor set, surfaces, budget and priorities are agent-assumed and the panel is labelled provisional_directional.",
+      "affects": ["measurement_charter.json", "source_manifest.json", "icp_hypotheses.json", "buyer_jobs.json", "contamination_register.yaml", "blind_design_brief.json", "prompt_architecture.json", "prompt_universe.json", "prompt_qa.json", "panel.yaml", "run_manifest_template.json", "panel_report.md", "tracking_plan.md"],
+      "approved_by": null,
+      "overlap_bridge": null
+    },
+    {
+      "change_id": "chg-0002",
+      "at": "2026-07-25T16:00:00-04:00",
+      "by": "agent:claude-opus-5",
+      "type": "defect_recorded",
+      "from_version": "0.1.0-provisional",
+      "to_version": "0.1.0-provisional",
+      "summary": "The aggregate counts block in prompt_qa.json v1.0.0 is wrong: it reads pass 65, quarantine 5, accepted 65. The per-candidate decision records and accepted_candidate_ids in the same file are authoritative and give pass 70, revise 0, quarantine 2 (prompt-017a, prompt-030a), rejected drafts 2, accepted 70. Three candidates (prompt-005a, prompt-008a, prompt-042b) are passes carrying open Gate 3 classification questions, not quarantines.",
+      "rationale": "Recorded rather than silently overwritten so the discrepancy is auditable. Correct the counts block in the next revision of prompt_qa.json before any freeze.",
+      "affects": ["prompt_qa.json"],
+      "approved_by": null,
+      "overlap_bridge": null
+    },
+    {
+      "change_id": "chg-0003",
+      "at": "2026-07-25T16:00:00-04:00",
+      "by": "agent:claude-opus-5",
+      "type": "open_obligation_recorded",
+      "from_version": "0.1.0-provisional",
+      "to_version": "0.1.0-provisional",
+      "summary": "Blocking items before this panel can be called anything other than provisional: (1) all four human gates unapproved; (2) no variance pilot; (3) every sha256 field null because the runtime had no hashing tool; (4) cell-030 must be verified against a primary government source or deleted by 2026-08-15; (5) cell-007 must be restated when the 1 October 2026 cap period is published, due by 2026-08-26; (6) priority weights undefined by design.",
+      "rationale": "Every gate must be resumable from artifacts.",
+      "affects": ["panel.yaml", "prompt_qa.json", "prompt_universe.json"],
+      "approved_by": null,
+      "overlap_bridge": null
+    },
+    {
+      "change_id": "chg-0004",
+      "at": "2026-07-25T16:00:00-04:00",
+      "by": "agent:claude-opus-5",
+      "type": "evidence_conflict_recorded",
+      "from_version": "0.1.0-provisional",
+      "to_version": "0.1.0-provisional",
+      "summary": "Three public-evidence conflicts resolved in favour of primary publishers: the 1 July 2026 price cap is GBP 1,663 per the regulator (source-004), not GBP 1,862 as some aggregators state; the target's Which? customer score is 79% per the publisher (source-007), not 74%; the target ranks 4th at 3.67/5 in the Citizens Advice Q1 2026 table (source-006) rather than first as aggregators assert. Counterevidence retained in source-016.",
+      "rationale": "Conflicting evidence is preserved rather than tidied away, and the resolution rule (primary publisher wins) is explicit.",
+      "affects": ["source_manifest.json", "icp_hypotheses.json"],
+      "approved_by": null,
+      "overlap_bridge": null
+    }
+  ],
+  "next_expected_entries": [
+    "Gate 1 to Gate 4 approvals or rejections, each with approver and date.",
+    "Variance pilot results and the re-allocation decision (new minor version).",
+    "Computed content hashes for every artifact (new patch version).",
+    "cell-030 verification or deletion by 2026-08-15.",
+    "cell-007 restatement after the 1 October 2026 cap publication, with an overlap bridge on unchanged cells.",
+    "Any addition of prepayment, affordability, renter, business or non-English cells once evidence exists (new minor version)."
+  ]
+}

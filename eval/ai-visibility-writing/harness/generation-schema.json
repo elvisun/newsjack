@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["markdown", "behavior", "fact_ledger", "protected_items_preserved", "blocking"],
+  "properties": {
+    "markdown": {"type": "string", "minLength": 1},
+    "behavior": {"type": "string", "enum": ["audit", "question", "suggest", "rewrite"]},
+    "fact_ledger": {"type": "array", "items": {"type": "string"}},
+    "protected_items_preserved": {"type": "boolean"},
+    "blocking": {"type": "boolean"}
+  }
+}

@@ -1,0 +1,135 @@
+schema_version: "1.0.0"
+artifact_id: contamination-zocdoc-20260725
+created_at: "2026-07-25T16:00:00-04:00"
+created_by: "agent:claude-opus-5/build-ai-visibility-panel"
+source_manifest_hash: null
+warnings:
+  - "This register is held OUTSIDE the unaided generation context and applied to the generated universe afterwards, per the atom contract."
+  - "Blinding in this run was same-context, not fresh-subagent. See blinding_declaration below. Residual leakage risk is medium and one contamination hit was caught (candidate prompt-016b)."
+  - "Some watch terms are ordinary English (for example 'appointment', 'in-network', 'booking'). Only the listed multi-word forms are treated as target terms; single ordinary words are handled under allowed_exceptions.ordinary_language."
+  - "source_manifest_hash is null; no hashing runtime was available."
+
+register_version: "1.0.0"
+
+target_terms:
+  brands:
+    - Zocdoc
+    - ZocDoc
+    - Zoc Doc
+    - "Zoc doc"
+    - Zo
+    - "Zo by Zocdoc"
+  products:
+    - "Zo, AI Phone Assistant"
+    - "Zo AI Phone Assistant"
+    - "Zocdoc Video Service"
+    - "Bookable Profiles"
+    - "Care Access Network"
+    - "Book Online Button"
+    - "Zocdoc Marketplace"
+    - "Sponsored Results"
+  domains:
+    - zocdoc.com
+    - www.zocdoc.com
+    - "zocdoc.com/business"
+    - "zocdoc.com/blog"
+    - "zocdoc.com/patient-help"
+    - "zocdoc.com/provider-help"
+    - "zocdoc.com/techblog"
+  people:
+    - "Oliver Kharraz"
+    - "Cyrus Massoumi"
+    - "Nick Ganju"
+  slogans:
+    - "Find and book doctors"
+    - "Get more new patients"
+    - "Vanquishes hold times"
+    - "Reach millions of patients"
+    - "Maximizes appointment scheduling"
+  proprietary_categories:
+    - "pay-per-booking"
+    - "pay per booking"
+    - "Pay-Per-Booking model"
+    - "Care Access Network"
+    - "Bookable Profile"
+    - "AI-Informed Patient"
+  campaign_terms:
+    - "What Patients Want"
+    - "What Patients Want Report"
+    - "The AI-Informed Patient Report"
+    - "AI-Informed Patient Report"
+  flattering_claims:
+    - "250k+ providers"
+    - "200+ specialties"
+    - "175+ EHR integrations"
+    - "50 states"
+    - "typical appointment takes place within 24-72 hours"
+    - "resolves up to 70% of scheduling calls"
+    - "millions of patients every month"
+    - "instantly schedules appointments 24/7"
+
+competitor_terms:
+  - Opencare
+  - "1-800-Dentist"
+  - Solv
+  - LocalMed
+  - NexHealth
+  - Weave
+  - Modento
+  - "Dental Intelligence"
+  - Healthgrades
+  - "Vitals.com"
+  - "WebMD Care"
+  - "Google Business Profile"
+  - "Yelp Reservations"
+  - Yelp
+  - Emitrr
+  - DentalVitals
+  - Sesame
+  - "Doctor On Demand"
+  - UberDoc
+  - Teladoc
+
+allowed_exceptions:
+  - band: B0_direct_brand_product
+    term_classes: [brands, products]
+    partitions: [aided]
+    rationale: "B0 cells are target-aided by definition and must name the target alias to measure aided_brand_knowledge. Their observations use a separate denominator (est-004) and are never pooled with unaided results."
+    applies_to_candidate_ids: [prompt-034a, prompt-034b, prompt-035a, prompt-035b, prompt-036a, prompt-036b, prompt-037a, prompt-037b]
+  - band: B1_comparison_purchase
+    term_classes: [competitor_terms]
+    partitions: [aided]
+    aided_status: competitor_aided
+    rationale: "One competitor-aided cell deliberately names an evidence-supported competitor set (source-007) to observe answer-set composition when the asker supplies rivals. It is aided, uses its own denominator, and must never be counted as unaided."
+    applies_to_candidate_ids: [prompt-033a, prompt-033b]
+  - band: B2_category
+    term_classes: []
+    partitions: [aided]
+    aided_status: category_aided
+    rationale: "B2 cells may name only generic, evidence-supported category nouns ('online doctor appointment booking sites', 'patient acquisition marketplaces'). No proprietary category term is permitted, including 'pay-per-booking'."
+  - class: ordinary_language
+    terms: [appointment, booking, book, in-network, insurance, availability, marketplace, listing, new patient, dentist, therapist, provider]
+    rationale: "These are the ordinary nouns of the category and appear in buyer evidence independent of the target. They are exempt from the lexical scan when used as common nouns and are not treated as target terms."
+
+forbidden_answer_derived_fields:
+  - current AI answers, rankings, mention rates or citation rates for the target
+  - target content gaps or desired landing pages
+  - competitor visibility results
+  - campaign copy or launch messaging
+  rule: "None of these were available to, or used by, the generation pass. No visibility result of any kind exists yet for this panel, so none could influence prompt selection."
+
+blinding_declaration:
+  method: same_context_sanitized_brief
+  fresh_subagent_used: false
+  reason: "A fresh generation subagent was not invoked in this run. The mitigation was to author blind_design_brief.json first, restrict the unaided generation pass to that brief plus prompt_architecture.json, and then apply this register as a post-hoc deterministic and semantic scan."
+  residual_risk: medium
+  detected_leakage:
+    - candidate_id: prompt-016b
+      term_class: proprietary_categories
+      term: "pay-per-booking"
+      band: B4_job_goal
+      partition: core
+      aided_status: unaided
+      action: reject
+      note: "Hard failure. A target proprietary-category phrase entered an unaided core candidate. Rejected, not revised in place, and the loss of variant coverage on cell-016 is recorded as a QA consequence."
+  recommended_gate_3_action: "Regenerate the 19 core unaided cells in a fresh context that receives only blind_design_brief.json and prompt_architecture.json, then diff against the current strings. Until that is done, the blinding control should be described as partial."
