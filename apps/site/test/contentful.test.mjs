@@ -42,6 +42,7 @@ process.env.CONTENTFUL_ACCESS_TOKEN = "test-token";
 
 const {
   NEWSJACK_BLOG_POST_CONTENT_TYPE,
+  firstImage,
   getAllPosts,
   getAllSlugs,
   getPostBySlug,
@@ -54,6 +55,7 @@ function entry(contentType, slug) {
     sys: {
       id: `${contentType}-${slug}`,
       contentType: { sys: { id: contentType } },
+      updatedAt: "2026-10-02T09:30:00.000Z",
     },
     fields: {
       title: `Title for ${slug}`,
@@ -117,4 +119,37 @@ test("getAllSlugs keeps blog post slugs through the content-type guard", async (
   } finally {
     console.error = originalConsoleError;
   }
+});
+
+test("firstImage returns the first embedded image with an absolute URL", () => {
+  const asset = (fields) => ({
+    nodeType: "embedded-asset-block",
+    data: { target: { fields } },
+    content: [],
+  });
+  const doc = {
+    nodeType: "document",
+    data: {},
+    content: [
+      { nodeType: "paragraph", data: {}, content: [] },
+      // A PDF has no image dimensions and can't be a social card.
+      asset({ title: "Deck", file: { url: "//assets.ctfassets.net/deck.pdf" } }),
+      asset({
+        title: "Medialyst homepage",
+        file: {
+          url: "//images.ctfassets.net/space/medialyst.jpg",
+          details: { image: { width: 800, height: 600 } },
+        },
+      }),
+    ],
+  };
+
+  assert.deepEqual(firstImage(doc), {
+    src: "https://images.ctfassets.net/space/medialyst.jpg",
+    width: 800,
+    height: 600,
+    alt: "Medialyst homepage",
+    description: undefined,
+  });
+  assert.equal(firstImage(body), undefined);
 });

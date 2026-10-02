@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Connection help | newsjack.sh",
+import { pageMetadata } from "../../lib/site";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Connection help",
   description:
     "Fixes for Chrome ERR_SSL_PROTOCOL_ERROR and other connection problems with newsjack.sh.",
-};
+  path: "/connection-help",
+});
 
 export default function ConnectionHelp() {
   return (

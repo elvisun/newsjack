@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { getAllPosts } from "../../lib/contentful";
+import { pageMetadata } from "../../lib/site";
 import { Footer } from "../components/footer";
 import { Nav } from "../components/nav";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Insights | newsjack.sh",
+export const metadata: Metadata = pageMetadata({
+  title: "Insights",
   description:
     "Ideas, guides, and dispatches on agentic PR from the newsjack team.",
-};
+  path: "/insights",
+});
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -48,7 +50,10 @@ export default async function InsightsPage() {
                   className="group grid gap-4 py-10 md:grid-cols-12 md:gap-8"
                   href={`/insights/${post.slug}`}
                 >
-                  <time className="nj-meta md:col-span-3 md:pt-2">
+                  <time
+                    className="nj-meta md:col-span-3 md:pt-2"
+                    dateTime={post.publishedAt}
+                  >
                     {formatDate(post.publishedAt)}
                   </time>
                   <div className="md:col-span-9">

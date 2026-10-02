@@ -1,10 +1,11 @@
 import {
   createClient,
   type ContentfulClientApi,
+  type Entry,
   type EntryFieldTypes,
   type EntrySkeletonType,
 } from "contentful";
-import type { Document } from "@contentful/rich-text-types";
+import { BLOCKS, type Document, type Node } from "@contentful/rich-text-types";
 
 export const NEWSJACK_BLOG_POST_CONTENT_TYPE = "newsjackBlogPost";
 
@@ -30,7 +31,16 @@ export interface BlogPost {
   excerpt: string;
   body: Document;
   publishedAt: string;
+  updatedAt: string;
   author: string;
+}
+
+export interface PostImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  description?: string;
 }
 
 type BlogPostSkeleton = EntrySkeletonType<
@@ -72,6 +82,18 @@ function onlyNewsjackBlogPosts<T extends EntryWithContentType>(
   });
 }
 
+function toBlogPost(item: Entry<BlogPostSkeleton, undefined>): BlogPost {
+  return {
+    title: item.fields.title,
+    slug: item.fields.slug,
+    excerpt: item.fields.excerpt,
+    body: item.fields.body,
+    publishedAt: item.fields.publishedAt,
+    updatedAt: item.sys.updatedAt,
+    author: item.fields.author,
+  };
+}
+
 export async function getAllPosts(): Promise<BlogPost[]> {
   const client = getClient();
   if (!client) return [];
@@ -81,14 +103,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     order: ["-fields.publishedAt"],
   });
 
-  return onlyNewsjackBlogPosts(entries.items).map((item) => ({
-    title: item.fields.title,
-    slug: item.fields.slug,
-    excerpt: item.fields.excerpt,
-    body: item.fields.body,
-    publishedAt: item.fields.publishedAt,
-    author: item.fields.author,
-  }));
+  return onlyNewsjackBlogPosts(entries.items).map(toBlogPost);
 }
 
 export async function getPostBySlug(
@@ -104,16 +119,7 @@ export async function getPostBySlug(
   });
 
   const item = onlyNewsjackBlogPosts(entries.items)[0];
-  if (!item) return undefined;
-
-  return {
-    title: item.fields.title,
-    slug: item.fields.slug,
-    excerpt: item.fields.excerpt,
-    body: item.fields.body,
-    publishedAt: item.fields.publishedAt,
-    author: item.fields.author,
-  };
+  return item && toBlogPost(item);
 }
 
 export async function getAllSlugs(): Promise<string[]> {
@@ -128,4 +134,41 @@ export async function getAllSlugs(): Promise<string[]> {
   });
 
   return onlyNewsjackBlogPosts(entries.items).map((item) => item.fields.slug);
+}
+
+type AssetFields = {
+  file?: {
+    url?: string;
+    details?: { image?: { width: number; height: number } };
+  };
+  title?: string;
+  description?: string;
+};
+
+// Image fields of an embedded-asset node. Non-image assets (PDFs) have no
+// dimensions and return undefined.
+export function embeddedImage(node: Node): PostImage | undefined {
+  const fields = (node.data?.target as { fields?: AssetFields } | undefined)
+    ?.fields;
+  const url = fields?.file?.url;
+  const image = fields?.file?.details?.image;
+  if (!url || !image) return undefined;
+
+  return {
+    src: url.startsWith("//") ? `https:${url}` : url,
+    width: image.width,
+    height: image.height,
+    alt: fields.title ?? "",
+    description: fields.description,
+  };
+}
+
+// First embedded image in a post, used as its social card and schema image.
+export function firstImage(body: Document): PostImage | undefined {
+  for (const node of body.content) {
+    if (node.nodeType !== BLOCKS.EMBEDDED_ASSET) continue;
+    const image = embeddedImage(node);
+    if (image) return image;
+  }
+  return undefined;
 }

@@ -5,8 +5,22 @@ import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, type Block, type Inline, type Node } from "@contentful/rich-text-types";
 
-import { getPostBySlug, getAllSlugs } from "../../../lib/contentful";
+import {
+  embeddedImage,
+  firstImage,
+  getAllSlugs,
+  getPostBySlug,
+  type BlogPost,
+} from "../../../lib/contentful";
+import {
+  OG_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+  absoluteUrl,
+  pageMetadata,
+} from "../../../lib/site";
 import { Footer } from "../../components/footer";
+import { JsonLd } from "../../components/json-ld";
 import { Nav } from "../../components/nav";
 
 export const revalidate = 60;
@@ -27,9 +41,46 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return {};
 
-  return {
-    title: `${post.title} | newsjack.sh`,
+  const image = firstImage(post.body);
+  return pageMetadata({
+    title: post.title,
     description: post.excerpt,
+    path: `/insights/${post.slug}`,
+    image: image
+      ? { url: image.src, width: image.width, height: image.height, alt: image.alt }
+      : OG_IMAGE,
+    article: {
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt,
+      authors: [post.author],
+    },
+  });
+}
+
+function postJsonLd(post: BlogPost) {
+  const url = absoluteUrl(`/insights/${post.slug}`);
+  // author is free text in Contentful: the team byline is the org itself.
+  const author = /newsjack/i.test(post.author)
+    ? { "@type": "Organization", name: post.author, url: SITE_URL }
+    : { "@type": "Person", name: post.author };
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt,
+    author,
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/newsjack-logo.png") },
+    },
+    image: absoluteUrl(firstImage(post.body)?.src ?? OG_IMAGE.url),
+    mainEntityOfPage: url,
+    url,
   };
 }
 
@@ -40,15 +91,6 @@ function formatDate(iso: string): string {
     day: "numeric",
   });
 }
-
-type EmbeddedAssetFields = {
-  file?: {
-    url?: string;
-    details?: { image?: { width: number; height: number } };
-  };
-  title?: string;
-  description?: string;
-};
 
 const richTextOptions = {
   renderNode: {
@@ -85,24 +127,22 @@ const richTextOptions = {
     ),
     [BLOCKS.HR]: () => <hr className="my-14 border-ink/10" />,
     [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
-      const fields = (node.data?.target as { fields?: EmbeddedAssetFields })?.fields;
-      const image = fields?.file?.details?.image;
       // next/image needs intrinsic dimensions; Contentful only sets them on images.
-      if (!fields?.file?.url || !image) return null;
-      const src = fields.file.url.startsWith("//") ? `https:${fields.file.url}` : fields.file.url;
+      const image = embeddedImage(node);
+      if (!image) return null;
       return (
         <figure className="mt-8">
           <Image
-            src={src}
-            alt={fields.title ?? ""}
+            src={image.src}
+            alt={image.alt}
             width={image.width}
             height={image.height}
             sizes="(min-width: 768px) 720px, 100vw"
             className="h-auto w-full rounded-lg border border-ink/10"
           />
-          {fields.description && (
+          {image.description && (
             <figcaption className="mt-2 text-center font-mono text-xs text-ink/40">
-              {fields.description}
+              {image.description}
             </figcaption>
           )}
         </figure>
@@ -135,6 +175,7 @@ export default async function PostPage({
 
   return (
     <>
+      <JsonLd data={postJsonLd(post)} />
       <Nav />
       <main className="mx-auto max-w-3xl px-6 pt-36 pb-32">
         <Link className="nj-link text-ink/60" href="/insights">
@@ -143,7 +184,9 @@ export default async function PostPage({
 
         <article className="mt-12">
           <header className="border-b border-ink/10 pb-10">
-            <time className="nj-eyebrow">{formatDate(post.publishedAt)}</time>
+            <time className="nj-eyebrow" dateTime={post.publishedAt}>
+              {formatDate(post.publishedAt)}
+            </time>
             <h1 className="mt-6 font-serif text-[clamp(2.5rem,6vw,4rem)] leading-[0.95] tracking-[-0.03em] italic">
               {post.title}
             </h1>

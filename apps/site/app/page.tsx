@@ -1,4 +1,5 @@
 import { ArrowUpRight, CircleCheck, Play } from "lucide-react";
+import type { Metadata } from "next";
 import Image from "next/image";
 
 import {
@@ -12,6 +13,13 @@ import {
   loadReleaseCount,
   loadRepoStats,
 } from "../lib/social-proof";
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  absoluteUrl,
+  pageMetadata,
+} from "../lib/site";
 import installData from "../lib/install-data.json";
 import skillsData from "../lib/skills-data.json";
 import { Clippings } from "./components/clippings";
@@ -20,6 +28,7 @@ import { MarkGlyph } from "./components/brand";
 import { Credits } from "./components/credits";
 import { Footer } from "./components/footer";
 import { InstallPanel } from "./components/install-panel";
+import { JsonLd } from "./components/json-ld";
 import { Nav } from "./components/nav";
 import { Reveal } from "./components/reveal";
 import { SectionHeading } from "./components/section-heading";
@@ -441,12 +450,43 @@ function ClosingCta({ stars }: { stars: number | null }) {
   );
 }
 
+export const metadata: Metadata = pageMetadata({
+  description: SITE_DESCRIPTION,
+  path: "/",
+});
+
+const HOME_JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: SITE_NAME,
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "newsjack",
+      url: SITE_URL,
+      description: SITE_DESCRIPTION,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "macOS, Linux, Windows",
+      installUrl: absoluteUrl("/install.sh"),
+      license: "https://opensource.org/licenses/MIT",
+      isAccessibleForFree: true,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      sameAs: [REPO_URL],
+    },
+  ],
+};
+
 export default async function Home() {
   const repo = await loadRepoStats();
   const stars = repo?.stars ?? null;
 
   return (
     <>
+      <JsonLd data={HOME_JSON_LD} />
       <Nav />
       <main>
         <Hero stars={stars} />
