@@ -1,6 +1,5 @@
 import { ArrowUpRight, CircleCheck, Play } from "lucide-react";
 import Image from "next/image";
-import type { CSSProperties } from "react";
 
 import {
   REPO_URL,
@@ -89,7 +88,7 @@ function Hero({ stars }: { stars: number | null }) {
   return (
     <section className="px-6 pt-32 pb-24 sm:pt-36" id="install">
       <div className="mx-auto grid max-w-7xl gap-x-16 gap-y-12 lg:grid-cols-12">
-        <div className="nj-px-hero min-w-0 lg:col-span-6 lg:row-start-1 lg:self-end">
+        <div className="min-w-0 lg:col-span-6 lg:row-start-1 lg:self-end">
           <span className="nj-eyebrow">
             Vol. 01 — Open-source skills for agentic PR
           </span>
@@ -248,7 +247,7 @@ async function Circulation({
                     ? "Installs + downloads, all time"
                     : `${channels[0].label}, all time`}
                 </p>
-                <p className="nj-px-number mt-3 font-serif text-[clamp(4rem,11vw,9rem)] leading-[0.9] tracking-[-0.03em] italic">
+                <p className="mt-3 font-serif text-[clamp(4rem,11vw,9rem)] leading-[0.9] tracking-[-0.03em] italic">
                   {formatFull(total)}
                 </p>
               </div>
@@ -437,12 +436,7 @@ function ClosingCta({ stars }: { stars: number | null }) {
           </a>
         </div>
       </div>
-      <div
-        className="nj-px-drift pointer-events-none absolute -right-16 -bottom-24 w-[560px]"
-        style={{ "--drift": 3 } as CSSProperties}
-      >
-        <MarkGlyph className="w-full text-page opacity-5" />
-      </div>
+      <MarkGlyph className="pointer-events-none absolute -right-16 -bottom-24 w-[560px] text-page opacity-5" />
     </section>
   );
 }

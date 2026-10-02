@@ -10,7 +10,7 @@ export function Standard({ number }: { number: string }) {
   return (
     <section
       aria-labelledby="standard"
-      className="overflow-x-clip border-b border-ink/10 bg-accent/5 px-6 py-32"
+      className="border-b border-ink/10 bg-accent/5 px-6 py-32"
     >
       <div className="mx-auto max-w-7xl">
         <SectionHeading id="standard" number={number} title="the standard" />
@@ -22,7 +22,7 @@ export function Standard({ number }: { number: string }) {
           rel="noreferrer"
           target="_blank"
         >
-          <span className="nj-px-wordmark block font-mono text-[clamp(3.5rem,15vw,12rem)] leading-none font-bold tracking-[-0.05em] transition-colors duration-300 group-hover:text-accent">
+          <span className="block font-mono text-[clamp(3.5rem,15vw,12rem)] leading-none font-bold tracking-[-0.05em] transition-colors duration-300 group-hover:text-accent">
             ETHICS
             <span className="text-ink/25 transition-colors duration-300 group-hover:text-accent/60">
               .md

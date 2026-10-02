@@ -8,7 +8,6 @@ import {
   UserRound,
 } from "lucide-react";
 import Image from "next/image";
-import type { CSSProperties } from "react";
 import {
   QuotedTweet,
   QuotedTweetBody,
@@ -350,10 +349,8 @@ export async function Clippings({ number }: { number: string }) {
         >
           {cards.map((card, index) => (
             <div
-              className="nj-px-drift mb-6 flex break-inside-avoid justify-center"
+              className="mb-6 flex break-inside-avoid justify-center"
               key={index}
-              // Three drift speeds so the wall moves in layers as you scroll.
-              style={{ "--drift": [0.5, 1, 0.75][index % 3] } as CSSProperties}
             >
               {card}
             </div>
