@@ -23,7 +23,10 @@ function useCopy(value: string) {
   return { copied, copy };
 }
 
-// Types the value out one character at a time, like a command being entered.
+// Types the whole value out in TYPE_MS, like a pasted command echoing into a
+// shell. Timed off animation frames, so speed doesn't depend on timer clamps.
+const TYPE_MS = 200;
+
 function useTypewriter(value: string, enabled: boolean) {
   const [length, setLength] = useState(enabled ? 0 : value.length);
 
@@ -32,21 +35,18 @@ function useTypewriter(value: string, enabled: boolean) {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const timer = setInterval(
-      () =>
-        setLength((current) => {
-          if (reduced || current >= value.length) {
-            clearInterval(timer);
-            return value.length;
-          }
-          return current + 1;
-        }),
-      reduced ? 0 : 18,
-    );
-    return () => clearInterval(timer);
+    let frame = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const progress = reduced ? 1 : Math.min(1, (now - start) / TYPE_MS);
+      setLength(Math.round(progress * value.length));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, [enabled, value]);
 
-  return value.slice(0, length);
+  return { typed: value.slice(0, length), done: length >= value.length };
 }
 
 export function CopyCommand({
@@ -65,7 +65,7 @@ export function CopyCommand({
   typewriter?: boolean;
 }) {
   const { copied, copy } = useCopy(value);
-  const typed = useTypewriter(value, typewriter);
+  const { typed, done } = useTypewriter(value, typewriter);
 
   return (
     <div
@@ -93,7 +93,7 @@ export function CopyCommand({
             <span aria-hidden="true">{typed}</span>
             <span
               aria-hidden="true"
-              className="nj-blink ml-0.5 inline-block h-[1.1em] w-2 translate-y-[0.15em] bg-accent"
+              className={`ml-0.5 inline-block h-[1.1em] w-2 translate-y-[0.15em] bg-accent ${done ? "nj-blink" : ""}`}
             />
           </span>
         ) : (
@@ -136,6 +136,28 @@ export function CopyChip({ value }: { value: string }) {
       ) : (
         <Copy aria-hidden="true" className="shrink-0 text-ink/40" size={12} />
       )}
+    </button>
+  );
+}
+
+// Inline command that copies on click, e.g. the terminal fallback line.
+export function InlineCopy({ value }: { value: string }) {
+  const { copied, copy } = useCopy(value);
+
+  return (
+    <button
+      aria-label={copied ? `Copied ${value}` : `Copy ${value}`}
+      className="inline-flex cursor-pointer items-center gap-1.5 font-mono text-page/70 transition-colors hover:text-page"
+      onClick={copy}
+      type="button"
+    >
+      <code>{value}</code>
+      {copied ? (
+        <Check aria-hidden="true" className="text-accent" size={12} />
+      ) : (
+        <Copy aria-hidden="true" size={12} />
+      )}
+      {copied && <span className="text-accent">Copied</span>}
     </button>
   );
 }

@@ -147,6 +147,20 @@ export const CLIPPINGS: Clipping[] = [
   { linkedin: "futureReady" },
 ];
 
+// English translations for non-English X posts, shown behind a "Show
+// translation" toggle. Static text; no runtime translation service.
+export const TRANSLATIONS: Record<string, { language: string; text: string }> =
+  {
+    "2101117097728471219": {
+      language: "Japanese",
+      text: "A bigger shock than when Claude Code or Astra first came out.\n\nIt really shows how insane Jev is.",
+    },
+    "2064528420009320683": {
+      language: "Chinese",
+      text: "What's really interesting isn't that \"agents can write PR copy.\"\n\nIt's that marketing is turning into a loop you can run: watch the news and market signals, generate angles, match journalists and channels, and record which narratives actually earned exposure.\n\nThat reprices a small team's growth ability, from inspiration and connections, into systematized distribution memory.",
+    },
+  };
+
 export async function loadTweet(id: string): Promise<Tweet | null> {
   try {
     return (await getTweet(id, { next: { revalidate: 3600 } })) ?? null;

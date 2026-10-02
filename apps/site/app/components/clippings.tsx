@@ -28,6 +28,7 @@ import type { Tweet } from "react-tweet/api";
 import {
   CLIPPINGS,
   LINKEDIN_POSTS,
+  TRANSLATIONS,
   YOUTUBE_VIDEOS,
   linkPreview,
   loadTweet,
@@ -35,6 +36,7 @@ import {
   type LinkedInPost,
 } from "../../lib/clippings";
 import { SectionHeading } from "./section-heading";
+import { Translatable } from "./translatable";
 import { YouTubeCard } from "./youtube";
 
 // X's summary card: rounded image with the title overlaid, domain below.
@@ -101,7 +103,15 @@ function XCard({
       {enriched.in_reply_to_status_id_str && (
         <TweetInReplyTo tweet={enriched} />
       )}
-      <TweetBody tweet={enriched} />
+      {TRANSLATIONS[tweet.id_str] ? (
+        <Translatable
+          language={TRANSLATIONS[tweet.id_str].language}
+          original={<TweetBody tweet={enriched} />}
+          translation={TRANSLATIONS[tweet.id_str].text}
+        />
+      ) : (
+        <TweetBody tweet={enriched} />
+      )}
       {enriched.mediaDetails?.length ? <TweetMedia tweet={enriched} /> : null}
       {preview && <XLinkCard preview={preview} />}
       {enriched.quoted_tweet &&

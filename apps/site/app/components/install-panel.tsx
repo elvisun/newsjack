@@ -25,9 +25,11 @@ type InstallOption = {
 export function InstallPanel({
   terminal,
   aiPrompt,
+  skillCount,
 }: {
   terminal: string;
   aiPrompt: string;
+  skillCount: number;
 }) {
   const options: InstallOption[] = [
     {
@@ -46,7 +48,7 @@ export function InstallPanel({
       icon: SquareTerminal,
       kicker: "Run this in your terminal",
       value: terminal,
-      prompt: "$",
+      prompt: "❯",
       copyLabel: "install command",
       note: (
         <>
@@ -146,6 +148,39 @@ export function InstallPanel({
             wrap={active.id === "ai"}
           />
         </div>
+        {active.id === "terminal" && (
+          <div
+            aria-hidden="true"
+            className="mt-3 space-y-1 px-1 font-mono text-[12px] leading-relaxed"
+          >
+            {[
+              {
+                mark: "›",
+                tone: "text-page/50",
+                text: "fetching the latest newsjack release",
+              },
+              {
+                mark: "✓",
+                tone: "text-success",
+                text: "installed CLI to ~/.newsjack/bin/newsjack",
+              },
+              {
+                mark: "✓",
+                tone: "text-success",
+                text: `${skillCount} skills ready for your agents`,
+              },
+            ].map((line, index) => (
+              <p
+                className="nj-line-in flex gap-2 text-page/70"
+                key={line.text}
+                style={{ animationDelay: `${260 + index * 140}ms` }}
+              >
+                <span className={line.tone}>{line.mark}</span>
+                {line.text}
+              </p>
+            ))}
+          </div>
+        )}
         <p className="mt-5 text-[13px] leading-relaxed text-page/60">
           {active.note}
         </p>

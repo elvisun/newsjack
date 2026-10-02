@@ -1,4 +1,4 @@
-import { CircleCheck } from "lucide-react";
+import { ArrowUpRight, CircleCheck, Play } from "lucide-react";
 import Image from "next/image";
 
 import {
@@ -15,7 +15,7 @@ import {
 import installData from "../lib/install-data.json";
 import skillsData from "../lib/skills-data.json";
 import { Clippings } from "./components/clippings";
-import { CopyCommand } from "./components/copy-command";
+import { CopyCommand, InlineCopy } from "./components/copy-command";
 import { MarkGlyph } from "./components/brand";
 import { Credits } from "./components/credits";
 import { Footer } from "./components/footer";
@@ -26,7 +26,6 @@ import { SectionHeading } from "./components/section-heading";
 import { SkillCard, type Skill } from "./components/skill-card";
 import { Standard } from "./components/standard";
 import { StarButton } from "./components/star-button";
-import { WalkthroughVideo } from "./components/youtube";
 
 const skills = skillsData as Skill[];
 
@@ -49,7 +48,7 @@ const WORKS_WITH = [
   { name: "Codex", logo: "/logos/openai.svg" },
   { name: "Cursor", logo: "/logos/cursor.svg" },
   { name: "OpenClaw", logo: "/logos/openclaw.svg" },
-  { name: "Hermes", logo: "/logos/hermes.png" },
+  { name: "Hermes", logo: "/logos/hermes-agent.png" },
 ];
 
 const TRUST = [
@@ -77,11 +76,7 @@ const SECTION_ORDER = [
   "circulation",
 ] as const;
 
-const WALKTHROUGH = {
-  id: "1tg6E6ZYGCk",
-  title: "Newsjack.sh Install Full Walkthrough",
-  duration: 1607,
-};
+const WALKTHROUGH_URL = "https://www.youtube.com/watch?v=1tg6E6ZYGCk";
 
 function avatarSrc(url: string): string {
   const src = new URL(url);
@@ -120,10 +115,20 @@ function Hero({ stars }: { stars: number | null }) {
           <div className="nj-rise">
             <InstallPanel
               aiPrompt={installData.aiPrompt}
+              skillCount={skills.length}
               terminal={installData.terminal}
             />
           </div>
-          <WalkthroughVideo {...WALKTHROUGH} />
+          <a
+            className="nj-link mt-5 text-ink/50"
+            href={WALKTHROUGH_URL}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <Play aria-hidden="true" size={12} />
+            Prefer video? Watch the install walkthrough · 26:47
+            <ArrowUpRight aria-hidden="true" size={12} />
+          </a>
         </div>
 
         <div className="flex min-w-0 flex-wrap items-center gap-x-8 gap-y-6 lg:col-span-6 lg:row-start-2 lg:self-start">
@@ -353,7 +358,9 @@ function SkillCatalog({ number }: { number: string }) {
             <div key={lane.id}>
               <div className="mb-6 flex flex-wrap items-baseline justify-between gap-4 border-b border-ink/10 pb-4">
                 <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
-                  <span className="nj-eyebrow">{lane.id}</span>
+                  <span className="nj-eyebrow text-[13px] font-bold tracking-[0.22em]">
+                    {lane.id}
+                  </span>
                   <h3 className="font-serif text-[clamp(1.5rem,3vw,2rem)] leading-tight lowercase italic">
                     {lane.tagline}
                   </h3>
@@ -396,8 +403,7 @@ function ClosingCta({ stars }: { stars: number | null }) {
             wrap
           />
           <p className="mt-4 text-center font-mono text-xs text-page/40">
-            Prefer the terminal?{" "}
-            <code className="text-page/70">{installData.terminal}</code>
+            Prefer the terminal? <InlineCopy value={installData.terminal} />
           </p>
         </div>
         <div className="mt-8 flex justify-center">

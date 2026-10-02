@@ -1,6 +1,5 @@
 "use client";
 
-import { Play } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -28,39 +27,6 @@ function Player({
 function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   return `${minutes}:${String(seconds % 60).padStart(2, "0")}`;
-}
-
-// The install walkthrough under the install panel: a quiet secondary link,
-// since asking your AI is the easier path. Expands into the player on click.
-export function WalkthroughVideo({
-  id,
-  title,
-  duration,
-}: {
-  id: string;
-  title: string;
-  duration: number;
-}) {
-  const [playing, setPlaying] = useState(false);
-
-  if (playing) {
-    return (
-      <div className="mt-5 overflow-hidden bg-ink shadow-editorial">
-        <Player id={id} start={0} title={title} />
-      </div>
-    );
-  }
-
-  return (
-    <button
-      className="nj-link mt-5 cursor-pointer text-ink/50"
-      onClick={() => setPlaying(true)}
-      type="button"
-    >
-      <Play aria-hidden="true" size={12} />
-      Prefer video? Watch the install walkthrough · {formatTime(duration)}
-    </button>
-  );
 }
 
 // A YouTube video embed for "the clippings", drawn to match YouTube's card.

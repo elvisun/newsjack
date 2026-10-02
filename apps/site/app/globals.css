@@ -153,6 +153,10 @@
     animation: nj-shimmer 2.4s linear infinite;
   }
 
+  .nj-line-in {
+    animation: nj-line-in 160ms ease-out both;
+  }
+
   .nj-ping {
     animation: nj-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
@@ -176,6 +180,7 @@
     .nj-rise,
     .nj-blink,
     .nj-shimmer,
+    .nj-line-in,
     .nj-ping {
       animation: none;
     }
@@ -205,6 +210,17 @@
   }
   to {
     background-position: 0 0;
+  }
+}
+
+@keyframes nj-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
