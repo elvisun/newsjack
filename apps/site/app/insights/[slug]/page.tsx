@@ -127,7 +127,6 @@ const richTextOptions = {
     ),
     [BLOCKS.HR]: () => <hr className="my-14 border-ink/10" />,
     [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
-      // next/image needs intrinsic dimensions; Contentful only sets them on images.
       const image = embeddedImage(node);
       if (!image) return null;
       return (
