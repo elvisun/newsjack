@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, INLINES, type Block, type Inline, type Node } from "@contentful/rich-text-types";
+import {
+  BLOCKS,
+  INLINES,
+  type Block,
+  type Inline,
+  type Node,
+} from "@contentful/rich-text-types";
 
 import {
   embeddedImage,
@@ -22,6 +27,7 @@ import {
 import { Footer } from "../../components/footer";
 import { JsonLd } from "../../components/json-ld";
 import { Nav } from "../../components/nav";
+import { renderPostImage } from "./post-image";
 
 export const revalidate = 60;
 
@@ -47,7 +53,12 @@ export async function generateMetadata({
     description: post.excerpt,
     path: `/insights/${post.slug}`,
     image: image
-      ? { url: image.src, width: image.width, height: image.height, alt: image.alt }
+      ? {
+          url: absoluteUrl(image.src),
+          width: image.width,
+          height: image.height,
+          alt: image.alt,
+        }
       : OG_IMAGE,
     article: {
       publishedTime: post.publishedAt,
@@ -126,27 +137,8 @@ const richTextOptions = {
       </blockquote>
     ),
     [BLOCKS.HR]: () => <hr className="my-14 border-ink/10" />,
-    [BLOCKS.EMBEDDED_ASSET]: (node: Node) => {
-      const image = embeddedImage(node);
-      if (!image) return null;
-      return (
-        <figure className="mt-8">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            sizes="(min-width: 768px) 720px, 100vw"
-            className="h-auto w-full rounded-lg border border-ink/10"
-          />
-          {image.description && (
-            <figcaption className="mt-2 text-center font-mono text-xs text-ink/40">
-              {image.description}
-            </figcaption>
-          )}
-        </figure>
-      );
-    },
+    [BLOCKS.EMBEDDED_ASSET]: (node: Node) =>
+      renderPostImage(embeddedImage(node)),
     [INLINES.HYPERLINK]: (
       node: Block | Inline,
       children: React.ReactNode,

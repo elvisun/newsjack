@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { mock, test } from "node:test";
 
 const responses = [];
@@ -36,17 +38,27 @@ mock.module("contentful", {
     },
   },
 });
+mock.module("next/image.js", {
+  defaultExport({ unoptimized, ...props }) {
+    assert.equal(unoptimized, true);
+    return createElement("img", props);
+  },
+});
 
 process.env.CONTENTFUL_SPACE_ID = "test-space";
 process.env.CONTENTFUL_ACCESS_TOKEN = "test-token";
 
 const {
   NEWSJACK_BLOG_POST_CONTENT_TYPE,
+  embeddedImage,
   firstImage,
   getAllPosts,
   getAllSlugs,
   getPostBySlug,
 } = await import("../lib/contentful.ts");
+const { renderPostImage } = await import(
+  "../app/insights/[slug]/post-image.ts"
+);
 
 const body = { nodeType: "document", data: {}, content: [] };
 
@@ -121,7 +133,7 @@ test("getAllSlugs keeps blog post slugs through the content-type guard", async (
   }
 });
 
-test("firstImage returns the first embedded image with an absolute URL", () => {
+test("embedded images use the local proxy in data and rendered post HTML", () => {
   const asset = (fields) => ({
     nodeType: "embedded-asset-block",
     data: { target: { fields } },
@@ -136,20 +148,35 @@ test("firstImage returns the first embedded image with an absolute URL", () => {
       asset({ title: "Deck", file: { url: "//assets.ctfassets.net/deck.pdf" } }),
       asset({
         title: "Medialyst homepage",
+        description: "Product screenshot",
         file: {
-          url: "//images.ctfassets.net/space/medialyst.jpg",
+          url: `//images.ctfassets.net/${process.env.CONTENTFUL_SPACE_ID}/asset-id/token/medialyst.jpg`,
           details: { image: { width: 800, height: 600 } },
         },
       }),
     ],
   };
 
-  assert.deepEqual(firstImage(doc), {
-    src: "https://images.ctfassets.net/space/medialyst.jpg",
+  const image = embeddedImage(doc.content[2]);
+  assert.deepEqual(image, {
+    src: "/insights/media/asset-id/token/medialyst.jpg",
     width: 800,
     height: 600,
     alt: "Medialyst homepage",
-    description: undefined,
+    description: "Product screenshot",
   });
+  assert.deepEqual(firstImage(doc), image);
+
+  const html = renderToStaticMarkup(
+    createElement("article", null, renderPostImage(image)),
+  );
+  for (const leakedValue of [
+    "ctfassets",
+    process.env.CONTENTFUL_SPACE_ID,
+  ]) {
+    assert.doesNotMatch(image.src, new RegExp(leakedValue, "i"));
+    assert.doesNotMatch(html, new RegExp(leakedValue, "i"));
+  }
+  assert.match(html, /\/insights\/media\/asset-id\/token\/medialyst\.jpg/);
   assert.equal(firstImage(body), undefined);
 });

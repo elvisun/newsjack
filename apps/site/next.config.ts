@@ -3,9 +3,16 @@ import type { NextConfig } from "next";
 import { HSTS_HEADER_NAME, HSTS_HEADER_VALUE } from "./lib/security-headers";
 
 const nextConfig: NextConfig = {
-  images: {
-    // Images embedded in Contentful-backed /insights posts.
-    remotePatterns: [{ protocol: "https", hostname: "images.ctfassets.net" }],
+  async rewrites() {
+    const spaceId = process.env.CONTENTFUL_SPACE_ID;
+    if (!spaceId) return [];
+
+    return [
+      {
+        source: "/insights/media/:assetId/:token/:filename",
+        destination: `https://images.ctfassets.net/${encodeURIComponent(spaceId)}/:assetId/:token/:filename`,
+      },
+    ];
   },
   async headers() {
     return [
