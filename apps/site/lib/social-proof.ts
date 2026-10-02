@@ -1,5 +1,10 @@
+import { unstable_cache } from "next/cache";
+
+import { countInstalls } from "./install-telemetry";
+
 // Live public numbers for the landing page. Every loader returns null (or an
-// empty list) on failure so a GitHub or npm outage never breaks a render.
+// empty list) on failure so a GitHub, npm, or database outage never breaks a
+// render.
 
 export const REPO = "elvisun/newsjack";
 export const REPO_URL = `https://github.com/${REPO}`;
@@ -31,7 +36,10 @@ function githubHeaders(): HeadersInit {
   return headers;
 }
 
-async function getJson<T>(url: string, headers?: HeadersInit): Promise<T | null> {
+async function getJson<T>(
+  url: string,
+  headers?: HeadersInit,
+): Promise<T | null> {
   try {
     const response = await fetch(url, {
       headers,
@@ -93,6 +101,28 @@ export async function loadAllForkers(): Promise<Forker[]> {
   return forkers;
 }
 
+// Cached for an hour across all requests, so page traffic never reaches the
+// analytics database directly.
+// Only real numbers are cached: a missing database or failed query throws, and
+// unstable_cache never stores a thrown result, so the next render retries.
+const cachedInstallCount = unstable_cache(
+  async (): Promise<number> => {
+    const installs = await countInstalls();
+    if (installs === null) throw new Error("install count unavailable");
+    return installs;
+  },
+  ["install-count"],
+  { revalidate: 3600 },
+);
+
+export async function loadInstallCount(): Promise<number | null> {
+  try {
+    return await cachedInstallCount();
+  } catch {
+    return null;
+  }
+}
+
 export async function loadReleaseCount(): Promise<number | null> {
   const releases = await getJson<unknown[]>(
     `${GITHUB_API}/releases?per_page=100`,
@@ -101,11 +131,32 @@ export async function loadReleaseCount(): Promise<number | null> {
   return Array.isArray(releases) ? releases.length : null;
 }
 
-export async function loadNpmMonthlyDownloads(): Promise<number | null> {
-  const json = await getJson<{ downloads?: number }>(
-    `https://api.npmjs.org/downloads/point/last-month/${NPM_PACKAGE}`,
-  );
-  return typeof json?.downloads === "number" ? json.downloads : null;
+// First publish of the newsjack package on npm. Only the main package is
+// counted: its per-platform binaries install alongside it and would double up.
+export const NPM_FIRST_PUBLISHED = "2026-06-08";
+
+// All-time npm downloads, summed from the range endpoint in windows of at most
+// 18 months (the API's limit). Includes updates, CI and mirrors.
+export async function loadNpmTotalDownloads(): Promise<number | null> {
+  const day = (date: Date) => date.toISOString().slice(0, 10);
+  const windowMs = 540 * 86_400_000;
+  const today = new Date();
+  let total = 0;
+
+  for (
+    let from = new Date(NPM_FIRST_PUBLISHED);
+    from <= today;
+    from = new Date(from.getTime() + windowMs + 86_400_000)
+  ) {
+    const to = new Date(Math.min(today.getTime(), from.getTime() + windowMs));
+    const json = await getJson<{ downloads?: { downloads: number }[] }>(
+      `https://api.npmjs.org/downloads/range/${day(from)}:${day(to)}/${NPM_PACKAGE}`,
+    );
+    if (!json?.downloads) return null;
+    total += json.downloads.reduce((sum, entry) => sum + entry.downloads, 0);
+  }
+
+  return total;
 }
 
 export function formatCompact(count: number): string {

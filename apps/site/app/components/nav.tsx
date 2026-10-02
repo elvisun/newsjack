@@ -21,9 +21,6 @@ export async function Nav() {
           <Link className="nj-link hidden sm:inline-flex" href="/insights">
             Insights
           </Link>
-          <Link className="nj-link hidden sm:inline-flex" href="/about">
-            About
-          </Link>
           <StarButton stars={stars} variant="nav" />
         </div>
       </div>

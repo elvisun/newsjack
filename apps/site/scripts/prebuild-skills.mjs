@@ -3,14 +3,16 @@ import { join, resolve } from "node:path";
 
 // Everything the site shows about a skill comes from the skill itself:
 // frontmatter for name, description, when_to_use, and metadata.category,
-// and the SKILL.md H1 for the display title. No site-only copy.
+// and the SKILL.md H1 for the display title. The two install snippets come
+// from the repo README. No site-only copy.
 
 const siteRoot = resolve(import.meta.dirname, "..");
 const repoRoot = resolve(siteRoot, "../..");
 const skillsDir = join(repoRoot, "skills");
 const outFile = join(siteRoot, "lib", "skills-data.json");
+const installOutFile = join(siteRoot, "lib", "install-data.json");
 
-const CATEGORY_ORDER = ["Detect", "Act", "Strategize"];
+const CATEGORY_ORDER = ["Detect", "Act", "Strategize", "AI visibility"];
 
 function unquote(value) {
   return value.trim().replace(/^"(.*)"$/, "$1");
@@ -82,3 +84,16 @@ entries.sort(
 
 writeFileSync(outFile, JSON.stringify(entries, null, 2));
 console.log(`Wrote ${entries.length} skills to lib/skills-data.json`);
+
+// README: the first ```bash block is the terminal install, and the ```text
+// block after "Copy this prompt to any AI" is the prompt for non-terminal users.
+const readme = readFileSync(join(repoRoot, "README.md"), "utf-8");
+const terminal = readme.match(/```bash\n(.+?)\n```/)?.[1]?.trim();
+const aiPrompt = readme
+  .match(/Copy this prompt to any AI:?\*?\*?\s*```text\n([\s\S]+?)\n```/)?.[1]
+  ?.trim();
+if (!terminal || !aiPrompt) {
+  throw new Error("prebuild-skills: could not find the install command and AI prompt in README.md");
+}
+writeFileSync(installOutFile, JSON.stringify({ terminal, aiPrompt }, null, 2));
+console.log("Wrote install snippets to lib/install-data.json");

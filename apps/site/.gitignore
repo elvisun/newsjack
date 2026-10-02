@@ -37,6 +37,7 @@ yarn-error.log*
 
 # generated at build time
 lib/skills-data.json
+lib/install-data.json
 
 # typescript
 *.tsbuildinfo

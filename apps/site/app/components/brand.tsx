@@ -15,20 +15,25 @@ export function GitHubMark({ size = 14 }: { size?: number }) {
   );
 }
 
-// The mark: an italic Newsreader "n" with a vermilion cursor block. The
-// news, mid-sentence, being written by your agent. Outlined so it renders
-// without webfonts (same artwork as app/icon.svg).
-const MARK_N_PATH =
-  "M68 606 57 612Q126 777 189 872Q252 966 318 1006Q384 1045 462 1045Q492 1045 515 1043Q538 1040 559 1035Q580 1030 604 1022L466 582H453Q540 731 608 822Q677 914 734 963Q791 1011 843 1029Q895 1046 948 1046Q1047 1046 1089 1002Q1131 957 1131 893Q1131 857 1120 813Q1109 769 1069 674L831 88L784 127Q819 121 869 135Q920 148 990 195Q1059 242 1151 335L1161 327Q1072 202 992 125Q913 48 844 13Q775 -22 716 -22Q642 -22 615 9Q588 40 614 104L843 659Q874 733 885 764Q896 794 896 812Q896 843 875 858Q854 874 812 874Q757 874 701 838Q645 801 595 744Q545 687 508 627Q471 568 454 522L278 0H60L342 838Q349 858 346 873Q342 888 324 888Q302 888 267 865Q231 843 182 783Q133 722 68 606Z";
+// The newsjack.sh mark: "N" plus a vermilion cursor underscore, redrawn on a
+// 100-unit grid from the brand logo (same artwork as app/icon.svg).
+function MarkShapes({ letter, cursor }: { letter: string; cursor: string }) {
+  return (
+    <>
+      <path
+        d="M25 36h5v31h-5zM41 36h5v31h-5zM25 36h8l13 31h-8z"
+        fill={letter}
+      />
+      <rect fill={cursor} height="5" width="22" x="53" y="71" />
+    </>
+  );
+}
 
 export function LogoMark({ size = 28 }: { size?: number }) {
   return (
-    <svg aria-hidden="true" height={size} viewBox="0 0 64 64" width={size}>
-      <rect fill="#1A1A1A" height="64" width="64" />
-      <g transform="translate(8.18 48.29) scale(0.03182 -0.03182)">
-        <path d={MARK_N_PATH} fill="#F9F8F6" />
-        <rect fill="#E05A47" height="852" width="190" x="1250" />
-      </g>
+    <svg aria-hidden="true" height={size} viewBox="0 0 100 100" width={size}>
+      <rect fill="#1A1A1A" height="100" width="100" />
+      <MarkShapes cursor="#E05A47" letter="#F9F8F6" />
     </svg>
   );
 }
@@ -36,11 +41,8 @@ export function LogoMark({ size = 28 }: { size?: number }) {
 // The mark without its tile, for oversized decorative fills.
 export function MarkGlyph({ className }: { className?: string }) {
   return (
-    <svg aria-hidden="true" className={className} viewBox="6 12 52 40">
-      <g transform="translate(8.18 48.29) scale(0.03182 -0.03182)">
-        <path d={MARK_N_PATH} fill="currentColor" />
-        <rect fill="currentColor" height="852" width="190" x="1250" />
-      </g>
+    <svg aria-hidden="true" className={className} viewBox="22 33 56 46">
+      <MarkShapes cursor="currentColor" letter="currentColor" />
     </svg>
   );
 }
@@ -53,13 +55,11 @@ export function Wordmark({ small = false }: { small?: boolean }) {
       href="/"
     >
       <LogoMark size={small ? 24 : 28} />
-      <span className="flex items-baseline">
-        <span
-          className={`font-serif font-medium tracking-[-0.02em] italic ${small ? "text-[22px]" : "text-[26px]"} leading-none`}
-        >
-          newsjack
-        </span>
-        <span className="ml-0.5 font-mono text-[13px] leading-none text-ink/40 transition-colors group-hover:text-accent">
+      <span
+        className={`font-mono font-bold tracking-[-0.02em] ${small ? "text-sm" : "text-lg"}`}
+      >
+        newsjack
+        <span className="opacity-40 transition-opacity group-hover:opacity-70">
           .sh
         </span>
       </span>

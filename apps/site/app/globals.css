@@ -136,17 +136,25 @@
     animation: nj-rise 800ms 400ms var(--ease-editorial) both;
   }
 
-  .nj-stamp {
-    transform: rotate(-6deg);
-    animation: nj-stamp 450ms var(--ease-editorial) both;
-  }
-
-  .nj-fill {
-    animation: nj-fill linear both;
-  }
-
   .nj-blink {
-    animation: nj-blink 0.8s infinite;
+    animation: nj-blink 1s steps(1) infinite;
+  }
+
+  .nj-shimmer {
+    background: linear-gradient(
+        100deg,
+        rgba(249, 248, 246, 0.75) 40%,
+        var(--color-accent) 50%,
+        rgba(249, 248, 246, 0.75) 60%
+      )
+      0 0 / 300% 100%;
+    background-clip: text;
+    color: transparent;
+    animation: nj-shimmer 2.4s linear infinite;
+  }
+
+  .nj-ping {
+    animation: nj-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
 
   /* Scroll reveal. Gated on .js so content stays visible without JavaScript. */
@@ -166,14 +174,10 @@
   @media (prefers-reduced-motion: reduce) {
     .nj-word,
     .nj-rise,
-    .nj-stamp,
-    .nj-blink {
+    .nj-blink,
+    .nj-shimmer,
+    .nj-ping {
       animation: none;
-    }
-
-    .nj-fill {
-      animation: none;
-      width: 100%;
     }
 
     .js .nj-reveal {
@@ -195,6 +199,29 @@
   }
 }
 
+@keyframes nj-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@keyframes nj-ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes nj-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 @keyframes nj-rise {
   from {
     opacity: 0;
@@ -206,32 +233,7 @@
   }
 }
 
-@keyframes nj-stamp {
-  from {
-    opacity: 0;
-    transform: scale(1.6) rotate(-6deg);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotate(-6deg);
-  }
-}
-
-@keyframes nj-fill {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes nj-blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
+/* react-tweet ships unlayered CSS, so this override stays unlayered too. */
+.nj-clippings .react-tweet-theme {
+  --tweet-container-margin: 0;
 }
