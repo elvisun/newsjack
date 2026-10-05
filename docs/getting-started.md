@@ -110,7 +110,7 @@ complaint.
 
 | Dependency | Unlocks | Without it | Cost |
 | --- | --- | --- | --- |
-| **Medialyst login** | live news search plus progressively enriched media-list research for a campaign | news search falls back to host web/browser search; journalist lists become best-effort local artifacts with no guessed contacts | 300 free credits on signup; media-list research uses normal Medialyst credits after explicit approval — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
+| **Medialyst login** | live news search plus progressively enriched media-list research for a campaign | news search falls back to host web/browser search; journalist lists become best-effort local artifacts with no guessed contacts | 100 free credits on the free tier; media-list research uses normal Medialyst credits after explicit approval — [medialyst.ai/agents#pricing](https://medialyst.ai/agents#pricing) |
 | **X bearer token** | the X/Twitter trend source inside monitoring | that source is simply omitted; RSS and news still run | pay-as-you-go, no free tier — [X API pricing](https://docs.x.com/x-api) |
 | **Slack incoming webhook** | optional delivery of finished saved-monitor reports to a chosen channel | reports stay in the agent chat and local run folder | no Newsjack or Medialyst credits; Slack plan rules apply — [Slack webhook guide](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/) |
 

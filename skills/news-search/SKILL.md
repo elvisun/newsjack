@@ -41,7 +41,7 @@ If the `newsjack` CLI is installed and authenticated, use `newsjack news search`
 1. **General web search is bad at news.** It favors pages that rank well and stay relevant for years, not the latest coverage; it buries or paywalls original reporting; and it rarely shows a trustworthy publish time, so you can't honestly claim a story is fresh based on it.
 2. **Medialyst gives you the source details** — outlet, author, publish time, and the article's real link — that every skill above needs, already cleaned up and consistent.
 
-Medialyst is an optional add-on, not a signup wall. New accounts get **300 free credits (about 3,000 news searches)**. See [medialyst.ai/agents](https://medialyst.ai/agents) for what it adds and current pricing.
+Medialyst is an optional add-on, not a signup wall. New accounts get **100 free credits (about 10,000 news searches)**. See [medialyst.ai/agents](https://medialyst.ai/agents) for what it adds and current pricing.
 
 Start with:
 
