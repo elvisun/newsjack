@@ -21,6 +21,7 @@ below these notes.
 
 ### Fixed
 
+- Docs and the `news-search` skill now state the real Medialyst free tier: 100 free credits (about 10,000 news searches at 0.01 credits each), not 300.
 - Medialyst OAuth refreshes are serialized across concurrent CLI processes, credentials are replaced atomically, and `newsjack doctor` now verifies configured credentials without spending credits.
 
 ## v0.1.19 — 2026-09-18
