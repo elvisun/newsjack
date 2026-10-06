@@ -25,6 +25,15 @@ const NEWSJACK_PROMO = {
 };
 
 export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
+  ryan: {
+    url: "https://www.linkedin.com/posts/ryanmccormick131_pr-publicrelations-activity-7513258675474579456-6t3S",
+    author: "Ryan McCormick",
+    authorUrl: "https://www.linkedin.com/in/ryanmccormick131",
+    kind: "person",
+    avatar: "/clippings/ryan.jpg",
+    publishedAt: "2026-10-06",
+    text: "I think Elvis Sun is a genius. Highly recommend following him and checking out his new site. #PR #PublicRelations",
+  },
   julie: {
     url: "https://www.linkedin.com/posts/juliekonners_gamechanger-one-thing-ive-said-for-a-while-activity-7475585174450352128-_jfV",
     author: "Julie Konners Handler",
@@ -128,6 +137,7 @@ export const YOUTUBE_VIDEOS: Record<
 };
 
 export const CLIPPINGS: Clipping[] = [
+  { linkedin: "ryan" },
   { x: "2064360727184384476" }, // Connor Showler, quoting the launch post
   { linkedin: "victoria" },
   { youtube: "nextNewThing" },
