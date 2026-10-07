@@ -137,7 +137,6 @@ export const YOUTUBE_VIDEOS: Record<
 };
 
 export const CLIPPINGS: Clipping[] = [
-  { linkedin: "ryan" },
   { x: "2064360727184384476" }, // Connor Showler, quoting the launch post
   { linkedin: "victoria" },
   { youtube: "nextNewThing" },
@@ -147,6 +146,7 @@ export const CLIPPINGS: Clipping[] = [
   { x: "2064428394390175881" }, // Bei Zhang
   { linkedin: "digitalpr" },
   { x: "2064528420009320683" }, // Xghost (Chinese)
+  { linkedin: "ryan" },
   { x: "2065434256869065128" }, // Elvis: headline-generator
   { linkedin: "michelle" },
   { x: "2101117097728471219" }, // Fukku (Japanese)
