@@ -96,7 +96,7 @@ func isNewsSearchSyndicationPublication(metadata, item map[string]any) bool {
 func collectFeed(urlOrPath string, limit int) ([]map[string]any, string) {
 	var text string
 	if regexp.MustCompile(`(?i)^https?://`).MatchString(urlOrPath) {
-		resp, err := httpGetRaw(urlOrPath, map[string]string{"Accept": "application/rss+xml, application/atom+xml, text/xml, */*"}, 20*time.Second)
+		resp, err := httpGetRawExternal(urlOrPath, map[string]string{"Accept": "application/rss+xml, application/atom+xml, text/xml, */*"}, 20*time.Second)
 		if err != nil {
 			return nil, fmt.Sprintf("%T: %v", err, err)
 		}
@@ -513,7 +513,10 @@ func mapHackerNews(item map[string]any) map[string]any {
 
 func apiGet(path, bearer string) map[string]any {
 	base := strings.TrimRight(getenv("NEWSJACK_X_API_BASE", "https://api.x.com"), "/")
-	req, _ := http.NewRequest("GET", base+path, nil)
+	req, err := http.NewRequest("GET", base+path, nil)
+	if err != nil {
+		return map[string]any{"error": fmt.Sprintf("%T: %v", err, err)}
+	}
 	req.Header.Set("Authorization", "Bearer "+bearer)
 	req.Header.Set("Accept", "application/json")
 	client := &http.Client{Timeout: 30 * time.Second}
@@ -522,7 +525,10 @@ func apiGet(path, bearer string) map[string]any {
 		return map[string]any{"error": fmt.Sprintf("%T: %v", err, err)}
 	}
 	defer resp.Body.Close()
-	data, _ := io.ReadAll(resp.Body)
+	data, err := readBodyLimited(resp.Body, maxHTTPBodyBytes)
+	if err != nil {
+		return map[string]any{"error": fmt.Sprintf("%T: %v", err, err)}
+	}
 	var payload map[string]any
 	if json.Unmarshal(data, &payload) != nil {
 		return map[string]any{"error": "Invalid JSON from X API"}
