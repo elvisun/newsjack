@@ -401,7 +401,8 @@ function drawPage(ctx, scene, it, t) {
   };
   const m = cap.mention;
   const dimP = scene.dim ? progress(scene.dim, t) : 0;
-  const holes = m ? m.sentence_bars.map((b) => toScreen(cam, b)) : [];
+  // only words that stay whole inside the card are drawn sharp; the rest stays soft
+  const holes = m && scene.mark ? sharpLines(scene, m).map((b) => toScreen(cam, b)) : [];
   const holePath = () => {
     ctx.beginPath();
     for (const h of holes) {
@@ -425,7 +426,7 @@ function drawPage(ctx, scene, it, t) {
   }
   // highlighter: multiply-blended over the original pixels, line by line
   if (scene.mark) {
-    const bars = m.clause_bars.length ? m.clause_bars : m.sentence_bars;
+    const bars = highlightedLines(m);
     ctx.save();
     ctx.globalCompositeOperation = "multiply";
     ctx.fillStyle = PAL.highlight;
@@ -454,6 +455,16 @@ function drawPage(ctx, scene, it, t) {
     ctx.fillStyle = `rgba(255, 255, 255, ${(scene.dim.to * dimP).toFixed(4)})`;
     ctx.fill("evenodd");
     ctx.restore();
+    // close in, the page runs past the card: feather its side edges instead of a hard cut.
+    // Highlighted words always sit further in than this, so the feather never touches them.
+    const fw = A.closeup ? A.closeup.pad : 16;
+    for (const [x0, x1] of [[card.x, card.x + fw], [card.x + card.w, card.x + card.w - fw]]) {
+      const g = ctx.createLinearGradient(x0, 0, x1, 0);
+      g.addColorStop(0, `rgba(255, 255, 255, ${(0.95 * dimP).toFixed(4)})`);
+      g.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(Math.min(x0, x1), card.y, fw, card.h);
+    }
   }
 }
 

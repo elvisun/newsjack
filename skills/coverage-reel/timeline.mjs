@@ -87,7 +87,15 @@ export function staggerProgress(spec, i, t) {
 // ---------------------------------------------------------------------------
 // Formats: semantic slots per output size. Motion is computed relative to these slots,
 // so the same timeline recomposes for every format.
+// In the 1080-wide formats the article card runs almost full-bleed and the camera frames
+// the highlighted words themselves (`article.closeup`): phones show these formats at about
+// a third of their size. textPx is the target height of the highlighted text's line box in
+// output px; every highlighted word stays `pad` px inside the card, which wins over size.
 // ---------------------------------------------------------------------------
+
+const CLOSEUP_1080 = { textPx: 44, minPx: 40, maxPx: 48, pad: 20 };
+// landscape frames the whole sentence; highlights still keep this far inside the card
+const CARD_PAD = 16;
 
 export const FORMATS = {
   landscape: {
@@ -127,8 +135,9 @@ export const FORMATS = {
       kicker: { x: 60, y: 128, w: 960, h: 26, size: 20 },
       headline: { x: 60, y: 160, w: 960, h: 150, size: 46, min: 32, lines: 3, serif: true },
       byline: { x: 60, y: 318, w: 960, h: 30, size: 22 },
-      card: { x: 60, y: 366, w: 960, h: 740, r: 16 },
-      focus: { x: 92, y: 520, w: 896, h: 400 },
+      card: { x: 24, y: 366, w: 1032, h: 740, r: 16 },
+      focus: { x: 44, y: 520, w: 992, h: 400 },
+      closeup: CLOSEUP_1080,
       lower: { x: 60, y: 1124, w: 960, h: 100, size: 30, small: 24 },
       micro: { x: 60, y: 1240, w: 960, h: 30, size: 19 },
     },
@@ -159,8 +168,9 @@ export const FORMATS = {
       byline: { x: 65, y: 566, w: 950, h: 30, size: 23 },
       lower: { x: 65, y: 612, w: 700, h: 92, size: 29, small: 23 },
       micro: { x: 765, y: 616, w: 250, h: 30, size: 19, align: "right" },
-      card: { x: 36, y: 720, w: 1008, h: 1060, r: 18 },
-      focus: { x: 80, y: 790, w: 920, h: 400 },
+      card: { x: 24, y: 720, w: 1032, h: 1060, r: 18 },
+      focus: { x: 44, y: 790, w: 992, h: 400 },
+      closeup: CLOSEUP_1080,
     },
     opening: {
       brand: { x: 65, y: 284, w: 500, h: 54 },
@@ -186,8 +196,9 @@ export const FORMATS = {
       kicker: { x: 60, y: 102, w: 960, h: 24, size: 19 },
       headline: { x: 60, y: 130, w: 960, h: 100, size: 40, min: 28, lines: 2, serif: true },
       byline: { x: 60, y: 236, w: 960, h: 28, size: 20 },
-      card: { x: 60, y: 278, w: 960, h: 620, r: 16 },
-      focus: { x: 92, y: 400, w: 896, h: 360 },
+      card: { x: 24, y: 278, w: 1032, h: 620, r: 16 },
+      focus: { x: 44, y: 400, w: 992, h: 360 },
+      closeup: CLOSEUP_1080,
       lower: { x: 60, y: 912, w: 960, h: 92, size: 28, small: 22 },
       micro: { x: 60, y: 1008, w: 960, h: 28, size: 18 },
     },
@@ -235,6 +246,7 @@ export const TIMING = {
   lead: [0.85, 0.5, 0.6], // drift on the top before travelling: first block, then alternating
   maxBlock: 6.6,          // article blocks run 5-6 s; never longer than this
   minZoom: 1.3,           // the zoom to the mention always reads as a move
+  closeHold: 0.9,         // the zoom to the mention holds at least this long once landed
 };
 
 // Square-root distance timing: two viewports take ~1.4x as long as one, capped.
@@ -285,30 +297,48 @@ export function unionRect(rects) {
 // Plan the article camera from the capture geometry and the mention rectangles.
 // Returns page-fit and sentence-fit scales, focus points and anchors. The zoom never
 // asks for more screen pixels per CSS pixel than the capture holds, drift included.
-export function planCamera({ capture, card, focus, sceneSeconds, driftRate = TIMING.driftRate }) {
+//
+// With `closeup` (the 1080-wide formats) the camera frames the highlighted words, not the
+// paragraph: zoom = min(readable size, card inner width / highlighted span, native pixels).
+// The span is left-aligned the way it is read, and stays whole inside the card with
+// closeup.pad to spare through the slow drift to the end of the block.
+export function planCamera({ capture, card, focus, sceneSeconds, driftRate = TIMING.driftRate, closeup = null }) {
   const native = capture.scale;
   const headroom = 1 + driftRate * sceneSeconds;
-  let s0 = Math.min(card.w / capture.column.w, native / headroom);
+  const smax = native / headroom;
+  let s0 = Math.min(card.w / capture.column.w, smax);
   const f0 = [capture.column.x + capture.column.w / 2, capture.top_y];
   const a0 = [card.x + card.w / 2, card.y];
   const m = capture.mention;
   if (!m || !m.sentence_bars.length) {
     return { s0, s1: s0, f0, f1: f0, a0, a1: a0, distance: 0, zoomFactor: 1 };
   }
+  const a1 = [focus.x + focus.w / 2, focus.y + focus.h / 2];
+  // keep the zoomed-in window inside the captured strips (no blank page above or below)
+  const clampY = (fy, s) => Math.min(Math.max(fy, capture.top_y + (a1[1] - card.y) / s), capture.bottom_y - (card.y + card.h - a1[1]) / s);
   const sentence = unionRect(m.sentence_bars);
-  const para = m.paragraph || sentence;
-  const frameW = Math.max(sentence.w, Math.min(para.w, capture.column.w)) + 24;
-  const frameH = sentence.h + 40;
-  const s1 = Math.min(focus.w / frameW, focus.h / frameH, native / headroom);
+  let s1, fx, fy;
+  if (!closeup) {
+    const para = m.paragraph || sentence;
+    const frameW = Math.max(sentence.w, Math.min(para.w, capture.column.w)) + 24;
+    const frameH = sentence.h + 40;
+    s1 = Math.min(focus.w / frameW, focus.h / frameH, smax);
+    fx = Math.max(para.x, Math.min(sentence.x, para.x)) + frameW / 2 - 12;
+    fx = Math.min(Math.max(fx, sentence.x + sentence.w / 2 - (focus.w / s1) / 2 + 12), sentence.x + sentence.w / 2 + (focus.w / s1) / 2 - 12);
+    fy = clampY(sentence.y + sentence.h / 2, s1);
+  } else {
+    const lines = highlightedLines(m);
+    const span = unionRect(lines);
+    const tallest = Math.max(...lines.map((l) => l.h));
+    const inner = card.w - 2 * closeup.pad;
+    const fit = Math.min(inner / span.w, (focus.h - 2 * closeup.pad) / span.h) / headroom;
+    s1 = Math.min(closeup.textPx / tallest, fit, smax);
+    // the span's left edge meets the inner edge only at full drift; the anchor is the card's middle
+    fx = span.x + (a1[0] - card.x - closeup.pad) / (s1 * headroom);
+    fy = clampY(span.y + span.h / 2, s1);
+  }
   // a narrow column already fills the card: start it smaller so the zoom still lands
   s0 = Math.min(s0, s1 / TIMING.minZoom);
-  const a1 = [focus.x + focus.w / 2, focus.y + focus.h / 2];
-  let fx = Math.max(para.x, Math.min(sentence.x, para.x)) + frameW / 2 - 12;
-  fx = Math.min(Math.max(fx, sentence.x + sentence.w / 2 - (focus.w / s1) / 2 + 12), sentence.x + sentence.w / 2 + (focus.w / s1) / 2 - 12);
-  let fy = sentence.y + sentence.h / 2;
-  // keep the zoomed-in window inside the captured strips (no blank page above or below)
-  const above = (a1[1] - card.y) / s1, below = (card.y + card.h - a1[1]) / s1;
-  fy = Math.min(Math.max(fy, capture.top_y + above), capture.bottom_y - below);
   const distance = Math.max(0, fy - (capture.top_y + (card.h / 2) / s0));
   return { s0, s1, f0, f1: [fx, fy], a0, a1, distance, zoomFactor: s1 / s0 };
 }
@@ -459,10 +489,10 @@ function articleBlock(it, index, start, length, A) {
   const lowerIn = { start: round(start + 0.42), dur: TIMING.chipIn, ease: "ARRIVE" };
   const lowerText = [it.outlet, it.date_label, it.short_url].filter(Boolean).join(" ");
   const capture = it.capture;
-  let camera = null, mark = null, dim = null, still = null, settle = arrived + lead, keyText = "";
+  let camera = null, mark = null, dim = null, still = null, settle = arrived + lead, keyText = "", closeAt = null;
   if (capture.kind === "clip") {
-    // drift headroom sized for a long block so the zoom never upsamples, whatever the length
-    const cam = planCamera({ capture, card: A.card, focus: A.focus, sceneSeconds: Math.max(12, length + TIMING.push) });
+    // drift headroom for the longest block the lints allow, so the zoom never upsamples
+    const cam = planCamera({ capture, card: A.card, focus: A.focus, sceneSeconds: TIMING.maxBlock + TIMING.push, closeup: A.closeup || null });
     camera = { ...cam, driftStart: round(start), driftRate: TIMING.driftRate, travel: null, zoom: null };
     if (capture.mention && capture.mention.sentence_bars.length) {
       const viewport = A.card.h / cam.s0;
@@ -472,7 +502,7 @@ function articleBlock(it, index, start, length, A) {
       camera.zoom = { start: round(zoomStart), dur: TIMING.zoom, ease: "ARRIVE" };
       settle = zoomStart + TIMING.zoom * TIMING.zoomSettle;
       dim = { start: round(zoomStart + 0.15), dur: TIMING.dim, ease: "MOVE", to: 0.62 };
-      const lines = capture.mention.clause_bars.length ? capture.mention.clause_bars : capture.mention.sentence_bars;
+      const lines = highlightedLines(capture.mention);
       const widest = Math.max(...lines.map((l) => l.w));
       let t = settle + TIMING.markDelay;
       const moves = lines.map((l) => {
@@ -483,23 +513,35 @@ function articleBlock(it, index, start, length, A) {
       });
       mark = { lines: moves, end: round(t - TIMING.markGap) };
       keyText = capture.mention.clause || capture.mention.sentence;
+      closeAt = camera.zoom.start + camera.zoom.dur;
     }
   } else {
     still = { driftStart: round(start), driftRate: TIMING.driftRate };
   }
-  // the exit waits until every text block has been readable at the target speed
+  // the exit waits until every text block has been readable at the target speed, and the
+  // zoom to the mention has held a moment once landed
   const exitAt = Math.max(
     mark ? Math.max(mark.end + 1.0, settle + readSeconds(keyText)) : settle + 2.2,
+    closeAt === null ? 0 : closeAt + TIMING.closeHold,
     headlineShown + readSeconds(it.headline),
     lowerIn.start + lowerIn.dur + readSeconds(lowerText),
     start + length,
   );
+  // The words drawn sharp through the hold: the whole sentence when every line of it stays
+  // inside the card, else only the highlighted words. A close-up fits the highlight, so the
+  // rest of a long line runs past the card edge and must stay in the soft surround.
+  let sharp = null;
+  if (mark) {
+    const end = exitAt + TIMING.push;
+    sharp = staysInside(camera, capture.mention.sentence_bars, innerCard(A), mark.lines[0].start, end) ? "sentence" : "highlight";
+  }
   const scene = {
     id: `article-${it.n}`, kind: "article", item: it.n,
     start: round(start), end: round(exitAt + TIMING.push), exitAt: round(exitAt),
     headlineReveal, lowerIn,
     mastheadIn: { start: round(start + 0.2), dur: TIMING.chipIn, ease: "ARRIVE" },
-    dim, mark, keyText, settle: round(settle), camera, still,
+    dim, mark, sharp, keyText, settle: round(settle), camera, still,
+    closeAt: closeAt === null ? null : round(closeAt),
   };
   const reads = [
     { role: "headline", text: it.headline, from: headlineShown, until: exitAt },
@@ -588,6 +630,37 @@ function inside(inner, outer, slack = 0.5) {
     && inner.x + inner.w <= outer.x + outer.w + slack && inner.y + inner.h <= outer.y + outer.h + slack;
 }
 
+// The lines the highlighter marks: the key clause, or the whole sentence.
+export function highlightedLines(mention) {
+  return mention.clause_bars && mention.clause_bars.length ? mention.clause_bars : mention.sentence_bars;
+}
+
+// The lines drawn sharp (not blurred or dimmed) once the camera closes in.
+export function sharpLines(scene, mention) {
+  return scene.sharp === "highlight" ? highlightedLines(mention) : mention.sentence_bars;
+}
+
+// The part of the article card where words may sit: the card less its padding.
+export function innerCard(A) {
+  const pad = A.closeup ? A.closeup.pad : CARD_PAD;
+  return { x: A.card.x + pad, y: A.card.y + pad, w: A.card.w - 2 * pad, h: A.card.h - 2 * pad, pad };
+}
+
+// Does every rect stay whole inside `box` under the camera from `from` until `until`?
+// Returns the first escape ({ t, i }) or null. Card and page move together during pushes,
+// so this holds in card space for the whole shot.
+export function firstEscape(camera, rects, box, from, until, dt = 1 / 60) {
+  for (let t = from; t < until; t += dt) {
+    const c = cameraAt(camera, t);
+    for (let i = 0; i < rects.length; i++) if (!inside(toScreen(c, rects[i]), box, 0.5)) return { t, i };
+  }
+  return null;
+}
+
+function staysInside(camera, rects, box, from, until) {
+  return firstEscape(camera, rects, box, from, until) === null;
+}
+
 function* movesOf(timeline) {
   for (const s of timeline.scenes) {
     const tag = (name) => `${s.id}.${name}`;
@@ -673,14 +746,17 @@ export function lintTimeline(timeline) {
     if (cps > TIMING.maxCps + 1e-6) fail("reading-speed", `${r.scene} ${r.role} needs ${cps.toFixed(1)} characters per second ("${String(r.text).slice(0, 40)}")`);
   }
 
-  // 8. key text inside the format's safe area, and the mention lands in its focus box
+  // 8. key text inside the format's safe area, and the mention lands in its focus box. In the
+  // 1080-wide formats the card runs almost full-bleed (the zoom to the mention may fill the
+  // frame width), so its focus box is checked against the card instead of the side margins.
   const F = FORMATS[timeline.format];
+  const closeup = F.article.closeup;
   const textSlots = [
     ...["masthead", "kicker", "headline", "byline", "lower", "micro"].map((k) => [`article.${k}`, F.article[k]]),
     ...["overline", "title", "facts", "strip"].map((k) => [`opening.${k}`, F.opening[k]]),
     ["wall.metrics", F.wall.metrics], ["wall.caption", F.wall.caption],
     ...["overline", "list", "disclaimer"].map((k) => [`end.${k}`, F.end[k]]),
-    ["article.focus", F.article.focus],
+    ...(closeup ? [] : [["article.focus", F.article.focus]]),
   ];
   for (const [name, slot] of textSlots) if (!inside(slot, F.safe)) fail("safe-area", `${name} leaves the ${timeline.format} safe area`);
   if (!inside(F.article.focus, F.article.card)) fail("safe-area", "article.focus leaves the card");
@@ -688,13 +764,54 @@ export function lintTimeline(timeline) {
   for (const k of ["masthead", "kicker", "headline", "byline", "lower", "micro"]) {
     if (overlaps(F.article[k], F.article.card)) fail("text-off-card", `article.${k} overlaps the page card in ${timeline.format}`);
   }
+  const card = F.article.card;
+  const inner = innerCard(F.article);
+  const pad = inner.pad;
   for (const s of timeline.scenes) {
     if (s.kind !== "article" || !s.camera || !s.keyText) continue;
-    const it = timeline.items.find((x) => x.n === s.item);
+    const m = timeline.items.find((x) => x.n === s.item).capture.mention;
     const c = cameraAt(s.camera, Math.min(s.exitAt, s.settle + 0.4));
-    const box = toScreen(c, unionRect(it.capture.mention.sentence_bars));
-    if (!inside(box, { x: F.article.card.x, y: F.article.card.y, w: F.article.card.w, h: F.article.card.h }, 1)
-      || !inside(box, F.safe, 1)) fail("mention-in-safe-area", `${s.id} mention lands outside the card or safe area`);
+    if (!closeup) {
+      // landscape frames the whole sentence
+      const box = toScreen(c, unionRect(m.sentence_bars));
+      if (!inside(box, card, 1) || !inside(box, F.safe, 1)) fail("mention-in-safe-area", `${s.id} mention lands outside the card or safe area`);
+    } else {
+      const box = toScreen(c, unionRect(highlightedLines(m)));
+      if (box.y < F.safe.y - 1 || box.y + box.h > F.safe.y + F.safe.h + 1) fail("mention-in-safe-area", `${s.id} highlight lands outside the ${timeline.format} safe band`);
+    }
+
+    // 8b. every highlighted word stays whole inside the card, with padding, on every frame
+    // from the first highlight to the end of the shot (exit push included: card and page move
+    // together). So does every word drawn sharp: only the soft surround may run past the edge.
+    const from = s.mark.lines[0].start;
+    const escaped = firstEscape(s.camera, highlightedLines(m), inner, from, s.end, dt);
+    if (escaped) fail("highlight-inside-card", `${s.id} highlighted line ${escaped.i + 1} leaves the card's ${pad} px padding at ${escaped.t.toFixed(2)} s`);
+    const blurred = firstEscape(s.camera, sharpLines(s, m), inner, from, s.end, dt);
+    if (blurred) fail("sharp-text-inside-card", `${s.id} draws line ${blurred.i + 1} of the sentence sharp past the card's ${pad} px padding at ${blurred.t.toFixed(2)} s`);
+  }
+
+  // 8c. 1080-wide formats: the highlighted words are as large as those rules allow (aiming for
+  // closeup.textPx), never larger than closeup.maxPx, and the zoom holds a moment once landed
+  if (closeup) {
+    const headroom = 1 + TIMING.driftRate * (TIMING.maxBlock + TIMING.push);
+    for (const s of timeline.scenes) {
+      if (s.kind !== "article" || !s.camera || !s.keyText || s.closeAt === null) continue;
+      const capture = timeline.items.find((x) => x.n === s.item).capture;
+      const lines = highlightedLines(capture.mention);
+      const span = unionRect(lines);
+      const tallest = Math.max(...lines.map((l) => l.h));
+      const fit = Math.min((card.w - 2 * pad) / span.w, (F.article.focus.h - 2 * pad) / span.h) / headroom;
+      const allowed = Math.min(closeup.textPx / tallest, fit, capture.scale / headroom);
+      if (s.camera.s1 < allowed * 0.99) fail("closeup-text-size", `${s.id} zooms to ${(tallest * s.camera.s1).toFixed(1)} px text; the card and capture allow ${(tallest * allowed).toFixed(1)} px`);
+      // small text in a 2x capture: only more pixels make it bigger
+      if (capture.scale / headroom < Math.min(closeup.textPx / tallest, fit) && tallest * allowed < closeup.minPx) {
+        fail("closeup-text-size", `${s.id} can only show the highlighted text ${(tallest * allowed).toFixed(1)} px tall from a ${capture.scale}x capture (re-capture this article with press-clip --scale 3)`);
+      }
+      if (s.exitAt - s.closeAt < TIMING.closeHold - 1e-6) fail("closeup-text-size", `${s.id} holds its close-up for ${(s.exitAt - s.closeAt).toFixed(2)} s`);
+      for (let t = s.closeAt; t < s.end; t += dt) {
+        if (tallest * cameraAt(s.camera, t).s > closeup.maxPx + 0.5) { fail("closeup-text-size", `${s.id} shows the highlighted text over ${closeup.maxPx} px tall at ${t.toFixed(2)} s`); break; }
+      }
+    }
   }
 
   // 9. total length stays in budget (30-40 s for 4-6 articles) and no article block drags

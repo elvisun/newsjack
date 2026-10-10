@@ -1115,6 +1115,8 @@ export function storyboardTimes(timeline) {
       times.push(s.start + 0.9);
       if (s.camera && s.camera.travel) times.push(s.camera.travel.start + s.camera.travel.dur * 0.5);
       if (s.mark) times.push(s.mark.end + 0.3);
+      // the end of the hold, at full drift: where the highlight sits closest to the card edge
+      if (s.mark) times.push(s.exitAt - 0.05);
     }
     if (s.kind === "wall") times.push(s.counterReveal.start + 1.6);
     if (s.kind === "end") times.push(Math.min(s.end - 0.05, s.start + 2.4));

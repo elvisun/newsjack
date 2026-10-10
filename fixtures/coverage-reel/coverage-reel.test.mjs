@@ -35,6 +35,8 @@ import {
   buildTimeline,
   cameraAt,
   ease,
+  highlightedLines,
+  innerCard,
   lintTimeline,
   openingState,
   staggerProgress,
@@ -42,6 +44,7 @@ import {
   lengthBudget,
   rhythm,
   scrollDuration,
+  sharpLines,
   shortUrl,
   toScreen,
   unionRect,
@@ -283,6 +286,125 @@ test("frame 0 is the thumbnail: the whole report title is up, the rest animates 
   t = structuredClone(base);
   t.texts.find((r) => r.role === "title").from = 0.9;
   assert.ok(lintRules(t).includes("thumbnail-title"));
+});
+
+test("every highlighted word stays inside the card, with padding, for the whole hold", () => {
+  for (const format of FORMAT_NAMES) {
+    const tl = fixtureRender({ format }).timeline;
+    const F = FORMATS[format];
+    const pad = F.article.closeup ? F.article.closeup.pad : 16;
+    const card = F.article.card;
+    for (const s of tl.scenes.filter((x) => x.kind === "article" && x.mark)) {
+      const lines = highlightedLines(tl.items.find((x) => x.n === s.item).capture.mention);
+      for (let t = s.mark.lines[0].start; t < s.end; t += 1 / tl.fps) {
+        const c = cameraAt(s.camera, t);
+        for (const line of lines) {
+          const r = toScreen(c, line);
+          assert.ok(r.x >= card.x + pad - 0.5 && r.x + r.w <= card.x + card.w - pad + 0.5 && r.y >= card.y + pad - 0.5 && r.y + r.h <= card.y + card.h - pad + 0.5, `${format} ${s.id} at ${t.toFixed(2)} s`);
+        }
+      }
+    }
+    // a camera that zooms past the fit pushes the highlight out of the card: the lint says so
+    const t = structuredClone(tl);
+    for (const s of t.scenes.filter((x) => x.kind === "article")) s.camera.s1 *= 1.35;
+    assert.ok(lintRules(t).includes("highlight-inside-card"), `${format} containment lint`);
+  }
+});
+
+test("a close-up on part of a wide line keeps the cut-off words soft, never sharp at the edge", () => {
+  // the shape of a real review: the key clause is the first part of a line the card cannot
+  // show whole at reading size ("...offers a great overall experience and doesn't ask...")
+  const base = fixtureRender().timeline;
+  const items = structuredClone(base.items);
+  const m = items[0].capture.mention;
+  const line1 = { x: 24, y: m.sentence_bars[0].y, w: 520, h: 18 };
+  m.sentence_bars = [line1, { x: 24, y: line1.y + 26, w: 200, h: 18 }];
+  m.clause_bars = [{ ...line1, w: 300 }];
+  m.clause = "Aster Labs says its new workspace";
+  for (const format of FORMAT_NAMES) {
+    const tl = buildTimeline({ brand: base.brand, items, facts: base.facts, format, fps: 30, disclaimer: base.scenes.at(-1).disclaimer });
+    const containment = lintRules(tl).filter((r) => /inside-card|safe-area/.test(r));
+    assert.deepEqual(containment, [], `${format} containment lints`);
+    const s = tl.scenes.find((x) => x.kind === "article" && x.item === items[0].n);
+    const inner = innerCard(FORMATS[format].article);
+    if (FORMATS[format].article.closeup) assert.equal(s.sharp, "highlight", `${format}: only the highlight is sharp`);
+    for (let t = s.mark.lines[0].start; t < s.end; t += 1 / tl.fps) {
+      const c = cameraAt(s.camera, t);
+      for (const line of sharpLines(s, m)) {
+        const r = toScreen(c, line);
+        assert.ok(r.x >= inner.x - 0.5 && r.x + r.w <= inner.x + inner.w + 0.5, `${format} sharp text inside the card at ${t.toFixed(2)} s`);
+      }
+    }
+    // drawing the whole sentence sharp would cut a word at the card edge: the lint says so
+    if (s.sharp === "highlight") {
+      const bad = structuredClone(tl);
+      bad.scenes.find((x) => x.id === s.id).sharp = "sentence";
+      assert.ok(lintRules(bad).includes("sharp-text-inside-card"), `${format} sharp-text lint`);
+    }
+  }
+});
+
+test("1080-wide close-ups zoom as far as the card and capture allow, and no further", () => {
+  const headroom = 1 + TIMING.driftRate * (TIMING.maxBlock + TIMING.push);
+  for (const format of ["portrait", "vertical", "square"]) {
+    const tl = fixtureRender({ format }).timeline;
+    const { textPx, maxPx, pad } = FORMATS[format].article.closeup;
+    const card = FORMATS[format].article.card;
+    for (const s of tl.scenes.filter((x) => x.kind === "article")) {
+      const capture = tl.items.find((x) => x.n === s.item).capture;
+      const lines = highlightedLines(capture.mention);
+      const span = unionRect(lines), tallest = Math.max(...lines.map((l) => l.h));
+      const expected = Math.min(textPx / tallest, (card.w - 2 * pad) / span.w / headroom, capture.scale / headroom);
+      assert.ok(Math.abs(s.camera.s1 - expected) < 1e-9, `${format} ${s.id} zoom`);
+      for (let t = s.closeAt; t < s.end; t += 1 / tl.fps) assert.ok(tallest * cameraAt(s.camera, t).s <= maxPx + 0.5);
+    }
+  }
+  // landscape keeps its sentence framing (no close-up rule)
+  assert.equal(FORMATS.landscape.article.closeup, undefined);
+
+  const base = fixtureRender({ format: "vertical" }).timeline;
+  const t = structuredClone(base);
+  for (const s of t.scenes.filter((x) => x.kind === "article")) s.camera.s1 *= 0.75;
+  assert.ok(lintRules(t).includes("closeup-text-size"), "smaller than the card allows");
+  // small text in 2x captures cannot get bigger without upsampling: the fix is named
+  const items = structuredClone(base.items).map((it) => ({ ...it, capture: { ...it.capture, scale: 2 } }));
+  const at2x = buildTimeline({ brand: base.brand, items, facts: base.facts, format: "vertical", fps: 30, disclaimer: base.scenes.at(-1).disclaimer });
+  const problems = lintTimeline(at2x).filter((p) => p.rule === "closeup-text-size");
+  assert.ok(problems.length && problems.every((p) => /press-clip --scale 3/.test(p.detail)));
+  assert.ok(!lintRules(at2x).includes("no-upsampling"), "it never upsamples to get there");
+});
+
+test("close-up camera: min(readable size, card fit, native pixels), left-aligned", () => {
+  const card = { x: 24, y: 720, w: 1032, h: 1060 };
+  const focus = { x: 44, y: 790, w: 992, h: 400 };
+  const closeup = FORMATS.vertical.article.closeup;
+  const sceneSeconds = TIMING.maxBlock + TIMING.push;
+  const headroom = 1 + TIMING.driftRate * sceneSeconds;
+  const capture = (bars, scale = 3) => ({ scale, column: { x: 0, w: 800 }, top_y: 0, bottom_y: 4000, mention: { sentence_bars: bars, clause_bars: bars, paragraph: { x: 40, y: 1990, w: 700, h: 120 } } });
+  const plan = (bars, scale) => planCamera({ capture: capture(bars, scale), card, focus, sceneSeconds, closeup });
+  const edges = (cam, bars) => {
+    const span = unionRect(bars), s = cam.s1 * headroom;
+    return [cam.a1[0] + s * (span.x - cam.f1[0]), cam.a1[0] + s * (span.x + span.w - cam.f1[0])];
+  };
+
+  // a short clause: readable size wins; it sits left-aligned and well inside
+  const short = [{ x: 300, y: 2000, w: 220, h: 22 }];
+  const a = plan(short);
+  assert.ok(Math.abs(a.s1 * 22 - closeup.textPx) < 1e-6);
+  assert.ok(Math.abs(edges(a, short)[0] - (card.x + closeup.pad)) < 0.5, "left-aligned at the padding, at full drift");
+
+  // a wide line or a clause that wraps: the whole span fits the card, at full drift
+  for (const bars of [[{ x: 40, y: 2000, w: 600, h: 22 }], [{ x: 320, y: 2000, w: 380, h: 22 }, { x: 40, y: 2026, w: 120, h: 22 }]]) {
+    const cam = plan(bars);
+    const [l, r] = edges(cam, bars);
+    assert.ok(cam.s1 * 22 < closeup.textPx, "fit wins over size");
+    assert.ok(l >= card.x + closeup.pad - 0.5 && r <= card.x + card.w - closeup.pad + 0.5);
+    assert.ok(Math.abs(r - l - (card.w - 2 * closeup.pad)) < 0.5, "and fills the card's inner width");
+  }
+
+  // small text in a 2x capture: the native-pixel cap wins
+  const small = [{ x: 300, y: 2000, w: 150, h: 16 }];
+  assert.ok(Math.abs(plan(small, 2).s1 - 2 / headroom) < 1e-9);
 });
 
 test("length lints: 30-40 s for 4-6 articles, and no article block drags", () => {

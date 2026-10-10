@@ -59,10 +59,10 @@ Make a working folder the user owns. For each CSV row, run the installed press-c
 ```bash
 node "<press-clip-dir>/clip.mjs" --url "<source_url>" \
   --out "<work>/clips/<slug>.pdf" --preview "<work>/clips/<slug>.png" \
-  --assets "<work>/clips/<slug>" --mention "<term 1>,<term 2>,<term 3>"
+  --assets "<work>/clips/<slug>" --mention "<term 1>,<term 2>,<term 3>" --scale 3
 ```
 
-Use the brand's `mention_terms` for `--mention`. Add `--section "<clip_section>"` for a roundup. Add `--drop`, `--keep`, `--root` or `--logo` only after inspecting that live page, as press-clip directs. If an article spells the product differently (for example "4A" instead of "(4a)"), add that spelling with another `--mention` and tell the user.
+Use the brand's `mention_terms` for `--mention`. Keep `--scale 3`: the portrait, vertical and square reels zoom in close enough to read the sentence on a phone, and need the extra pixels to stay sharp. Add `--section "<clip_section>"` for a roundup. Add `--drop`, `--keep`, `--root` or `--logo` only after inspecting that live page, as press-clip directs. If an article spells the product differently (for example "4A" instead of "(4a)"), add that spelling with another `--mention` and tell the user.
 
 Read the console and the `warnings` in `clip.json`:
 
@@ -138,7 +138,7 @@ It writes, in the output folder:
 
 The renderer makes no network requests. Previews and video use Chrome or Edge through `playwright-core`; the video is encoded inside Chrome, so no other tool is needed. If the browser cannot encode H.264 video (some open-source Chromium builds), it stops and says so: install Google Chrome and pass `--chrome "<path>"` or set `COVERAGE_REEL_CHROME`. Use `--frames-at "3.2,8.5"` to save full-size frames for a close look, and `--fps 60` only when asked.
 
-Before exporting, the renderer checks the motion against its own rules and refuses to export if any fail: the camera never freezes, article shots never run the same length, only the named easing curves are used, nothing overshoots, at most two transition types, no capture is enlarged past its real pixels, every piece of text stays up long enough to read (at most 20 characters per second), key text stays inside the format's safe area, the report title is whole on the first frame (LinkedIn and X use it as the thumbnail), article shots stay under about 6.5 seconds, and the whole reel stays within 40 seconds for up to six articles. If the length check fails, feature fewer articles or capture a shorter mention sentence with press-clip's `--pick`. If the report title does not fit the first frame, shorten `report_title`.
+Before exporting, the renderer checks the motion against its own rules and refuses to export if any fail: the camera never freezes, article shots never run the same length, only the named easing curves are used, nothing overshoots, at most two transition types, no capture is enlarged past its real pixels, every piece of text stays up long enough to read (at most 20 characters per second), key text stays inside the format's safe area, the report title is whole on the first frame (LinkedIn and X use it as the thumbnail), every highlighted word stays inside the page card on every frame (when a close-up cuts a long line, the rest of that line stays soft and dimmed, never sharp at the edge), in the 1080-wide formats the highlighted words are as large as the card allows (up to about 44 pixels tall), article shots stay under about 6.5 seconds, and the whole reel stays within 40 seconds for up to six articles. If the length check fails, feature fewer articles or capture a shorter mention sentence with press-clip's `--pick`. If the text-size check asks for it, capture that article again with `--scale 3`. If the report title does not fit the first frame, shorten `report_title`.
 
 If the CSV has more rows than `reel_max_items`, ask the user which to feature and set `include_in_reel`. Do not call the first or biggest outlets "top" coverage. CSV order is reel order.
 
@@ -155,7 +155,7 @@ Open `storyboard.png`, then pull full-size frames at a few moments of each artic
 | `vertical` | 1080×1920 (9:16) | Reels, Shorts, Stories; key text avoids the top 14% and bottom 35% where apps put their buttons |
 | `square` | 1080×1080 | X and older placements |
 
-Run once per format, each into its own output folder.
+Run once per format, each into its own output folder. Phones show the three 1080-wide formats small, so there the page card runs almost edge to edge and the camera zooms to fit the highlighted words themselves, not the whole paragraph. A shorter highlight reads larger: if a highlight wraps or runs long, press-clip's `--pick` can choose a different sentence.
 
 ## What the reel shows
 
