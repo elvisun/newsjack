@@ -130,7 +130,7 @@ When a clip will be animated, add three flags:
 | --- | --- |
 | `--mention "<term>"` | The client's names to find: company, products, spellings, spokespeople. Repeat it or use a comma list. Matching is case-sensitive and the longest name wins. A single capitalised word that is also a common word (for example "Nothing" or "Apple") counts only when it is not the first word of a sentence or part of a title-case heading. |
 | `--assets <dir>` | Writes the captures and a `clip.json` sidecar into this folder. |
-| `--scale 2` or `3` | Pixel density of the captures (default 2; zooming in needs at least 2). |
+| `--scale 2` or `3` | Pixel density of the captures (default 2; zooming in needs at least 2). Use 3 for coverage-reel, whose phone formats zoom in close on the sentence. |
 | `--pick <n>` | Capture the n-th ranked mention instead of the best one, when the reviewer prefers another sentence. |
 
 The folder gets `top.png` (the stamped logo, headline, byline and lead photo), `strip-1.png` and onward (the article from the top through the chosen mention, in tiles well under Chrome's size limit), `mention-1.png` (the mention with a paragraph of context) and `masthead.png` (the logo on a transparent background). Body sentences are ranked above headlines, captions, links, related-story lists and navigation; every hit is listed so a reviewer can pick another.

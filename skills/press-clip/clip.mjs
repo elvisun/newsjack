@@ -40,7 +40,7 @@
 //                          (page metadata, logo, captures, ranked mentions with
 //                          rectangles, warnings) into this folder.
 //   --scale 2|3            Device scale for the asset captures (default 2). Zooming
-//                          into a mention needs at least 2.
+//                          into a mention needs at least 2; coverage-reel uses 3.
 //   --pick <n>             Capture the n-th ranked mention instead of the best one.
 //
 // Every clip carries the outlet logo: it is the key trust signal. When the article
@@ -739,10 +739,11 @@ function locateMentions({ terms, ambiguous }) {
       const [sa, sb] = trimSpan(blk.text, sa0, sb0);
       const sentence = blk.text.slice(sa, sb).replace(/\s+/g, ' ').trim();
       // key clause: for a long sentence, the verbatim span around the term that reads on its own
-      // (30-80 characters), bounded by punctuation or before a joining word. The reel zooms to the
-      // whole sentence and highlights this span, so long sentences never need long holds.
+      // (30-80 characters, the shorter the better), bounded by punctuation or before a joining
+      // word. The reel highlights this span and its phone formats zoom to fit it, so a shorter
+      // clause reads larger and long sentences never need long holds.
       let ca = sa, cb = sb;
-      if (sb - sa > 70) {
+      if (sb - sa > 60) {
         const cuts = [{ at: sa, hard: true }];
         let depth = 0, quoted = false;
         for (let i = sa; i < sb; i++) {
@@ -775,7 +776,7 @@ function locateMentions({ terms, ambiguous }) {
             const [a, b] = trim(c0.at, c1.at);
             const len = b - a;
             if (len > 80 || b < end || a > start) continue;
-            const score = (c0.hard ? 0 : -1) + (c1.hard ? 0 : -2) - (len < 30 ? 3 : 0) - Math.abs(len - 55) / 40;
+            const score = (c0.hard ? 0 : -1) + (c1.hard ? 0 : -2) - (len < 30 ? 3 : 0) - Math.abs(len - 40) / 30;
             if (!best || score > best.score) best = { a, b, score };
           }
         }
