@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "clips": [
+    {
+      "source_url": "https://example.test/northstar-launch",
+      "preview_path": "assets/northstar-daily.svg",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "scope": "whole",
+        "reviewed_at": "2026-10-10T14:30:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
+      }
+    },
+    {
+      "source_url": "https://example.test/field-notes",
+      "preview_path": "assets/field-notes.svg",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "scope": "section",
+        "reviewed_at": "2026-10-10T14:32:00Z",
+        "notes": "Synthetic fixture only; section scope mirrors a roundup."
+      }
+    },
+    {
+      "source_url": "https://example.test/morning-signal",
+      "preview_path": "assets/morning-signal.svg",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "scope": "whole",
+        "reviewed_at": "2026-10-10T14:34:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
+      }
+    }
+  ]
+}

@@ -32,5 +32,8 @@ func TestInstallGeneratesInstructionOnlySkills(t *testing.T) {
 		if !fileExists(filepath.Join(skillDir, ".newsjack-installed")) {
 			t.Fatalf("marker missing")
 		}
+		if !fileExists(filepath.Join(codexSkills, "coverage-reel", "render.mjs")) {
+			t.Fatalf("coverage-reel renderer not installed")
+		}
 	})
 }

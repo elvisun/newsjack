@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" role="img" aria-label="Synthetic Northstar Daily press clip preview">
+  <rect width="900" height="1200" fill="#fff"/>
+  <rect width="900" height="18" fill="#ef6a47"/>
+  <text x="70" y="105" fill="#102a43" font-family="Georgia, serif" font-size="58" font-weight="700">NORTHSTAR DAILY</text>
+  <line x1="70" y1="135" x2="830" y2="135" stroke="#102a43" stroke-width="3"/>
+  <text x="70" y="200" fill="#ef6a47" font-family="Arial, sans-serif" font-size="20" font-weight="700">INNOVATION</text>
+  <text x="70" y="265" fill="#102a43" font-family="Arial, sans-serif" font-size="48" font-weight="700">Aster Labs opens a safer</text>
+  <text x="70" y="320" fill="#102a43" font-family="Arial, sans-serif" font-size="48" font-weight="700">robotics workspace</text>
+  <text x="70" y="370" fill="#66788a" font-family="Arial, sans-serif" font-size="22">By Jamie Rivera · September 14, 2026</text>
+  <rect x="70" y="420" width="760" height="365" rx="10" fill="#d9e5ea"/>
+  <circle cx="450" cy="602" r="105" fill="#12324f"/>
+  <path d="M390 655 450 520l60 135h-30l-15-35h-31l-15 35Z" fill="#ef6a47"/>
+  <rect x="70" y="835" width="725" height="16" rx="8" fill="#ccd5dc"/>
+  <rect x="70" y="875" width="760" height="16" rx="8" fill="#ccd5dc"/>
+  <rect x="70" y="915" width="680" height="16" rx="8" fill="#ccd5dc"/>
+  <rect x="70" y="955" width="735" height="16" rx="8" fill="#ccd5dc"/>
+  <rect x="70" y="1015" width="760" height="16" rx="8" fill="#e7ecef"/>
+  <rect x="70" y="1055" width="635" height="16" rx="8" fill="#e7ecef"/>
+</svg>
