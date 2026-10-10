@@ -1091,6 +1091,9 @@ async function openReel(browser, reelPath, width, height) {
   await page.goto(`${pathToFileURL(reelPath).href}?export=1`, { waitUntil: "load" });
   await page.evaluate(() => window.reel.ready).catch((error) => { throw new Error(`reel.html failed to load: ${errors.join("; ") || error.message}`); });
   if (errors.length) throw new Error(`reel.html raised an error: ${errors.join("; ")}`);
+  // frame 0 is the thumbnail: the whole report title has to fit on it
+  const layout = await page.evaluate(() => window.reel.layoutCheck());
+  if (layout.title.truncated) fail(`The report title does not fit the ${width}x${height} opening frame ("${layout.title.lines.join(" ")}"). Shorten report_title in brand.json.`);
   return page;
 }
 

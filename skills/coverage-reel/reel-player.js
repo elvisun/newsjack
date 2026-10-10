@@ -221,9 +221,11 @@ function drawThumb(ctx, it, x, y, w, h) {
 
 function drawOpening(ctx, scene, t) {
   const O = FMT.opening;
+  const st = openingState(scene, t);
   stageBackground(ctx);
   const zoom = progress(scene.camera.scale, t);
-  const s = scene.camera.scale.from + (scene.camera.scale.to - scene.camera.scale.from) * zoom;
+  // the backdrop settles in from slightly closer and darker while it starts to drift
+  const s = (scene.camera.scale.from + (scene.camera.scale.to - scene.camera.scale.from) * zoom) * (1 + 0.04 * (1 - st.backdrop));
   // backdrop: the real article tops, drifting, under a deep scrim
   ctx.save();
   ctx.translate(W / 2, H / 2); ctx.scale(s, s); ctx.translate(-W / 2, -H / 2);
@@ -242,40 +244,23 @@ function drawOpening(ctx, scene, t) {
     }
   }
   ctx.restore();
+  const dim = scene.backdrop.from + (scene.backdrop.dim - scene.backdrop.from) * st.backdrop;
   const scrim = ctx.createLinearGradient(0, 0, W, H * 0.3);
-  scrim.addColorStop(0, rgba(PAL.stage, 0.95));
-  scrim.addColorStop(1, rgba(PAL.stage, scene.backdrop.dim));
+  scrim.addColorStop(0, rgba(PAL.stage, Math.max(0.95, dim)));
+  scrim.addColorStop(1, rgba(PAL.stage, dim));
   ctx.fillStyle = scrim;
   ctx.fillRect(0, 0, W, H);
 
-  // brand mark, overline and the calculated facts line are on screen from frame 0
+  // brand mark, overline and the whole verbatim title are on screen from frame 0: it is
+  // the thumbnail on LinkedIn and X
   drawBrand(ctx, O.brand, PAL.text, 1);
   text(ctx, (TL.brand.overline || "").toUpperCase(), O.overline.x, O.overline.y + O.overline.size, { size: O.overline.size, weight: 700, color: PAL.accentOnDark, spacing: 3 });
-  // title: verbatim, revealed word by word through line masks
   const T = O.title;
-  const layout = fitText(ctx, TL.brand.report_title, T, { size: T.size, min: T.min, lines: T.lines, weight: 700, family: SERIF, lineHeight: 1.04 });
-  ctx.font = layout.font;
-  ctx.fillStyle = PAL.text;
-  let wordIndex = 0;
-  layout.lines.forEach((line, li) => {
-    const top = T.y + li * layout.lh;
-    let x = T.x;
-    for (const word of line.split(" ")) {
-      const p = staggerProgress(scene.titleReveal, wordIndex++, t);
-      const ww = ctx.measureText(word).width;
-      if (p > 0) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(x - 2, top - layout.lh * 0.1, ww + 4, layout.lh * 1.18);
-        ctx.clip();
-        ctx.fillText(word, x, top + layout.size * 0.9 + (1 - p) * layout.lh * 1.05);
-        ctx.restore();
-      }
-      x += ww + ctx.measureText(" ").width;
-    }
-  });
+  const layout = titleLayout(ctx);
+  drawLines(ctx, layout, T.x, T.y, PAL.text, st.title < 1 ? scene.titleIn : null, t, "left", T.w);
+  // the calculated facts line rises in under it
   const facts = fitText(ctx, TL.facts.line, O.facts, { size: O.facts.size, min: 22, lines: 2, weight: 500 });
-  drawLines(ctx, facts, O.facts.x, O.facts.y, PAL.muted, null, t, "left", O.facts.w);
+  drawLines(ctx, facts, O.facts.x, O.facts.y, PAL.muted, scene.factsIn, t, "left", O.facts.w);
 
   // masthead strip: each captured masthead, same height, staggered in
   const S = O.strip;
@@ -291,6 +276,11 @@ function drawOpening(ctx, scene, t) {
     if (p > 0) mastheadChip(ctx, it, x, y + (1 - p) * 18, h, p, "left", S.w);
     x += w + S.gap;
   });
+}
+
+function titleLayout(ctx) {
+  const T = FMT.opening.title;
+  return fitText(ctx, TL.brand.report_title, T, { size: T.size, min: T.min, lines: T.lines, weight: 700, family: SERIF, lineHeight: 1.04 });
 }
 
 function drawBrand(ctx, slot, color, alpha) {
@@ -797,6 +787,11 @@ window.reel = {
     });
     show(current);
     return sheet.toDataURL("image/png");
+  },
+  // Layout facts the renderer checks before exporting: the thumbnail title must fit whole.
+  layoutCheck() {
+    const layout = titleLayout(ctx);
+    return { title: { lines: layout.lines, size: layout.size, truncated: layout.lines.join(" ") !== TL.brand.report_title.split(/\s+/).filter(Boolean).join(" ") } };
   },
   frameAt(t) {
     drawFrame(ctx, t);

@@ -36,6 +36,8 @@ import {
   cameraAt,
   ease,
   lintTimeline,
+  openingState,
+  staggerProgress,
   planCamera,
   lengthBudget,
   rhythm,
@@ -261,6 +263,26 @@ test("motion lints catch each anti-pattern", () => {
   } finally {
     Object.assign(micro, { x: savedMx, y: savedY });
   }
+});
+
+test("frame 0 is the thumbnail: the whole report title is up, the rest animates in", () => {
+  for (const format of FORMAT_NAMES) {
+    const tl = fixtureRender({ format }).timeline;
+    const opening = tl.scenes.find((s) => s.kind === "opening");
+    const at0 = openingState(opening, 0);
+    assert.equal(at0.title, 1, `${format}: title fully visible at t=0`);
+    assert.equal(tl.texts.find((r) => r.role === "title").from, 0);
+    assert.ok(at0.backdrop < 1 && at0.facts(0) < 1, "backdrop and facts animate in");
+    assert.equal(staggerProgress(opening.chipReveal, 0, 0), 0, "mastheads arrive after frame 0");
+    assert.equal(openingState(opening, opening.end - 0.5).backdrop, 1);
+  }
+  const base = fixtureRender().timeline;
+  let t = structuredClone(base);
+  t.scenes[0].titleIn = { start: 0.04, dur: 0.5, ease: "MOVE" };   // a title entrance hides it on frame 0
+  assert.ok(lintRules(t).includes("thumbnail-title"));
+  t = structuredClone(base);
+  t.texts.find((r) => r.role === "title").from = 0.9;
+  assert.ok(lintRules(t).includes("thumbnail-title"));
 });
 
 test("length lints: 30-40 s for 4-6 articles, and no article block drags", () => {

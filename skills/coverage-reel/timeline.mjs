@@ -81,7 +81,7 @@ const lerp = (a, b, p) => a + (b - a) * p;
 
 // Staggered reveal of n parts: { start, stagger, dur, ease } -> progress of part i
 export function staggerProgress(spec, i, t) {
-  return progress({ start: spec.start + i * spec.stagger, dur: spec.dur, ease: spec.ease }, t);
+  return progress({ start: spec.start + i * (spec.stagger || 0), dur: spec.dur, ease: spec.ease }, t);
 }
 
 // ---------------------------------------------------------------------------
@@ -361,23 +361,24 @@ export function buildTimeline({ brand, items, facts, format = "landscape", fps =
   const read = (scene, role, text, from, until, exempt = false) => texts.push({ scene, role, text, from: round(from), until: round(until), exempt });
 
   // ---- opening: hook + masthead strip ------------------------------------------------
-  const titleWords = brand.report_title.split(/\s+/).filter(Boolean);
-  const titleReveal = { start: 0.04, stagger: TIMING.wordStagger, dur: TIMING.wordReveal, ease: "MOVE" };
-  const titleShown = titleReveal.start + (titleWords.length - 1) * titleReveal.stagger + titleReveal.dur;
+  // LinkedIn and X use frame 0 as the thumbnail, so the brand, period and the whole report
+  // title are on screen from frame 0. The backdrop, facts line and mastheads animate in.
+  const backdropIn = { start: 0, dur: 1.4, ease: "MOVE" };
+  const factsIn = { start: 0.12, stagger: TIMING.lineStagger, dur: TIMING.wordReveal, ease: "MOVE" };
+  const factsReadable = factsIn.start + factsIn.dur * 0.5;   // MOVE has covered ~90% by then
   const chips = items.filter((it) => it.masthead || it.outlet);
-  // the masthead strip lands while the title is read, so the hook stays near 3 s
-  const chipReveal = { start: round(Math.max(1.1, titleShown + 0.35)), stagger: 0.05, dur: TIMING.chipIn, ease: "ARRIVE" };
+  const chipReveal = { start: 0.8, stagger: 0.05, dur: TIMING.chipIn, ease: "ARRIVE" };
   const chipsShown = chipReveal.start + Math.max(0, chips.length - 1) * chipReveal.stagger + chipReveal.dur;
-  const openingExit = round(Math.max(2.8, chipsShown + 0.9, titleShown + readSeconds(brand.report_title), readSeconds(facts.line) + 0.2));
+  const openingExit = round(Math.max(2.8, chipsShown + 0.9, readSeconds(brand.report_title), factsReadable + readSeconds(facts.line)));
   const opening = {
     id: "opening", kind: "opening", start: 0, end: round(openingExit + TIMING.push),
     camera: { scale: { start: 0, dur: openingExit + TIMING.push, from: 1, to: 1.03, ease: "LINEAR", role: "drift" } },
-    backdrop: { drift: 26, dim: 0.8 },
-    titleReveal, chipReveal, chips: chips.map((it) => it.n),
+    backdrop: { drift: 26, dim: 0.8, from: 0.94 },
+    backdropIn, factsIn, chipReveal, chips: chips.map((it) => it.n),
   };
   scenes.push(opening);
-  read("opening", "title", brand.report_title, titleShown, openingExit);
-  read("opening", "facts", facts.line, 0, openingExit);
+  read("opening", "title", brand.report_title, 0, openingExit);
+  read("opening", "facts", facts.line, factsReadable, openingExit);
 
   // ---- article blocks ------------------------------------------------------------------
   // Pass 1 finds each block's minimum length (reading speed decides it); the rhythm rules
@@ -527,6 +528,16 @@ export function rhythm(required) {
 // Frame-level state shared by the compositor and the lints
 // ---------------------------------------------------------------------------
 
+// How far each opening layer has animated in at t (0..1). `title` is 1 from frame 0 unless
+// a scene asks for a title entrance, which the thumbnail lint rejects.
+export function openingState(scene, t) {
+  return {
+    title: scene.titleIn ? progress(scene.titleIn, t) : 1,
+    backdrop: progress(scene.backdropIn, t),
+    facts: (line) => staggerProgress(scene.factsIn, line, t),
+  };
+}
+
 // Which scenes are on screen at t, with their transition offsets.
 export function scenesAt(timeline, t) {
   const out = [];
@@ -580,7 +591,9 @@ function inside(inner, outer, slack = 0.5) {
 function* movesOf(timeline) {
   for (const s of timeline.scenes) {
     const tag = (name) => `${s.id}.${name}`;
-    if (s.titleReveal) yield [tag("title"), s.titleReveal, "reveal"];
+    if (s.titleIn) yield [tag("title"), s.titleIn, "reveal"];
+    if (s.backdropIn) yield [tag("backdrop"), s.backdropIn, "reveal"];
+    if (s.factsIn) yield [tag("facts"), s.factsIn, "reveal"];
     if (s.chipReveal) yield [tag("chips"), s.chipReveal, "reveal"];
     if (s.headlineReveal) yield [tag("headline"), s.headlineReveal, "reveal"];
     if (s.lowerIn) yield [tag("lower-third"), s.lowerIn, "reveal"];
@@ -691,9 +704,13 @@ export function lintTimeline(timeline) {
     if (s.kind === "article" && s.exitAt - s.start > TIMING.maxBlock + 1e-6) fail("block-length", `${s.id} runs ${(s.exitAt - s.start).toFixed(2)} s; article blocks stay under ${TIMING.maxBlock} s (shorten the highlighted clause)`);
   }
 
-  // 10. frame 0 is a usable thumbnail: the opening is on screen and fully opaque
+  // 10. frame 0 is a usable thumbnail: the opening is on screen and fully opaque, and the
+  // whole report title is already up (LinkedIn and X use frame 0 as the thumbnail)
   const first = scenesAt(timeline, 0);
   if (!first.length || first[0].scene.kind !== "opening" || first[0].alpha < 1) fail("no-fade-from-black", "frame 0 is not the opening at full opacity");
+  const opening = timeline.scenes.find((s) => s.kind === "opening");
+  const titleRead = timeline.texts.find((r) => r.scene === "opening" && r.role === "title");
+  if (!opening || openingState(opening, 0).title < 1 || !titleRead || titleRead.from > 0) fail("thumbnail-title", "the report title is not fully visible at frame 0");
 
   return problems;
 }
