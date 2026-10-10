@@ -1,0 +1,14 @@
+{
+  "name": "Aster Labs",
+  "mention_terms": ["Aster Labs"],
+  "report_title": "Aster Labs earned coverage",
+  "subtitle": "A source-linked launch recap built from reviewed press-clip captures.",
+  "period_label": "September 2026",
+  "website": "https://aster.example.test/",
+  "logo_path": "assets/aster-logo.svg",
+  "primary_color": "#12324f",
+  "accent_color": "#e56b4a",
+  "background_color": "#f4efe6",
+  "closing_note": "Synthetic examples only. In a real reel, follow every link to the original reporting.",
+  "reel_max_items": 6
+}

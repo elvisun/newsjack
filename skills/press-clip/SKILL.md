@@ -51,9 +51,17 @@ node clip.mjs --url "<URL>" \
 
 For a **roundup** where the client is one entry among many, add `--section "<Client Name>"` to keep only their part.
 
-The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, **pick the article container structurally** (the tightest element that holds the `<h1>` and most of the page text, never one nested in `header`/`nav`/`footer`/`aside`), isolate it, sweep out **empty placeholder boxes** left behind by the network blocking (a dead ad slot or emptied embed that still takes height but holds no text, media, or caption — logged, never deleted silently), force a **white page background** so no off-white site color bleeds into the last page, **resolve the outlet logo**, recolor it, stamp it large at the top, and write the PDF plus a preview PNG. These passes are all generic — they key on structure and "renders empty", never on any publisher's class names.
+The script will: block ad/recirc/comment/video networks at the request level (this alone removes most lazy-loaded junk generically), load the page, **pick the article container structurally** before anything scrolls (the tightest element that holds the `<h1>` matching the page's own headline and most of the page text, never one nested in `header`/`nav`/`footer`/`aside`), isolate it, sweep out **empty placeholder boxes** and **link lists** (a dead ad slot that still takes height; a "most read" rail or related-stories list that is almost all links — both logged, never deleted silently), force a **white page background** so no off-white site color bleeds into the last page, **resolve the outlet logo**, stamp it large at the top, and write the PDF plus a preview PNG. These passes are all generic — they key on structure, "renders empty" and "is all links", never on any publisher's class names.
 
-**Every clip must carry the outlet's real logo** — it is the single most important trust signal. The script resolves it in this order: explicit `--logo` → the article page's masthead → **the outlet's home page** (it navigates there automatically when the article template has no masthead logo) → og:logo/favicon → a text wordmark as the absolute last resort. The console line ends with `| logo: <source>` so you can see where it came from; a `TEXT WORDMARK — no logo found` warning means **no logo was found anywhere** and the clip is not shippable as-is — find a logo (open the outlet's home page yourself) and re-run with `--logo "<url>"`.
+Other generic safeguards run on every page, learned from real failures:
+
+- **Next-article loaders are stopped.** Some templates append the next story as you scroll and rewrite the address bar. Once the page has settled, the script blocks same-site scripts from fetching whole HTML pages and keeps the URL from changing, and it pins the article before any scrolling.
+- **Floating chrome is hidden.** Fixed and sticky video players, "keep scrolling" bars and cookie overlays outside the article are hidden, and the scroll lock that cookie dialogs put on the page is released (it otherwise cuts the PDF to one page).
+- **Lazy images are loaded** and decoded inside the article, and fonts are awaited, so far-down photos are not blank.
+- **Animations are frozen.** An animated logo has no single right frame: the script tries its first and last frames and keeps the one with more ink (the full wordmark, not a collapsed monogram).
+- **Tall pages are never repeated.** Chrome silently repeats a screenshot's content past about 16,000 pixels. The preview drops to 1x for tall pages and stops at 16,000 px with a warning for very tall ones; the PDF always has the whole article.
+
+**Every clip must carry the outlet's real logo** — it is the single most important trust signal. The logo is stamped exactly as the site shows it: its own colours, on a plate of the header colour it sat on (a white logo keeps its dark header behind it). It is never recoloured. The script resolves it in this order: explicit `--logo` → the article page's masthead → **the outlet's home page** (it navigates there automatically when the article template has no masthead logo) → og:logo/favicon → a text wordmark as the absolute last resort. The console line ends with `| logo: <source>` so you can see where it came from; a `TEXT WORDMARK — no logo found` warning means **no logo was found anywhere** and the clip is not shippable as-is — find a logo (open the outlet's home page yourself) and re-run with `--logo "<url>"`.
 
 ### 2. Review with a separate agent — required, not optional
 
@@ -113,6 +121,53 @@ Some pages still need more — a paywalled or lazy body, a section boundary the 
 | **Client's section only** | A roundup where the client is one of many entries | `--section "<Heading>"` |
 
 In a long roundup, the section scope is almost always what the client wants. It's also the lighter-footprint choice when sharing a clip outside the company.
+
+## Animation assets (for coverage-reel)
+
+When a clip will be animated, add three flags:
+
+| Flag | What it does |
+| --- | --- |
+| `--mention "<term>"` | The client's names to find: company, products, spellings, spokespeople. Repeat it or use a comma list. Matching is case-sensitive and the longest name wins. A single capitalised word that is also a common word (for example "Nothing" or "Apple") counts only when it is not the first word of a sentence or part of a title-case heading. |
+| `--assets <dir>` | Writes the captures and a `clip.json` sidecar into this folder. |
+| `--scale 2` or `3` | Pixel density of the captures (default 2; zooming in needs at least 2). Use 3 for coverage-reel, whose phone formats zoom in close on the sentence. |
+| `--pick <n>` | Capture the n-th ranked mention instead of the best one, when the reviewer prefers another sentence. |
+
+The folder gets `top.png` (the stamped logo, headline, byline and lead photo), `strip-1.png` and onward (the article from the top through the chosen mention, in tiles well under Chrome's size limit), `mention-1.png` (the mention with a paragraph of context) and `masthead.png` (the logo on a transparent background). Body sentences are ranked above headlines, captions, links, related-story lists and navigation; every hit is listed so a reviewer can pick another.
+
+`clip.json` is a machine handoff (version 1). Its main fields:
+
+```json
+{
+  "version": 1,
+  "source_url": "https://example.com/article",
+  "final_url": "https://example.com/article",
+  "captured_at": "2026-10-10T14:00:00.000Z",
+  "tool": "press-clip/clip.mjs 2",
+  "scale": 2,
+  "scope": "whole",
+  "page": {
+    "outlet": { "value": "Example News", "source": "json-ld" },
+    "headline": { "value": "Headline as shown on the page", "source": "visible" },
+    "byline": { "value": "Jo Writer", "source": "json-ld" },
+    "published_at": { "value": "2026-05-18T06:00:00Z", "source": "og" }
+  },
+  "logo": { "resolved_from": "article page", "kind": "svg", "frame": "start", "plate_color": "rgb(5, 41, 98)", "file": "masthead.png", "rect": {}, "plate_rect": {} },
+  "assets": [{ "role": "top", "file": "top.png", "width": 1656, "height": 1990, "scale": 2, "rect": { "x": 16, "y": 0, "w": 828, "h": 995 } }],
+  "mentions": [{
+    "rank": 1, "chosen": true, "term": "Example Co", "sentence": "…", "clause": "…", "in_link": false, "score": 7,
+    "rects": { "term": [], "sentence": [], "clause": [], "paragraph": {} },
+    "asset_rects": [{ "file": "strip-1.png", "term": [], "sentence": [], "clause": [] }]
+  }],
+  "warnings": [{ "code": "paywall_suspected", "detail": "…" }]
+}
+```
+
+Page details are read, never inferred: each has the `value` the page gives (or `null`) and its `source` (`json-ld`, `og`, `meta` or `visible`). Author emails are dropped. The headline is the one shown on the page. The publish date is copied as the page states it and is not checked; confirm it with the user before using it. Rectangles are in page pixels (`rects`) and in each image's own pixels (`asset_rects`); a sentence that wraps has one rectangle per line. Warning codes: `paywall_suspected`, `no_mention_found`, `logo_text_fallback`, `layout_shifted` (re-run), `headline_mismatch`, `multiple_h1`, `section_not_found`, `pick_out_of_range`, `preview_downscaled`, `preview_truncated`.
+
+## If the page is blocked
+
+Some sites answer automated browsers with a bot check ("Just a moment…", an empty 403 or 503 page). The script detects this, writes nothing and exits with code 3. **Do not try to get around it** — no stealth tricks, no faked browsers, no archive mirrors. Ask the user for their own PDF or screenshot of the article and use that instead.
 
 ## After you render
 

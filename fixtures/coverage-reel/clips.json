@@ -1,0 +1,57 @@
+{
+  "version": 2,
+  "clips": [
+    {
+      "source_url": "https://example.test/northstar-launch",
+      "sidecar_path": "clips/northstar-daily/clip.json",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
+        "scope": "whole",
+        "reviewed_at": "2026-10-10T14:30:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
+      }
+    },
+    {
+      "source_url": "https://example.test/field-notes",
+      "sidecar_path": "clips/field-notes/clip.json",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
+        "scope": "section",
+        "reviewed_at": "2026-10-10T14:30:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
+      }
+    },
+    {
+      "source_url": "https://example.test/morning-signal",
+      "sidecar_path": "clips/morning-signal/clip.json",
+      "pdf_path": "assets/synthetic-clip.pdf",
+      "review": {
+        "verdict": "clean",
+        "logo_verified": true,
+        "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
+        "scope": "whole",
+        "reviewed_at": "2026-10-10T14:30:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
+      }
+    },
+    {
+      "source_url": "https://example.test/ledger-weekly",
+      "omitted": {
+        "reason": "blocked",
+        "detail": "Synthetic example of a page that served a bot challenge."
+      }
+    }
+  ]
+}
