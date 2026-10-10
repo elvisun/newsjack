@@ -645,6 +645,11 @@ function drawFrame(ctx, t) {
     ctx.translate(W / 2 + st.x, H / 2);
     ctx.scale(st.scale, st.scale);
     ctx.translate(-W / 2, -H / 2);
+    // a scene never paints outside its own frame (the wall's marquee would spill over the
+    // outgoing shot during the push)
+    ctx.beginPath();
+    ctx.rect(0, 0, W, H);
+    ctx.clip();
     const s = st.scene;
     if (s.kind === "opening") drawOpening(ctx, s, t);
     else if (s.kind === "article") drawArticle(ctx, s, t);
