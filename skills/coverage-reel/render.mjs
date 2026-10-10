@@ -88,6 +88,9 @@ export function parseCsv(input) {
   let record = [];
   let field = "";
   let quoted = false;
+  let closed = false;
+  // Row numbers match validateCoverage: the header is row 1 and blank lines are not counted.
+  const row = () => records.length + 1;
 
   for (let i = 0; i < text.length; i += 1) {
     const char = text[i];
@@ -98,6 +101,7 @@ export function parseCsv(input) {
           i += 1;
         } else {
           quoted = false;
+          closed = true;
         }
       } else {
         field += char;
@@ -105,17 +109,23 @@ export function parseCsv(input) {
       continue;
     }
 
-    if (char === '"' && field === "") {
-      quoted = true;
-    } else if (char === ",") {
+    // A stray quote would otherwise let a comma split one value across the wrong columns.
+    if (char === ",") {
       record.push(field);
       field = "";
+      closed = false;
     } else if (char === "\n" || char === "\r") {
       if (char === "\r" && text[i + 1] === "\n") i += 1;
       record.push(field);
       if (record.some((value) => value !== "")) records.push(record);
       record = [];
       field = "";
+      closed = false;
+    } else if (closed) {
+      fail(`CSV row ${row()} has text after a closing quote; put the whole value in quotes and double any quote inside it ("")`);
+    } else if (char === '"') {
+      if (field !== "") fail(`CSV row ${row()} has a quote inside an unquoted value; put the whole value in quotes, with no space before the opening quote, and double any quote inside it ("")`);
+      quoted = true;
     } else {
       field += char;
     }
@@ -134,7 +144,12 @@ export function parseCsv(input) {
     if (values.length > headers.length) {
       fail(`CSV row ${index + 2} has more fields than the header`);
     }
-    return Object.fromEntries(headers.map((header, fieldIndex) => [header, values[fieldIndex] ?? ""]));
+    // A short row usually means a missing comma, so its values sit under the wrong headers
+    // (an outlet column holding the headline); padding it would hide that.
+    if (values.length < headers.length) {
+      fail(`CSV row ${index + 2} has fewer fields than the header (${values.length} of ${headers.length})`);
+    }
+    return Object.fromEntries(headers.map((header, fieldIndex) => [header, values[fieldIndex]]));
   });
 }
 
@@ -302,16 +317,31 @@ export function validateBrand(raw, baseDir = process.cwd()) {
 // press-clip sidecars (clip.json) and the review gate (clips.json)
 // ---------------------------------------------------------------------------
 
+// An SVG's size as the browser sizes it: width and height in px (bare or with "px"), and the
+// viewBox for whichever is missing or in other units. Null when neither gives a size.
+function svgSize(source) {
+  const tag = /<svg\b[^>]*>/i.exec(source)?.[0];
+  if (!tag) return null;
+  const attr = (name) => new RegExp(`\\s${name}\\s*=\\s*(["'])(.*?)\\1`, "i").exec(tag)?.[2].trim();
+  const px = (value) => {
+    const match = /^(\d+(?:\.\d+)?|\.\d+)(?:px)?$/i.exec(value ?? "");
+    return match && Number(match[1]) > 0 ? Number(match[1]) : null;
+  };
+  const [, , boxW, boxH, extra] = (attr("viewBox") ?? "").split(/[\s,]+/).map(Number);
+  const width = px(attr("width")), height = px(attr("height"));
+  if (width && height) return { width, height };
+  if (!(boxW > 0 && boxH > 0) || extra !== undefined) return null;
+  if (width) return { width, height: (width * boxH) / boxW };
+  if (height) return { width: (height * boxW) / boxH, height };
+  return { width: boxW, height: boxH };
+}
+
 export function imageSize(path) {
   const bytes = readFileSync(path);
   if (bytes.length >= 24 && bytes.toString("latin1", 1, 4) === "PNG" && bytes.toString("latin1", 12, 16) === "IHDR") {
     return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
   }
-  if (extname(path).toLowerCase() === ".svg") {
-    const head = bytes.toString("utf8", 0, 2000);
-    const w = /<svg[^>]*\swidth="(\d+(?:\.\d+)?)"/.exec(head), h = /<svg[^>]*\sheight="(\d+(?:\.\d+)?)"/.exec(head);
-    if (w && h) return { width: Number(w[1]), height: Number(h[1]) };
-  }
+  if (extname(path).toLowerCase() === ".svg") return svgSize(bytes.toString("utf8"));
   if (bytes.length > 4 && bytes[0] === 0xff && bytes[1] === 0xd8) {
     for (let at = 2; at + 9 < bytes.length;) {
       if (bytes[at] !== 0xff) break;
@@ -1007,6 +1037,10 @@ export function renderArtifacts({ coverageRows, brand, clips, outDir, format = "
   const reel = chooseReelRows(rows, brand.reel_max_items);
   const palette = reelPalette(brand);
   const logoSize = brandLogoAsset ? imageSize(brand.logo_path) : null;
+  const warnings = [];
+  if (brandLogoAsset && !logoSize) {
+    warnings.push(`could not read the size of brand.logo_path (${brand.logo_path}), so the reel shows the brand name as text while the dashboard shows the logo. Give the SVG a viewBox or a width and height in px, or use a PNG or JPEG logo.`);
+  }
   const timeline = buildTimeline({
     brand: {
       name: brand.name,
@@ -1030,7 +1064,7 @@ export function renderArtifacts({ coverageRows, brand, clips, outDir, format = "
   writeFileSync(join(destination, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
   writeFileSync(join(destination, "sources.txt"), `${sources}\n`);
   writeFileSync(join(destination, "reel.html"), reelDocument);
-  return { destination, dashboard, manifest, reelDocument, rows, reelRows: reel.rows, timeline, lints, palette };
+  return { destination, dashboard, manifest, reelDocument, rows, reelRows: reel.rows, timeline, lints, palette, warnings };
 }
 
 // ---------------------------------------------------------------------------
@@ -1246,6 +1280,7 @@ async function main() {
   console.log(`Coverage dashboard written to ${join(out, "index.html")}`);
   console.log(`Reel player written to ${join(out, "reel.html")} (${format}, ${result.timeline.duration.toFixed(1)} s, ${result.reelRows.length} article${result.reelRows.length === 1 ? "" : "s"}; open it in a browser to watch and scrub)`);
   console.log(`Metrics: coverage=${result.rows.length}; reach=${result.manifest.metrics.reach.status}; sentiment=${result.manifest.metrics.sentiment.status}`);
+  for (const warning of result.warnings) console.warn(`Warning: ${warning}`);
   for (const row of result.rows) {
     if (row.clip.kind === "omitted") console.log(`Left out of the reel: ${row.source_url} (${row.clip.reason}). ${omittedReason(row.clip)}`);
     for (const key of ["outlet", "headline", "byline"]) if (row[`${key}_source`]?.startsWith("page:")) console.log(`Row ${row.position} ${key} read from the page (${row[`${key}_source`].slice(5)}): "${row[key]}"`);

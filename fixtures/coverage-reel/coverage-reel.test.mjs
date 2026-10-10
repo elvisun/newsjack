@@ -13,6 +13,7 @@ import {
   chooseReelRows,
   deriveMetrics,
   findBrowser,
+  imageSize,
   inlineModule,
   parseCsv,
   reelPalette,
@@ -85,6 +86,44 @@ function sidecar(slug) {
 test("CSV parsing preserves quoted commas and newlines", () => {
   const rows = parseCsv('source_url,headline,note\r\nhttps://example.test/a,"A, B","line one\nline two"\r\n');
   assert.deepEqual(rows, [{ source_url: "https://example.test/a", headline: "A, B", note: "line one\nline two" }]);
+});
+
+test("CSV parsing rejects stray quotes and short rows instead of shifting values into the wrong columns", () => {
+  assert.deepEqual(parseCsv('headline,note\n"say ""hi""",x\n'), [{ headline: 'say "hi"', note: "x" }]);
+  const rejects = (csv, pattern) => assert.throws(() => parseCsv(csv), (error) => error instanceof InputError && pattern.test(error.message));
+  rejects('source_url,headline,outlet\nhttps://example.test/a, "A, B",Wired\n', /^CSV row 2 has a quote inside an unquoted value/);
+  rejects('source_url,headline,outlet\nhttps://example.test/a,The "best" phone,Wired\n', /^CSV row 2 has a quote inside an unquoted value/);
+  rejects('source_url,headline,outlet\nhttps://example.test/a,"A" B,Wired\n', /^CSV row 2 has text after a closing quote/);
+  // a quoted multi-line value is one row and blank lines are skipped, as in validateCoverage
+  rejects('source_url,headline,outlet\nhttps://example.test/a,"one\ntwo",Wired\n\nhttps://example.test/b,Headline\n', /^CSV row 3 has fewer fields than the header \(2 of 3\)/);
+});
+
+test("SVG logos are sized from px units or the viewBox, and an unreadable size warns instead of dropping the logo", () => {
+  const work = mkdtempSync(join(tmpdir(), "coverage-reel-svg-size-"));
+  const svg = (name, attrs) => {
+    const path = join(work, `${name}.svg`);
+    writeFileSync(path, `<?xml version="1.0"?>\n<svg xmlns="http://www.w3.org/2000/svg" ${attrs}><rect stroke-width="9" width="10" height="10"/></svg>`);
+    return path;
+  };
+  assert.deepEqual(imageSize(svg("plain", 'width="420" height="120"')), { width: 420, height: 120 });
+  assert.deepEqual(imageSize(svg("px", "width='220px' height='60PX'")), { width: 220, height: 60 });
+  assert.deepEqual(imageSize(svg("viewbox", 'viewBox="0 0 440 100"')), { width: 440, height: 100 });
+  assert.deepEqual(imageSize(svg("width-only", 'width="220" viewBox="0,0,440,100"')), { width: 220, height: 50 });
+  assert.deepEqual(imageSize(svg("percent", 'width="100%" height="100%" viewBox="0 0 440 100"')), { width: 440, height: 100 });
+  assert.equal(imageSize(svg("unsized", 'width="12em" height="3em"')), null);
+
+  const { brand } = fixtureInputs();
+  const sized = fixtureRender({ brand: { ...brand, logo_path: svg("logo-viewbox", 'viewBox="0 0 440 100"') } });
+  assert.deepEqual(sized.warnings, []);
+  assert.equal(sized.timeline.brand.logo.width / sized.timeline.brand.logo.height, 4.4);
+  const unsized = fixtureRender({ brand: { ...brand, logo_path: svg("logo-unsized", 'width="12em" height="3em"') } });
+  assert.equal(unsized.timeline.brand.logo, null);
+  assert.match(unsized.warnings.join("\n"), /could not read the size of brand\.logo_path \(.*logo-unsized\.svg\)/);
+
+  writeFileSync(join(work, "brand.json"), JSON.stringify({ ...JSON.parse(readFileSync(join(fixtureRoot, "brand.json"), "utf8")), logo_path: "logo-unsized.svg" }));
+  const run = spawnSync(process.execPath, [join(repoRoot, "skills/coverage-reel/render.mjs"), "--csv", join(fixtureRoot, "coverage.csv"), "--brand", join(work, "brand.json"), "--clips", join(fixtureRoot, "clips.json"), "--out", join(work, "out")], { cwd: repoRoot, encoding: "utf8" });
+  assert.equal(run.status, 0, run.stderr || run.stdout);
+  assert.match(run.stderr, /^Warning: could not read the size of brand\.logo_path .*the reel shows the brand name as text/m);
 });
 
 test("coverage validation rejects unsafe URLs, unsourced reach and unknown columns", () => {
