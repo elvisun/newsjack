@@ -51,7 +51,7 @@ or just describe what you want and your agent picks the right one.
 - 🗣️ **`/voice-extractor`** — fingerprint your real writing, kill the AI tells
 - 📋 **`/find-journalists`** — build a fit-checked media list, optionally through Medialyst's approval-gated research workflow
 - 📰 **`/press-clip`** — turn a live article URL into a branded press-clip PDF: the outlet's own logo and layout kept, ads and clutter stripped, the client's mention highlighted *(local agent only)*
-- 🎞️ **`/coverage-reel`** — turn a coverage CSV plus reviewed press clips into a source-linked earned-media dashboard and optional 16:9 highlight MP4 *(local agent only)*
+- 🎞️ **`/coverage-reel`** — turn a coverage CSV plus reviewed press clips into a source-linked earned-media dashboard and a motion-designed highlight reel: each real article scrolls to the sentence that names you and highlights it, in 16:9, 4:5, 9:16 or square, encoded right in Chrome *(local agent only)*
 
 ### 🧭 Strategize — figure out what your story even is
 
@@ -135,7 +135,7 @@ Legend:
 - **🔧 May need an external connection** — requires or does its best work with an external data source connected (e.g. the X API or the Medialyst API).
 - **⚠️ Limited Mode** — runs in a chat app, but as a best-effort, one-shot pass with nothing saved between sessions: no stored voice fingerprint, no scheduled monitoring, no repeat-suppression. Connect a local agent for the saved, scheduled version.
 - **🔜 Coming soon** — not available here yet.
-- **❌ Not supported here** — needs a local agent. The two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it; `press-clip` drives a real Chrome/Edge browser via Playwright, while `coverage-reel` writes local report assets and composes reviewed press clips. Chat apps cannot run those local workflows.
+- **❌ Not supported here** — needs a local agent. The two setup skills (`newsjack-monitor-setup`, `coverage-tracker-setup`) only save a profile or config and schedule it; `press-clip` drives a real Chrome/Edge browser via Playwright, while `coverage-reel` composes reviewed press clips into local report files and renders its video in that same browser. Chat apps cannot run those local workflows.
 
 `pr-calendar` is setup-required but portable: it works anywhere the agent can use the `newsjack` CLI or a connected Medialyst MCP/connector. The calendar endpoint is free; login is required only to prevent abuse. Consumer ChatGPT is the exception for now because of the same skill-loading limitation called out above.
 

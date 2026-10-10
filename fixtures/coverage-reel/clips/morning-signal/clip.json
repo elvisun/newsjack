@@ -1,0 +1,267 @@
+{
+  "version": 1,
+  "tool": "fixtures/coverage-reel/make-fixture.mjs (synthetic)",
+  "source_url": "https://example.test/morning-signal",
+  "final_url": "https://example.test/morning-signal",
+  "canonical_url": "https://example.test/morning-signal",
+  "captured_at": "2026-09-30T12:00:00.000Z",
+  "viewport": {
+    "width": 1180,
+    "height": 1600
+  },
+  "scale": 2,
+  "scope": "whole",
+  "section": null,
+  "mention_terms": [
+    "ASTER LABS"
+  ],
+  "page": {
+    "outlet": {
+      "value": "Morning Signal",
+      "source": "json-ld"
+    },
+    "headline": {
+      "value": "Local robotics teams move from prototypes to pilots",
+      "source": "visible"
+    },
+    "byline": {
+      "value": "Morgan Lee",
+      "source": "json-ld"
+    },
+    "published_at": {
+      "value": "2026-09-18T07:30:00Z",
+      "source": "json-ld"
+    }
+  },
+  "logo": {
+    "resolved_from": "article page",
+    "kind": "svg",
+    "frame": null,
+    "plate_color": "rgb(23, 37, 62)",
+    "file": "masthead.png",
+    "rect": {
+      "x": 70,
+      "y": 20,
+      "w": 420,
+      "h": 35
+    },
+    "plate_rect": {
+      "x": 48,
+      "y": 6,
+      "w": 464,
+      "h": 64
+    }
+  },
+  "root": {
+    "x": 0,
+    "y": 0,
+    "w": 560,
+    "h": 1900
+  },
+  "headline_rect": {
+    "x": 24,
+    "y": 132,
+    "w": 512,
+    "h": 114
+  },
+  "assets": [
+    {
+      "role": "top",
+      "file": "top.png",
+      "width": 1120,
+      "height": 1236,
+      "scale": 2,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 560,
+        "h": 618
+      }
+    },
+    {
+      "role": "strip",
+      "file": "strip-1.png",
+      "width": 1120,
+      "height": 3448,
+      "scale": 2,
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 560,
+        "h": 1724
+      },
+      "index": 0
+    },
+    {
+      "role": "mention",
+      "file": "mention-1.png",
+      "width": 1120,
+      "height": 344,
+      "scale": 2,
+      "rect": {
+        "x": 0,
+        "y": 712,
+        "w": 560,
+        "h": 172
+      },
+      "mention": 0
+    },
+    {
+      "role": "masthead",
+      "file": "masthead.png",
+      "width": 840,
+      "height": 70,
+      "scale": 2,
+      "rect": {
+        "x": 70,
+        "y": 20,
+        "w": 420,
+        "h": 35
+      }
+    }
+  ],
+  "mentions": [
+    {
+      "rank": 1,
+      "chosen": true,
+      "term": "ASTER LABS",
+      "text": "ASTER LABS",
+      "sentence": "ASTER LABS ANSWERED WITH A LIVE DEMO OF ITS LANE SYSTEM.",
+      "clause": "ASTER LABS ANSWERED WITH A LIVE DEMO OF ITS LANE SYSTEM.",
+      "block": "p",
+      "in_link": false,
+      "score": 7,
+      "reasons": [
+        "+3 body paragraph",
+        "+2 full product or company name",
+        "+1 in the first five paragraphs",
+        "+1 readable sentence length"
+      ],
+      "rects": {
+        "term": [
+          {
+            "x": 24,
+            "y": 772,
+            "w": 120,
+            "h": 18
+          }
+        ],
+        "sentence": [
+          {
+            "x": 24,
+            "y": 772,
+            "w": 468,
+            "h": 18
+          },
+          {
+            "x": 24,
+            "y": 798,
+            "w": 192,
+            "h": 18
+          }
+        ],
+        "clause": [
+          {
+            "x": 24,
+            "y": 772,
+            "w": 468,
+            "h": 18
+          },
+          {
+            "x": 24,
+            "y": 798,
+            "w": 192,
+            "h": 18
+          }
+        ],
+        "paragraph": {
+          "x": 24,
+          "y": 772,
+          "w": 512,
+          "h": 52
+        }
+      },
+      "asset_rects": [
+        {
+          "file": "strip-1.png",
+          "term": [
+            {
+              "x": 48,
+              "y": 1544,
+              "w": 240,
+              "h": 36
+            }
+          ],
+          "sentence": [
+            {
+              "x": 48,
+              "y": 1544,
+              "w": 936,
+              "h": 36
+            },
+            {
+              "x": 48,
+              "y": 1596,
+              "w": 384,
+              "h": 36
+            }
+          ],
+          "clause": [
+            {
+              "x": 48,
+              "y": 1544,
+              "w": 936,
+              "h": 36
+            },
+            {
+              "x": 48,
+              "y": 1596,
+              "w": 384,
+              "h": 36
+            }
+          ]
+        },
+        {
+          "file": "mention-1.png",
+          "term": [
+            {
+              "x": 48,
+              "y": 120,
+              "w": 240,
+              "h": 36
+            }
+          ],
+          "sentence": [
+            {
+              "x": 48,
+              "y": 120,
+              "w": 936,
+              "h": 36
+            },
+            {
+              "x": 48,
+              "y": 172,
+              "w": 384,
+              "h": 36
+            }
+          ],
+          "clause": [
+            {
+              "x": 48,
+              "y": 120,
+              "w": 936,
+              "h": 36
+            },
+            {
+              "x": 48,
+              "y": 172,
+              "w": 384,
+              "h": 36
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "warnings": []
+}

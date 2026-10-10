@@ -1,14 +1,16 @@
 {
-  "version": 1,
+  "version": 2,
   "clips": [
     {
       "source_url": "https://example.test/northstar-launch",
-      "preview_path": "assets/northstar-daily.svg",
+      "sidecar_path": "clips/northstar-daily/clip.json",
       "pdf_path": "assets/synthetic-clip.pdf",
       "review": {
         "verdict": "clean",
         "logo_verified": true,
         "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
         "scope": "whole",
         "reviewed_at": "2026-10-10T14:30:00Z",
         "notes": "Synthetic fixture only; no publisher material."
@@ -16,28 +18,39 @@
     },
     {
       "source_url": "https://example.test/field-notes",
-      "preview_path": "assets/field-notes.svg",
+      "sidecar_path": "clips/field-notes/clip.json",
       "pdf_path": "assets/synthetic-clip.pdf",
       "review": {
         "verdict": "clean",
         "logo_verified": true,
         "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
         "scope": "section",
-        "reviewed_at": "2026-10-10T14:32:00Z",
-        "notes": "Synthetic fixture only; section scope mirrors a roundup."
+        "reviewed_at": "2026-10-10T14:30:00Z",
+        "notes": "Synthetic fixture only; no publisher material."
       }
     },
     {
       "source_url": "https://example.test/morning-signal",
-      "preview_path": "assets/morning-signal.svg",
+      "sidecar_path": "clips/morning-signal/clip.json",
       "pdf_path": "assets/synthetic-clip.pdf",
       "review": {
         "verdict": "clean",
         "logo_verified": true,
         "pdf_reviewed": true,
+        "mention_verified": true,
+        "captures_clean": true,
         "scope": "whole",
-        "reviewed_at": "2026-10-10T14:34:00Z",
+        "reviewed_at": "2026-10-10T14:30:00Z",
         "notes": "Synthetic fixture only; no publisher material."
+      }
+    },
+    {
+      "source_url": "https://example.test/ledger-weekly",
+      "omitted": {
+        "reason": "blocked",
+        "detail": "Synthetic example of a page that served a bot challenge."
       }
     }
   ]

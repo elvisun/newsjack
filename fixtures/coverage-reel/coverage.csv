@@ -1,4 +1,5 @@
 source_url,outlet,headline,published_at,byline,note,coverage_type,sentiment,reach,reach_source_url,clip_section,include_in_reel
 https://example.test/northstar-launch,Northstar Daily,"Aster Labs opens a safer robotics workspace",2026-09-14,Jamie Rivera,"A launch-day profile focused on the team's documented safety process.",feature,positive,12000,https://metrics.example.test/northstar-launch,,true
-https://example.test/field-notes,Field Notes,"Inside the small teams testing warehouse robots",2026-09-16,Robin Chen,"The roundup includes a concise Aster Labs section.",roundup,neutral,,,Aster Labs,true
+https://example.test/field-notes,Field Notes,,2026-09-16,Robin Chen,"The roundup includes a concise Aster Labs section.",roundup,neutral,,,Aster Labs,true
 https://example.test/morning-signal,Morning Signal,"Local robotics teams move from prototypes to pilots",,Morgan Lee,,broadcast,,,,,true
+https://example.test/ledger-weekly,Ledger Weekly,"Small robotics firms find their footing",2026-09-20,,,feature,,,,,false

@@ -32,8 +32,17 @@ func TestInstallGeneratesInstructionOnlySkills(t *testing.T) {
 		if !fileExists(filepath.Join(skillDir, ".newsjack-installed")) {
 			t.Fatalf("marker missing")
 		}
-		if !fileExists(filepath.Join(codexSkills, "coverage-reel", "render.mjs")) {
-			t.Fatalf("coverage-reel renderer not installed")
+		// skill-local scripts must ship with the skill (only folders named "scripts" are skipped)
+		for _, rel := range []string{
+			filepath.Join("coverage-reel", "render.mjs"),
+			filepath.Join("coverage-reel", "timeline.mjs"),
+			filepath.Join("coverage-reel", "reel-player.js"),
+			filepath.Join("coverage-reel", "mp4mux.mjs"),
+			filepath.Join("press-clip", "clip.mjs"),
+		} {
+			if !fileExists(filepath.Join(codexSkills, rel)) {
+				t.Fatalf("%s not installed", rel)
+			}
 		}
 	})
 }
