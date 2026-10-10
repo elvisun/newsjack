@@ -3,7 +3,7 @@
 This fixture exercises the public `coverage-reel` skill without live articles or publisher material. Every outlet, headline, byline, sentence, logo, metric, URL and review record is synthetic.
 
 - `coverage.csv`, `brand.json`, `clips.json`: the renderer's inputs. Row 2 has no headline (filled from the page and labelled), row 3 has no publish date (reported, never filled), and row 4 stands in for a page that blocked automated capture (left out of the reel and reported).
-- `clips/<slug>/`: synthetic press-clip captures (`top.png`, `strip-1.png`, `mention-1.png`, `masthead.png`) and their `clip.json` sidecars, with real mention rectangles so the whole reel renders offline. Regenerate them with `node fixtures/coverage-reel/make-fixture.mjs`; the tests check the committed files match the generator byte for byte.
+- `clips/<slug>/`: synthetic press-clip captures (`top.png`, `strip-1.png`, `mention-1.png`, `masthead.png`) at 3x, as press-clip `--scale 3` writes them for the reel's phone formats, and their `clip.json` sidecars, with real mention rectangles so the whole reel renders offline. Regenerate them with `node fixtures/coverage-reel/make-fixture.mjs`; the tests check the committed files match the generator byte for byte.
 - `synthetic-article.html`: a made-up article page for the press-clip `--assets` integration test.
 - `assets/`: the synthetic brand logo and a placeholder PDF.
 

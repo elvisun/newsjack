@@ -14,7 +14,7 @@ import { deflateSync } from "node:zlib";
 import { mergeLineRects, toAssetRects, unionRect } from "../../skills/press-clip/clip.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const SCALE = 2;
+const SCALE = 3;
 const COLUMN = { x: 0, w: 560 };
 
 // 5x7 glyphs, one row per number, high bit on the left.
