@@ -321,8 +321,19 @@ func requestedSourcesFor(opts detectorOptions, profile monitorProfile) ([]string
 	if err != nil {
 		return nil, err
 	}
-	if truthy(profile.XNews["enabled"], true) && !opts.NoXNews && !contains(sources, "x_news") {
+	xNewsEnabled := truthy(profile.XNews["enabled"], true)
+	if xNewsEnabled && !opts.NoXNews && !contains(sources, "x_news") {
 		sources = append(sources, "x_news")
+	}
+	// defaultSources already carries x_news and x, so a profile that disables
+	// them has to take them back out. An explicit --sources list still wins.
+	if strings.TrimSpace(opts.Sources) == "" {
+		if !xNewsEnabled {
+			sources = removeString(sources, "x_news")
+		}
+		if !truthy(dictValue(profile.Raw["x"], map[string]any{"enabled": true})["enabled"], true) {
+			sources = removeString(sources, "x")
+		}
 	}
 	trendsMode := strings.ToLower(stringValue(profile.XTrends["mode"]))
 	if trendsMode != "" && trendsMode != "none" && trendsMode != "off" && trendsMode != "false" && !opts.NoXTrends && !contains(sources, "x_trends") {

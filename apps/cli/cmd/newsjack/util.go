@@ -459,6 +459,15 @@ func normalizeLooseDate(value string) string {
 	if parsed, err := http.ParseTime(value); err == nil {
 		return parsed.UTC().Format(time.RFC3339Nano)
 	}
+	// http.ParseTime only accepts the RFC1123 form with a literal "GMT" zone.
+	// Real RSS feeds routinely emit a numeric zone instead (WordPress uses
+	// "+0000"), which would otherwise pass through unnormalised and be unusable
+	// downstream. RFC3339 is accepted for feeds that date items that way.
+	for _, layout := range []string{time.RFC1123Z, time.RFC822Z, time.RFC3339} {
+		if parsed, err := time.Parse(layout, value); err == nil {
+			return parsed.UTC().Format(time.RFC3339Nano)
+		}
+	}
 	return value
 }
 
