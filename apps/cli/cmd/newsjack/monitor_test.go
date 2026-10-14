@@ -9,6 +9,112 @@ import (
 	"testing"
 )
 
+func runEnvelopeCommand(t *testing.T, args ...string) map[string]any {
+	t.Helper()
+	var out, errBuf bytes.Buffer
+	if code := runCLI(args, &out, &errBuf); code != 0 {
+		t.Fatalf("%v code=%d stderr=%s", args, code, errBuf.String())
+	}
+	var payload map[string]any
+	if err := json.Unmarshal(out.Bytes(), &payload); err != nil {
+		t.Fatal(err)
+	}
+	return payload
+}
+
+func readEnvelopeArtifact(t *testing.T, path string) map[string]any {
+	t.Helper()
+	payload, err := readJSONMap(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return payload
+}
+
+func assertEnvelopeBrief(t *testing.T, path string) {
+	t.Helper()
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.HasPrefix(string(data), "# Fixture Falcon — Brief\n") {
+		t.Fatalf("wrong brief company: %s", data)
+	}
+}
+
+func TestMonitorEnvelopePersistenceAndBrief(t *testing.T) {
+	isolateEnvelopeCLI(t)
+	input := map[string]any{"profile": profileEnvelopeFixture(), "feed_rationale": []any{"keep outer metadata"}, "missing_inputs": []any{"public evidence"}}
+	path := writeEnvelopeJSON(t, input)
+	result := runEnvelopeCommand(t, "monitor", "init", "canonical-profile", "--profile", path)
+	assertEnvelopeEqual(t, result["slug"], "canonical-profile")
+	assertEnvelopeEqual(t, readEnvelopeArtifact(t, stringValue(result["profile_path"])), input)
+	assertEnvelopeBrief(t, stringValue(result["brief_path"]))
+}
+
+func TestMonitorEnvelopeDerivedSlug(t *testing.T) {
+	isolateEnvelopeCLI(t)
+	path := writeEnvelopeJSON(t, map[string]any{"profile": profileEnvelopeFixture()})
+	result := runEnvelopeCommand(t, "monitor", "init", "--profile", path)
+	assertEnvelopeEqual(t, result["slug"], "fixture-falcon")
+	assertEnvelopeBrief(t, stringValue(result["brief_path"]))
+}
+
+func assertEnvelopeMockCandidates(t *testing.T, payload map[string]any) {
+	t.Helper()
+	monitor := valueOrEmptyMap(payload["monitor"])
+	want := expectedEnvelopeProfile(profileEnvelopeFixture())
+	assertEnvelopeEqual(t, marshalJSON(monitor["profile"]), marshalJSON(want.publicDict()))
+	assertEnvelopeEqual(t, stringListValue(monitor["queries"]), want.SearchTerms)
+	assertEnvelopeEqual(t, stringListValue(monitor["feed_urls"]), want.FeedURLs)
+	assertEnvelopeEqual(t, monitor["mock"], true)
+	byID := map[string]map[string]any{}
+	for _, signal := range signalSlice(payload["signals"]) {
+		byID[stringValue(signal["id"])] = signal
+	}
+	assertEnvelopeMockSignal(t, byID["e32ebc6ac34ee9d2"], "Regulators open inquiry tied to AI customer support", "news_search")
+	assertEnvelopeMockSignal(t, byID["578832fabe7e6a64"], "Experts are reacting to AI customer support", "x")
+	counts := valueOrEmptyMap(valueOrEmptyMap(payload["diagnostics"])["evidence_by_source"])
+	assertEnvelopeEqual(t, counts["news_search"], float64(1))
+	assertEnvelopeEqual(t, counts["x"], float64(1))
+	assertEnvelopeEqual(t, counts["major_feed"], float64(2))
+}
+
+func assertEnvelopeMockSignal(t *testing.T, signal map[string]any, title, source string) {
+	t.Helper()
+	assertEnvelopeEqual(t, signal["title"], title)
+	assertEnvelopeEqual(t, signal["query"], "AI customer support")
+	evidence := mapSlice(signal["evidence"])
+	if len(evidence) != 1 {
+		t.Fatalf("expected one fixture evidence item: %#v", signal)
+	}
+	assertEnvelopeEqual(t, evidence[0]["source"], source)
+	assertEnvelopeEqual(t, evidence[0]["title"], title)
+}
+
+func TestMonitorEnvelopeMockArtifacts(t *testing.T) {
+	flat := profileEnvelopeFixture()
+	for _, shape := range []struct {
+		name  string
+		input any
+	}{{"flat", flat}, {"envelope", map[string]any{"profile": flat}}} {
+		t.Run(shape.name, func(t *testing.T) {
+			isolateEnvelopeCLI(t)
+			path := writeEnvelopeJSON(t, shape.input)
+			runEnvelopeCommand(t, "monitor", "init", "canonical-profile", "--profile", path)
+			result := runEnvelopeCommand(t, "monitor", "test", "canonical-profile", "--mock", "--limit", "80")
+			candidates := readEnvelopeArtifact(t, stringValue(result["candidates"]))
+			assertEnvelopeMockCandidates(t, candidates)
+			summary := readEnvelopeArtifact(t, stringValue(result["summary"]))
+			monitor := valueOrEmptyMap(summary["monitor"])
+			assertEnvelopeEqual(t, monitor["profile_name"], "Fixture Falcon")
+			assertEnvelopeEqual(t, stringListValue(monitor["queries"]), []string{"AI customer support"})
+			assertEnvelopeEqual(t, stringListValue(monitor["feed_urls"]), []string{"https://example.com/feed.xml"})
+			assertEnvelopeEqual(t, valueOrEmptyMap(summary["counts"])["total_emitted_signals"], float64(len(signalSlice(candidates["signals"]))))
+		})
+	}
+}
+
 func TestMonitorInitTestStatusAndSchedule(t *testing.T) {
 	repo := repoRootForTest(t)
 	home := t.TempDir()
