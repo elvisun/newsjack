@@ -1,6 +1,6 @@
 ---
 name: find-journalists
-description: "Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list without guessed contacts."
+description: "Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list with only publicly listed, source-cited contacts."
 when_to_use: "User asks to find journalists for a pitch or newsjack angle; build, generate, refine, dedupe, or enrich a journalist/media list; identify real bylines for a topic; or another Newsjack skill has produced journalist shapes that need real recipient discovery."
 metadata:
   category: Act
@@ -53,7 +53,7 @@ Use the first workable mode:
 1. **CLI mode (preferred in local agents).** Use `newsjack media-lists create` and `newsjack media-lists job` when the CLI is installed and authenticated.
 2. **MCP mode.** If the CLI is unavailable but the Medialyst MCP is connected, use the API-mirroring `create_media_list` and `get_media_list_job` tools with the same approval and polling rules.
 3. **Approval-gated browser handoff.** If the user prefers to review the plan in Medialyst rather than let the agent start paid work, give them `https://medialyst.ai/app/_/workflow/campaign?prompt=[URL-ENCODED-PROMPT]`. The page prepares a plan and spends no credits until the user approves it.
-4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list without guessed emails or handles.
+4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list. Contacts are limited to emails or handles the journalist or their publication lists publicly, each cited to its source page; never guess.
 
 Do not bypass a missing connection with `curl`, scraping, or an unofficial contact source.
 
@@ -192,7 +192,7 @@ Local Mode is best effort and should not imitate verified enrichment.
 2. Read relevant editorial coverage and follow the entities and phrases it reveals into further searches.
 3. Keep named journalists with dated, linked person-level evidence; quarantine wires, aggregators, brand content, vendor blogs, and outlet landing pages.
 4. Audit for missed regions, freelancers/newsletters, adjacent beats, and breaking coverage until another search round yields no new real fits.
-5. Return only defensible rows. Leave Contact blank and state that no live enrichment ran; never guess an email or handle.
+5. Return only defensible rows. For Contact, use only an email or handle the journalist or their publication lists publicly (author or staff page, masthead, the journalist's own site or public profile) and cite that page. Otherwise leave it blank. State that no live enrichment ran. Never guess an address from a name pattern or pull from an unofficial contact database.
 
 End by offering either the approval-gated Medialyst deep link or a later agent-driven run with explicit credit approval.
 
