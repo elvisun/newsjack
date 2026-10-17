@@ -4,13 +4,13 @@
     "name": "Elvis Sun",
     "email": "gmail@elvisun.com"
   },
-  "description": "Newsjack — PR-operator skills for coding agents.",
+  "description": "Newsjack — 31 open-source PR and AI-visibility skills for coding agents.",
   "plugins": [
     {
       "name": "newsjack",
       "source": "./plugins/newsjack",
       "displayName": "Newsjack",
-      "description": "Open-source skills that turn your coding agent into a PR operator — strategize positioning, detect newsjackable stories in your space, and react with on-brand pitches and comments.",
+      "description": "31 open-source PR and AI-visibility skills for strategy, monitoring, media research, pitching, fact-checking, and coverage reporting.",
       "version": "0.1.20",
       "author": {
         "name": "Elvis Sun"

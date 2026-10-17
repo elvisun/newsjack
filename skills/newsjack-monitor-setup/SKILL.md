@@ -30,7 +30,7 @@ The bundled binary is almost always already installed — assume Full Mode and v
 ## Which path to take
 
 - **They just want a profile, or you're in Limited Mode:** Build the monitor profile (with relevant RSS feeds, `x_news` on by default, X trend preference, and a brief draft) and return it. Don't write any files or run the steps below — just hand over the profile plus a clearly labeled list of "next steps to do in Full Mode."
-- **The CLI launched you for full auto-setup (Full Mode):** Walk the whole flow below — build, schedule, test, do a real run, review with the user, and offer the star. This actually installs and verifies a working monitor end to end.
+- **The CLI launched you for full auto-setup (Full Mode):** Walk the whole flow below — build, schedule, test, do a real run, and review with the user. This actually installs and verifies a working monitor end to end.
 
 In the full flow, steps that ask the user a question wait for their answer. Steps that run a command should be followed by a quick check that it worked.
 
@@ -55,8 +55,6 @@ In the full flow, steps that ask the user a question wait for their answer. Step
 6. **One real run.** Do this inside the agent tool, not as a bare command. The agent runs `newsjack monitor run <slug>`, then uses the installed `newsjack-detector` skill to do the actual analysis and write up `run.md` from the results. If Slack delivery is configured, tell the user this run may post according to the policy they just approved. Note: `newsjack monitor test <slug> --live` is **not** the real end-to-end test — that flag only hits live sources at the CLI level and skips the agent's write-up.
 
 7. **Review with the user.** Show them the `run.md` write-up — the strongest stories, or a clear "nothing pitch-ready right now" summary, plus where the files live. Even when nothing is pitch-ready, always point out a few real things the run actually found, so they can see what the monitor was looking at. Then ask if they'd like to change anything: topics, competitors, feeds, proof assets, frequency, Slack policy, or exclusions. If they do, update the profile, delivery setting, or schedule, then rerun the offline test and one real run before wrapping up. When their feedback is about **what to pitch or show** (e.g. "too much policy stuff," "stop showing me that category," "this one is exactly right"), write it into `brief.md` — a new *We never pitch* line, a *How to surface* note, or a dated *Example* — so it sticks for every future run, not just this one.
-
-8. **Offer to star the repo.** Ask if they'd like to support the project. See [Starring](#starring) below.
 
 ## What to ask for
 
@@ -180,35 +178,22 @@ After the profile is saved, ask whether the user wants completed reports posted 
 
 Slack delivery is an optional convenience for teams already working in Slack. Newsjack remains fully useful without it.
 
-Before offering configuration, capability-check the installed CLI with `newsjack help monitor delivery`. If that help topic is unavailable, leave Slack off and explain that updating Newsjack enables it; do not let this interrupt profile creation, scheduling, testing, or the first report. This keeps a newer skill compatible with older Newsjack binaries. A newer binary with an older skill also behaves as before because delivery is opt-in.
+Before offering configuration, run `newsjack --version` (or the verified bundled path from [Where you're running](#where-youre-running)). Slack delivery requires Newsjack **v0.1.17 or newer**. If the installed version is older, leave Slack off and explain that updating Newsjack enables it; do not let this interrupt profile creation, scheduling, testing, or the first report. Delivery remains opt-in on supported versions.
 
 If the user chooses Slack:
 
 1. Point them to Slack's official [incoming webhook setup guide](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/). Slack lets them choose the destination channel when creating the webhook.
 2. Explain that enabling a policy authorizes future scheduled reports under that policy; it is not approval for unrelated messages.
-3. Read `newsjack help monitor delivery` immediately before configuring it, then follow the current setup operation and policy values shown there. Never ask the user to paste the webhook into agent chat, put it in a command argument, print it, or copy it into the profile. Have them enter it directly into the CLI's hidden prompt. The CLI saves the secret separately with owner-only permissions; `profile.json`, `brief.md`, and report artifacts stay secret-free.
-4. Use the help-advertised status operation to confirm the redacted configuration.
-5. Explain that the help-advertised test operation posts one real message, and ask before running it. Configuration itself must not send anything.
+3. Configure the chosen policy with `newsjack monitor delivery set-slack <slug> --notify-on every-run` or `newsjack monitor delivery set-slack <slug> --notify-on pitch-ready`. Never ask the user to paste the webhook into agent chat, put it in a command argument, print it, or copy it into the profile. Have them enter it directly into the CLI's hidden prompt. The CLI saves the secret separately with owner-only permissions; `profile.json`, `brief.md`, and report artifacts stay secret-free.
+4. Explain that `newsjack monitor delivery test <slug>` posts one real message, and ask before running it. Configuration itself must not send anything.
 
-Use the current help-advertised operations to change the policy or disconnect it. Do not open or parse the delivery credentials file yourself — the CLI owns secret access and posting mechanics.
+To change the policy, run `set-slack` again with the desired `--notify-on` value and have the user enter the webhook again through the hidden prompt. To disconnect Slack, run `newsjack monitor delivery remove-slack <slug>`. Do not open or parse the delivery credentials file yourself — the CLI owns secret access and posting mechanics.
 
 Limited Mode can explain these steps but cannot safely store or test a webhook. Do not accept the secret in chat; tell the user to finish this optional step in Full Mode.
 
-## Starring
-
-Once the user is happy with the real run, ask (via AskUserQuestion or similar) whether they'd like to support the project by starring the `newsjack` repo on GitHub. Give two options: "Yes, star the repo" and "No thanks".
-
-If they say yes and the `gh` CLI is available, run:
-
-```bash
-gh api -X PUT /user/starred/elvisun/newsjack
-```
-
-If `gh` isn't installed or the command fails, just share the link `https://github.com/elvisun/newsjack` so they can star it by hand. If they say no, thank them and finish up without starring.
-
 ## Profile Format
 
-This is the JSON shape to return *only* when the user just wants a profile and isn't running the full setup flow. (The full flow is hands-on — once you've scheduled, tested, done a real run, reviewed, and offered the star, just talk it through; don't dump a JSON blob.)
+This is the JSON shape to return *only* when the user just wants a profile and isn't running the full setup flow. (The full flow is hands-on — once you've scheduled, tested, done a real run, and reviewed it, just talk it through; don't dump a JSON blob.)
 
 The CLI reads this file back to run the monitor, so keep the structure exactly as shown:
 

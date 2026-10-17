@@ -14,6 +14,8 @@ Understand this first, because it's the mistake that ruins clips: **a press clip
 
 A clip is also **evidence**. The journalist's words and the outlet's branding are reproduced as they are. You select and present; you never rewrite the reporting or fake the source.
 
+Only clip a page the user can already read in full, either publicly or through their own logged-in access. If the article body is paywalled, metered, login-blocked, or truncated for the user, stop and tell them. Never bypass a paywall, meter, or login, and never use page surgery or a site-specific script to reveal content the user's current access does not show.
+
 ## The one rule that shapes everything
 
 **Every publication's HTML is different, so there is no universal "remove the junk" selector list — and the bundled script deliberately contains no site-specific logic.** Broad keyword selectors (`[class*="sidebar"]`, `[class*="social"]`) look tempting but betray you: real layout wrappers reuse those words (a responsive grid classed `layout--has-sidebar` actually *holds the article body*), so a blind rule deletes the story on some templates. The robust division of labor is:
@@ -41,6 +43,8 @@ npm i playwright-core
 If the browser isn't at the default path, pass `--chrome "/path/to/Chrome"` or set `PRESS_CLIP_CHROME`.
 
 ## The workflow
+
+Before running the clipper, open the URL with the user's current permitted access and confirm the complete article body is visible. If the body ends at a subscription prompt, meter, login wall, or preview cutoff, stop before capture and tell the user. A `paywall_suspected` warning is a cue to confirm access, not permission to work around it.
 
 ### 1. Run the baseline clip
 
@@ -111,7 +115,7 @@ Reach for the runtime flags first; they cover most fights without forking. `--ro
 - **A recirc widget steals the root** on templates with no `<article>` — a tiny "more from us" card classed `post-content` outscores the real body under naive first-match. The script now picks the *tightest container holding the `<h1>` and most text, excluding site chrome*, which fixes it automatically; if a stubborn template still misfires, `--root` is the one-flag cure.
 - **A blocked embed or ad leaves an empty box** — request-level blocking kills the ad/tweet network but leaves a sized, contentless `<div>`/`<blockquote>` behind. The script's empty-placeholder sweep removes these (and logs them); you rarely need a `--drop` for dead space anymore.
 
-Some pages still need more — a paywalled or lazy body, a section boundary the heading walk can't infer, an SVG logo built from sprite references, content injected late by JavaScript. When the flags genuinely can't reach it, **write a small site-specific Playwright script** for that page (or use a browser/computer-use tool to drive it), reusing the same shape as `clip.mjs` — goto, wait, surgery, `page.pdf(...)`. The bundled script is a starting scaffold, not a limit. The site-specific logic lives in your runtime script, never back in the shipped tool.
+Some pages still need more — a lazy body the user can already read in full, a section boundary the heading walk can't infer, an SVG logo built from sprite references, content injected late by JavaScript. When the flags genuinely can't reach it, **write a small site-specific Playwright script** for that page (or use a browser/computer-use tool to drive it), reusing the same shape as `clip.mjs` — goto, wait, surgery, `page.pdf(...)`. The bundled script is a starting scaffold, not a limit. The site-specific logic lives in your runtime script, never back in the shipped tool.
 
 ## Scope: whole article vs the client's section
 
