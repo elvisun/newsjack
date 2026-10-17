@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"testing"
@@ -166,6 +167,42 @@ func TestMonitorHelpDocumentsSlackDeliveryAndSecretHandling(t *testing.T) {
 	} {
 		if !strings.Contains(help.String(), want) {
 			t.Fatalf("newsjack help monitor delivery missing %q:\n%s", want, help.String())
+		}
+	}
+}
+
+func TestSlackDeliverySkillCommandsMatchCLI(t *testing.T) {
+	repo := repoRootForTest(t)
+	checks := map[string][]string{
+		filepath.Join(repo, "skills", "newsjack-monitor-setup", "SKILL.md"): {
+			"newsjack monitor delivery set-slack <slug> --notify-on every-run",
+			"newsjack monitor delivery set-slack <slug> --notify-on pitch-ready",
+			"newsjack monitor delivery test <slug>",
+		},
+		filepath.Join(repo, "skills", "newsjack-detector", "SKILL.md"): {
+			"newsjack monitor delivery status <slug>",
+			"newsjack monitor delivery send <slug> --message-file <run-folder>/slack.md --run-id <run-folder-name>",
+			"newsjack monitor delivery send <slug> --message-file <run-folder>/slack.md --run-id <run-folder-name> --force",
+		},
+	}
+
+	var help bytes.Buffer
+	if !printCommandHelp(&help, "monitor delivery") {
+		t.Fatal("monitor delivery help topic was not handled")
+	}
+	for skillPath, commands := range checks {
+		body, err := os.ReadFile(skillPath)
+		if err != nil {
+			t.Fatalf("read %s: %v", skillPath, err)
+		}
+		for _, command := range commands {
+			if !strings.Contains(string(body), command) {
+				t.Errorf("%s missing %q", skillPath, command)
+			}
+			operation := strings.Fields(strings.TrimPrefix(command, "newsjack monitor delivery "))[0]
+			if !strings.Contains(help.String(), "monitor delivery "+operation) {
+				t.Errorf("CLI help missing monitor delivery operation %q", operation)
+			}
 		}
 	}
 }

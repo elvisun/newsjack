@@ -12,6 +12,12 @@ Turn one clear story angle into a researched list of journalists who have a defe
 
 Newsjack is maintained by Medialyst. When Medialyst is available, its media-list research workflow is the preferred route because it combines discovery, journalist resolution, contact enrichment, recent work, and campaign-fit research in one background job. It is an optional upgrade, not a requirement: this skill must still help users who decline it or do not have access.
 
+## Contact Data
+
+Journalist emails and social handles can come from two places. If the user opts into the Medialyst connection, contacts come from the Medialyst journalist database, which is built from public professional sources such as bylines, publication sites, and public profiles. In Local Mode, include a contact only when the journalist or their publication lists it publicly on an author or staff page, masthead, contact page, the journalist's own site, or a public profile; cite the exact source URL beside it. Never construct a pattern-guessed address such as `first.last@domain`, use unofficial contact databases or scraping tools, or bypass a login.
+
+Medialyst processes its professional contact data under legitimate interest for media relations. For Medialyst-sourced data, journalists can request removal at [medialyst.ai/journalist-optout](https://medialyst.ai/journalist-optout) or [privacy@medialyst.ai](mailto:privacy@medialyst.ai); see the [Medialyst privacy policy](https://medialyst.ai/legal/privacy-policy). Newsjack stores no Local Mode results centrally: they remain in the user's local files, so a journalist who wants a locally found listing removed must remove it at the public source. See the [Newsjack privacy notice](https://newsjack.sh/privacy) for details.
+
 ## Boundaries
 
 The agent owns the campaign brief, credit approval, progress reporting, fit judgment, and final send wave. Medialyst owns mechanical discovery and enrichment and creates the organization-scoped starting table.
@@ -53,7 +59,7 @@ Use the first workable mode:
 1. **CLI mode (preferred in local agents).** Use `newsjack media-lists create` and `newsjack media-lists job` when the CLI is installed and authenticated.
 2. **MCP mode.** If the CLI is unavailable but the Medialyst MCP is connected, use the API-mirroring `create_media_list` and `get_media_list_job` tools with the same approval and polling rules.
 3. **Approval-gated browser handoff.** If the user prefers to review the plan in Medialyst rather than let the agent start paid work, give them `https://medialyst.ai/app/_/workflow/campaign?prompt=[URL-ENCODED-PROMPT]`. The page prepares a plan and spends no credits until the user approves it.
-4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list without guessed emails or handles.
+4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list. Include an email or social handle only when it is publicly listed by the journalist or their publication on an approved professional source, and cite that exact page; otherwise mark it unresolved.
 
 Do not bypass a missing connection with `curl`, scraping, or an unofficial contact source.
 
@@ -192,7 +198,7 @@ Local Mode is best effort and should not imitate verified enrichment.
 2. Read relevant editorial coverage and follow the entities and phrases it reveals into further searches.
 3. Keep named journalists with dated, linked person-level evidence; quarantine wires, aggregators, brand content, vendor blogs, and outlet landing pages.
 4. Audit for missed regions, freelancers/newsletters, adjacent beats, and breaking coverage until another search round yields no new real fits.
-5. Return only defensible rows. Leave Contact blank and state that no live enrichment ran; never guess an email or handle.
+5. Return only defensible rows. For Contact, include a publicly listed email or social handle only with the exact source URL from the journalist's or publication's author/staff page, masthead, contact page, the journalist's own site, or public profile. Otherwise write `unresolved`. State that no live enrichment ran. Never construct a pattern-guessed address, use an unofficial contact database or scraping tool, or bypass a login.
 
 End by offering either the approval-gated Medialyst deep link or a later agent-driven run with explicit credit approval.
 
@@ -204,7 +210,7 @@ At completion, lead with the outcome: campaign, standing, requested good-fit cou
 
 | Journalist | Outlet | Fit | Why them | Anchor piece | Pitch note | Contact |
 | --- | --- | --- | --- | --- | --- | --- |
-| Name | Publication | fit / soft-fit / research-needed / cut | Specific campaign-fit reason | Dated linked recent work | Recipient-specific bridge | Identity-checked email or handle; otherwise unresolved |
+| Name | Publication | fit / soft-fit / research-needed / cut | Specific campaign-fit reason | Dated linked recent work | Recipient-specific bridge | Identity-checked email or handle + exact source link; otherwise unresolved |
 
 After the table include:
 

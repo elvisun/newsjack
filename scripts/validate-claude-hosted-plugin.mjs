@@ -3,6 +3,7 @@ import {
   readFileSync,
   readdirSync,
   realpathSync,
+  statSync,
 } from "node:fs";
 import { isAbsolute, join, relative, resolve } from "node:path";
 
@@ -68,6 +69,87 @@ if (manifest.name !== newsjack.name) {
   );
 }
 
+const readFrontmatterField = (body, field, label) => {
+  const match = body.match(new RegExp(`^${field}:\\s*(.+)$`, "m"));
+  if (!match) {
+    fail(`${label} has no ${field} frontmatter field`);
+  }
+  const raw = match[1].trim();
+  if (!raw.startsWith('"')) {
+    return raw;
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    fail(`${label} has invalid quoted ${field}: ${error.message}`);
+  }
+};
+
+const skillsRoot = realpathSync(join(pluginRoot, "skills"));
+assertInsideRepo(skillsRoot, "newsjack skills");
+const skillCatalog = readdirSync(skillsRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => {
+    const skillPath = join(skillsRoot, entry.name, "SKILL.md");
+    try {
+      if (!statSync(skillPath).isFile()) {
+        fail(`${entry.name} has no SKILL.md`);
+      }
+    } catch (error) {
+      fail(`${entry.name} has no readable SKILL.md: ${error.message}`);
+    }
+    const body = readFileSync(skillPath, "utf8");
+    const name = readFrontmatterField(body, "name", entry.name);
+    if (name !== entry.name) {
+      fail(`${entry.name}/SKILL.md declares name ${JSON.stringify(name)}`);
+    }
+    return {
+      name,
+      description: readFrontmatterField(body, "description", entry.name),
+    };
+  })
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const pluginReadme = readFileSync(join(pluginRoot, "README.md"), "utf8");
+const catalogMatch = pluginReadme.match(
+  /<!-- BEGIN SKILL CATALOG -->\n([\s\S]*?)\n<!-- END SKILL CATALOG -->/,
+);
+if (!catalogMatch) {
+  fail("README.md is missing the checked skill catalog markers");
+}
+const documentedSkills = [...catalogMatch[1].matchAll(/^- \*\*`([^`]+)`\*\* — (.+)$/gm)]
+  .map((match) => ({ name: match[1], description: match[2] }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+if (JSON.stringify(documentedSkills) !== JSON.stringify(skillCatalog)) {
+  fail(
+    `README.md skill catalog does not match ${skillCatalog.length} skill directories and their frontmatter`,
+  );
+}
+const expectedDescriptionPrefix = `${skillCatalog.length} open-source`;
+if (!marketplace.description?.includes(expectedDescriptionPrefix)) {
+  fail(`marketplace summary must include ${JSON.stringify(expectedDescriptionPrefix)}`);
+}
+if (!manifest.description?.startsWith(expectedDescriptionPrefix)) {
+  fail(`plugin description must start with ${JSON.stringify(expectedDescriptionPrefix)}`);
+}
+if (!newsjack.description?.startsWith(expectedDescriptionPrefix)) {
+  fail(`marketplace description must start with ${JSON.stringify(expectedDescriptionPrefix)}`);
+}
+if (manifest.icon !== "./icon.svg") {
+  fail('plugin manifest icon must be "./icon.svg"');
+}
+if (!statSync(join(pluginRoot, "icon.svg")).isFile()) {
+  fail("plugin manifest icon does not resolve to a file inside the plugin");
+}
+if (manifest.privacyPolicyUrl !== "https://newsjack.sh/privacy") {
+  fail("plugin manifest privacyPolicyUrl must point to the Newsjack privacy notice");
+}
+for (const manifestOnlyField of ["icon", "privacyPolicyUrl"]) {
+  if (Object.hasOwn(newsjack, manifestOnlyField)) {
+    fail(`${manifestOnlyField} belongs in plugin.json, not the marketplace entry`);
+  }
+}
+
 try {
   lstatSync(join(pluginRoot, "bin"));
   fail(
@@ -94,5 +176,5 @@ for (const entry of readdirSync(pluginRoot, { withFileTypes: true })) {
 }
 
 console.log(
-  `Claude hosted plugin package is valid: ${relative(repoRoot, pluginRoot)} (no top-level bin)`,
+  `Claude hosted plugin package is valid: ${relative(repoRoot, pluginRoot)} (${skillCatalog.length} documented skills, no top-level bin)`,
 );

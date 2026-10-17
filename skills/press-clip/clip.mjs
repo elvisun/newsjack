@@ -56,7 +56,8 @@
 // and sticky overlays outside the article are hidden; lazy images are loaded eagerly
 // and decoded; animations are frozen. A page that serves a bot challenge instead of
 // the article stops the run with exit code 3: ask the user for their own PDF or
-// screenshot instead. The script never tries to get around a block or a paywall.
+// screenshot instead. Use it only when the user can read the full page in the
+// current browser session; it must never bypass a block, meter, paywall, or login.
 //
 // Requires a Chromium-based browser on the machine and the `playwright-core`
 // npm package (npm i playwright-core). Edge works as the browser too.
@@ -1016,7 +1017,7 @@ async function main() {
 
   if (pinned.h1Count > 1) warn('multiple_h1', `The page had ${pinned.h1Count} <h1> elements; the article was pinned to "${pinned.h1Text || 'the first one'}".`);
   if (blockedFragments) console.log(`blocked ${blockedFragments} next-article HTML fetch(es) after load`);
-  if (meta.paywalled) warn('paywall_suspected', 'The page marks itself as not free to read (isAccessibleForFree: false). Capture only what is visible; never work around a paywall.');
+  if (meta.paywalled) warn('paywall_suspected', 'The page marks itself as not free to read (isAccessibleForFree: false). Continue only if the user can read the full body through their own access; if it is truncated, stop without producing a clip.');
   if (logoFrom.startsWith('TEXT')) warn('logo_text_fallback', 'No outlet logo was found on the article or home page; the clip shows a text wordmark. Re-run with --logo "<url>".');
   if (meta.visible_headline && meta.headline.source !== null && meta.headline.source !== 'visible') {
     const a = meta.visible_headline.toLowerCase(), b = (meta.headline.value || '').toLowerCase();
