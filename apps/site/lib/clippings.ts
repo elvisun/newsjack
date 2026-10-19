@@ -139,6 +139,7 @@ export const YOUTUBE_VIDEOS: Record<
 export const CLIPPINGS: Clipping[] = [
   { x: "2064360727184384476" }, // Connor Showler, quoting the launch post
   { linkedin: "victoria" },
+  { x: "2111888819079291157" }, // Corey Ganim
   { youtube: "nextNewThing" },
   { x: "2100951347080421409" }, // Elvis: Jev demo
   { linkedin: "julie" },
