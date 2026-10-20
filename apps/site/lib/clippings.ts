@@ -12,6 +12,7 @@ export type LinkedInPost = {
   authorUrl: string;
   kind: "person" | "company";
   avatar: string | null;
+  avatarAlt?: string;
   subtitle?: string;
   publishedAt: string;
   text: string;
@@ -25,6 +26,16 @@ const NEWSJACK_PROMO = {
 };
 
 export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
+  oleksandra: {
+    url: "https://www.linkedin.com/posts/alex-naidonova_i-asked-what-pr-tools-you-actually-use-and-activity-7517922322368897024-V-XU",
+    author: "Oleksandra Naidonova",
+    authorUrl: "https://www.linkedin.com/in/alex-naidonova",
+    kind: "person",
+    avatar: "/clippings/oleksandra-naidonova.webp",
+    avatarAlt: "Oleksandra Naidonova",
+    publishedAt: "2026-10-19T12:19:17.894Z",
+    text: "… Media databases that also send your pitches:\nMedialyst, from its founder Elvis Sun and recommended by Beth Trier\n\n… Newsjack, open-source PR skills from Elvis Sun\n\n… => Newsjack is the one I can't wait to play with, because it's free and you can plug it straight into Claude / ChatGPT setup.",
+  },
   ryan: {
     url: "https://www.linkedin.com/posts/ryanmccormick131_pr-publicrelations-activity-7513258675474579456-6t3S",
     author: "Ryan McCormick",
@@ -137,6 +148,7 @@ export const YOUTUBE_VIDEOS: Record<
 };
 
 export const CLIPPINGS: Clipping[] = [
+  { linkedin: "oleksandra" },
   { x: "2064360727184384476" }, // Connor Showler, quoting the launch post
   { linkedin: "victoria" },
   { x: "2111888819079291157" }, // Corey Ganim

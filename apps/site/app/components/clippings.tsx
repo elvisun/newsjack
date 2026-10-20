@@ -147,12 +147,12 @@ function LinkedInLogo() {
   );
 }
 
-// LinkedIn's short relative age: 3d, 2w, 2mo, 1yr.
+// LinkedIn's short relative age: 22h, 3d, 2w, 2mo, 1yr.
 function linkedInAge(iso: string, now = new Date()): string {
-  const days = Math.max(
-    0,
-    Math.floor((now.getTime() - new Date(iso).getTime()) / 86_400_000),
-  );
+  const elapsedMs = Math.max(0, now.getTime() - new Date(iso).getTime());
+  const hours = Math.floor(elapsedMs / 3_600_000);
+  if (hours < 24) return `${hours}h`;
+  const days = Math.floor(elapsedMs / 86_400_000);
   if (days < 7) return `${days}d`;
   if (days < 30) return `${Math.floor(days / 7)}w`;
   if (days < 365) return `${Math.floor(days / 30)}mo`;
@@ -179,7 +179,7 @@ function LinkedInAvatar({ post }: { post: LinkedInPost }) {
   }
   return (
     <Image
-      alt=""
+      alt={post.avatarAlt ?? ""}
       className={`size-12 object-cover ${shape}`}
       height={48}
       src={post.avatar}
