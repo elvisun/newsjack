@@ -6,7 +6,7 @@ import { CLIPPINGS, LINKEDIN_POSTS } from "../lib/clippings.ts";
 test("Oleksandra Naidonova clipping stays source-linked and verbatim", () => {
   const post = LINKEDIN_POSTS.oleksandra;
 
-  assert.deepEqual(CLIPPINGS[0], { linkedin: "oleksandra" });
+  assert.deepEqual(CLIPPINGS.at(-1), { linkedin: "oleksandra" });
   assert.equal(
     post.url,
     "https://www.linkedin.com/posts/alex-naidonova_i-asked-what-pr-tools-you-actually-use-and-activity-7517922322368897024-V-XU",

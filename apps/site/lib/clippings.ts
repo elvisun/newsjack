@@ -147,8 +147,9 @@ export const YOUTUBE_VIDEOS: Record<
   },
 };
 
+// This list is an append-only chronology of additions. Add new clippings only
+// at the end, never at the top or in the middle.
 export const CLIPPINGS: Clipping[] = [
-  { linkedin: "oleksandra" },
   { x: "2064360727184384476" }, // Connor Showler, quoting the launch post
   { linkedin: "victoria" },
   { x: "2111888819079291157" }, // Corey Ganim
@@ -168,6 +169,7 @@ export const CLIPPINGS: Clipping[] = [
   { x: "2064704921677730108" }, // Elvis: Fable vs Opus
   { x: "2101157437143408800" }, // Leo Lu
   { linkedin: "futureReady" },
+  { linkedin: "oleksandra" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show
