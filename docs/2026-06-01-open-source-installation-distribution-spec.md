@@ -300,21 +300,15 @@ Generated Claude plugin package:
 ```text
 plugins/newsjack/
   .claude-plugin/plugin.json
+  .mcp.json
   skills/
-    angle-generator/
-    crisis-holding/
-    fact-check/
-    journalist-fit-check/
-    meanest-editor/
-    find-journalists/
-    newsjack-detector/
-    newsjack-setup/
-    newsworthiness-check/
-    reactive-comment/
-    relevance-coarse-filter/
-    story-origin-check/
-    voice-extractor/
+    <skill-name>/
 ```
+
+Run `node scripts/sync-claude-plugin-package.mjs` after changing `.mcp.json` or
+anything under `skills/`. The hosted package uses regular files throughout;
+`scripts/validate-claude-hosted-plugin.mjs` fails when a packaged copy drifts
+from its canonical source or a top-level symlink is introduced.
 
 `skills.sh.json` should group the repository page for scanability, but it does
 not change installation semantics.
@@ -389,7 +383,6 @@ Required GitHub Actions:
 
 - Add marketplace-safe CLI dependency text to CLI-backed skills.
 - Add `skills.sh.json`.
-- Add Claude plugin package generation.
 - Add signed release provenance or attestations.
 - Run the post-release smoke workflow against the public repository after the
   repo visibility switch.

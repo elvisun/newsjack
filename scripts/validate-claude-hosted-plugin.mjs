@@ -2,10 +2,10 @@ import {
   lstatSync,
   readFileSync,
   readdirSync,
-  realpathSync,
   statSync,
 } from "node:fs";
 import { isAbsolute, join, relative, resolve } from "node:path";
+import { spawnSync } from "node:child_process";
 
 const repoRoot = resolve(process.argv[2] || resolve(import.meta.dirname, ".."));
 const marketplacePath = join(repoRoot, ".claude-plugin", "marketplace.json");
@@ -29,6 +29,30 @@ function assertInsideRepo(path, label) {
     return;
   }
   fail(`${label} resolves outside the marketplace repository`);
+}
+
+function regularTreeEntries(root, label, prefix = "") {
+  const entries = [];
+  for (const entry of readdirSync(root, { withFileTypes: true }).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )) {
+    const relativePath = prefix ? join(prefix, entry.name) : entry.name;
+    const path = join(root, entry.name);
+    const stat = lstatSync(path);
+    if (stat.isSymbolicLink()) {
+      fail(`${label} contains a symlink: ${relativePath}`);
+    }
+    if (stat.isDirectory()) {
+      entries.push({ path: relativePath, type: "directory" });
+      entries.push(...regularTreeEntries(path, label, relativePath));
+      continue;
+    }
+    if (!stat.isFile()) {
+      fail(`${label} contains a non-regular file: ${relativePath}`);
+    }
+    entries.push({ path: relativePath, type: "file" });
+  }
+  return entries;
 }
 
 const marketplace = readJSON(marketplacePath, ".claude-plugin/marketplace.json");
@@ -85,8 +109,36 @@ const readFrontmatterField = (body, field, label) => {
   }
 };
 
-const skillsRoot = realpathSync(join(pluginRoot, "skills"));
-assertInsideRepo(skillsRoot, "newsjack skills");
+const sourceMcpPath = join(repoRoot, ".mcp.json");
+const packagedMcpPath = join(pluginRoot, ".mcp.json");
+if (!lstatSync(packagedMcpPath).isFile()) {
+  fail("newsjack .mcp.json must be a regular file, not a symlink");
+}
+if (!readFileSync(sourceMcpPath).equals(readFileSync(packagedMcpPath))) {
+  fail("newsjack .mcp.json differs from the repository .mcp.json; run the package sync script");
+}
+
+const sourceSkillsRoot = join(repoRoot, "skills");
+const skillsRoot = join(pluginRoot, "skills");
+if (!lstatSync(skillsRoot).isDirectory()) {
+  fail("newsjack skills must be a regular directory, not a symlink");
+}
+const sourceSkillEntries = regularTreeEntries(sourceSkillsRoot, "skills source");
+const packagedSkillEntries = regularTreeEntries(skillsRoot, "packaged skills");
+if (JSON.stringify(sourceSkillEntries) !== JSON.stringify(packagedSkillEntries)) {
+  fail("packaged skills file tree differs from skills/; run the package sync script");
+}
+for (const entry of sourceSkillEntries) {
+  if (entry.type !== "file") {
+    continue;
+  }
+  const source = readFileSync(join(sourceSkillsRoot, entry.path));
+  const packaged = readFileSync(join(skillsRoot, entry.path));
+  if (!source.equals(packaged)) {
+    fail(`packaged skill file differs from skills/: ${entry.path}`);
+  }
+}
+
 const skillCatalog = readdirSync(skillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => {
@@ -162,19 +214,31 @@ try {
 }
 
 for (const entry of readdirSync(pluginRoot, { withFileTypes: true })) {
-  if (!entry.isSymbolicLink()) {
-    continue;
+  if (entry.isSymbolicLink()) {
+    fail(`newsjack package contains a top-level symlink: ${entry.name}`);
   }
-  const linkPath = join(pluginRoot, entry.name);
-  let target;
-  try {
-    target = realpathSync(linkPath);
-  } catch (error) {
-    fail(`top-level symlink ${entry.name} cannot be resolved: ${error.message}`);
-  }
-  assertInsideRepo(target, `top-level symlink ${entry.name}`);
 }
 
 console.log(
   `Claude hosted plugin package is valid: ${relative(repoRoot, pluginRoot)} (${skillCatalog.length} documented skills, no top-level bin)`,
 );
+
+const claudeVersion = spawnSync("claude", ["--version"], { encoding: "utf8" });
+if (claudeVersion.error?.code === "ENOENT") {
+  console.log("Claude CLI not found; skipped claude plugin validate");
+} else if (claudeVersion.error || claudeVersion.status !== 0) {
+  fail(
+    `Claude CLI is present but unavailable: ${claudeVersion.error?.message || claudeVersion.stderr.trim()}`,
+  );
+} else {
+  const claudeValidation = spawnSync(
+    "claude",
+    ["plugin", "validate", pluginRoot, "--profile", "directory"],
+    { stdio: "inherit" },
+  );
+  if (claudeValidation.error || claudeValidation.status !== 0) {
+    fail(
+      `claude plugin validate failed${claudeValidation.error ? `: ${claudeValidation.error.message}` : ""}`,
+    );
+  }
+}
