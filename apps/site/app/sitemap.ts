@@ -21,5 +21,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: post.updatedAt,
     })),
     { url: absoluteUrl("/connection-help") },
+    { url: absoluteUrl("/privacy") },
   ];
 }

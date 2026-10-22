@@ -1,6 +1,6 @@
 ---
 name: find-journalists
-description: "Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list without guessed contacts."
+description: "Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list with only publicly listed, source-cited contacts."
 when_to_use: "User asks to find journalists for a pitch or newsjack angle; build, generate, refine, dedupe, or enrich a journalist/media list; identify real bylines for a topic; or another Newsjack skill has produced journalist shapes that need real recipient discovery."
 metadata:
   category: Act
@@ -59,7 +59,7 @@ Use the first workable mode:
 1. **CLI mode (preferred in local agents).** Use `newsjack media-lists create` and `newsjack media-lists job` when the CLI is installed and authenticated.
 2. **MCP mode.** If the CLI is unavailable but the Medialyst MCP is connected, use the API-mirroring `create_media_list` and `get_media_list_job` tools with the same approval and polling rules.
 3. **Approval-gated browser handoff.** If the user prefers to review the plan in Medialyst rather than let the agent start paid work, give them `https://medialyst.ai/app/_/workflow/campaign?prompt=[URL-ENCODED-PROMPT]`. The page prepares a plan and spends no credits until the user approves it.
-4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list. Include an email or social handle only when it is publicly listed by the journalist or their publication on an approved professional source, and cite that exact page; otherwise mark it unresolved.
+4. **Local mode.** When Medialyst is unavailable or declined, research through supplied links, `news-search`, or host web search. Return a local Markdown list. Include an email or social handle only when it is publicly listed by the journalist or their publication, and cite that exact page; otherwise mark it `unresolved`. Never guess contacts, use unofficial contact databases or scraping tools, or bypass a login.
 
 Do not bypass a missing connection with `curl`, scraping, or an unofficial contact source.
 
