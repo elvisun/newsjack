@@ -395,14 +395,27 @@ func envFloat(key string, fallback float64) float64 {
 	return fallback
 }
 
+// datePrefix returns the leading YYYY-MM-DD portion of a date/datetime string
+// without panicking on short or empty input (time.Parse then reports the error).
+func datePrefix(date string) string {
+	date = strings.TrimSpace(date)
+	if len(date) > 10 {
+		return date[:10]
+	}
+	return date
+}
+
 func dateToUnix(date string) int64 {
-	t, _ := time.Parse("2006-01-02", date[:10])
+	t, err := time.Parse("2006-01-02", datePrefix(date))
+	if err != nil {
+		return 0
+	}
 	return t.Unix()
 }
 
 func lookbackHours(fromDate, toDate string) int {
-	start, err1 := time.Parse("2006-01-02", fromDate[:10])
-	end, err2 := time.Parse("2006-01-02", toDate[:10])
+	start, err1 := time.Parse("2006-01-02", datePrefix(fromDate))
+	end, err2 := time.Parse("2006-01-02", datePrefix(toDate))
 	if err1 != nil || err2 != nil {
 		return 168
 	}
@@ -414,8 +427,8 @@ func lookbackHours(fromDate, toDate string) int {
 }
 
 func tbsForRange(fromDate, toDate string) string {
-	start, err1 := time.Parse("2006-01-02", fromDate[:10])
-	end, err2 := time.Parse("2006-01-02", toDate[:10])
+	start, err1 := time.Parse("2006-01-02", datePrefix(fromDate))
+	end, err2 := time.Parse("2006-01-02", datePrefix(toDate))
 	if err1 != nil || err2 != nil {
 		return "qdr:w"
 	}

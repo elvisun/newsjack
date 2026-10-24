@@ -44,9 +44,11 @@ jobs:
 
       - name: Build harness image
         shell: bash
+        env:
+          INPUT_HARNESSES: ${{ inputs.harnesses }}
         run: |
           build_args=()
-          IFS=',' read -ra harnesses <<< "${{ inputs.harnesses }}"
+          IFS=',' read -ra harnesses <<< "$INPUT_HARNESSES"
           for harness in "${harnesses[@]}"; do
             harness="$(echo "$harness" | xargs)"
             if [ -n "$harness" ]; then
@@ -57,14 +59,17 @@ jobs:
 
       - name: Run installer harness
         shell: bash
+        env:
+          INPUT_PRODUCTION_PATH: ${{ inputs.production_path }}
+          INPUT_RUNTIME: ${{ inputs.runtime }}
         run: |
           source_flag="--local-source"
-          if [ "${{ inputs.production_path }}" = "true" ]; then
+          if [ "$INPUT_PRODUCTION_PATH" = "true" ]; then
             source_flag="--production-path"
           fi
 
           harness/scripts/run-ci-installer.sh \
-            --runtime "${{ inputs.runtime }}" \
+            --runtime "$INPUT_RUNTIME" \
             "$source_flag"
 
   windows-build-dist:
