@@ -25,17 +25,31 @@ const NEWSJACK_PROMO = {
   height: 1036,
 };
 
-export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
-  oleksandra: {
-    url: "https://www.linkedin.com/posts/alex-naidonova_i-asked-what-pr-tools-you-actually-use-and-activity-7517922322368897024-V-XU",
-    author: "Oleksandra Naidonova",
-    authorUrl: "https://www.linkedin.com/in/alex-naidonova",
-    kind: "person",
-    avatar: "/clippings/oleksandra-naidonova.webp",
-    avatarAlt: "Oleksandra Naidonova",
-    publishedAt: "2026-10-19T12:19:17.894Z",
-    text: "… Media databases that also send your pitches:\nMedialyst, from its founder Elvis Sun and recommended by Beth Trier\n\n… Newsjack, open-source PR skills from Elvis Sun\n\n… => Newsjack is the one I can't wait to play with, because it's free and you can plug it straight into Claude / ChatGPT setup.",
+export const FEATURED_LINKEDIN_CLIP = {
+  url: "https://www.linkedin.com/posts/alex-naidonova_i-asked-what-pr-tools-you-actually-use-and-activity-7517922322368897024-V-XU",
+  author: "Oleksandra Naidonova",
+  publishedAt: "2026-10-19T12:19:17.894Z",
+  image: {
+    src: "/clippings/oleksandra-naidonova-linkedin.webp",
+    width: 1580,
+    height: 1056,
+    alt: "Selected LinkedIn excerpts from Oleksandra Naidonova’s October 19, 2026 post mentioning Medialyst and Newsjack.",
   },
+  mobileImage: {
+    src: "/clippings/oleksandra-naidonova-linkedin-mobile.webp",
+    width: 720,
+    height: 1074,
+  },
+  excerpts: [
+    "Media databases that also send your pitches:\nMedialyst, from its founder Elvis Sun and recommended by Beth Trier",
+    "Newsjack, open-source PR skills from Elvis Sun",
+    "=> Newsjack is the one I can't wait to play with, because it's free and you can plug it straight into Claude / ChatGPT setup.",
+  ],
+  comment:
+    "already planning my first campaign with your Newsjack Elvis Sun!\n\ni'll report back on the results!",
+} as const;
+
+export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
   ryan: {
     url: "https://www.linkedin.com/posts/ryanmccormick131_pr-publicrelations-activity-7513258675474579456-6t3S",
     author: "Ryan McCormick",
@@ -169,7 +183,6 @@ export const CLIPPINGS: Clipping[] = [
   { x: "2064704921677730108" }, // Elvis: Fable vs Opus
   { x: "2101157437143408800" }, // Leo Lu
   { linkedin: "futureReady" },
-  { linkedin: "oleksandra" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show
