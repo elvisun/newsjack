@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+### Changed
+
+- Local `find-journalists` research now omits journalist contact data. Emails and social handles are available only through the optional Medialyst connection, with the related privacy and removal details linked from the skill and Newsjack privacy notice. The plugin reference also covers the hosted server's current 39-tool surface.
+
 ## v0.1.21 — 2026-10-22
 
 ### Changed
