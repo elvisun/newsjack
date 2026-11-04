@@ -1,6 +1,6 @@
 # Newsjack
 
-Newsjack is an open-source plugin that gives an agent 31 focused PR and AI-visibility skills: strategy, live-news monitoring, newsjacking, media research, fact-checking, writing, and earned-media reporting. The skills are plain Markdown instructions under `skills/`; the optional Medialyst connection adds live data and hosted research tools.
+Newsjack is an open-source plugin that gives an agent 32 focused PR and AI-visibility skills: strategy, live-news monitoring, newsjacking, media research, fact-checking, writing, and earned-media reporting. The skills are plain Markdown instructions under `skills/`; the optional Medialyst connection adds live data and hosted research tools.
 
 ## Install
 
@@ -25,6 +25,7 @@ The skills remain usable without Medialyst wherever they document a local or hos
 This catalog is copied from each `SKILL.md` frontmatter and checked during plugin validation.
 
 <!-- BEGIN SKILL CATALOG -->
+- **`ai-source-trace`** — Trace where an AI answer's information actually comes from. Split the answer into claims, check which cited page really supports each one, then follow every page's own sources hop by hop — press release, wire, outlet, Wikipedia, Reddit, content farm — until you reach the root. AI sources are a food chain; first-degree citations only show the last link. Also finds the exact page that introduced a wrong fact about you.
 - **`ai-visibility-panel-design`** — Select QA-approved canonical intent cells into a versioned AI-visibility tracking panel with partitions, variants, lanes, surfaces, locales, repetitions, separate exposure and priority weights, randomization, uncertainty, refresh rules, and campaign controls. Use after prompt QA or when revising an existing panel.
 - **`ai-visibility-writing`** — Audit, question, suggest, or fact-preservingly revise a press release, blog post, contributed article, or expert explainer so AI answer systems can more easily retrieve, understand, quote, and cite its useful information. Use when someone asks for AI visibility, AI search, answer-engine, AEO, GEO, AI Overview, or ChatGPT citation optimization of supplied writing; when they want an evidence-aware pre-publication audit; or when another Newsjack workflow needs a prose-level AI-discoverability pass. Do not use as a technical SEO audit, rank tracker, publishing system, or promise of rankings, mentions, citations, traffic, or coverage.
 - **`angle-generator`** — Turn a company update into 3-7 structurally distinct, journalist-shaped story angles. Runs the fact through proven newsroom lenses (perspective, abstraction, news values, data, contrarian, news peg) and refuses rephrasings, invented facts, named-journalist guesses, and AI-marketing slop.

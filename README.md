@@ -62,6 +62,7 @@ or just describe what you want and your agent picks the right one.
 ### 🔬 AI visibility — get your facts into AI answers (AEO/GEO)
 
 - ✍️ **`/ai-visibility-writing`** — audit or fact-preservingly revise supplied copy so AI answers can reuse it, without inventing evidence or promising rankings or citations
+- 🔗 **`/ai-source-trace`** — follow an AI answer back to where its facts were born: check which cited page really supports each claim, then hop upstream through the trade article, the wire copy, the Wikipedia reference, the Reddit thread, until you hit the root — and find the exact page that introduced a wrong fact about you
 - 🧭 **`/build-ai-visibility-panel`** — to measure it, run this one first: it drives the six below it in order, turning any public URL and description into an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
 - 👥 **`/icp-evidence-analysis`** — turn a company and market dossier into testable ideal-customer hypotheses, buying roles, triggers, disqualifiers, and named research gaps
 - 🧩 **`/buyer-job-intent-analysis`** — recover the jobs, struggling moments, workarounds, and authentic buyer language from real customer, review, forum, and search evidence
@@ -98,6 +99,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **AI visibility** | | | | | | | | | |
 | ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| ai-source-trace | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | icp-evidence-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | buyer-job-intent-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
