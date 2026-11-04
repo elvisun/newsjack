@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * trace.mjs — deterministic evidence extraction for the ai-source-trace skill.
+ * trace.mjs — deterministic evidence extraction for the citation-foodchain skill.
  *
  * Zero dependencies: Node >= 18 standard library only. An optional `--browser`
  * mode drives the user's own Chrome/Edge through `playwright-core` (the same
@@ -32,9 +32,9 @@ import { join, resolve, dirname } from 'path';
 import { createServer } from 'http';
 
 const VERSION = '0.2.0';
-const UA = process.env.AI_SOURCE_TRACE_UA
+const UA = process.env.CITATION_FOODCHAIN_UA
   || 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36';
-const FETCH_TIMEOUT_MS = Number(process.env.AI_SOURCE_TRACE_TIMEOUT_MS || 25000);
+const FETCH_TIMEOUT_MS = Number(process.env.CITATION_FOODCHAIN_TIMEOUT_MS || 25000);
 const MAX_BYTES = 4 * 1024 * 1024;
 
 // ---------------------------------------------------------------------------
@@ -769,7 +769,7 @@ export async function analyzePage(html, { requestedUrl, finalUrl, status, conten
     : 'Very little text extracted. The page may render with JavaScript — retry with --browser — or be a paywall/consent wall.';
 
   const out = {
-    tool: 'ai-source-trace/trace.mjs', version: VERSION, fetched_at: new Date().toISOString(),
+    tool: 'citation-foodchain/trace.mjs', version: VERSION, fetched_at: new Date().toISOString(),
     requested_url: requestedUrl, final_url: finalUrl, redirected, status, content_type: contentType, via_browser: viaBrowser || undefined, truncated: truncated || undefined,
     host, registrable_domain: registrable(host), canonical_url: p.canonical, canonical_host: canonicalHost, canonical_host_mismatch: !!(canonicalHost && registrable(canonicalHost) !== registrable(host)),
     title: p.title || null, h1: p.h1 || null, site_name: siteName,
@@ -1156,7 +1156,7 @@ async function cmdBatch(args) {
   const list = args._[1];
   if (!list) throw new Error('usage: batch <urls.txt> [--out dir] [--claim ...]');
   const urls = readFileSync(list, 'utf8').split(/\r?\n/).map((s) => s.trim()).filter((s) => s && !s.startsWith('#'));
-  const outDir = args.out || 'ai-source-trace-out';
+  const outDir = args.out || 'citation-foodchain-out';
   mkdirSync(outDir, { recursive: true });
   const index = [];
   for (const u of urls) {
@@ -1322,14 +1322,14 @@ export function fixturePages() {
 }
 
 async function cmdDemoFixture(args) {
-  const dir = args._[1] || 'ai-source-trace-fixture';
+  const dir = args._[1] || 'citation-foodchain-fixture';
   const port = args.port || 0;
   const pages = fixturePages();
   const server = createServer((req, res) => {
     const key = decodeURIComponent((req.url || '/').replace(/^\//, '').split('?')[0]);
     if (key === '' || key === 'index.html') {
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
-      return res.end(`<html><body><h1>ai-source-trace fixture</h1><ul>${Object.keys(pages).map((k) => `<li><a href="/${k}">${k}</a></li>`).join('')}</ul></body></html>`);
+      return res.end(`<html><body><h1>citation-foodchain fixture</h1><ul>${Object.keys(pages).map((k) => `<li><a href="/${k}">${k}</a></li>`).join('')}</ul></body></html>`);
     }
     const page = pages[key];
     if (!page) { res.writeHead(404, { 'content-type': 'text/plain' }); return res.end('not found'); }
@@ -1366,7 +1366,7 @@ async function main() {
     else if (cmd === 'batch') await cmdBatch(args);
     else if (cmd === 'demo-fixture') await cmdDemoFixture(args);
     else {
-      process.stderr.write(`ai-source-trace trace.mjs v${VERSION}\n\nusage:\n  node trace.mjs share <share-url> [--browser] [--html saved.html] [--out file.json]   # ChatGPT / Perplexity share links → answer + cited URLs\n  node trace.mjs fetch <url> [--claim "text"]... [--browser] [--brief] [--no-wayback] [--out file.json]\n  node trace.mjs unwrap <url> [--follow]\n  node trace.mjs wayback <url>\n  node trace.mjs reuse <a.json|url> <b.json|url> [--browser]\n  node trace.mjs batch <urls.txt> [--out dir] [--claim ...]\n  node trace.mjs demo-fixture <dir> [--serve] [--port N]\n`);
+      process.stderr.write(`citation-foodchain trace.mjs v${VERSION}\n\nusage:\n  node trace.mjs share <share-url> [--browser] [--html saved.html] [--out file.json]   # ChatGPT / Perplexity share links → answer + cited URLs\n  node trace.mjs fetch <url> [--claim "text"]... [--browser] [--brief] [--no-wayback] [--out file.json]\n  node trace.mjs unwrap <url> [--follow]\n  node trace.mjs wayback <url>\n  node trace.mjs reuse <a.json|url> <b.json|url> [--browser]\n  node trace.mjs batch <urls.txt> [--out dir] [--claim ...]\n  node trace.mjs demo-fixture <dir> [--serve] [--port N]\n`);
       process.exit(cmd ? 2 : 0);
     }
   } catch (e) {

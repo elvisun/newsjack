@@ -1,5 +1,5 @@
-// Offline tests for skills/ai-source-trace/trace.mjs (deterministic layer only).
-// Run: node --test fixtures/ai-source-trace/trace.test.mjs
+// Offline tests for skills/citation-foodchain/trace.mjs (deterministic layer only).
+// Run: node --test fixtures/citation-foodchain/trace.test.mjs
 // No network: pages come from the synthetic chain in fixturePages().
 
 import { test } from 'node:test';
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const mod = await import(resolve(here, '../../skills/ai-source-trace/trace.mjs'));
+const mod = await import(resolve(here, '../../skills/citation-foodchain/trace.mjs'));
 const { analyzePage, fixturePages, textReuse, unwrapStatic, parseArgs, parsePerplexityThread, parseChatGptShare } = mod;
 
 const BASE = 'http://fixture.test';
