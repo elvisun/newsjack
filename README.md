@@ -42,6 +42,7 @@ or just describe what you want and your agent picks the right one.
 
 - 🎯 **`/angle-generator`** — turn one update into hooks framed for different beats
 - 📝 **`/headline-generator`** — headlines and pitch subject lines built from the story's raw facts
+- 🎙️ **`/transcript-to-stories`** — turn a meeting transcript into pitchable story ideas, with pegs and a clearance list
 - 🥊 **`/meanest-editor`** — roast your pitch against the rubric editors actually use
 - 🚨 **`/crisis-holding`** — holding statements, journalist Q&A posture, and what *not* to say, with a hard legal-counsel gate
 - 🎙️ **`/reactive-comment`** — triage inbound HARO-style source requests, draft only the real fits
@@ -110,6 +111,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | **Act** | | | | | | | | | |
 | angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| transcript-to-stories | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
