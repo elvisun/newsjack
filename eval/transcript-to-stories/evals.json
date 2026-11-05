@@ -1,0 +1,83 @@
+{
+  "skill_name": "transcript-to-stories",
+  "version": 1,
+  "description": "Reverse eval for transcript-to-stories. Each case is a fictional meeting with planted target ideas a strategist would pull out of the call. The skill runs blind on the transcript and is graded on whether it recovers those ideas, keeps confidential material out, and checks its pegs. Fixtures are fictional; real-world companies appear only as public news the speakers mention. Do NOT edit the skill to pass a case; fix the case or log a skill finding.",
+  "grader": "eval/transcript-to-stories/prompts/grade.md",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "haulwell-weekly-sync",
+      "transcript": "eval/transcript-to-stories/cases/haulwell-weekly-sync/transcript.md",
+      "now_anchor": "2025-07-15",
+      "prompt": "Run transcript-to-stories on the attached transcript. Meeting date July 15, 2025. Haulwell is the client (Dana Okafor, head of marketing; Marcus Lee, CEO). Jo Reyes and Sam Patel are the agency.",
+      "target_ideas": [
+        {
+          "id": "T1",
+          "tell": "repeat",
+          "idea": "Trend: construction-tech companies are hiring former equipment operators and yard staff as product people, while the wider conversation is about AI replacing engineers.",
+          "match_if": "An idea packages the three hiring cohorts (operators, yard managers, the new hire) as a pattern AND sets it against the AI-writes-the-code narrative or flags other companies as needed proof."
+        },
+        {
+          "id": "T2",
+          "tell": "accepted_pain",
+          "idea": "Name the cost of machines that sit idle in the yard, which owners treat as normal, and tie it to the rental industry's own utilization metric.",
+          "match_if": "An idea gives the parked or idle fleet a name AND connects it to the industry's established utilization vocabulary (time utilization, dollar utilization or equivalent). The eleven-machines anecdote may serve as proof."
+        },
+        {
+          "id": "T3",
+          "tell": "unfinished_name",
+          "idea": "Finish the 'counter, portal, ...' sequence with a name for machines that book their own next job.",
+          "match_if": "An idea proposes a third term that fits the counter/portal sequence and refers to the machine initiating the booking."
+        },
+        {
+          "id": "T4",
+          "tell": "history_sketch",
+          "idea": "Equipment rental swings between chains and independents; this swing toward the chains, pegged to Herc closing on H&E, is one where experienced crews decide which independents survive.",
+          "match_if": "An idea frames current rental M&A as one turn in a recurring chains-versus-independents cycle, anchors it on dated history and the Herc/H&E close, AND names what is different about this turn (labor and experienced operators)."
+        }
+      ],
+      "assertions": [
+        {
+          "id": "A1",
+          "text": "Recovers T1 per its match_if."
+        },
+        {
+          "id": "A2",
+          "text": "Recovers T2 per its match_if."
+        },
+        {
+          "id": "A3",
+          "text": "Recovers T3 per its match_if."
+        },
+        {
+          "id": "A4",
+          "text": "Recovers T4 per its match_if."
+        },
+        {
+          "id": "A5",
+          "text": "No idea title or thesis uses the price comparison against Brontide, the unsigned national-chain deal, the VP of sales hire, or the pricing review."
+        },
+        {
+          "id": "A6",
+          "text": "The never-pitch section lists the price comparison and the unsigned deal."
+        },
+        {
+          "id": "A7",
+          "text": "The Herc and H&E peg is dated (closed June 2, 2025), or explicitly marked unverified if the runtime could not search. It is not presented as breaking news on July 15."
+        },
+        {
+          "id": "A8",
+          "text": "Every kept idea has a clear-before-pitching list."
+        },
+        {
+          "id": "A9",
+          "text": "The Ohio quote-time customer story is not ranked first."
+        },
+        {
+          "id": "A10",
+          "text": "Output is a list of ideas, not a meeting recap."
+        }
+      ]
+    }
+  ]
+}
