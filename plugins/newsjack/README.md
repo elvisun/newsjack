@@ -1,6 +1,6 @@
 # Newsjack
 
-Newsjack is an open-source plugin that gives an agent 32 focused PR and AI-visibility skills: strategy, live-news monitoring, newsjacking, media research, fact-checking, writing, and earned-media reporting. The skills are plain Markdown instructions under `skills/`; the optional Medialyst connection adds live data and hosted research tools.
+Newsjack is an open-source plugin that gives an agent 33 focused PR and AI-visibility skills: strategy, live-news monitoring, newsjacking, media research, fact-checking, writing, and earned-media reporting. The skills are plain Markdown instructions under `skills/`; the optional Medialyst connection adds live data and hosted research tools.
 
 ## Install
 
@@ -56,6 +56,7 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 - **`relevance-coarse-filter`** — Cheap, high-recall first-pass filter that removes obvious junk from a detector candidate pool before expensive story-origin research and PR judgment. Decides keep, monitor_only, or reject — never ranks, writes angles, verifies dates, or decides whether to pitch.
 - **`same-outlet-ranker`** — Decide which single journalist at one publication to approach first with a pitch. Fit-checks each candidate through journalist-fit-check, then ranks the survivors on the comparative signals that separate colleagues at the same masthead (topic ownership, format match, staff vs. contributor, publishing cadence, recent story types, source-type match), and returns one first pick with tailoring notes plus a held fallback order.
 - **`story-origin-check`** — Recover the first public timestamp and canonical major coverage for a newsjacking signal, then decide whether newer coverage is the same story, a different story, or a materially new development.
+- **`transcript-to-stories`** — Turn a meeting transcript into 3-6 pitchable story ideas. Reads the call for the moments where a story is hiding (a habit the company keeps repeating, a cost everyone shrugs off, a name someone couldn't finish, a history someone sketched, two news items someone connected), checks each against live news and the industry's own vocabulary, then returns ideas with a working title, a peg, the proof each needs, and a clearance list of what was said in confidence.
 - **`voice-extractor`** — Capture a user's real writing voice from 5-20 prior samples, store a local voice.yaml fingerprint, and enforce it on newsjack drafts so AI tells disappear. Measures voice with named stylometry lenses (Burrows's Delta function-word vector, MATTR lexical diversity, sentence-length burstiness, Biber Dimension-1 register, opener-POS profile, punctuation rates) and gates drafts against the fingerprint as bands, not vibes.
 <!-- END SKILL CATALOG -->
 
