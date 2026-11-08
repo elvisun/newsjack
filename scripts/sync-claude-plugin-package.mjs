@@ -1,5 +1,4 @@
 import {
-  copyFileSync,
   cpSync,
   lstatSync,
   readFileSync,
@@ -42,7 +41,13 @@ cpSync(sourceSkillsRoot, packagedSkillsRoot, { recursive: true });
 
 const packagedMcpPath = join(pluginRoot, ".mcp.json");
 rmSync(packagedMcpPath, { force: true });
-copyFileSync(join(repoRoot, ".mcp.json"), packagedMcpPath);
+const packagedMcp = JSON.parse(readFileSync(join(repoRoot, ".mcp.json"), "utf8"));
+for (const server of Object.values(packagedMcp.mcpServers || {})) {
+  if (server && typeof server === "object") {
+    delete server.headersHelper;
+  }
+}
+writeFileSync(packagedMcpPath, `${JSON.stringify(packagedMcp, null, 2)}\n`);
 
 const skillCatalog = readdirSync(sourceSkillsRoot, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
