@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- `quote-forecast`: a new skill for plan-ahead newsjacking. Before a scheduled keynote, earnings call, launch or ruling, it reads what the crowd expects on social media, verifies the facts a quote would rest on with `fact-check`, and writes a scenario brief with estimated odds, an angle and a pre-drafted spokesperson quote for each likely outcome, plus a hold scenario, risks and a clearance timeline so the client approves quotes before the day. Never sends anything. Contributed by Carly Martinetti.
+
 ## v0.1.22 — 2026-11-09
 
 ### Added
