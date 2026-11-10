@@ -46,6 +46,7 @@ or just describe what you want and your agent picks the right one.
 - 🥊 **`/meanest-editor`** — roast your pitch against the rubric editors actually use
 - 🚨 **`/crisis-holding`** — holding statements, journalist Q&A posture, and what *not* to say, with a hard legal-counsel gate
 - 🎙️ **`/reactive-comment`** — triage inbound HARO-style source requests, draft only the real fits
+- 🔮 **`/quote-forecast`** — before a scheduled keynote, earnings call or launch, map the ways it could go and pre-draft a cleared spokesperson quote for each
 - ✅ **`/fact-check`** — extract claims, verify each, flag the shaky ones before you send
 - 🤝 **`/journalist-fit-check`** — will *this* reporter actually care, or are you spamming?
 - 🥇 **`/same-outlet-ranker`** — rank colleagues at the same publication and send to one, instead of spraying the masthead
@@ -115,6 +116,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| quote-forecast | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
