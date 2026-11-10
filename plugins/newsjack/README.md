@@ -36,7 +36,7 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 - **`coverage-tracker-setup`** — Set up a lightweight Google Alerts-style coverage tracker for any number of keywords. Creates a tracker config with each keyword and what it actually means, then hands recurrence to the user's agent harness.
 - **`crisis-holding`** — Draft crisis holding statements, journalist Q&A posture, and what-not-to-say guidance from confirmed incident facts, with a hard legal-counsel gate. Builds each statement through proven crisis-comms frameworks (holding-statement anatomy, SCCT, CAP order, the legitimate non-answer, bridge/flag/block).
 - **`fact-check`** — Extract factual claims from PR copy, verify each claim independently, attach concrete citations, and warn when certainty is low. Runs each claim through proven newsroom verification methods (lateral reading, source-tier climbing, provenance pillars, triangulation, calibrated rating) and puts the burden of proof on the speaker. Use before a pitch, press release, reactive comment, DM, or other journalist-facing draft is trusted or sent.
-- **`find-journalists`** — Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list with only publicly listed, source-cited contacts.
+- **`find-journalists`** — Build a researched, fit-checked journalist list for a specific PR campaign. Prefer Medialyst's asynchronous media-list research workflow when available, with explicit approval before credit spend; otherwise produce a best-effort local list without contact data.
 - **`headline-generator`** — Generate headline candidates from a story's raw facts: news-style headlines, press-release headlines, and pitch subject lines. A pure generation skill — it finds the charge in the facts, then runs ten proven moves (consequence, picture, number-as-hero, two-beat turn, naming, reader's-own-story, open question, voice, sound, sized claim), each calibrated by real, verified headlines that made history.
 - **`icp-evidence-analysis`** — Turn a source-bound company and market dossier into testable ideal-customer-profile hypotheses, buying roles, triggers, constraints, disqualifiers, standing, counterevidence, and research gaps. Use when a URL, company description, monitor profile, or evidence manifest needs to become defensible ICP inputs for buyer research or an AI-visibility prompt panel.
 - **`journalist-fit-check`** — Gate a pitch against one journalist at a time. Runs the pair through proven media-relations checks (last-10-bylines audit, 90-day topic sweep, beat-vs-angle-vs-one-off, the 5 forms of journalism, source-mirror, stated-preferences, database triangulation) and returns fit, soft-fit, no-fit, or unknown with a real recent anchor and specific edits.
@@ -63,7 +63,7 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 
 ## Medialyst MCP server
 
-The bundled `.mcp.json` connects to the hosted Medialyst server at `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live news, journalist research, media lists, projects, files, and Radar monitoring. The public server exposes exactly 34 tools.
+The bundled `.mcp.json` connects to the hosted Medialyst server at `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live news, journalist research, media lists, outreach analytics, projects, files, and Radar monitoring. The public server currently exposes 39 tools.
 
 In Claude Code, open `/mcp` and sign in to Medialyst with OAuth. The hosted plugin does not require a local authentication helper.
 
@@ -83,8 +83,11 @@ The access label below describes what the tool can do to Medialyst state. Some r
 | `list_journalist_requests` | Page through current journalist source requests from the supported public platforms. | Read-only; free; contains no paid contact data or private email. |
 | `list_journalist_moves` | Page through de-duplicated journalist moves and departures observed by Medialyst. | Read-only; zero credits; active Scale plan required. |
 | `get_journalist_enrichment_job` | Poll an asynchronous journalist-enrichment job and read its results. | Read-only; polling spends no credits. |
+| `list_media_lists` | List organization media lists with project, date, and pagination filters. | Read-only; no credits spent. |
 | `get_media_list_job` | Poll an asynchronous media-list job, including progress and normalized results when available. | Read-only; polling spends no credits. |
 | `get_media_list` | Read a completed media list and page through its rows. | Read-only; no credits spent. |
+| `get_analytics` | Read pitch totals, time-series metrics, and project, media-list, and pitch breakdowns. | Read-only; no credits spent; requires outreach analytics access. |
+| `get_pitch_analytics` | Read one pitch's metrics, per-recipient engagement classifications, and reply details. | Read-only; no credits spent; requires outreach analytics access. |
 | `list_projects` | List projects visible to the authenticated organization. | Read-only; no credits spent. |
 | `get_project` | Read one project's metadata and readiness details. | Read-only; no credits spent. |
 | `get_project_memory` | Read the project's durable Markdown memory and current version. | Read-only; no credits spent. |
@@ -96,12 +99,13 @@ The access label below describes what the tool can do to Medialyst state. Some r
 
 ### Write tools
 
-These tools create or append state without replacing or deleting an existing object.
+These tools create or append state, start work, or spend account credits without replacing or deleting an existing object.
 
 | Tool | Description | Access and credit notes |
 | --- | --- | --- |
 | `create_media_list` | Start an asynchronous media-list research job from an approved campaign brief and target budget. | Writes; **spends credits** up to the approved `target_list_size`; use an idempotency key. |
 | `enrich_journalists` | Start asynchronous contact, recent-work, and fit enrichment for known journalists or article authors. | Writes; **spends credits** for successful enrichment. |
+| `lookup_journalist` | Resolve one known journalist to a deliverable email from a name, outlet, email, profile URL, or Medialyst ID. | Writes; **spends 1 credit when a deliverable email is found**; the same person is free for 30 days, and free-plan daily allowances apply. |
 | `create_project` | Create a new organization project. | Writes; no per-call credit charge documented. |
 | `set_up_radar` | Create a project's Radar configuration and run its setup-time scan. | Writes; subject to project/Radar plan access. |
 | `run_radar` | Start an additional Radar scan for a configured project. | Writes; subject to the per-day Scan-now limit. |
@@ -117,6 +121,7 @@ These tools create or append state without replacing or deleting an existing obj
 | `update_radar` | Replace the Radar definition using the current Markdown version for conflict protection. | Overwrites Radar content. |
 | `update_radar_settings` | Change Radar scheduling, pause/digest settings, or its write-only Slack destination. | Overwrites selected settings. |
 | `set_project_memory` | Replace the full project-memory document using compare-and-set versioning. | Overwrites memory. |
+| `delete_media_list` | Permanently delete up to 50 selected media lists and cancel their linked active jobs; supports a dry-run preview. | Destructive; cannot be undone. |
 | `delete_project` | Permanently delete a project and its owned state. | Destructive. |
 | `delete_project_file` | Permanently delete one project file. | Destructive. |
 

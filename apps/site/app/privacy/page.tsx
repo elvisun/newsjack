@@ -460,31 +460,25 @@ export default function PrivacyPage() {
             anything a user already saved stays in that user&rsquo;s own files.
           </P>
 
-          <H3>(b) Without Medialyst: your own agent&rsquo;s lookup</H3>
+          <H3>(b) Without Medialyst: no contact data</H3>
           <P>
-            Without Medialyst, the user&rsquo;s own AI agent does a
-            best-effort lookup for an email address or handle that the
-            journalist or their publication has listed publicly, such as an
-            author or staff page, a masthead, or the journalist&rsquo;s own
-            website or public profile. The skill tells the agent to cite the
-            page each contact came from, never to guess an address (for
-            example from a name pattern), and never to use unofficial contact
-            databases. If nothing is publicly listed, the contact is left
-            blank.
+            Without Medialyst, the user&rsquo;s own AI agent can still build a
+            best-effort list from public bylines, author pages, and recent
+            coverage. The skill tells the agent not to return journalist
+            emails, social handles, phone numbers, or other contact fields in
+            this Local Mode, even when a public page displays them.
           </P>
           <P>
-            This lookup runs on the user&rsquo;s machine. Newsjack operates no
-            server or database for it and keeps nothing. Results stay in the
-            user&rsquo;s local files. The user decides what to keep and is
-            responsible for it as its controller, and must use it only for
-            relevant, professional media-relations outreach (legitimate
-            interest).
+            This research runs on the user&rsquo;s machine. Newsjack operates no
+            server or database for it and keeps nothing. The names, outlet
+            details, fit evidence, and source links stay in the user&rsquo;s local
+            files. The user decides what to keep and is responsible for those
+            files.
           </P>
           <P>
             <strong className="font-medium text-ink">Removal.</strong> There
-            is no Newsjack-held copy to delete. Removing or changing the public
-            listing stops future lookups from finding it. Journalists can
-            still contact us at <Contact /> with any question.
+            is no Newsjack-held copy to delete. Journalists can contact us at{" "}
+            <Contact /> with any question.
           </P>
 
           <H3>Newsjack never sends outreach</H3>
