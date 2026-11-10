@@ -42,9 +42,11 @@ or just describe what you want and your agent picks the right one.
 
 - 🎯 **`/angle-generator`** — turn one update into hooks framed for different beats
 - 📝 **`/headline-generator`** — headlines and pitch subject lines built from the story's raw facts
+- 🎙️ **`/transcript-to-stories`** — turn a meeting transcript into pitchable story ideas, with pegs and a clearance list
 - 🥊 **`/meanest-editor`** — roast your pitch against the rubric editors actually use
 - 🚨 **`/crisis-holding`** — holding statements, journalist Q&A posture, and what *not* to say, with a hard legal-counsel gate
 - 🎙️ **`/reactive-comment`** — triage inbound HARO-style source requests, draft only the real fits
+- 🔮 **`/quote-forecast`** — before a scheduled keynote, earnings call or launch, map the ways it could go and pre-draft a cleared spokesperson quote for each
 - ✅ **`/fact-check`** — extract claims, verify each, flag the shaky ones before you send
 - 🤝 **`/journalist-fit-check`** — will *this* reporter actually care, or are you spamming?
 - 🥇 **`/same-outlet-ranker`** — rank colleagues at the same publication and send to one, instead of spraying the masthead
@@ -62,6 +64,7 @@ or just describe what you want and your agent picks the right one.
 ### 🔬 AI visibility — get your facts into AI answers (AEO/GEO)
 
 - ✍️ **`/ai-visibility-writing`** — audit or fact-preservingly revise supplied copy so AI answers can reuse it, without inventing evidence or promising rankings or citations
+- 🔗 **`/citation-foodchain`** — follow an AI answer back to where its facts were born: check which cited page really supports each claim, then hop upstream through the trade article, the wire copy, the Wikipedia reference, the Reddit thread, until you hit the root — and find the exact page that introduced a wrong fact about you
 - 🧭 **`/build-ai-visibility-panel`** — to measure it, run this one first: it drives the six below it in order, turning any public URL and description into an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
 - 👥 **`/icp-evidence-analysis`** — turn a company and market dossier into testable ideal-customer hypotheses, buying roles, triggers, disqualifiers, and named research gaps
 - 🧩 **`/buyer-job-intent-analysis`** — recover the jobs, struggling moments, workarounds, and authentic buyer language from real customer, review, forum, and search evidence
@@ -98,6 +101,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **AI visibility** | | | | | | | | | |
 | ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| citation-foodchain | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | icp-evidence-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | buyer-job-intent-analysis | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -108,9 +112,11 @@ or locally-saved monitoring state — those work best in a local agent.
 | **Act** | | | | | | | | | |
 | angle-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | headline-generator | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| transcript-to-stories | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | meanest-editor | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | crisis-holding | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | reactive-comment | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| quote-forecast | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | fact-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | journalist-fit-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | same-outlet-ranker | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |

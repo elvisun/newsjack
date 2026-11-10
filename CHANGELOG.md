@@ -23,6 +23,23 @@ below these notes.
 
 - Local `find-journalists` research now omits journalist contact data. Emails and social handles are available only through the optional Medialyst connection, with the related privacy and removal details linked from the skill and Newsjack privacy notice. The plugin reference also covers the hosted server's current 39-tool surface.
 
+## v0.1.23 — 2026-11-09
+
+### Added
+
+- `quote-forecast`: a new skill for plan-ahead newsjacking. Before a scheduled keynote, earnings call, launch or ruling, it reads what the crowd expects on social media, verifies the facts a quote would rest on with `fact-check`, and writes a scenario brief with estimated odds, an angle and a pre-drafted spokesperson quote for each likely outcome, plus a hold scenario, risks and a clearance timeline so the client approves quotes before the day. Never sends anything. Contributed by Carly Martinetti.
+
+## v0.1.22 — 2026-11-09
+
+### Added
+
+- `citation-foodchain`: a new AI-visibility skill that follows an AI answer back to where its facts were born. It splits the answer into claims, checks which cited page really supports each one, then hops upstream through the page's own sources — attribution links, named-but-unlinked sources, syndication and wire markers, Wikipedia's per-sentence references, verbatim copies — until it reaches a root (original reporting, primary source, study, brand site, Wikipedia, forum, content farm, listicle, or honestly unknown), with a verbatim quote at every hop. It also finds the page that introduced a wrong fact. Ships with a zero-dependency `trace.mjs` that reads ChatGPT and Perplexity share links, extracts the evidence a hop needs from any page (dates, canonical, attribution sentences, outbound links, Wikipedia refs, wire/sponsored/paywall signals), unwraps tracking redirects, checks Wayback first-capture, and measures text reuse between two pages; `--browser` uses the user's own Chrome for JavaScript-only pages, as press-clip does.
+- `transcript-to-stories`: a new skill that turns a meeting transcript or notes into ranked, pitchable story ideas, each with a verified news peg, the proof it still needs, and a clearance list of what must be approved before anything is pitched. Ships with a reverse eval that runs the skill blind on a fictional meeting and grades recall of planted ideas and leak safety. Contributed by Carly Martinetti.
+
+### Fixed
+
+- The Claude-hosted plugin no longer declares a local Medialyst authentication helper. Claude Code users sign in through the MCP server's OAuth flow instead; CLI and release packages keep their existing helper.
+
 ## v0.1.21 — 2026-10-22
 
 ### Changed

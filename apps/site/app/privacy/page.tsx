@@ -4,7 +4,7 @@ import { pageMetadata } from "../../lib/site";
 import { Footer } from "../components/footer";
 import { Nav } from "../components/nav";
 
-const LAST_UPDATED = "2026-10-17";
+const LAST_UPDATED = "2026-11-03";
 const CONTACT_EMAIL = "newsjack@elvisun.com";
 
 export const metadata: Metadata = pageMetadata({
@@ -147,9 +147,9 @@ export default function PrivacyPage() {
               <List>
                 <li>
                   <Code>bin/</Code> and <Code>newsjack/</Code>: the CLI and
-                  the bundled skills, plus the previous version for rollback,
-                  and <Code>install.json</Code> recording the installed
-                  version.
+                  the bundled skills, <Code>newsjack.previous/</Code> with the
+                  previous version for rollback, and{" "}
+                  <Code>install.json</Code> recording the installed version.
                 </li>
                 <li>
                   <Code>credentials.json</Code>: your Medialyst API key or
@@ -171,8 +171,9 @@ export default function PrivacyPage() {
                 <li>
                   <Code>monitors/&lt;name&gt;/delivery.json</Code>: your Slack
                   webhook URL, if you set up Slack delivery (readable only by
-                  your user account), plus small delivery receipts so the same
-                  report is not posted twice.
+                  your user account), plus small receipts in{" "}
+                  <Code>delivery-receipts/</Code> so the same report is not
+                  posted twice.
                 </li>
                 <li>
                   <Code>coverage/&lt;name&gt;/</Code>: coverage tracker
@@ -190,16 +191,19 @@ export default function PrivacyPage() {
               <Code>~/.local/share/newsjack/monitor.db</Code> is a local SQLite
               database (change it with <Code>NEWSJACK_STORE</Code>). It
               remembers which links a monitor or coverage tracker has already
-              seen, along with run history and the news evidence collected.
-              That evidence can include public article bylines and public X
-              posts and handles.
+              seen, along with run history (including a copy of the monitor
+              profile and search terms used for each run), the news evidence
+              collected, and coverage tracker decisions. That evidence can
+              include public article bylines and public X posts and handles.
             </li>
             <li>
               Agent skill folders: the installer copies Newsjack skills into
               the folders your agents read, such as{" "}
               <Code>~/.claude/skills</Code>, <Code>~/.agents/skills</Code>,{" "}
               <Code>~/.openclaw/skills</Code>, or{" "}
-              <Code>~/.hermes/skills</Code>.
+              <Code>~/.hermes/skills</Code>. It also places Newsjack&rsquo;s{" "}
+              <Code>ETHICS.md</Code> and <Code>WHY-NOT-SPAM.md</Code> guidance
+              files in those folders.
             </li>
             <li>
               Files you ask for: press clips, coverage reports, media lists,
@@ -214,11 +218,18 @@ export default function PrivacyPage() {
             you set <Code>NEWSJACK_NO_PATH_UPDATE=1</Code>.
           </P>
           <P>
-            The CLI contains no analytics, telemetry, or crash reporting, and
-            it does not call any AI model itself. Your AI agent reads and
-            writes these files when you run a skill, so whatever you share
-            with your agent is also handled by the agent and the model provider
-            it uses, under their terms.
+            Besides these files, the CLI reads keys from environment variables
+            (such as <Code>MEDIALYST_API_KEY</Code>) and from a{" "}
+            <Code>.env</Code> file in the folder you run it from or a parent
+            folder.
+          </P>
+          <P>
+            The CLI contains no analytics, telemetry, or crash reporting. It
+            does not call an AI model itself, except the optional TypeSafe
+            relevance filter described below. Your AI agent reads and writes
+            these files when you run a skill, so whatever you share with your
+            agent is also handled by the agent and the model provider it uses,
+            under their terms.
           </P>
         </Section>
 
@@ -231,12 +242,17 @@ export default function PrivacyPage() {
           <H3>GitHub (installs and updates)</H3>
           <P>
             The installer and the CLI download release files from GitHub.
-            Before most commands, an installed CLI also checks GitHub for a
-            newer release. That check is a plain download of a public file and
-            sends no account, version, or usage information beyond what any
-            web request carries (such as your IP address). Turn it off with{" "}
-            <Code>NEWSJACK_AUTO_UPDATE=0</Code>. GitHub&rsquo;s own privacy
-            policy applies to these requests.
+            Before most commands, a CLI installed with the installer also
+            checks GitHub for a newer release. That check is a plain download
+            of a public file and sends no account, version, or usage
+            information beyond what any web request carries (such as your IP
+            address). If a newer release exists, the CLI installs it
+            automatically and then runs your command. The download names your
+            operating system and processor type, as any platform-specific
+            download does. Turn automatic updates off with{" "}
+            <Code>NEWSJACK_AUTO_UPDATE=0</Code>. CLIs installed with npm do
+            not update themselves. GitHub&rsquo;s own privacy policy applies to
+            these requests.
           </P>
 
           <H3>newsjack.sh (the installer)</H3>
@@ -245,7 +261,8 @@ export default function PrivacyPage() {
             the installer from this site. On macOS and Linux,{" "}
             <Code>newsjack update</Code> and automatic updates fetch the
             installer the same way. These requests are logged like any other
-            visit to the site (see below).
+            visit to the site (see below), so an update can be counted the
+            same way as an install.
           </P>
 
           <H3>Medialyst (optional)</H3>
@@ -253,13 +270,16 @@ export default function PrivacyPage() {
             Medialyst is an optional service you can connect for news search,
             journalist research, media lists, and the PR calendar. Nothing is
             sent to Medialyst unless you sign in or add a Medialyst key. Once
-            connected, requests go to <Code>medialyst.ai</Code> with your key
-            or sign-in token, and include what each feature needs: search
+            connected, requests carry your key or sign-in token to{" "}
+            <Code>medialyst.ai</Code>, and include what each feature needs: search
             terms (for a monitor, its topics, competitors, and search terms),
             the campaign brief you approve for a media list, article links to
-            enrich, and calendar queries. The plugin can also connect your
-            agent to Medialyst&rsquo;s MCP server at{" "}
-            <Code>medialyst.ai/api/mcp</Code>, which receives whatever your
+            enrich (and, if you include it, pitch text to check fit against),
+            and calendar queries. The Newsjack plugin also adds
+            Medialyst&rsquo;s MCP server at <Code>medialyst.ai/api/mcp</Code>{" "}
+            to your agent. Depending on your agent, it may connect to that
+            server when it starts, but your sign-in is attached only if you
+            have signed in. Once signed in, the server receives whatever your
             agent sends through those tools. Medialyst handles this data under
             its own{" "}
             <A href="https://medialyst.ai/legal/privacy-policy">
@@ -270,8 +290,12 @@ export default function PrivacyPage() {
 
           <H3>News sources</H3>
           <P>
-            Monitors read RSS feeds (by default Techmeme&rsquo;s, or the feeds
-            in your profile) with plain downloads that send no search terms.
+            Monitors read the RSS feeds in your profile with plain downloads
+            that send no search terms. Without feeds in the profile, the CLI
+            reads Techmeme&rsquo;s feed. Monitor setup suggests Techmeme and
+            two Google News feeds by default, and you can add others. Each
+            feed&rsquo;s publisher sees an ordinary request from your
+            computer.
             If you turn on the Reddit or Hacker News sources, your search terms
             are sent to Reddit&rsquo;s and Hacker News&rsquo;s (Algolia&rsquo;s)
             public search. The press-clip skill opens the article links you
@@ -298,10 +322,22 @@ export default function PrivacyPage() {
           <H3>TypeSafe (optional)</H3>
           <P>
             If you add a TypeSafe API key, the relevance filter sends your
-            monitor profile (company, description, website, topics,
-            competitors, search terms, and exclusions) and short excerpts of
-            the collected news to TypeSafe to score relevance. Without a key,
-            nothing is sent.
+            monitor profile (company, description, website, standing, topics,
+            competitors, search terms, and exclusions) and the collected news
+            (headlines, links, outlets, dates, and short excerpts) to
+            TypeSafe&rsquo;s AI model at <Code>api.typesafe.ai</Code> to score
+            relevance. Without a key, nothing is sent and your own agent does
+            this step instead.
+          </P>
+
+          <H3>Agent installers (optional)</H3>
+          <P>
+            If you choose an AI agent in <Code>newsjack setup</Code> that is
+            not installed yet, setup offers to install it. It asks first
+            (unless you pass <Code>--yes</Code>), then runs that agent&rsquo;s
+            standard installer: Claude Code from <Code>claude.ai</Code>, or
+            Codex, OpenClaw, or Hermes from npm. Those downloads are governed by
+            their providers&rsquo; terms.
           </P>
         </Section>
 
@@ -324,17 +360,23 @@ export default function PrivacyPage() {
               your browser or tool&rsquo;s user agent, the referring page, and
               your language preference;
             </li>
-            <li>the query string in the link you followed (such as UTM tags).</li>
+            <li>the query string in the link you followed (such as UTM tags);</li>
+            <li>
+              the requested host and path, the request method, and
+              Vercel&rsquo;s request ID.
+            </li>
           </List>
           <P>
             We use these records only to understand traffic and show the
             install count. We do not sell them or use them for advertising.
-            The site is hosted on Vercel, which processes requests to serve it.
+            The site is hosted on Vercel, which processes requests to serve it,
+            and the records are stored in a database hosted by Neon.
           </P>
           <P>
-            Some pages show posts from X and LinkedIn. Their images load
-            directly from those companies&rsquo; servers, which can see your
-            IP address. YouTube videos load from{" "}
+            Some pages show posts from X and LinkedIn, GitHub profile pictures,
+            and YouTube video thumbnails. These images load directly from X,
+            LinkedIn, GitHub, and YouTube (Google) servers, which can see your
+            IP address. The YouTube player itself loads from{" "}
             <Code>youtube-nocookie.com</Code> only when you press play.
           </P>
         </Section>
@@ -387,6 +429,16 @@ export default function PrivacyPage() {
             journalists expect professional communications as part of their
             role, the processing offers them relevant story opportunities, and
             safeguards include an easy opt-out.
+          </P>
+          <P>
+            Medialyst says journalists in its database can ask to access,
+            correct, or delete their data, object to or restrict its
+            processing, and complain to a data protection authority. To review
+            or correct a profile, email{" "}
+            <A href="mailto:journalists@medialyst.ai?subject=Profile%20Claim%20Request">
+              journalists@medialyst.ai
+            </A>{" "}
+            with the subject &ldquo;Profile Claim Request&rdquo;.
           </P>
           <P>
             <strong className="font-medium text-ink">Removal.</strong> A
@@ -461,12 +513,18 @@ export default function PrivacyPage() {
             </li>
             <li>
               Delete <Code>~/.local/share/newsjack</Code> (or your{" "}
-              <Code>NEWSJACK_STORE</Code> file) to remove the local database.
+              <Code>NEWSJACK_STORE</Code> file and the{" "}
+              <Code>-wal</Code> and <Code>-shm</Code> files next to it) to
+              remove the local database.
             </li>
             <li>
               Delete the Newsjack skill folders from your agents&rsquo; skill
               directories (listed above). Each one Newsjack installed contains
-              a <Code>.newsjack-installed</Code> file.
+              a <Code>.newsjack-installed</Code> file. Also delete{" "}
+              <Code>ETHICS.md</Code> and <Code>WHY-NOT-SPAM.md</Code> and their{" "}
+              <Code>.ETHICS.md.newsjack-installed</Code> and{" "}
+              <Code>.WHY-NOT-SPAM.md.newsjack-installed</Code> markers from
+              those folders.
             </li>
             <li>
               If you installed with npm, run{" "}
@@ -476,7 +534,9 @@ export default function PrivacyPage() {
           </List>
           <P>
             For narrower changes, <Code>newsjack auth logout</Code> removes
-            your stored Medialyst credentials, and{" "}
+            your stored Medialyst credentials from this computer (keys in
+            environment variables or <Code>.env</Code> files stay until you
+            remove them), and{" "}
             <Code>newsjack monitor delivery remove-slack &lt;name&gt;</Code>{" "}
             removes a Slack webhook. To stop using a connected service, also
             revoke the key or webhook in that service. For data held by

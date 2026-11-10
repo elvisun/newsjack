@@ -259,6 +259,12 @@ async function Circulation({
                 <p className="mt-3 font-serif text-[clamp(4rem,11vw,9rem)] leading-[0.9] tracking-[-0.03em] italic">
                   {formatFull(total)}
                 </p>
+                <p className="mt-4 text-[13px] leading-relaxed text-ink/50">
+                  Under-counted: excludes installs via the Claude plugin
+                  marketplace, the ChatGPT plugin marketplace, third-party
+                  skill marketplaces, zip downloads, direct skill installs,
+                  and installs from source.
+                </p>
               </div>
               <dl className="divide-y divide-ink/10 border-y border-ink/10 lg:col-span-5">
                 {channels.map((channel) => (
@@ -279,10 +285,6 @@ async function Circulation({
                 ))}
               </dl>
             </div>
-            <p className="mt-6 text-[13px] text-ink/40 italic">
-              Direct installs from the Claude marketplace or the ChatGPT
-              marketplace aren&apos;t tracked yet.
-            </p>
           </Reveal>
         )}
 

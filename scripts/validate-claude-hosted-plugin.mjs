@@ -114,8 +114,20 @@ const packagedMcpPath = join(pluginRoot, ".mcp.json");
 if (!lstatSync(packagedMcpPath).isFile()) {
   fail("newsjack .mcp.json must be a regular file, not a symlink");
 }
-if (!readFileSync(sourceMcpPath).equals(readFileSync(packagedMcpPath))) {
-  fail("newsjack .mcp.json differs from the repository .mcp.json; run the package sync script");
+const expectedPackagedMcp = readJSON(sourceMcpPath, "repository .mcp.json");
+for (const server of Object.values(expectedPackagedMcp.mcpServers || {})) {
+  if (server && typeof server === "object") {
+    delete server.headersHelper;
+  }
+}
+const packagedMcp = readJSON(packagedMcpPath, "newsjack .mcp.json");
+for (const [name, server] of Object.entries(packagedMcp.mcpServers || {})) {
+  if (server && typeof server === "object" && Object.hasOwn(server, "headersHelper")) {
+    fail(`newsjack .mcp.json server ${JSON.stringify(name)} contains headersHelper`);
+  }
+}
+if (JSON.stringify(packagedMcp) !== JSON.stringify(expectedPackagedMcp)) {
+  fail("newsjack .mcp.json differs from the repository .mcp.json without headersHelper; run the package sync script");
 }
 
 const sourceSkillsRoot = join(repoRoot, "skills");
