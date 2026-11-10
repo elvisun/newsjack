@@ -1,7 +1,7 @@
 {
   "name": "newsjack",
   "displayName": "Newsjack",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "description": "34 open-source PR and AI-visibility skills for strategy, monitoring, media research, pitching, fact-checking, and coverage reporting.",
   "icon": "./icon.svg",
   "privacyPolicyUrl": "https://newsjack.sh/privacy",
