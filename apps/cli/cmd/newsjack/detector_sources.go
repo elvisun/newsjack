@@ -185,7 +185,10 @@ func feedItemDict(m map[string]string, feedTitle, feedURL string, position int) 
 	title := cleanText(m["title"])
 	link := firstString(m["link"], m["guid"], m["id"])
 	excerpt := cleanText(firstString(m["description"], m["summary"], m["content"]))
-	published := normalizeLooseDate(firstString(m["pubDate"], m["published"], m["updated"]))
+	// parseFeed lowercases every element name, so RSS 2.0's <pubDate> is stored
+	// under "pubdate". Reading only "pubDate" left every RSS item undated, which
+	// silently disabled the detector's freshness gate for feed sources.
+	published := normalizeLooseDate(firstString(m["pubdate"], m["pubDate"], m["published"], m["updated"]))
 	container := cleanText(firstString(m["source"], feedTitle))
 	guid := firstString(m["guid"], m["id"])
 	if title == "" && excerpt == "" {
