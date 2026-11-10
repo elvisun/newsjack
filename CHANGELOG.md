@@ -19,9 +19,15 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.22 — 2026-11-07
+
 ### Added
 
 - `citation-foodchain`: a new AI-visibility skill that follows an AI answer back to where its facts were born. It splits the answer into claims, checks which cited page really supports each one, then hops upstream through the page's own sources — attribution links, named-but-unlinked sources, syndication and wire markers, Wikipedia's per-sentence references, verbatim copies — until it reaches a root (original reporting, primary source, study, brand site, Wikipedia, forum, content farm, listicle, or honestly unknown), with a verbatim quote at every hop. It also finds the page that introduced a wrong fact. Ships with a zero-dependency `trace.mjs` that reads ChatGPT and Perplexity share links, extracts the evidence a hop needs from any page (dates, canonical, attribution sentences, outbound links, Wikipedia refs, wire/sponsored/paywall signals), unwraps tracking redirects, checks Wayback first-capture, and measures text reuse between two pages; `--browser` uses the user's own Chrome for JavaScript-only pages, as press-clip does.
+
+### Fixed
+
+- The Claude-hosted plugin no longer declares a local Medialyst authentication helper. Claude Code users sign in through the MCP server's OAuth flow instead; CLI and release packages keep their existing helper.
 
 ## v0.1.21 — 2026-10-22
 

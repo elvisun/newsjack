@@ -2,6 +2,7 @@ package main
 
 import (
 	"path/filepath"
+	"reflect"
 	"testing"
 )
 
@@ -45,5 +46,41 @@ func TestPluginManifestVersionsMatch(t *testing.T) {
 	}
 	if !found {
 		t.Fatal(".claude-plugin/marketplace.json has no plugin named newsjack")
+	}
+}
+
+func TestHostedPluginMCPMatchesRootWithoutHeadersHelper(t *testing.T) {
+	root := repoRootForTest(t)
+	expected := readJSONForTest(t, filepath.Join(root, ".mcp.json"))
+	packaged := readJSONForTest(t, filepath.Join(root, "plugins", "newsjack", ".mcp.json"))
+
+	expectedServers, ok := expected["mcpServers"].(map[string]any)
+	if !ok {
+		t.Fatal(".mcp.json has no mcpServers object")
+	}
+	for name, raw := range expectedServers {
+		server, ok := raw.(map[string]any)
+		if !ok {
+			t.Fatalf(".mcp.json server %q is not an object", name)
+		}
+		delete(server, "headersHelper")
+	}
+
+	packagedServers, ok := packaged["mcpServers"].(map[string]any)
+	if !ok {
+		t.Fatal("plugins/newsjack/.mcp.json has no mcpServers object")
+	}
+	for name, raw := range packagedServers {
+		server, ok := raw.(map[string]any)
+		if !ok {
+			t.Fatalf("packaged .mcp.json server %q is not an object", name)
+		}
+		if _, found := server["headersHelper"]; found {
+			t.Fatalf("packaged .mcp.json server %q contains headersHelper", name)
+		}
+	}
+
+	if !reflect.DeepEqual(packaged, expected) {
+		t.Fatal("plugins/newsjack/.mcp.json must match .mcp.json with every headersHelper removed")
 	}
 }

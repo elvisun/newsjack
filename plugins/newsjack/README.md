@@ -64,6 +64,8 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 
 The bundled `.mcp.json` connects to the hosted Medialyst server at `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live news, journalist research, media lists, projects, files, and Radar monitoring. The public server exposes exactly 34 tools.
 
+In Claude Code, open `/mcp` and sign in to Medialyst with OAuth. The hosted plugin does not require a local authentication helper.
+
 The access label below describes what the tool can do to Medialyst state. Some read-only research calls still use credits. The server also declares its own read-only and destructive hints in MCP tool annotations, so clients can surface the active server guidance at call time.
 
 ### Read-only tools
