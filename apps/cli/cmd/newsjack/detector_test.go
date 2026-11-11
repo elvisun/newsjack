@@ -3,14 +3,222 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
 )
+
+func profileEnvelopeFixture() map[string]any {
+	return map[string]any{
+		"company": "Fixture Falcon", "website": "https://falcon.example", "description": "AI customer support platform",
+		"topics": []any{"AI customer support"}, "competitors": []any{"Support Rival"},
+		"search_terms": []any{"AI customer support"}, "feed_urls": []any{"https://example.com/feed.xml"},
+		"x_news":       map[string]any{"enabled": true},
+		"x_trends":     map[string]any{"mode": "none", "woeids": []any{}, "locations": []any{}},
+		"spokespeople": []any{"Falcon Founder"}, "standing": []any{"customer support research"},
+		"exclusions": []any{"elections"}, "proof_assets": []any{"legacy-only phrase"},
+	}
+}
+
+func expectedEnvelopeProfile(raw map[string]any) monitorProfile {
+	return monitorProfile{
+		Company: "Fixture Falcon", Description: "AI customer support platform",
+		Topics: []string{"AI customer support"}, Competitors: []string{"Support Rival"},
+		SearchTerms: []string{"AI customer support"}, FeedURLs: []string{"https://example.com/feed.xml"},
+		XNews:        map[string]any{"enabled": true},
+		XTrends:      map[string]any{"mode": "none", "woeids": []any{}, "locations": []any{}},
+		Spokespeople: []string{"Falcon Founder"}, Standing: []string{"customer support research"},
+		Exclusions: []string{"elections"}, Raw: raw,
+	}
+}
+
+func assertEnvelopeEqual(t *testing.T, got, want any) {
+	t.Helper()
+	if !reflect.DeepEqual(got, want) {
+		t.Fatalf("got %#v, want %#v", got, want)
+	}
+}
+
+func writeEnvelopeJSON(t *testing.T, payload any) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "profile.json")
+	data, err := json.Marshal(payload)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(path, data, 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return path
+}
+
+func isolateEnvelopeCLI(t *testing.T) {
+	t.Helper()
+	dir := t.TempDir()
+	env := map[string]string{
+		"NEWSJACK_ROOT": repoRootForTest(t), "NEWSJACK_USE_INSTALLED": "0", "NEWSJACK_AUTO_UPDATE": "0",
+		"NEWSJACK_IGNORE_DOTENV": "1", "NEWSJACK_HOME": filepath.Join(dir, "home"),
+		"NEWSJACK_STORE": filepath.Join(dir, "monitor.db"), "NEWSJACK_WORKDIR": dir,
+		"MEDIALYST_API_KEY": "", "X_BEARER_TOKEN": "", "TWITTER_BEARER_TOKEN": "",
+		"X_API_BEARER_TOKEN": "", "TWITTER_API_BEARER_TOKEN": "", "TYPESAFE_API_KEY": "",
+	}
+	for key, value := range env {
+		t.Setenv(key, value)
+	}
+}
+
+func TestProfileEnvelopeFlatAndNested(t *testing.T) {
+	flat := profileEnvelopeFixture()
+	envelope := map[string]any{"profile": flat, "feed_rationale": []any{"outer-only"}, "brief": "outer brief"}
+	before := marshalJSON(envelope)
+	want := expectedEnvelopeProfile(flat)
+	assertEnvelopeEqual(t, profileFromMap(flat), want)
+	assertEnvelopeEqual(t, profileFromMap(envelope), want)
+	assertEnvelopeEqual(t, marshalJSON(envelope), before)
+}
+
+func TestProfileEnvelopeObjectPrecedence(t *testing.T) {
+	nested := map[string]any{"company": "Nested", "topics": []any{"inner beat"}}
+	outer := profileEnvelopeFixture()
+	outer["profile"] = nested
+	want := defaultProfile()
+	want.Company, want.Topics, want.Raw = "Nested", []string{"inner beat"}, nested
+	assertEnvelopeEqual(t, profileFromMap(outer), want)
+}
+
+func TestProfileEnvelopeEmptyObjectPrecedence(t *testing.T) {
+	nested := map[string]any{}
+	outer := profileEnvelopeFixture()
+	outer["profile"] = nested
+	want := defaultProfile()
+	want.Raw = nested
+	assertEnvelopeEqual(t, profileFromMap(outer), want)
+}
+
+func TestProfileEnvelopeNonObjectCompatibility(t *testing.T) {
+	cases := []struct {
+		name  string
+		value any
+	}{
+		{"null", nil}, {"string", "ignored"}, {"number", float64(4)},
+		{"boolean", true}, {"array", []any{profileEnvelopeFixture()}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			flat := profileEnvelopeFixture()
+			flat["profile"] = tc.value
+			assertEnvelopeEqual(t, profileFromMap(flat), expectedEnvelopeProfile(flat))
+		})
+	}
+}
+
+func TestProfileEnvelopeWrapperOnlyNonObjectsFailDetector(t *testing.T) {
+	for _, value := range []any{nil, "ignored", float64(4), true, []any{profileEnvelopeFixture()}} {
+		t.Run(fmt.Sprint(value), func(t *testing.T) {
+			isolateEnvelopeCLI(t)
+			path := writeEnvelopeJSON(t, map[string]any{"profile": value})
+			err := detectorRun(detectorOptions{ProfilePath: path, Mock: true}, &bytes.Buffer{})
+			if err == nil {
+				t.Fatal("wrapper-only non-object unexpectedly usable")
+			}
+			assertEnvelopeEqual(t, err.Error(), "Provide a query, --topic, --major-feeds, --feed-url, or --profile with topics/competitors.")
+		})
+	}
+}
+
+func TestProfileEnvelopeExactKeyAndSingleLevel(t *testing.T) {
+	for _, key := range []string{"Profile", "PROFILE", "monitor_profile", "profiles"} {
+		t.Run(key, func(t *testing.T) {
+			outer := profileEnvelopeFixture()
+			outer[key] = map[string]any{"company": "Ignored"}
+			assertEnvelopeEqual(t, profileFromMap(outer), expectedEnvelopeProfile(outer))
+		})
+	}
+	nested := map[string]any{"profile": profileEnvelopeFixture()}
+	want := defaultProfile()
+	want.Raw = nested
+	assertEnvelopeEqual(t, profileFromMap(map[string]any{"profile": nested}), want)
+}
+
+func TestProfileEnvelopeEmptyMaps(t *testing.T) {
+	for _, raw := range []map[string]any{nil, {}} {
+		want := defaultProfile()
+		want.Raw = raw
+		assertEnvelopeEqual(t, profileFromMap(raw), want)
+	}
+}
+
+func TestProfileEnvelopeFileShapes(t *testing.T) {
+	flat := profileEnvelopeFixture()
+	for _, raw := range []any{flat, map[string]any{"profile": flat}} {
+		got, err := profileFromFile(writeEnvelopeJSON(t, raw))
+		if err != nil {
+			t.Fatal(err)
+		}
+		assertEnvelopeEqual(t, got, expectedEnvelopeProfile(flat))
+	}
+	got, err := profileFromFile(writeEnvelopeJSON(t, nil))
+	if err != nil {
+		t.Fatal(err)
+	}
+	assertEnvelopeEqual(t, got, defaultProfile())
+	empty := map[string]any{}
+	got, err = profileFromFile(writeEnvelopeJSON(t, empty))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := defaultProfile()
+	want.Raw = empty
+	assertEnvelopeEqual(t, got, want)
+}
+
+func TestProfileEnvelopeFileErrors(t *testing.T) {
+	cases := []struct {
+		data string
+		want error
+	}{
+		{`{`, &json.SyntaxError{}}, {`[]`, &json.UnmarshalTypeError{}},
+		{`"text"`, &json.UnmarshalTypeError{}}, {`42`, &json.UnmarshalTypeError{}}, {`true`, &json.UnmarshalTypeError{}},
+	}
+	for _, tc := range cases {
+		path := filepath.Join(t.TempDir(), "profile.json")
+		if err := os.WriteFile(path, []byte(tc.data), 0o600); err != nil {
+			t.Fatal(err)
+		}
+		_, err := profileFromFile(path)
+		assertEnvelopeEqual(t, reflect.TypeOf(err), reflect.TypeOf(tc.want))
+	}
+	_, err := profileFromFile(filepath.Join(t.TempDir(), "missing.json"))
+	assertEnvelopeEqual(t, reflect.TypeOf(err), reflect.TypeOf(&os.PathError{}))
+}
+
+func TestProfileEnvelopeRawConsumerAndLegacyAssets(t *testing.T) {
+	flat := profileEnvelopeFixture()
+	outer := map[string]any{"profile": flat, "website": "https://wrong.example", "company": "Wrong"}
+	before := marshalJSON(outer)
+	p := profileFromMap(outer)
+	want := map[string]any{
+		"company": "Fixture Falcon", "description": "AI customer support platform", "website": "https://falcon.example",
+		"topics": []string{"AI customer support"}, "competitors": []string{"Support Rival"},
+		"standing": []string{"customer support research"}, "search_terms": []string{"AI customer support"}, "exclusions": []string{"elections"},
+	}
+	assertEnvelopeEqual(t, coarseClientState(p), want)
+	assertEnvelopeEqual(t, p.Raw, flat)
+	assertEnvelopeEqual(t, marshalJSON(outer), before)
+	if _, exists := p.publicDict()["proof_assets"]; exists {
+		t.Fatal("legacy assets exposed publicly")
+	}
+	if strings.Contains(p.matchText(), "legacy-only") {
+		t.Fatal("legacy assets entered matching text")
+	}
+	assertEnvelopeEqual(t, profileMatches(p, "legacy-only phrase"), []string{})
+}
 
 func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 	repo := repoRootForTest(t)
