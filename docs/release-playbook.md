@@ -1,7 +1,7 @@
 # Release Playbook
 
 This playbook covers stable, beta, and test releases for the GitHub
-Release-backed Newsjack installer and npm distribution.
+Release-backed Newsjack installer, OpenAI plugin archive, and npm distribution.
 
 ## Release Types
 
@@ -66,6 +66,10 @@ cd ../site && pnpm lint && pnpm test && pnpm build
 cd ../..
 NEWSJACK_VERSION=v0.1.0-test NEWSJACK_RELEASE_DIST=.tmp/newsjack-release-test \
   node scripts/build-release-dist.mjs
+node --test scripts/openai-plugin.test.mjs
+node scripts/validate-openai-plugin.mjs \
+  .tmp/newsjack-release-test/newsjack-openai-plugin-v0.1.0-test.zip \
+  v0.1.0-test
 NEWSJACK_VERSION=v0.1.0-test NEWSJACK_NPM_DIST=.tmp/newsjack-npm-test \
   node scripts/build-npm-packages.mjs
 node scripts/verify-npm-packages.mjs .tmp/newsjack-npm-test v0.1.0-test
@@ -217,7 +221,47 @@ newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
 newsjack_windows_amd64.exe
 newsjack_windows_amd64.tar.gz
+newsjack-openai-plugin-v0.1.0.zip
 ```
+
+The OpenAI archive uses the portable Agent Plugins layout documented by
+[OpenAI](https://developers.openai.com/plugins/build/plugins). Its root
+`plugin.json` is generated from the Claude plugin manifest and marketplace
+entry, its `mcp.json` is generated from the packaged Medialyst MCP
+configuration, and its `skills/` tree is copied from the same plugin source.
+The archive has one top-level `newsjack/` directory:
+
+```text
+newsjack/
+├── plugin.json
+├── mcp.json
+├── README.md
+├── assets/
+│   └── icon.svg
+└── skills/
+    ├── <skill>/SKILL.md
+    └── ...
+```
+
+OpenAI's plugin submission flow accepts a ZIP containing skills and MCP
+configuration. Because Newsjack uses a remote HTTPS MCP server, publishers
+upload the ZIP through the [plugin submission
+portal](https://developers.openai.com/plugins/deploy/submission) and complete
+the server connection there. A release archive can also be tested locally in
+ChatGPT desktop or Codex:
+
+```bash
+version=v0.1.0
+gh release download "$version" \
+  --pattern "newsjack-openai-plugin-${version}.zip"
+mkdir -p "$HOME/.codex/plugins"
+unzip "newsjack-openai-plugin-${version}.zip" -d "$HOME/.codex/plugins"
+```
+
+Add the Newsjack entry from `plugins/newsjack/README.md` to the personal
+marketplace at `~/.agents/plugins/marketplace.json`, restart ChatGPT desktop or
+Codex, and install it from the Plugins Directory. Do not replace an existing
+marketplace file; merge the entry into its `plugins` array.
 
 The npm workflow publishes the five npm packages after checking that the exact
 version is not already present on npm, running CLI tests, building packages,
@@ -260,9 +304,9 @@ gh workflow run post-release-smoke.yml -f version=v0.1.0
 gh run watch
 ```
 
-The post-release smoke workflow verifies both direct GitHub Release assets and
-the public `newsjack.sh` path in Docker. Failures use GitHub Actions' default
-failed-workflow notifications.
+The post-release smoke workflow verifies the direct GitHub Release assets, the
+downloaded OpenAI archive, and the public `newsjack.sh` path in Docker.
+Failures use GitHub Actions' default failed-workflow notifications.
 
 6. To run a true public install smoke locally without touching the host home,
    use Docker:

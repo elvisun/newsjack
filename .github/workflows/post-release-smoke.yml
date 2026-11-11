@@ -9,6 +9,42 @@ on:
         type: string
 
 jobs:
+  openai-plugin-archive:
+    name: Download and validate OpenAI plugin archive
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Download archive and validate release contents
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ inputs.version }}"
+          if [ -z "$version" ]; then
+            version="$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)"
+          fi
+
+          git checkout --detach "$version"
+          mkdir -p .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-openai-plugin-${version}.zip" \
+            --dir .tmp/openai-plugin-smoke
+          node scripts/validate-openai-plugin.mjs \
+            ".tmp/openai-plugin-smoke/newsjack-openai-plugin-${version}.zip" \
+            "$version"
+
   install:
     name: Install released assets
     runs-on: ubuntu-latest

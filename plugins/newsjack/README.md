@@ -11,6 +11,41 @@ In Claude Code, add this repository as a plugin marketplace and install Newsjack
 /plugin install newsjack@newsjack
 ```
 
+For ChatGPT desktop and Codex, each tagged GitHub Release includes
+`newsjack-openai-plugin-<tag>.zip`. Extract it into the personal plugin folder:
+
+```bash
+mkdir -p "$HOME/.codex/plugins"
+unzip newsjack-openai-plugin-vX.Y.Z.zip -d "$HOME/.codex/plugins"
+```
+
+Then add or merge this entry in `~/.agents/plugins/marketplace.json`:
+
+```json
+{
+  "name": "newsjack-local",
+  "interface": { "displayName": "Newsjack Local" },
+  "plugins": [
+    {
+      "name": "newsjack",
+      "source": {
+        "source": "local",
+        "path": "./.codex/plugins/newsjack"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+```
+
+Restart ChatGPT desktop or Codex, open the Plugins Directory, select the
+Newsjack Local source, and install Newsjack. If the marketplace already lists
+other plugins, preserve them and add only the Newsjack entry.
+
 For the local CLI, scheduled monitors, browser-based clips, and the bundled Medialyst authentication helper, install the full open-source package:
 
 ```bash
@@ -63,7 +98,11 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 
 ## Medialyst MCP server
 
-The bundled `.mcp.json` connects to the hosted Medialyst server at `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live news, journalist research, media lists, outreach analytics, projects, files, and Radar monitoring. The public server currently exposes 39 tools.
+The bundled MCP configuration (`.mcp.json` in the Claude package and
+`mcp.json` in the OpenAI archive) connects to the hosted Medialyst server at
+`https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live
+news, journalist research, media lists, outreach analytics, projects, files,
+and Radar monitoring. The public server currently exposes 39 tools.
 
 In Claude Code, open `/mcp` and sign in to Medialyst with OAuth. The hosted plugin does not require a local authentication helper.
 

@@ -8,7 +8,7 @@ on:
 
 jobs:
   claude-plugin-package:
-    name: Claude hosted plugin package
+    name: Claude and OpenAI plugin packages
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -20,6 +20,15 @@ jobs:
 
       - name: Reject unsafe hosted plugin contents
         run: node scripts/validate-claude-hosted-plugin.mjs
+
+      - name: Run OpenAI plugin unit tests
+        run: node --test scripts/openai-plugin.test.mjs
+
+      - name: Build OpenAI plugin archive
+        run: NEWSJACK_VERSION=v0.0.0-test.1 NEWSJACK_RELEASE_DIST=.tmp/openai-plugin-ci node scripts/build-openai-plugin.mjs
+
+      - name: Validate OpenAI plugin archive
+        run: node scripts/validate-openai-plugin.mjs .tmp/openai-plugin-ci/newsjack-openai-plugin-v0.0.0-test.1.zip v0.0.0-test.1
 
   cli-unit:
     name: CLI unit tests (${{ matrix.os }})
