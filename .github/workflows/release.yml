@@ -68,6 +68,9 @@ jobs:
       - name: Build release assets
         run: NEWSJACK_VERSION="${GITHUB_REF_NAME}" NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
 
+      - name: Validate OpenAI plugin archive
+        run: node scripts/validate-openai-plugin.mjs ".tmp/newsjack-release/newsjack-openai-plugin-${GITHUB_REF_NAME}.zip" "${GITHUB_REF_NAME}"
+
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
