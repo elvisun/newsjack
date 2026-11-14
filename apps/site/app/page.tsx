@@ -14,6 +14,9 @@ import {
   loadRepoStats,
 } from "../lib/social-proof";
 import {
+  FEATURED_LINKEDIN_CLIP,
+} from "../lib/clippings";
+import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
@@ -180,6 +183,76 @@ function RunsIn() {
         ))}
       </div>
     </div>
+  );
+}
+
+function FeaturedLinkedInClip() {
+  const clip = FEATURED_LINKEDIN_CLIP;
+  const published = new Date(clip.publishedAt).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+    year: "numeric",
+  });
+
+  return (
+    <section
+      aria-labelledby="featured-linkedin-clip"
+      className="border-y border-ink/10 bg-ink/[0.025] px-6 py-16 sm:py-20"
+    >
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="nj-eyebrow">In the wild</span>
+            <h2
+              className="mt-4 font-serif text-[clamp(1.75rem,4vw,2.75rem)] leading-tight italic"
+              id="featured-linkedin-clip"
+            >
+              {clip.author} on Newsjack
+            </h2>
+          </div>
+          <a
+            className="nj-link text-ink/60"
+            href={clip.url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            View the source
+            <ArrowUpRight aria-hidden="true" size={12} />
+          </a>
+        </div>
+
+        <figure>
+          <a
+            aria-label={`View ${clip.author}'s original LinkedIn post`}
+            className="block overflow-hidden rounded-xl shadow-lift transition-transform duration-300 ease-[var(--ease-editorial)] hover:-translate-y-1"
+            href={clip.url}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <picture>
+              <source
+                height={clip.mobileImage.height}
+                media="(max-width: 639px)"
+                srcSet={clip.mobileImage.src}
+                width={clip.mobileImage.width}
+              />
+              <Image
+                alt={clip.image.alt}
+                className="h-auto w-full"
+                height={clip.image.height}
+                sizes="(min-width: 1024px) 896px, calc(100vw - 48px)"
+                src={clip.image.src}
+                width={clip.image.width}
+              />
+            </picture>
+          </a>
+          <figcaption className="mt-4 font-mono text-[10px] tracking-[0.16em] text-ink/45 uppercase">
+            {clip.author} · LinkedIn · {published} · Selected excerpts
+          </figcaption>
+        </figure>
+      </div>
+    </section>
   );
 }
 
@@ -492,6 +565,7 @@ export default async function Home() {
       <Nav />
       <main>
         <Hero stars={stars} />
+        <FeaturedLinkedInClip />
         <RunsIn />
         {SECTION_ORDER.map((section, index) => {
           const number = String(index + 1).padStart(2, "0");
