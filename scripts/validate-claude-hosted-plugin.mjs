@@ -7,6 +7,8 @@ import {
 import { isAbsolute, join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
+import { directoryPolicyViolation } from "./claude-plugin-policy.mjs";
+
 const repoRoot = resolve(process.argv[2] || resolve(import.meta.dirname, ".."));
 const marketplacePath = join(repoRoot, ".claude-plugin", "marketplace.json");
 
@@ -135,19 +137,53 @@ const skillsRoot = join(pluginRoot, "skills");
 if (!lstatSync(skillsRoot).isDirectory()) {
   fail("newsjack skills must be a regular directory, not a symlink");
 }
-const sourceSkillEntries = regularTreeEntries(sourceSkillsRoot, "skills source");
-const packagedSkillEntries = regularTreeEntries(skillsRoot, "packaged skills");
-if (JSON.stringify(sourceSkillEntries) !== JSON.stringify(packagedSkillEntries)) {
-  fail("packaged skills file tree differs from skills/; run the package sync script");
+// The package holds only the files the plugin directory accepts from an
+// organization that is not Verified. Scripts stay in skills/ only.
+const sourceSkillFiles = regularTreeEntries(sourceSkillsRoot, "skills source")
+  .filter((entry) => entry.type === "file")
+  .filter(
+    (entry) =>
+      !directoryPolicyViolation(
+        join("skills", entry.path),
+        readFileSync(join(sourceSkillsRoot, entry.path)),
+      ),
+  )
+  .map((entry) => entry.path);
+const packagedSkillFiles = regularTreeEntries(skillsRoot, "packaged skills")
+  .filter((entry) => entry.type === "file")
+  .map((entry) => entry.path);
+if (JSON.stringify(sourceSkillFiles) !== JSON.stringify(packagedSkillFiles)) {
+  fail("packaged skills file tree differs from the allowed files in skills/; run the package sync script");
 }
-for (const entry of sourceSkillEntries) {
-  if (entry.type !== "file") {
-    continue;
-  }
-  const source = readFileSync(join(sourceSkillsRoot, entry.path));
-  const packaged = readFileSync(join(skillsRoot, entry.path));
+for (const path of sourceSkillFiles) {
+  const source = readFileSync(join(sourceSkillsRoot, path));
+  const packaged = readFileSync(join(skillsRoot, path));
   if (!source.equals(packaged)) {
-    fail(`packaged skill file differs from skills/: ${entry.path}`);
+    fail(`packaged skill file differs from skills/: ${path}`);
+  }
+}
+
+const policyViolations = regularTreeEntries(pluginRoot, "newsjack package")
+  .filter((entry) => entry.type === "file")
+  .map((entry) => ({
+    path: entry.path,
+    reason: directoryPolicyViolation(entry.path, readFileSync(join(pluginRoot, entry.path))),
+  }))
+  .filter((entry) => entry.reason);
+if (policyViolations.length > 0) {
+  fail(
+    `package has files the plugin directory refuses:\n${policyViolations
+      .map((entry) => `  ${entry.path}: ${entry.reason}`)
+      .join("\n")}`,
+  );
+}
+for (const entry of regularTreeEntries(pluginRoot, "newsjack package")) {
+  const parts = entry.path.split("/");
+  if (parts.includes(".claude") || parts.slice(1).includes(".claude-plugin")) {
+    fail(`package has a nested ${parts.includes(".claude") ? ".claude" : ".claude-plugin"} folder: ${entry.path}`);
+  }
+  if (parts[0] === ".claude-plugin" && entry.type === "file" && entry.path !== ".claude-plugin/plugin.json") {
+    fail(`.claude-plugin may hold only plugin.json: ${entry.path}`);
   }
 }
 
@@ -199,10 +235,10 @@ if (!manifest.description?.startsWith(expectedDescriptionPrefix)) {
 if (!newsjack.description?.startsWith(expectedDescriptionPrefix)) {
   fail(`marketplace description must start with ${JSON.stringify(expectedDescriptionPrefix)}`);
 }
-if (manifest.icon !== "./icon.svg") {
-  fail('plugin manifest icon must be "./icon.svg"');
+if (manifest.icon !== "./icon.png") {
+  fail('plugin manifest icon must be "./icon.png"; the plugin directory does not accept SVG');
 }
-if (!statSync(join(pluginRoot, "icon.svg")).isFile()) {
+if (!statSync(join(pluginRoot, "icon.png")).isFile()) {
   fail("plugin manifest icon does not resolve to a file inside the plugin");
 }
 if (manifest.privacyPolicyUrl !== "https://newsjack.sh/privacy") {
@@ -232,7 +268,7 @@ for (const entry of readdirSync(pluginRoot, { withFileTypes: true })) {
 }
 
 console.log(
-  `Claude hosted plugin package is valid: ${relative(repoRoot, pluginRoot)} (${skillCatalog.length} documented skills, no top-level bin)`,
+  `Claude hosted plugin package is valid: ${relative(repoRoot, pluginRoot)} (${skillCatalog.length} documented skills, directory-allowed files only)`,
 );
 
 const claudeVersion = spawnSync("claude", ["--version"], { encoding: "utf8" });

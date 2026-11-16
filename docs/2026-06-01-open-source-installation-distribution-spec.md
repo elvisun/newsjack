@@ -301,6 +301,7 @@ Generated Claude plugin package:
 plugins/newsjack/
   .claude-plugin/plugin.json
   .mcp.json
+  icon.png
   skills/
     <skill-name>/
 ```
@@ -309,6 +310,13 @@ Run `node scripts/sync-claude-plugin-package.mjs` after changing `.mcp.json` or
 anything under `skills/`. The hosted package uses regular files throughout;
 `scripts/validate-claude-hosted-plugin.mjs` fails when a packaged copy drifts
 from its canonical source or a top-level symlink is introduced.
+
+The package holds only the file types Claude's plugin directory accepts from an
+organization that is not Verified: Markdown, text, JSON, YAML, and PNG, JPEG,
+GIF, WebP or ICO images. The sync script leaves out every other file in
+`skills/`, including the `.mjs` and `.js` scripts, and validation fails if one
+appears in the package. Those scripts ship with the full install only. The rules
+live in `scripts/claude-plugin-policy.mjs`.
 
 `skills.sh.json` should group the repository page for scanability, but it does
 not change installation semantics.

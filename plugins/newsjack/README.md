@@ -18,6 +18,8 @@ curl -fsSL newsjack.sh | bash
 newsjack login
 ```
 
+This plugin package holds instructions and reference documents only. The scripts that `press-clip`, `coverage-reel` and `citation-foodchain` run come with the full package.
+
 The skills remain usable without Medialyst wherever they document a local or host-tool fallback. See the [Newsjack privacy notice](https://newsjack.sh/privacy) for the data used by the plugin and its optional services.
 
 ## Skills

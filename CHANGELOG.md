@@ -21,6 +21,7 @@ below these notes.
 
 ### Changed
 
+- The Claude plugin package now holds only the file types Claude's plugin directory accepts: skill instructions, reference documents and a PNG icon. The scripts behind `press-clip`, `coverage-reel` and `citation-foodchain` ship with the full Newsjack install, and each of those skills says where to find them.
 - Local `find-journalists` research now omits journalist contact data. Emails and social handles are available only through the optional Medialyst connection, with the related privacy and removal details linked from the skill and Newsjack privacy notice. The plugin reference also covers the hosted server's current 39-tool surface.
 
 ## v0.1.23 — 2026-11-09
