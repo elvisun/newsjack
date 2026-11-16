@@ -62,6 +62,8 @@ The same prompt returns a materially different set of cited pages on repeat: acr
 
 `trace.mjs` (next to this file; Node ≥ 18, no packages) pulls the facts a hop needs so you can judge instead of eyeball. It never decides anything.
 
+`trace.mjs` sits next to this file in a source checkout and in the full Newsjack install (`~/.newsjack/newsjack/skills/citation-foodchain/`). The copy in Claude's plugin directory holds instructions only, because that directory does not accept scripts. If you do not find the script next to this file, run the one in the full install. If there is no full install, do the same checks by hand with your own fetch and search tools, and say in the report that the script was not used.
+
 ```bash
 node trace.mjs share <share-url> [--browser]    # ChatGPT / Perplexity share link → answer, per-sentence citations, cited URLs
 node trace.mjs fetch <url> --claim "<claim text>" [--claim "..."] [--out page.json]

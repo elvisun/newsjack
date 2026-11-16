@@ -40,6 +40,8 @@ The clipper drives a real Chromium-based browser (Chrome or Edge — most machin
 npm i playwright-core
 ```
 
+`clip.mjs` sits next to this file in a source checkout and in the full Newsjack install (`~/.newsjack/newsjack/skills/press-clip/`). The copy in Claude's plugin directory holds instructions only, because that directory does not accept scripts. If you do not find the script next to this file, run the one in the full install. If there is no full install, tell the user this skill needs it and stop; do not rebuild the script yourself.
+
 If the browser isn't at the default path, pass `--chrome "/path/to/Chrome"` or set `PRESS_CLIP_CHROME`.
 
 ## The workflow

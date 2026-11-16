@@ -1,12 +1,14 @@
 import {
-  cpSync,
   lstatSync,
+  mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
+
+import { directoryPolicyViolation } from "./claude-plugin-policy.mjs";
 
 const repoRoot = resolve(process.argv[2] || resolve(import.meta.dirname, ".."));
 const sourceSkillsRoot = join(repoRoot, "skills");
@@ -36,8 +38,33 @@ function readFrontmatterField(body, field, label) {
 
 assertRegularTree(sourceSkillsRoot, "skills source");
 
+// The Claude plugin directory refuses scripts and other non-document files from
+// organizations that are not Verified, so the package carries the skill
+// instructions only. Scripts stay in skills/ and ship with the full install.
+function copyAllowedFiles(sourceDir, packagedDir, prefix = "") {
+  const skipped = [];
+  for (const entry of readdirSync(sourceDir, { withFileTypes: true })) {
+    const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+    const sourcePath = join(sourceDir, entry.name);
+    const packagedPath = join(packagedDir, entry.name);
+    if (entry.isDirectory()) {
+      skipped.push(...copyAllowedFiles(sourcePath, packagedPath, relativePath));
+      continue;
+    }
+    const bytes = readFileSync(sourcePath);
+    if (directoryPolicyViolation(join("skills", relativePath), bytes)) {
+      skipped.push(relativePath);
+      continue;
+    }
+    mkdirSync(dirname(packagedPath), { recursive: true });
+    writeFileSync(packagedPath, bytes);
+  }
+  return skipped;
+}
+
 rmSync(packagedSkillsRoot, { force: true, recursive: true });
-cpSync(sourceSkillsRoot, packagedSkillsRoot, { recursive: true });
+mkdirSync(packagedSkillsRoot, { recursive: true });
+const skippedFiles = copyAllowedFiles(sourceSkillsRoot, packagedSkillsRoot);
 
 const packagedMcpPath = join(pluginRoot, ".mcp.json");
 rmSync(packagedMcpPath, { force: true });
@@ -82,3 +109,8 @@ if (!lstatSync(packagedMcpPath).isFile() || !lstatSync(packagedSkillsRoot).isDir
 console.log(
   `Synced .mcp.json and ${skillCatalog.length} skills into plugins/newsjack`,
 );
+if (skippedFiles.length > 0) {
+  console.log(
+    `Left out ${skippedFiles.length} files the plugin directory does not accept: ${skippedFiles.sort().join(", ")}`,
+  );
+}
