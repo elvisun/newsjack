@@ -113,6 +113,16 @@ export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
     text: "#Smallbusiness owners, if you didn't have the budget to hire a Public Relations firm, now you can build your own PR team with Claude Cowork. Check out Elvis Sun's 18 PR Skills for building and amplyifying your company brand!",
     image: NEWSJACK_PROMO,
   },
+  kateryna: {
+    url: "https://www.linkedin.com/posts/kateryna-leliukh_pr-mediarelations-ai-activity-7528044561693319168-VP6O",
+    author: "Kateryna Leliukh",
+    authorUrl: "https://www.linkedin.com/in/kateryna-leliukh",
+    kind: "person",
+    avatar: "/clippings/kateryna-leliukh.jpg",
+    avatarAlt: "Kateryna Leliukh",
+    publishedAt: "2026-11-16T10:41:27.812Z",
+    text: "Last Friday evening I traded my PR shotgun for a sniper rifle \u{1F3AF}\n\n\u2026 What I like most: the skills draft, but they don't send. The agent does the research, and the judgment and the relationship stay with you.\n\n\u2026 If you're a one-person comms team (hi \u{1F44B}), this is the closest I've found to an associate who never sleeps.",
+  },
 };
 
 // The wall, in display order. X and LinkedIn alternate so neither platform
@@ -170,6 +180,7 @@ export const CLIPPINGS: Clipping[] = [
   { x: "2101157437143408800" }, // Leo Lu
   { linkedin: "futureReady" },
   { linkedin: "oleksandra" },
+  { linkedin: "kateryna" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show
