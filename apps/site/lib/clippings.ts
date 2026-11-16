@@ -125,10 +125,48 @@ export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
   },
 };
 
+// Instagram has no public API either: verbatim captions kept here, with the
+// avatar and reel cover saved under public/clippings because Instagram's CDN
+// URLs expire.
+export type InstagramPost = {
+  url: string;
+  username: string;
+  authorUrl: string;
+  avatar: string;
+  publishedAt: string;
+  text: string;
+  cover: { src: string; width: number; height: number };
+  audio?: string;
+  // Counts as of the date the clipping was added; shown on hover, the way
+  // Instagram's grid does.
+  stats?: { likes: number; comments: number };
+};
+
+export const INSTAGRAM_POSTS: Record<string, InstagramPost> = {
+  mariah: {
+    url: "https://www.instagram.com/reel/DfCOEvfgGHz/",
+    username: "itsmariahbrunner",
+    authorUrl: "https://www.instagram.com/itsmariahbrunner/",
+    avatar: "/clippings/mariah-brunner.jpg",
+    publishedAt: "2026-10-28T10:29:22Z",
+    text: "\u2026 posting builds your audience. getting written about builds your credibility. Newsjack is a free set of PR skills for your AI agent:",
+    cover: {
+      src: "/clippings/mariah-brunner-reel.jpg",
+      width: 720,
+      height: 1280,
+    },
+    audio: "Original audio",
+    stats: { likes: 1311, comments: 2816 },
+  },
+};
+
 // The wall, in display order. X and LinkedIn alternate so neither platform
 // clumps. Add a post by adding one line.
 export type Clipping =
-  { x: string } | { linkedin: string } | { youtube: string };
+  | { x: string }
+  | { linkedin: string }
+  | { youtube: string }
+  | { instagram: string };
 
 // YouTube videos that cover newsjack, starting at the segment about it.
 export const YOUTUBE_VIDEOS: Record<
@@ -181,6 +219,7 @@ export const CLIPPINGS: Clipping[] = [
   { linkedin: "futureReady" },
   { linkedin: "oleksandra" },
   { linkedin: "kateryna" },
+  { instagram: "mariah" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show
