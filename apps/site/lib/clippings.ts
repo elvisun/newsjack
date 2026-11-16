@@ -137,6 +137,9 @@ export type InstagramPost = {
   text: string;
   cover: { src: string; width: number; height: number };
   audio?: string;
+  // Counts as of the date the clipping was added; shown on hover, the way
+  // Instagram's grid does.
+  stats?: { likes: number; comments: number };
 };
 
 export const INSTAGRAM_POSTS: Record<string, InstagramPost> = {
@@ -153,6 +156,7 @@ export const INSTAGRAM_POSTS: Record<string, InstagramPost> = {
       height: 1280,
     },
     audio: "Original audio",
+    stats: { likes: 1311, comments: 2816 },
   },
 };
 

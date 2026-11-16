@@ -409,7 +409,7 @@ function InstagramCard({ post }: { post: InstagramPost }) {
 
       <a
         aria-label="Watch the reel on Instagram"
-        className="relative block bg-black"
+        className="group relative block bg-black"
         href={post.url}
         rel="noreferrer"
         target="_blank"
@@ -425,11 +425,29 @@ function InstagramCard({ post }: { post: InstagramPost }) {
         <span className="absolute top-3 right-3 drop-shadow">
           <ReelGlyph />
         </span>
-        <span className="absolute inset-0 flex items-center justify-center">
+        <span
+          className={`absolute inset-0 flex items-center justify-center transition-opacity ${post.stats ? "group-hover:opacity-0" : ""}`}
+        >
           <span className="flex size-14 items-center justify-center rounded-full bg-black/60 text-white ring-2 ring-white/80">
             <Play aria-hidden="true" className="ml-0.5 fill-white" size={22} />
           </span>
         </span>
+        {post.stats && (
+          <span className="absolute inset-0 flex items-center justify-center gap-8 bg-black/40 text-base font-bold text-white opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="flex items-center gap-2">
+              <Heart aria-hidden="true" className="fill-white" size={22} />
+              {post.stats.likes.toLocaleString("en-US")}
+            </span>
+            <span className="flex items-center gap-2">
+              <MessageCircle
+                aria-hidden="true"
+                className="fill-white"
+                size={22}
+              />
+              {post.stats.comments.toLocaleString("en-US")}
+            </span>
+          </span>
+        )}
       </a>
 
       <nav className="flex items-center gap-4 px-3 pt-3">
@@ -457,6 +475,12 @@ function InstagramCard({ post }: { post: InstagramPost }) {
       </nav>
 
       <div className="px-3 pt-3 pb-4">
+        {post.stats && (
+          <p className="mb-1.5 font-semibold">
+            {post.stats.likes.toLocaleString("en-US")} likes ·{" "}
+            {post.stats.comments.toLocaleString("en-US")} comments
+          </p>
+        )}
         <p className="line-clamp-4 whitespace-pre-line">
           <a
             className="mr-1.5 font-semibold hover:opacity-60"
