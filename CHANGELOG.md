@@ -19,6 +19,8 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.24 — 2026-11-16
+
 ### Changed
 
 - The Claude plugin package now holds only the file types Claude's plugin directory accepts: skill instructions, reference documents and a PNG icon. The scripts behind `press-clip`, `coverage-reel` and `citation-foodchain` ship with the full Newsjack install, and each of those skills says where to find them.
