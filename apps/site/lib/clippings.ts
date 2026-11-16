@@ -131,6 +131,8 @@ export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
 export type InstagramPost = {
   url: string;
   username: string;
+  displayName?: string;
+  verified?: boolean;
   authorUrl: string;
   avatar: string;
   publishedAt: string;
@@ -157,6 +159,23 @@ export const INSTAGRAM_POSTS: Record<string, InstagramPost> = {
     },
     audio: "Original audio",
     stats: { likes: 1311, comments: 2816 },
+  },
+  tonyMa: {
+    url: "https://www.instagram.com/reel/DfXdmf_srb5/",
+    username: "tonyma.ai",
+    displayName: "Tony Ma",
+    verified: true,
+    authorUrl: "https://www.instagram.com/tonyma.ai/",
+    avatar: "/clippings/tony-ma.jpg",
+    publishedAt: "2026-11-05T16:30:19Z",
+    text: "Mit dem kostenlosen Open-Source-Projekt Newsjack kannst du deinen KI-Agenten zum persönlichen PR-Assistenten machen.",
+    cover: {
+      src: "/clippings/tony-ma-reel.jpg",
+      width: 1206,
+      height: 2144,
+    },
+    audio: "Original audio",
+    stats: { likes: 26, comments: 109 },
   },
 };
 
@@ -220,6 +239,7 @@ export const CLIPPINGS: Clipping[] = [
   { linkedin: "oleksandra" },
   { linkedin: "kateryna" },
   { instagram: "mariah" },
+  { instagram: "tonyMa" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show

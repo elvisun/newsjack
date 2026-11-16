@@ -1,4 +1,5 @@
 import {
+  BadgeCheck,
   Bookmark,
   Globe,
   Heart,
@@ -386,15 +387,25 @@ function InstagramCard({ post }: { post: InstagramPost }) {
         </a>
         <div className="min-w-0 flex-1">
           <a
-            className="block truncate font-semibold hover:opacity-60"
+            className="flex min-w-0 items-center gap-1 font-semibold hover:opacity-60"
             href={post.authorUrl}
             rel="noreferrer"
             target="_blank"
           >
-            {post.username}
+            <span className="truncate">{post.username}</span>
+            {post.verified && (
+              <BadgeCheck
+                aria-label="Verified account"
+                className="shrink-0 fill-[#0095f6] text-white"
+                role="img"
+                size={14}
+              />
+            )}
           </a>
-          {post.audio && (
-            <p className="truncate text-xs text-[#737373]">{post.audio}</p>
+          {(post.displayName || post.audio) && (
+            <p className="truncate text-xs text-[#737373]">
+              {[post.displayName, post.audio].filter(Boolean).join(" · ")}
+            </p>
           )}
         </div>
         <a

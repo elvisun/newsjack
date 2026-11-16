@@ -25,10 +25,11 @@ test("Oleksandra Naidonova clipping stays source-linked and verbatim", () => {
 
 // The wall is append-only: new clippings go at the end, in this order.
 test("newest clippings are appended in order", () => {
-  assert.deepEqual(CLIPPINGS.slice(-3), [
+  assert.deepEqual(CLIPPINGS.slice(-4), [
     { linkedin: "oleksandra" },
     { linkedin: "kateryna" },
     { instagram: "mariah" },
+    { instagram: "tonyMa" },
   ]);
 });
 
@@ -51,4 +52,22 @@ test("Mariah Brunner reel keeps local media and links to the reel", () => {
   assert.equal(post.avatar, "/clippings/mariah-brunner.jpg");
   assert.equal(post.cover.src, "/clippings/mariah-brunner-reel.jpg");
   assert.match(post.text, /Newsjack is a free set of PR skills/);
+});
+
+test("Tony Ma reel keeps its verified identity, exact metrics, and source", () => {
+  const post = INSTAGRAM_POSTS.tonyMa;
+
+  assert.deepEqual(CLIPPINGS.at(-1), { instagram: "tonyMa" });
+  assert.equal(post.url, "https://www.instagram.com/reel/DfXdmf_srb5/");
+  assert.equal(post.displayName, "Tony Ma");
+  assert.equal(post.username, "tonyma.ai");
+  assert.equal(post.verified, true);
+  assert.deepEqual(post.stats, { likes: 26, comments: 109 });
+  assert.equal(post.avatar, "/clippings/tony-ma.jpg");
+  assert.equal(post.cover.src, "/clippings/tony-ma-reel.jpg");
+  assert.equal(post.publishedAt, "2026-11-05T16:30:19Z");
+  assert.equal(
+    post.text,
+    "Mit dem kostenlosen Open-Source-Projekt Newsjack kannst du deinen KI-Agenten zum persönlichen PR-Assistenten machen.",
+  );
 });
