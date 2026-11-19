@@ -1,7 +1,7 @@
 # Release Playbook
 
 This playbook covers stable, beta, and test releases for the GitHub
-Release-backed Newsjack installer, OpenAI plugin archive, and npm distribution.
+Release-backed Newsjack installer, OpenAI plugin archives, and npm distribution.
 
 ## Release Types
 
@@ -68,8 +68,11 @@ NEWSJACK_VERSION=v0.1.0-test NEWSJACK_RELEASE_DIST=.tmp/newsjack-release-test \
   node scripts/build-release-dist.mjs
 node --test scripts/openai-plugin.test.mjs
 node scripts/validate-openai-plugin.mjs \
-  .tmp/newsjack-release-test/newsjack-openai-plugin-v0.1.0-test.zip \
-  v0.1.0-test
+  .tmp/newsjack-release-test/newsjack-chatgpt-plugin-v0.1.0-test.zip \
+  v0.1.0-test chatgpt
+node scripts/validate-openai-plugin.mjs \
+  .tmp/newsjack-release-test/newsjack-openai-submission-v0.1.0-test.zip \
+  v0.1.0-test submission
 NEWSJACK_VERSION=v0.1.0-test NEWSJACK_NPM_DIST=.tmp/newsjack-npm-test \
   node scripts/build-npm-packages.mjs
 node scripts/verify-npm-packages.mjs .tmp/newsjack-npm-test v0.1.0-test
@@ -221,20 +224,18 @@ newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
 newsjack_windows_amd64.exe
 newsjack_windows_amd64.tar.gz
-newsjack-openai-plugin-v0.1.0.zip
+newsjack-chatgpt-plugin-v0.1.0.zip
+newsjack-openai-submission-v0.1.0.zip
 ```
 
-The OpenAI archive uses the portable Agent Plugins layout documented by
-[OpenAI](https://developers.openai.com/plugins/build/plugins). Its root
-`plugin.json` is generated from the Claude plugin manifest and marketplace
-entry, its `mcp.json` is generated from the packaged Medialyst MCP
-configuration with OpenAI OAuth dynamic client registration declared, and its
-`skills/` tree is generated from the same plugin source. OpenAI hosted import
-ignores files directly under `skills/`, so each affected archived skill gets
-local `references/ETHICS.md` and/or `references/WHY-NOT-SPAM.md` copies and its
-archived links are rewritten. The source skills and Claude package are not
-changed.
-The archive has one top-level `newsjack/` directory:
+Both OpenAI archives use the portable Agent Plugins layout documented by
+[OpenAI](https://developers.openai.com/plugins/build/plugins). Their root
+`plugin.json` and `skills/` tree are generated from the same Claude plugin
+and marketplace source; only the Medialyst entry in `mcp.json` differs. OpenAI
+import ignores files directly under `skills/`, so each affected archived skill
+gets local `references/ETHICS.md` and/or `references/WHY-NOT-SPAM.md` copies and
+its archived links are rewritten. The source skills and Claude package are not
+changed. Each archive has one top-level `newsjack/` directory:
 
 ```text
 newsjack/
@@ -252,16 +253,16 @@ newsjack/
     └── ...
 ```
 
-This release archive is the hosted-upload package for ChatGPT's **Plugins → New
-Plugin → Upload plugin archive** flow and
-[`platform.openai.com/plugins`](https://platform.openai.com/plugins). OpenAI's
-hosted submission contract requires OAuth under the Medialyst server's
-`extensions["com.openai"].auth` object.
+Use `newsjack-chatgpt-plugin-<tag>.zip` for ChatGPT's **Upload plugin archive**,
+workspace publishing, sharing, and local marketplaces; its Medialyst entry has
+exactly `type` and `url`. Use `newsjack-openai-submission-<tag>.zip` only in the
+public-directory portal at
+[`platform.openai.com/plugins`](https://platform.openai.com/plugins) with **With
+MCP** selected; it adds `extensions["com.openai"].auth` with OAuth DCR. The split
+is required because user runtimes silently drop Medialyst when that per-server
+extension is present, while the public submission portal requires it.
 
-Do not install the release ZIP by unzipping it into a local marketplace. The
-portable MCP schema used by current local Codex versions rejects a per-server
-`extensions` key and silently drops Medialyst. Test local installation through
-the repository marketplace instead:
+Test repository marketplace installation separately:
 
 ```bash
 codex plugin marketplace add elvisun/newsjack
@@ -311,7 +312,7 @@ gh run watch
 ```
 
 The post-release smoke workflow verifies the direct GitHub Release assets, the
-downloaded OpenAI archive, and the public `newsjack.sh` path in Docker.
+downloaded OpenAI archives, and the public `newsjack.sh` path in Docker.
 Failures use GitHub Actions' default failed-workflow notifications.
 
 6. To run a true public install smoke locally without touching the host home,

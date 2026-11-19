@@ -12,22 +12,23 @@ In Claude Code, add this repository as a plugin marketplace and install Newsjack
 ```
 
 For ChatGPT, open **Plugins**, choose **New Plugin**, then **Upload plugin
-archive**. Select `newsjack-openai-plugin-<tag>.zip` from the tagged GitHub
-Release, then connect Medialyst when prompted.
+archive**. Select `newsjack-chatgpt-plugin-<tag>.zip` from the tagged GitHub
+Release, then connect Medialyst when prompted. Use this default archive for
+workspace publishing, sharing, and archive-based local marketplaces too.
 
-For a local install in the Codex CLI or ChatGPT desktop, use the repository
-marketplace instead of the ZIP:
+Use `newsjack-openai-submission-<tag>.zip` only for the public-directory
+submission portal at [`platform.openai.com/plugins`](https://platform.openai.com/plugins)
+with **With MCP** selected. The default archive keeps Medialyst to `type` and
+`url` because user runtimes drop servers with the portal-only auth extension;
+the submission archive adds the OAuth DCR block that the portal requires.
+
+For a repository-based install in the Codex CLI or ChatGPT desktop:
 
 ```bash
 codex plugin marketplace add elvisun/newsjack
 codex plugin add newsjack@newsjack
 codex mcp login medialyst
 ```
-
-The release ZIP is for hosted upload only. Do not unzip it into a local
-marketplace: hosted OpenAI upload requires the per-server OAuth extension in
-`mcp.json`, while current local Codex versions reject that key and silently
-drop the Medialyst server.
 
 For the local CLI, scheduled monitors, browser-based clips, and the bundled Medialyst authentication helper, install the full open-source package:
 
@@ -84,7 +85,7 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 ## Medialyst MCP server
 
 The bundled MCP configuration (`.mcp.json` in the Claude package and
-`mcp.json` in the OpenAI archive) connects to the hosted Medialyst server at
+`mcp.json` in the OpenAI archives) connects to the hosted Medialyst server at
 `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live
 news, journalist research, media lists, outreach analytics, projects, files,
 and Radar monitoring. The public server currently exposes 39 tools.

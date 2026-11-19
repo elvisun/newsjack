@@ -17,6 +17,7 @@ import {
   MCP_SCHEMA_URL,
   PLUGIN_SCHEMA_URL,
   buildOpenAIPluginArchive,
+  buildOpenAIPluginArchives,
   generateOpenAIManifest,
   generatePortableMCP,
   normalizeReleaseVersion,
@@ -139,8 +140,8 @@ test("generates the portable OpenAI manifest from Claude metadata", () => {
   assert.equal(manifest.extensions["com.openai"].interface.logo, "./assets/icon.png");
 });
 
-test("converts the shared MCP config to the portable schema", () => {
-  const mcp = generatePortableMCP({
+test("generates the two portable MCP variants from the shared config", () => {
+  const sourceMCP = {
     mcpServers: {
       medialyst: {
         type: "http",
@@ -148,10 +149,21 @@ test("converts the shared MCP config to the portable schema", () => {
         headersHelper: "$HOME/.newsjack/bin/newsjack auth headers",
       },
     },
-  });
+  };
+  const chatgptMCP = generatePortableMCP(sourceMCP, "chatgpt");
+  const submissionMCP = generatePortableMCP(sourceMCP, "submission");
 
-  assert.equal(mcp.$schema, MCP_SCHEMA_URL);
-  assert.deepEqual(mcp.mcpServers.medialyst, {
+  assert.equal(chatgptMCP.$schema, MCP_SCHEMA_URL);
+  assert.deepEqual(chatgptMCP.mcpServers.medialyst, {
+    type: "streamable-http",
+    url: "https://medialyst.ai/api/mcp",
+  });
+  assert.deepEqual(Object.keys(chatgptMCP.mcpServers.medialyst).sort(), [
+    "type",
+    "url",
+  ]);
+
+  assert.deepEqual(submissionMCP.mcpServers.medialyst, {
     type: "streamable-http",
     url: "https://medialyst.ai/api/mcp",
     extensions: {
@@ -165,7 +177,7 @@ test("converts the shared MCP config to the portable schema", () => {
       },
     },
   });
-  assert.deepEqual(Object.keys(mcp.mcpServers.medialyst).sort(), [
+  assert.deepEqual(Object.keys(submissionMCP.mcpServers.medialyst).sort(), [
     "extensions",
     "type",
     "url",
@@ -195,27 +207,43 @@ test("enforces final OpenAI submission metadata limits", () => {
   }
 });
 
-test("requires exact hosted Medialyst keys and OAuth DCR", () => {
-  const mcp = generatePortableMCP({
+test("requires the exact Medialyst key set for each archive variant", () => {
+  const sourceMCP = {
     mcpServers: {
       medialyst: {
         type: "http",
         url: "https://medialyst.ai/api/mcp",
       },
     },
-  });
-  validateMCPShape(mcp);
-  const extraKey = structuredClone(mcp);
-  extraKey.mcpServers.medialyst.headers = {};
+  };
+  const chatgptMCP = generatePortableMCP(sourceMCP, "chatgpt");
+  validateMCPShape(chatgptMCP, "chatgpt");
+  const chatgptWithExtensions = structuredClone(chatgptMCP);
+  chatgptWithExtensions.mcpServers.medialyst.extensions = {};
   assert.throws(
-    () => validateMCPShape(extraKey),
-    /must contain exactly type, url, and extensions/,
+    () => validateMCPShape(chatgptWithExtensions, "chatgpt"),
+    /must contain exactly type, url for the chatgpt variant/,
   );
 
-  const invalidAuth = structuredClone(mcp);
+  const submissionMCP = generatePortableMCP(sourceMCP, "submission");
+  validateMCPShape(submissionMCP, "submission");
+  const submissionWithoutExtensions = structuredClone(submissionMCP);
+  delete submissionWithoutExtensions.mcpServers.medialyst.extensions;
+  assert.throws(
+    () => validateMCPShape(submissionWithoutExtensions, "submission"),
+    /must contain exactly extensions, type, url for the submission variant/,
+  );
+
+  const invalidAuth = structuredClone(submissionMCP);
   invalidAuth.mcpServers.medialyst.extensions["com.openai"].auth.client.mode = "cimd";
   assert.throws(
-    () => validateMCPShape(invalidAuth),
+    () => validateMCPShape(invalidAuth, "submission"),
+    /must declare OpenAI OAuth with dynamic client registration/,
+  );
+  const extraExtensionOption = structuredClone(submissionMCP);
+  extraExtensionOption.mcpServers.medialyst.extensions["com.openai"].extra = true;
+  assert.throws(
+    () => validateMCPShape(extraExtensionOption, "submission"),
     /must declare OpenAI OAuth with dynamic client registration/,
   );
 });
@@ -246,28 +274,71 @@ test("validates PNG signature, IHDR dimensions, and submission size limits", () 
   }
 });
 
-test("builds and validates a complete OpenAI plugin archive", () => {
+test("builds and validates both OpenAI plugin archive variants", () => {
   const repoRoot = createFixtureRepo();
   const outRoot = join(repoRoot, ".tmp", "release");
   try {
-    const built = buildOpenAIPluginArchive({
+    const archives = buildOpenAIPluginArchives({
       repoRoot,
       outRoot,
       releaseVersion: "v9.8.7-test.1",
     });
-    const validated = validateOpenAIPluginArchive({
-      archivePath: built.archivePath,
-      repoRoot,
-      expectedReleaseVersion: "v9.8.7-test.1",
-    });
+    const built = Object.fromEntries(archives.map((archive) => [archive.variant, archive]));
+    const validated = Object.fromEntries(
+      archives.map((archive) => [
+        archive.variant,
+        validateOpenAIPluginArchive({
+          archivePath: archive.archivePath,
+          repoRoot,
+          expectedReleaseVersion: "v9.8.7-test.1",
+          variant: archive.variant,
+        }),
+      ]),
+    );
 
-    assert.equal(validated.skillCount, 1);
-    assert.equal(validated.version, "9.8.7");
-    assert.equal(built.archiveName, "newsjack-openai-plugin-v9.8.7-test.1.zip");
+    assert.equal(validated.chatgpt.skillCount, 1);
+    assert.equal(validated.chatgpt.version, "9.8.7");
+    assert.equal(validated.submission.skillCount, 1);
+    assert.equal(validated.submission.version, "9.8.7");
+    assert.equal(
+      built.chatgpt.archiveName,
+      "newsjack-chatgpt-plugin-v9.8.7-test.1.zip",
+    );
+    assert.equal(
+      built.submission.archiveName,
+      "newsjack-openai-submission-v9.8.7-test.1.zip",
+    );
+
+    const chatgptEntries = execFileSync("unzip", ["-Z1", built.chatgpt.archivePath], {
+      encoding: "utf8",
+    }).split(/\r?\n/).filter(Boolean);
+    const submissionEntries = execFileSync(
+      "unzip",
+      ["-Z1", built.submission.archivePath],
+      { encoding: "utf8" },
+    ).split(/\r?\n/).filter(Boolean);
+    assert.deepEqual(submissionEntries, chatgptEntries);
+    for (const entry of chatgptEntries) {
+      if (entry.endsWith("/") || entry === "newsjack/mcp.json") {
+        continue;
+      }
+      assert.deepEqual(
+        execFileSync("unzip", ["-p", built.submission.archivePath, entry]),
+        execFileSync("unzip", ["-p", built.chatgpt.archivePath, entry]),
+        `${entry} must be identical across archive variants`,
+      );
+    }
 
     const extractRoot = join(repoRoot, ".tmp", "extract");
-    execFileSync("unzip", ["-qq", built.archivePath, "-d", extractRoot]);
+    execFileSync("unzip", ["-qq", built.chatgpt.archivePath, "-d", extractRoot]);
     const archivedSkills = join(extractRoot, "newsjack", "skills");
+    assert.deepEqual(
+      Object.keys(
+        JSON.parse(readFileSync(join(extractRoot, "newsjack", "mcp.json"), "utf8"))
+          .mcpServers.medialyst,
+      ).sort(),
+      ["type", "url"],
+    );
     assert.equal(existsSync(join(archivedSkills, "ETHICS.md")), false);
     assert.equal(existsSync(join(archivedSkills, "WHY-NOT-SPAM.md")), false);
     assert.match(

@@ -9,8 +9,8 @@ on:
         type: string
 
 jobs:
-  openai-plugin-archive:
-    name: Download and validate OpenAI plugin archive
+  openai-plugin-archives:
+    name: Download and validate OpenAI plugin archives
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -39,11 +39,34 @@ jobs:
           mkdir -p .tmp/openai-plugin-smoke
           gh release download "$version" \
             --repo "${{ github.repository }}" \
-            --pattern "newsjack-openai-plugin-${version}.zip" \
+            --pattern "newsjack-chatgpt-plugin-${version}.zip" \
             --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-openai-submission-${version}.zip" \
+            --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern checksums.txt \
+            --dir .tmp/openai-plugin-smoke
+
+          grep -F "  newsjack-chatgpt-plugin-${version}.zip" \
+            .tmp/openai-plugin-smoke/checksums.txt \
+            > .tmp/openai-plugin-smoke/plugin-checksums.txt
+          grep -F "  newsjack-openai-submission-${version}.zip" \
+            .tmp/openai-plugin-smoke/checksums.txt \
+            >> .tmp/openai-plugin-smoke/plugin-checksums.txt
+          test "$(wc -l < .tmp/openai-plugin-smoke/plugin-checksums.txt)" -eq 2
+          (cd .tmp/openai-plugin-smoke && sha256sum --check plugin-checksums.txt)
+
           node scripts/validate-openai-plugin.mjs \
-            ".tmp/openai-plugin-smoke/newsjack-openai-plugin-${version}.zip" \
-            "$version"
+            ".tmp/openai-plugin-smoke/newsjack-chatgpt-plugin-${version}.zip" \
+            "$version" \
+            chatgpt
+          node scripts/validate-openai-plugin.mjs \
+            ".tmp/openai-plugin-smoke/newsjack-openai-submission-${version}.zip" \
+            "$version" \
+            submission
 
   install:
     name: Install released assets

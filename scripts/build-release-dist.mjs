@@ -11,7 +11,7 @@ import {
 import { basename, join, relative, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
-import { buildOpenAIPluginArchive } from "./lib/openai-plugin.mjs";
+import { buildOpenAIPluginArchives } from "./lib/openai-plugin.mjs";
 
 const repoRoot = resolve(import.meta.dirname, "..");
 const cliRoot = join(repoRoot, "apps/cli");
@@ -247,7 +247,7 @@ rmSync(outRoot, { recursive: true, force: true });
 mkdirSync(outRoot, { recursive: true });
 
 const artifacts = targets.flatMap(([os, arch]) => packageTarget({ os, arch }));
-const openAIPlugin = buildOpenAIPluginArchive({
+const openAIPlugins = buildOpenAIPluginArchives({
   repoRoot,
   outRoot,
   releaseVersion: version,
@@ -261,10 +261,10 @@ const manifest = {
 };
 const checksums = [
   ...artifacts,
-  {
-    name: openAIPlugin.archiveName,
-    sha256: sha256File(openAIPlugin.archivePath),
-  },
+  ...openAIPlugins.map((plugin) => ({
+    name: plugin.archiveName,
+    sha256: sha256File(plugin.archivePath),
+  })),
 ]
   .map((artifact) => `${artifact.sha256}  ${artifact.name}`)
   .join("\n");

@@ -7,11 +7,13 @@ import {
 
 const repoRoot = resolve(import.meta.dirname, "..");
 const expectedReleaseVersion = process.argv[3] || process.env.NEWSJACK_VERSION;
+const expectedVariant =
+  process.argv[4] || process.env.NEWSJACK_OPENAI_PLUGIN_VARIANT;
 const defaultArchive = expectedReleaseVersion
   ? resolve(
       repoRoot,
       process.env.NEWSJACK_RELEASE_DIST || ".tmp/newsjack-release",
-      openAIArchiveName(expectedReleaseVersion),
+      openAIArchiveName(expectedReleaseVersion, expectedVariant || "chatgpt"),
     )
   : undefined;
 const archivePath = process.argv[2] ? resolve(process.argv[2]) : defaultArchive;
@@ -28,9 +30,10 @@ try {
     archivePath,
     repoRoot,
     expectedReleaseVersion,
+    variant: expectedVariant,
   });
   console.log(
-    `OpenAI plugin archive is valid: ${result.archivePath} (${result.skillCount} skills, ${result.entryCount} ZIP entries, manifest version ${result.version})`,
+    `OpenAI ${result.variant} plugin archive is valid: ${result.archivePath} (${result.skillCount} skills, ${result.entryCount} ZIP entries, manifest version ${result.version})`,
   );
 } catch (error) {
   console.error(`OpenAI plugin validation failed: ${error.message}`);
