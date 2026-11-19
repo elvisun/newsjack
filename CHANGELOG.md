@@ -19,9 +19,12 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.25 — 2026-11-19
+
 ### Added
 
-- Tagged releases now include a generated, validated OpenAI Agent Plugins ZIP with all Newsjack skills, the Medialyst MCP connection, and OpenAI listing metadata for ChatGPT desktop and Codex installs.
+- Releases now include three validated OpenAI/ChatGPT ZIP variants: skills-only `newsjack-chatgpt-skills-<tag>.zip` (also published as `newsjack-chatgpt-skills.zip`), bundled-server `newsjack-chatgpt-plugin-<tag>.zip`, and `newsjack-openai-submission-<tag>.zip`.
+- The recommended ChatGPT setup is the skills-only ZIP with Medialyst added separately as a custom MCP server.
 
 ## v0.1.24 — 2026-11-16
 
