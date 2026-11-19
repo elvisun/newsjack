@@ -52,6 +52,8 @@ Do not fill blank cells from memory or guesses. A hostname may be shown as the s
 
 ## Workflow
 
+`render.mjs` and its helper files sit next to this file in a source checkout and in the full Newsjack install (`~/.newsjack/newsjack/skills/coverage-reel/`). The copy in Claude's plugin directory holds instructions only, because that directory does not accept scripts. If you do not find the script next to this file, run the one in the full install. If there is no full install, tell the user this skill needs it and stop; do not rebuild the script yourself.
+
 ### 1. Capture each article with press-clip
 
 Make a working folder the user owns. For each CSV row, run the installed press-clip script (in a source checkout, `skills/press-clip/clip.mjs`; when installed, the sibling `press-clip/clip.mjs`):

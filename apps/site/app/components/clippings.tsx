@@ -1,5 +1,9 @@
 import {
+  BadgeCheck,
+  Bookmark,
   Globe,
+  Heart,
+  MessageCircle,
   MessageSquare,
   Play,
   Repeat2,
@@ -27,11 +31,13 @@ import type { Tweet } from "react-tweet/api";
 
 import {
   CLIPPINGS,
+  INSTAGRAM_POSTS,
   LINKEDIN_POSTS,
   TRANSLATIONS,
   YOUTUBE_VIDEOS,
   linkPreview,
   loadTweet,
+  type InstagramPost,
   type LinkPreview,
   type LinkedInPost,
 } from "../../lib/clippings";
@@ -306,6 +312,216 @@ function LinkedInCard({ post }: { post: LinkedInPost }) {
   );
 }
 
+function InstagramLogo() {
+  return (
+    <svg
+      aria-label="Instagram"
+      fill="none"
+      height="22"
+      role="img"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      width="22"
+    >
+      <rect height="18" rx="5" width="18" x="3" y="3" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" fill="currentColor" r="1" stroke="none" />
+    </svg>
+  );
+}
+
+// Instagram's reels glyph: a clapper frame with a play triangle.
+function ReelGlyph() {
+  return (
+    <svg
+      aria-hidden="true"
+      fill="white"
+      height="22"
+      viewBox="0 0 24 24"
+      width="22"
+    >
+      <path d="M12.82 1.5h-1.64c-2.92 0-4.38 0-5.6.47a6.5 6.5 0 0 0-3.61 3.61C1.5 6.8 1.5 8.26 1.5 11.18v1.64c0 2.92 0 4.38.47 5.6a6.5 6.5 0 0 0 3.61 3.61c1.22.47 2.68.47 5.6.47h1.64c2.92 0 4.38 0 5.6-.47a6.5 6.5 0 0 0 3.61-3.61c.47-1.22.47-2.68.47-5.6v-1.64c0-2.92 0-4.38-.47-5.6a6.5 6.5 0 0 0-3.61-3.61c-1.22-.47-2.68-.47-5.6-.47ZM3.6 7.2l2.6-3.6h3.1L6.7 7.2H3.6Zm5.4 0 2.6-3.6h3.1l-2.6 3.6H9Zm5.4 0L17 3.6c1.7.2 2.7.9 3.3 2.2l.4 1.4h-6.3ZM3.4 9h17.2v3.8c0 2.8 0 4-.36 4.95a4.5 4.5 0 0 1-2.5 2.5c-.94.35-2.16.35-4.92.35h-1.64c-2.76 0-3.98 0-4.92-.35a4.5 4.5 0 0 1-2.5-2.5C3.4 16.8 3.4 15.6 3.4 12.82V9Zm6.1 2.4v6l5.2-3-5.2-3Z" />
+    </svg>
+  );
+}
+
+const INSTAGRAM_ACTIONS = [
+  { label: "Like", icon: Heart },
+  { label: "Comment", icon: MessageCircle },
+  { label: "Share", icon: Send },
+];
+
+// An Instagram reel, drawn to match Instagram's own post embed.
+function InstagramCard({ post }: { post: InstagramPost }) {
+  const date = new Date(post.publishedAt).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+
+  return (
+    <article
+      className="w-full max-w-[550px] overflow-hidden rounded-lg bg-white text-[14px] leading-[18px] text-[#262626] shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
+      style={{
+        fontFamily:
+          '-apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      }}
+    >
+      <header className="flex items-center gap-3 px-3 py-2.5">
+        <a
+          className="shrink-0 rounded-full bg-[linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)] p-[2px]"
+          href={post.authorUrl}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <Image
+            alt={`@${post.username}`}
+            className="size-8 rounded-full border-2 border-white object-cover"
+            height={32}
+            src={post.avatar}
+            unoptimized
+            width={32}
+          />
+        </a>
+        <div className="min-w-0 flex-1">
+          <a
+            className="flex min-w-0 items-center gap-1 font-semibold hover:opacity-60"
+            href={post.authorUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span className="truncate">{post.username}</span>
+            {post.verified && (
+              <BadgeCheck
+                aria-label="Verified account"
+                className="shrink-0 fill-[#0095f6] text-white"
+                role="img"
+                size={14}
+              />
+            )}
+          </a>
+          {(post.displayName || post.audio) && (
+            <p className="truncate text-xs text-[#737373]">
+              {[post.displayName, post.audio].filter(Boolean).join(" · ")}
+            </p>
+          )}
+        </div>
+        <a
+          className="shrink-0 hover:opacity-60"
+          href={post.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <InstagramLogo />
+        </a>
+      </header>
+
+      <a
+        aria-label="Watch the reel on Instagram"
+        className="group relative block bg-black"
+        href={post.url}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <Image
+          alt=""
+          className="aspect-[4/5] w-full object-cover"
+          height={post.cover.height}
+          src={post.cover.src}
+          unoptimized
+          width={post.cover.width}
+        />
+        <span className="absolute top-3 right-3 drop-shadow">
+          <ReelGlyph />
+        </span>
+        <span
+          className={`absolute inset-0 flex items-center justify-center transition-opacity ${post.stats ? "group-hover:opacity-0" : ""}`}
+        >
+          <span className="flex size-14 items-center justify-center rounded-full bg-black/60 text-white ring-2 ring-white/80">
+            <Play aria-hidden="true" className="ml-0.5 fill-white" size={22} />
+          </span>
+        </span>
+        {post.stats && (
+          <span className="absolute inset-0 flex items-center justify-center gap-8 bg-black/40 text-base font-bold text-white opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="flex items-center gap-2">
+              <Heart aria-hidden="true" className="fill-white" size={22} />
+              {post.stats.likes.toLocaleString("en-US")}
+            </span>
+            <span className="flex items-center gap-2">
+              <MessageCircle
+                aria-hidden="true"
+                className="fill-white"
+                size={22}
+              />
+              {post.stats.comments.toLocaleString("en-US")}
+            </span>
+          </span>
+        )}
+      </a>
+
+      <nav className="flex items-center gap-4 px-3 pt-3">
+        {INSTAGRAM_ACTIONS.map(({ label, icon: Icon }) => (
+          <a
+            aria-label={label}
+            className="hover:opacity-60"
+            href={post.url}
+            key={label}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <Icon aria-hidden="true" size={24} />
+          </a>
+        ))}
+        <a
+          aria-label="Save"
+          className="ml-auto hover:opacity-60"
+          href={post.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          <Bookmark aria-hidden="true" size={24} />
+        </a>
+      </nav>
+
+      <div className="px-3 pt-3 pb-4">
+        {post.stats && (
+          <p className="mb-1.5 font-semibold">
+            {post.stats.likes.toLocaleString("en-US")} likes ·{" "}
+            {post.stats.comments.toLocaleString("en-US")} comments
+          </p>
+        )}
+        <p className="line-clamp-4 whitespace-pre-line">
+          <a
+            className="mr-1.5 font-semibold hover:opacity-60"
+            href={post.authorUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
+            {post.username}
+          </a>
+          {post.text}
+        </p>
+        <a
+          className="mt-1 block text-[#737373]"
+          href={post.url}
+          rel="noreferrer"
+          target="_blank"
+        >
+          View more on Instagram
+        </a>
+        <time
+          className="mt-2 block text-[10px] tracking-[0.02em] text-[#737373] uppercase"
+          dateTime={post.publishedAt}
+        >
+          {date}
+        </time>
+      </div>
+    </article>
+  );
+}
+
 export async function Clippings({ number }: { number: string }) {
   const xIds = CLIPPINGS.flatMap((item) => ("x" in item ? [item.x] : []));
   const tweets = new Map(
@@ -321,6 +537,10 @@ export async function Clippings({ number }: { number: string }) {
     if ("youtube" in item) {
       const video = YOUTUBE_VIDEOS[item.youtube];
       return video ? <YouTubeCard key={item.youtube} {...video} /> : null;
+    }
+    if ("instagram" in item) {
+      const post = INSTAGRAM_POSTS[item.instagram];
+      return post ? <InstagramCard key={item.instagram} post={post} /> : null;
     }
     if ("linkedin" in item) {
       const post = LINKEDIN_POSTS[item.linkedin];

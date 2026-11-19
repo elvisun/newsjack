@@ -113,12 +113,79 @@ export const LINKEDIN_POSTS: Record<string, LinkedInPost> = {
     text: "#Smallbusiness owners, if you didn't have the budget to hire a Public Relations firm, now you can build your own PR team with Claude Cowork. Check out Elvis Sun's 18 PR Skills for building and amplyifying your company brand!",
     image: NEWSJACK_PROMO,
   },
+  kateryna: {
+    url: "https://www.linkedin.com/posts/kateryna-leliukh_pr-mediarelations-ai-activity-7528044561693319168-VP6O",
+    author: "Kateryna Leliukh",
+    authorUrl: "https://www.linkedin.com/in/kateryna-leliukh",
+    kind: "person",
+    avatar: "/clippings/kateryna-leliukh.jpg",
+    avatarAlt: "Kateryna Leliukh",
+    publishedAt: "2026-11-16T10:41:27.812Z",
+    text: "Last Friday evening I traded my PR shotgun for a sniper rifle \u{1F3AF}\n\n\u2026 What I like most: the skills draft, but they don't send. The agent does the research, and the judgment and the relationship stay with you.\n\n\u2026 If you're a one-person comms team (hi \u{1F44B}), this is the closest I've found to an associate who never sleeps.",
+  },
+};
+
+// Instagram has no public API either: verbatim captions kept here, with the
+// avatar and reel cover saved under public/clippings because Instagram's CDN
+// URLs expire.
+export type InstagramPost = {
+  url: string;
+  username: string;
+  displayName?: string;
+  verified?: boolean;
+  authorUrl: string;
+  avatar: string;
+  publishedAt: string;
+  text: string;
+  cover: { src: string; width: number; height: number };
+  audio?: string;
+  // Counts as of the date the clipping was added; shown on hover, the way
+  // Instagram's grid does.
+  stats?: { likes: number; comments: number };
+};
+
+export const INSTAGRAM_POSTS: Record<string, InstagramPost> = {
+  mariah: {
+    url: "https://www.instagram.com/reel/DfCOEvfgGHz/",
+    username: "itsmariahbrunner",
+    authorUrl: "https://www.instagram.com/itsmariahbrunner/",
+    avatar: "/clippings/mariah-brunner.jpg",
+    publishedAt: "2026-10-28T10:29:22Z",
+    text: "\u2026 posting builds your audience. getting written about builds your credibility. Newsjack is a free set of PR skills for your AI agent:",
+    cover: {
+      src: "/clippings/mariah-brunner-reel.jpg",
+      width: 720,
+      height: 1280,
+    },
+    audio: "Original audio",
+    stats: { likes: 1311, comments: 2816 },
+  },
+  tonyMa: {
+    url: "https://www.instagram.com/reel/DfXdmf_srb5/",
+    username: "tonyma.ai",
+    displayName: "Tony Ma",
+    verified: true,
+    authorUrl: "https://www.instagram.com/tonyma.ai/",
+    avatar: "/clippings/tony-ma.jpg",
+    publishedAt: "2026-11-05T16:30:19Z",
+    text: "Mit dem kostenlosen Open-Source-Projekt Newsjack kannst du deinen KI-Agenten zum persönlichen PR-Assistenten machen.",
+    cover: {
+      src: "/clippings/tony-ma-reel.jpg",
+      width: 1206,
+      height: 2144,
+    },
+    audio: "Original audio",
+    stats: { likes: 26, comments: 109 },
+  },
 };
 
 // The wall, in display order. X and LinkedIn alternate so neither platform
 // clumps. Add a post by adding one line.
 export type Clipping =
-  { x: string } | { linkedin: string } | { youtube: string };
+  | { x: string }
+  | { linkedin: string }
+  | { youtube: string }
+  | { instagram: string };
 
 // YouTube videos that cover newsjack, starting at the segment about it.
 export const YOUTUBE_VIDEOS: Record<
@@ -170,6 +237,9 @@ export const CLIPPINGS: Clipping[] = [
   { x: "2101157437143408800" }, // Leo Lu
   { linkedin: "futureReady" },
   { linkedin: "oleksandra" },
+  { linkedin: "kateryna" },
+  { instagram: "mariah" },
+  { instagram: "tonyMa" },
 ];
 
 // English translations for non-English X posts, shown behind a "Show
