@@ -11,7 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { basename, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 
 export const PLUGIN_SCHEMA_URL =
@@ -25,12 +25,32 @@ export const MAX_UNCOMPRESSED_BYTES = 512 * 1024 * 1024;
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 const MEDIALYST_MCP_URL = "https://medialyst.ai/api/mcp";
+// The release ZIP is a hosted-upload package for ChatGPT's Upload plugin archive
+// flow and platform.openai.com/plugins. Hosted import requires this OpenAI auth
+// extension, but local Codex marketplace installs currently reject any per-server
+// extensions key and silently drop the server. Do not use this ZIP as a local
+// unzipped marketplace plugin.
 const MEDIALYST_OPENAI_AUTH = {
   type: "oauth",
   client: {
     mode: "dcr",
   },
 };
+const OPENAI_LISTING_URLS = Object.freeze({
+  websiteURL: "https://newsjack.sh",
+  supportURL: "https://github.com/elvisun/newsjack/issues",
+  privacyPolicyURL: "https://newsjack.sh/privacy",
+  termsOfServiceURL: "https://github.com/elvisun/newsjack/blob/main/LICENSE",
+});
+// Hosted import ignores Markdown directly under skills/, so the OpenAI-only
+// transform vendors shared doctrine into each affected skill's references/.
+const HOSTED_DOCTRINE_FILES = Object.freeze([
+  Object.freeze({ sourcePath: "ETHICS.md", sourceReference: "skills/ETHICS.md" }),
+  Object.freeze({
+    sourcePath: "WHY-NOT-SPAM.md",
+    sourceReference: "skills/WHY-NOT-SPAM.md",
+  }),
+]);
 const DEFAULT_PROMPTS = [
   "Find current newsjacking opportunities for my company.",
   "Turn this company update into journalist-shaped story angles.",
@@ -184,13 +204,6 @@ function normalizeCategory(category) {
   return ALLOWED_CATEGORIES.has(normalized) ? normalized : "Other";
 }
 
-function repositoryDerivedURL(repository, suffix) {
-  if (typeof repository !== "string" || !repository.startsWith("https://")) {
-    return undefined;
-  }
-  return `${repository.replace(/\.git$/, "").replace(/\/$/, "")}${suffix}`;
-}
-
 export function generateOpenAIManifest({
   claudeManifest,
   marketplaceEntry,
@@ -212,10 +225,7 @@ export function generateOpenAIManifest({
     longDescription: claudeManifest.description,
     developerName: claudeManifest.author.name,
     category: normalizeCategory(marketplaceEntry.category),
-    websiteURL: claudeManifest.homepage,
-    supportURL: repositoryDerivedURL(repository, "/issues"),
-    privacyPolicyURL: claudeManifest.privacyPolicyUrl,
-    termsOfServiceURL: repositoryDerivedURL(repository, "/blob/main/LICENSE"),
+    ...OPENAI_LISTING_URLS,
     defaultPrompt: [...DEFAULT_PROMPTS],
     composerIcon: "./assets/icon.png",
     logo: "./assets/icon.png",
@@ -269,11 +279,18 @@ export function generatePortableMCP(sourceMCP) {
     if (server.type !== "stdio") {
       invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use an HTTPS URL`);
     }
-    if (server.url === MEDIALYST_MCP_URL) {
+    if (name === "medialyst") {
+      invariant(
+        server.url === MEDIALYST_MCP_URL,
+        `MCP server medialyst must use ${MEDIALYST_MCP_URL}`,
+      );
+      for (const key of Object.keys(server)) {
+        if (key !== "type" && key !== "url") {
+          delete server[key];
+        }
+      }
       server.extensions = {
-        ...(server.extensions || {}),
         "com.openai": {
-          ...(server.extensions?.["com.openai"] || {}),
           auth: clone(MEDIALYST_OPENAI_AUTH),
         },
       };
@@ -310,6 +327,12 @@ export function readOpenAISource(repoRoot) {
   const skillFiles = walkRegularFiles(skillsRoot, "Newsjack plugin skills").filter(
     (path) => path !== ".gitkeep",
   );
+  for (const doctrine of HOSTED_DOCTRINE_FILES) {
+    invariant(
+      skillFiles.includes(doctrine.sourcePath),
+      `Newsjack plugin skills are missing ${doctrine.sourcePath}`,
+    );
+  }
   const skillNames = readdirSync(skillsRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => {
@@ -348,6 +371,96 @@ export function readOpenAISource(repoRoot) {
   };
 }
 
+function normalizedPath(path) {
+  return path.split(sep).join("/");
+}
+
+function rewriteHostedDoctrineReferences(body, archivePath, skillName) {
+  let rewritten = body;
+  const referencedDoctrine = [];
+  for (const doctrine of HOSTED_DOCTRINE_FILES) {
+    if (!rewritten.includes(doctrine.sourceReference)) {
+      continue;
+    }
+    const targetPath = join(skillName, "references", doctrine.sourcePath);
+    const localPath = normalizedPath(relative(dirname(archivePath), targetPath));
+    rewritten = rewritten.replaceAll(doctrine.sourceReference, localPath);
+    referencedDoctrine.push(doctrine);
+  }
+  return { body: rewritten, referencedDoctrine };
+}
+
+function generateHostedSkillFiles(source) {
+  const files = new Map();
+  const pendingDoctrine = [];
+  const addedDoctrine = new Set();
+
+  for (const sourcePath of source.skillFiles) {
+    const archivePath = normalizedPath(sourcePath);
+    if (HOSTED_DOCTRINE_FILES.some((doctrine) => doctrine.sourcePath === archivePath)) {
+      continue;
+    }
+    const parts = archivePath.split("/");
+    invariant(
+      parts.length > 1,
+      `OpenAI hosted import ignores files directly under skills/: ${archivePath}`,
+    );
+    const skillName = parts[0];
+    const sourceBody = readFileSync(join(source.skillsRoot, sourcePath));
+    if (!archivePath.endsWith(".md")) {
+      files.set(archivePath, sourceBody);
+      continue;
+    }
+    const rewritten = rewriteHostedDoctrineReferences(
+      sourceBody.toString("utf8"),
+      archivePath,
+      skillName,
+    );
+    files.set(archivePath, Buffer.from(rewritten.body));
+    for (const doctrine of rewritten.referencedDoctrine) {
+      pendingDoctrine.push({ skillName, doctrine });
+    }
+  }
+
+  while (pendingDoctrine.length > 0) {
+    const { skillName, doctrine } = pendingDoctrine.pop();
+    const archivePath = normalizedPath(
+      join(skillName, "references", doctrine.sourcePath),
+    );
+    if (addedDoctrine.has(archivePath)) {
+      continue;
+    }
+    invariant(
+      !files.has(archivePath),
+      `source skill file collides with hosted doctrine copy: ${archivePath}`,
+    );
+    addedDoctrine.add(archivePath);
+    const sourceBody = readFileSync(
+      join(source.skillsRoot, doctrine.sourcePath),
+      "utf8",
+    );
+    const rewritten = rewriteHostedDoctrineReferences(
+      sourceBody,
+      archivePath,
+      skillName,
+    );
+    files.set(archivePath, Buffer.from(rewritten.body));
+    for (const referenced of rewritten.referencedDoctrine) {
+      pendingDoctrine.push({ skillName, doctrine: referenced });
+    }
+  }
+
+  return files;
+}
+
+function writeHostedSkills(source, skillsRoot) {
+  for (const [archivePath, body] of generateHostedSkillFiles(source)) {
+    const destination = join(skillsRoot, archivePath);
+    mkdirSync(dirname(destination), { recursive: true });
+    writeFileSync(destination, body);
+  }
+}
+
 export function buildOpenAIPluginArchive({ repoRoot, outRoot, releaseVersion }) {
   const source = readOpenAISource(repoRoot);
   const resolvedOutRoot = resolve(outRoot);
@@ -359,8 +472,7 @@ export function buildOpenAIPluginArchive({ repoRoot, outRoot, releaseVersion }) 
 
   try {
     mkdirSync(join(packageRoot, "assets"), { recursive: true });
-    cpSync(source.skillsRoot, join(packageRoot, "skills"), { recursive: true });
-    rmSync(join(packageRoot, "skills", ".gitkeep"), { force: true });
+    writeHostedSkills(source, join(packageRoot, "skills"));
     cpSync(source.readmePath, join(packageRoot, "README.md"));
     cpSync(source.iconPath, join(packageRoot, "assets", "icon.png"));
     writeFileSync(
@@ -495,14 +607,22 @@ export function validateMCPShape(mcp) {
     if (server.type !== "stdio") {
       invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use HTTPS`);
     }
-    if (server.url === MEDIALYST_MCP_URL) {
-      const auth = server.extensions?.["com.openai"]?.auth;
-      invariant(
-        isDeepStrictEqual(auth, MEDIALYST_OPENAI_AUTH),
-        `MCP server ${name} must declare OpenAI OAuth with dynamic client registration`,
-      );
-    }
   }
+  const medialyst = mcp.mcpServers.medialyst;
+  invariant(medialyst && typeof medialyst === "object", "mcp.json has no medialyst server");
+  invariant(
+    isDeepStrictEqual(Object.keys(medialyst).sort(), ["extensions", "type", "url"]),
+    "MCP server medialyst must contain exactly type, url, and extensions",
+  );
+  invariant(
+    medialyst.url === MEDIALYST_MCP_URL,
+    `MCP server medialyst must use ${MEDIALYST_MCP_URL}`,
+  );
+  const auth = medialyst.extensions?.["com.openai"]?.auth;
+  invariant(
+    isDeepStrictEqual(auth, MEDIALYST_OPENAI_AUTH),
+    "MCP server medialyst must declare OpenAI OAuth with dynamic client registration",
+  );
 }
 
 export function validatePNG(path) {
@@ -521,25 +641,28 @@ export function validatePNG(path) {
 }
 
 function comparePackagedFiles(packageRoot, source) {
+  const hostedSkillFiles = generateHostedSkillFiles(source);
   const actualFiles = walkRegularFiles(packageRoot, "OpenAI plugin archive").map((path) =>
-    path.split(sep).join("/"),
+    normalizedPath(path),
   );
   const expectedFiles = [
     "README.md",
     "assets/icon.png",
     "mcp.json",
     "plugin.json",
-    ...source.skillFiles.map((path) => `skills/${path.split(sep).join("/")}`),
+    ...[...hostedSkillFiles.keys()].map((path) => `skills/${path}`),
   ].sort();
   invariant(
     isDeepStrictEqual(actualFiles.sort(), expectedFiles),
     `archive file tree differs from the generated package\nexpected: ${expectedFiles.join(", ")}\nactual: ${actualFiles.sort().join(", ")}`,
   );
 
-  for (const skillFile of source.skillFiles) {
-    const sourceBody = readFileSync(join(source.skillsRoot, skillFile));
+  for (const [skillFile, expectedBody] of hostedSkillFiles) {
     const packagedBody = readFileSync(join(packageRoot, "skills", skillFile));
-    invariant(sourceBody.equals(packagedBody), `packaged skill file differs from source: ${skillFile}`);
+    invariant(
+      expectedBody.equals(packagedBody),
+      `packaged skill file differs from hosted transform: ${skillFile}`,
+    );
   }
   invariant(
     readFileSync(source.readmePath).equals(readFileSync(join(packageRoot, "README.md"))),
@@ -549,6 +672,27 @@ function comparePackagedFiles(packageRoot, source) {
     readFileSync(source.iconPath).equals(readFileSync(join(packageRoot, "assets", "icon.png"))),
     "packaged icon differs from source",
   );
+}
+
+function validateHostedSkillPackage(packageRoot) {
+  const skillsRoot = join(packageRoot, "skills");
+  for (const relativePath of walkRegularFiles(skillsRoot, "OpenAI plugin skills")) {
+    const archivePath = normalizedPath(relativePath);
+    invariant(
+      archivePath.includes("/"),
+      `OpenAI hosted import ignores files directly under skills/: ${archivePath}`,
+    );
+    if (!archivePath.endsWith(".md")) {
+      continue;
+    }
+    const body = readFileSync(join(skillsRoot, relativePath), "utf8");
+    for (const doctrine of HOSTED_DOCTRINE_FILES) {
+      invariant(
+        !body.includes(doctrine.sourceReference),
+        `archived skill contains a stale doctrine path: ${archivePath}`,
+      );
+    }
+  }
 }
 
 export function validateOpenAIPluginArchive({
@@ -589,6 +733,7 @@ export function validateOpenAIPluginArchive({
 
     const source = readOpenAISource(repoRoot);
     comparePackagedFiles(packageRoot, source);
+    validateHostedSkillPackage(packageRoot);
     const manifest = readJSON(join(packageRoot, "plugin.json"), "OpenAI plugin.json");
     validateManifestShape(manifest);
     const releaseVersion = expectedReleaseVersion || manifest.version;

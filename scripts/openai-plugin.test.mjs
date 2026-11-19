@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import {
   copyFileSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
+  readFileSync,
   rmSync,
   writeFileSync,
 } from "node:fs";
@@ -81,8 +83,16 @@ function createFixtureRepo() {
     join(pluginRoot, "icon.png"),
   );
   writeFileSync(
+    join(pluginRoot, "skills", "ETHICS.md"),
+    "# Ethics\n\n`skills/ETHICS.md` wins.\n",
+  );
+  writeFileSync(
+    join(pluginRoot, "skills", "WHY-NOT-SPAM.md"),
+    "# Why not spam\n\nFollow `skills/WHY-NOT-SPAM.md`.\n",
+  );
+  writeFileSync(
     join(pluginRoot, "skills", "sample", "SKILL.md"),
-    "---\nname: sample\ndescription: Exercise the sample workflow.\n---\n\nFollow the sample workflow.\n",
+    "---\nname: sample\ndescription: Exercise the sample workflow.\n---\n\nFollow `skills/ETHICS.md` and `skills/WHY-NOT-SPAM.md`.\n",
   );
   return repoRoot;
 }
@@ -105,6 +115,10 @@ test("generates the portable OpenAI manifest from Claude metadata", () => {
   assert.equal(manifest.$schema, PLUGIN_SCHEMA_URL);
   assert.equal(manifest.name, "newsjack");
   assert.equal(manifest.version, "9.8.7");
+  assert.equal(
+    manifest.extensions["com.openai"].interface.websiteURL,
+    "https://newsjack.sh",
+  );
   assert.equal(
     manifest.extensions["com.openai"].interface.shortDescription,
     "PR and AI-visibility skills",
@@ -151,6 +165,11 @@ test("converts the shared MCP config to the portable schema", () => {
       },
     },
   });
+  assert.deepEqual(Object.keys(mcp.mcpServers.medialyst).sort(), [
+    "extensions",
+    "type",
+    "url",
+  ]);
 });
 
 test("enforces final OpenAI submission metadata limits", () => {
@@ -176,7 +195,7 @@ test("enforces final OpenAI submission metadata limits", () => {
   }
 });
 
-test("requires OAuth DCR for the Medialyst server", () => {
+test("requires exact hosted Medialyst keys and OAuth DCR", () => {
   const mcp = generatePortableMCP({
     mcpServers: {
       medialyst: {
@@ -186,9 +205,17 @@ test("requires OAuth DCR for the Medialyst server", () => {
     },
   });
   validateMCPShape(mcp);
-  delete mcp.mcpServers.medialyst.extensions;
+  const extraKey = structuredClone(mcp);
+  extraKey.mcpServers.medialyst.headers = {};
   assert.throws(
-    () => validateMCPShape(mcp),
+    () => validateMCPShape(extraKey),
+    /must contain exactly type, url, and extensions/,
+  );
+
+  const invalidAuth = structuredClone(mcp);
+  invalidAuth.mcpServers.medialyst.extensions["com.openai"].auth.client.mode = "cimd";
+  assert.throws(
+    () => validateMCPShape(invalidAuth),
     /must declare OpenAI OAuth with dynamic client registration/,
   );
 });
@@ -237,6 +264,37 @@ test("builds and validates a complete OpenAI plugin archive", () => {
     assert.equal(validated.skillCount, 1);
     assert.equal(validated.version, "9.8.7");
     assert.equal(built.archiveName, "newsjack-openai-plugin-v9.8.7-test.1.zip");
+
+    const extractRoot = join(repoRoot, ".tmp", "extract");
+    execFileSync("unzip", ["-qq", built.archivePath, "-d", extractRoot]);
+    const archivedSkills = join(extractRoot, "newsjack", "skills");
+    assert.equal(existsSync(join(archivedSkills, "ETHICS.md")), false);
+    assert.equal(existsSync(join(archivedSkills, "WHY-NOT-SPAM.md")), false);
+    assert.match(
+      readFileSync(join(archivedSkills, "sample", "SKILL.md"), "utf8"),
+      /`references\/ETHICS\.md` and `references\/WHY-NOT-SPAM\.md`/,
+    );
+    assert.match(
+      readFileSync(
+        join(archivedSkills, "sample", "references", "ETHICS.md"),
+        "utf8",
+      ),
+      /`ETHICS\.md` wins/,
+    );
+    assert.match(
+      readFileSync(
+        join(archivedSkills, "sample", "references", "WHY-NOT-SPAM.md"),
+        "utf8",
+      ),
+      /`WHY-NOT-SPAM\.md`/,
+    );
+    assert.match(
+      readFileSync(
+        join(repoRoot, "plugins", "newsjack", "skills", "sample", "SKILL.md"),
+        "utf8",
+      ),
+      /`skills\/ETHICS\.md` and `skills\/WHY-NOT-SPAM\.md`/,
+    );
   } finally {
     rmSync(repoRoot, { recursive: true, force: true });
   }

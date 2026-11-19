@@ -11,40 +11,23 @@ In Claude Code, add this repository as a plugin marketplace and install Newsjack
 /plugin install newsjack@newsjack
 ```
 
-For ChatGPT desktop and Codex, each tagged GitHub Release includes
-`newsjack-openai-plugin-<tag>.zip`. Extract it into the personal plugin folder:
+For ChatGPT, open **Plugins**, choose **New Plugin**, then **Upload plugin
+archive**. Select `newsjack-openai-plugin-<tag>.zip` from the tagged GitHub
+Release, then connect Medialyst when prompted.
+
+For a local install in the Codex CLI or ChatGPT desktop, use the repository
+marketplace instead of the ZIP:
 
 ```bash
-mkdir -p "$HOME/.codex/plugins"
-unzip newsjack-openai-plugin-vX.Y.Z.zip -d "$HOME/.codex/plugins"
+codex plugin marketplace add elvisun/newsjack
+codex plugin add newsjack@newsjack
+codex mcp login medialyst
 ```
 
-Then add or merge this entry in `~/.agents/plugins/marketplace.json`:
-
-```json
-{
-  "name": "newsjack-local",
-  "interface": { "displayName": "Newsjack Local" },
-  "plugins": [
-    {
-      "name": "newsjack",
-      "source": {
-        "source": "local",
-        "path": "./.codex/plugins/newsjack"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Productivity"
-    }
-  ]
-}
-```
-
-Restart ChatGPT desktop or Codex, open the Plugins Directory, select the
-Newsjack Local source, and install Newsjack. If the marketplace already lists
-other plugins, preserve them and add only the Newsjack entry.
+The release ZIP is for hosted upload only. Do not unzip it into a local
+marketplace: hosted OpenAI upload requires the per-server OAuth extension in
+`mcp.json`, while current local Codex versions reject that key and silently
+drop the Medialyst server.
 
 For the local CLI, scheduled monitors, browser-based clips, and the bundled Medialyst authentication helper, install the full open-source package:
 

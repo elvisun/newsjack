@@ -229,7 +229,11 @@ The OpenAI archive uses the portable Agent Plugins layout documented by
 `plugin.json` is generated from the Claude plugin manifest and marketplace
 entry, its `mcp.json` is generated from the packaged Medialyst MCP
 configuration with OpenAI OAuth dynamic client registration declared, and its
-`skills/` tree is copied from the same plugin source.
+`skills/` tree is generated from the same plugin source. OpenAI hosted import
+ignores files directly under `skills/`, so each affected archived skill gets
+local `references/ETHICS.md` and/or `references/WHY-NOT-SPAM.md` copies and its
+archived links are rewritten. The source skills and Claude package are not
+changed.
 The archive has one top-level `newsjack/` directory:
 
 ```text
@@ -240,29 +244,30 @@ newsjack/
 ├── assets/
 │   └── icon.png
 └── skills/
-    ├── <skill>/SKILL.md
+    ├── <skill>/
+    │   ├── SKILL.md
+    │   └── references/
+    │       ├── ETHICS.md
+    │       └── WHY-NOT-SPAM.md
     └── ...
 ```
 
-OpenAI's plugin submission flow accepts a ZIP containing skills and MCP
-configuration. Because Newsjack uses a remote HTTPS MCP server, publishers
-upload the ZIP through the [plugin submission
-portal](https://developers.openai.com/plugins/deploy/submission) and complete
-the server connection there. A release archive can also be tested locally in
-ChatGPT desktop or Codex:
+This release archive is the hosted-upload package for ChatGPT's **Plugins → New
+Plugin → Upload plugin archive** flow and
+[`platform.openai.com/plugins`](https://platform.openai.com/plugins). OpenAI's
+hosted submission contract requires OAuth under the Medialyst server's
+`extensions["com.openai"].auth` object.
+
+Do not install the release ZIP by unzipping it into a local marketplace. The
+portable MCP schema used by current local Codex versions rejects a per-server
+`extensions` key and silently drops Medialyst. Test local installation through
+the repository marketplace instead:
 
 ```bash
-version=v0.1.0
-gh release download "$version" \
-  --pattern "newsjack-openai-plugin-${version}.zip"
-mkdir -p "$HOME/.codex/plugins"
-unzip "newsjack-openai-plugin-${version}.zip" -d "$HOME/.codex/plugins"
+codex plugin marketplace add elvisun/newsjack
+codex plugin add newsjack@newsjack
+codex mcp login medialyst
 ```
-
-Add the Newsjack entry from `plugins/newsjack/README.md` to the personal
-marketplace at `~/.agents/plugins/marketplace.json`, restart ChatGPT desktop or
-Codex, and install it from the Plugins Directory. Do not replace an existing
-marketplace file; merge the entry into its `plugins` array.
 
 The npm workflow publishes the five npm packages after checking that the exact
 version is not already present on npm, running CLI tests, building packages,
