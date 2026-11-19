@@ -40,7 +40,19 @@ export function InstallPanel({
       value: aiPrompt,
       prompt: "➜",
       copyLabel: "setup prompt",
-      note: "Not technical? Claude, ChatGPT or Codex reads the repo, installs newsjack and sets up your daily monitoring. Windows included.",
+      note: (
+        <>
+          Not technical? Claude, ChatGPT or Codex reads the repo, installs
+          newsjack and sets up your daily monitoring. Windows included. On
+          ChatGPT?{" "}
+          <a
+            className="text-page underline decoration-accent/60 underline-offset-2 transition-colors hover:text-accent"
+            href="/chatgpt"
+          >
+            Use the ChatGPT install.
+          </a>
+        </>
+      ),
     },
     {
       id: "terminal",

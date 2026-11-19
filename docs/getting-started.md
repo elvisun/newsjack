@@ -17,6 +17,7 @@ Use **Full Mode** in:
 - Codex
 - OpenClaw
 - Hermes
+- ChatGPT desktop app in Work mode
 
 Use **Limited Mode** in browser or restricted chat environments:
 
@@ -31,6 +32,29 @@ canonical detector, save monitors, schedule runs, keep seen-state, write local
 artifacts, or use cost-optimized multi-agent passes.
 
 ## Install paths
+
+### ChatGPT desktop app
+
+When you are running inside the ChatGPT desktop app with terminal access,
+install the Newsjack plugin directly from its public GitHub repository. Do not
+search the plugin directory. Run these commands in order:
+
+```bash
+codex plugin marketplace add elvisun/newsjack
+codex plugin add newsjack@newsjack
+codex mcp login medialyst
+```
+
+If `codex` is not on `PATH`, use the Codex CLI bundled inside the ChatGPT
+desktop app. The last command opens a browser so the user can sign in to
+Medialyst. When all three commands succeed, tell the user to quit and reopen
+ChatGPT, start a new chat, and type `@Newsjack`.
+
+These steps have been tested on macOS. Windows uses the same steps but has not
+yet been verified. Company-managed ChatGPT workspaces may block custom
+marketplaces.
+
+### Other Full Mode agents
 
 Default Full Mode install:
 
