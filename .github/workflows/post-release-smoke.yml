@@ -9,6 +9,93 @@ on:
         type: string
 
 jobs:
+  openai-plugin-archives:
+    name: Download and validate OpenAI plugin archives
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+
+      - name: Download archive and validate release contents
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ inputs.version }}"
+          if [ -z "$version" ]; then
+            version="$(gh release view --repo "${{ github.repository }}" --json tagName --jq .tagName)"
+          fi
+
+          git checkout --detach "$version"
+          mkdir -p .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-chatgpt-skills-${version}.zip" \
+            --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-chatgpt-skills.zip" \
+            --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-chatgpt-plugin-${version}.zip" \
+            --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern "newsjack-openai-submission-${version}.zip" \
+            --dir .tmp/openai-plugin-smoke
+          gh release download "$version" \
+            --repo "${{ github.repository }}" \
+            --pattern checksums.txt \
+            --dir .tmp/openai-plugin-smoke
+
+          {
+            grep -F "  newsjack-chatgpt-skills-${version}.zip" \
+              .tmp/openai-plugin-smoke/checksums.txt
+            grep -F "  newsjack-chatgpt-skills.zip" \
+              .tmp/openai-plugin-smoke/checksums.txt
+            grep -F "  newsjack-chatgpt-plugin-${version}.zip" \
+              .tmp/openai-plugin-smoke/checksums.txt
+            grep -F "  newsjack-openai-submission-${version}.zip" \
+              .tmp/openai-plugin-smoke/checksums.txt
+          } > .tmp/openai-plugin-smoke/plugin-checksums.txt
+          test "$(wc -l < .tmp/openai-plugin-smoke/plugin-checksums.txt)" -eq 4
+          (cd .tmp/openai-plugin-smoke && sha256sum --check plugin-checksums.txt)
+
+          cmp \
+            ".tmp/openai-plugin-smoke/newsjack-chatgpt-skills-${version}.zip" \
+            ".tmp/openai-plugin-smoke/newsjack-chatgpt-skills.zip"
+          node scripts/validate-openai-plugin.mjs \
+            ".tmp/openai-plugin-smoke/newsjack-chatgpt-skills-${version}.zip" \
+            "$version" \
+            skills
+          node scripts/validate-openai-plugin.mjs \
+            ".tmp/openai-plugin-smoke/newsjack-chatgpt-plugin-${version}.zip" \
+            "$version" \
+            chatgpt
+          node scripts/validate-openai-plugin.mjs \
+            ".tmp/openai-plugin-smoke/newsjack-openai-submission-${version}.zip" \
+            "$version" \
+            submission
+
+          if [ -z "${{ inputs.version }}" ]; then
+            curl -fsSL \
+              "https://github.com/${{ github.repository }}/releases/latest/download/newsjack-chatgpt-skills.zip" \
+              -o .tmp/openai-plugin-smoke/newsjack-chatgpt-skills-latest.zip
+            cmp \
+              .tmp/openai-plugin-smoke/newsjack-chatgpt-skills.zip \
+              .tmp/openai-plugin-smoke/newsjack-chatgpt-skills-latest.zip
+          fi
+
   install:
     name: Install released assets
     runs-on: ubuntu-latest

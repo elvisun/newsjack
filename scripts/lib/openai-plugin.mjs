@@ -1,0 +1,910 @@
+import { execFileSync } from "node:child_process";
+import {
+  cpSync,
+  lstatSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { isDeepStrictEqual } from "node:util";
+
+export const PLUGIN_SCHEMA_URL =
+  "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json";
+export const MCP_SCHEMA_URL =
+  "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json";
+export const MAX_ARCHIVE_BYTES = 100 * 1024 * 1024;
+export const MAX_ARCHIVE_ENTRIES = 5_000;
+export const MAX_MEMBER_BYTES = 100 * 1024 * 1024;
+export const MAX_UNCOMPRESSED_BYTES = 512 * 1024 * 1024;
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+export const CHATGPT_SKILLS_STABLE_ARCHIVE_NAME = "newsjack-chatgpt-skills.zip";
+
+const MEDIALYST_MCP_URL = "https://medialyst.ai/api/mcp";
+export const OPENAI_PLUGIN_VARIANTS = Object.freeze({
+  skills: Object.freeze({
+    archivePrefix: "newsjack-chatgpt-skills",
+    includeMCP: false,
+    includeOpenAIAuth: false,
+  }),
+  chatgpt: Object.freeze({
+    archivePrefix: "newsjack-chatgpt-plugin",
+    includeMCP: true,
+    includeOpenAIAuth: false,
+  }),
+  submission: Object.freeze({
+    archivePrefix: "newsjack-openai-submission",
+    includeMCP: true,
+    includeOpenAIAuth: true,
+  }),
+});
+// The recommended ChatGPT upload contains skills only; users add the hosted MCP
+// connection separately so sign-in is reliable. The bundled-server variant is
+// for workspace publishing and local marketplaces. Only the public-directory
+// submission archive carries the portal-required OpenAI auth extension.
+const MEDIALYST_OPENAI_AUTH = {
+  type: "oauth",
+  client: {
+    mode: "dcr",
+  },
+};
+const OPENAI_LISTING_URLS = Object.freeze({
+  websiteURL: "https://newsjack.sh",
+  supportURL: "https://github.com/elvisun/newsjack/issues",
+  privacyPolicyURL: "https://newsjack.sh/privacy",
+  termsOfServiceURL: "https://github.com/elvisun/newsjack/blob/main/LICENSE",
+});
+// Hosted import ignores Markdown directly under skills/, so the OpenAI-only
+// transform vendors shared doctrine into each affected skill's references/.
+const HOSTED_DOCTRINE_FILES = Object.freeze([
+  Object.freeze({ sourcePath: "ETHICS.md", sourceReference: "skills/ETHICS.md" }),
+  Object.freeze({
+    sourcePath: "WHY-NOT-SPAM.md",
+    sourceReference: "skills/WHY-NOT-SPAM.md",
+  }),
+]);
+const DEFAULT_PROMPTS = [
+  "Find current newsjacking opportunities for my company.",
+  "Turn this company update into journalist-shaped story angles.",
+  "Fact-check this press release before I send it.",
+];
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
+const RELEASE_VERSION_PATTERN =
+  /^v?(\d+\.\d+\.\d+)(?:-([0-9A-Za-z][0-9A-Za-z.-]*))?(?:\+([0-9A-Za-z][0-9A-Za-z.-]*))?$/;
+const SEMVER_PATTERN =
+  /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const PLUGIN_NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]*$/;
+const ALLOWED_CATEGORIES = new Set([
+  "Productivity",
+  "Creativity",
+  "Developer Tools",
+  "Business & Operations",
+  "Data & Analytics",
+  "Communication",
+  "Education & Research",
+  "Security",
+  "Finance",
+  "Healthcare",
+  "Travel",
+  "Entertainment",
+  "Other",
+]);
+const FORBIDDEN_PATH_PARTS = new Set([
+  ".git",
+  ".github",
+  ".DS_Store",
+  "Thumbs.db",
+  "node_modules",
+  "eval",
+  "fixtures",
+  "runs",
+  "credentials",
+  "secrets",
+]);
+
+function invariant(condition, message) {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+function readJSON(path, label) {
+  try {
+    return JSON.parse(readFileSync(path, "utf8"));
+  } catch (error) {
+    throw new Error(`${label} is not valid JSON: ${error.message}`);
+  }
+}
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function parseFrontmatterField(body, field, label) {
+  invariant(body.startsWith("---\n"), `${label} must start with YAML frontmatter`);
+  const end = body.indexOf("\n---", 4);
+  invariant(end !== -1, `${label} has unclosed YAML frontmatter`);
+  const frontmatter = body.slice(4, end);
+  const match = frontmatter.match(new RegExp(`^${field}:\\s*(.+)$`, "m"));
+  invariant(match, `${label} has no ${field} frontmatter field`);
+  const raw = match[1].trim();
+  if (raw.startsWith('"')) {
+    try {
+      return JSON.parse(raw);
+    } catch (error) {
+      throw new Error(`${label} has invalid quoted ${field}: ${error.message}`);
+    }
+  }
+  return raw;
+}
+
+function walkRegularFiles(root, label, prefix = "") {
+  const files = [];
+  for (const entry of readdirSync(root, { withFileTypes: true }).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )) {
+    const relativePath = prefix ? join(prefix, entry.name) : entry.name;
+    const path = join(root, entry.name);
+    const stat = lstatSync(path);
+    invariant(!stat.isSymbolicLink(), `${label} contains a symlink: ${relativePath}`);
+    if (stat.isDirectory()) {
+      files.push(...walkRegularFiles(path, label, relativePath));
+      continue;
+    }
+    invariant(stat.isFile(), `${label} contains a non-regular file: ${relativePath}`);
+    assertSafeSourcePath(relativePath, label);
+    files.push(relativePath);
+  }
+  return files;
+}
+
+function assertSafeSourcePath(path, label) {
+  const normalized = path.split(sep).join("/");
+  const parts = normalized.split("/");
+  for (const part of parts) {
+    invariant(!FORBIDDEN_PATH_PARTS.has(part), `${label} contains forbidden path ${path}`);
+    invariant(!part.startsWith(".env"), `${label} contains forbidden path ${path}`);
+    invariant(!/\.(?:key|pem|p12|pfx|token|secret|credential)$/i.test(part), `${label} contains secret-like path ${path}`);
+  }
+}
+
+function assertInside(root, path, label) {
+  const rel = relative(root, path);
+  invariant(
+    rel === "" || (!rel.startsWith(`..${sep}`) && rel !== ".." && !isAbsolute(rel)),
+    `${label} resolves outside ${root}`,
+  );
+}
+
+export function normalizeReleaseVersion(value) {
+  invariant(typeof value === "string" && value.length > 0, "release version is required");
+  const match = value.match(RELEASE_VERSION_PATTERN);
+  invariant(match, `release version ${JSON.stringify(value)} is not a supported v* semver`);
+  return {
+    releaseVersion: value,
+    coreVersion: match[1],
+  };
+}
+
+function openAIPluginVariant(value) {
+  invariant(
+    typeof value === "string" && Object.hasOwn(OPENAI_PLUGIN_VARIANTS, value),
+    `OpenAI plugin variant must be one of ${Object.keys(OPENAI_PLUGIN_VARIANTS).join(", ")}`,
+  );
+  return OPENAI_PLUGIN_VARIANTS[value];
+}
+
+export function openAIArchiveName(releaseVersion, variant = "chatgpt") {
+  normalizeReleaseVersion(releaseVersion);
+  return `${openAIPluginVariant(variant).archivePrefix}-${releaseVersion}.zip`;
+}
+
+export function openAIArchiveVariantFromName(value) {
+  const name = basename(value);
+  for (const [variant, config] of Object.entries(OPENAI_PLUGIN_VARIANTS)) {
+    if (name.startsWith(`${config.archivePrefix}-`) && name.endsWith(".zip")) {
+      return variant;
+    }
+  }
+  throw new Error(
+    `archive filename must begin with ${Object.values(OPENAI_PLUGIN_VARIANTS)
+      .map((config) => config.archivePrefix)
+      .join(" or ")}`,
+  );
+}
+
+function conciseDescription(description) {
+  let concise = description
+    .replace(/^\d+\s+open-source\s+/i, "")
+    .replace(/\s+for\s+.+$/s, "")
+    .trim();
+  if (!concise || concise.length > 30) {
+    concise = description.slice(0, 30).replace(/\s+\S*$/, "").trim();
+  }
+  invariant(concise.length > 0 && concise.length <= 30, "could not derive a valid short description");
+  return concise;
+}
+
+function normalizeCategory(category) {
+  if (typeof category !== "string" || category.trim() === "") {
+    return "Other";
+  }
+  const normalized = category
+    .trim()
+    .split(/\s+/)
+    .map((word) => `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`)
+    .join(" ");
+  return ALLOWED_CATEGORIES.has(normalized) ? normalized : "Other";
+}
+
+export function generateOpenAIManifest({
+  claudeManifest,
+  marketplaceEntry,
+  releaseVersion,
+}) {
+  const { coreVersion } = normalizeReleaseVersion(releaseVersion);
+  invariant(claudeManifest && typeof claudeManifest === "object", "Claude plugin manifest is required");
+  invariant(marketplaceEntry && typeof marketplaceEntry === "object", "marketplace entry is required");
+  invariant(claudeManifest.name === marketplaceEntry.name, "plugin and marketplace names differ");
+  invariant(claudeManifest.version === marketplaceEntry.version, "plugin and marketplace versions differ");
+  invariant(typeof claudeManifest.description === "string" && claudeManifest.description.trim(), "plugin description is required");
+  invariant(typeof claudeManifest.author?.name === "string" && claudeManifest.author.name.trim(), "plugin author name is required");
+
+  const displayName = claudeManifest.displayName || marketplaceEntry.displayName || claudeManifest.name;
+  const repository = claudeManifest.repository || marketplaceEntry.repository;
+  const interfaceMetadata = {
+    displayName,
+    shortDescription: conciseDescription(claudeManifest.description),
+    longDescription: claudeManifest.description,
+    developerName: claudeManifest.author.name,
+    category: normalizeCategory(marketplaceEntry.category),
+    ...OPENAI_LISTING_URLS,
+    defaultPrompt: [...DEFAULT_PROMPTS],
+    composerIcon: "./assets/icon.png",
+    logo: "./assets/icon.png",
+  };
+  for (const [key, value] of Object.entries(interfaceMetadata)) {
+    if (value === undefined) {
+      delete interfaceMetadata[key];
+    }
+  }
+
+  const manifest = {
+    $schema: PLUGIN_SCHEMA_URL,
+    name: claudeManifest.name,
+    version: coreVersion,
+    description: claudeManifest.description,
+    author: clone(claudeManifest.author),
+    homepage: claudeManifest.homepage,
+    repository,
+    license: claudeManifest.license,
+    keywords: clone(claudeManifest.keywords || marketplaceEntry.keywords || []),
+    extensions: {
+      "com.openai": {
+        interface: interfaceMetadata,
+      },
+    },
+  };
+  for (const [key, value] of Object.entries(manifest)) {
+    if (value === undefined) {
+      delete manifest[key];
+    }
+  }
+  return manifest;
+}
+
+export function generatePortableMCP(sourceMCP, variant = "chatgpt") {
+  const variantConfig = openAIPluginVariant(variant);
+  invariant(variantConfig.includeMCP, `the ${variant} variant does not include MCP configuration`);
+  invariant(sourceMCP && typeof sourceMCP === "object", "source MCP configuration is required");
+  invariant(sourceMCP.mcpServers && typeof sourceMCP.mcpServers === "object", "source MCP configuration has no mcpServers object");
+  const mcpServers = {};
+  for (const [name, sourceServer] of Object.entries(sourceMCP.mcpServers)) {
+    invariant(name.trim(), "MCP server names must be non-empty");
+    invariant(sourceServer && typeof sourceServer === "object", `MCP server ${name} must be an object`);
+    const server = clone(sourceServer);
+    delete server.headersHelper;
+    if (server.type === "http") {
+      server.type = "streamable-http";
+    }
+    invariant(
+      ["streamable-http", "sse", "stdio"].includes(server.type),
+      `MCP server ${name} has unsupported portable transport ${JSON.stringify(server.type)}`,
+    );
+    if (server.type !== "stdio") {
+      invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use an HTTPS URL`);
+    }
+    if (name === "medialyst") {
+      invariant(
+        server.url === MEDIALYST_MCP_URL,
+        `MCP server medialyst must use ${MEDIALYST_MCP_URL}`,
+      );
+      for (const key of Object.keys(server)) {
+        if (key !== "type" && key !== "url") {
+          delete server[key];
+        }
+      }
+      if (variantConfig.includeOpenAIAuth) {
+        server.extensions = {
+          "com.openai": {
+            auth: clone(MEDIALYST_OPENAI_AUTH),
+          },
+        };
+      }
+    }
+    mcpServers[name] = server;
+  }
+  invariant(Object.keys(mcpServers).length > 0, "portable MCP configuration must contain a server");
+  return {
+    $schema: MCP_SCHEMA_URL,
+    mcpServers,
+  };
+}
+
+export function readOpenAISource(repoRoot) {
+  const resolvedRepoRoot = resolve(repoRoot);
+  const marketplacePath = join(resolvedRepoRoot, ".claude-plugin", "marketplace.json");
+  const marketplace = readJSON(marketplacePath, ".claude-plugin/marketplace.json");
+  const marketplaceEntry = (marketplace.plugins || []).find((plugin) => plugin?.name === "newsjack");
+  invariant(marketplaceEntry, 'marketplace has no plugin named "newsjack"');
+  invariant(typeof marketplaceEntry.source === "string" && marketplaceEntry.source.startsWith("./"), "newsjack marketplace source must be repository-relative");
+
+  const pluginRoot = resolve(resolvedRepoRoot, marketplaceEntry.source);
+  assertInside(resolvedRepoRoot, pluginRoot, "newsjack marketplace source");
+  invariant(lstatSync(pluginRoot).isDirectory(), "newsjack marketplace source is not a directory");
+  const claudeManifest = readJSON(
+    join(pluginRoot, ".claude-plugin", "plugin.json"),
+    "Newsjack Claude plugin manifest",
+  );
+  invariant(claudeManifest.name === marketplaceEntry.name, "plugin and marketplace names differ");
+  invariant(claudeManifest.version === marketplaceEntry.version, "plugin and marketplace versions differ");
+
+  const skillsRoot = join(pluginRoot, "skills");
+  invariant(lstatSync(skillsRoot).isDirectory(), "Newsjack plugin has no skills directory");
+  const skillFiles = walkRegularFiles(skillsRoot, "Newsjack plugin skills").filter(
+    (path) => path !== ".gitkeep",
+  );
+  for (const doctrine of HOSTED_DOCTRINE_FILES) {
+    invariant(
+      skillFiles.includes(doctrine.sourcePath),
+      `Newsjack plugin skills are missing ${doctrine.sourcePath}`,
+    );
+  }
+  const skillNames = readdirSync(skillsRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => {
+      invariant(!entry.name.startsWith("."), `skill directory names must not begin with a dot: ${entry.name}`);
+      const skillPath = join(skillsRoot, entry.name, "SKILL.md");
+      invariant(statSync(skillPath).isFile(), `${entry.name} has no SKILL.md`);
+      const body = readFileSync(skillPath, "utf8");
+      const name = parseFrontmatterField(body, "name", `${entry.name}/SKILL.md`);
+      const description = parseFrontmatterField(body, "description", `${entry.name}/SKILL.md`);
+      invariant(name === entry.name, `${entry.name}/SKILL.md declares name ${JSON.stringify(name)}`);
+      invariant(`${claudeManifest.name}:${name}`.length <= 64, `combined plugin and skill name is too long: ${name}`);
+      invariant(description.length > 0 && description.length <= 1_024, `${entry.name}/SKILL.md has an invalid description`);
+      invariant(body.slice(body.indexOf("\n---", 4) + 4).trim(), `${entry.name}/SKILL.md has no instruction body`);
+      return name;
+    })
+    .sort();
+  invariant(skillNames.length > 0, "Newsjack plugin has no skills");
+
+  const sourceMCP = readJSON(join(pluginRoot, ".mcp.json"), "Newsjack plugin MCP configuration");
+  const readmePath = join(pluginRoot, "README.md");
+  const iconPath = join(pluginRoot, "icon.png");
+  invariant(statSync(readmePath).isFile(), "Newsjack plugin README is missing");
+  invariant(statSync(iconPath).isFile(), "Newsjack plugin icon is missing");
+
+  return {
+    repoRoot: resolvedRepoRoot,
+    pluginRoot,
+    claudeManifest,
+    marketplaceEntry,
+    skillsRoot,
+    skillFiles,
+    skillNames,
+    sourceMCP,
+    readmePath,
+    iconPath,
+  };
+}
+
+function normalizedPath(path) {
+  return path.split(sep).join("/");
+}
+
+function rewriteHostedDoctrineReferences(body, archivePath, skillName) {
+  let rewritten = body;
+  const referencedDoctrine = [];
+  for (const doctrine of HOSTED_DOCTRINE_FILES) {
+    if (!rewritten.includes(doctrine.sourceReference)) {
+      continue;
+    }
+    const targetPath = join(skillName, "references", doctrine.sourcePath);
+    const localPath = normalizedPath(relative(dirname(archivePath), targetPath));
+    rewritten = rewritten.replaceAll(doctrine.sourceReference, localPath);
+    referencedDoctrine.push(doctrine);
+  }
+  return { body: rewritten, referencedDoctrine };
+}
+
+function generateHostedSkillFiles(source) {
+  const files = new Map();
+  const pendingDoctrine = [];
+  const addedDoctrine = new Set();
+
+  for (const sourcePath of source.skillFiles) {
+    const archivePath = normalizedPath(sourcePath);
+    if (HOSTED_DOCTRINE_FILES.some((doctrine) => doctrine.sourcePath === archivePath)) {
+      continue;
+    }
+    const parts = archivePath.split("/");
+    invariant(
+      parts.length > 1,
+      `OpenAI hosted import ignores files directly under skills/: ${archivePath}`,
+    );
+    const skillName = parts[0];
+    const sourceBody = readFileSync(join(source.skillsRoot, sourcePath));
+    if (!archivePath.endsWith(".md")) {
+      files.set(archivePath, sourceBody);
+      continue;
+    }
+    const rewritten = rewriteHostedDoctrineReferences(
+      sourceBody.toString("utf8"),
+      archivePath,
+      skillName,
+    );
+    files.set(archivePath, Buffer.from(rewritten.body));
+    for (const doctrine of rewritten.referencedDoctrine) {
+      pendingDoctrine.push({ skillName, doctrine });
+    }
+  }
+
+  while (pendingDoctrine.length > 0) {
+    const { skillName, doctrine } = pendingDoctrine.pop();
+    const archivePath = normalizedPath(
+      join(skillName, "references", doctrine.sourcePath),
+    );
+    if (addedDoctrine.has(archivePath)) {
+      continue;
+    }
+    invariant(
+      !files.has(archivePath),
+      `source skill file collides with hosted doctrine copy: ${archivePath}`,
+    );
+    addedDoctrine.add(archivePath);
+    const sourceBody = readFileSync(
+      join(source.skillsRoot, doctrine.sourcePath),
+      "utf8",
+    );
+    const rewritten = rewriteHostedDoctrineReferences(
+      sourceBody,
+      archivePath,
+      skillName,
+    );
+    files.set(archivePath, Buffer.from(rewritten.body));
+    for (const referenced of rewritten.referencedDoctrine) {
+      pendingDoctrine.push({ skillName, doctrine: referenced });
+    }
+  }
+
+  return files;
+}
+
+function writeHostedSkills(source, skillsRoot) {
+  for (const [archivePath, body] of generateHostedSkillFiles(source)) {
+    const destination = join(skillsRoot, archivePath);
+    mkdirSync(dirname(destination), { recursive: true });
+    writeFileSync(destination, body);
+  }
+}
+
+function buildOpenAIPluginArchiveFromSource({
+  source,
+  outRoot,
+  releaseVersion,
+  variant,
+}) {
+  openAIPluginVariant(variant);
+  const resolvedOutRoot = resolve(outRoot);
+  mkdirSync(resolvedOutRoot, { recursive: true });
+  const archiveName = openAIArchiveName(releaseVersion, variant);
+  const archivePath = join(resolvedOutRoot, archiveName);
+  const workRoot = mkdtempSync(join(tmpdir(), `newsjack-${variant}-plugin-`));
+  const packageRoot = join(workRoot, "newsjack");
+  const variantConfig = openAIPluginVariant(variant);
+
+  try {
+    mkdirSync(join(packageRoot, "assets"), { recursive: true });
+    writeHostedSkills(source, join(packageRoot, "skills"));
+    cpSync(source.readmePath, join(packageRoot, "README.md"));
+    cpSync(source.iconPath, join(packageRoot, "assets", "icon.png"));
+    writeFileSync(
+      join(packageRoot, "plugin.json"),
+      `${JSON.stringify(generateOpenAIManifest({
+        claudeManifest: source.claudeManifest,
+        marketplaceEntry: source.marketplaceEntry,
+        releaseVersion,
+      }), null, 2)}\n`,
+    );
+    if (variantConfig.includeMCP) {
+      writeFileSync(
+        join(packageRoot, "mcp.json"),
+        `${JSON.stringify(generatePortableMCP(source.sourceMCP, variant), null, 2)}\n`,
+      );
+    }
+
+    rmSync(archivePath, { force: true });
+    execFileSync("zip", ["-q", "-X", "-r", archivePath, "newsjack"], {
+      cwd: workRoot,
+      stdio: "inherit",
+    });
+  } finally {
+    rmSync(workRoot, { recursive: true, force: true });
+  }
+
+  return {
+    archiveName,
+    archivePath,
+    variant,
+    version: normalizeReleaseVersion(releaseVersion).coreVersion,
+    skillCount: source.skillNames.length,
+    size: statSync(archivePath).size,
+  };
+}
+
+export function buildOpenAIPluginArchive({
+  repoRoot,
+  outRoot,
+  releaseVersion,
+  variant = "chatgpt",
+}) {
+  return buildOpenAIPluginArchiveFromSource({
+    source: readOpenAISource(repoRoot),
+    outRoot,
+    releaseVersion,
+    variant,
+  });
+}
+
+export function buildOpenAIPluginArchives({ repoRoot, outRoot, releaseVersion }) {
+  const source = readOpenAISource(repoRoot);
+  return Object.keys(OPENAI_PLUGIN_VARIANTS).map((variant) =>
+    buildOpenAIPluginArchiveFromSource({
+      source,
+      outRoot,
+      releaseVersion,
+      variant,
+    }),
+  );
+}
+
+export function writeStableChatGPTSkillsArchive({ archives, outRoot }) {
+  const skillsArchive = archives.find((archive) => archive.variant === "skills");
+  invariant(skillsArchive, "versioned ChatGPT skills archive is required");
+  const archivePath = join(resolve(outRoot), CHATGPT_SKILLS_STABLE_ARCHIVE_NAME);
+  cpSync(skillsArchive.archivePath, archivePath);
+  invariant(
+    readFileSync(skillsArchive.archivePath).equals(readFileSync(archivePath)),
+    "stable ChatGPT skills archive differs from the versioned archive",
+  );
+  return {
+    archiveName: CHATGPT_SKILLS_STABLE_ARCHIVE_NAME,
+    archivePath,
+    sourceArchiveName: skillsArchive.archiveName,
+    size: statSync(archivePath).size,
+  };
+}
+
+function runUnzip(args, options = {}) {
+  try {
+    return execFileSync("unzip", args, {
+      encoding: options.encoding,
+      maxBuffer: 16 * 1024 * 1024,
+      stdio: options.encoding ? ["ignore", "pipe", "pipe"] : ["ignore", "ignore", "pipe"],
+    });
+  } catch (error) {
+    const detail = error.stderr?.toString().trim();
+    throw new Error(`invalid or unreadable ZIP archive${detail ? `: ${detail}` : ""}`);
+  }
+}
+
+function validateArchivePaths(entries) {
+  invariant(entries.length > 0, "archive is empty");
+  invariant(entries.length <= MAX_ARCHIVE_ENTRIES, `archive has more than ${MAX_ARCHIVE_ENTRIES} entries`);
+  const exact = new Set();
+  const normalized = new Set();
+  for (const rawPath of entries) {
+    invariant(rawPath.trim() === rawPath, `archive path has outer whitespace: ${JSON.stringify(rawPath)}`);
+    invariant(!rawPath.includes("\\"), `archive path uses a backslash: ${rawPath}`);
+    invariant(!rawPath.startsWith("/"), `archive path is absolute: ${rawPath}`);
+    invariant(!/[\u0000-\u001f\u007f]/.test(rawPath), `archive path has a control character: ${JSON.stringify(rawPath)}`);
+    const path = rawPath.endsWith("/") ? rawPath.slice(0, -1) : rawPath;
+    const parts = path.split("/");
+    invariant(parts.every((part) => part.length > 0), `archive path has an empty segment: ${rawPath}`);
+    invariant(!parts.includes(".."), `archive path has a parent segment: ${rawPath}`);
+    invariant(parts.length <= 20, `archive path is deeper than 20 segments: ${rawPath}`);
+    invariant(rawPath.length <= 1_024, `archive path is too long: ${rawPath}`);
+    invariant(!exact.has(rawPath), `archive path is duplicated: ${rawPath}`);
+    exact.add(rawPath);
+    const normalizedPath = rawPath.normalize("NFC").toLowerCase();
+    invariant(!normalized.has(normalizedPath), `archive paths collide after normalization: ${rawPath}`);
+    normalized.add(normalizedPath);
+    for (const part of parts) {
+      invariant(!FORBIDDEN_PATH_PARTS.has(part), `archive contains forbidden path: ${rawPath}`);
+      invariant(!part.startsWith(".env"), `archive contains forbidden path: ${rawPath}`);
+      invariant(!/\.(?:key|pem|p12|pfx|token|secret|credential)$/i.test(part), `archive contains secret-like path: ${rawPath}`);
+    }
+    invariant(parts[0] === "newsjack", `archive must contain one top-level newsjack directory: ${rawPath}`);
+  }
+}
+
+function isHTTPSURL(value, maxLength) {
+  if (typeof value !== "string" || value.length === 0 || value.length > maxLength) {
+    return false;
+  }
+  try {
+    const parsed = new URL(value);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname.length > 0 &&
+      parsed.username === "" &&
+      parsed.password === ""
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function validateManifestShape(manifest) {
+  invariant(manifest?.$schema === PLUGIN_SCHEMA_URL, `plugin.json must declare ${PLUGIN_SCHEMA_URL}`);
+  invariant(typeof manifest.name === "string" && PLUGIN_NAME_PATTERN.test(manifest.name) && manifest.name.length <= 64, "plugin.json has an invalid name");
+  invariant(typeof manifest.version === "string" && SEMVER_PATTERN.test(manifest.version) && manifest.version.length <= 64, "plugin.json has an invalid version");
+  invariant(typeof manifest.description === "string" && manifest.description.length > 0 && manifest.description.length <= 1_024, "plugin.json has an invalid description");
+  invariant(typeof manifest.author?.name === "string" && manifest.author.name.length > 0 && manifest.author.name.length <= 120, "plugin.json has an invalid author.name");
+  const interfaceMetadata = manifest.extensions?.["com.openai"]?.interface;
+  invariant(interfaceMetadata && typeof interfaceMetadata === "object", "plugin.json has no extensions.com.openai.interface object");
+  invariant(typeof interfaceMetadata.displayName === "string" && interfaceMetadata.displayName.length > 0 && interfaceMetadata.displayName.length <= 30, "OpenAI displayName must be 1-30 characters");
+  invariant(typeof interfaceMetadata.shortDescription === "string" && !interfaceMetadata.shortDescription.includes("\n") && interfaceMetadata.shortDescription.length > 0 && interfaceMetadata.shortDescription.length <= 30, "OpenAI shortDescription must be one line and 1-30 characters");
+  invariant(typeof interfaceMetadata.longDescription === "string" && interfaceMetadata.longDescription.length > 0 && interfaceMetadata.longDescription.length <= 4_000, "OpenAI longDescription must be 1-4000 characters");
+  invariant(typeof interfaceMetadata.developerName === "string" && interfaceMetadata.developerName.length > 0 && interfaceMetadata.developerName.length <= 80, "OpenAI developerName must be 1-80 characters");
+  invariant(ALLOWED_CATEGORIES.has(interfaceMetadata.category), "OpenAI category is not supported");
+  for (const field of ["websiteURL", "supportURL", "privacyPolicyURL", "termsOfServiceURL"]) {
+    invariant(isHTTPSURL(interfaceMetadata[field], 1_024), `OpenAI ${field} must be an HTTPS URL without credentials of at most 1024 characters`);
+  }
+  if (interfaceMetadata.defaultPrompt !== undefined) {
+    const prompts = Array.isArray(interfaceMetadata.defaultPrompt)
+      ? interfaceMetadata.defaultPrompt
+      : [interfaceMetadata.defaultPrompt];
+    invariant(prompts.length <= 3, "OpenAI defaultPrompt must contain at most 3 prompts");
+    for (const prompt of prompts) {
+      invariant(typeof prompt === "string" && prompt.length > 0 && prompt.length <= 128, "OpenAI defaultPrompt entries must be 1-128 characters");
+    }
+  }
+  invariant(interfaceMetadata.composerIcon === "./assets/icon.png", "OpenAI composerIcon must point to ./assets/icon.png");
+  invariant(interfaceMetadata.logo === "./assets/icon.png", "OpenAI logo must point to ./assets/icon.png");
+}
+
+export function validateMCPShape(mcp, variant = "chatgpt") {
+  const variantConfig = openAIPluginVariant(variant);
+  invariant(variantConfig.includeMCP, `the ${variant} variant does not include MCP configuration`);
+  invariant(mcp?.$schema === MCP_SCHEMA_URL, `mcp.json must declare ${MCP_SCHEMA_URL}`);
+  invariant(mcp.mcpServers && typeof mcp.mcpServers === "object", "mcp.json has no mcpServers object");
+  invariant(Object.keys(mcp.mcpServers).length > 0, "mcp.json has no MCP servers");
+  for (const [name, server] of Object.entries(mcp.mcpServers)) {
+    invariant(name.trim(), "mcp.json has an empty MCP server name");
+    invariant(server && typeof server === "object", `MCP server ${name} is not an object`);
+    invariant(!Object.hasOwn(server, "headersHelper"), `MCP server ${name} contains headersHelper`);
+    invariant(["streamable-http", "sse", "stdio"].includes(server.type), `MCP server ${name} has an invalid transport`);
+    if (server.type !== "stdio") {
+      invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use HTTPS`);
+    }
+  }
+  const medialyst = mcp.mcpServers.medialyst;
+  invariant(medialyst && typeof medialyst === "object", "mcp.json has no medialyst server");
+  const expectedKeys = variantConfig.includeOpenAIAuth
+    ? ["extensions", "type", "url"]
+    : ["type", "url"];
+  invariant(
+    isDeepStrictEqual(Object.keys(medialyst).sort(), expectedKeys),
+    `MCP server medialyst must contain exactly ${expectedKeys.join(", ")} for the ${variant} variant`,
+  );
+  invariant(
+    medialyst.url === MEDIALYST_MCP_URL,
+    `MCP server medialyst must use ${MEDIALYST_MCP_URL}`,
+  );
+  if (variantConfig.includeOpenAIAuth) {
+    invariant(
+      isDeepStrictEqual(medialyst.extensions, {
+        "com.openai": {
+          auth: MEDIALYST_OPENAI_AUTH,
+        },
+      }),
+      "MCP server medialyst must declare OpenAI OAuth with dynamic client registration",
+    );
+  }
+}
+
+export function validatePNG(path) {
+  const size = statSync(path).size;
+  invariant(size <= MAX_IMAGE_BYTES, "plugin icon exceeds 5 MiB");
+  const body = readFileSync(path);
+  invariant(body.length >= 33, "plugin icon is not a complete PNG header");
+  invariant(body.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE), "plugin icon has an invalid PNG signature");
+  invariant(body.readUInt32BE(8) === 13, "plugin PNG has an invalid IHDR length");
+  invariant(body.subarray(12, 16).equals(Buffer.from("IHDR")), "plugin PNG has no leading IHDR chunk");
+  const width = body.readUInt32BE(16);
+  const height = body.readUInt32BE(20);
+  invariant(width === height, "plugin PNG must be square");
+  invariant(width >= 48 && height >= 48, "plugin PNG must be at least 48x48");
+  invariant(width <= 4_096 && height <= 4_096, "plugin PNG must be at most 4096x4096");
+}
+
+function comparePackagedFiles(packageRoot, source, variant) {
+  const variantConfig = openAIPluginVariant(variant);
+  const hostedSkillFiles = generateHostedSkillFiles(source);
+  const actualFiles = walkRegularFiles(packageRoot, "OpenAI plugin archive").map((path) =>
+    normalizedPath(path),
+  );
+  const expectedFiles = [
+    "README.md",
+    "assets/icon.png",
+    "plugin.json",
+    ...(variantConfig.includeMCP ? ["mcp.json"] : []),
+    ...[...hostedSkillFiles.keys()].map((path) => `skills/${path}`),
+  ].sort();
+  invariant(
+    isDeepStrictEqual(actualFiles.sort(), expectedFiles),
+    `archive file tree differs from the generated package\nexpected: ${expectedFiles.join(", ")}\nactual: ${actualFiles.sort().join(", ")}`,
+  );
+
+  for (const [skillFile, expectedBody] of hostedSkillFiles) {
+    const packagedBody = readFileSync(join(packageRoot, "skills", skillFile));
+    invariant(
+      expectedBody.equals(packagedBody),
+      `packaged skill file differs from hosted transform: ${skillFile}`,
+    );
+  }
+  invariant(
+    readFileSync(source.readmePath).equals(readFileSync(join(packageRoot, "README.md"))),
+    "packaged README differs from source",
+  );
+  invariant(
+    readFileSync(source.iconPath).equals(readFileSync(join(packageRoot, "assets", "icon.png"))),
+    "packaged icon differs from source",
+  );
+}
+
+function hasObjectKey(value, key) {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  if (Object.hasOwn(value, key)) {
+    return true;
+  }
+  return Object.values(value).some((child) => hasObjectKey(child, key));
+}
+
+function validateVariantPackage(packageRoot, manifest, variant) {
+  const variantConfig = openAIPluginVariant(variant);
+  if (variantConfig.includeMCP) {
+    return;
+  }
+  const mcpFiles = walkRegularFiles(packageRoot, "OpenAI plugin archive").filter(
+    (path) => ["mcp.json", ".mcp.json"].includes(basename(path).toLowerCase()),
+  );
+  invariant(
+    mcpFiles.length === 0,
+    `the ${variant} variant must not contain mcp.json or .mcp.json`,
+  );
+  invariant(
+    !hasObjectKey(manifest, "mcpServers"),
+    `the ${variant} variant plugin.json must not reference mcpServers`,
+  );
+}
+
+function validateHostedSkillPackage(packageRoot) {
+  const skillsRoot = join(packageRoot, "skills");
+  for (const relativePath of walkRegularFiles(skillsRoot, "OpenAI plugin skills")) {
+    const archivePath = normalizedPath(relativePath);
+    invariant(
+      archivePath.includes("/"),
+      `OpenAI hosted import ignores files directly under skills/: ${archivePath}`,
+    );
+    if (!archivePath.endsWith(".md")) {
+      continue;
+    }
+    const body = readFileSync(join(skillsRoot, relativePath), "utf8");
+    for (const doctrine of HOSTED_DOCTRINE_FILES) {
+      invariant(
+        !body.includes(doctrine.sourceReference),
+        `archived skill contains a stale doctrine path: ${archivePath}`,
+      );
+    }
+  }
+}
+
+export function validateOpenAIPluginArchive({
+  archivePath,
+  repoRoot,
+  expectedReleaseVersion,
+  variant,
+}) {
+  const resolvedArchivePath = resolve(archivePath);
+  const filenameVariant = openAIArchiveVariantFromName(resolvedArchivePath);
+  const resolvedVariant = variant || filenameVariant;
+  openAIPluginVariant(resolvedVariant);
+  invariant(
+    filenameVariant === resolvedVariant,
+    `archive filename identifies the ${filenameVariant} variant, not ${resolvedVariant}`,
+  );
+  invariant(statSync(resolvedArchivePath).isFile(), `archive is not a regular file: ${archivePath}`);
+  const archiveSize = statSync(resolvedArchivePath).size;
+  invariant(archiveSize > 0, "archive is empty");
+  invariant(archiveSize <= MAX_ARCHIVE_BYTES, "compressed archive exceeds 100 MB");
+  if (expectedReleaseVersion) {
+    invariant(
+      basename(resolvedArchivePath) === openAIArchiveName(expectedReleaseVersion, resolvedVariant),
+      `archive filename must be ${openAIArchiveName(expectedReleaseVersion, resolvedVariant)}`,
+    );
+  }
+
+  const listing = runUnzip(["-Z1", resolvedArchivePath], { encoding: "utf8" });
+  const entries = listing.split(/\r?\n/).filter((entry) => entry.length > 0);
+  validateArchivePaths(entries);
+  runUnzip(["-tqq", resolvedArchivePath]);
+
+  const extractRoot = mkdtempSync(join(tmpdir(), "newsjack-openai-validate-"));
+  try {
+    runUnzip(["-qq", resolvedArchivePath, "-d", extractRoot]);
+    const packageRoot = join(extractRoot, "newsjack");
+    invariant(lstatSync(packageRoot).isDirectory(), "archive has no top-level newsjack directory");
+
+    let uncompressedBytes = 0;
+    for (const relativePath of walkRegularFiles(packageRoot, "OpenAI plugin archive")) {
+      const size = statSync(join(packageRoot, relativePath)).size;
+      invariant(size <= MAX_MEMBER_BYTES, `archive member exceeds 100 MiB: ${relativePath}`);
+      uncompressedBytes += size;
+    }
+    invariant(uncompressedBytes <= MAX_UNCOMPRESSED_BYTES, "extracted archive exceeds 512 MiB");
+
+    const source = readOpenAISource(repoRoot);
+    const manifest = readJSON(join(packageRoot, "plugin.json"), "OpenAI plugin.json");
+    validateVariantPackage(packageRoot, manifest, resolvedVariant);
+    comparePackagedFiles(packageRoot, source, resolvedVariant);
+    validateHostedSkillPackage(packageRoot);
+    validateManifestShape(manifest);
+    const releaseVersion = expectedReleaseVersion || manifest.version;
+    const expectedManifest = generateOpenAIManifest({
+      claudeManifest: source.claudeManifest,
+      marketplaceEntry: source.marketplaceEntry,
+      releaseVersion,
+    });
+    invariant(isDeepStrictEqual(manifest, expectedManifest), "plugin.json was not generated from the Newsjack plugin metadata");
+
+    const variantConfig = openAIPluginVariant(resolvedVariant);
+    if (variantConfig.includeMCP) {
+      const mcp = readJSON(join(packageRoot, "mcp.json"), "OpenAI mcp.json");
+      validateMCPShape(mcp, resolvedVariant);
+      invariant(isDeepStrictEqual(mcp, generatePortableMCP(source.sourceMCP, resolvedVariant)), "mcp.json was not generated from the Newsjack plugin MCP configuration");
+    }
+    validatePNG(join(packageRoot, "assets", "icon.png"));
+
+    return {
+      archivePath: resolvedArchivePath,
+      archiveSize,
+      uncompressedBytes,
+      entryCount: entries.length,
+      skillCount: source.skillNames.length,
+      variant: resolvedVariant,
+      version: manifest.version,
+    };
+  } finally {
+    rmSync(extractRoot, { recursive: true, force: true });
+  }
+}

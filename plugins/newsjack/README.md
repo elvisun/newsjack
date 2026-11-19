@@ -11,6 +11,38 @@ In Claude Code, add this repository as a plugin marketplace and install Newsjack
 /plugin install newsjack@newsjack
 ```
 
+For ChatGPT, use the two-step hosted setup:
+
+1. Open **Plugins**, choose **New Plugin**, then **Upload plugin archive**. Upload
+   [`newsjack-chatgpt-skills.zip`](https://github.com/elvisun/newsjack/releases/latest/download/newsjack-chatgpt-skills.zip),
+   or the version-pinned `newsjack-chatgpt-skills-<tag>.zip` from a tagged GitHub
+   Release.
+2. Add Medialyst separately as a custom MCP server with
+   `https://medialyst.ai/api/mcp`, then sign in.
+
+This is the recommended ChatGPT path. The skills-only archive has no MCP
+configuration, so the separately added hosted connection owns sign-in and does
+not collide with a bundled server of the same name.
+
+Use `newsjack-chatgpt-plugin-<tag>.zip`, which bundles the Medialyst server, as
+an alternative for workspace publishing and archive-based local marketplaces.
+After a plain ChatGPT upload, sign-in for that bundled server is not reliable.
+
+Use `newsjack-openai-submission-<tag>.zip` only for the public-directory
+submission portal at [`platform.openai.com/plugins`](https://platform.openai.com/plugins)
+with **With MCP** selected. The bundled-server archive keeps Medialyst to `type`
+and `url` because user runtimes drop servers with the portal-only auth
+extension; the submission archive adds the OAuth DCR block that the portal
+requires.
+
+For a repository-based install in the Codex CLI or ChatGPT desktop:
+
+```bash
+codex plugin marketplace add elvisun/newsjack
+codex plugin add newsjack@newsjack
+codex mcp login medialyst
+```
+
 For the local CLI, scheduled monitors, browser-based clips, and the bundled Medialyst authentication helper, install the full open-source package:
 
 ```bash
@@ -65,7 +97,13 @@ This catalog is copied from each `SKILL.md` frontmatter and checked during plugi
 
 ## Medialyst MCP server
 
-The bundled `.mcp.json` connects to the hosted Medialyst server at `https://medialyst.ai/api/mcp`. Medialyst is the optional data layer for live news, journalist research, media lists, outreach analytics, projects, files, and Radar monitoring. The public server currently exposes 39 tools.
+The bundled MCP configuration (`.mcp.json` in the Claude package and `mcp.json`
+in the MCP-bearing OpenAI archives) connects to the hosted Medialyst server at
+`https://medialyst.ai/api/mcp`. The recommended ChatGPT skills-only archive
+omits this file; add the same URL as a custom MCP server instead. Medialyst is
+the optional data layer for live news, journalist research, media lists,
+outreach analytics, projects, files, and Radar monitoring. The public server
+currently exposes 39 tools.
 
 In Claude Code, open `/mcp` and sign in to Medialyst with OAuth. The hosted plugin does not require a local authentication helper.
 

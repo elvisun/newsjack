@@ -68,6 +68,18 @@ jobs:
       - name: Build release assets
         run: NEWSJACK_VERSION="${GITHUB_REF_NAME}" NEWSJACK_RELEASE_DIST=.tmp/newsjack-release node scripts/build-release-dist.mjs
 
+      - name: Validate ChatGPT skills-only archive
+        run: node scripts/validate-openai-plugin.mjs ".tmp/newsjack-release/newsjack-chatgpt-skills-${GITHUB_REF_NAME}.zip" "${GITHUB_REF_NAME}" skills
+
+      - name: Validate ChatGPT plugin archive
+        run: node scripts/validate-openai-plugin.mjs ".tmp/newsjack-release/newsjack-chatgpt-plugin-${GITHUB_REF_NAME}.zip" "${GITHUB_REF_NAME}" chatgpt
+
+      - name: Validate OpenAI submission archive
+        run: node scripts/validate-openai-plugin.mjs ".tmp/newsjack-release/newsjack-openai-submission-${GITHUB_REF_NAME}.zip" "${GITHUB_REF_NAME}" submission
+
+      - name: Verify stable ChatGPT skills alias
+        run: cmp ".tmp/newsjack-release/newsjack-chatgpt-skills-${GITHUB_REF_NAME}.zip" ".tmp/newsjack-release/newsjack-chatgpt-skills.zip"
+
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}

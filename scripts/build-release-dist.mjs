@@ -11,6 +11,11 @@ import {
 import { basename, join, relative, resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
+import {
+  buildOpenAIPluginArchives,
+  writeStableChatGPTSkillsArchive,
+} from "./lib/openai-plugin.mjs";
+
 const repoRoot = resolve(import.meta.dirname, "..");
 const cliRoot = join(repoRoot, "apps/cli");
 const skillsRoot = join(repoRoot, "skills");
@@ -245,6 +250,15 @@ rmSync(outRoot, { recursive: true, force: true });
 mkdirSync(outRoot, { recursive: true });
 
 const artifacts = targets.flatMap(([os, arch]) => packageTarget({ os, arch }));
+const openAIPlugins = buildOpenAIPluginArchives({
+  repoRoot,
+  outRoot,
+  releaseVersion: version,
+});
+const stableChatGPTSkills = writeStableChatGPTSkillsArchive({
+  archives: openAIPlugins,
+  outRoot,
+});
 const manifest = {
   version,
   commit,
@@ -252,7 +266,17 @@ const manifest = {
   built_at: builtAt,
   artifacts,
 };
-const checksums = artifacts
+const checksums = [
+  ...artifacts,
+  ...openAIPlugins.map((plugin) => ({
+    name: plugin.archiveName,
+    sha256: sha256File(plugin.archivePath),
+  })),
+  {
+    name: stableChatGPTSkills.archiveName,
+    sha256: sha256File(stableChatGPTSkills.archivePath),
+  },
+]
   .map((artifact) => `${artifact.sha256}  ${artifact.name}`)
   .join("\n");
 
