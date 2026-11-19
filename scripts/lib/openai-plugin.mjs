@@ -24,6 +24,20 @@ export const MAX_MEMBER_BYTES = 100 * 1024 * 1024;
 export const MAX_UNCOMPRESSED_BYTES = 512 * 1024 * 1024;
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
+const MEDIALYST_MCP_URL = "https://medialyst.ai/api/mcp";
+const MEDIALYST_OPENAI_AUTH = {
+  type: "oauth",
+  client: {
+    mode: "dcr",
+  },
+};
+const DEFAULT_PROMPTS = [
+  "Find current newsjacking opportunities for my company.",
+  "Turn this company update into journalist-shaped story angles.",
+  "Fact-check this press release before I send it.",
+];
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+
 const RELEASE_VERSION_PATTERN =
   /^v?(\d+\.\d+\.\d+)(?:-([0-9A-Za-z][0-9A-Za-z.-]*))?(?:\+([0-9A-Za-z][0-9A-Za-z.-]*))?$/;
 const SEMVER_PATTERN =
@@ -202,8 +216,9 @@ export function generateOpenAIManifest({
     supportURL: repositoryDerivedURL(repository, "/issues"),
     privacyPolicyURL: claudeManifest.privacyPolicyUrl,
     termsOfServiceURL: repositoryDerivedURL(repository, "/blob/main/LICENSE"),
-    composerIcon: "./assets/icon.svg",
-    logo: "./assets/icon.svg",
+    defaultPrompt: [...DEFAULT_PROMPTS],
+    composerIcon: "./assets/icon.png",
+    logo: "./assets/icon.png",
   };
   for (const [key, value] of Object.entries(interfaceMetadata)) {
     if (value === undefined) {
@@ -253,6 +268,15 @@ export function generatePortableMCP(sourceMCP) {
     );
     if (server.type !== "stdio") {
       invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use an HTTPS URL`);
+    }
+    if (server.url === MEDIALYST_MCP_URL) {
+      server.extensions = {
+        ...(server.extensions || {}),
+        "com.openai": {
+          ...(server.extensions?.["com.openai"] || {}),
+          auth: clone(MEDIALYST_OPENAI_AUTH),
+        },
+      };
     }
     mcpServers[name] = server;
   }
@@ -306,7 +330,7 @@ export function readOpenAISource(repoRoot) {
 
   const sourceMCP = readJSON(join(pluginRoot, ".mcp.json"), "Newsjack plugin MCP configuration");
   const readmePath = join(pluginRoot, "README.md");
-  const iconPath = join(pluginRoot, "icon.svg");
+  const iconPath = join(pluginRoot, "icon.png");
   invariant(statSync(readmePath).isFile(), "Newsjack plugin README is missing");
   invariant(statSync(iconPath).isFile(), "Newsjack plugin icon is missing");
 
@@ -338,7 +362,7 @@ export function buildOpenAIPluginArchive({ repoRoot, outRoot, releaseVersion }) 
     cpSync(source.skillsRoot, join(packageRoot, "skills"), { recursive: true });
     rmSync(join(packageRoot, "skills", ".gitkeep"), { force: true });
     cpSync(source.readmePath, join(packageRoot, "README.md"));
-    cpSync(source.iconPath, join(packageRoot, "assets", "icon.svg"));
+    cpSync(source.iconPath, join(packageRoot, "assets", "icon.png"));
     writeFileSync(
       join(packageRoot, "plugin.json"),
       `${JSON.stringify(generateOpenAIManifest({
@@ -413,7 +437,24 @@ function validateArchivePaths(entries) {
   }
 }
 
-function validateManifestShape(manifest) {
+function isHTTPSURL(value, maxLength) {
+  if (typeof value !== "string" || value.length === 0 || value.length > maxLength) {
+    return false;
+  }
+  try {
+    const parsed = new URL(value);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname.length > 0 &&
+      parsed.username === "" &&
+      parsed.password === ""
+    );
+  } catch {
+    return false;
+  }
+}
+
+export function validateManifestShape(manifest) {
   invariant(manifest?.$schema === PLUGIN_SCHEMA_URL, `plugin.json must declare ${PLUGIN_SCHEMA_URL}`);
   invariant(typeof manifest.name === "string" && PLUGIN_NAME_PATTERN.test(manifest.name) && manifest.name.length <= 64, "plugin.json has an invalid name");
   invariant(typeof manifest.version === "string" && SEMVER_PATTERN.test(manifest.version) && manifest.version.length <= 64, "plugin.json has an invalid version");
@@ -427,13 +468,22 @@ function validateManifestShape(manifest) {
   invariant(typeof interfaceMetadata.developerName === "string" && interfaceMetadata.developerName.length > 0 && interfaceMetadata.developerName.length <= 80, "OpenAI developerName must be 1-80 characters");
   invariant(ALLOWED_CATEGORIES.has(interfaceMetadata.category), "OpenAI category is not supported");
   for (const field of ["websiteURL", "supportURL", "privacyPolicyURL", "termsOfServiceURL"]) {
-    invariant(typeof interfaceMetadata[field] === "string" && interfaceMetadata[field].startsWith("https://") && interfaceMetadata[field].length <= 1_024, `OpenAI ${field} must be an HTTPS URL of at most 1024 characters`);
+    invariant(isHTTPSURL(interfaceMetadata[field], 1_024), `OpenAI ${field} must be an HTTPS URL without credentials of at most 1024 characters`);
   }
-  invariant(interfaceMetadata.composerIcon === "./assets/icon.svg", "OpenAI composerIcon must point to ./assets/icon.svg");
-  invariant(interfaceMetadata.logo === "./assets/icon.svg", "OpenAI logo must point to ./assets/icon.svg");
+  if (interfaceMetadata.defaultPrompt !== undefined) {
+    const prompts = Array.isArray(interfaceMetadata.defaultPrompt)
+      ? interfaceMetadata.defaultPrompt
+      : [interfaceMetadata.defaultPrompt];
+    invariant(prompts.length <= 3, "OpenAI defaultPrompt must contain at most 3 prompts");
+    for (const prompt of prompts) {
+      invariant(typeof prompt === "string" && prompt.length > 0 && prompt.length <= 128, "OpenAI defaultPrompt entries must be 1-128 characters");
+    }
+  }
+  invariant(interfaceMetadata.composerIcon === "./assets/icon.png", "OpenAI composerIcon must point to ./assets/icon.png");
+  invariant(interfaceMetadata.logo === "./assets/icon.png", "OpenAI logo must point to ./assets/icon.png");
 }
 
-function validateMCPShape(mcp) {
+export function validateMCPShape(mcp) {
   invariant(mcp?.$schema === MCP_SCHEMA_URL, `mcp.json must declare ${MCP_SCHEMA_URL}`);
   invariant(mcp.mcpServers && typeof mcp.mcpServers === "object", "mcp.json has no mcpServers object");
   invariant(Object.keys(mcp.mcpServers).length > 0, "mcp.json has no MCP servers");
@@ -445,27 +495,29 @@ function validateMCPShape(mcp) {
     if (server.type !== "stdio") {
       invariant(typeof server.url === "string" && server.url.startsWith("https://"), `MCP server ${name} must use HTTPS`);
     }
+    if (server.url === MEDIALYST_MCP_URL) {
+      const auth = server.extensions?.["com.openai"]?.auth;
+      invariant(
+        isDeepStrictEqual(auth, MEDIALYST_OPENAI_AUTH),
+        `MCP server ${name} must declare OpenAI OAuth with dynamic client registration`,
+      );
+    }
   }
 }
 
-function validateSVG(path) {
+export function validatePNG(path) {
   const size = statSync(path).size;
   invariant(size <= MAX_IMAGE_BYTES, "plugin icon exceeds 5 MiB");
-  const body = readFileSync(path, "utf8");
-  invariant(/^\s*<svg\b/i.test(body), "plugin icon is not an SVG document");
-  const viewBox = body.match(/\bviewBox=["']([^"']+)["']/i)?.[1];
-  const width = body.match(/\bwidth=["']([0-9.]+)["']/i)?.[1];
-  const height = body.match(/\bheight=["']([0-9.]+)["']/i)?.[1];
-  let dimensions;
-  if (viewBox) {
-    const values = viewBox.trim().split(/[\s,]+/).map(Number);
-    invariant(values.length === 4 && values.every(Number.isFinite), "plugin SVG has an invalid viewBox");
-    dimensions = values.slice(2);
-  } else {
-    dimensions = [Number(width), Number(height)];
-  }
-  invariant(dimensions.every((value) => Number.isFinite(value) && value >= 48), "plugin SVG must be at least 48x48");
-  invariant(dimensions[0] === dimensions[1], "plugin SVG must be square");
+  const body = readFileSync(path);
+  invariant(body.length >= 33, "plugin icon is not a complete PNG header");
+  invariant(body.subarray(0, PNG_SIGNATURE.length).equals(PNG_SIGNATURE), "plugin icon has an invalid PNG signature");
+  invariant(body.readUInt32BE(8) === 13, "plugin PNG has an invalid IHDR length");
+  invariant(body.subarray(12, 16).equals(Buffer.from("IHDR")), "plugin PNG has no leading IHDR chunk");
+  const width = body.readUInt32BE(16);
+  const height = body.readUInt32BE(20);
+  invariant(width === height, "plugin PNG must be square");
+  invariant(width >= 48 && height >= 48, "plugin PNG must be at least 48x48");
+  invariant(width <= 4_096 && height <= 4_096, "plugin PNG must be at most 4096x4096");
 }
 
 function comparePackagedFiles(packageRoot, source) {
@@ -474,7 +526,7 @@ function comparePackagedFiles(packageRoot, source) {
   );
   const expectedFiles = [
     "README.md",
-    "assets/icon.svg",
+    "assets/icon.png",
     "mcp.json",
     "plugin.json",
     ...source.skillFiles.map((path) => `skills/${path.split(sep).join("/")}`),
@@ -494,7 +546,7 @@ function comparePackagedFiles(packageRoot, source) {
     "packaged README differs from source",
   );
   invariant(
-    readFileSync(source.iconPath).equals(readFileSync(join(packageRoot, "assets", "icon.svg"))),
+    readFileSync(source.iconPath).equals(readFileSync(join(packageRoot, "assets", "icon.png"))),
     "packaged icon differs from source",
   );
 }
@@ -550,7 +602,7 @@ export function validateOpenAIPluginArchive({
     const mcp = readJSON(join(packageRoot, "mcp.json"), "OpenAI mcp.json");
     validateMCPShape(mcp);
     invariant(isDeepStrictEqual(mcp, generatePortableMCP(source.sourceMCP)), "mcp.json was not generated from the Newsjack plugin MCP configuration");
-    validateSVG(join(packageRoot, "assets", "icon.svg"));
+    validatePNG(join(packageRoot, "assets", "icon.png"));
 
     return {
       archivePath: resolvedArchivePath,

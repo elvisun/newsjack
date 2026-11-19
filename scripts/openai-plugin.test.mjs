@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import {
+  copyFileSync,
   mkdirSync,
   mkdtempSync,
   rmSync,
@@ -17,7 +18,10 @@ import {
   generateOpenAIManifest,
   generatePortableMCP,
   normalizeReleaseVersion,
+  validateManifestShape,
+  validateMCPShape,
   validateOpenAIPluginArchive,
+  validatePNG,
 } from "./lib/openai-plugin.mjs";
 
 const claudeManifest = {
@@ -26,7 +30,7 @@ const claudeManifest = {
   version: "1.2.3",
   description:
     "34 open-source PR and AI-visibility skills for strategy, monitoring, and research.",
-  icon: "./icon.svg",
+  icon: "./icon.png",
   privacyPolicyUrl: "https://newsjack.sh/privacy",
   author: {
     name: "Elvis Sun",
@@ -72,9 +76,9 @@ function createFixtureRepo() {
     },
   });
   writeFileSync(join(pluginRoot, "README.md"), "# Newsjack\n");
-  writeFileSync(
-    join(pluginRoot, "icon.svg"),
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100"/></svg>\n',
+  copyFileSync(
+    new URL("../plugins/newsjack/icon.png", import.meta.url),
+    join(pluginRoot, "icon.png"),
   );
   writeFileSync(
     join(pluginRoot, "skills", "sample", "SKILL.md"),
@@ -113,7 +117,12 @@ test("generates the portable OpenAI manifest from Claude metadata", () => {
     manifest.extensions["com.openai"].interface.termsOfServiceURL,
     "https://github.com/elvisun/newsjack/blob/main/LICENSE",
   );
-  assert.equal(manifest.extensions["com.openai"].interface.logo, "./assets/icon.svg");
+  assert.deepEqual(manifest.extensions["com.openai"].interface.defaultPrompt, [
+    "Find current newsjacking opportunities for my company.",
+    "Turn this company update into journalist-shaped story angles.",
+    "Fact-check this press release before I send it.",
+  ]);
+  assert.equal(manifest.extensions["com.openai"].interface.logo, "./assets/icon.png");
 });
 
 test("converts the shared MCP config to the portable schema", () => {
@@ -131,7 +140,83 @@ test("converts the shared MCP config to the portable schema", () => {
   assert.deepEqual(mcp.mcpServers.medialyst, {
     type: "streamable-http",
     url: "https://medialyst.ai/api/mcp",
+    extensions: {
+      "com.openai": {
+        auth: {
+          type: "oauth",
+          client: {
+            mode: "dcr",
+          },
+        },
+      },
+    },
   });
+});
+
+test("enforces final OpenAI submission metadata limits", () => {
+  const manifest = generateOpenAIManifest({
+    claudeManifest,
+    marketplaceEntry,
+    releaseVersion: "v9.8.7-test.1",
+  });
+  validateManifestShape(manifest);
+
+  const cases = [
+    ["displayName", "x".repeat(31), /displayName must be 1-30 characters/],
+    ["shortDescription", "x".repeat(31), /shortDescription must be one line and 1-30 characters/],
+    ["developerName", "x".repeat(81), /developerName must be 1-80 characters/],
+    ["defaultPrompt", ["x".repeat(129)], /defaultPrompt entries must be 1-128 characters/],
+    ["defaultPrompt", ["one", "two", "three", "four"], /defaultPrompt must contain at most 3 prompts/],
+    ["supportURL", "http://example.com/support", /supportURL must be an HTTPS URL/],
+  ];
+  for (const [field, value, expectedError] of cases) {
+    const invalid = structuredClone(manifest);
+    invalid.extensions["com.openai"].interface[field] = value;
+    assert.throws(() => validateManifestShape(invalid), expectedError);
+  }
+});
+
+test("requires OAuth DCR for the Medialyst server", () => {
+  const mcp = generatePortableMCP({
+    mcpServers: {
+      medialyst: {
+        type: "http",
+        url: "https://medialyst.ai/api/mcp",
+      },
+    },
+  });
+  validateMCPShape(mcp);
+  delete mcp.mcpServers.medialyst.extensions;
+  assert.throws(
+    () => validateMCPShape(mcp),
+    /must declare OpenAI OAuth with dynamic client registration/,
+  );
+});
+
+test("validates PNG signature, IHDR dimensions, and submission size limits", () => {
+  validatePNG(new URL("../plugins/newsjack/icon.png", import.meta.url));
+  const root = mkdtempSync(join(tmpdir(), "newsjack-openai-png-test-"));
+  try {
+    const invalidSignature = join(root, "invalid-signature.png");
+    writeFileSync(invalidSignature, Buffer.alloc(33));
+    assert.throws(() => validatePNG(invalidSignature), /invalid PNG signature/);
+
+    const invalidDimensions = join(root, "invalid-dimensions.png");
+    const pngHeader = Buffer.alloc(33);
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]).copy(pngHeader);
+    pngHeader.writeUInt32BE(13, 8);
+    pngHeader.write("IHDR", 12, "ascii");
+    pngHeader.writeUInt32BE(47, 16);
+    pngHeader.writeUInt32BE(48, 20);
+    writeFileSync(invalidDimensions, pngHeader);
+    assert.throws(() => validatePNG(invalidDimensions), /must be square/);
+
+    const oversized = join(root, "oversized.png");
+    writeFileSync(oversized, Buffer.alloc(5 * 1024 * 1024 + 1));
+    assert.throws(() => validatePNG(oversized), /exceeds 5 MiB/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("builds and validates a complete OpenAI plugin archive", () => {

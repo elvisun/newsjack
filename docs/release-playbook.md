@@ -228,7 +228,8 @@ The OpenAI archive uses the portable Agent Plugins layout documented by
 [OpenAI](https://developers.openai.com/plugins/build/plugins). Its root
 `plugin.json` is generated from the Claude plugin manifest and marketplace
 entry, its `mcp.json` is generated from the packaged Medialyst MCP
-configuration, and its `skills/` tree is copied from the same plugin source.
+configuration with OpenAI OAuth dynamic client registration declared, and its
+`skills/` tree is copied from the same plugin source.
 The archive has one top-level `newsjack/` directory:
 
 ```text
@@ -237,7 +238,7 @@ newsjack/
 ├── mcp.json
 ├── README.md
 ├── assets/
-│   └── icon.svg
+│   └── icon.png
 └── skills/
     ├── <skill>/SKILL.md
     └── ...
