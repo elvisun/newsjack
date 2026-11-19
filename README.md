@@ -149,8 +149,7 @@ Legend:
 
 - **[Local agents](#local-agents-claude-code-codex-hermes-openclaw)** — Claude Code, Codex, Hermes, OpenClaw
 - **[Claude.ai & Cowork](#claudeai--cowork)** — Anthropic plugin + Medialyst connector
-- **[ChatGPT](#chatgpt)** — consumer accounts, no Skills
-- **[ChatGPT Work](#chatgpt-work)** — Skills beta
+- **[ChatGPT](#chatgpt)** — desktop app in Work mode
 
 ### Local agents (Claude Code, Codex, Hermes, OpenClaw)
 
@@ -196,14 +195,36 @@ scan with nothing saved. For saved, scheduled monitoring, use a local agent.
 
 ### ChatGPT
 
-ChatGPT runs Newsjack only in a degraded ⚠️ form, because Skills aren't available
-on consumer accounts. For the full toolkit, use ChatGPT Work or OpenAI's Codex.
+Open the [ChatGPT desktop app](https://chatgpt.com/download), switch to **Work
+mode**, then send this prompt:
 
-### ChatGPT Work
+```text
+Install the Newsjack plugin for me. It is not in the plugin directory, so do not search for it there. Install it from its public GitHub repo by running these commands in the terminal, in order:
 
-ChatGPT Work has the Skills beta, so Newsjack runs there at the same level as
-Cowork: everything except the two setup skills, `press-clip`, and
-`coverage-reel`, which need a local agent.
+codex plugin marketplace add elvisun/newsjack
+codex plugin add newsjack@newsjack
+codex mcp login medialyst
+
+If the `codex` command is not found, use the Codex CLI that ships inside the ChatGPT desktop app. The last command opens a browser window so I can sign in to Medialyst (free), which gives Newsjack live news search. If you cannot run terminal commands in this chat, stop and tell me to switch ChatGPT to Work mode in the desktop app. When everything succeeds, tell me to quit and reopen ChatGPT, then start a new chat and type @Newsjack.
+```
+
+1. Open the desktop app and switch to Work mode.
+2. Paste the prompt and send it.
+3. Approve the GitHub download and Medialyst sign-in, then sign in in the browser.
+4. Quit and reopen ChatGPT. Start a new chat and type `@Newsjack`.
+
+See the [one-prompt ChatGPT install guide](https://newsjack.sh/chatgpt) for help.
+The steps were tested on macOS. Windows uses the same steps but is not yet
+verified. Company-managed accounts may block plugins from outside the directory.
+
+To update later, ask ChatGPT to run:
+
+```bash
+codex plugin marketplace upgrade newsjack
+```
+
+ChatGPT on the web without the desktop app runs Newsjack only in ⚠️ Limited
+Mode.
 
 ---
 

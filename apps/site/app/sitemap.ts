@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl(`/insights/${post.slug}`),
       lastModified: post.updatedAt,
     })),
+    { url: absoluteUrl("/chatgpt") },
     { url: absoluteUrl("/connection-help") },
     { url: absoluteUrl("/privacy") },
   ];

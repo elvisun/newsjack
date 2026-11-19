@@ -78,7 +78,7 @@ export function CopyCommand({
       <code
         className={`flex min-w-0 flex-1 gap-3 px-4 py-3.5 font-mono text-[13px] leading-relaxed text-page sm:text-sm ${
           wrap
-            ? "items-start"
+            ? "items-start whitespace-pre-wrap break-words"
             : "items-center overflow-x-auto whitespace-nowrap"
         }`}
       >

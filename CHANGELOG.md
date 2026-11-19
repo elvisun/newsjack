@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- ChatGPT desktop users can now install the Newsjack plugin from GitHub with one prompt in Work mode, with a dedicated setup page and guarded marketplace and Medialyst connector assumptions.
+
 ## v0.1.24 — 2026-11-16
 
 ### Changed
