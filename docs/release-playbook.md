@@ -68,6 +68,11 @@ NEWSJACK_VERSION=v0.1.0-test NEWSJACK_RELEASE_DIST=.tmp/newsjack-release-test \
   node scripts/build-release-dist.mjs
 node --test scripts/openai-plugin.test.mjs
 node scripts/validate-openai-plugin.mjs \
+  .tmp/newsjack-release-test/newsjack-chatgpt-skills-v0.1.0-test.zip \
+  v0.1.0-test skills
+cmp .tmp/newsjack-release-test/newsjack-chatgpt-skills-v0.1.0-test.zip \
+  .tmp/newsjack-release-test/newsjack-chatgpt-skills.zip
+node scripts/validate-openai-plugin.mjs \
   .tmp/newsjack-release-test/newsjack-chatgpt-plugin-v0.1.0-test.zip \
   v0.1.0-test chatgpt
 node scripts/validate-openai-plugin.mjs \
@@ -224,23 +229,26 @@ newsjack_linux_amd64.tar.gz
 newsjack_linux_arm64.tar.gz
 newsjack_windows_amd64.exe
 newsjack_windows_amd64.tar.gz
+newsjack-chatgpt-skills-v0.1.0.zip
+newsjack-chatgpt-skills.zip
 newsjack-chatgpt-plugin-v0.1.0.zip
 newsjack-openai-submission-v0.1.0.zip
 ```
 
-Both OpenAI archives use the portable Agent Plugins layout documented by
+All three OpenAI archives use the portable Agent Plugins layout documented by
 [OpenAI](https://developers.openai.com/plugins/build/plugins). Their root
 `plugin.json` and `skills/` tree are generated from the same Claude plugin
-and marketplace source; only the Medialyst entry in `mcp.json` differs. OpenAI
-import ignores files directly under `skills/`, so each affected archived skill
-gets local `references/ETHICS.md` and/or `references/WHY-NOT-SPAM.md` copies and
-its archived links are rewritten. The source skills and Claude package are not
+and marketplace source. The skills-only archive omits MCP configuration; the
+other two differ only in the Medialyst entry in `mcp.json`. OpenAI import ignores
+files directly under `skills/`, so each affected archived skill gets local
+`references/ETHICS.md` and/or `references/WHY-NOT-SPAM.md` copies and its
+archived links are rewritten. The source skills and Claude package are not
 changed. Each archive has one top-level `newsjack/` directory:
 
 ```text
 newsjack/
 ├── plugin.json
-├── mcp.json
+├── mcp.json       # absent from the skills-only archive
 ├── README.md
 ├── assets/
 │   └── icon.png
@@ -253,10 +261,21 @@ newsjack/
     └── ...
 ```
 
-Use `newsjack-chatgpt-plugin-<tag>.zip` for ChatGPT's **Upload plugin archive**,
-workspace publishing, sharing, and local marketplaces; its Medialyst entry has
-exactly `type` and `url`. Use `newsjack-openai-submission-<tag>.zip` only in the
-public-directory portal at
+The recommended ChatGPT install has two steps:
+
+1. Upload `newsjack-chatgpt-skills.zip` from the latest release, or the pinned
+   `newsjack-chatgpt-skills-<tag>.zip` asset. The two assets have identical
+   bytes. This archive contains no `mcp.json`, `.mcp.json`, or `mcpServers`
+   reference in `plugin.json`.
+2. Add Medialyst as a custom MCP server at `https://medialyst.ai/api/mcp`, then
+   sign in to the hosted connection.
+
+Use `newsjack-chatgpt-plugin-<tag>.zip` as the bundled-server alternative for
+workspace publishing and local marketplaces; its Medialyst entry has exactly
+`type` and `url`. Sign-in after a plain ChatGPT upload is not reliable, and the
+bundled server name clashes with a separately added Medialyst connection.
+
+Use `newsjack-openai-submission-<tag>.zip` only in the public-directory portal at
 [`platform.openai.com/plugins`](https://platform.openai.com/plugins) with **With
 MCP** selected; it adds `extensions["com.openai"].auth` with OAuth DCR. The split
 is required because user runtimes silently drop Medialyst when that per-server

@@ -27,11 +27,17 @@ jobs:
       - name: Build OpenAI plugin archives
         run: NEWSJACK_VERSION=v0.0.0-test.1 NEWSJACK_RELEASE_DIST=.tmp/openai-plugin-ci node scripts/build-openai-plugin.mjs
 
+      - name: Validate ChatGPT skills-only archive
+        run: node scripts/validate-openai-plugin.mjs .tmp/openai-plugin-ci/newsjack-chatgpt-skills-v0.0.0-test.1.zip v0.0.0-test.1 skills
+
       - name: Validate ChatGPT plugin archive
         run: node scripts/validate-openai-plugin.mjs .tmp/openai-plugin-ci/newsjack-chatgpt-plugin-v0.0.0-test.1.zip v0.0.0-test.1 chatgpt
 
       - name: Validate OpenAI submission archive
         run: node scripts/validate-openai-plugin.mjs .tmp/openai-plugin-ci/newsjack-openai-submission-v0.0.0-test.1.zip v0.0.0-test.1 submission
+
+      - name: Verify stable ChatGPT skills alias
+        run: cmp .tmp/openai-plugin-ci/newsjack-chatgpt-skills-v0.0.0-test.1.zip .tmp/openai-plugin-ci/newsjack-chatgpt-skills.zip
 
   cli-unit:
     name: CLI unit tests (${{ matrix.os }})
@@ -89,8 +95,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          grep -F "  newsjack-chatgpt-skills-v0.1.0-ci.zip" .tmp/newsjack-release/checksums.txt
+          grep -F "  newsjack-chatgpt-skills.zip" .tmp/newsjack-release/checksums.txt
           grep -F "  newsjack-chatgpt-plugin-v0.1.0-ci.zip" .tmp/newsjack-release/checksums.txt
           grep -F "  newsjack-openai-submission-v0.1.0-ci.zip" .tmp/newsjack-release/checksums.txt
+          cmp .tmp/newsjack-release/newsjack-chatgpt-skills-v0.1.0-ci.zip \
+            .tmp/newsjack-release/newsjack-chatgpt-skills.zip
 
       - name: Upload release dist for the Windows battery
         uses: actions/upload-artifact@v6

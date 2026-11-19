@@ -23,21 +23,30 @@ export const MAX_ARCHIVE_ENTRIES = 5_000;
 export const MAX_MEMBER_BYTES = 100 * 1024 * 1024;
 export const MAX_UNCOMPRESSED_BYTES = 512 * 1024 * 1024;
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+export const CHATGPT_SKILLS_STABLE_ARCHIVE_NAME = "newsjack-chatgpt-skills.zip";
 
 const MEDIALYST_MCP_URL = "https://medialyst.ai/api/mcp";
 export const OPENAI_PLUGIN_VARIANTS = Object.freeze({
+  skills: Object.freeze({
+    archivePrefix: "newsjack-chatgpt-skills",
+    includeMCP: false,
+    includeOpenAIAuth: false,
+  }),
   chatgpt: Object.freeze({
     archivePrefix: "newsjack-chatgpt-plugin",
+    includeMCP: true,
     includeOpenAIAuth: false,
   }),
   submission: Object.freeze({
     archivePrefix: "newsjack-openai-submission",
+    includeMCP: true,
     includeOpenAIAuth: true,
   }),
 });
-// Personal/workspace uploads and local marketplaces feed the user's own runtime,
-// which currently drops servers with a per-server extensions key. Only the public
-// directory submission archive carries the portal-required OpenAI auth extension.
+// The recommended ChatGPT upload contains skills only; users add the hosted MCP
+// connection separately so sign-in is reliable. The bundled-server variant is
+// for workspace publishing and local marketplaces. Only the public-directory
+// submission archive carries the portal-required OpenAI auth extension.
 const MEDIALYST_OPENAI_AUTH = {
   type: "oauth",
   client: {
@@ -292,6 +301,7 @@ export function generateOpenAIManifest({
 
 export function generatePortableMCP(sourceMCP, variant = "chatgpt") {
   const variantConfig = openAIPluginVariant(variant);
+  invariant(variantConfig.includeMCP, `the ${variant} variant does not include MCP configuration`);
   invariant(sourceMCP && typeof sourceMCP === "object", "source MCP configuration is required");
   invariant(sourceMCP.mcpServers && typeof sourceMCP.mcpServers === "object", "source MCP configuration has no mcpServers object");
   const mcpServers = {};
@@ -507,6 +517,7 @@ function buildOpenAIPluginArchiveFromSource({
   const archivePath = join(resolvedOutRoot, archiveName);
   const workRoot = mkdtempSync(join(tmpdir(), `newsjack-${variant}-plugin-`));
   const packageRoot = join(workRoot, "newsjack");
+  const variantConfig = openAIPluginVariant(variant);
 
   try {
     mkdirSync(join(packageRoot, "assets"), { recursive: true });
@@ -521,10 +532,12 @@ function buildOpenAIPluginArchiveFromSource({
         releaseVersion,
       }), null, 2)}\n`,
     );
-    writeFileSync(
-      join(packageRoot, "mcp.json"),
-      `${JSON.stringify(generatePortableMCP(source.sourceMCP, variant), null, 2)}\n`,
-    );
+    if (variantConfig.includeMCP) {
+      writeFileSync(
+        join(packageRoot, "mcp.json"),
+        `${JSON.stringify(generatePortableMCP(source.sourceMCP, variant), null, 2)}\n`,
+      );
+    }
 
     rmSync(archivePath, { force: true });
     execFileSync("zip", ["-q", "-X", "-r", archivePath, "newsjack"], {
@@ -569,6 +582,23 @@ export function buildOpenAIPluginArchives({ repoRoot, outRoot, releaseVersion })
       variant,
     }),
   );
+}
+
+export function writeStableChatGPTSkillsArchive({ archives, outRoot }) {
+  const skillsArchive = archives.find((archive) => archive.variant === "skills");
+  invariant(skillsArchive, "versioned ChatGPT skills archive is required");
+  const archivePath = join(resolve(outRoot), CHATGPT_SKILLS_STABLE_ARCHIVE_NAME);
+  cpSync(skillsArchive.archivePath, archivePath);
+  invariant(
+    readFileSync(skillsArchive.archivePath).equals(readFileSync(archivePath)),
+    "stable ChatGPT skills archive differs from the versioned archive",
+  );
+  return {
+    archiveName: CHATGPT_SKILLS_STABLE_ARCHIVE_NAME,
+    archivePath,
+    sourceArchiveName: skillsArchive.archiveName,
+    size: statSync(archivePath).size,
+  };
 }
 
 function runUnzip(args, options = {}) {
@@ -662,6 +692,7 @@ export function validateManifestShape(manifest) {
 
 export function validateMCPShape(mcp, variant = "chatgpt") {
   const variantConfig = openAIPluginVariant(variant);
+  invariant(variantConfig.includeMCP, `the ${variant} variant does not include MCP configuration`);
   invariant(mcp?.$schema === MCP_SCHEMA_URL, `mcp.json must declare ${MCP_SCHEMA_URL}`);
   invariant(mcp.mcpServers && typeof mcp.mcpServers === "object", "mcp.json has no mcpServers object");
   invariant(Object.keys(mcp.mcpServers).length > 0, "mcp.json has no MCP servers");
@@ -714,7 +745,8 @@ export function validatePNG(path) {
   invariant(width <= 4_096 && height <= 4_096, "plugin PNG must be at most 4096x4096");
 }
 
-function comparePackagedFiles(packageRoot, source) {
+function comparePackagedFiles(packageRoot, source, variant) {
+  const variantConfig = openAIPluginVariant(variant);
   const hostedSkillFiles = generateHostedSkillFiles(source);
   const actualFiles = walkRegularFiles(packageRoot, "OpenAI plugin archive").map((path) =>
     normalizedPath(path),
@@ -722,8 +754,8 @@ function comparePackagedFiles(packageRoot, source) {
   const expectedFiles = [
     "README.md",
     "assets/icon.png",
-    "mcp.json",
     "plugin.json",
+    ...(variantConfig.includeMCP ? ["mcp.json"] : []),
     ...[...hostedSkillFiles.keys()].map((path) => `skills/${path}`),
   ].sort();
   invariant(
@@ -745,6 +777,34 @@ function comparePackagedFiles(packageRoot, source) {
   invariant(
     readFileSync(source.iconPath).equals(readFileSync(join(packageRoot, "assets", "icon.png"))),
     "packaged icon differs from source",
+  );
+}
+
+function hasObjectKey(value, key) {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  if (Object.hasOwn(value, key)) {
+    return true;
+  }
+  return Object.values(value).some((child) => hasObjectKey(child, key));
+}
+
+function validateVariantPackage(packageRoot, manifest, variant) {
+  const variantConfig = openAIPluginVariant(variant);
+  if (variantConfig.includeMCP) {
+    return;
+  }
+  const mcpFiles = walkRegularFiles(packageRoot, "OpenAI plugin archive").filter(
+    (path) => ["mcp.json", ".mcp.json"].includes(basename(path).toLowerCase()),
+  );
+  invariant(
+    mcpFiles.length === 0,
+    `the ${variant} variant must not contain mcp.json or .mcp.json`,
+  );
+  invariant(
+    !hasObjectKey(manifest, "mcpServers"),
+    `the ${variant} variant plugin.json must not reference mcpServers`,
   );
 }
 
@@ -814,9 +874,10 @@ export function validateOpenAIPluginArchive({
     invariant(uncompressedBytes <= MAX_UNCOMPRESSED_BYTES, "extracted archive exceeds 512 MiB");
 
     const source = readOpenAISource(repoRoot);
-    comparePackagedFiles(packageRoot, source);
-    validateHostedSkillPackage(packageRoot);
     const manifest = readJSON(join(packageRoot, "plugin.json"), "OpenAI plugin.json");
+    validateVariantPackage(packageRoot, manifest, resolvedVariant);
+    comparePackagedFiles(packageRoot, source, resolvedVariant);
+    validateHostedSkillPackage(packageRoot);
     validateManifestShape(manifest);
     const releaseVersion = expectedReleaseVersion || manifest.version;
     const expectedManifest = generateOpenAIManifest({
@@ -826,9 +887,12 @@ export function validateOpenAIPluginArchive({
     });
     invariant(isDeepStrictEqual(manifest, expectedManifest), "plugin.json was not generated from the Newsjack plugin metadata");
 
-    const mcp = readJSON(join(packageRoot, "mcp.json"), "OpenAI mcp.json");
-    validateMCPShape(mcp, resolvedVariant);
-    invariant(isDeepStrictEqual(mcp, generatePortableMCP(source.sourceMCP, resolvedVariant)), "mcp.json was not generated from the Newsjack plugin MCP configuration");
+    const variantConfig = openAIPluginVariant(resolvedVariant);
+    if (variantConfig.includeMCP) {
+      const mcp = readJSON(join(packageRoot, "mcp.json"), "OpenAI mcp.json");
+      validateMCPShape(mcp, resolvedVariant);
+      invariant(isDeepStrictEqual(mcp, generatePortableMCP(source.sourceMCP, resolvedVariant)), "mcp.json was not generated from the Newsjack plugin MCP configuration");
+    }
     validatePNG(join(packageRoot, "assets", "icon.png"));
 
     return {
