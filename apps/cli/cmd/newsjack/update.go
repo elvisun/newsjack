@@ -10,6 +10,8 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/mattn/go-isatty"
 )
 
 const autoUpdateGuard = "NEWSJACK_AUTO_UPDATE_RUNNING"
@@ -105,12 +107,10 @@ func maybeAutoUpdate(args []string, stderr io.Writer) (int, bool) {
 		logf(stderr, "auto-updating from %s to %s", current, latest)
 	}
 
-	if useNativeUpdate() {
-		if err := runNativeUpdate(os.Stderr, os.Stderr); err != nil {
-			warn(stderr, "auto-update failed: %v", err)
-			return 0, false
-		}
-	} else if err := runHostedInstaller(os.Stderr, os.Stderr); err != nil {
+	// Implicit (background) auto-updates always take the in-process native path:
+	// checksum-verified release bundle, no `curl | sh` of a URL read from install.json.
+	// The hosted installer remains available for an explicit `newsjack update`.
+	if err := runNativeUpdate(os.Stderr, os.Stderr); err != nil {
 		warn(stderr, "auto-update failed: %v", err)
 		return 0, false
 	}
@@ -127,6 +127,12 @@ func shouldAutoUpdate(args []string) bool {
 		return false
 	}
 	if os.Getenv(autoUpdateGuard) == "1" {
+		return false
+	}
+	// Non-interactive invocations (cron, CI, agent harnesses, pipes) never self-update
+	// unless NEWSJACK_AUTO_UPDATE is explicitly turned on: an unattended run must stay
+	// deterministic and must not swap its own binary mid-pipeline.
+	if !autoUpdateForced() && !stdinIsTerminal() {
 		return false
 	}
 	if !runningInstalledBinary() {
@@ -158,6 +164,20 @@ func autoUpdateDisabled() bool {
 		return true
 	}
 	return os.Getenv("NEWSJACK_NO_AUTO_UPDATE") == "1"
+}
+
+// autoUpdateForced reports an explicit NEWSJACK_AUTO_UPDATE=1/true/on/yes opt-in,
+// which re-enables implicit auto-update even for non-interactive invocations.
+func autoUpdateForced() bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv("NEWSJACK_AUTO_UPDATE"))) {
+	case "1", "true", "on", "yes":
+		return true
+	}
+	return false
+}
+
+func stdinIsTerminal() bool {
+	return isatty.IsTerminal(os.Stdin.Fd()) || isatty.IsCygwinTerminal(os.Stdin.Fd())
 }
 
 func runningInstalledBinary() bool {
