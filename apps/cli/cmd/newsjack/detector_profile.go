@@ -51,6 +51,9 @@ func profileFromFile(path string) (monitorProfile, error) {
 }
 
 func profileFromMap(payload map[string]any) monitorProfile {
+	if nested, ok := payload["profile"].(map[string]any); ok {
+		payload = nested
+	}
 	p := defaultProfile()
 	p.Raw = payload
 	p.Company = firstString(payload["company"], payload["client"])
