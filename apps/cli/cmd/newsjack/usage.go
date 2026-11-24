@@ -24,6 +24,7 @@ func printUsage(w io.Writer) {
 	uiCommand(w, "login", "connect Medialyst with browser OAuth", "[--no-browser]")
 	uiCommand(w, "auth status|set|logout", "inspect, save, or revoke API credentials", "")
 	uiCommand(w, "credits [balance]", "show Medialyst credit balance", "")
+	uiCommand(w, "ai answers", "capture cited answers from major AI engines", "--prompt Q")
 	uiCommand(w, "news search", "search current news through Medialyst", "--query Q")
 	uiCommand(w, "pr-calendar query", "query source-backed upcoming PR moments", "--from DATE --to DATE")
 	uiCommand(w, "journalists enrich", "enrich journalists from article URLs", "--url URL [--pitch TEXT]")
@@ -138,6 +139,9 @@ func printCommandHelp(w io.Writer, command string) bool {
 	case "credits":
 		printCreditsHelp(w)
 		return true
+	case "ai", "ai answers":
+		printAIHelp(w)
+		return true
 	case "news", "news search":
 		printNewsHelp(w)
 		return true
@@ -203,6 +207,22 @@ func printNewsHelp(w io.Writer) {
 	uiSection(w, "mapping")
 	uiKV(w, "news search", "POST /api/v1/news/search")
 	uiNote(w, "Use --json or --json-file to send the exact API request body.")
+}
+
+func printAIHelp(w io.Writer) {
+	uiProduct(w, "ai", "thin Medialyst REST wrapper for cited AI answers.")
+	fmt.Fprintln(w)
+	uiSection(w, "usage")
+	fmt.Fprintln(w, "  newsjack ai answers --prompt \"What does Pineglass Labs do?\" --engines chatgpt,gemini,google_ai_mode,perplexity,claude --country US")
+	fmt.Fprintln(w, "  newsjack ai answers --json-file request.json")
+	fmt.Fprintln(w)
+	uiSection(w, "mapping")
+	uiKV(w, "ai answers", "POST /api/v1/ai-answers")
+	uiKV(w, "--prompt", "required with convenience flags; maximum 500 characters")
+	uiKV(w, "--engines", "repeat or comma-separate; defaults to chatgpt, gemini, google_ai_mode, perplexity, claude")
+	uiKV(w, "--country", "two-letter country code; default US")
+	uiNote(w, "Output is the API response JSON. Use --json or --json-file to send the exact request body.")
+	uiNote(w, "Each successful engine answer costs 1 credit. Agents must show questions, engines, and maximum credit exposure, then get explicit approval before calling this command.")
 }
 
 func printPRCalendarHelp(w io.Writer) {

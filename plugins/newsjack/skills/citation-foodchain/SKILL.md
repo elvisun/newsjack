@@ -1,7 +1,7 @@
 ---
 name: citation-foodchain
 description: "Trace where an AI answer's information actually comes from. Split the answer into claims, check which cited page really supports each one, then follow every page's own sources hop by hop — press release, wire, outlet, Wikipedia, Reddit, content farm — until you reach the root. AI sources are a food chain; first-degree citations only show the last link. Also finds the exact page that introduced a wrong fact about you."
-when_to_use: "User wants to know where ChatGPT, Google AI Overviews / AI Mode, Perplexity, Claude, Gemini, or Copilot got a claim about their brand, client, competitor, or category; asks where AI gets its information, what feeds an AI's citations, which upstream sources shape the answer, or which page an AI error came from; wants the citation food chain behind an answer mapped; or another Newsjack skill (ai-visibility-writing, fact-check, build-ai-visibility-panel) needs the provenance chain behind a cited claim. Not for tracking citation share over time — that is a panel skill."
+when_to_use: "User wants to know where ChatGPT, Google AI Overviews / AI Mode, Perplexity, Claude, Gemini, or Copilot got a claim about their brand, client, competitor, or category; asks where AI gets its information, what feeds an AI's citations, which upstream sources shape the answer, or which page an AI error came from; wants the citation food chain behind an answer mapped; or another Newsjack skill (ai-answer-audit, ai-visibility-writing, fact-check, build-ai-visibility-panel) needs the provenance chain behind a cited claim. Not for tracking citation share over time — that is a panel skill."
 metadata:
   category: AI visibility
 ---

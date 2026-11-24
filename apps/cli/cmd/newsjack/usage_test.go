@@ -208,7 +208,7 @@ func TestSlackDeliverySkillCommandsMatchCLI(t *testing.T) {
 }
 
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "pr-calendar", "journalists", "media-lists", "credits"} {
+	for _, topic := range []string{"ai", "news", "pr-calendar", "journalists", "media-lists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
@@ -263,6 +263,8 @@ func TestMediaListsHelpDocumentsEveryAcceptedFlagAndDefault(t *testing.T) {
 
 func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 	for _, args := range [][]string{
+		{"help", "ai answers"},
+		{"help", "ai", "answers"},
 		{"help", "journalists enrich"},
 		{"help", "journalists", "enrich"},
 		{"help", "news search"},
@@ -284,6 +286,7 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 
 func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 	for _, args := range [][]string{
+		{"ai", "answers", "--help"},
 		{"pr-calendar", "query", "--help"},
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
