@@ -102,7 +102,7 @@ func TestAIAnswersCallsPublicRESTAPI(t *testing.T) {
 	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
 		got = decodeCapturedRequest(t, r)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"answers":[{"engine":"chatgpt","status":"ok","answer":"Pineglass Labs makes planning software."}],"creditsCharged":1}`))
+		w.Write([]byte(`{"requestId":"req_pineglass","answers":[{"engine":"chatgpt","model":null,"status":"ok","error":null,"answer":"Pineglass Labs makes planning software.","sources":[{"url":"https://pineglass.example/about","domain":"pineglass.example","title":"About Pineglass Labs","snippet":null,"publishedAt":null,"publication":{"publicationType":"company","domainRating":null,"traffic":null,"aiVisibilityTier":null}}],"retrieved":[],"creditsCharged":1}],"totalCreditsCharged":1}`))
 	}, func(_ string) (int, string, string) {
 		var out, errBuf bytes.Buffer
 		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?", "--engines", "chatgpt,gemini", "--country", "ca"}, &out, &errBuf)
@@ -121,7 +121,7 @@ func TestAIAnswersCallsPublicRESTAPI(t *testing.T) {
 	if !ok || len(engines) != 2 || engines[0] != "chatgpt" || engines[1] != "gemini" {
 		t.Fatalf("engines = %#v", got.Body["engines"])
 	}
-	if !strings.Contains(stdout, `"creditsCharged": 1`) {
+	if !strings.Contains(stdout, `"requestId": "req_pineglass"`) || !strings.Contains(stdout, `"totalCreditsCharged": 1`) {
 		t.Fatalf("stdout should contain API response JSON: %s", stdout)
 	}
 }
@@ -131,7 +131,7 @@ func TestAIAnswersAcceptsExactJSON(t *testing.T) {
 	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
 		got = decodeCapturedRequest(t, r)
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"answers":[],"creditsCharged":0}`))
+		w.Write([]byte(`{"requestId":"req_empty","answers":[],"totalCreditsCharged":0}`))
 	}, func(_ string) (int, string, string) {
 		var out, errBuf bytes.Buffer
 		code := runCLI([]string{"ai", "answers", "--json", `{"prompt":"Who founded Pineglass Labs?","engines":["claude"],"country":"GB"}`}, &out, &errBuf)

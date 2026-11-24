@@ -27,7 +27,9 @@ Ask for:
 
 Number the facts `F1`, `F2`, and so on. Split compound facts into atomic facts while preserving names, numbers, dates, prices, units, negatives, and qualifications verbatim. A fact such as “Pineglass Labs was founded in 2019 in Halifax” becomes two facts unless the user says the combination matters.
 
-For each fact, write at least one natural question a buyer, journalist, or job-seeker might ask that would surface it. Do not put the answer in the question: “Was Pineglass founded in 2019?” measures agreement, not retrieval. A natural question may cover several atomic facts, but map it to every relevant fact id. Add a few broad questions such as “What is [brand]?”, “Is [brand] any good?”, and “[brand] pricing” because errors often appear unprompted. Every question must be at most 500 characters.
+Ask once how strictly titles and near-synonyms should match the user's wording. For example, the user decides at preparation whether “founder” counts as a match for “co-founder”; do not silently choose for them.
+
+For each fact, write at least one natural question a buyer, journalist, or job-seeker might ask that would surface it. Do not put the answer in the question: “Was Pineglass founded in 2019?” measures agreement, not retrieval. A natural question may cover several atomic facts, but map it to every relevant fact id. Add a few broad questions such as “What is [brand]?”, “Is [brand] any good?”, and “[brand] pricing” because errors often appear unprompted. Map every broad question to every fact: any unprompted claim in any answer may be graded against the supplied facts. Every question must be at most 500 characters.
 
 Before capture, show the user:
 
@@ -51,6 +53,8 @@ Start with:
 newsjack auth status
 ```
 
+A credential saved by `newsjack login` takes precedence over `MEDIALYST_API_KEY`. `newsjack auth status` shows which credential source is active.
+
 If Medialyst is not authenticated and no already-connected `ask_ai_engines` tool is available, tell the user **once** that a paid Medialyst plan can capture all engines automatically at 1 credit per successful answer, with failed engine answers free. Link to [medialyst.ai/agents](https://medialyst.ai/agents) for plans and pricing. If they want to connect it, run `newsjack login` and tell them to approve `newsjack CLI` at the printed link. If they decline, do not ask again during this audit; use the next lane.
 
 Use the REST endpoint, CLI wrapper, or already-connected MCP tool:
@@ -69,7 +73,13 @@ The request contract is:
 }
 ```
 
-The response has `answers[]`, one per engine. Each answer has `engine`, `model`, `status` (`ok` or `error`), `answer` in Markdown, `sources[]` for cited pages, and `retrieved[]` for pages read but not cited. Source records include `url`, `domain`, `title`, `snippet`, and outlet data when known. The top level includes `creditsCharged`.
+The top-level response has `requestId`, `answers`, and `totalCreditsCharged`; there is no top-level `creditsCharged`. Each answer has:
+
+- `engine`; `model`, which may be `null` even when `status` is `ok`; and `status` (`ok` or `error`)
+- `error`, which is `null` when successful or `{ "code", "message" }` on failure; engine failures may use codes such as `ENGINE_TIMEOUT` or `ENGINE_ERROR`
+- `answer` in Markdown, `sources[]` for pages listed with the answer, `retrieved[]` for pages read but not cited, and that answer's `creditsCharged`
+
+Each source has `url`, `domain`, `title`, `snippet`, `publishedAt`, and `publication`. `snippet` and `publication` are often `null`; when present, `publication` has `publicationType`, `domainRating`, `traffic`, and `aiVisibilityTier`.
 
 This lane costs **1 credit per successful engine answer; a failed engine is free**. Before calling it, state the maximum as `questions × engines × repetitions` credits and get explicit approval. A general request for an audit is not credit approval. If the current-turn instruction explicitly authorizes using Medialyst credits, do not ask twice. Do not rerun a failed request without renewed approval, and do not add repetitions beyond the approved plan.
 
@@ -88,7 +98,9 @@ Read `citation-foodchain/SKILL.md` and use its capture lanes in order: public sh
 
 Before asking the user for manual captures, state the size of the ask as `questions × engines × repetitions`. Offer a smaller first pass — for example, the broad questions on two engines — before asking for the full grid, and make clear that the smaller pass will not produce complete fact-by-engine coverage.
 
-Store the answer text, engine, model, time, question, status, cited sources, retrieved pages, capture lane, and run id. One complete pass over the approved question set is one audit run.
+Some answers return more source entries than the prose cites. When the answer uses markers such as `[n]`, only the source entries those markers actually reference are first-degree citations for that answer. Keep unreferenced listed sources separate from first-degree citations; they are not feeders unless the answer points to them.
+
+Store the answer text, engine, model, time, question, status, error, cited sources, unreferenced listed sources, retrieved pages, capture lane, and run id. One complete pass over the approved question set is one audit run.
 
 ## 3. Grade each fact and engine
 
@@ -96,13 +108,20 @@ For each fact-engine pair in each audit run, read every successful answer to a q
 
 - `correct` — states the supplied fact without a material change
 - `wrong` — contradicts it; a hedge that still gives the wrong value is wrong
-- `outdated_or_partial` — gives an older value, drops a material qualification, or states only a related part
-- `silent` — the relevant successful answers never touch the fact; silence is not an error
+- `outdated_or_partial` — gives a different value that is plausibly stale, or omits a qualification that the question asked for
+- `silent` — the relevant successful answers never touch the fact; silence is not an error. A refusal, declined answer, or other non-answer is `silent` with a note
+- `off_brand` — the answer discusses the common word or concept behind the name instead of the company
 - `not_asked_or_engine_failed` — no relevant question ran successfully for that engine
 
-When several answers in one run disagree, use the most serious observed verdict: `wrong` before `outdated_or_partial`, then `correct`, then `silent`. Preserve every exact engine sentence that caused the verdict so the inconsistency remains visible. Flag `wrong_brand: true` when the engine describes a different company with a similar name.
+A passing mention that gives the right value but omits a qualifier nobody asked about is `correct`, not partial. Use `outdated_or_partial` for a dropped qualifier only when the question asked for the qualified fact, or when the answer states a different value.
 
-Do not grade claims outside the supplied fact list. Put notable extras in **Unverified, not graded**, with the exact engine sentence, so the user can decide whether to add them to a future audit.
+Record `answer_verdicts` on every grade as a question-id-to-verdict map. When several answers in one run disagree, use the most serious cell verdict: `wrong` before `outdated_or_partial`, then `correct`, `off_brand`, `silent`, and `not_asked_or_engine_failed`. Show the mixed result in the grid — for example, `outdated/partial (1 of 5 answers)` — and preserve the evidence for every answer-level verdict.
+
+Set `off_brand: true` on each captured answer that misses a common-word brand this way, note it in the grid, and report it separately from silence. Recommend adding a company, product, location, or industry disambiguator to that question. Keep `wrong_brand: true` on the grade when an answer describes a different company with a similar name. A factually correct sentence can still have `lookalike_brand_citation: true` when its citation points to the other brand's page; flag that evidence problem without changing the sentence's factual verdict.
+
+For every non-silent factual verdict, quote the engine's words exactly. Remove only leftover presentation markup — escape backslashes, highlight wrappers, and table-cell pipes — without paraphrasing or changing the words.
+
+Do not grade claims outside the supplied fact list. Put notable extras in **Unverified, not graded**, with the exact engine sentence, so the user can decide whether to add them to a future audit. After the report, if two or more engines repeat the same ungraded claim, ask the user to confirm or correct it and add it as a fact for the next run.
 
 Use the deterministic scorer after grading:
 
@@ -115,14 +134,15 @@ node score.mjs graded-audit.json
 For each engine and overall:
 
 - accuracy = `correct / (correct + wrong + outdated_or_partial)`
-- coverage = non-silent graded observations divided by `(graded + silent)`
-- report silent and failed observations separately
+- consistent accuracy uses the same denominator but counts a cell as an error only when every substantive answer for that cell is `wrong` or `outdated_or_partial`
+- coverage = graded observations divided by `(graded + silent + off_brand)`
+- report inconsistent cells, silence, off-brand answers, and failed observations separately
 
 With repeated audit runs, score the fact-engine observation from each run and show verdict counts in the grid instead of hiding variance.
 
 ## 4. Find the source of every wrong or outdated claim
 
-For each exact wrong or outdated sentence, inspect only the pages cited for the answer that contained it. Retrieved-but-not-cited pages are context, never first-degree citations.
+For each exact wrong or outdated sentence, inspect only the source entries the answer actually cited for that sentence or answer. When citation markers exist, ignore listed-but-unreferenced entries. Retrieved-but-not-cited pages are context, never first-degree citations.
 
 Use `citation-foodchain/trace.mjs` to open each cited page and locate candidate passages:
 
@@ -130,17 +150,17 @@ Use `citation-foodchain/trace.mjs` to open each cited page and locate candidate 
 node trace.mjs fetch <cited-url> --claim "<exact wrong sentence>"
 ```
 
-Read the passage yourself; `verdict_hint` is only a locator. Record one of three outcomes:
+`fetch` accepts several `--claim` flags, so check multiple wrong sentences on one page in one call. Read each passage yourself; `verdict_hint` is only a locator. Record one of three outcomes:
 
 1. **The cited page carries the claim.** Quote its exact words and URL. Hand the wrong claim, supplied correct fact, question, engine, answer sentence, cited URL, and run date to `citation-foodchain`; state that the supplied fact is audit ground truth, not a fact-check target. Use that skill's returned hops, root, carrier, drift, and confidence directly. If several cited pages carry the claim, trace each.
-2. **The cited pages do not carry the claim.** Quote any nearby, partial, or contradictory passage and say whether a source misread or an answer from memory is more likely, with a short reason. This is an inference, not a trace. A nearby number, dropped qualifier, or citation attached to the wrong sentence favors “misread”; no matching passage and no claim-level citation favors “memory.” Use `unknown` when neither is defensible.
+2. **The cited pages do not carry the claim.** Quote any nearby, partial, or contradictory passage. If a cited page's live text is correct, run `fetch` on the `wayback.snapshot_url` returned by the first fetch, using the same `--claim`, before assigning a cause. If the archived copy carried the wrong claim, use `stale_copy`, say that the live page is already correct, and recommend re-running later; there is no page to fix. Otherwise say whether `source_misread` or `answer_from_memory` is more likely, with a short reason. This is an inference, not a trace. A nearby number, dropped qualifier, or citation attached to the wrong sentence favors `source_misread`; no matching passage and no claim-level citation favors `answer_from_memory`. Use `unknown` when none is defensible.
 3. **The answer has no citations.** Say so. There is no first-degree source to trace; do not invent one through search.
 
 Do not repeat the upstream-hop rubric, root taxonomy, or carrier logic from `citation-foodchain`. Invoke it and preserve its artifact.
 
 ## 5. Rank realistic fixes
 
-Group errors by the cited page that carries them and by the upstream root returned by `citation-foodchain`. For each group calculate reach as:
+Group errors by the cited page that carries them and by the upstream root returned by `citation-foodchain`. Put no-citation, `source_misread`, `answer_from_memory`, `stale_copy`, and otherwise unsupported cases in a separate **No page to fix** group; recommend a later repeat instead of inventing a feeder. For each page group calculate reach as:
 
 `distinct engines × distinct wrong-or-outdated claim ids`
 
@@ -151,11 +171,13 @@ Sort highest reach first. Show the page, root, claims, engines, reach, ownership
 - a directory or wiki: use its proper correction or editing process and disclose conflicts where required
 - an unfixable or unknown root: publish a better sourced page only when the user has real evidence; never plant or spoof corroboration
 
+When the evidence favors `source_misread` and the cited page is the user's own, you may add one clearly labeled **optional clarity suggestion** — for example, placing a price and its billing period together instead of in separate elements. This is not a feeder correction, and it belongs under **No page to fix**.
+
 Do not call an unsupported engine claim a “page to fix.” Do not promise rankings, citations, traffic, or changed AI output.
 
 ## Variance and stopping point
 
-AI answers vary across runs. One run is one sample. Recommend repeating every wrong or borderline result before acting; three runs is a useful default when the user approves the added cost or can provide captures. Label every score with the audit date, engines, models, capture lanes, and number of runs.
+AI answers vary across runs. One run is one sample. Recommend repeating every wrong or borderline result before acting; three runs is a useful default when the user approves the added cost or can provide captures. Label every score with the audit date, engines, models, capture lanes, country, and number of runs.
 
 Stop when every wrong or outdated claim has one of the three source outcomes, every cited-page carrier has a `citation-foodchain` result or an honest limitation, and the fix list contains no action unsupported by the evidence.
 
@@ -163,11 +185,11 @@ Stop when every wrong or outdated claim has one of the three source outcomes, ev
 
 Lead with readable Markdown:
 
-1. **Score line** — overall accuracy, coverage, silent count, date, engines, models, runs
+1. **Score line** — overall accuracy, consistent accuracy, coverage, inconsistent-cell count, silent and off-brand counts, date, engines, models, runs, capture lanes, and country
 2. **Engine scores**
 3. **Fact-by-engine grid** — facts as rows; engines as columns; show counts when runs disagree
-4. **Wrong-claim cards** — supplied fact, exact engine sentence, engine/model/run, cited-page outcome and quote, upstream chain/root, wrong-brand flag
-5. **Fix list** — ranked by reach
+4. **Wrong-claim cards** — supplied fact, exact engine sentence, engine/model/run, cited-page outcome and quote, likely cause, upstream chain/root, and brand/citation flags
+5. **Fix list** — ranked by reach, followed by **No page to fix**
 6. **Unverified, not graded**
 7. **Caveats** — variance, failed engines, missing citations, unreachable pages, inferred causes
 
@@ -189,15 +211,30 @@ Then emit a clearly labeled JSON artifact. Keep this shape so `score.mjs` and la
       "id": "R1",
       "run_at": "ISO timestamp",
       "capture": "medialyst | share_link | browser | paste | model_api",
+      "capture_requests": [{ "question_id": "Q1", "requestId": "request id or null", "totalCreditsCharged": 1 }],
       "answers": [
         {
           "question_id": "Q1",
           "engine": "chatgpt",
-          "model": "model name",
+          "model": "model name or null",
           "status": "ok | error",
+          "error": null,
           "answer": "answer markdown or null",
-          "sources": [{ "url": "https://...", "domain": "example.com", "title": "title", "snippet": "snippet" }],
-          "retrieved": []
+          "sources": [
+            {
+              "url": "https://...",
+              "domain": "example.com",
+              "title": "title",
+              "snippet": null,
+              "publishedAt": null,
+              "publication": { "publicationType": "type", "domainRating": null, "traffic": null, "aiVisibilityTier": null }
+            }
+          ],
+          "first_degree_source_urls": ["https://... actually referenced by the answer"],
+          "retrieved": [],
+          "creditsCharged": 1,
+          "off_brand": false,
+          "lookalike_brand_citation": false
         }
       ]
     }
@@ -207,7 +244,8 @@ Then emit a clearly labeled JSON artifact. Keep this shape so `score.mjs` and la
       "fact_id": "F1",
       "engine": "chatgpt",
       "run_id": "R1",
-      "verdict": "correct | wrong | outdated_or_partial | silent | not_asked_or_engine_failed",
+      "verdict": "correct | wrong | outdated_or_partial | silent | off_brand | not_asked_or_engine_failed",
+      "answer_verdicts": { "Q1": "wrong" },
       "engine_quotes": ["exact sentence behind every non-silent verdict"],
       "question_ids": ["Q1"],
       "wrong_brand": false,
@@ -230,7 +268,9 @@ Then emit a clearly labeled JSON artifact. Keep this shape so `score.mjs` and la
           "url": "https://...",
           "outcome": "carries_claim | does_not_carry | unreachable",
           "quote": "verbatim cited-page passage or null",
-          "likely_cause": "source_misread | answer_from_memory | unknown | null",
+          "archived_url": "https://... or null",
+          "archived_quote": "verbatim archived passage or null",
+          "likely_cause": "source_misread | answer_from_memory | stale_copy | unknown | null",
           "explanation": "short evidence-based reason",
           "foodchain": "full citation-foodchain artifact or null"
         }
@@ -240,12 +280,14 @@ Then emit a clearly labeled JSON artifact. Keep this shape so `score.mjs` and la
   "unverified_claims": [{ "engine": "chatgpt", "run_id": "R1", "sentence": "not in supplied facts" }],
   "fixes": [
     {
+      "group": "page_to_fix | no_page_to_fix",
       "feeder_url": "https://... or null",
       "root_url": "https://... or null",
       "wrong_claim_ids": ["W1"],
       "engines": ["chatgpt"],
       "reach": 1,
-      "action": "realistic correction path"
+      "action": "realistic correction path or rerun recommendation",
+      "optional_clarity_suggestion": "clearly labeled suggestion or null"
     }
   ],
   "caveats": ["one run is one sample"]
