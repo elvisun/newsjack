@@ -63,6 +63,9 @@ type medialystAPIError struct {
 
 func (e *medialystAPIError) Error() string {
 	message := strings.TrimSpace(e.Body)
+	if e.Payload == nil {
+		message = truncate(message, 300)
+	}
 	code := fmt.Sprintf("HTTP_%d", e.StatusCode)
 	requestID := ""
 	if record, ok := e.Payload.(map[string]any); ok {
@@ -196,7 +199,17 @@ func medialystAPIRequestWithBearer(cred medialystBearerCredential, method, path 
 func runMedialystJSON(stdout, stderr io.Writer, method, path string, query url.Values, body any, headers map[string]string, timeout time.Duration) int {
 	resp, err := medialystAPIRequest(method, path, query, body, headers, timeout)
 	if err != nil {
-		return failf(stderr, "Medialyst API request failed: %v", err)
+		if path == "/v1/ai-answers" && strings.Contains(err.Error(), "Medialyst credentials not found") {
+			err = fmt.Errorf("%w (no account? https://medialyst.ai/agents)", err)
+		}
+		code := failf(stderr, "Medialyst API request failed: %v", err)
+		var apiErr *medialystAPIError
+		if path == "/v1/ai-answers" && errors.As(err, &apiErr) && apiErr.StatusCode == http.StatusForbidden {
+			if record, ok := apiErr.Payload.(map[string]any); ok && firstAPIString(record["code"], apiNestedValue(record["error"], "code")) == "AI_ANSWERS_UPGRADE_REQUIRED" {
+				fmt.Fprintln(stderr, "AI answers needs a paid Medialyst plan. See https://medialyst.ai/agents")
+			}
+		}
+		return code
 	}
 	writeMedialystPayload(stdout, resp.Payload)
 	return 0

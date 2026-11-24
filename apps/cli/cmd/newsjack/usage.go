@@ -221,6 +221,7 @@ func printAIHelp(w io.Writer) {
 	uiKV(w, "--prompt", "required with convenience flags; maximum 500 characters")
 	uiKV(w, "--engines", "repeat or comma-separate; defaults to chatgpt, gemini, google_ai_mode, perplexity, claude")
 	uiKV(w, "--country", "two-letter country code; default US")
+	uiKV(w, "access", "requires a paid Medialyst plan; see https://medialyst.ai/agents")
 	uiNote(w, "Output is the API response JSON. Use --json or --json-file to send the exact request body.")
 	uiNote(w, "Each successful engine answer costs 1 credit. Agents must show questions, engines, and maximum credit exposure, then get explicit approval before calling this command.")
 }

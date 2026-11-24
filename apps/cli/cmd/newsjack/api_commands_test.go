@@ -156,6 +156,70 @@ func TestAIAnswersRejectsOverlongPrompt(t *testing.T) {
 	}
 }
 
+func TestAIAnswersExplainsPaidPlanUpgrade(t *testing.T) {
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte(`{"code":"AI_ANSWERS_UPGRADE_REQUIRED","message":"Upgrade to capture AI answers."}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("upgrade-required request code=%d stderr=%s", code, stderr)
+	}
+	for _, want := range []string{
+		"Upgrade to capture AI answers.",
+		"AI answers needs a paid Medialyst plan. See https://medialyst.ai/agents",
+	} {
+		if !strings.Contains(stderr, want) {
+			t.Fatalf("stderr missing %q:\n%s", want, stderr)
+		}
+	}
+}
+
+func TestAIAnswersNoCredentialsLinksAccountOptions(t *testing.T) {
+	var code int
+	var errText string
+	withTempEnv(t, map[string]string{
+		"HOME":                    t.TempDir(),
+		"NEWSJACK_HOME":           "",
+		"MEDIALYST_API_KEY":       "",
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code = runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		errText = errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("missing-credentials request code=%d stderr=%s", code, errText)
+	}
+	if !strings.Contains(errText, "Medialyst credentials not found. Run: newsjack login (no account? https://medialyst.ai/agents)") {
+		t.Fatalf("stderr should link account options:\n%s", errText)
+	}
+}
+
+func TestMedialystNonJSONErrorBodyIsTruncated(t *testing.T) {
+	longBody := "<html>" + strings.Repeat("x", 500) + "</html>"
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(http.StatusBadGateway)
+		w.Write([]byte(longBody))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("non-JSON request code=%d stderr=%s", code, stderr)
+	}
+	if strings.Contains(stderr, strings.Repeat("x", 301)) || strings.Contains(stderr, "</html>") {
+		t.Fatalf("stderr should truncate the non-JSON body to 300 characters:\n%s", stderr)
+	}
+}
+
 func TestPRCalendarQueryCallsPublicRESTAPI(t *testing.T) {
 	var got capturedAPIRequest
 	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {

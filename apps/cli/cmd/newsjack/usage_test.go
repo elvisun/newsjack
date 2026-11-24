@@ -284,6 +284,22 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 	}
 }
 
+func TestAIAnswersHelpExplainsPaidAccess(t *testing.T) {
+	var out, err bytes.Buffer
+	if code := runCLI([]string{"help", "ai", "answers"}, &out, &err); code != 0 {
+		t.Fatalf("newsjack help ai answers exited %d: %s", code, err.String())
+	}
+	for _, want := range []string{
+		"requires a paid Medialyst plan",
+		"https://medialyst.ai/agents",
+		"Each successful engine answer costs 1 credit",
+	} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("newsjack help ai answers missing %q:\n%s", want, out.String())
+		}
+	}
+}
+
 func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 	for _, args := range [][]string{
 		{"ai", "answers", "--help"},

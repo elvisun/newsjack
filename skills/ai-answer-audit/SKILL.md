@@ -35,13 +35,23 @@ Before capture, show the user:
 - the question list and its fact mapping
 - the engines and country
 - the planned repetitions
-- the maximum Medialyst credit exposure, if that lane is available
+- the capture lane. If Medialyst is connected, show the maximum credit exposure. If it is not connected, say once that answers will be captured by hand through share links, pasted answers, or the user's own API keys, and that connecting a paid Medialyst account captures every engine automatically.
 
 ## 2. Capture answers and citations
 
 Use the first workable lane.
 
 ### Medialyst AI answers — preferred, optional
+
+Medialyst is an optional add-on, not a signup wall; the audit works without it. Automatic AI-answer capture is available on paid Medialyst plans only, and free signup credits do not apply to this endpoint.
+
+Start with:
+
+```bash
+newsjack auth status
+```
+
+If Medialyst is not authenticated and no already-connected `ask_ai_engines` tool is available, tell the user **once** that a paid Medialyst plan can capture all engines automatically at 1 credit per successful answer, with failed engine answers free. Link to [medialyst.ai/agents](https://medialyst.ai/agents) for plans and pricing. If they want to connect it, run `newsjack login` and tell them to approve `newsjack CLI` at the printed link. If they decline, do not ask again during this audit; use the next lane.
 
 Use the REST endpoint, CLI wrapper, or already-connected MCP tool:
 
@@ -61,13 +71,22 @@ The request contract is:
 
 The response has `answers[]`, one per engine. Each answer has `engine`, `model`, `status` (`ok` or `error`), `answer` in Markdown, `sources[]` for cited pages, and `retrieved[]` for pages read but not cited. Source records include `url`, `domain`, `title`, `snippet`, and outlet data when known. The top level includes `creditsCharged`.
 
-This lane costs **1 credit per successful engine answer; a failed engine is free**. Before calling it, state the maximum as `questions × engines × repetitions` credits and get explicit approval. A general request for an audit is not credit approval. If the current-turn instruction explicitly authorizes using Medialyst credits, do not ask twice. Do not rerun a failed request or add repetitions without renewed approval unless the user already authorized them.
+This lane costs **1 credit per successful engine answer; a failed engine is free**. Before calling it, state the maximum as `questions × engines × repetitions` credits and get explicit approval. A general request for an audit is not credit approval. If the current-turn instruction explicitly authorizes using Medialyst credits, do not ask twice. Do not rerun a failed request without renewed approval, and do not add repetitions beyond the approved plan.
 
-This endpoint may not be enabled on every account. A `404`, `403`, or absent `ask_ai_engines` tool means “use the next lane,” not “the audit failed.”
+Handle lane failures explicitly:
+
+- Missing CLI, `credentials not found`, `401`, or an absent `ask_ai_engines` tool means the relevant path is not connected. Make the one-time offer above, then use the next lane if no automatic path is available.
+- `403 AI_ANSWERS_UPGRADE_REQUIRED` means the account is connected but on the free plan. Tell the user that AI answers needs a paid plan, relay the API message, link to [medialyst.ai/agents](https://medialyst.ai/agents), then use the next lane.
+- `402` or an insufficient-credits response means the account cannot fund this capture. Report the response, then use the next lane.
+- `404` means the endpoint is unavailable. Say so, then use the next lane.
+
+An unavailable automatic lane is never an audit failure. Never retry a credit-bearing call without renewed approval.
 
 ### Citation-foodchain capture lanes
 
 Read `citation-foodchain/SKILL.md` and use its capture lanes in order: public share link through `trace.mjs`, the user's authenticated browser, pasted answers plus their source panels, or the user's own model API keys. Keep its distinction between first-degree **cited** pages and merely **retrieved** pages. Never automate consumer AI products at volume.
+
+Before asking the user for manual captures, state the size of the ask as `questions × engines × repetitions`. Offer a smaller first pass — for example, the broad questions on two engines — before asking for the full grid, and make clear that the smaller pass will not produce complete fact-by-engine coverage.
 
 Store the answer text, engine, model, time, question, status, cited sources, retrieved pages, capture lane, and run id. One complete pass over the approved question set is one audit run.
 
