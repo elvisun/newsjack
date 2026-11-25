@@ -37,13 +37,21 @@ Before capture, show the user:
 - the question list and its fact mapping
 - the engines and country
 - the planned repetitions
-- the capture lane. If Medialyst is connected, show the maximum credit exposure. If it is not connected, say once that answers will be captured by hand through share links, pasted answers, or the user's own API keys, and that connecting a paid Medialyst account captures every engine automatically.
+- the capture lane. If Medialyst is connected, show the maximum credit exposure. If it is not connected, say once that answers will be captured through the fallback lanes in section 2 (the user's browser, then their own API keys, then pasted answers), and that connecting a paid Medialyst account captures every engine automatically.
 
 ## 2. Capture answers and citations
 
-Use the first workable lane.
+Try the capture lanes in this fixed order. Move to the next lane only when the current one is unavailable, declined, or fails. Do not skip ahead, and do not stop the audit because a lane is missing.
 
-### Medialyst AI answers — preferred, optional
+1. **`newsjack` CLI** — `newsjack ai answers` through a connected Medialyst account.
+2. **Medialyst MCP** — the `ask_ai_engines` tool, when the CLI is missing or not authenticated but the MCP server is connected.
+3. **Browser automation** — your harness drives the user's own signed-in browser to ask each engine.
+4. **The user's own model API keys** — call each engine's developer API with keys the user already has.
+5. **Do what you can, then ask the user to paste the rest** — finish every cell you can reach, then ask for the missing answers.
+
+Lanes can mix inside one audit: an engine that one lane cannot reach drops to the next lane on its own while the other engines stay where they are. Record the lane used for every answer. When you change lanes, tell the user in one line which lane failed, why, and which lane you are using now.
+
+### Lanes 1 and 2: Medialyst AI answers
 
 Medialyst is an optional add-on, not a signup wall; the audit works without it. Automatic AI-answer capture is available on paid Medialyst plans only, and free signup credits do not apply to this endpoint.
 
@@ -57,11 +65,12 @@ A credential saved by `newsjack login` takes precedence over `MEDIALYST_API_KEY`
 
 If Medialyst is not authenticated and no already-connected `ask_ai_engines` tool is available, tell the user **once** that a paid Medialyst plan can capture all engines automatically at 1 credit per successful answer, with failed engine answers free. Link to [medialyst.ai/agents](https://medialyst.ai/agents) for plans and pricing. If they want to connect it, run `newsjack login` and tell them to approve `newsjack CLI` at the printed link. If they decline, do not ask again during this audit; use the next lane.
 
-Use the REST endpoint, CLI wrapper, or already-connected MCP tool:
+Try the CLI first. If the `newsjack` command is missing or `newsjack auth status` shows no credential, check for an already-connected `ask_ai_engines` MCP tool and use that. Both reach the same service and return the same response, so never call both for the same question.
 
-- REST: `POST /api/v1/ai-answers`
-- CLI: `newsjack ai answers --prompt "..." --engines chatgpt,gemini,google_ai_mode,perplexity,claude --country US`
-- MCP: `ask_ai_engines`
+- Lane 1, CLI: `newsjack ai answers --prompt "..." --engines chatgpt,gemini,google_ai_mode,perplexity,claude --country US`
+- Lane 2, MCP: `ask_ai_engines`
+
+Both wrap the REST endpoint `POST /api/v1/ai-answers`.
 
 The request contract is:
 
@@ -85,18 +94,45 @@ This lane costs **1 credit per successful engine answer; a failed engine is free
 
 Handle lane failures explicitly:
 
-- Missing CLI, `credentials not found`, `401`, or an absent `ask_ai_engines` tool means the relevant path is not connected. Make the one-time offer above, then use the next lane if no automatic path is available.
-- `403 AI_ANSWERS_UPGRADE_REQUIRED` means the account is connected but on the free plan. Tell the user that AI answers needs a paid plan, relay the API message, link to [medialyst.ai/agents](https://medialyst.ai/agents), then use the next lane.
-- `402` or an insufficient-credits response means the account cannot fund this capture. Report the response, then use the next lane.
-- `404` means the endpoint is unavailable. Say so, then use the next lane.
+- Missing CLI, `credentials not found`, or `401` from the CLI means lane 1 is not connected. Try lane 2.
+- An absent `ask_ai_engines` tool, or `401` from it, means lane 2 is not connected. If lane 1 also failed, make the one-time offer above, then go to lane 3.
+- `403 AI_ANSWERS_UPGRADE_REQUIRED` means the account is connected but on the free plan. Lane 2 uses the same account, so skip it. Tell the user that AI answers needs a paid plan, relay the API message, link to [medialyst.ai/agents](https://medialyst.ai/agents), then go to lane 3.
+- `402` or an insufficient-credits response means the account cannot fund this capture. Lane 2 uses the same account, so skip it. Report the response, then go to lane 3.
+- `404` means the endpoint is unavailable. Say so, then go to lane 3.
+- A single engine that returns `status: "error"` is not a lane failure. Keep the other engines' answers and send only the failed engine to lane 3.
 
 An unavailable automatic lane is never an audit failure. Never retry a credit-bearing call without renewed approval.
 
-### Citation-foodchain capture lanes
+### Lane 3: Browser automation
 
-Read `citation-foodchain/SKILL.md` and use its capture lanes in order: public share link through `trace.mjs`, the user's authenticated browser, pasted answers plus their source panels, or the user's own model API keys. Keep its distinction between first-degree **cited** pages and merely **retrieved** pages. Never automate consumer AI products at volume.
+Use this lane when your harness can drive the user's own browser and the user is signed in to the engine. Read `citation-foodchain/SKILL.md` for how to read an answer and its sources panel from the rendered page, and keep its distinction between first-degree **cited** pages and merely **retrieved** pages.
 
-Before asking the user for manual captures, state the size of the ask as `questions × engines × repetitions`. Offer a smaller first pass — for example, the broad questions on two engines — before asking for the full grid, and make clear that the smaller pass will not produce complete fact-by-engine coverage.
+- State the size as `questions × engines` and get the user's approval before you start. This lane runs in their account.
+- Ask one question at a time in a new chat, wait for the full answer, then read the answer text and the sources panel.
+- One pass only. Do not run repetitions in this lane and do not automate consumer AI products at volume; repetitions belong in lanes 1, 2, and 4.
+- If an engine shows a login wall, a captcha, or a rate limit, stop on that engine and send it to lane 4. Never try to get around the block.
+- No browser tool, or the user declines: go to lane 4.
+
+### Lane 4: The user's own model API keys
+
+Ask **once** whether the user has developer API keys for any of the engines and wants to use them. Use only keys the user provides or has already set in the environment, and never print a key.
+
+- Developer APIs attach citations to the answer: Claude returns the quoted `cited_text`, Gemini returns `groundingSupports`, OpenAI returns `url_citation` offsets, and Perplexity Sonar returns `search_results`. `citation-foodchain/SKILL.md` describes each.
+- Turn web search on. An answer without search does not show what the engine's users see, so mark it as such if search is unavailable.
+- An API answer can differ from the consumer product's answer for the same question. Label these answers with the API model name and say so in the report.
+- There is no developer API for Google AI Mode. That engine goes to lane 5.
+- Tell the user these calls bill their own provider account, and state the count as `questions × engines × repetitions` before you start.
+- No keys, or the user declines: go to lane 5.
+
+### Lane 5: Do what you can, then ask the user to paste the rest
+
+Do not open with a paste request. First finish every cell the earlier lanes reached and grade them, so the user sees real results before they do any manual work.
+
+Then list exactly which answers are still missing, as question and engine pairs, and ask the user to paste each one with its sources panel. A public share link is as good as a paste: read it through `trace.mjs` as `citation-foodchain/SKILL.md` describes.
+
+State the size of the ask as `questions × engines`. Offer a smaller first pass — for example, the broad questions on two engines — before asking for the full grid, and make clear that the smaller pass will not produce complete fact-by-engine coverage. If the user pastes nothing, deliver the audit on the cells you have and list the missing cells as not captured; never fill them with a guess.
+
+### Rules for every lane
 
 Some answers return more source entries than the prose cites. When the answer uses markers such as `[n]`, only the source entries those markers actually reference are first-degree citations for that answer. Keep unreferenced listed sources separate from first-degree citations; they are not feeders unless the answer points to them.
 
