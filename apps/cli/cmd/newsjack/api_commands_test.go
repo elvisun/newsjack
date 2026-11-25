@@ -97,6 +97,129 @@ func TestNewsSearchBareJSONFlagExplainsOutputDefault(t *testing.T) {
 	}
 }
 
+func TestAIAnswersCallsPublicRESTAPI(t *testing.T) {
+	var got capturedAPIRequest
+	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		got = decodeCapturedRequest(t, r)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"requestId":"req_pineglass","answers":[{"engine":"chatgpt","model":null,"status":"ok","error":null,"answer":"Pineglass Labs makes planning software.","sources":[{"url":"https://pineglass.example/about","domain":"pineglass.example","title":"About Pineglass Labs","snippet":null,"publishedAt":null,"publication":{"publicationType":"company","domainRating":null,"traffic":null,"aiVisibilityTier":null}}],"retrieved":[],"creditsCharged":1}],"totalCreditsCharged":1}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?", "--engines", "chatgpt,gemini", "--country", "ca"}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("ai answers code=%d stderr=%s", code, stderr)
+	}
+	if got.Method != http.MethodPost || got.Path != "/v1/ai-answers" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	if got.Body["prompt"] != "What does Pineglass Labs do?" || got.Body["country"] != "CA" {
+		t.Fatalf("unexpected body: %#v", got.Body)
+	}
+	engines, ok := got.Body["engines"].([]any)
+	if !ok || len(engines) != 2 || engines[0] != "chatgpt" || engines[1] != "gemini" {
+		t.Fatalf("engines = %#v", got.Body["engines"])
+	}
+	if !strings.Contains(stdout, `"requestId": "req_pineglass"`) || !strings.Contains(stdout, `"totalCreditsCharged": 1`) {
+		t.Fatalf("stdout should contain API response JSON: %s", stdout)
+	}
+}
+
+func TestAIAnswersAcceptsExactJSON(t *testing.T) {
+	var got capturedAPIRequest
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {
+		got = decodeCapturedRequest(t, r)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write([]byte(`{"requestId":"req_empty","answers":[],"totalCreditsCharged":0}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--json", `{"prompt":"Who founded Pineglass Labs?","engines":["claude"],"country":"GB"}`}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 0 {
+		t.Fatalf("ai answers --json code=%d stderr=%s", code, stderr)
+	}
+	if got.Method != http.MethodPost || got.Path != "/v1/ai-answers" {
+		t.Fatalf("request = %s %s", got.Method, got.Path)
+	}
+	if got.Body["country"] != "GB" {
+		t.Fatalf("exact JSON body = %#v", got.Body)
+	}
+}
+
+func TestAIAnswersRejectsOverlongPrompt(t *testing.T) {
+	var out, errBuf bytes.Buffer
+	code := runCLI([]string{"ai", "answers", "--prompt", strings.Repeat("x", 501)}, &out, &errBuf)
+	if code == 0 || !strings.Contains(errBuf.String(), "at most 500 characters") {
+		t.Fatalf("code=%d stderr=%s", code, errBuf.String())
+	}
+}
+
+func TestAIAnswersExplainsPaidPlanUpgrade(t *testing.T) {
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte(`{"code":"AI_ANSWERS_UPGRADE_REQUIRED","message":"Upgrade to capture AI answers."}`))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("upgrade-required request code=%d stderr=%s", code, stderr)
+	}
+	for _, want := range []string{
+		"Upgrade to capture AI answers.",
+		"AI answers needs a paid Medialyst plan. See https://medialyst.ai/agents",
+	} {
+		if !strings.Contains(stderr, want) {
+			t.Fatalf("stderr missing %q:\n%s", want, stderr)
+		}
+	}
+}
+
+func TestAIAnswersNoCredentialsLinksAccountOptions(t *testing.T) {
+	var code int
+	var errText string
+	withTempEnv(t, map[string]string{
+		"HOME":                    t.TempDir(),
+		"NEWSJACK_HOME":           "",
+		"MEDIALYST_API_KEY":       "",
+		"NEWSJACK_NO_AUTO_UPDATE": "1",
+		"NEWSJACK_IGNORE_DOTENV":  "1",
+	}, func() {
+		var out, errBuf bytes.Buffer
+		code = runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		errText = errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("missing-credentials request code=%d stderr=%s", code, errText)
+	}
+	if !strings.Contains(errText, "Medialyst credentials not found. Run: newsjack login (no account? https://medialyst.ai/agents)") {
+		t.Fatalf("stderr should link account options:\n%s", errText)
+	}
+}
+
+func TestMedialystNonJSONErrorBodyIsTruncated(t *testing.T) {
+	longBody := "<html>" + strings.Repeat("x", 500) + "</html>"
+	code, _, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		w.WriteHeader(http.StatusBadGateway)
+		w.Write([]byte(longBody))
+	}, func(_ string) (int, string, string) {
+		var out, errBuf bytes.Buffer
+		code := runCLI([]string{"ai", "answers", "--prompt", "What does Pineglass Labs do?"}, &out, &errBuf)
+		return code, out.String(), errBuf.String()
+	})
+	if code != 1 {
+		t.Fatalf("non-JSON request code=%d stderr=%s", code, stderr)
+	}
+	if strings.Contains(stderr, strings.Repeat("x", 301)) || strings.Contains(stderr, "</html>") {
+		t.Fatalf("stderr should truncate the non-JSON body to 300 characters:\n%s", stderr)
+	}
+}
+
 func TestPRCalendarQueryCallsPublicRESTAPI(t *testing.T) {
 	var got capturedAPIRequest
 	code, stdout, stderr := runWithMockMedialyst(t, func(w http.ResponseWriter, r *http.Request) {

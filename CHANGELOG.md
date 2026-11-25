@@ -19,6 +19,10 @@ below these notes.
 
 ## Unreleased
 
+### Added
+
+- `ai-answer-audit`: audit user-supplied verified brand facts across major AI engines, calculate accuracy and coverage by engine and overall, trace wrong or outdated claims from their cited pages through `citation-foodchain`, and rank the pages to correct first. The skill now explains the optional paid automatic-capture lane once when it is not connected, sizes the manual fallback, and offers a smaller first pass. Includes the data-only `newsjack ai answers` REST wrapper and a zero-dependency scorer for the fact-by-engine grid.
+
 ## v0.1.25 — 2026-11-19
 
 ### Added

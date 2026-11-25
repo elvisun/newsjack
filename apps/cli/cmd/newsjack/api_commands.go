@@ -13,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 const medialystAPIDefaultBase = "https://medialyst.ai/api"
@@ -62,6 +63,9 @@ type medialystAPIError struct {
 
 func (e *medialystAPIError) Error() string {
 	message := strings.TrimSpace(e.Body)
+	if e.Payload == nil {
+		message = truncate(message, 300)
+	}
 	code := fmt.Sprintf("HTTP_%d", e.StatusCode)
 	requestID := ""
 	if record, ok := e.Payload.(map[string]any); ok {
@@ -195,7 +199,17 @@ func medialystAPIRequestWithBearer(cred medialystBearerCredential, method, path 
 func runMedialystJSON(stdout, stderr io.Writer, method, path string, query url.Values, body any, headers map[string]string, timeout time.Duration) int {
 	resp, err := medialystAPIRequest(method, path, query, body, headers, timeout)
 	if err != nil {
-		return failf(stderr, "Medialyst API request failed: %v", err)
+		if path == "/v1/ai-answers" && strings.Contains(err.Error(), "Medialyst credentials not found") {
+			err = fmt.Errorf("%w (no account? https://medialyst.ai/agents)", err)
+		}
+		code := failf(stderr, "Medialyst API request failed: %v", err)
+		var apiErr *medialystAPIError
+		if path == "/v1/ai-answers" && errors.As(err, &apiErr) && apiErr.StatusCode == http.StatusForbidden {
+			if record, ok := apiErr.Payload.(map[string]any); ok && firstAPIString(record["code"], apiNestedValue(record["error"], "code")) == "AI_ANSWERS_UPGRADE_REQUIRED" {
+				fmt.Fprintln(stderr, "AI answers needs a paid Medialyst plan. See https://medialyst.ai/agents")
+			}
+		}
+		return code
 	}
 	writeMedialystPayload(stdout, resp.Payload)
 	return 0
@@ -415,6 +429,64 @@ func cmdNews(args []string, stdout, stderr io.Writer) int {
 	default:
 		return failf(stderr, "unknown news command: %s", args[0])
 	}
+}
+
+func cmdAI(args []string, stdout, stderr io.Writer) int {
+	if len(args) == 0 || args[0] == "--help" || args[0] == "-h" || args[0] == "help" {
+		printAIHelp(stdout)
+		return 0
+	}
+	switch args[0] {
+	case "answers":
+		return cmdAIAnswers(args[1:], stdout, stderr)
+	default:
+		return failf(stderr, "unknown ai command: %s", args[0])
+	}
+}
+
+func cmdAIAnswers(args []string, stdout, stderr io.Writer) int {
+	if restHelpRequested(args) {
+		printAIHelp(stdout)
+		return 0
+	}
+	fs := flag.NewFlagSet("ai answers", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	prompt := fs.String("prompt", "", "Question to ask, maximum 500 characters")
+	country := fs.String("country", "US", "Two-letter country code")
+	var engines repeatedString
+	fs.Var(&engines, "engine", "Engine to ask; repeat or comma-separate")
+	fs.Var(&engines, "engines", "Alias for --engine")
+	jsonInline := fs.String("json", "", "Exact JSON request body")
+	jsonFile := fs.String("json-file", "", "Read exact JSON request body from file, or - for stdin")
+	if bareJSONFlag(args) {
+		return fail(stderr, bareJSONFlagError("ai answers"))
+	}
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	if body, ok, err := parseJSONFlag(*jsonInline, *jsonFile, "ai answers"); err != nil {
+		return fail(stderr, err)
+	} else if ok {
+		return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/ai-answers", nil, body, nil, 90*time.Second)
+	}
+
+	question := strings.TrimSpace(*prompt)
+	if question == "" {
+		return fail(stderr, errors.New("usage: newsjack ai answers --prompt <question>"))
+	}
+	if utf8.RuneCountInString(question) > 500 {
+		return fail(stderr, errors.New("ai answers --prompt must be at most 500 characters"))
+	}
+	selectedEngines := cleanCommaStrings(engines)
+	if len(selectedEngines) == 0 {
+		selectedEngines = []string{"chatgpt", "gemini", "google_ai_mode", "perplexity", "claude"}
+	}
+	body := map[string]any{
+		"prompt":  question,
+		"engines": selectedEngines,
+		"country": strings.ToUpper(strings.TrimSpace(*country)),
+	}
+	return runMedialystJSON(stdout, stderr, http.MethodPost, "/v1/ai-answers", nil, body, nil, 90*time.Second)
 }
 
 func cmdNewsSearch(args []string, stdout, stderr io.Writer) int {

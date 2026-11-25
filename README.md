@@ -63,6 +63,7 @@ or just describe what you want and your agent picks the right one.
 
 ### 🔬 AI visibility — get your facts into AI answers (AEO/GEO)
 
+- 🧾 **`/ai-answer-audit`** — check user-supplied verified facts across major AI engines, score accuracy and coverage by engine, trace every wrong claim through its cited page to the upstream root, and rank the pages to correct first
 - ✍️ **`/ai-visibility-writing`** — audit or fact-preservingly revise supplied copy so AI answers can reuse it, without inventing evidence or promising rankings or citations
 - 🔗 **`/citation-foodchain`** — follow an AI answer back to where its facts were born: check which cited page really supports each claim, then hop upstream through the trade article, the wire copy, the Wikipedia reference, the Reddit thread, until you hit the root — and find the exact page that introduced a wrong fact about you
 - 🧭 **`/build-ai-visibility-panel`** — to measure it, run this one first: it drives the six below it in order, turning any public URL and description into an evidence-bound prompt list across intent, journey, B0–B5 proximity, aided status, roles, locales, surfaces, and tracking partitions
@@ -100,6 +101,7 @@ or locally-saved monitoring state — those work best in a local agent.
 | pr-calendar | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | newsworthiness-check | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **AI visibility** | | | | | | | | | |
+| ai-answer-audit | 🔧 | ⚠️ | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | 🔧 | ✅ |
 | ai-visibility-writing | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | citation-foodchain | ⚠️ | ⚠️ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | 🔜 |
 | build-ai-visibility-panel | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -183,7 +185,7 @@ Prefer a video? Watch the [Newsjack installation walkthrough](https://www.youtub
 6. In the **repository URL** field, enter `elvisun/newsjack` and confirm.
 7. Open the new **`elvisun/newsjack`** marketplace, find the **`newsjack@newsjack`**
    plugin, and click **Install**.
-8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, journalist enrichment, and approval-gated media list research. In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. If you don't have an account you can create a free one on the [Medialyst signup page](https://medialyst.ai/agents).
+8. *(Optional)* Unlock the 🔧 skills by connecting a Medialyst account so your agent can access live news search, PR calendar lookup, journalist enrichment, approval-gated media list research, and cited AI answers (paid plan required for AI answers). In local agent harnesses, run `newsjack login` and approve the printed Medialyst link. See [Medialyst plans and pricing](https://medialyst.ai/agents).
 9. *(Optional)* Back in Claude, find the Medialyst connector under [the installed Newsjack plugin page](https://claude.ai/customize/plugins/newsjack%40newsjack/connectors), click **Connect** on the Medialyst connector and authorize it over **OAuth**.
 
 For project setup in a local Claude Code plugin install, start with `newsjack auth status`, then run `newsjack login` if it says project tools are not enabled before asking the agent to create or open a Medialyst project, add project memory, or upload project files.

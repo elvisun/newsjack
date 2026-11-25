@@ -208,7 +208,7 @@ func TestSlackDeliverySkillCommandsMatchCLI(t *testing.T) {
 }
 
 func TestHelpShowsRESTCommandMappings(t *testing.T) {
-	for _, topic := range []string{"news", "pr-calendar", "journalists", "media-lists", "credits"} {
+	for _, topic := range []string{"ai", "news", "pr-calendar", "journalists", "media-lists", "credits"} {
 		var help bytes.Buffer
 		if !printCommandHelp(&help, topic) {
 			t.Fatalf("%s help topic was not handled", topic)
@@ -263,6 +263,8 @@ func TestMediaListsHelpDocumentsEveryAcceptedFlagAndDefault(t *testing.T) {
 
 func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 	for _, args := range [][]string{
+		{"help", "ai answers"},
+		{"help", "ai", "answers"},
 		{"help", "journalists enrich"},
 		{"help", "journalists", "enrich"},
 		{"help", "news search"},
@@ -282,8 +284,25 @@ func TestHelpAcceptsNestedRESTTopics(t *testing.T) {
 	}
 }
 
+func TestAIAnswersHelpExplainsPaidAccess(t *testing.T) {
+	var out, err bytes.Buffer
+	if code := runCLI([]string{"help", "ai", "answers"}, &out, &err); code != 0 {
+		t.Fatalf("newsjack help ai answers exited %d: %s", code, err.String())
+	}
+	for _, want := range []string{
+		"requires a paid Medialyst plan",
+		"https://medialyst.ai/agents",
+		"Each successful engine answer costs 1 credit",
+	} {
+		if !strings.Contains(out.String(), want) {
+			t.Fatalf("newsjack help ai answers missing %q:\n%s", want, out.String())
+		}
+	}
+}
+
 func TestRESTSubcommandHelpExitsZero(t *testing.T) {
 	for _, args := range [][]string{
+		{"ai", "answers", "--help"},
 		{"pr-calendar", "query", "--help"},
 		{"journalists", "enrich", "--help"},
 		{"journalists", "enrich-job", "--help"},
