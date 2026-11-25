@@ -19,6 +19,8 @@ below these notes.
 
 ## Unreleased
 
+## v0.1.26 — 2026-11-25
+
 ### Added
 
 - `ai-answer-audit`: audit user-supplied verified brand facts across major AI engines, calculate accuracy and coverage by engine and overall, trace wrong or outdated claims from their cited pages through `citation-foodchain`, and rank the pages to correct first. The skill now explains the optional paid automatic-capture lane once when it is not connected, sizes the manual fallback, and offers a smaller first pass. When Medialyst is not available, it follows a fixed capture order: the `newsjack` CLI, the Medialyst MCP tool, the user's own browser, the user's own model API keys, then a paste request for only the answers still missing. Includes the data-only `newsjack ai answers` REST wrapper and a zero-dependency scorer for the fact-by-engine grid.
