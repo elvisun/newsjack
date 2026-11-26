@@ -12,6 +12,42 @@ import (
 	"time"
 )
 
+func TestDetectorRecentJSON(t *testing.T) {
+	store := filepath.Join(t.TempDir(), "detector.db")
+	recent := func(t *testing.T, limit string) string {
+		t.Helper()
+		var out, stderr bytes.Buffer
+		if code := runCLI([]string{"detector", "recent", "--store", store, "--limit", limit}, &out, &stderr); code != 0 {
+			t.Fatalf("detector recent code=%d stderr=%s", code, stderr.String())
+		}
+		return strings.TrimSpace(out.String())
+	}
+
+	t.Run("empty history", func(t *testing.T) {
+		if got := recent(t, "10"); got != "[]" {
+			t.Fatalf("detector recent = %s, want []", got)
+		}
+	})
+
+	t.Run("populated history", func(t *testing.T) {
+		for _, name := range []string{"older", "newer"} {
+			if _, err := recordRun(name, nil, []string{"test query"}, nil, nil, store); err != nil {
+				t.Fatal(err)
+			}
+		}
+		var rows []struct {
+			MonitorName string `json:"monitor_name"`
+		}
+		got := recent(t, "1")
+		if err := json.Unmarshal([]byte(got), &rows); err != nil {
+			t.Fatalf("invalid JSON: %v", err)
+		}
+		if len(rows) != 1 || rows[0].MonitorName != "newer" {
+			t.Fatalf("detector recent --limit 1 = %s, want only the newer run", got)
+		}
+	})
+}
+
 func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 	repo := repoRootForTest(t)
 	withTempEnv(t, map[string]string{
@@ -66,6 +102,54 @@ func TestDetectorRunWritesScoredOutputArtifact(t *testing.T) {
 			t.Fatalf("scored signals=%d, want 2", got)
 		}
 	})
+}
+
+func TestDetectorEmptyJSONCollections(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("NEWSJACK_HOME", dir)
+	t.Setenv("NEWSJACK_STORE", filepath.Join(dir, "store.db"))
+	t.Setenv("NEWSJACK_IGNORE_DOTENV", "1")
+	t.Setenv("NEWSJACK_NO_AUTO_UPDATE", "1")
+	for _, key := range []string{"X_BEARER_TOKEN", "TWITTER_BEARER_TOKEN", "X_API_BEARER_TOKEN", "TWITTER_API_BEARER_TOKEN"} {
+		t.Setenv(key, "")
+	}
+	run := func(args ...string) map[string]any {
+		t.Helper()
+		var out, stderr bytes.Buffer
+		if code := runCLI(args, &out, &stderr); code != 0 {
+			t.Fatalf("%v: %s", args, stderr.String())
+		}
+		var result map[string]any
+		if err := json.Unmarshal(out.Bytes(), &result); err != nil {
+			t.Fatal(err)
+		}
+		return result
+	}
+	emptyArray := func(field string, value any) {
+		t.Helper()
+		if items, ok := value.([]any); !ok || len(items) != 0 {
+			t.Errorf("%s = %#v, want []", field, value)
+		}
+	}
+	diagnosis := run("detector", "diagnose", "--sources", "x_news")
+	emptyArray("sources_available", diagnosis["sources_available"])
+
+	feed := filepath.Join(dir, "empty.xml")
+	if err := os.WriteFile(feed, []byte(`<rss version="2.0"><channel><title>Empty feed</title></channel></rss>`), 0600); err != nil {
+		t.Fatal(err)
+	}
+	scored := filepath.Join(dir, "scored.json")
+	result := run("detector", "run", "--feed-only", "--feed-url", feed, "--no-profile-feeds", "--include-all-scored", "--scored-output", scored)
+	emptyArray("signals", result["signals"])
+	emptyArray("debug.all_scored_signals", valueOrEmptyMap(result["debug"])["all_scored_signals"])
+	if errors, ok := result["source_errors"].(map[string]any); !ok || len(errors) != 0 {
+		t.Errorf("source_errors = %#v, want {}", result["source_errors"])
+	}
+	artifact, err := readJSONMap(scored)
+	if err != nil {
+		t.Fatal(err)
+	}
+	emptyArray("scored output signals", artifact["signals"])
 }
 
 func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
