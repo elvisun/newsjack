@@ -104,6 +104,54 @@ func TestDetectorRunWritesScoredOutputArtifact(t *testing.T) {
 	})
 }
 
+func TestDetectorEmptyJSONCollections(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("NEWSJACK_HOME", dir)
+	t.Setenv("NEWSJACK_STORE", filepath.Join(dir, "store.db"))
+	t.Setenv("NEWSJACK_IGNORE_DOTENV", "1")
+	t.Setenv("NEWSJACK_NO_AUTO_UPDATE", "1")
+	for _, key := range []string{"X_BEARER_TOKEN", "TWITTER_BEARER_TOKEN", "X_API_BEARER_TOKEN", "TWITTER_API_BEARER_TOKEN"} {
+		t.Setenv(key, "")
+	}
+	run := func(args ...string) map[string]any {
+		t.Helper()
+		var out, stderr bytes.Buffer
+		if code := runCLI(args, &out, &stderr); code != 0 {
+			t.Fatalf("%v: %s", args, stderr.String())
+		}
+		var result map[string]any
+		if err := json.Unmarshal(out.Bytes(), &result); err != nil {
+			t.Fatal(err)
+		}
+		return result
+	}
+	emptyArray := func(field string, value any) {
+		t.Helper()
+		if items, ok := value.([]any); !ok || len(items) != 0 {
+			t.Errorf("%s = %#v, want []", field, value)
+		}
+	}
+	diagnosis := run("detector", "diagnose", "--sources", "x_news")
+	emptyArray("sources_available", diagnosis["sources_available"])
+
+	feed := filepath.Join(dir, "empty.xml")
+	if err := os.WriteFile(feed, []byte(`<rss version="2.0"><channel><title>Empty feed</title></channel></rss>`), 0600); err != nil {
+		t.Fatal(err)
+	}
+	scored := filepath.Join(dir, "scored.json")
+	result := run("detector", "run", "--feed-only", "--feed-url", feed, "--no-profile-feeds", "--include-all-scored", "--scored-output", scored)
+	emptyArray("signals", result["signals"])
+	emptyArray("debug.all_scored_signals", valueOrEmptyMap(result["debug"])["all_scored_signals"])
+	if errors, ok := result["source_errors"].(map[string]any); !ok || len(errors) != 0 {
+		t.Errorf("source_errors = %#v, want {}", result["source_errors"])
+	}
+	artifact, err := readJSONMap(scored)
+	if err != nil {
+		t.Fatal(err)
+	}
+	emptyArray("scored output signals", artifact["signals"])
+}
+
 func TestXSourceAvailabilityUsesBearerTokenOnly(t *testing.T) {
 	withoutBearer := configFromEnv()
 	withoutBearer["X_BEARER_TOKEN"] = ""

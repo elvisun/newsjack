@@ -56,7 +56,7 @@ func detectorRun(opts detectorOptions, stdout io.Writer) error {
 		}
 	}
 	now := time.Now().UTC()
-	var allSignals []map[string]any
+	allSignals := []map[string]any{}
 	var seenURLsToMark []string
 	sourceErrors := map[string]any{}
 	evidenceSourceCounts := map[string]int{}
@@ -435,7 +435,7 @@ func envFileValues() map[string]string {
 }
 
 func availableSources(config map[string]string, requested []string) []string {
-	var out []string
+	out := []string{}
 	bearer := bearerToken(config) != ""
 	for _, source := range requested {
 		switch {
@@ -675,8 +675,8 @@ func parseLaneCaps(raw string) map[string]int {
 
 func selectSignals(all []map[string]any, limit int, laneCaps map[string]int, minQueuePriority, minMajorNews float64) []map[string]any {
 	sortedSignals := dedupeSignalsByURL(sortSignalsByQueue(all))
+	selected := []map[string]any{}
 	if laneCaps == nil {
-		var selected []map[string]any
 		for _, signal := range sortedSignals {
 			if passesSelectionFloor(signal, minQueuePriority, minMajorNews) {
 				selected = append(selected, signal)
@@ -692,7 +692,6 @@ func selectSignals(all []map[string]any, limit int, laneCaps map[string]int, min
 		lanes = append(lanes, lane)
 	}
 	sort.Strings(lanes)
-	var selected []map[string]any
 	selectedIDs := map[string]bool{}
 	for _, lane := range lanes {
 		count := 0
