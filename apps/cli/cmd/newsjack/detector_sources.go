@@ -665,12 +665,12 @@ func parseCountText(value string) int {
 	return int(n)
 }
 
-func searchRedditPublic(query, fromDate, toDate, depth string) []map[string]any {
+func searchRedditPublic(query, fromDate, toDate, depth string) ([]map[string]any, string) {
 	limit := map[string]int{"quick": 10, "default": 25, "deep": 50}[depth]
 	u := "https://www.reddit.com/search.json?q=" + url.QueryEscape(query) + "&sort=relevance&t=month&limit=" + strconv.Itoa(limit) + "&raw_json=1"
 	payload, err := httpJSON("GET", u, map[string]string{"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"}, nil, 15*time.Second)
 	if err != nil {
-		return nil
+		return nil, err.Error()
 	}
 	var posts []map[string]any
 	data := valueOrEmptyMap(payload["data"])
@@ -710,7 +710,7 @@ func searchRedditPublic(query, fromDate, toDate, depth string) []map[string]any 
 	sort.SliceStable(posts, func(i, j int) bool {
 		return intValue(valueOrEmptyMap(posts[i]["engagement"])["score"], 0) > intValue(valueOrEmptyMap(posts[j]["engagement"])["score"], 0)
 	})
-	return posts
+	return posts, ""
 }
 
 func searchHackerNews(query, fromDate, toDate, depth string) (map[string]any, string) {
