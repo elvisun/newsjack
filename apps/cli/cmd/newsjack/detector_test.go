@@ -12,6 +12,42 @@ import (
 	"time"
 )
 
+func TestDetectorRecentJSON(t *testing.T) {
+	store := filepath.Join(t.TempDir(), "detector.db")
+	recent := func(t *testing.T, limit string) string {
+		t.Helper()
+		var out, stderr bytes.Buffer
+		if code := runCLI([]string{"detector", "recent", "--store", store, "--limit", limit}, &out, &stderr); code != 0 {
+			t.Fatalf("detector recent code=%d stderr=%s", code, stderr.String())
+		}
+		return strings.TrimSpace(out.String())
+	}
+
+	t.Run("empty history", func(t *testing.T) {
+		if got := recent(t, "10"); got != "[]" {
+			t.Fatalf("detector recent = %s, want []", got)
+		}
+	})
+
+	t.Run("populated history", func(t *testing.T) {
+		for _, name := range []string{"older", "newer"} {
+			if _, err := recordRun(name, nil, []string{"test query"}, nil, nil, store); err != nil {
+				t.Fatal(err)
+			}
+		}
+		var rows []struct {
+			MonitorName string `json:"monitor_name"`
+		}
+		got := recent(t, "1")
+		if err := json.Unmarshal([]byte(got), &rows); err != nil {
+			t.Fatalf("invalid JSON: %v", err)
+		}
+		if len(rows) != 1 || rows[0].MonitorName != "newer" {
+			t.Fatalf("detector recent --limit 1 = %s, want only the newer run", got)
+		}
+	})
+}
+
 func TestDetectorMockRunAcceptsFlagsAfterQuery(t *testing.T) {
 	repo := repoRootForTest(t)
 	withTempEnv(t, map[string]string{

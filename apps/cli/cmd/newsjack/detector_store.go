@@ -142,7 +142,7 @@ func recentRuns(limit int, override string) ([]map[string]any, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var out []map[string]any
+	out := []map[string]any{}
 	for rows.Next() {
 		var id, count int
 		var name sql.NullString
