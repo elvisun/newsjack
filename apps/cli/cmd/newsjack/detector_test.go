@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -119,6 +120,54 @@ func TestSourceStatusReportsNoResultsForAttemptedEmptySource(t *testing.T) {
 	xNews := valueOrEmptyMap(status["x_news"])
 	if xNews["status"] != "no_results" || xNews["attempted"] != true {
 		t.Fatalf("x_news status=%#v, want attempted no_results", xNews)
+	}
+}
+
+func TestDetectorRedditSourceStatus(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("NEWSJACK_HOME", dir)
+	t.Setenv("NEWSJACK_STORE", filepath.Join(dir, "store.db"))
+	t.Setenv("NEWSJACK_IGNORE_DOTENV", "1")
+	t.Setenv("NEWSJACK_NO_AUTO_UPDATE", "1")
+	for _, tc := range []struct {
+		code             int
+		body, wantStatus string
+	}{
+		{http.StatusForbidden, "access denied", "error"},
+		{http.StatusOK, `{"data":{"children":[]}}`, "no_results"},
+	} {
+		t.Run(tc.wantStatus, func(t *testing.T) {
+			old := http.DefaultTransport
+			t.Cleanup(func() { http.DefaultTransport = old })
+			http.DefaultTransport = roundTripFunc(func(r *http.Request) (*http.Response, error) {
+				if r.URL.Host != "www.reddit.com" || r.URL.Path != "/search.json" {
+					t.Errorf("unexpected request: %s", r.URL)
+				}
+				return &http.Response{StatusCode: tc.code, Body: io.NopCloser(strings.NewReader(tc.body))}, nil
+			})
+			var out, stderr bytes.Buffer
+			if code := runCLI([]string{"detector", "run", "--topic", "test", "--sources", "reddit", "--no-profile-feeds", "--no-x-news"}, &out, &stderr); code != 0 {
+				t.Fatalf("detector run: %s", stderr.String())
+			}
+			var result struct {
+				Diagnostics struct {
+					Sources map[string]struct{ Status string } `json:"source_status"`
+				}
+				Errors map[string]map[string]string `json:"source_errors"`
+			}
+			if err := json.Unmarshal(out.Bytes(), &result); err != nil {
+				t.Fatal(err)
+			}
+			if got := result.Diagnostics.Sources["reddit"].Status; got != tc.wantStatus {
+				t.Errorf("Reddit status = %q, want %q", got, tc.wantStatus)
+			}
+			if tc.code == http.StatusForbidden && !strings.Contains(result.Errors["test"]["reddit"], "HTTP 403") {
+				t.Errorf("missing HTTP 403 in source_errors: %v", result.Errors)
+			}
+			if tc.code == http.StatusOK && len(result.Errors) != 0 {
+				t.Errorf("empty search reported errors: %v", result.Errors)
+			}
+		})
 	}
 }
 

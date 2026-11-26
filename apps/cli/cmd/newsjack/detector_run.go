@@ -601,8 +601,12 @@ func collectSource(source, query, fromDate, toDate, depth string, config map[str
 		}
 		return out, ""
 	case "reddit":
+		posts, errText := searchRedditPublic(query, fromDate, toDate, depth)
+		if errText != "" {
+			return nil, errText
+		}
 		var out []map[string]any
-		for _, item := range searchRedditPublic(query, fromDate, toDate, depth) {
+		for _, item := range posts {
 			out = append(out, mapReddit(item))
 		}
 		return out, ""
